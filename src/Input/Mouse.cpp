@@ -189,7 +189,7 @@ namespace GameLibrary
 			}
 		}
 		Mouse_state_mutex.unlock();
-		return counter;
+		return (unsigned int)counter;
 	}
 	
 	void Mouse::handleMouseMovement(Window*window, unsigned int mouseIndex, const Vector2d&pos, const Vector2d&dif)

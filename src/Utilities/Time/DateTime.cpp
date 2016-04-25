@@ -198,7 +198,7 @@ namespace GameLibrary
 		Time64_T gmt_total = mktime64(&gmt);
 		Int64 gmt_dif = ((Int64)lcl_total - (Int64)gmt_total);
 
-		usec = tv.tv_usec;
+		usec = (int)tv.tv_usec;
 		sec = lcl.tm_sec;
 		min = lcl.tm_min;
 		hour = lcl.tm_hour;

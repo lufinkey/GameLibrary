@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Utilities/Stringifier.h>
+#include <GameLibrary/Utilities/String.h>
 
 namespace GameLibrary
 {

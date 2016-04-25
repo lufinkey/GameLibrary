@@ -1266,7 +1266,7 @@ namespace GameLibrary
 			{
 				output->append("\\\"", 2);
 			}
-			else if(c > (wchar_t)std::numeric_limits<char>::max)
+			else if(c > std::numeric_limits<char>::max())
 			{
 				std::stringstream ss;
 				ss << std::hex << ((unsigned int)c);

@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <sstream>
 #include <iomanip>
-#include "String.h"
+#include "BasicString.h"
 
 namespace GameLibrary
 {

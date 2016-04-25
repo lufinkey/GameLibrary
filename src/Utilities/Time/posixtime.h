@@ -21,7 +21,7 @@ struct timezone
 struct timeval;
 #endif
 
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(_WIN32)
 struct timeval64
 {
 	int64_t tv_sec;
