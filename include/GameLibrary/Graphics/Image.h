@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Utilities/ArrayList.h>
 #include <GameLibrary/Utilities/Pair.h>
+#include <GameLibrary/Utilities/String.h>
 #include <GameLibrary/Utilities/Geometry/Rectangle.h>
 #include "Color.h"
 

@@ -538,8 +538,8 @@ namespace GameLibrary
 		
 		
 		template<typename _CHAR_TYPE=CHAR_TYPE,
-		typename BasicStringUtils::is_same<_CHAR_TYPE,CHAR_TYPE>::null_type = nullptr,
-		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type = nullptr>
+			typename BasicStringUtils::is_same<_CHAR_TYPE,CHAR_TYPE>::null_type = nullptr,
+			typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type = nullptr>
 		int compare(const CHAR_TYPE* cmp, size_t length) const;
 		template<typename _CHAR_TYPE=CHAR_TYPE,
 			typename BasicStringUtils::is_same<_CHAR_TYPE,CHAR_TYPE>::null_type = nullptr,

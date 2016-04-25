@@ -739,7 +739,7 @@ namespace GameLibrary
 		drawImage(img, rect.x, rect.y, rect.width, rect.height);
 	}
 	
-	void Graphics::drawImage(TextureImage*img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2)
+	void Graphics::drawImage(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2)
 	{
 		if(img==nullptr)
 		{

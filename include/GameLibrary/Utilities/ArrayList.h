@@ -154,7 +154,7 @@ namespace GameLibrary
 		
 		void set(size_t index, const T& obj)
 		{
-			if(index<objects.size())
+			if(index < objects.size())
 			{
 				objects[index] = obj;
 			}
@@ -173,30 +173,51 @@ namespace GameLibrary
 			objects.push_back(obj);
 		}
 		
+		void add(T&& obj)
+		{
+			objects.push_back(obj);
+		}
+		
 		void add(size_t index, const T& obj)
 		{
-			if(index>objects.size())
+			if(index <= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
-					throw ArrayListOutOfBoundsException(index, objects.size());
-				#else
-					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-				#endif
+				objects.insert(objects.begin()+index, obj);
+				return;
 			}
-			objects.insert(objects.begin()+index, obj);
+			#ifndef _ARRAYLIST_STANDALONE
+				throw ArrayListOutOfBoundsException(index, objects.size());
+			#else
+				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+			#endif
+		}
+		
+		void add(size_t index, T&& obj)
+		{
+			if(index <= objects.size())
+			{
+				objects.insert(objects.begin()+index, obj);
+				return;
+			}
+			#ifndef _ARRAYLIST_STANDALONE
+				throw ArrayListOutOfBoundsException(index, objects.size());
+			#else
+				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+			#endif
 		}
 		
 		void remove(size_t index)
 		{
 			if(index < objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
-					throw ArrayListOutOfBoundsException(index, objects.size());
-				#else
-					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-				#endif
+				objects.erase(objects.begin()+index);
+				return;
 			}
-			objects.erase(objects.begin()+index);
+			#ifndef _ARRAYLIST_STANDALONE
+				throw ArrayListOutOfBoundsException(index, objects.size());
+			#else
+				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+			#endif
 		}
 		
 		void clear()

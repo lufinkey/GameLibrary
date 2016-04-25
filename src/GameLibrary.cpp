@@ -1,6 +1,7 @@
 
 #include <GameLibrary/GameLibrary.h>
 
+#ifndef TARGETPLATFORM_WINDOWS
 int main(int argc, char *argv[]);
 
 #ifdef main
@@ -13,3 +14,4 @@ int main(int argc, char *argv[])
 {
 	return GameLibrary_main(argc, argv);
 }
+#endif
