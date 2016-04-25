@@ -1,0 +1,932 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{0b7e713b-091d-40b5-b904-54e40c20d3eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{65270577-03b8-499a-bd61-3f881e3d94d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary">
+      <UniqueIdentifier>{f1c4708b-4765-436c-b400-61ce2dc3359a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Actor">
+      <UniqueIdentifier>{a2b317c3-edcb-47a6-a11a-5d024e7a1d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Window">
+      <UniqueIdentifier>{290de966-d581-4b1a-ba64-4446d6ec7069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Application">
+      <UniqueIdentifier>{0c8d3e94-6163-46d4-b005-528ea3c4f0b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Utilities">
+      <UniqueIdentifier>{7109b38c-4aeb-4238-839a-1fffdc65694f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Audio">
+      <UniqueIdentifier>{337a877e-cf40-41b1-b3d3-02f42c99600b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Screen">
+      <UniqueIdentifier>{38599677-de67-4fbe-9b23-95824a89ba2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Exception">
+      <UniqueIdentifier>{f609a994-96d3-4917-90ac-8d6977d73075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Graphics">
+      <UniqueIdentifier>{55cb5546-cb8d-42c2-bd87-e9a7d1555978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Input">
+      <UniqueIdentifier>{87e00f57-7cd8-420b-82e3-a14bfde333cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\IO">
+      <UniqueIdentifier>{d9c5ad21-d441-4381-9716-22f5b386a14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Network">
+      <UniqueIdentifier>{7fac7692-df1e-42e7-8967-d7bf2ddc44ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Exception\Graphics">
+      <UniqueIdentifier>{f46cf466-665a-4c27-8217-d094f17258c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Exception\Utilities">
+      <UniqueIdentifier>{d9c5cc7c-53a3-431f-b02d-1da36d70156c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Exception\Screen">
+      <UniqueIdentifier>{e30055bf-7a42-4ef5-8cce-527aefcff3b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Exception\Utilities\Font">
+      <UniqueIdentifier>{f033ac21-eaa4-4934-84c1-2aae022d5f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Screen\UI">
+      <UniqueIdentifier>{cb2a16b3-1d69-4a0f-a580-7f88076a0e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Screen\Transition">
+      <UniqueIdentifier>{fa112f58-2431-48ea-8de5-20d210d59d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Utilities\Font">
+      <UniqueIdentifier>{9739b452-c36e-4a0b-9f76-9c676f03dd05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Utilities\Time">
+      <UniqueIdentifier>{12b5701a-5455-4a67-ae32-bd4cca3266be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLibrary\Utilities\Geometry">
+      <UniqueIdentifier>{be696bbf-2cf7-4585-a782-fc860146ba87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor">
+      <UniqueIdentifier>{24608bea-3b20-42db-b647-e0e7bbdfa1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Window">
+      <UniqueIdentifier>{0c6c2423-3cad-4a45-85aa-15f24fd6a318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities">
+      <UniqueIdentifier>{04aa0be8-b973-47e6-95ef-3a923e223b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Screen">
+      <UniqueIdentifier>{ceac6f8a-9d73-4352-a731-db876a70e087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application">
+      <UniqueIdentifier>{8f483378-1eff-4659-9b46-b37ee05ad52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Audio">
+      <UniqueIdentifier>{fc4ef8cd-2b2f-4481-a30f-d123155bf6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Exception">
+      <UniqueIdentifier>{05da47f3-9950-412b-9751-129380481e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics">
+      <UniqueIdentifier>{66b3a376-028f-4709-989b-4339e4acf3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Input">
+      <UniqueIdentifier>{ffddc319-70fb-4d96-92aa-1522d4e2885f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\IO">
+      <UniqueIdentifier>{9a5dee54-e750-43a0-ad60-b3204f18a188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Network">
+      <UniqueIdentifier>{410a13f9-fc8c-4d6d-9c9c-28d66b132a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Exception\Graphics">
+      <UniqueIdentifier>{4f137984-b1f6-46f5-ba05-af17a1b0085a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Exception\Screen">
+      <UniqueIdentifier>{4b15f1ab-d8df-4435-8af9-35f1c7e1d6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Exception\Utilities">
+      <UniqueIdentifier>{194609b1-8b9b-42f6-9fe6-232d2b1edfe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Exception\Utilities\Font">
+      <UniqueIdentifier>{217ee3a0-3686-4345-a145-d49fa4482440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Screen\UI">
+      <UniqueIdentifier>{24ebfd46-5703-4e78-80b8-f5929e93f0e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Screen\Transition">
+      <UniqueIdentifier>{faa2b963-d03d-49c3-8d02-527c5b11a122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\Time">
+      <UniqueIdentifier>{d575a303-7754-4cba-87fb-bc2804d53851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\Font">
+      <UniqueIdentifier>{7cc97f01-4aeb-459d-b014-00956a498211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\Geometry">
+      <UniqueIdentifier>{d94ac91d-df90-4d86-b501-44280799dd73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utilities\Time\time64">
+      <UniqueIdentifier>{50e958c3-4a8f-407b-866e-247339abdc16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{ffdd04d7-e750-43dc-8830-f61ea3947409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\base64">
+      <UniqueIdentifier>{a297bae9-0cc7-40aa-91e1-c8904d1da98f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\base64\include">
+      <UniqueIdentifier>{aa5269e4-d6be-481e-80ef-8fcbd38e5bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\dirent">
+      <UniqueIdentifier>{4f727f95-596c-4471-a9b4-cb9fa8a8752e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\dirent\include">
+      <UniqueIdentifier>{f5eb8630-42ef-483f-9281-1e4b25771dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\pugixml">
+      <UniqueIdentifier>{e0c28f55-ae96-4580-83f3-60a294f905b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\pugixml\include">
+      <UniqueIdentifier>{f4b21708-a93d-41b1-b9e4-96ce5c2a1c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\pugixml\src">
+      <UniqueIdentifier>{683c36bf-b666-48df-b7fe-887febf2e1fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SDL">
+      <UniqueIdentifier>{5b923d1c-0d71-4f49-8a5e-8d74d68fe362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SDL\include">
+      <UniqueIdentifier>{58b02418-3fcf-4c8c-bd23-f6b9d7d8da47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SDL\include\SDL">
+      <UniqueIdentifier>{a247d661-1277-4004-b99e-b3ccda1498a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.h">
+      <Filter>include\GameLibrary\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\Animation.h">
+      <Filter>include\GameLibrary\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\SpriteActor.h">
+      <Filter>include\GameLibrary\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\TextActor.h">
+      <Filter>include\GameLibrary\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\WireframeActor.h">
+      <Filter>include\GameLibrary\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Application\ApplicationData.h">
+      <Filter>include\GameLibrary\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Application\AssetManager.h">
+      <Filter>include\GameLibrary\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Application\BatchLoader.h">
+      <Filter>include\GameLibrary\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Application\Application.h">
+      <Filter>include\GameLibrary\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Audio\Music.h">
+      <Filter>include\GameLibrary\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Audio\Sound.h">
+      <Filter>include\GameLibrary\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\BadCastException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Exception.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\IllegalArgumentException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\IllegalStateException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\InitializeLibraryException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\NumberFormatException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\OutOfBoundsException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Graphics\ImageOutOfBoundsException.h">
+      <Filter>include\GameLibrary\Exception\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Graphics\TextureImageCreateException.h">
+      <Filter>include\GameLibrary\Exception\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Graphics\TextureImageUpdateException.h">
+      <Filter>include\GameLibrary\Exception\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Graphics\UnsupportedImageFormatException.h">
+      <Filter>include\GameLibrary\Exception\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Screen\ScreenNavigationException.h">
+      <Filter>include\GameLibrary\Exception\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\ArrayListOutOfBoundsException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\BadAnyCastException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\IllegalNumberOperationException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\StringOutOfBoundsException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\Font\RenderGlyphException.h">
+      <Filter>include\GameLibrary\Exception\Utilities\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Graphics\Color.h">
+      <Filter>include\GameLibrary\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Graphics\Graphics.h">
+      <Filter>include\GameLibrary\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Graphics\Image.h">
+      <Filter>include\GameLibrary\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Graphics\PixelIterator.h">
+      <Filter>include\GameLibrary\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Graphics\TextureImage.h">
+      <Filter>include\GameLibrary\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Input\Keyboard.h">
+      <Filter>include\GameLibrary\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Input\Mouse.h">
+      <Filter>include\GameLibrary\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Input\Multitouch.h">
+      <Filter>include\GameLibrary\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\IO\Console.h">
+      <Filter>include\GameLibrary\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\IO\FileTools.h">
+      <Filter>include\GameLibrary\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Network\NetworkProtocol.h">
+      <Filter>include\GameLibrary\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\AutoLayoutCalculator.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\AutoLayoutManager.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Drawable.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\ScreenManager.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Updateable.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UpdateDrawable.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\FadeColorTransition.h">
+      <Filter>include\GameLibrary\Screen\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\FadeZoomTransition.h">
+      <Filter>include\GameLibrary\Screen\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\PopoverTransition.h">
+      <Filter>include\GameLibrary\Screen\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\SlideTransition.h">
+      <Filter>include\GameLibrary\Screen\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\Transition.h">
+      <Filter>include\GameLibrary\Screen\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ActorMenuElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ImageElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\MenuScreen.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextInputElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TouchElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ZoomPanElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Any.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\ArrayList.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Dictionary.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Math.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Pair.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\PlatformChecks.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\String.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Stringifier.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Thread.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Font\Font.h">
+      <Filter>include\GameLibrary\Utilities\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Font\RenderedGlyphContainer.h">
+      <Filter>include\GameLibrary\Utilities\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Circle.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Polygon.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Rectangle.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Transform.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\ValueEase.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Vector2.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\DateTime.h">
+      <Filter>include\GameLibrary\Utilities\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\TimeInterval.h">
+      <Filter>include\GameLibrary\Utilities\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Window\MessageBox.h">
+      <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Window\View.h">
+      <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Window\Window.h">
+      <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Application\EventManager.h">
+      <Filter>src\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\Time\posixtime.h">
+      <Filter>src\Utilities\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\Time\time64\time64.h">
+      <Filter>src\Utilities\Time\time64</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_config.h">
+      <Filter>src\Utilities\Time\time64</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_limits.h">
+      <Filter>src\Utilities\Time\time64</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\GameLibrary.h">
+      <Filter>include\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Types.h">
+      <Filter>include\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Exception\ExceptionMacros.h">
+      <Filter>src\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\Screen.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\ScreenElement.h">
+      <Filter>include\GameLibrary\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Data.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\BadNumberCastException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\BasicString.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\DataOutOfBoundsException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\BasicString.impl">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\base64\include\base64.hpp">
+      <Filter>external\base64\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\dirent\include\dirent.h">
+      <Filter>external\dirent\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\pugixml\include\pugiconfig.hpp">
+      <Filter>external\pugixml\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\pugixml\include\pugixml.hpp">
+      <Filter>external\pugixml\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\begin_code.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\close_code.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_assert.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_atomic.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_audio.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_bits.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_blendmode.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_clipboard.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_android.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_iphoneos.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_macosx.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_minimal.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_pandora.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_psp.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_windows.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_winrt.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_config_wiz.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_copying.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_cpuinfo.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_egl.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_endian.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_error.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_events.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_filesystem.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_gamecontroller.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_gesture.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_haptic.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_hints.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_image.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_joystick.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_keyboard.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_keycode.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_loadso.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_log.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_main.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_messagebox.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_mixer.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_mouse.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_mutex.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_name.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_opengl.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_opengles.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_opengles2.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_p2p.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_pixels.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_platform.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_power.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_quit.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_rect.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_render.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_renderdriver.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_revision.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_rwops.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_scancode.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_shape.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_stdinc.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_surface.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_system.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_syswm.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_assert.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_common.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_compare.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_crc32.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_font.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_fuzzer.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_harness.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_images.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_log.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_md5.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_test_random.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_thread.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_timer.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_touch.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_ttf.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_types.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_version.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\include\SDL\SDL_video.h">
+      <Filter>external\SDL\include\SDL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Actor\Actor.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Actor\Animation.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Actor\SpriteActor.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Actor\TextActor.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Actor\WireframeActor.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application\Application.cpp">
+      <Filter>src\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application\ApplicationData.cpp">
+      <Filter>src\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application\AssetManager.cpp">
+      <Filter>src\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application\BatchLoader.cpp">
+      <Filter>src\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Application\EventManager.cpp">
+      <Filter>src\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Audio\Music.cpp">
+      <Filter>src\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Audio\Sound.cpp">
+      <Filter>src\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\BadCastException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Exception.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\IllegalArgumentException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\IllegalStateException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\InitializeLibraryException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\NumberFormatException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\OutOfBoundsException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Graphics\ImageOutOfBoundsException.cpp">
+      <Filter>src\Exception\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Graphics\TextureImageCreateException.cpp">
+      <Filter>src\Exception\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Graphics\TextureImageUpdateException.cpp">
+      <Filter>src\Exception\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Graphics\UnsupportedImageFormatException.cpp">
+      <Filter>src\Exception\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Screen\ScreenNavigationException.cpp">
+      <Filter>src\Exception\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\ArrayListOutOfBoundsException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\BadAnyCastException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\IllegalNumberOperationException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\StringOutOfBoundsException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\Font\RenderGlyphException.cpp">
+      <Filter>src\Exception\Utilities\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Color.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Graphics.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\Image.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\PixelIterator.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\TextureImage.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Keyboard.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Mouse.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input\Multitouch.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\Console.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\FileTools.cpp">
+      <Filter>src\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Network\NetworkProtocol.cpp">
+      <Filter>src\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\AutoLayoutCalculator.cpp">
+      <Filter>src\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\AutoLayoutManager.cpp">
+      <Filter>src\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\Screen.cpp">
+      <Filter>src\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\ScreenManager.cpp">
+      <Filter>src\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\Transition\FadeColorTransition.cpp">
+      <Filter>src\Screen\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\Transition\FadeZoomTransition.cpp">
+      <Filter>src\Screen\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\Transition\PopoverTransition.cpp">
+      <Filter>src\Screen\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\Transition\SlideTransition.cpp">
+      <Filter>src\Screen\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\ActorMenuElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\ImageElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\MenuScreen.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\TextInputElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\TouchElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\ZoomPanElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Dictionary.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Math.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Stringifier.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Thread.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Font\Font.cpp">
+      <Filter>src\Utilities\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Font\RenderedGlyphContainer.cpp">
+      <Filter>src\Utilities\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp">
+      <Filter>src\Utilities\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Time\posixtime.cpp">
+      <Filter>src\Utilities\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp">
+      <Filter>src\Utilities\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Time\time64\time64.c">
+      <Filter>src\Utilities\Time\time64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Window\MessageBox.cpp">
+      <Filter>src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Window\View.cpp">
+      <Filter>src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Window\Window.cpp">
+      <Filter>src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\ScreenElement.cpp">
+      <Filter>src\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\BadNumberCastException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\DataOutOfBoundsException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Data.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLibrary.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp">
+      <Filter>external\pugixml\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\GameLibrary\Utilities\Number.impl">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </None>
+  </ItemGroup>
+</Project>

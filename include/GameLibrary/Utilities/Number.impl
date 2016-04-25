@@ -1,0 +1,875 @@
+
+#pragma once
+
+#include <GameLibrary/Exception/Utilities/IllegalNumberOperationException.h>
+#include "Math.h"
+
+namespace GameLibrary
+{
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	T Number::Base::to() const
+	{
+		if(isBool())
+		{
+			if(check())
+			{
+				return (T)1;
+			}
+			return (T)0;
+		}
+		else if(isIntegral())
+		{
+			void* ptr = getPtr();
+			if(isSigned())
+			{
+				switch(getNumberOfBytes())
+				{
+					case 1:
+					return (T)*((GameLibrary::Int8*)ptr);
+					
+					case 2:
+					return (T)*((GameLibrary::Int16*)ptr);
+					
+					case 4:
+					return (T)*((GameLibrary::Int32*)ptr);
+					
+					case 8:
+					if(sizeof(GameLibrary::Int64)==8)
+					{
+						return (T)*((GameLibrary::Int64*)ptr);
+					}
+					else
+					{
+						throw BadNumberCastException(typeid(T).name());
+					}
+					
+					default:
+					throw BadNumberCastException(typeid(T).name());
+				}
+			}
+			else //if(isUnsigned())
+			{
+				void* ptr = getPtr();
+				switch(getNumberOfBytes())
+				{
+					case 1:
+					return (T)*((GameLibrary::Uint8*)ptr);
+
+					case 2:
+					return (T)*((GameLibrary::Uint16*)ptr);
+
+					case 4:
+					return (T)*((GameLibrary::Uint32*)ptr);
+
+					case 8:
+					if(sizeof(GameLibrary::Uint64)==8)
+					{
+						return (T)*((GameLibrary::Uint64*)ptr);
+					}
+					else
+					{
+						throw BadNumberCastException(typeid(T).name());
+					}
+					
+					default:
+					throw BadNumberCastException(typeid(T).name());
+				}
+			}
+		}
+		else //if(isFloatingPoint())
+		{
+			void* ptr = getPtr();
+			size_t bytesNum = getNumberOfBytes();
+			if(sizeof(float)==bytesNum)
+			{
+				return (T)*((float*)ptr);
+			}
+			else if(sizeof(double)==bytesNum)
+			{
+				return (T)*((double*)ptr);
+			}
+			else if(sizeof(long double)==bytesNum)
+			{
+				return (T)*((long double*)ptr);
+			}
+			else
+			{
+				throw BadNumberCastException(typeid(T).name());
+			}
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<std::is_integral<U>::value, std::nullptr_t>::type>
+	bool Number::Derived<T>::impl_check() const
+	{
+		if(value)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<std::is_floating_point<U>::value, std::nullptr_t>::type>
+	bool Number::Derived<T>::impl_check() const
+	{
+		if(value==0.0)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_arithmetic<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_add(Base* base)
+	{
+		value += base->to<T>();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_add(Number::Base* base)
+	{
+		value = value || base->check();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_arithmetic<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_subtract(Number::Base* base)
+	{
+		value += base->to<T>();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_subtract(Number::Base* base)
+	{
+		//Do nothing
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_multiply(Number::Base* base)
+	{
+		value *= base->to<T>();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_multiply(Number::Base* base)
+	{
+		if(base->isFloatingPoint())
+		{
+			long double valueD = (long double)value;
+			valueD *= base->to<long double>();
+			value = (T)valueD;
+		}
+		else
+		{
+			value *= base->to<T>();
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_multiply(Number::Base* base)
+	{
+		value = value && base->check();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_divide(Number::Base* base)
+	{
+		if(!base->check())
+		{
+			throw IllegalNumberOperationException("/", "dividing by zero");
+		}
+		value /= base->to<T>();
+	}
+
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_divide(Number::Base* base)
+	{
+		if(base->isFloatingPoint())
+		{
+			long double valueD = (long double)value;
+			if(!base->check())
+			{
+				throw IllegalNumberOperationException("/", "dividing by zero");
+			}
+			valueD /= base->to<long double>();
+			value = (T)valueD;
+		}
+		else
+		{
+			T right = base->to<T>();
+			if(right==0)
+			{
+				throw IllegalNumberOperationException("/", "dividing by zero");
+			}
+			value /= right;
+		}
+	}
+
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_divide(Number::Base* base)
+	{
+		if(!base->check())
+		{
+			throw IllegalNumberOperationException("/", "dividing by zero");
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_mod(Number::Base* base)
+	{
+		value = Math::fmod(value, base->to<T>());
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_mod(Number::Base* base)
+	{
+		if(!base->check())
+		{
+			throw IllegalNumberOperationException("%", "mod by zero");
+		}
+		value %= base->to<T>();
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_mod(Number::Base* base)
+	{
+		if(!base->check())
+		{
+			throw IllegalNumberOperationException("/", "mod by zero");
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_increment()
+	{
+		value += (T)1;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_increment()
+	{
+		value++;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_increment()
+	{
+		value = value || 1;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_decrement()
+	{
+		value -= (T)1;
+	}
+
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_decrement()
+	{
+		value--;
+	}
+
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_decrement()
+	{
+		//Do nothing
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_signed<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_neg() const
+	{
+		value = -value;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type>
+	void Number::Derived<T>::impl_neg() const
+	{
+		//Do nothing
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_signed<U>::value), std::nullptr_t>::type>
+	Number::Base* Number::Derived<T>::impl_toSigned() const
+	{
+		return new Derived<T>(value);
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type>
+	Number::Base* Number::Derived<T>::impl_toSigned() const
+	{
+		return new Derived<GameLibrary::Int64>((GameLibrary::Int64)value);
+	}
+	
+	template<typename T>
+	bool Number::Derived<T>::check() const
+	{
+		return impl_check();
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::add(Number::Base* base)
+	{
+		impl_add(base);
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::subtract(Number::Base* base)
+	{
+		impl_subtract(base);
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::multiply(Number::Base* base)
+	{
+		impl_multiply(base);
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::divide(Number::Base* base)
+	{
+		impl_divide(base);
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::mod(Number::Base* base)
+	{
+		impl_mod(base);
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::increment()
+	{
+		impl_increment();
+	}
+	
+	template<typename T>
+	void Number::Derived<T>::decrement()
+	{
+		impl_decrement();
+	}
+	
+	template<typename T>
+	Number::Base* Number::Derived<T>::toSigned() const
+	{
+		return impl_toSigned();
+	}
+	
+	template<typename T>
+	Number::Base* Number::Derived<T>::clone() const
+	{
+		return new Derived<T>(value);
+	}
+	
+	template<typename T>
+	bool Number::Derived<T>::isBool() const
+	{
+		return std::is_same<T, bool>::value;
+	}
+
+	template<typename T>
+	bool Number::Derived<T>::isIntegral() const
+	{
+		return std::is_integral<T>::value;
+	}
+
+	template<typename T>
+	bool Number::Derived<T>::isFloatingPoint() const
+	{
+		return std::is_floating_point<T>::value;
+	}
+
+	template<typename T>
+	bool Number::Derived<T>::isSigned() const
+	{
+		return std::is_signed<T>::value;
+	}
+
+	template<typename T>
+	bool Number::Derived<T>::isUnsigned() const
+	{
+		return std::is_unsigned<T>::value;
+	}
+	
+	template<typename T>
+	void* Number::Derived<T>::getPtr() const
+	{
+		return (void*)&value;
+	}
+	
+	template<typename T>
+	size_t Number::Derived<T>::getNumberOfBytes() const
+	{
+		return sizeof(T);
+	}
+	
+	template<typename T>
+	String Number::Derived<T>::toString() const
+	{
+		String str;
+		str += value;
+		return str;
+	}
+	
+	template<typename T>
+	std::ostream& Number::Derived<T>::stream(std::ostream& stream) const
+	{
+		return stream << value;
+	}
+	
+	template<typename T>
+	Number::Derived<T>::Derived(const T& val)
+		: value(val)
+	{
+		//
+	}
+	
+	Number::Number()
+		: ptr(new Derived<long long>(0LL))
+	{
+		//
+	}
+	
+	Number::Number(const Number& number)
+		: ptr(number.ptr->clone())
+	{
+		//
+	}
+	
+	Number::Number(Number&& number)
+		: ptr(number.ptr)
+	{
+		number.ptr = nullptr;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number::Number(const T& value)
+		: ptr(new Derived<T>(value))
+	{
+		//
+	}
+	
+	Number::Number(Base* base)
+		: ptr(base)
+	{
+		//
+	}
+	
+	Number::~Number()
+	{
+		if(ptr!=nullptr)
+		{
+			delete ptr;
+		}
+	}
+	
+	Number& Number::operator=(const Number& number)
+	{
+		Base* old_ptr = ptr;
+		ptr = number.ptr->clone();
+		delete old_ptr;
+		return *this;
+	}
+	
+	Number& Number::operator=(Number&& number)
+	{
+		Base* old_ptr = ptr;
+		ptr = number.ptr;
+		number.ptr = nullptr;
+		delete old_ptr;
+		return *this;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator=(const T& value)
+	{
+		Base* old_ptr = ptr;
+		ptr = new Derived<T>(value);
+		delete old_ptr;
+		return *this;
+	}
+	
+	void Number::selectOptimalType(const Number& right)
+	{
+		size_t r_size = right.ptr->getNumberOfBytes();
+		size_t size = ptr->getNumberOfBytes();
+		bool r_fp = right.ptr->isFloatingPoint();
+		bool fp = ptr->isFloatingPoint();
+		bool r_uns = right.ptr->isUnsigned();
+		bool uns = ptr->isUnsigned();
+		if(size < r_size)
+		{
+			if(r_fp || (r_uns && fp))
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long double>(old_ptr->to<long double>());
+				delete old_ptr;
+			}
+			else
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long long>(old_ptr->to<long long>());
+				delete old_ptr;
+			}
+		}
+		else if(r_fp && !fp)
+		{
+			Base* old_ptr = ptr;
+			ptr = new Derived<long double>(old_ptr->to<long double>());
+			delete old_ptr;
+		}
+		else if(!r_uns && uns)
+		{
+			if(r_fp)
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long double>(old_ptr->to<long double>());
+				delete old_ptr;
+			}
+			else
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long long>(old_ptr->to<long long>());
+				delete old_ptr;
+			}
+		}
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	void Number::selectOptimalType(const T& right)
+	{
+		size_t size = ptr->getNumberOfBytes();
+		bool fp = ptr->isFloatingPoint();
+		bool uns = ptr->isUnsigned();
+		if(size < sizeof(right))
+		{
+			if(std::is_floating_point<T>::value || (std::is_unsigned<T>::value && fp))
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long double>(old_ptr->to<long double>());
+				delete old_ptr;
+			}
+			else
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long long>(old_ptr->to<long long>());
+				delete old_ptr;
+			}
+		}
+		else if(std::is_floating_point<T>::value && !fp)
+		{
+			Base* old_ptr = ptr;
+			ptr = new Derived<long double>(old_ptr->to<long double>());
+			delete old_ptr;
+		}
+		else if(std::is_signed<T>::value && uns)
+		{
+			if(std::is_floating_point<T>::value)
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long double>(old_ptr->to<long double>());
+				delete old_ptr;
+			}
+			else
+			{
+				Base* old_ptr = ptr;
+				ptr = new Derived<long long>(old_ptr->to<long long>());
+				delete old_ptr;
+			}
+		}
+	}
+	
+	Number& Number::operator+=(const Number& number)
+	{
+		selectOptimalType(number);
+		ptr->add(number.ptr);
+		return *this;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator+=(const T& value)
+	{
+		selectOptimalType(value);
+		Base* r_base = new Derived<T>(value);
+		ptr->add(r_base);
+		delete r_base;
+		return *this;
+	}
+	
+	Number& Number::operator-=(const Number& number)
+	{
+		selectOptimalType(number);
+		ptr->subtract(number.ptr);
+		return *this;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator-=(const T& value)
+	{
+		selectOptimalType(value);
+		Base* r_base = new Derived<T>(value);
+		ptr->subtract(r_base);
+		delete r_base;
+		return *this;
+	}
+	
+	Number& Number::operator*=(const Number& number)
+	{
+		selectOptimalType(number);
+		ptr->multiply(number.ptr);
+		return *this;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator*=(const T& value)
+	{
+		selectOptimalType(value);
+		Base* r_base = new Derived<T>(value);
+		ptr->multiply(r_base);
+		delete r_base;
+		return *this;
+	}
+	
+	Number& Number::operator/=(const Number& number)
+	{
+		selectOptimalType(number);
+		ptr->divide(number.ptr);
+		return *this;
+	}
+
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator/=(const T& value)
+	{
+		selectOptimalType(value);
+		Base* r_base = new Derived<T>(value);
+		ptr->divide(r_base);
+		delete r_base;
+		return *this;
+	}
+	
+	Number& Number::operator%=(const Number& number)
+	{
+		selectOptimalType(number);
+		ptr->mod(number.ptr);
+		return *this;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number& Number::operator%=(const T& value)
+	{
+		selectOptimalType(value);
+		Base* r_base = new Derived<T>(value);
+		ptr->mod(r_base);
+		delete r_base;
+		return *this;
+	}
+	
+	Number& Number::operator++()
+	{
+		ptr->increment();
+		return *this;
+	}
+	
+	Number& Number::operator--()
+	{
+		ptr->decrement();
+		return *this;
+	}
+	
+	Number Number::operator-() const
+	{
+		Base* base = ptr->toSigned();
+		base->neg();
+		return Number(base);
+	}
+	
+	bool Number::isBool() const
+	{
+		return ptr->isBool();
+	}
+	
+	bool Number::isIntegral() const
+	{
+		return ptr->isIntegral();
+	}
+	
+	bool Number::isFloatingPoint() const
+	{
+		return ptr->isFloatingPoint();
+	}
+	
+	bool Number::isSigned() const
+	{
+		return ptr->isSigned();
+	}
+	
+	bool Number::isUnsigned() const
+	{
+		return ptr->isUnsigned();
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number::operator T() const
+	{
+		return toArithmeticValue<T>();
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && !std::is_same<T,bool>::value, std::nullptr_t>::type>
+	T Number::toArithmeticValue() const
+	{
+		return ptr->to<T>();
+	}
+	
+	template<typename T, typename std::enable_if<std::is_same<T,bool>::value, std::nullptr_t>::type>
+	T Number::toArithmeticValue() const
+	{
+		return ptr->check();
+	}
+	
+	String Number::toString() const
+	{
+		return ptr->toString();
+	}
+	
+	std::ostream& operator<<(std::ostream& stream, const Number& num)
+	{
+		return num.ptr->stream(stream);
+	}
+	
+	Number operator+(const Number& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum += right;
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator+(const Number& left, const T& right)
+	{
+		Number newNum = left;
+		newNum += Number(right);
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator+(const T& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum += right;
+		return newNum;
+	}
+	
+	Number operator-(const Number& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum -= right;
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator-(const Number& left, const T& right)
+	{
+		Number newNum = left;
+		newNum -= Number(right);
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator-(const T& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum -= right;
+		return newNum;
+	}
+	
+	Number operator*(const Number& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum *= right;
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator*(const Number& left, const T& right)
+	{
+		Number newNum = left;
+		newNum *= Number(right);
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator*(const T& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum *= right;
+		return newNum;
+	}
+	
+	Number operator/(const Number& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum /= right;
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator/(const Number& left, const T& right)
+	{
+		Number newNum = left;
+		newNum /= Number(right);
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator/(const T& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum /= right;
+		return newNum;
+	}
+	
+	Number operator%(const Number& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum %= right;
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator%(const Number& left, const T& right)
+	{
+		Number newNum = left;
+		newNum %= Number(right);
+		return newNum;
+	}
+	
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
+	Number operator%(const T& left, const Number& right)
+	{
+		Number newNum = left;
+		newNum %= right;
+		return newNum;
+	}
+}

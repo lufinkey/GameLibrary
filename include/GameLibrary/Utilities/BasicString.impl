@@ -1,0 +1,3417 @@
+
+#pragma once
+
+#include <cctype>
+#include <codecvt>
+#include <iomanip>
+#include <stdexcept>
+#include <sstream>
+#include <vector>
+
+#ifndef _STRING_STANDALONE
+
+#include <GameLibrary/Exception/NumberFormatException.h>
+#include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.h>
+#include "ArrayList.h"
+
+namespace GameLibrary
+{
+#endif
+#define NULLCHAR 0
+
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::strlen(const CHAR_TYPE* str)
+	{
+		size_t size = 0;
+		while(str[size]!=NULLCHAR)
+		{
+			size++;
+		}
+		return size;
+	}
+
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString()
+		: characters((CHAR_TYPE*)std::calloc(1, sizeof(CHAR_TYPE))),
+		size(0)
+	{
+		if(characters==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters[0] = NULLCHAR;
+	}
+
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString(const CHAR_TYPE* str, size_t length)
+		: characters((CHAR_TYPE*)std::calloc(length+1, sizeof(CHAR_TYPE))),
+		size(length)
+	{
+		if(characters==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		for(size_t i=0; i<size; i++)
+		{
+			characters[i] = str[i];
+		}
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString(const CHAR_TYPE* str)
+		: BasicString(str, BasicString<CHAR_TYPE>::strlen(str))
+	{
+		//
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString(const BasicString<CHAR_TYPE>& str)
+		: BasicString(str.characters, str.size)
+	{
+		//
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString(BasicString<CHAR_TYPE>&& str)
+		: characters(str.characters),
+		size(str.size)
+	{
+		str.size = 0;
+		str.characters = nullptr;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::BasicString(const std::basic_string<CHAR_TYPE>& str)
+		: BasicString(str.c_str(), str.length())
+	{
+		//
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>::BasicString(NSString* nsString)
+		: characters(nullptr),
+		size(0)
+	{
+		size_t size_new = (size_t)nsString.length;
+		NSRange range = NSMakeRange(0, (NSUInteger)size_new);
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::calloc(size_new+1, sizeof(CHAR_TYPE));
+		if(characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size = size_new;
+		[nsString getCharacters:(unichar*)characters range:range];
+		characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(_CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>::BasicString(NSString* nsString)
+		: BasicString((const CHAR_TYPE*)[nsString UTF8String])
+	{
+		//
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>::BasicString(NSString* nsString)
+		: characters(nullptr),
+		size(0)
+	{
+		NSUInteger nsLength = nsString.length;
+		std::basic_string<CHAR_TYPE> output;
+		unichar* buffer = new unichar[nsLength+1];
+		NSRange range = NSMakeRange(0, nsLength);
+		[nsString getCharacters:buffer range:range];
+		printf("old(");
+		for(size_t i=0; i<(size_t)nsLength; i++)
+		{
+			int c = (int)buffer[i];
+			printf("%i, ", c);
+		}
+		printf(") ");
+		BasicString<CHAR_TYPE>::template convert_fromString<unichar>(buffer, (size_t)nsLength, &output);
+		delete[] buffer;
+		printf("new(");
+		for(size_t i=0; i<output.length(); i++)
+		{
+			int c = (int)output[i];
+			printf("%i, ", c);
+		}
+		printf(") ");
+		assign(output.c_str(), output.length());
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE& c)
+		: characters((CHAR_TYPE*)std::calloc(2, sizeof(CHAR_TYPE))),
+		size(1)
+	{
+		//same char size
+		if(characters == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters[0] = (CHAR_TYPE)c;
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE& c)
+		: characters(nullptr),
+		size(0)
+	{
+		//different char size
+		OTHER_CHAR_TYPE str[2] = {c, NULLCHAR};
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, 1, &output);
+		assign(output.c_str(), output.length());
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const SAME_CHAR_TYPE& c)
+		: characters((CHAR_TYPE*)std::calloc(2, sizeof(CHAR_TYPE))),
+		size(1)
+	{
+		//same char
+		if(characters == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters[0] = c;
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE* str, size_t length)
+		: BasicString((const CHAR_TYPE*)str, length)
+	{
+		//same char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE* str, size_t length)
+		: characters(nullptr),
+		size(0)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, length, &output);
+		assign(output.c_str(), output.length());
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE* str)
+		: BasicString((const CHAR_TYPE*)str, BasicString<OTHER_CHAR_TYPE>::strlen(str))
+	{
+		//same char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const OTHER_CHAR_TYPE* str)
+		: BasicString(str, BasicString<OTHER_CHAR_TYPE>::strlen(str))
+	{
+		//different char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const BasicString<OTHER_CHAR_TYPE>& str)
+		: BasicString((const CHAR_TYPE*)str.characters, str.size)
+	{
+		//same char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const BasicString<OTHER_CHAR_TYPE>& str)
+		: BasicString(str.characters, str.size)
+	{
+		//different char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const std::basic_string<OTHER_CHAR_TYPE>& str)
+		: BasicString((const CHAR_TYPE*)str.c_str(), str.length())
+	{
+		//same char size
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::BasicString(const std::basic_string<OTHER_CHAR_TYPE>& str)
+		: BasicString(str.c_str(), str.length())
+	{
+		//different char size
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::~BasicString()
+	{
+		if(characters!=nullptr)
+		{
+			std::free(characters);
+		}
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::operator const CHAR_TYPE*() const
+	{
+		return characters;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>::operator std::basic_string<CHAR_TYPE>() const
+	{
+		return std::basic_string<CHAR_TYPE>(characters, size);
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	NSString* BasicString<CHAR_TYPE>::toNSString() const
+	{
+		return [NSString stringWithCharacters:(const unichar*)characters length:(NSUInteger)size];
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(_CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	NSString* BasicString<CHAR_TYPE>::toNSString() const
+	{
+		return [NSString stringWithUTF8String:(const char*)characters];
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	NSString* BasicString<CHAR_TYPE>::toNSString() const
+	{
+		std::basic_string<unichar> output;
+		BasicString<unichar>::template convert_fromString<CHAR_TYPE>(characters, size, &output);
+		return [NSString stringWithCharacters:(const unichar*)output.c_str() length:(NSUInteger)output.length()];
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>::operator NSString*() const
+	{
+		return toNSString();
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	std::basic_string<OTHER_CHAR_TYPE> BasicString<CHAR_TYPE>::toStandardString() const
+	{
+		//same char size
+		return std::basic_string<OTHER_CHAR_TYPE>((const OTHER_CHAR_TYPE*)characters, size);
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	std::basic_string<OTHER_CHAR_TYPE> BasicString<CHAR_TYPE>::toStandardString() const
+	{
+		//different char size
+		std::basic_string<OTHER_CHAR_TYPE> output;
+		BasicString<OTHER_CHAR_TYPE>::template convert_fromString<CHAR_TYPE>(characters, size, &output);
+		return output;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	std::basic_string<SAME_CHAR_TYPE> BasicString<CHAR_TYPE>::toStandardString() const
+	{
+		//same char
+		return std::basic_string<SAME_CHAR_TYPE>(characters, size);
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<SOME_CHAR_TYPE> BasicString<CHAR_TYPE>::toBasicString() const
+	{
+		return BasicString<SOME_CHAR_TYPE>((const CHAR_TYPE*)characters, size);
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::assign(const CHAR_TYPE* str, size_t length)
+	{
+		size_t size_new = length;
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		for(size_t i=0; i<size_new; i++)
+		{
+			characters[i] = str[i];
+		}
+		size = size_new;
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::assign(const CHAR_TYPE* str)
+	{
+		assign(str, BasicString<CHAR_TYPE>::strlen(str));
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const CHAR_TYPE* str)
+	{
+		assign(str, BasicString<CHAR_TYPE>::strlen(str));
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const BasicString<CHAR_TYPE>& str)
+	{
+		assign(str.characters, str.size);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(BasicString<CHAR_TYPE>&& str)
+	{
+		if(characters!=nullptr)
+		{
+			size = 0;
+			std::free(characters);
+		}
+		characters = str.characters;
+		size = str.size;
+		str.size = 0;
+		str.characters = nullptr;
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const std::basic_string<CHAR_TYPE>& str)
+	{
+		assign(str.c_str(), str.length());
+		return *this;
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(NSString* nsString)
+	{
+		size_t size_new = (size_t)nsString.length;
+		NSRange range = NSMakeRange(0, (NSUInteger)size_new);
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size = size_new;
+		[nsString getCharacters:(unichar*)characters range:range];
+		characters[size_new] = NULLCHAR;
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(_CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(NSString* nsString)
+	{
+		assign((const CHAR_TYPE*)[nsString UTF8String]);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(NSString* nsString)
+	{
+		size_t length = (size_t)nsString.length;
+		std::basic_string<CHAR_TYPE> output;
+		unichar* str = new unichar[length+1];
+		NSRange range = NSMakeRange(0, (NSUInteger)length);
+		[nsString getCharacters:str range:range];
+		str[length] = NULLCHAR;
+		BasicString<CHAR_TYPE>::template convert_fromString<unichar>(str, length, &output);
+		delete[] str;
+		assign(output.c_str(), output.length());
+		return *this;
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const OTHER_CHAR_TYPE& c)
+	{
+		//same char size
+		size_t size_new = 1;
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		characters[0] = (CHAR_TYPE)c;
+		size = size_new;
+		characters[size] = NULLCHAR;
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const OTHER_CHAR_TYPE& c)
+	{
+		//different char size
+		OTHER_CHAR_TYPE str[2] = {c, NULLCHAR};
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, 1, &output);
+		assign(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const SAME_CHAR_TYPE& c)
+	{
+		//same char
+		size_t size_new = 1;
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		characters[0] = c;
+		size = size_new;
+		characters[size] = NULLCHAR;
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const OTHER_CHAR_TYPE* str)
+	{
+		//same char size
+		assign((const CHAR_TYPE*)str, BasicString<OTHER_CHAR_TYPE>::strlen(str));
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const OTHER_CHAR_TYPE* str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, BasicString<OTHER_CHAR_TYPE>::strlen(str), &output);
+		assign(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const BasicString<OTHER_CHAR_TYPE>& str)
+	{
+		//same char size
+		assign((const CHAR_TYPE*)str.characters, str.size);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const BasicString<OTHER_CHAR_TYPE>& str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str.characters, str.size, &output);
+		assign(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const std::basic_string<OTHER_CHAR_TYPE>& str)
+	{
+		//same char size
+		assign((const CHAR_TYPE*)str.c_str(), str.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator=(const std::basic_string<OTHER_CHAR_TYPE>& str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str.c_str(), str.length(), &output);
+		assign(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::append(const CHAR_TYPE* str, size_t length)
+	{
+		size_t size_new = size + length;
+		CHAR_TYPE* characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size_t counter = 0;
+		for(size_t i=size; i<size_new; i++)
+		{
+			characters[i] = str[counter];
+			counter++;
+		}
+		size = size_new;
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::append(const CHAR_TYPE* str)
+	{
+		append(str, BasicString::strlen(str));
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::append(const CHAR_TYPE& c)
+	{
+		size_t size_new = size+1;
+		CHAR_TYPE* characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		characters[size] = c;
+		size = size_new;
+		characters[size] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const CHAR_TYPE* str)
+	{
+		append(str);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const BasicString<CHAR_TYPE>& str)
+	{
+		append(str.characters, str.size);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const std::basic_string<CHAR_TYPE>& str)
+	{
+		append(str.c_str(), str.length());
+		return *this;
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(NSString* nsString)
+	{
+		size_t nsLength = (size_t)nsString.length;
+		size_t size_new = size + nsLength;
+		CHAR_TYPE* characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size_t size_old = size;
+		size = size_new;
+		NSRange range = NSMakeRange(0, (NSUInteger)nsLength);
+		[nsString getCharacters:(unichar*)(characters+size_old) range:range];
+		characters[size_new] = NULLCHAR;
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(_CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(NSString* nsString)
+	{
+		append((const CHAR_TYPE*)[nsString UTF8String]);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(_CHAR_TYPE) && sizeof(_CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(NSString* nsString)
+	{
+		size_t nsLength = (size_t)nsString.length;
+		std::basic_string<CHAR_TYPE> output;
+		unichar* str = new unichar[nsLength+1];
+		NSRange range = NSMakeRange(0, (NSUInteger)nsLength);
+		[nsString getCharacters:str range:range];
+		str[nsLength] = NULLCHAR;
+		BasicString<CHAR_TYPE>::template convert_fromString<unichar>(str, nsLength, &output);
+		delete[] str;
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const OTHER_CHAR_TYPE& c)
+	{
+		//same char size
+		append((CHAR_TYPE)c);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const OTHER_CHAR_TYPE& c)
+	{
+		//different char size
+		OTHER_CHAR_TYPE str[2] = {c, NULLCHAR};
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, 1, &output);
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const SAME_CHAR_TYPE& c)
+	{
+		//same char
+		append(c);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const OTHER_CHAR_TYPE* str)
+	{
+		//same char size
+		append((const CHAR_TYPE*)str, BasicString<OTHER_CHAR_TYPE>::strlen(str));
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const OTHER_CHAR_TYPE* str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str, BasicString<OTHER_CHAR_TYPE>::strlen(str), &output);
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const BasicString<OTHER_CHAR_TYPE>& str)
+	{
+		//same char size
+		append((const CHAR_TYPE*)str.characters, str.size);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const BasicString<OTHER_CHAR_TYPE>& str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str.characters, str.size, &output);
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const std::basic_string<OTHER_CHAR_TYPE>& str)
+	{
+		//same char size
+		append((const CHAR_TYPE*)str.c_str(), str.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const std::basic_string<OTHER_CHAR_TYPE>& str)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(str.c_str(), str.length(), &output);
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename BOOL_TYPE, typename BasicStringUtils::string_type_convertable_with_bool<CHAR_TYPE, BOOL_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const BOOL_TYPE& b)
+	{
+		CHAR_TYPE output[6];
+		size_t output_length = 0;
+		BasicString<CHAR_TYPE>::convert_fromBool(b, output, &output_length);
+		append(output, output_length);
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number_or_enum<CHAR_TYPE, NUM_TYPE>::null_type>
+	BasicString<CHAR_TYPE>& BasicString<CHAR_TYPE>::operator+=(const NUM_TYPE& num)
+	{
+		std::basic_string<CHAR_TYPE> output;
+		BasicString<CHAR_TYPE>::template convert_fromNumber<NUM_TYPE>(num, &output);
+		append(output.c_str(), output.length());
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp, size_t length) const
+	{
+		return compare(cmp, length, std::locale());
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp, size_t length, const std::locale& locale) const
+	{
+		size_t amount = 0;
+		if(size < length)
+		{
+			amount = size;
+		}
+		else
+		{
+			amount = length;
+		}
+		for(size_t i=0; i<amount; i++)
+		{
+			const CHAR_TYPE& c1 = characters[i];
+			const CHAR_TYPE& c2 = cmp[i];
+			SymbolType type1 = BasicString<CHAR_TYPE>::getSymbolType(c1, locale);
+			SymbolType type2 = BasicString<CHAR_TYPE>::getSymbolType(c2, locale);
+			if(type1==type2)
+			{
+				if(c1<c2)
+				{
+					return -1;
+				}
+				else if(c2<c1)
+				{
+					return 1;
+				}
+			}
+			else
+			{
+				if(type1==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_UPPERCASE_LETTER && type2==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_LOWERCASE_LETTER)
+				{
+					typedef BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+					CHAR_TYPE c1mod = (CHAR_TYPE)std::tolower<utf_char>((utf_char)c1, locale);
+					if(c2<c1mod)
+					{
+						return 1;
+					}
+					return -1;
+				}
+				else if(type1==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_LOWERCASE_LETTER && type2==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_UPPERCASE_LETTER)
+				{
+					typedef BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+					CHAR_TYPE c2mod = (CHAR_TYPE)std::tolower<utf_char>((utf_char)c2, locale);
+					if(c1<c2mod)
+					{
+						return -1;
+					}
+					return 1;
+				}
+				else
+				{
+					if(type1<type2)
+					{
+						return -1;
+					}
+					else if(type2<type1)
+					{
+						return 1;
+					}
+				}
+			}
+		}
+		if(size < length)
+		{
+			return -1;
+		}
+		else if(length < size)
+		{
+			return 1;
+		}
+		return 0;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::cant_convert_string_type<_CHAR_TYPE>::null_type>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp, size_t length) const
+	{
+		size_t amount = 0;
+		if(size < length)
+		{
+			amount = size;
+		}
+		else
+		{
+			amount = length;
+		}
+		for(size_t i=0; i<amount; i++)
+		{
+			const CHAR_TYPE& c1 = characters[i];
+			const CHAR_TYPE& c2 = cmp[i];
+			if(c1<c2)
+			{
+				return -1;
+			}
+			else if(c1>c2)
+			{
+				return 1;
+			}
+		}
+		if(size < length)
+		{
+			return -1;
+		}
+		else if(length < size)
+		{
+			return 1;
+		}
+		return 0;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::cant_convert_string_type<_CHAR_TYPE>::null_type>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp, size_t length, const std::locale& locale) const
+	{
+		size_t amount = 0;
+		if(size < length)
+		{
+			amount = size;
+		}
+		else
+		{
+			amount = length;
+		}
+		for(size_t i=0; i<amount; i++)
+		{
+			const CHAR_TYPE& c1 = characters[i];
+			const CHAR_TYPE& c2 = cmp[i];
+			SymbolType type1 = BasicString<CHAR_TYPE>::getSymbolType(c1, locale);
+			SymbolType type2 = BasicString<CHAR_TYPE>::getSymbolType(c2, locale);
+			if(type1==type2)
+			{
+				if(c1<c2)
+				{
+					return -1;
+				}
+				else if(c2<c1)
+				{
+					return 1;
+				}
+			}
+			else
+			{
+				if(type1==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_UPPERCASE_LETTER && type2==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_LOWERCASE_LETTER)
+				{
+					CHAR_TYPE c1mod = std::tolower<CHAR_TYPE>(c1, locale);
+					if(c2<c1mod)
+					{
+						return 1;
+					}
+					return -1;
+				}
+				else if(type1==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_LOWERCASE_LETTER && type2==BasicString<CHAR_TYPE>::STRINGCMP_SYMTYPE_UPPERCASE_LETTER)
+				{
+					CHAR_TYPE c2mod = std::tolower<CHAR_TYPE>(c2, locale);
+					if(c1<c2mod)
+					{
+						return -1;
+					}
+					return 1;
+				}
+				else
+				{
+					if(type1<type2)
+					{
+						return -1;
+					}
+					else if(type2<type1)
+					{
+						return 1;
+					}
+				}
+			}
+		}
+		if(size < length)
+		{
+			return -1;
+		}
+		else if(length < size)
+		{
+			return 1;
+		}
+		return 0;
+	}
+	
+	template<typename CHAR_TYPE>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp) const
+	{
+		return compare(cmp, BasicString<CHAR_TYPE>::strlen(cmp));
+	}
+	
+	template<typename CHAR_TYPE>
+	int BasicString<CHAR_TYPE>::compare(const CHAR_TYPE* cmp, const std::locale& locale) const
+	{
+		return compare(cmp, BasicString<CHAR_TYPE>::strlen(cmp), locale);
+	}
+	
+	template<typename CHAR_TYPE>
+	int BasicString<CHAR_TYPE>::compare(const BasicString<CHAR_TYPE>& cmp) const
+	{
+		return compare(cmp.characters, cmp.size);
+	}
+	
+	template<typename CHAR_TYPE>
+	int BasicString<CHAR_TYPE>::compare(const BasicString<CHAR_TYPE>& cmp, const std::locale& locale) const
+	{
+		return compare(cmp.characters, cmp.size, locale);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::equals(const CHAR_TYPE* str, size_t length) const
+	{
+		if(size == length)
+		{
+			for(size_t i=0; i<size; i++)
+			{
+				if(characters[i] != str[i])
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::equals(const CHAR_TYPE* str) const
+	{
+		return equals(str, BasicString<CHAR_TYPE>::strlen(str));
+	}
+	
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::equals(const BasicString<CHAR_TYPE>& str) const
+	{
+		return equals(str.characters, str.size);
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::length() const
+	{
+		return size;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::clear()
+	{
+		CHAR_TYPE*characters_new = (CHAR_TYPE*)std::realloc(characters, sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size = 0;
+		characters[0] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::resize(size_t size_new)
+	{
+		size_t size_old = size;
+		CHAR_TYPE* characters_new = (CHAR_TYPE*)std::realloc(characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(characters_new == nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		characters = characters_new;
+		size = size_new;
+		for(size_t i=size_old; i<size_new; i++)
+		{
+			characters[i] = NULLCHAR;
+		}
+		characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	CHAR_TYPE& BasicString<CHAR_TYPE>::charAt(size_t index)
+	{
+		if(index < size)
+		{
+			return characters[index];
+		}
+		#ifndef _STRING_STANDALONE
+			throw StringOutOfBoundsException(index, size);
+		#else
+			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+		#endif
+	}
+	
+	template<typename CHAR_TYPE>
+	CHAR_TYPE& BasicString<CHAR_TYPE>::operator[](size_t index)
+	{
+		if(index < size)
+		{
+			return characters[index];
+		}
+		#ifndef _STRING_STANDALONE
+			throw StringOutOfBoundsException(index, size);
+		#else
+			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+		#endif
+	}
+	
+	template<typename CHAR_TYPE>
+	const CHAR_TYPE& BasicString<CHAR_TYPE>::charAt(size_t index) const
+	{
+		if(index < size)
+		{
+			return characters[index];
+		}
+		#ifndef _STRING_STANDALONE
+			throw StringOutOfBoundsException(index, size);
+		#else
+			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+		#endif
+	}
+	
+	template<typename CHAR_TYPE>
+	const CHAR_TYPE& BasicString<CHAR_TYPE>::operator[](size_t index) const
+	{
+		if(index < size)
+		{
+			return characters[index];
+		}
+		#ifndef _STRING_STANDALONE
+			throw StringOutOfBoundsException(index, size);
+		#else
+			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+		#endif
+	}
+	
+	template<typename CHAR_TYPE>
+	const CHAR_TYPE* BasicString<CHAR_TYPE>::getData() const
+	{
+		return characters;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::indexOf(const CHAR_TYPE& find, size_t startIndex) const
+	{
+		if(startIndex>size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		for(size_t i=startIndex; i<size; i++)
+		{
+			if(characters[i]==find)
+			{
+				return i;
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::indexOf(const BasicString<CHAR_TYPE>& find, size_t startIndex) const
+	{
+		if(startIndex>size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		if(find.size==0)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(find.size > size)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		size_t finish = size - find.size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==find.characters[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<find.size; j++)
+				{
+					if(characters[i+j] != find.characters[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					return i;
+				}
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::indexOf(const CHAR_TYPE* find, size_t startIndex) const
+	{
+		if(startIndex>size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		size_t find_size = BasicString<CHAR_TYPE>::strlen(find);
+		if(find_size==0)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(find_size > size)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		size_t finish = size - find_size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==find[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<find_size; j++)
+				{
+					if(characters[i+j] != find[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					return i;
+				}
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const CHAR_TYPE& find, size_t startIndex) const
+	{
+		if(startIndex==(size_t)-1)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(startIndex>=size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		for(size_t i=startIndex; i!=(size_t)-1; i--)
+		{
+			if(characters[i]==find)
+			{
+				return i;
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const CHAR_TYPE& find) const
+	{
+		return lastIndexOf(find, size-1);
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const BasicString<CHAR_TYPE>& find, size_t startIndex) const
+	{
+		if(startIndex==(size_t)-1)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(startIndex>=size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		else if(find.size==0)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(find.size > size)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		size_t find_last = find.size-1;
+		for(size_t i=startIndex; i>=find_last; i--)
+		{
+			if(characters[i]==find.characters[find_last])
+			{
+				bool match = true;
+				size_t counter = i-1;
+				for(size_t j=(find_last-1); j!=(size_t)-1; j--)
+				{
+					if(characters[counter] != find.characters[j])
+					{
+						match = false;
+						break;
+					}
+					else
+					{
+						counter--;
+					}
+				}
+				if(match)
+				{
+					return i;
+				}
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const BasicString<CHAR_TYPE>& find) const
+	{
+		return lastIndexOf(find, size-1);
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const CHAR_TYPE* find, size_t startIndex) const
+	{
+		size_t find_size = BasicString<CHAR_TYPE>::strlen(find);
+		if(startIndex==(size_t)-1)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(startIndex>=size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		else if(find_size==0)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		else if(find_size > size)
+		{
+			return BasicString<CHAR_TYPE>::NOT_FOUND;
+		}
+		size_t find_last = find_size-1;
+		for(size_t i=startIndex; i>=find_last; i--)
+		{
+			if(characters[i]==find[find_last])
+			{
+				bool match = true;
+				size_t counter = i-1;
+				for(size_t j=(find_last-1); j!=(size_t)-1; j--)
+				{
+					if(characters[counter] != find[j])
+					{
+						match = false;
+						break;
+					}
+					else
+					{
+						counter--;
+					}
+				}
+				if(match)
+				{
+					return i;
+				}
+			}
+		}
+		return BasicString<CHAR_TYPE>::NOT_FOUND;
+	}
+	
+	template<typename CHAR_TYPE>
+	size_t BasicString<CHAR_TYPE>::lastIndexOf(const CHAR_TYPE* find) const
+	{
+		return lastIndexOf(find, size-1);
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(const CHAR_TYPE& find, const CHAR_TYPE& replace) const
+	{
+		BasicString<CHAR_TYPE> newStr;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size;
+		for(size_t i=0; i<size; i++)
+		{
+			if(characters[i] == find)
+			{
+				newStr.characters[i] = replace;
+			}
+			else
+			{
+				newStr.characters[i] = characters[i];
+			}
+		}
+		newStr.characters[size] = NULLCHAR;
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(const BasicString<CHAR_TYPE>& find, const BasicString<CHAR_TYPE>& replace) const
+	{
+		if(find.size==0)
+		{
+			return *this;
+		}
+		else if(find.size > size)
+		{
+			return *this;
+		}
+		std::vector<size_t> indexes;
+		size_t finish = size - find.size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==find.characters[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<find.size; j++)
+				{
+					if(characters[i+j] != find.characters[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					indexes.push_back(i);
+					i += (find.size-1);
+				}
+			}
+		}
+		size_t indexes_size = indexes.size();
+		if(indexes_size>0)
+		{
+			BasicString<CHAR_TYPE> newStr;
+			size_t size_new = size + (replace.size*indexes_size) - (find.size*indexes_size);
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			size_t oldStr_counter = 0;
+			size_t indexes_counter = 0;
+			for(size_t i=0; i<size_new; i++)
+			{
+				if(oldStr_counter==indexes[indexes_counter])
+				{
+					for(size_t j=0; j<replace.size; j++)
+					{
+						newStr.characters[i] = replace.characters[j];
+						i++;
+					}
+					i--;
+					oldStr_counter += find.size;
+					indexes_counter++;
+				}
+				else
+				{
+					newStr.characters[i] = characters[oldStr_counter];
+					oldStr_counter++;
+				}
+			}
+			newStr.characters[size_new] = NULLCHAR;
+			return newStr;
+		}
+		return *this;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(const std::basic_regex<CHAR_TYPE>& find, const BasicString<CHAR_TYPE>& replace) const
+	{
+		return std::regex_replace(characters, find, replace.characters);
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(size_t startIndex, size_t endIndex, const CHAR_TYPE* replace) const
+	{
+		if(startIndex>=size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		else if(endIndex>size && !(endIndex<startIndex && endIndex==(size_t)-1))
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(endIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		size_t replace_size = BasicString<CHAR_TYPE>::strlen(replace);
+		if(startIndex<=endIndex)
+		{
+			BasicString<CHAR_TYPE> newStr;
+			size_t find_size = endIndex - startIndex;
+			size_t size_new = size + replace_size - find_size;
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			for(size_t i=0; i<startIndex; i++)
+			{
+				newStr.characters[i] = characters[i];
+			}
+			size_t replace_end = startIndex + replace_size;
+			size_t counter = 0;
+			for(size_t i=startIndex; i<replace_end; i++)
+			{
+				newStr.characters[i] = replace[counter];
+				counter++;
+			}
+			counter = endIndex;
+			for(size_t i=replace_end; i<size_new; i++)
+			{
+				newStr.characters[i] = characters[counter];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+			return newStr;
+		}
+		else
+		{
+			BasicString<CHAR_TYPE> newStr;
+			size_t find_size = (startIndex+1) - (endIndex+1);
+			size_t size_new = size + replace_size - find_size;
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			if(endIndex!=(size_t)-1)
+			{
+				for(size_t i=0; i<=endIndex; i++)
+				{
+					newStr.characters[i] = characters[i];
+				}
+			}
+			size_t replace_end = (endIndex+1)+replace_size;
+			size_t counter = replace_size-1;
+			for(size_t i=(endIndex+1); i<replace_end; i++)
+			{
+				newStr.characters[i] = replace[counter];
+				counter--;
+			}
+			counter = startIndex+1;
+			for(size_t i=replace_end; i<size_new; i++)
+			{
+				newStr.characters[i] = characters[counter];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+			return newStr;
+		}
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(size_t startIndex, size_t endIndex, const BasicString<CHAR_TYPE>& replace) const
+	{
+		if(startIndex>=size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		else if(endIndex>size && !(endIndex<startIndex && endIndex==(size_t)-1))
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(endIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		if(startIndex<=endIndex)
+		{
+			BasicString<CHAR_TYPE> newStr;
+			size_t find_size = endIndex - startIndex;
+			size_t size_new = size + replace.size - find_size;
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			for(size_t i=0; i<startIndex; i++)
+			{
+				newStr.characters[i] = characters[i];
+			}
+			size_t replace_end = startIndex + replace.size;
+			size_t counter = 0;
+			for(size_t i=startIndex; i<replace_end; i++)
+			{
+				newStr.characters[i] = replace.characters[counter];
+				counter++;
+			}
+			counter = endIndex;
+			for(size_t i=replace_end; i<size_new; i++)
+			{
+				newStr.characters[i] = characters[counter];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+			return newStr;
+		}
+		else
+		{
+			BasicString<CHAR_TYPE> newStr;
+			size_t find_size = (startIndex+1) - (endIndex+1);
+			size_t size_new = size + replace.size - find_size;
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			if(endIndex!=(size_t)-1)
+			{
+				for(size_t i=0; i<=endIndex; i++)
+				{
+					newStr.characters[i] = characters[i];
+				}
+			}
+			size_t replace_end = (endIndex+1)+replace.size;
+			size_t counter = replace.size-1;
+			for(size_t i=(endIndex+1); i<replace_end; i++)
+			{
+				newStr.characters[i] = replace.characters[counter];
+				counter--;
+			}
+			counter = startIndex+1;
+			for(size_t i=replace_end; i<size_new; i++)
+			{
+				newStr.characters[i] = characters[counter];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+			return newStr;
+		}
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::substring(size_t startIndex, size_t endIndex) const
+	{
+		if(startIndex > size)
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(startIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		else if(endIndex > size && !(endIndex<startIndex && endIndex==(size_t)-1))
+		{
+			#ifndef _STRING_STANDALONE
+				throw StringOutOfBoundsException(endIndex, size);
+			#else
+				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
+			#endif
+		}
+		BasicString<CHAR_TYPE> newStr;
+		if(startIndex>endIndex)
+		{
+			size_t size_new = (startIndex+1) - (endIndex+1);
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			size_t counter = 0;
+			for(size_t i=startIndex; i!=endIndex; i--)
+			{
+				newStr.characters[counter] = characters[i];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+		}
+		else if(startIndex<endIndex)
+		{
+			size_t size_new = endIndex - startIndex;
+			CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+			if(newStr_characters_new==nullptr)
+			{
+				throw std::bad_alloc();
+			}
+			newStr.characters = newStr_characters_new;
+			newStr.size = size_new;
+			size_t counter = 0;
+			for(size_t i=startIndex; i<endIndex; i++)
+			{
+				newStr.characters[counter] = characters[i];
+				counter++;
+			}
+			newStr.characters[size_new] = NULLCHAR;
+		}
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::substring(size_t startIndex) const
+	{
+		return substring(startIndex, size);
+	}
+	
+	#ifndef _STRING_STANDALONE
+	
+	template<typename CHAR_TYPE>
+	ArrayList<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const CHAR_TYPE& delim) const
+	{
+		ArrayList<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		for(size_t i=0; i<size; i++)
+		{
+			if(characters[i]==delim)
+			{
+				if(lastStart<i)
+				{
+					elements.add(substring(lastStart, i));
+				}
+				lastStart = i+1;
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.add(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	template<typename CHAR_TYPE>
+	ArrayList<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const CHAR_TYPE* delim) const
+	{
+		size_t delim_size = BasicString<CHAR_TYPE>::strlen(delim);
+		if(delim_size==0 || delim_size>size)
+		{
+			ArrayList<BasicString<CHAR_TYPE> > elements;
+			elements.add(*this);
+			return elements;
+		}
+		ArrayList<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		size_t finish = size - delim_size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==delim[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<delim_size; j++)
+				{
+					if(characters[i+j] != delim[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					if(lastStart<i)
+					{
+						elements.add(substring(lastStart, i));
+					}
+					lastStart = i+delim_size;
+				}
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.add(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	template<typename CHAR_TYPE>
+	ArrayList<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const BasicString<CHAR_TYPE>& delim) const
+	{
+		if(delim.size==0 || delim.size>size)
+		{
+			ArrayList<BasicString<CHAR_TYPE> > elements;
+			elements.add(*this);
+			return elements;
+		}
+		ArrayList<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		size_t finish = size - delim.size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==delim.characters[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<delim.size; j++)
+				{
+					if(characters[i+j] != delim.characters[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					if(lastStart<i)
+					{
+						elements.add(substring(lastStart, i));
+					}
+					lastStart = i+delim.size;
+				}
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.add(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	#else
+	
+	template<typename CHAR_TYPE>
+	std::vector<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const CHAR_TYPE& delim) const
+	{
+		std::vector<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		for(size_t i=0; i<size; i++)
+		{
+			if(characters[i]==delim)
+			{
+				if(lastStart<i)
+				{
+					elements.push_back(substring(lastStart, i));
+				}
+				lastStart = i+1;
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.push_back(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	template<typename CHAR_TYPE>
+	std::vector<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const CHAR_TYPE* delim) const
+	{
+		size_t delim_size = BasicString<CHAR_TYPE>::strlen(delim);
+		if(delim_size==0 || delim_size>size)
+		{
+			std::vector<BasicString<CHAR_TYPE> > elements;
+			elements.push_back(*this);
+			return elements;
+		}
+		std::vector<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		size_t finish = size - delim_size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==delim[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<delim_size; j++)
+				{
+					if(characters[i+j] != delim[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					if(lastStart<i)
+					{
+						elements.push_back(substring(lastStart, i));
+					}
+					lastStart = i+delim_size;
+				}
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.push_back(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	template<typename CHAR_TYPE>
+	std::vector<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const BasicString<CHAR_TYPE>& delim) const
+	{
+		if(delim.size==0 || delim.size>size)
+		{
+			std::vector<BasicString<CHAR_TYPE> > elements;
+			elements.push_back(*this);
+			return elements;
+		}
+		std::vector<BasicString<CHAR_TYPE> > elements;
+		size_t lastStart = 0;
+		size_t finish = size - delim.size;
+		for(size_t i=0; i<=finish; i++)
+		{
+			if(characters[i]==delim.characters[0])
+			{
+				bool match = true;
+				for(size_t j=1; j<delim.size; j++)
+				{
+					if(characters[i+j] != delim.characters[j])
+					{
+						match = false;
+						break;
+					}
+				}
+				if(match)
+				{
+					if(lastStart<i)
+					{
+						elements.push_back(substring(lastStart, i));
+					}
+					lastStart = i+delim.size;
+				}
+			}
+		}
+		if(lastStart<size)
+		{
+			elements.push_back(substring(lastStart, size));
+		}
+		return elements;
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::trim(const std::locale& locale) const
+	{
+		typedef typename BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+		if(size==0)
+		{
+			return *this;
+		}
+		bool hitLetter = false;
+		size_t startIndex = 0;
+		for(size_t i=0; i<size && !hitLetter; i++)
+		{
+			std::isupper(characters[i], locale);
+			if(!std::isblank<utf_char>((utf_char)characters[i], locale))
+			{
+				startIndex = i;
+				hitLetter = true;
+			}
+		}
+		if(!hitLetter)
+		{
+			return BasicString<CHAR_TYPE>();
+		}
+		hitLetter = false;
+		size_t endIndex = size;
+		for(size_t i=(size-1); i>=startIndex && i!=(size_t)-1 && !hitLetter; i--)
+		{
+			if(!std::isblank<utf_char>((utf_char)characters[i], locale))
+			{
+				endIndex = i+1;
+				hitLetter = true;
+			}
+		}
+		return substring(startIndex, endIndex);
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::toLowerCase(const std::locale& locale) const
+	{
+		BasicString<CHAR_TYPE> newStr;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size;
+		for(size_t i=0; i<size; i++)
+		{
+			typedef BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+			newStr.characters[i] = (CHAR_TYPE)std::tolower<utf_char>((utf_char)characters[i], locale);
+		}
+		newStr.characters[size] = NULLCHAR;
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::toUpperCase(const std::locale& locale) const
+	{
+		BasicString<CHAR_TYPE> newStr;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size;
+		for(size_t i=0; i<size; i++)
+		{
+			typedef BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+			newStr.characters[i] = (CHAR_TYPE)std::toupper<utf_char>((utf_char)characters[i], locale);
+		}
+		newStr.characters[size] = NULLCHAR;
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number<CHAR_TYPE, NUM_TYPE>::null_type>
+	NUM_TYPE BasicString<CHAR_TYPE>::toArithmeticValue(const std::locale& locale) const
+	{
+		std::basic_istringstream<CHAR_TYPE> convert(std::basic_string<CHAR_TYPE>(characters, size));
+		convert.imbue(locale);
+		NUM_TYPE numVal = 0;
+		if(!(convert >> numVal))
+		{
+			#ifndef _STRING_STANDALONE
+				throw NumberFormatException(typeid(NUM_TYPE).name(), "BasicString does not represent an arithmetic value");
+			#else
+				throw std::logic_error("BasicString does not represent an arithmetic value");
+			#endif
+		}
+		return numVal;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename NUM_TYPE>
+	NUM_TYPE BasicString<CHAR_TYPE>::ten_to(long the)
+	{
+		if(the>0)
+		{
+			NUM_TYPE val = 10;
+			for(int i=1; i<the; i++)
+			{
+				val *= 10;
+		}
+			return val;
+		}
+		else if(the<0)
+		{
+			NUM_TYPE val = 10;
+			for(int i=-1; i>the; i--)
+			{
+				val *= 10;
+			}
+			return 1/val;
+		}
+		return 1;
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename INPUT_CHAR_TYPE, typename std::enable_if<(sizeof(CHAR_TYPE)==sizeof(INPUT_CHAR_TYPE)), bool>::type>
+	std::basic_string<CHAR_TYPE>& BasicString<CHAR_TYPE>::string_cast(std::basic_string<INPUT_CHAR_TYPE>&& str)
+	{
+		std::basic_string<INPUT_CHAR_TYPE>& str_left = str;
+		return *((std::basic_string<CHAR_TYPE>*)&str_left);
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicString<CHAR_TYPE>::convert_fromBool(const bool& b, CHAR_TYPE* output, size_t* output_length)
+	{
+		if(b)
+		{
+			output[0] = (CHAR_TYPE)'t';
+			output[1] = (CHAR_TYPE)'r';
+			output[2] = (CHAR_TYPE)'u';
+			output[3] = (CHAR_TYPE)'e';
+			output[4] = NULLCHAR;
+			*output_length = 4;
+		}
+		else
+		{
+			output[0] = (CHAR_TYPE)'f';
+			output[1] = (CHAR_TYPE)'a';
+			output[2] = (CHAR_TYPE)'l';
+			output[3] = (CHAR_TYPE)'s';
+			output[4] = (CHAR_TYPE)'e';
+			output[5] = NULLCHAR;
+			*output_length = 5;
+		}
+	}
+	
+	template<typename CHAR_TYPE>
+	template<typename NUM_TYPE>
+	void BasicString<CHAR_TYPE>::convert_fromNumber(const NUM_TYPE& num, std::basic_string<CHAR_TYPE>* output)
+	{
+		std::basic_ostringstream<char> ss;
+		ss << std::setprecision(10);
+		if(sizeof(NUM_TYPE)==1)
+		{
+			ss << (long long)num;
+		}
+		else
+		{
+			ss << num;
+		}
+		std::basic_string<char>&& str = ss.str();
+		BasicString<CHAR_TYPE>::template convert_fromString<char>(str.c_str(), str.length(), output);
+	}
+	
+	//same size chars
+	template<typename CHAR_TYPE>
+	template<typename INPUT_CHAR_TYPE,
+		typename std::enable_if<((sizeof(CHAR_TYPE)==sizeof(INPUT_CHAR_TYPE)) && BasicStringUtils::can_convert_string_types<CHAR_TYPE, INPUT_CHAR_TYPE>::value), std::nullptr_t>::type>
+	void BasicString<CHAR_TYPE>::convert_fromString(const INPUT_CHAR_TYPE* str, size_t length, std::basic_string<CHAR_TYPE>* output)
+	{
+		if(length==0)
+		{
+			return;
+		}
+		*output = (const CHAR_TYPE*)str;
+	}
+	
+	//multibyte to byte
+	template<typename CHAR_TYPE>
+	template<typename INPUT_CHAR_TYPE,
+		typename std::enable_if<((sizeof(CHAR_TYPE)==1 && sizeof(INPUT_CHAR_TYPE)>1) && BasicStringUtils::can_convert_string_types<CHAR_TYPE, INPUT_CHAR_TYPE>::value), std::nullptr_t>::type>
+	void BasicString<CHAR_TYPE>::convert_fromString(const INPUT_CHAR_TYPE* str, size_t length, std::basic_string<CHAR_TYPE>* output)
+	{
+		typedef typename BasicString<INPUT_CHAR_TYPE>::utf_eqv_t INPUT_TYPE;
+		if(sizeof(INPUT_CHAR_TYPE)==2)
+		{
+			std::wstring_convert<std::codecvt_utf8_utf16<INPUT_TYPE>, INPUT_TYPE> convert;
+			*output = std::move(BasicString<CHAR_TYPE>::template string_cast<std::string::value_type>(convert.to_bytes((const INPUT_TYPE*)str, (const INPUT_TYPE*)(str+length))));
+		}
+		else if(sizeof(INPUT_CHAR_TYPE)==4)
+		{
+			std::wstring_convert<std::codecvt_utf8<INPUT_TYPE>, INPUT_TYPE> convert;
+			*output = std::move(BasicString<CHAR_TYPE>::template string_cast<std::string::value_type>(convert.to_bytes((const INPUT_TYPE*)str, (const INPUT_TYPE*)(str+length))));
+		}
+	}
+	
+	//multibyte to multibyte
+	template<typename CHAR_TYPE>
+	template<typename INPUT_CHAR_TYPE,
+		typename std::enable_if<((sizeof(CHAR_TYPE)>1 && sizeof(INPUT_CHAR_TYPE)>1) && (sizeof(CHAR_TYPE)!=sizeof(INPUT_CHAR_TYPE))
+			&& BasicStringUtils::can_convert_string_types<CHAR_TYPE, INPUT_CHAR_TYPE>::value), std::nullptr_t>::type>
+	void BasicString<CHAR_TYPE>::convert_fromString(const INPUT_CHAR_TYPE* str, size_t length, std::basic_string<CHAR_TYPE>* output)
+	{
+		bool little_endian = false;
+		int n = 1;
+		if(*(char*)&n == 1)
+		{
+			little_endian = true;
+		}
+		if(little_endian)
+		{
+			if(sizeof(CHAR_TYPE)<sizeof(INPUT_CHAR_TYPE))
+			{
+				typedef typename BasicString<INPUT_CHAR_TYPE>::utf_eqv_t INPUT_TYPE;
+				std::wstring_convert<std::codecvt_utf16<INPUT_TYPE, 0x10ffff, std::codecvt_mode::little_endian>, INPUT_TYPE> convert;
+				std::string&& buffer = convert.to_bytes((const INPUT_TYPE*)str, (const INPUT_TYPE*)(str+length));
+				*output = std::basic_string<CHAR_TYPE>((const CHAR_TYPE*)buffer.c_str(), (buffer.length()*sizeof(std::string::value_type))/sizeof(CHAR_TYPE));
+			}
+			else
+			{
+				typedef typename BasicString<CHAR_TYPE>::utf_eqv_t OUTPUT_TYPE;
+				std::wstring_convert<std::codecvt_utf16<OUTPUT_TYPE, 0x10ffff, std::codecvt_mode::little_endian>, OUTPUT_TYPE> convert;
+				*output = std::move(BasicString<CHAR_TYPE>::template string_cast<OUTPUT_TYPE>(convert.from_bytes((const char*)str, (const char*)(str+length))));
+			}
+		}
+		else
+		{
+			if(sizeof(CHAR_TYPE)<sizeof(INPUT_CHAR_TYPE))
+			{
+				typedef typename BasicString<INPUT_CHAR_TYPE>::utf_eqv_t INPUT_TYPE;
+				std::wstring_convert<std::codecvt_utf16<INPUT_TYPE>, INPUT_TYPE> convert;
+				std::string&& buffer = convert.to_bytes((const INPUT_TYPE*)str, (const INPUT_TYPE*)(str+length));
+				*output = std::basic_string<CHAR_TYPE>((const CHAR_TYPE*)buffer.c_str(), (buffer.length()*sizeof(std::string::value_type))/sizeof(CHAR_TYPE));
+			}
+			else
+			{
+				typedef typename BasicString<CHAR_TYPE>::utf_eqv_t OUTPUT_TYPE;
+				std::wstring_convert<std::codecvt_utf16<OUTPUT_TYPE>, OUTPUT_TYPE> convert;
+				*output = std::move(BasicString<CHAR_TYPE>::template string_cast<OUTPUT_TYPE>(convert.from_bytes((const char*)str, (const char*)(str+length))));
+			}
+		}
+	}
+	
+	//byte to multibyte
+	template<typename CHAR_TYPE>
+	template<typename INPUT_CHAR_TYPE,
+		typename std::enable_if<((sizeof(CHAR_TYPE)>1 && sizeof(INPUT_CHAR_TYPE)==1) && BasicStringUtils::can_convert_string_types<CHAR_TYPE, INPUT_CHAR_TYPE>::value), std::nullptr_t>::type>
+	void BasicString<CHAR_TYPE>::convert_fromString(const INPUT_CHAR_TYPE* str, size_t length, std::basic_string<CHAR_TYPE>* output)
+	{
+		typedef typename BasicString<CHAR_TYPE>::utf_eqv_t OUTPUT_TYPE;
+		if(sizeof(CHAR_TYPE)==2)
+		{
+			std::wstring_convert<std::codecvt_utf8_utf16<OUTPUT_TYPE>, OUTPUT_TYPE> convert;
+			*output = std::move(BasicString<CHAR_TYPE>::template string_cast<OUTPUT_TYPE>(convert.from_bytes((const char*)str, (const char*)(str+length))));
+		}
+		else if(sizeof(CHAR_TYPE)==4)
+		{
+			std::wstring_convert<std::codecvt_utf8<OUTPUT_TYPE>, OUTPUT_TYPE> convert;
+			*output = std::move(BasicString<CHAR_TYPE>::template string_cast<OUTPUT_TYPE>(convert.from_bytes((const char*)str, (const char*)(str+length))));
+		}
+	}
+	
+	template<typename CHAR_TYPE>
+	typename BasicString<CHAR_TYPE>::SymbolType BasicString<CHAR_TYPE>::getSymbolType(const CHAR_TYPE& c, const std::locale& locale)
+	{
+		typedef BasicString<CHAR_TYPE>::utf_eqv_t utf_char;
+		if(std::isdigit<utf_char>((utf_char)c, locale))
+		{
+			return STRINGCMP_SYMTYPE_NUMBER;
+		}
+		else if(std::isupper<utf_char>((utf_char)c, locale))
+		{
+			return STRINGCMP_SYMTYPE_UPPERCASE_LETTER;
+		}
+		else if(std::islower<utf_char>((utf_char)c, locale) || std::isalpha<utf_char>((utf_char)c, locale))
+		{
+			return STRINGCMP_SYMTYPE_LOWERCASE_LETTER;
+		}
+		return STRINGCMP_SYMTYPE_SYMBOL;
+	}
+	
+	
+	
+	
+	
+	template<typename CHAR_TYPE>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t size_new = left.size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = BasicString<CHAR_TYPE>::strlen(right);
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicStringUtils::string_plus(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = BasicString<CHAR_TYPE>::strlen(left);
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const std::basic_string<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right.length();
+		const CHAR_TYPE* right_chars = right.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE>
+	void BasicStringUtils::string_plus(const std::basic_string<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = left.length();
+		const CHAR_TYPE* left_chars = left.data();
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(CHAR_TYPE) && sizeof(CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, NSString* right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = (size_t)right.length;
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		NSRange range = NSMakeRange(0, (NSUInteger)right_size);
+		[right getCharacters:(unichar*)(newStr.characters+left.size) range:range];
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, NSString* right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)[right UTF8String];
+		size_t right_size = BasicString<CHAR_TYPE>::strlen(right_chars);
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(CHAR_TYPE) && sizeof(CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, NSString* right, BasicString<CHAR_TYPE>* output)
+	{
+		NSUInteger right_length = right.length;
+		unichar* buffer = new unichar[right_length+1];
+		NSRange range = NSMakeRange(0, right_length);
+		[right getCharacters:buffer range:range];
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<unichar>(buffer, (size_t)right_length, &right_str);
+		delete[] buffer;
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(unichar)==sizeof(CHAR_TYPE) && sizeof(CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(NSString* left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = (size_t)left.length;
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		NSRange range = NSMakeRange(0, (NSUInteger)left_size);
+		[left getCharacters:(unichar*)newStr.characters range:range];
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(CHAR_TYPE)==sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(NSString* left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* left_chars = (const CHAR_TYPE*)[left UTF8String];
+		size_t left_size = BasicString<CHAR_TYPE>::strlen(left_chars);
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE,
+		typename std::enable_if<(BasicStringUtils::can_convert_string_type<CHAR_TYPE>::value
+			&& sizeof(unichar)!=sizeof(CHAR_TYPE) && sizeof(CHAR_TYPE)!=sizeof(char)), std::nullptr_t>::type>
+	void BasicStringUtils::string_plus(NSString* left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		NSUInteger left_length = left.length;
+		unichar* buffer = new unichar[left_length+1];
+		NSRange range = NSMakeRange(0, left_length);
+		[left getCharacters:buffer range:range];
+		std::basic_string<CHAR_TYPE> left_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<unichar>(buffer, (size_t)left_length, &left_str);
+		delete[] buffer;
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = left_str.length();
+		const CHAR_TYPE* left_chars = left_str.data();
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const OTHER_CHAR_TYPE* right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right;
+		size_t right_size = BasicString<CHAR_TYPE>::strlen(right_chars);
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const OTHER_CHAR_TYPE* right, BasicString<CHAR_TYPE>* output)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right, BasicString<OTHER_CHAR_TYPE>::strlen(right), &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const CHAR_TYPE* left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right.characters;
+		size_t left_size = BasicString<CHAR_TYPE>::strlen(left);
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const CHAR_TYPE* left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right.characters, right.size, &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t left_size = BasicString<CHAR_TYPE>::strlen(left);
+		size_t size_new = left_size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const OTHER_CHAR_TYPE& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t size_new = left.size + 1;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		newStr.characters[left.size] = (CHAR_TYPE)right;
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const OTHER_CHAR_TYPE& right, BasicString<CHAR_TYPE>* output)
+	{
+		//different char size
+		OTHER_CHAR_TYPE right_arr[2] = {right, NULLCHAR};
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right_arr, 1, &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const SAME_CHAR_TYPE& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t size_new = left.size + 1;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		newStr.characters[left.size] = right;
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const CHAR_TYPE& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right.characters;
+		size_t size_new = 1 + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		newStr.characters[0] = left;
+		size_t counter = 0;
+		for(size_t i=1; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_with_char_type<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const CHAR_TYPE& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//different char size
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right.characters, right.size, &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = 1 + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		newStr.characters[0] = left;
+		size_t counter = 0;
+		for(size_t i=1; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename SAME_CHAR_TYPE, typename BasicStringUtils::is_same<CHAR_TYPE, SAME_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const CHAR_TYPE& left, const BasicString<SAME_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = right.characters;
+		size_t size_new = 1 + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		newStr.characters[0] = left;
+		size_t counter = 0;
+		for(size_t i=1; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename BOOL_TYPE, typename BasicStringUtils::string_type_convertable_with_bool<CHAR_TYPE, BOOL_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const BOOL_TYPE& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		CHAR_TYPE right_chars[6];
+		size_t right_size = 0;
+		BasicString<CHAR_TYPE>::convert_fromBool(right, right_chars, &right_size);
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename BOOL_TYPE, typename BasicStringUtils::string_type_convertable_with_bool<CHAR_TYPE, BOOL_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BOOL_TYPE& left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		CHAR_TYPE left_chars[6];
+		size_t left_size = 0;
+		BasicString<CHAR_TYPE>::convert_fromBool(left, left_chars, &left_size);
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<right.size; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number_or_enum<CHAR_TYPE, NUM_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const NUM_TYPE& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromNumber<NUM_TYPE>(right, &right_str);
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number_or_enum<CHAR_TYPE, NUM_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const NUM_TYPE& left, const BasicString<CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		std::basic_string<CHAR_TYPE> left_str;
+		BasicString<CHAR_TYPE>::template convert_fromNumber<NUM_TYPE>(left, &left_str);
+		size_t left_size = left.length();
+		const CHAR_TYPE* left_chars = left_str.data();
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right.characters[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right.characters;
+		size_t size_new = left.size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right.characters, right.size, &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const std::basic_string<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		//same char size
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right.length();
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const BasicString<CHAR_TYPE>& left, const std::basic_string<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right.data(), right.length(), &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left.size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left.size; i++)
+		{
+			newStr.characters[i] = left.characters[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left.size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::same_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const std::basic_string<CHAR_TYPE>& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = left.length();
+		const CHAR_TYPE* left_chars = left.data();
+		const CHAR_TYPE* right_chars = (const CHAR_TYPE*)right.characters;
+		size_t size_new = left_size + right.size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	template<typename CHAR_TYPE, typename OTHER_CHAR_TYPE, typename BasicStringUtils::diff_size_convertable_strings<CHAR_TYPE, OTHER_CHAR_TYPE>::null_type>
+	void BasicStringUtils::string_plus(const std::basic_string<CHAR_TYPE>& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output)
+	{
+		std::basic_string<CHAR_TYPE> right_str;
+		BasicString<CHAR_TYPE>::template convert_fromString<OTHER_CHAR_TYPE>(right.characters, right.size, &right_str);
+		BasicString<CHAR_TYPE>& newStr = *output;
+		size_t left_size = left.length();
+		const CHAR_TYPE* left_chars = left.data();
+		size_t right_size = right_str.length();
+		const CHAR_TYPE* right_chars = right_str.data();
+		size_t size_new = left_size + right_size;
+		CHAR_TYPE* newStr_characters_new = (CHAR_TYPE*)std::realloc(newStr.characters, (size_new+1)*sizeof(CHAR_TYPE));
+		if(newStr_characters_new==nullptr)
+		{
+			throw std::bad_alloc();
+		}
+		newStr.characters = newStr_characters_new;
+		newStr.size = size_new;
+		for(size_t i=0; i<left_size; i++)
+		{
+			newStr.characters[i] = left_chars[i];
+		}
+		size_t counter = 0;
+		for(size_t i=left_size; i<size_new; i++)
+		{
+			newStr.characters[i] = right_chars[counter];
+			counter++;
+		}
+		newStr.characters[size_new] = NULLCHAR;
+	}
+	
+	
+	
+	
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const BasicString<SOME_CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const SOME_CHAR_TYPE* right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const CHAR_TYPE* left, const BasicString<SOME_CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const std::basic_string<SOME_CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const std::basic_string<CHAR_TYPE>& left, const BasicString<SOME_CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	#ifdef __OBJC__
+	
+	template<typename CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, unichar>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, NSString* right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, unichar>::null_type>
+	BasicString<CHAR_TYPE> operator+(NSString* left, const BasicString<CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	#endif
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::string_type_convertable_with_char_type<CHAR_TYPE, SOME_CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const SOME_CHAR_TYPE& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename SOME_CHAR_TYPE, typename BasicStringUtils::string_type_convertable_with_char_type<SOME_CHAR_TYPE, CHAR_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const CHAR_TYPE& left, const BasicString<SOME_CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename BOOL_TYPE, typename BasicStringUtils::string_type_convertable_with_bool<CHAR_TYPE, BOOL_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const BOOL_TYPE& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename BOOL_TYPE, typename BasicStringUtils::string_type_convertable_with_bool<CHAR_TYPE, BOOL_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BOOL_TYPE& left, const BasicString<CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number_or_enum<CHAR_TYPE, NUM_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const BasicString<CHAR_TYPE>& left, const NUM_TYPE& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	template<typename CHAR_TYPE, typename NUM_TYPE, typename BasicStringUtils::string_type_convertable_with_number_or_enum<CHAR_TYPE, NUM_TYPE>::null_type>
+	BasicString<CHAR_TYPE> operator+(const NUM_TYPE& left, const BasicString<CHAR_TYPE>& right)
+	{
+		BasicString<CHAR_TYPE> newStr;
+		BasicStringUtils::string_plus(left, right, &newStr);
+		return newStr;
+	}
+	
+	
+	
+	
+	
+	template<typename CHAR_TYPE>
+	bool operator==(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return left.equals(right);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator==(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return left.equals(right, BasicString<CHAR_TYPE>::strlen(right));
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator==(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return right.equals(left, BasicString<CHAR_TYPE>::strlen(left));
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator==(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE& right)
+	{
+		CHAR_TYPE right_arr[] = {right, NULLCHAR};
+		return left.equals(right_arr, 1);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator==(const CHAR_TYPE& left, const BasicString<CHAR_TYPE>& right)
+	{
+		CHAR_TYPE left_arr[] = {left, NULLCHAR};
+		return right.equals(left_arr, 1);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator!=(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return !left.equals(right);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator!=(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return !left.equals(right, BasicString<CHAR_TYPE>::strlen(right));
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator!=(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return !right.equals(left, BasicString<CHAR_TYPE>::strlen(left));
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator!=(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE& right)
+	{
+		CHAR_TYPE right_arr[] = {right, NULLCHAR};
+		return !left.equals(right_arr, 1);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator!=(const CHAR_TYPE& left, const BasicString<CHAR_TYPE>& right)
+	{
+		CHAR_TYPE left_arr[] = {left, NULLCHAR};
+		return right.equals(left_arr, 1);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (left.compare(right) < 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return (left.compare(right, BasicString<CHAR_TYPE>::strlen(right)) < 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (right.compare(left, BasicString<CHAR_TYPE>::strlen(left)) > 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<=(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (left.compare(right) <= 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<=(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return (left.compare(right, BasicString<CHAR_TYPE>::strlen(right)) <= 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator<=(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (right.compare(left, BasicString<CHAR_TYPE>::strlen(left)) >= 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (left.compare(right) > 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return (left.compare(right, BasicString<CHAR_TYPE>::strlen(right)) > 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (right.compare(left, BasicString<CHAR_TYPE>::strlen(left)) < 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>=(const BasicString<CHAR_TYPE>& left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (left.compare(right) >= 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>=(const BasicString<CHAR_TYPE>& left, const CHAR_TYPE* right)
+	{
+		return (left.compare(right, BasicString<CHAR_TYPE>::strlen(right)) >= 0);
+	}
+	
+	template<typename CHAR_TYPE>
+	bool operator>=(const CHAR_TYPE* left, const BasicString<CHAR_TYPE>& right)
+	{
+		return (right.compare(left, BasicString<CHAR_TYPE>::strlen(left)) <= 0);
+	}
+	
+#ifndef _STRING_STANDALONE
+}
+#endif
