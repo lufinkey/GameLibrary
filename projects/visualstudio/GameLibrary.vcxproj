@@ -343,6 +343,8 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/SDL/include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</MSCompatibility>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</RuntimeTypeInfo>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</RuntimeTypeInfo>
     </ClCompile>
     <Lib>
       <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
