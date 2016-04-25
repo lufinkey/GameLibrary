@@ -1,6 +1,10 @@
 
 #Visual Studio
+/projects/visualstudio/*.VC.db
+/projects/visualstudio/*.opendb
+/projects/visualstudio/*.sdf
 /projects/visualstudio/*.user
+/projects/visualstudio/.vs
 /projects/visualstudio/build
 /projects/visualstudio/bin
 

@@ -828,12 +828,12 @@
 		A039DA9C1CCDE86A00B0B5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				A039DA9D1CCDE86A00B0B5DA /* ios */,
+				A039DA9D1CCDE86A00B0B5DA /* iOS */,
 			);
 			path = lib;
 			sourceTree = "<group>";
 		};
-		A039DA9D1CCDE86A00B0B5DA /* ios */ = {
+		A039DA9D1CCDE86A00B0B5DA /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				A039DA9E1CCDE86A00B0B5DA /* libSDL.a */,
@@ -842,7 +842,7 @@
 				A039DAA11CCDE86A00B0B5DA /* libSDL_p2p.a */,
 				A039DAA21CCDE86A00B0B5DA /* libSDL_ttf.a */,
 			);
-			path = ios;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		A039DAB71CCDE89E00B0B5DA /* src */ = {
@@ -1319,7 +1319,7 @@
 					../../external/pugixml/include,
 					../../external/SDL/include,
 				);
-				LIBRARY_SEARCH_PATHS = ../../external/SDL/lib/ios;
+				LIBRARY_SEARCH_PATHS = ../../external/SDL/lib/iOS;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
