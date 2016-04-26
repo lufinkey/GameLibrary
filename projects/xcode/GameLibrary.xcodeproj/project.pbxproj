@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A039DAB21CCDE88F00B0B5DA /* libSDL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A039DA9E1CCDE86A00B0B5DA /* libSDL.a */; };
-		A039DAB31CCDE88F00B0B5DA /* libSDL_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A039DA9F1CCDE86A00B0B5DA /* libSDL_image.a */; };
-		A039DAB41CCDE88F00B0B5DA /* libSDL_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A039DAA01CCDE86A00B0B5DA /* libSDL_mixer.a */; };
-		A039DAB51CCDE88F00B0B5DA /* libSDL_p2p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A039DAA11CCDE86A00B0B5DA /* libSDL_p2p.a */; };
-		A039DAB61CCDE88F00B0B5DA /* libSDL_ttf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A039DAA21CCDE86A00B0B5DA /* libSDL_ttf.a */; };
+		A0298F861CCF492C00886B06 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DA481CCDE86A00B0B5DA /* pugixml.cpp */; };
+		A0298F881CCF495D00886B06 /* Number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0298F871CCF495D00886B06 /* Number.cpp */; };
 		A039DB1C1CCDE89E00B0B5DA /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAB91CCDE89E00B0B5DA /* Actor.cpp */; };
 		A039DB1D1CCDE89E00B0B5DA /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DABA1CCDE89E00B0B5DA /* Animation.cpp */; };
 		A039DB1E1CCDE89E00B0B5DA /* SpriteActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DABB1CCDE89E00B0B5DA /* SpriteActor.cpp */; };
@@ -101,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A0298F871CCF495D00886B06 /* Number.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Number.cpp; sourceTree = "<group>"; };
 		A039D8271CCDE2D500B0B5DA /* libGameLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGameLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A039D9D01CCDE80800B0B5DA /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Actor.h; sourceTree = "<group>"; };
 		A039D9D11CCDE80800B0B5DA /* Animation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
@@ -275,11 +273,6 @@
 		A039DA991CCDE86A00B0B5DA /* SDL_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDL_types.h; sourceTree = "<group>"; };
 		A039DA9A1CCDE86A00B0B5DA /* SDL_version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDL_version.h; sourceTree = "<group>"; };
 		A039DA9B1CCDE86A00B0B5DA /* SDL_video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDL_video.h; sourceTree = "<group>"; };
-		A039DA9E1CCDE86A00B0B5DA /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSDL.a; sourceTree = "<group>"; };
-		A039DA9F1CCDE86A00B0B5DA /* libSDL_image.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSDL_image.a; sourceTree = "<group>"; };
-		A039DAA01CCDE86A00B0B5DA /* libSDL_mixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSDL_mixer.a; sourceTree = "<group>"; };
-		A039DAA11CCDE86A00B0B5DA /* libSDL_p2p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSDL_p2p.a; sourceTree = "<group>"; };
-		A039DAA21CCDE86A00B0B5DA /* libSDL_ttf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSDL_ttf.a; sourceTree = "<group>"; };
 		A039DAB91CCDE89E00B0B5DA /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		A039DABA1CCDE89E00B0B5DA /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		A039DABB1CCDE89E00B0B5DA /* SpriteActor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteActor.cpp; sourceTree = "<group>"; };
@@ -367,11 +360,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A039DAB41CCDE88F00B0B5DA /* libSDL_mixer.a in Frameworks */,
-				A039DAB21CCDE88F00B0B5DA /* libSDL.a in Frameworks */,
-				A039DAB51CCDE88F00B0B5DA /* libSDL_p2p.a in Frameworks */,
-				A039DAB61CCDE88F00B0B5DA /* libSDL_ttf.a in Frameworks */,
-				A039DAB31CCDE88F00B0B5DA /* libSDL_image.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,7 +713,6 @@
 			isa = PBXGroup;
 			children = (
 				A039DA4A1CCDE86A00B0B5DA /* include */,
-				A039DA9C1CCDE86A00B0B5DA /* lib */,
 			);
 			path = SDL;
 			sourceTree = "<group>";
@@ -823,26 +810,6 @@
 				A039DA9B1CCDE86A00B0B5DA /* SDL_video.h */,
 			);
 			path = SDL;
-			sourceTree = "<group>";
-		};
-		A039DA9C1CCDE86A00B0B5DA /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				A039DA9D1CCDE86A00B0B5DA /* iOS */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		A039DA9D1CCDE86A00B0B5DA /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				A039DA9E1CCDE86A00B0B5DA /* libSDL.a */,
-				A039DA9F1CCDE86A00B0B5DA /* libSDL_image.a */,
-				A039DAA01CCDE86A00B0B5DA /* libSDL_mixer.a */,
-				A039DAA11CCDE86A00B0B5DA /* libSDL_p2p.a */,
-				A039DAA21CCDE86A00B0B5DA /* libSDL_ttf.a */,
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		A039DAB71CCDE89E00B0B5DA /* src */ = {
@@ -1043,6 +1010,7 @@
 				A039DB051CCDE89E00B0B5DA /* Data.cpp */,
 				A039DB061CCDE89E00B0B5DA /* Dictionary.cpp */,
 				A039DB0A1CCDE89E00B0B5DA /* Math.cpp */,
+				A0298F871CCF495D00886B06 /* Number.cpp */,
 				A039DB0B1CCDE89E00B0B5DA /* Stringifier.cpp */,
 				A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */,
 			);
@@ -1168,6 +1136,7 @@
 				A039DB3D1CCDE89E00B0B5DA /* Graphics.cpp in Sources */,
 				A039DB451CCDE89E00B0B5DA /* FileTools.cpp in Sources */,
 				A039DB201CCDE89E00B0B5DA /* WireframeActor.cpp in Sources */,
+				A0298F881CCF495D00886B06 /* Number.cpp in Sources */,
 				A039DB5D1CCDE89E00B0B5DA /* Thread.cpp in Sources */,
 				A039DB481CCDE89E00B0B5DA /* AutoLayoutCalculator.cpp in Sources */,
 				A039DB381CCDE89E00B0B5DA /* RenderGlyphException.cpp in Sources */,
@@ -1193,6 +1162,7 @@
 				A039DB621CCDE89E00B0B5DA /* MessageBox.cpp in Sources */,
 				A039DB2F1CCDE89E00B0B5DA /* IllegalStateException.cpp in Sources */,
 				A039DB1E1CCDE89E00B0B5DA /* SpriteActor.cpp in Sources */,
+				A0298F861CCF492C00886B06 /* pugixml.cpp in Sources */,
 				A039DB4A1CCDE89E00B0B5DA /* Screen.cpp in Sources */,
 				A039DB601CCDE89E00B0B5DA /* time64.c in Sources */,
 				A039DB461CCDE89E00B0B5DA /* FileTools.mm in Sources */,
@@ -1319,7 +1289,7 @@
 					../../external/pugixml/include,
 					../../external/SDL/include,
 				);
-				LIBRARY_SEARCH_PATHS = ../../external/SDL/lib/iOS;
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1335,7 +1305,7 @@
 					../../external/pugixml/include,
 					../../external/SDL/include,
 				);
-				LIBRARY_SEARCH_PATHS = ../../external/SDL/lib/ios;
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
