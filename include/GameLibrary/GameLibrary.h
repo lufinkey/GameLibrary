@@ -68,6 +68,7 @@
 #include "Utilities/Data.h"
 #include "Utilities/Dictionary.h"
 #include "Utilities/Math.h"
+#include "Utilities/Number.h"
 #include "Utilities/PlatformChecks.h"
 #include "Utilities/String.h"
 #include "Utilities/Thread.h"

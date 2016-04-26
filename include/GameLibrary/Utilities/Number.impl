@@ -297,14 +297,14 @@ namespace GameLibrary
 	
 	template<typename T>
 	template<typename U, typename std::enable_if<(std::is_signed<U>::value), std::nullptr_t>::type>
-	void Number::Derived<T>::impl_neg() const
+	void Number::Derived<T>::impl_neg()
 	{
 		value = -value;
 	}
 	
 	template<typename T>
 	template<typename U, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type>
-	void Number::Derived<T>::impl_neg() const
+	void Number::Derived<T>::impl_neg()
 	{
 		//Do nothing
 	}
@@ -321,6 +321,205 @@ namespace GameLibrary
 	Number::Base* Number::Derived<T>::impl_toSigned() const
 	{
 		return new Derived<GameLibrary::Int64>((GameLibrary::Int64)value);
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<std::is_same<U,bool>::value, std::nullptr_t>::type>
+	bool Number::Derived<T>::impl_isNegative() const
+	{
+		return false;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<!std::is_same<U, bool>::value, std::nullptr_t>::type>
+	bool Number::Derived<T>::impl_isNegative() const
+	{
+		if(value < 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type>
+	int Number::Derived<T>::impl_compare(Base* base) const
+	{
+		long double valueD = (long double)value;
+		if(base->isUnsigned() && valueD < 0)
+		{
+			return -1;
+		}
+		else
+		{
+			long double baseValue = base->to<long double>();
+			if(valueD < baseValue)
+			{
+				return -1;
+			}
+			else if(valueD > baseValue)
+			{
+				return 1;
+			}
+			return 0;
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
+	int Number::Derived<T>::impl_compare(Base* base) const
+	{
+		if(base->isIntegral())
+		{
+			if(std::is_unsigned<T>::value)
+			{
+				if(base->isNegative())
+				{
+					return 1;
+				}
+				else
+				{
+					unsigned long long valueL = (unsigned long long)value;
+					unsigned long long baseValue = base->to<unsigned long long>();
+					if(valueL < baseValue)
+					{
+						return -1;
+					}
+					else if(valueL > baseValue)
+					{
+						return 1;
+					}
+					return 0;
+				}
+			}
+			else
+			{
+				if(base->isUnsigned())
+				{
+					if(value < 0)
+					{
+						return -1;
+					}
+					else
+					{
+						unsigned long long valueL = (unsigned long long)value;
+						unsigned long long baseValue = base->to<unsigned long long>();
+						if(valueL < baseValue)
+						{
+							return -1;
+						}
+						else if(valueL > baseValue)
+						{
+							return 1;
+						}
+						return 0;
+					}
+				}
+				else
+				{
+					if(value > 0 && !base->isNegative())
+					{
+						unsigned long long valueL = (unsigned long long)value;
+						unsigned long long baseValue = base->to<unsigned long long>();
+						if(valueL < baseValue)
+						{
+							return -1;
+						}
+						else if(valueL > baseValue)
+						{
+							return 1;
+						}
+						return 0;
+					}
+					else
+					{
+						long long valueL = (long long)value;
+						long long baseValue = base->to<long long>();
+						if(valueL < baseValue)
+						{
+							return -1;
+						}
+						else if(valueL > baseValue)
+						{
+							return 1;
+						}
+						return 0;
+					}
+				}
+			}
+		}
+		else //if(base->isFloatingPoint())
+		{
+			long double valueD = (long double)value;
+			long double baseValue = base->to<long double>();
+			if(valueD < baseValue)
+			{
+				return -1;
+			}
+			else if(valueD > baseValue)
+			{
+				return 1;
+			}
+			return 0;
+		}
+	}
+	
+	template<typename T>
+	template<typename U, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type>
+	int Number::Derived<T>::impl_compare(Base* base) const
+	{
+		if(base->isNegative())
+		{
+			return 1;
+		}
+		else if(base->isIntegral())
+		{
+			unsigned long long baseValue = base->to<unsigned long long>();
+			if(value)
+			{
+				if(baseValue > 1)
+				{
+					return -1;
+				}
+				else if(baseValue < 1)
+				{
+					return 1;
+				}
+				return 0;
+			}
+			else
+			{
+				if(baseValue > 0)
+				{
+					return -1;
+				}
+				return 0;
+			}
+		}
+		else //if(base->isFloatingPoint())
+		{
+			long double baseValue = base->to<long double>();
+			if(value)
+			{
+				if(baseValue > 1)
+				{
+					return -1;
+				}
+				else if(baseValue < 1)
+				{
+					return 1;
+				}
+				return 0;
+			}
+			else
+			{
+				if(baseValue > 0)
+				{
+					return -1;
+				}
+				return 0;
+			}
+		}
 	}
 	
 	template<typename T>
@@ -372,6 +571,12 @@ namespace GameLibrary
 	}
 	
 	template<typename T>
+	void Number::Derived<T>::neg()
+	{
+		impl_neg();
+	}
+	
+	template<typename T>
 	Number::Base* Number::Derived<T>::toSigned() const
 	{
 		return impl_toSigned();
@@ -381,6 +586,18 @@ namespace GameLibrary
 	Number::Base* Number::Derived<T>::clone() const
 	{
 		return new Derived<T>(value);
+	}
+	
+	template<typename T>
+	bool Number::Derived<T>::isNegative() const
+	{
+		return impl_isNegative();
+	}
+	
+	template<typename T>
+	int Number::Derived<T>::compare(Number::Base* base) const
+	{
+		return impl_compare(base);
 	}
 	
 	template<typename T>
@@ -446,60 +663,11 @@ namespace GameLibrary
 		//
 	}
 	
-	Number::Number()
-		: ptr(new Derived<long long>(0LL))
-	{
-		//
-	}
-	
-	Number::Number(const Number& number)
-		: ptr(number.ptr->clone())
-	{
-		//
-	}
-	
-	Number::Number(Number&& number)
-		: ptr(number.ptr)
-	{
-		number.ptr = nullptr;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number::Number(const T& value)
 		: ptr(new Derived<T>(value))
 	{
 		//
-	}
-	
-	Number::Number(Base* base)
-		: ptr(base)
-	{
-		//
-	}
-	
-	Number::~Number()
-	{
-		if(ptr!=nullptr)
-		{
-			delete ptr;
-		}
-	}
-	
-	Number& Number::operator=(const Number& number)
-	{
-		Base* old_ptr = ptr;
-		ptr = number.ptr->clone();
-		delete old_ptr;
-		return *this;
-	}
-	
-	Number& Number::operator=(Number&& number)
-	{
-		Base* old_ptr = ptr;
-		ptr = number.ptr;
-		number.ptr = nullptr;
-		delete old_ptr;
-		return *this;
 	}
 	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
@@ -509,52 +677,6 @@ namespace GameLibrary
 		ptr = new Derived<T>(value);
 		delete old_ptr;
 		return *this;
-	}
-	
-	void Number::selectOptimalType(const Number& right)
-	{
-		size_t r_size = right.ptr->getNumberOfBytes();
-		size_t size = ptr->getNumberOfBytes();
-		bool r_fp = right.ptr->isFloatingPoint();
-		bool fp = ptr->isFloatingPoint();
-		bool r_uns = right.ptr->isUnsigned();
-		bool uns = ptr->isUnsigned();
-		if(size < r_size)
-		{
-			if(r_fp || (r_uns && fp))
-			{
-				Base* old_ptr = ptr;
-				ptr = new Derived<long double>(old_ptr->to<long double>());
-				delete old_ptr;
-			}
-			else
-			{
-				Base* old_ptr = ptr;
-				ptr = new Derived<long long>(old_ptr->to<long long>());
-				delete old_ptr;
-			}
-		}
-		else if(r_fp && !fp)
-		{
-			Base* old_ptr = ptr;
-			ptr = new Derived<long double>(old_ptr->to<long double>());
-			delete old_ptr;
-		}
-		else if(!r_uns && uns)
-		{
-			if(r_fp)
-			{
-				Base* old_ptr = ptr;
-				ptr = new Derived<long double>(old_ptr->to<long double>());
-				delete old_ptr;
-			}
-			else
-			{
-				Base* old_ptr = ptr;
-				ptr = new Derived<long long>(old_ptr->to<long long>());
-				delete old_ptr;
-			}
-		}
 	}
 	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
@@ -601,13 +723,6 @@ namespace GameLibrary
 		}
 	}
 	
-	Number& Number::operator+=(const Number& number)
-	{
-		selectOptimalType(number);
-		ptr->add(number.ptr);
-		return *this;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number& Number::operator+=(const T& value)
 	{
@@ -615,13 +730,6 @@ namespace GameLibrary
 		Base* r_base = new Derived<T>(value);
 		ptr->add(r_base);
 		delete r_base;
-		return *this;
-	}
-	
-	Number& Number::operator-=(const Number& number)
-	{
-		selectOptimalType(number);
-		ptr->subtract(number.ptr);
 		return *this;
 	}
 	
@@ -635,13 +743,6 @@ namespace GameLibrary
 		return *this;
 	}
 	
-	Number& Number::operator*=(const Number& number)
-	{
-		selectOptimalType(number);
-		ptr->multiply(number.ptr);
-		return *this;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number& Number::operator*=(const T& value)
 	{
@@ -649,13 +750,6 @@ namespace GameLibrary
 		Base* r_base = new Derived<T>(value);
 		ptr->multiply(r_base);
 		delete r_base;
-		return *this;
-	}
-	
-	Number& Number::operator/=(const Number& number)
-	{
-		selectOptimalType(number);
-		ptr->divide(number.ptr);
 		return *this;
 	}
 
@@ -669,13 +763,6 @@ namespace GameLibrary
 		return *this;
 	}
 	
-	Number& Number::operator%=(const Number& number)
-	{
-		selectOptimalType(number);
-		ptr->mod(number.ptr);
-		return *this;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number& Number::operator%=(const T& value)
 	{
@@ -684,50 +771,6 @@ namespace GameLibrary
 		ptr->mod(r_base);
 		delete r_base;
 		return *this;
-	}
-	
-	Number& Number::operator++()
-	{
-		ptr->increment();
-		return *this;
-	}
-	
-	Number& Number::operator--()
-	{
-		ptr->decrement();
-		return *this;
-	}
-	
-	Number Number::operator-() const
-	{
-		Base* base = ptr->toSigned();
-		base->neg();
-		return Number(base);
-	}
-	
-	bool Number::isBool() const
-	{
-		return ptr->isBool();
-	}
-	
-	bool Number::isIntegral() const
-	{
-		return ptr->isIntegral();
-	}
-	
-	bool Number::isFloatingPoint() const
-	{
-		return ptr->isFloatingPoint();
-	}
-	
-	bool Number::isSigned() const
-	{
-		return ptr->isSigned();
-	}
-	
-	bool Number::isUnsigned() const
-	{
-		return ptr->isUnsigned();
 	}
 	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
@@ -748,23 +791,6 @@ namespace GameLibrary
 		return ptr->check();
 	}
 	
-	String Number::toString() const
-	{
-		return ptr->toString();
-	}
-	
-	std::ostream& operator<<(std::ostream& stream, const Number& num)
-	{
-		return num.ptr->stream(stream);
-	}
-	
-	Number operator+(const Number& left, const Number& right)
-	{
-		Number newNum = left;
-		newNum += right;
-		return newNum;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number operator+(const Number& left, const T& right)
 	{
@@ -778,13 +804,6 @@ namespace GameLibrary
 	{
 		Number newNum = left;
 		newNum += right;
-		return newNum;
-	}
-	
-	Number operator-(const Number& left, const Number& right)
-	{
-		Number newNum = left;
-		newNum -= right;
 		return newNum;
 	}
 	
@@ -804,13 +823,6 @@ namespace GameLibrary
 		return newNum;
 	}
 	
-	Number operator*(const Number& left, const Number& right)
-	{
-		Number newNum = left;
-		newNum *= right;
-		return newNum;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number operator*(const Number& left, const T& right)
 	{
@@ -827,13 +839,6 @@ namespace GameLibrary
 		return newNum;
 	}
 	
-	Number operator/(const Number& left, const Number& right)
-	{
-		Number newNum = left;
-		newNum /= right;
-		return newNum;
-	}
-	
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	Number operator/(const Number& left, const T& right)
 	{
@@ -847,13 +852,6 @@ namespace GameLibrary
 	{
 		Number newNum = left;
 		newNum /= right;
-		return newNum;
-	}
-	
-	Number operator%(const Number& left, const Number& right)
-	{
-		Number newNum = left;
-		newNum %= right;
 		return newNum;
 	}
 	

@@ -44,6 +44,9 @@ namespace GameLibrary
 		
 		Number operator-() const;
 		
+		int compare(const Number&) const;
+		bool equals(const Number&) const;
+		
 		bool isBool() const;
 		bool isIntegral() const;
 		bool isFloatingPoint() const;
@@ -80,6 +83,9 @@ namespace GameLibrary
 			virtual Base* toSigned() const = 0;
 			virtual Base* clone() const = 0;
 			
+			virtual bool isNegative() const = 0;
+			virtual int compare(Base* base) const = 0;
+			
 			virtual bool isBool() const = 0;
 			virtual bool isIntegral() const = 0;
 			virtual bool isFloatingPoint() const = 0;
@@ -114,6 +120,9 @@ namespace GameLibrary
 			virtual void neg() override;
 			virtual Base* toSigned() const override;
 			virtual Base* clone() const override;
+			
+			virtual bool isNegative() const override;
+			virtual int compare(Base* base) const override;
 
 			virtual bool isBool() const override;
 			virtual bool isIntegral() const override;
@@ -181,20 +190,69 @@ namespace GameLibrary
 			void impl_decrement();
 			
 			template<typename U=T, typename std::enable_if<(std::is_signed<U>::value), std::nullptr_t>::type = nullptr>
-			void impl_neg() const;
+			void impl_neg();
 			template<typename U=T, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type = nullptr>
-			void impl_neg() const;
+			void impl_neg();
 			
 			template<typename U=T, typename std::enable_if<(std::is_signed<U>::value), std::nullptr_t>::type = nullptr>
 			Base* impl_toSigned() const;
 			template<typename U=T, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type = nullptr>
 			Base* impl_toSigned() const;
+			
+			template<typename U=T, typename std::enable_if<std::is_same<U,bool>::value, std::nullptr_t>::type = nullptr>
+			bool impl_isNegative() const;
+			template<typename U=T, typename std::enable_if<!std::is_same<U, bool>::value, std::nullptr_t>::type = nullptr>
+			bool impl_isNegative() const;
+			
+			template<typename U=T, typename std::enable_if<(std::is_floating_point<U>::value), std::nullptr_t>::type = nullptr>
+			int impl_compare(Base* base) const;
+			template<typename U=T, typename std::enable_if<(std::is_integral<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type = nullptr>
+			int impl_compare(Base* base) const;
+			template<typename U=T, typename std::enable_if<(std::is_same<U, bool>::value), std::nullptr_t>::type = nullptr>
+			int impl_compare(Base* base) const;
 		};
 		
 		Base* ptr;
 		
 		Number(Base*);
 	};
+	
+	Number operator+(const Number& left, const Number& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator+(const Number& left, const T& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator+(const T& left, const Number& right);
+	
+	Number operator-(const Number& left, const Number& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator-(const Number& left, const T& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator-(const T& left, const Number& right);
+	
+	Number operator*(const Number& left, const Number& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator*(const Number& left, const T& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator*(const T& left, const Number& right);
+	
+	Number operator/(const Number& left, const Number& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator/(const Number& left, const T& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator/(const T& left, const Number& right);
+	
+	Number operator%(const Number& left, const Number& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator%(const Number& left, const T& right);
+	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+	Number operator%(const T& left, const Number& right);
+	
+	bool operator<(const Number& left, const Number& right);
+	bool operator<=(const Number& left, const Number& right);
+	bool operator>(const Number& left, const Number& right);
+	bool operator>=(const Number& left, const Number& right);
+	bool operator==(const Number& left, const Number& right);
+	bool operator!=(const Number& left, const Number& right);
 }
 
 #include "Number.impl"

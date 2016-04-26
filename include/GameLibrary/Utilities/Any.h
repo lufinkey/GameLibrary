@@ -24,8 +24,8 @@ namespace GameLibrary
 		public:
 			T value;
 			
-			template<typename U>
-			Derived(U&& val) : value(std::forward<U>(val)) {};
+			Derived(const T& val) : value(val) {}
+			Derived(T&& val) : value(val) {}
 			virtual Base* clone() const override { return new Derived<T>(value); }
 			virtual void* getPtr() const override { return (void*)(&value); }
 			virtual String toString() const override { return Stringifier<T>().convertToString(&value); };
@@ -53,7 +53,7 @@ namespace GameLibrary
 			//
 		}
 		
-		Any(const Any& any) : ptr(any.cloneBase())
+		Any(Any& any) : ptr(any.cloneBase())
 		{
 			//
 		}
@@ -63,8 +63,18 @@ namespace GameLibrary
 			any.ptr = nullptr;
 		}
 		
+		Any(const Any& any) : ptr(any.cloneBase())
+		{
+			//
+		}
+		
+		Any(const Any&& any) : ptr(any.cloneBase())
+		{
+			//
+		}
+		
 		template<typename U>
-		Any(U&& value) : ptr(new Derived<typename std::decay<U>::type>(std::forward<U>(value)))
+		Any(U&& value) : ptr(new Derived<typename std::decay<U>::type>(value))
 		{
 			//
 		}
@@ -123,18 +133,19 @@ namespace GameLibrary
 		template<class U>
 		U& as(bool safe=true)
 		{
+			typedef typename std::decay<U>::type T;
 			if(safe)
 			{
-				Derived<typename std::decay<U>::type>* derived = dynamic_cast<Derived<typename std::decay<U>::type>*>(ptr);
+				Derived<T>* derived = dynamic_cast<Derived<T>*>(ptr);
 				if(derived==nullptr)
 				{
-					throw BadAnyCastException(typeid(U).name());
+					throw BadAnyCastException(typeid(T).name());
 				}
 				return derived->value;
 			}
 			else
 			{
-				Derived<typename std::decay<U>::type>* derived = static_cast<Derived<typename std::decay<U>::type>*>(ptr);
+				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
 				return derived->value;
 			}
 		}
@@ -142,18 +153,19 @@ namespace GameLibrary
 		template<class U>
 		const U& as(bool safe=true) const
 		{
+			typedef typename std::decay<U>::type T;
 			if(safe)
 			{
-				Derived<typename std::decay<U>::type>* derived = dynamic_cast<Derived<typename std::decay<U>::type>*>(ptr);
+				Derived<T>* derived = dynamic_cast<Derived<T>*>(ptr);
 				if(derived==nullptr)
 				{
-					throw BadAnyCastException(typeid(U).name());
+					throw BadAnyCastException(typeid(T).name());
 				}
 				return derived->value;
 			}
 			else
 			{
-				Derived<typename std::decay<U>::type>* derived = static_cast<Derived<typename std::decay<U>::type>*>(ptr);
+				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
 				return derived->value;
 			}
 		}

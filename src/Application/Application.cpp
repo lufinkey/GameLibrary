@@ -207,6 +207,7 @@ namespace GameLibrary
 
 	int Application::runMainLoop()
 	{
+		EventManager::update();
 		window->refresh();
 		
 		loadContent(window->getAssetManager());

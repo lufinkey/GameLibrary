@@ -22,6 +22,18 @@ namespace GameLibrary
 		//
 	}
 	
+	Dictionary::Dictionary(const Dictionary& dict)
+		: contents(dict.contents)
+	{
+		//
+	}
+	
+	Dictionary::Dictionary(Dictionary&& dict)
+		: contents(dict.contents)
+	{
+		//
+	}
+	
 	Dictionary::Dictionary(const ArrayList<String>& keys, const ArrayList<Any>& values)
 	{
 		for(size_t i=0; i<keys.size() && i<values.size(); i++)
