@@ -73,6 +73,7 @@
 #include "Utilities/Math.h"
 #include "Utilities/Number.h"
 #include "Utilities/PlatformChecks.h"
+#include "Utilities/Plist.h"
 #include "Utilities/String.h"
 #include "Utilities/Thread.h"
 #include "Utilities/Font/Font.h"

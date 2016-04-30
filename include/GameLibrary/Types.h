@@ -90,12 +90,15 @@ namespace GameLibrary
 	class Any;
 	template<typename T>
 	class ArrayList;
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	class BasicDictionary;
 	template<typename CHAR_TYPE>
 	class BasicString;
 	class Data;
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	class BasicDictionary;
 	class Math;
+	template<typename T1, typename T2>
+	class Pair;
+	class Plist;
 	class Number;
 	class Thread;
 	
