@@ -171,12 +171,12 @@ namespace GameLibrary
 				if(pair.second.is<Dictionary>())
 				{
 					const Dictionary& ruleData = pair.second.as<const Dictionary&>(false);
-					Any value_any = ruleData.get("value");
-					Any valueType_any = ruleData.get("valueType");
+					Any value_any = ruleData.get("value", Any());
 					if(!value_any.empty() && value_any.is<Number>())
 					{
 						double value = value_any.as<Number>(false).toArithmeticValue<double>();
 						LayoutValueType valueType = LAYOUTVALUE_PIXEL;
+						Any valueType_any = ruleData.get("valueType", Any());
 						if(!valueType_any.empty() && valueType_any.is<String>())
 						{
 							String valueType_str = valueType_any.as<String>(false);

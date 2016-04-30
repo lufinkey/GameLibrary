@@ -326,7 +326,6 @@ namespace GameLibrary
 	#endif
 	
 	
-	
 	template<typename CHAR_TYPE>
 	class BasicString
 	{
@@ -341,6 +340,7 @@ namespace GameLibrary
 		static constexpr size_t NOT_FOUND = (size_t)-1;
 		
 		static size_t strlen(const CHAR_TYPE* str);
+		static bool streq(const CHAR_TYPE* left, const CHAR_TYPE* right);
 		
 		BasicString();
 		BasicString(const CHAR_TYPE* str, size_t length);
@@ -681,6 +681,22 @@ namespace GameLibrary
 		};
 		
 		static SymbolType getSymbolType(const CHAR_TYPE& c, const std::locale& locale = std::locale());
+	};
+	
+	template<typename BASICSTRING_TYPE, typename CHAR_TYPE = typename BASICSTRING_TYPE::char_type,
+		bool CHECK = std::is_same<BASICSTRING_TYPE, BasicString<CHAR_TYPE> >::value>
+	struct is_BasicString
+	{
+		static constexpr bool value = false;
+	};
+	
+	template<typename BASICSTRING_TYPE, typename CHAR_TYPE>
+	struct is_BasicString<BASICSTRING_TYPE, CHAR_TYPE, true>
+	{
+		static constexpr bool value = true;
+		typedef CHAR_TYPE char_type;
+		typedef BasicString<CHAR_TYPE> string_type;
+		typedef std::nullptr_t null_type;
 	};
 	
 	

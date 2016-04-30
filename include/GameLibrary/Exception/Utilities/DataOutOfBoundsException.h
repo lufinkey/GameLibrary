@@ -5,7 +5,7 @@
 
 namespace GameLibrary
 {
-	/*! Thrown to indicate that an index to a DataPacket was out of bounds*/
+	/*! Thrown to indicate that an index to a Data object was out of bounds*/
 	class DataOutOfBoundsException : public OutOfBoundsException
 	{
 	public:
@@ -14,9 +14,9 @@ namespace GameLibrary
 		/*! The size of the DataPacket*/
 		size_t size;
 		
-		/*! Constructs an exception with a DataPacket index and size.
-			\param index the index in the DataPacket
-			\param size the size of the DataPacket*/
+		/*! Constructs an exception with a Data index and size.
+			\param index the index in the Data object
+			\param size the size of the Data object*/
 		DataOutOfBoundsException(size_t index, size_t size);
 		
 		/*! \copydoc GameLibrary::Exception::getClassName()const*/

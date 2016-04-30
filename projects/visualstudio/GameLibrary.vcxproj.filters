@@ -702,6 +702,15 @@
     <ClInclude Include="..\..\external\SDL\include\SDL\SDL_video.h">
       <Filter>external\SDL\include\SDL</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\NotImplementedException.h">
+      <Filter>include\GameLibrary\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Plist.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\DictionaryKeyNotFoundException.h">
+      <Filter>include\GameLibrary\Exception\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -866,9 +875,6 @@
     <ClCompile Include="..\..\src\Screen\UI\ZoomPanElement.cpp">
       <Filter>src\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Dictionary.cpp">
-      <Filter>src\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Utilities\Math.cpp">
       <Filter>src\Utilities</Filter>
     </ClCompile>
@@ -926,9 +932,21 @@
     <ClCompile Include="..\..\src\Utilities\Number.cpp">
       <Filter>src\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Exception\NotImplementedException.cpp">
+      <Filter>src\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Plist.cpp">
+      <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Exception\Utilities\DictionaryKeyNotFoundException.cpp">
+      <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\GameLibrary\Utilities\Number.impl">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </None>
+    <None Include="..\..\include\GameLibrary\Utilities\Dictionary.impl">
       <Filter>include\GameLibrary\Utilities</Filter>
     </None>
   </ItemGroup>

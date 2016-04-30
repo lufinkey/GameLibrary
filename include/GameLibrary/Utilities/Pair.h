@@ -21,12 +21,12 @@ namespace GameLibrary
 			//
 		}
 		
-		Pair(const T1& v1, const T2& v2) : first(v1), second(v2)
+		Pair(T1&& v1, T2&& v2) : first(v1), second(v2)
 		{
 			//
 		}
 		
-		Pair(const pair_type& p) : first(p.first), second(p.second)
+		Pair(const T1& v1, const T2& v2) : first(v1), second(v2)
 		{
 			//
 		}
@@ -36,6 +36,25 @@ namespace GameLibrary
 			//
 		}
 		
+		Pair(const pair_type& p) : first(p.first), second(p.second)
+		{
+			//
+		}
+		
+		template<typename U1, typename U2>
+		explicit Pair(const Pair<U1, U2>& p)
+			: first((T1)p.first), second((T2)p.second)
+		{
+			//
+		}
+		
+		pair_type& operator=(pair_type&& p)
+		{
+			first = p.first;
+			second = p.second;
+			return *this;
+		}
+		
 		pair_type& operator=(const pair_type& p)
 		{
 			first = p.first;
@@ -43,11 +62,11 @@ namespace GameLibrary
 			return *this;
 		}
 		
-		template<class Other1, class Other2>
-		pair_type& operator=(const Pair<Other1, Other2>& p)
+		template<class U1, class U2>
+		pair_type& operator=(const Pair<U1, U2>& p)
 		{
-			first = p.first;
-			second = p.second;
+			first = (T1)p.first;
+			second = (T2)p.second;
 			return *this;
 		}
 		

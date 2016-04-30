@@ -123,6 +123,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Exception\IllegalArgumentException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\IllegalStateException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\InitializeLibraryException.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Exception\NotImplementedException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\NumberFormatException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\OutOfBoundsException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Screen\ScreenNavigationException.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\BadAnyCastException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\BadNumberCastException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\DataOutOfBoundsException.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\DictionaryKeyNotFoundException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\Font\RenderGlyphException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\IllegalNumberOperationException.h" />
     <ClInclude Include="..\..\include\GameLibrary\Exception\Utilities\StringOutOfBoundsException.h" />
@@ -183,6 +185,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Pair.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\PlatformChecks.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Plist.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\String.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Stringifier.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Thread.h" />
@@ -221,6 +224,7 @@
     <ClCompile Include="..\..\src\Exception\IllegalArgumentException.cpp" />
     <ClCompile Include="..\..\src\Exception\IllegalStateException.cpp" />
     <ClCompile Include="..\..\src\Exception\InitializeLibraryException.cpp" />
+    <ClCompile Include="..\..\src\Exception\NotImplementedException.cpp" />
     <ClCompile Include="..\..\src\Exception\NumberFormatException.cpp" />
     <ClCompile Include="..\..\src\Exception\OutOfBoundsException.cpp" />
     <ClCompile Include="..\..\src\Exception\Screen\ScreenNavigationException.cpp" />
@@ -228,6 +232,7 @@
     <ClCompile Include="..\..\src\Exception\Utilities\BadAnyCastException.cpp" />
     <ClCompile Include="..\..\src\Exception\Utilities\BadNumberCastException.cpp" />
     <ClCompile Include="..\..\src\Exception\Utilities\DataOutOfBoundsException.cpp" />
+    <ClCompile Include="..\..\src\Exception\Utilities\DictionaryKeyNotFoundException.cpp" />
     <ClCompile Include="..\..\src\Exception\Utilities\Font\RenderGlyphException.cpp" />
     <ClCompile Include="..\..\src\Exception\Utilities\IllegalNumberOperationException.cpp" />
     <ClCompile Include="..\..\src\Exception\Utilities\StringOutOfBoundsException.cpp" />
@@ -259,11 +264,11 @@
     <ClCompile Include="..\..\src\Screen\UI\TouchElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\ZoomPanElement.cpp" />
     <ClCompile Include="..\..\src\Utilities\Data.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Dictionary.cpp" />
     <ClCompile Include="..\..\src\Utilities\Font\Font.cpp" />
     <ClCompile Include="..\..\src\Utilities\Font\RenderedGlyphContainer.cpp" />
     <ClCompile Include="..\..\src\Utilities\Math.cpp" />
     <ClCompile Include="..\..\src\Utilities\Number.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Plist.cpp" />
     <ClCompile Include="..\..\src\Utilities\Stringifier.cpp" />
     <ClCompile Include="..\..\src\Utilities\Thread.cpp" />
     <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp" />
@@ -275,6 +280,7 @@
     <ClCompile Include="..\..\src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\include\GameLibrary\Utilities\Dictionary.impl" />
     <None Include="..\..\include\GameLibrary\Utilities\Number.impl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

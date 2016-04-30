@@ -18,6 +18,7 @@
 #include "Exception/BadCastException.h"
 #include "Exception/IllegalArgumentException.h"
 #include "Exception/IllegalStateException.h"
+#include "Exception/NotImplementedException.h"
 #include "Exception/NumberFormatException.h"
 #include "Exception/OutOfBoundsException.h"
 #include "Exception/Graphics/ImageOutOfBoundsException.h"
@@ -28,6 +29,8 @@
 #include "Exception/Utilities/ArrayListOutOfBoundsException.h"
 #include "Exception/Utilities/BadAnyCastException.h"
 #include "Exception/Utilities/DataOutOfBoundsException.h"
+#include "Exception/Utilities/DictionaryKeyNotFoundException.h"
+#include "Exception/Utilities/IllegalNumberOperationException.h"
 #include "Exception/Utilities/StringOutOfBoundsException.h"
 #include "Exception/Utilities/Font/RenderGlyphException.h"
 

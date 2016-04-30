@@ -4,6 +4,7 @@
 #include <array>
 #include <climits>
 #include <initializer_list>
+#include <type_traits>
 #include <vector>
 
 #ifdef _ARRAYLIST_STANDALONE
@@ -24,6 +25,7 @@ namespace GameLibrary
 		
 	public:
 		static constexpr size_t NOT_FOUND = (size_t)-1;
+		typedef T value_type;
 		
 		ArrayList()
 		{
@@ -282,6 +284,23 @@ namespace GameLibrary
 			return str;
 		}
 	};
+	
+	template<typename ARRAYLIST_TYPE, typename VALUE_TYPE = typename ARRAYLIST_TYPE::value_type,
+		bool CHECK = std::is_same<ARRAYLIST_TYPE, ArrayList<VALUE_TYPE> >::value>
+	struct is_ArrayList
+	{
+		static constexpr bool value = false;
+	};
+	
+	template<typename ARRAYLIST_TYPE, typename VALUE_TYPE>
+	struct is_ArrayList<ARRAYLIST_TYPE, VALUE_TYPE, true>
+	{
+		static constexpr bool value = true;
+		typedef VALUE_TYPE value_type;
+		typedef ArrayList<VALUE_TYPE> arraylist_type;
+		typedef std::nullptr_t null_type;
+	};
+	
 #ifndef _ARRAYLIST_STANDALONE
 }
 #endif

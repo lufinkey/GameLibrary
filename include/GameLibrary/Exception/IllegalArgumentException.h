@@ -12,8 +12,10 @@ namespace GameLibrary
 		/*! The parameter name of the argument that was "illegal"*/
 		String argument;
 		
-		/*! \copydoc GameLibrary::Exception::Exception(const GameLibrary::String&)*/
-		IllegalArgumentException(const String&argument, const String&reason);
+		/*! Constructs an exception with the name of the illegal argument and the reason it was illegal
+			\param argument the name of the illegal parameter
+			\param reason the reason the parameter was illegal*/
+		IllegalArgumentException(const String& argument, const String& reason);
 		
 		/*! \copydoc GameLibrary::Exception::getClassName()const*/
 		virtual String getClassName() const override;

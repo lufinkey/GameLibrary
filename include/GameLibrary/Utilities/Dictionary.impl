@@ -1,0 +1,312 @@
+
+#pragma once
+
+#include <cstdio>
+#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.h>
+
+namespace GameLibrary
+{
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::ValueProxy(ValueProxy&& valueProxy)
+		: key(valueProxy.key),
+		dictionary(valueProxy.dictionary)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::ValueProxy(const KEY_TYPE& key, BasicDictionary<KEY_TYPE, VALUE_TYPE>& dictionary)
+		: key(key),
+		dictionary(dictionary)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE& value)
+	{
+		return dictionary.set(key, value);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE&& value)
+	{
+		return dictionary.set(key, value);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE& value)
+	{
+		return dictionary.set(key, value);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE&& value)
+	{
+		return dictionary.set(key, value);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator VALUE_TYPE&()
+	{
+		return dictionary.get(key);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary()
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const BasicDictionary<KEY_TYPE, VALUE_TYPE>& dict)
+		: contents(dict.contents)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(BasicDictionary<KEY_TYPE, VALUE_TYPE>&& dict)
+		: contents(dict.contents)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values)
+	{
+		size_t keys_size = keys.size();
+		size_t values_size = values.size();
+		if(keys_size != values_size)
+		{
+			throw IllegalArgumentException("values", "size of values does not match size of keys");
+		}
+		contents.resize(keys_size);
+		for(size_t i=0; i<keys_size; i++)
+		{
+			Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
+			pair.first = keys[i];
+			pair.second = keys[i];
+		}
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents)
+		: contents(contents)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents)
+		: contents(contents)
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::~BasicDictionary()
+	{
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE& value)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			index = contents.size();
+			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+		}
+		else
+		{
+			contents[index].second = value;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE&& value)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			index = contents.size();
+			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+		}
+		else
+		{
+			contents[index].second = value;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE& value)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			index = contents.size();
+			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+		}
+		else
+		{
+			contents[index].second = value;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE&& value)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			index = contents.size();
+			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+		}
+		else
+		{
+			contents[index].second = value;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			throw DictionaryKeyNotFoundException(Stringifier<KEY_TYPE>().convertToString(&key));
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key) const
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			throw DictionaryKeyNotFoundException(Stringifier<KEY_TYPE>().convertToString(&key));
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, VALUE_TYPE& defaultValue)
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			return defaultValue;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const
+	{
+		size_t index = indexOfKey(key);
+		if(index==(size_t)-1)
+		{
+			return defaultValue;
+		}
+		return contents[index].second;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy BasicDictionary<KEY_TYPE, VALUE_TYPE>::operator[](const KEY_TYPE& key)
+	{
+		return ValueProxy(key, *this);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::operator[](const KEY_TYPE& key) const
+	{
+		return get(key);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	ArrayList<KEY_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getKeys() const
+	{
+		ArrayList<KEY_TYPE> keys;
+		size_t contents_size = contents.size();
+		keys.resize(contents_size);
+		for(size_t i=0; i<contents_size; i++)
+		{
+			keys[i] = contents[i].first;
+		}
+		return keys;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	ArrayList<VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getValues() const
+	{
+		ArrayList<KEY_TYPE> values;
+		size_t contents_size = contents.size();
+		values.resize(contents_size);
+		for(size_t i=0; i<contents_size; i++)
+		{
+			values[i] = contents[i].first;
+		}
+		return values;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getContents() const
+	{
+		return contents;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::size() const
+	{
+		return contents.size();
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::clear()
+	{
+		contents.clear();
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::reserve(size_t size)
+	{
+		contents.reserve(size);
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const
+	{
+		String str = (String)"BasicDictionary<" + typeid(KEY_TYPE).name() + "," + typeid(VALUE_TYPE).name() + ">( ";
+		Stringifier<KEY_TYPE> keyStringifier;
+		Stringifier<VALUE_TYPE> valueStringifier;
+		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
+		{
+			const Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
+			str += "(" + keyStringifier.convertToString(&pair.first) + ") => ";
+			str += "(" + valueStringifier.convertToString(&pair.second) + ") ";
+		}
+		str += ")";
+		return str;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::indexOfKey(const KEY_TYPE& key) const
+	{
+		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
+		{
+			if(contents[i].first == key)
+			{
+				return i;
+			}
+		}
+		return (size_t)-1;
+	}
+}

@@ -29,6 +29,27 @@ namespace GameLibrary
 		}
 		return size;
 	}
+	
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::streq(const CHAR_TYPE* left, const CHAR_TYPE* right)
+	{
+		size_t counter = 0;
+		do
+		{
+			const CHAR_TYPE& c1 = left[counter];
+			const CHAR_TYPE& c2 = right[counter];
+			if(c1!=c2)
+			{
+				return false;
+			}
+			if(c1==NULLCHAR)
+			{
+				return true;
+			}
+			counter++;
+		}
+		while(true);
+	}
 
 	template<typename CHAR_TYPE>
 	BasicString<CHAR_TYPE>::BasicString()

@@ -28,13 +28,16 @@ namespace GameLibrary
 			class BadNumberCastException;
 		class IllegalArgumentException;
 			class NumberFormatException;
+		class IllegalNumberOperationException;
 		class IllegalStateException;
 		class InitializeLibraryException;
+		class NotImplementedException;
 		class OutOfBoundsException;
 			class ArrayListOutOfBoundsException;
 			class BitListOutOfBoundsException;
 			class BitSetOutOfBoundsException;
 			class DataOutOfBoundsException;
+			class DictionaryKeyNotFoundException;
 			class ImageOutOfBoundsException;
 			class StringOutOfBoundsException;
 		class RenderGlyphException;
@@ -90,7 +93,8 @@ namespace GameLibrary
 	template<typename CHAR_TYPE>
 	class BasicString;
 	class Data;
-	class Dictionary;
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	class BasicDictionary;
 	class Math;
 	class Number;
 	class Thread;

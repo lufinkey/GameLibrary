@@ -7,44 +7,77 @@
 #include "Pair.h"
 #include "String.h"
 
-//Dictionary loading and saving code adapted from PlistCpp. https://github.com/animetrics/PlistCpp
-//All credit goes to animetrics
-
 namespace GameLibrary
 {
-	class DictionaryProfile;
-	
-	class Dictionary
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	class BasicDictionary
 	{
-	private:
-		ArrayList<Pair<String, Any> > contents;
-		
 	public:
-		Dictionary();
-		Dictionary(const Dictionary&);
-		Dictionary(Dictionary&&);
-		Dictionary(const ArrayList<String>& keys, const ArrayList<Any>& values);
-		~Dictionary();
+		typedef KEY_TYPE key_type;
+		typedef VALUE_TYPE value_type;
+		typedef BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary_type;
 		
-		Any& set(const String& key, const Any& value);
-		Any& get(const String& key);
-		const Any& get(const String& key) const;
-		bool has(const String& key) const;
+		class ValueProxy
+		{
+			friend class BasicDictionary<KEY_TYPE, VALUE_TYPE>;
+		public:
+			ValueProxy() = delete;
+			ValueProxy(const ValueProxy&) = delete;
+			ValueProxy& operator=(const ValueProxy&) = delete;
+			
+			VALUE_TYPE& operator=(VALUE_TYPE&);
+			VALUE_TYPE& operator=(VALUE_TYPE&&);
+			VALUE_TYPE& operator=(const VALUE_TYPE&);
+			VALUE_TYPE& operator=(const VALUE_TYPE&&);
+			
+			operator VALUE_TYPE&();
+			
+		private:
+			KEY_TYPE key;
+			BasicDictionary<KEY_TYPE, VALUE_TYPE>& dictionary;
+			
+			ValueProxy(ValueProxy&&);
+			ValueProxy(const KEY_TYPE& key, BasicDictionary<KEY_TYPE, VALUE_TYPE>& dictionary);
+		};
 		
-		ArrayList<String> getKeys() const;
-		ArrayList<Any> getValues() const;
-		const ArrayList<Pair<String, Any> >& getContents() const;
+		BasicDictionary();
+		BasicDictionary(const BasicDictionary&);
+		BasicDictionary(BasicDictionary&&);
+		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
+		BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents);
+		BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents);
+		~BasicDictionary();
 		
-		void clear();
+		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE& value);
+		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE&& value);
+		VALUE_TYPE& set(const KEY_TYPE& key, const VALUE_TYPE& value);
+		VALUE_TYPE& set(const KEY_TYPE& key, const VALUE_TYPE&& value);
+		
+		VALUE_TYPE& get(const KEY_TYPE& key);
+		const VALUE_TYPE& get(const KEY_TYPE& key) const;
+		VALUE_TYPE& get(const KEY_TYPE& key, VALUE_TYPE& defaultValue);
+		const VALUE_TYPE& get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const;
+		
+		ValueProxy operator[](const KEY_TYPE& key);
+		const VALUE_TYPE& operator[](const KEY_TYPE& key) const;
+		
+		ArrayList<KEY_TYPE> getKeys() const;
+		ArrayList<VALUE_TYPE> getValues() const;
+		const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& getContents() const;
+		
 		size_t size() const;
+		void clear();
+		void reserve(size_t size);
 		
-		bool loadFromFile(const String& path, String* error=nullptr);
-		bool loadFromData(const Data& data, String* error=nullptr);
-		bool loadFromPointer(const void* ptr, size_t size, String* error=nullptr);
-		bool loadFromString(const String& string, String* error=nullptr);
-		bool saveToFile(const String& path, String* error=nullptr);
-		
-		String toJSON() const;
 		String toString() const;
+		
+	private:
+		ArrayList<Pair<KEY_TYPE, VALUE_TYPE> > contents;
+		
+		size_t indexOfKey(const KEY_TYPE& key) const;
 	};
+	
+	typedef BasicDictionary<String, Any> Dictionary;
 }
+
+#include "Dictionary.impl"

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <typeinfo>
 #include <GameLibrary/Exception/Utilities/BadAnyCastException.h>
 #include "Stringifier.h"
 
@@ -16,6 +17,7 @@ namespace GameLibrary
 			virtual Base* clone() const = 0;
 			virtual void* getPtr() const = 0;
 			virtual String toString() const = 0;
+			virtual const std::type_info& getTypeInfo() const = 0;
 		};
 		
 		template<typename T>
@@ -28,7 +30,8 @@ namespace GameLibrary
 			Derived(T&& val) : value(val) {}
 			virtual Base* clone() const override { return new Derived<T>(value); }
 			virtual void* getPtr() const override { return (void*)(&value); }
-			virtual String toString() const override { return Stringifier<T>().convertToString(&value); };
+			virtual String toString() const override { return Stringifier<T>().convertToString(&value); }
+			virtual const std::type_info& getTypeInfo() const override { return typeid(T); }
 		};
 		
 		Base* cloneBase() const
@@ -134,6 +137,10 @@ namespace GameLibrary
 		U& as(bool safe=true)
 		{
 			typedef typename std::decay<U>::type T;
+			if(ptr==nullptr)
+			{
+				throw BadAnyCastException(typeid(T).name());
+			}
 			if(safe)
 			{
 				Derived<T>* derived = dynamic_cast<Derived<T>*>(ptr);
@@ -173,7 +180,16 @@ namespace GameLibrary
 		template<class U>
 		bool is() const
 		{
-			return (dynamic_cast<Derived<typename std::decay<U>::type>*>(ptr)!=nullptr);
+			typedef typename std::decay<U>::type T;
+			if(ptr==nullptr)
+			{
+				return false;
+			}
+			if(typeid(T).hash_code()==ptr->getTypeInfo().hash_code())
+			{
+				return true;
+			}
+			return false;
 		}
 		
 		template<class U>
@@ -209,6 +225,15 @@ namespace GameLibrary
 				return "";
 			}
 			return ptr->toString();
+		}
+		
+		const std::type_info& getTypeInfo() const
+		{
+			if(ptr==nullptr)
+			{
+				return typeid(std::nullptr_t);
+			}
+			return ptr->getTypeInfo();
 		}
 	};
 }
