@@ -323,12 +323,12 @@ namespace GameLibrary
 		if(String::streq(nodeName, "dict"))
 		{
 			*dst = Plist::dict();
-			return Plist_parseDictionary(&dst->as<Plist::dict>(false), ptr, node, error);
+			return Plist_parseDictionary(&dst->as<Plist::dict>(), ptr, node, error);
 		}
 		else if(String::streq(nodeName, "array"))
 		{
 			*dst = Plist::array();
-			return Plist_parseArray(&dst->as<Plist::array>(false), ptr, node, error);
+			return Plist_parseArray(&dst->as<Plist::array>(), ptr, node, error);
 		}
 		else if(String::streq(nodeName, "string"))
 		{
@@ -353,7 +353,7 @@ namespace GameLibrary
 		else if(String::streq(nodeName, "data"))
 		{
 			*dst = Plist::date();
-			return Plist_parseDate(&dst->as<Plist::date>(false), ptr, node, error);
+			return Plist_parseDate(&dst->as<Plist::date>(), ptr, node, error);
 		}
 		else if(String::streq(nodeName, "integer"))
 		{
@@ -556,38 +556,37 @@ namespace GameLibrary
 	
 	bool Plist_write(const Any& src, pugi::xml_node& node, String* error)
 	{
-		const std::type_info& typeinfo = src.getTypeInfo();
-		if(typeinfo==typeid(Plist::dict))
+		if(src.is<Plist::dict>())
 		{
-			const Plist::dict& dict = src.as<Plist::dict>(false);
+			const Plist::dict& dict = src.as<Plist::dict>();
 			return Plist_writeDictionary(dict, node, error);
 		}
-		if(typeinfo==typeid(Plist::array))
+		else if(src.is<Plist::array>())
 		{
-			const Plist::array& array = src.as<Plist::array>(false);
+			const Plist::array& array = src.as<Plist::array>();
 			return Plist_writeArray(array, node, error);
 		}
-		else if(typeinfo==typeid(Plist::string))
+		else if(src.is<Plist::string>())
 		{
-			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<Plist::string>(false));
+			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<Plist::string>());
 			return true;
 		}
-		else if(typeinfo==typeid(Plist::data))
+		else if(src.is<Plist::data>())
 		{
-			const Plist::data& data = src.as<Plist::data>(false);
+			const Plist::data& data = src.as<Plist::data>();
 			std::string encoded_str;
 			Plist_base64Encode(encoded_str, data);
 			node.append_child("data").append_child(pugi::node_pcdata).set_value(encoded_str.c_str());
 			return true;
 		}
-		else if(typeinfo==typeid(Plist::date))
+		else if(src.is<Plist::date>())
 		{
-			node.append_child("date").append_child(pugi::node_pcdata).set_value(src.as<Plist::date>(false).toISO8601String());
+			node.append_child("date").append_child(pugi::node_pcdata).set_value(src.as<Plist::date>().toISO8601String());
 			return true;
 		}
-		else if(typeinfo==typeid(Number)) //Plist::integer, Plist::real, Plist::boolean
+		else if(src.is<Number>()) //Plist::integer, Plist::real, Plist::boolean
 		{
-			const Number& number = src.as<Number>(false);
+			const Number& number = src.as<Number>();
 			if(number.isBool())
 			{
 				bool val = number.toArithmeticValue<bool>();
@@ -612,59 +611,59 @@ namespace GameLibrary
 				return true;
 			}
 		}
-		else if(typeinfo==typeid(WideString))
+		else if(src.is<WideString>())
 		{
-			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<WideString>(false).toBasicString<char>());
+			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<WideString>().toBasicString<char>());
 			return true;
 		}
-		else if(typeinfo==typeid(std::string))
+		else if(src.is<std::string>())
 		{
-			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<std::string>(false).c_str());
+			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<std::string>().c_str());
 			return true;
 		}
-		else if(typeinfo==typeid(const char*))
+		else if(src.is<const char*>())
 		{
-			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<const char*>(false));
+			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<const char*>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Int64))
+		else if(src.is<GameLibrary::Int64>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int64>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int64>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Int32))
+		else if(src.is<GameLibrary::Int32>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int32>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int32>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Int16))
+		else if(src.is<GameLibrary::Int16>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int16>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int16>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Int8))
+		else if(src.is<GameLibrary::Int8>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int8>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int8>());
 			return true;
 		}
-		else if(typeinfo==typeid(long double))
+		else if(src.is<long double>())
 		{
-			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<long double>(false));
+			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<long double>());
 			return true;
 		}
-		else if(typeinfo==typeid(double))
+		else if(src.is<double>())
 		{
-			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<double>(false));
+			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<double>());
 			return true;
 		}
-		else if(typeinfo==typeid(float))
+		else if(src.is<float>())
 		{
-			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<float>(false));
+			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<float>());
 			return true;
 		}
-		else if(typeinfo==typeid(bool))
+		else if(src.is<bool>())
 		{
-			bool val = src.as<bool>(false);
+			bool val = src.as<bool>();
 			if(val)
 			{
 				node.append_child("true");
@@ -675,24 +674,24 @@ namespace GameLibrary
 			}
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Uint64))
+		else if(src.is<GameLibrary::Uint64>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint64>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint64>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Uint32))
+		else if(src.is<GameLibrary::Uint32>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint32>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint32>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Uint16))
+		else if(src.is<GameLibrary::Uint16>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint16>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint16>());
 			return true;
 		}
-		else if(typeinfo==typeid(GameLibrary::Uint8))
+		else if(src.is<GameLibrary::Uint8>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint8>(false));
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint8>());
 			return true;
 		}
 		else
