@@ -72,7 +72,7 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			return "Pair( " + Stringifier<T1>().convertToString(&first) + ", " + Stringifier<T2>().convertToString(&second) + " )";
+			return "Pair( " + GameLibrary::stringify<T1>(first) + ", " + GameLibrary::stringify<T2>(second) + " )";
 		}
 	};
 }

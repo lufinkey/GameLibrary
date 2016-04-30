@@ -105,6 +105,20 @@ namespace GameLibrary
 			static constexpr bool value = false;
 		};
 		
+		template<typename T, bool CHAR_TYPE = is_char_type<T>::value>
+		struct is_not_char_type
+		{
+			static constexpr bool value = false;
+		};
+		
+		template<typename T>
+		struct is_not_char_type<T, true>
+		{
+			static constexpr bool value = true;
+			typedef T type;
+			typedef std::nullptr_t null_type;
+		};
+		
 		template<typename T1, typename T2,
 			bool TEST = (!is_same<T1, T2>::value && same_size<T1,T2>::value && can_convert_string_types<T1, T2>::value)>
 		struct same_size_convertable_strings
@@ -317,12 +331,12 @@ namespace GameLibrary
 		static void string_plus(const std::basic_string<CHAR_TYPE>& left, const BasicString<OTHER_CHAR_TYPE>& right, BasicString<CHAR_TYPE>* output);
 	};
 	
-	template<> struct BasicStringUtils::is_char_type<char> { static constexpr bool value = true; };
-	template<> struct BasicStringUtils::is_char_type<wchar_t> { static constexpr bool value = true; };
-	template<> struct BasicStringUtils::is_char_type<char16_t> { static constexpr bool value = true; };
-	template<> struct BasicStringUtils::is_char_type<char32_t> { static constexpr bool value = true; };
+	template<> struct BasicStringUtils::is_char_type<char> { static constexpr bool value = true; typedef char type; typedef std::nullptr_t null_type; };
+	template<> struct BasicStringUtils::is_char_type<wchar_t> { static constexpr bool value = true; typedef wchar_t type; typedef std::nullptr_t null_type; };
+	template<> struct BasicStringUtils::is_char_type<char16_t> { static constexpr bool value = true;  typedef char16_t type; typedef std::nullptr_t null_type; };
+	template<> struct BasicStringUtils::is_char_type<char32_t> { static constexpr bool value = true;  typedef char32_t type; typedef std::nullptr_t null_type; };
 	#ifdef __OBJC__
-	template<> struct BasicStringUtils::is_char_type<unichar> { static constexpr bool value = true; };
+		template<> struct BasicStringUtils::is_char_type<unichar> { static constexpr bool value = true; typedef unichar type; typedef std::nullptr_t null_type; };
 	#endif
 	
 	
@@ -431,6 +445,10 @@ namespace GameLibrary
 		
 		template<typename SOME_CHAR_TYPE, typename BasicStringUtils::can_convert_string_types<CHAR_TYPE, SOME_CHAR_TYPE>::null_type = nullptr>
 		BasicString<SOME_CHAR_TYPE> toBasicString() const;
+		template<typename _CHAR_TYPE=CHAR_TYPE,
+			typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type = nullptr,
+			typename BasicStringUtils::can_convert_string_type<CHAR_TYPE>::null_type = nullptr>
+		BasicString<char> toString() const;
 		
 		
 		

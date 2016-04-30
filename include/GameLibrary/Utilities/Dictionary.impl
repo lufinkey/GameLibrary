@@ -181,7 +181,7 @@ namespace GameLibrary
 		size_t index = indexOfKey(key);
 		if(index==(size_t)-1)
 		{
-			throw DictionaryKeyNotFoundException(Stringifier<KEY_TYPE>().convertToString(&key));
+			throw DictionaryKeyNotFoundException(GameLibrary::stringify<KEY_TYPE>(key));
 		}
 		return contents[index].second;
 	}
@@ -192,7 +192,7 @@ namespace GameLibrary
 		size_t index = indexOfKey(key);
 		if(index==(size_t)-1)
 		{
-			throw DictionaryKeyNotFoundException(Stringifier<KEY_TYPE>().convertToString(&key));
+			throw DictionaryKeyNotFoundException(GameLibrary::stringify<KEY_TYPE>(key));
 		}
 		return contents[index].second;
 	}
@@ -285,13 +285,11 @@ namespace GameLibrary
 	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const
 	{
 		String str = (String)"BasicDictionary<" + typeid(KEY_TYPE).name() + "," + typeid(VALUE_TYPE).name() + ">( ";
-		Stringifier<KEY_TYPE> keyStringifier;
-		Stringifier<VALUE_TYPE> valueStringifier;
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
 			const Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
-			str += "(" + keyStringifier.convertToString(&pair.first) + ") => ";
-			str += "(" + valueStringifier.convertToString(&pair.second) + ") ";
+			str += "(" + GameLibrary::stringify<KEY_TYPE>(pair.first) + ") => ";
+			str += "(" + GameLibrary::stringify<VALUE_TYPE>(pair.second) + ") ";
 		}
 		str += ")";
 		return str;

@@ -34,8 +34,7 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			Stringifier<T> stringifier;
-			return "Circle(x:" + stringifier.convertToString(&x) + ", y:" + stringifier.convertToString(&y) + ", radius:" + stringifier.convertToString(&radius) + ")";
+			return "Circle(x:" + GameLibrary::stringify<T>(x) + ", y:" + GameLibrary::stringify<T>(y) + ", radius:" + GameLibrary::stringify<T>(radius) + ")";
 		}
 	};
 	

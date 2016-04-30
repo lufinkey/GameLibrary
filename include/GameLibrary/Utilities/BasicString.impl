@@ -390,6 +390,15 @@ namespace GameLibrary
 	}
 	
 	template<typename CHAR_TYPE>
+	template<typename _CHAR_TYPE,
+		typename BasicStringUtils::is_same<_CHAR_TYPE, CHAR_TYPE>::null_type,
+		typename BasicStringUtils::can_convert_string_type<CHAR_TYPE>::null_type>
+	BasicString<char> BasicString<CHAR_TYPE>::toString() const
+	{
+		return BasicString<char>((const CHAR_TYPE*)characters, size);
+	}
+	
+	template<typename CHAR_TYPE>
 	void BasicString<CHAR_TYPE>::assign(const CHAR_TYPE* str, size_t length)
 	{
 		size_t size_new = length;

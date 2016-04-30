@@ -30,7 +30,7 @@ namespace GameLibrary
 			Derived(T&& val) : value(val) {}
 			virtual Base* clone() const override { return new Derived<T>(value); }
 			virtual void* getPtr() const override { return (void*)(&value); }
-			virtual String toString() const override { return Stringifier<T>().convertToString(&value); }
+			virtual String toString() const override { return GameLibrary::stringify<T>(value); }
 			virtual const std::type_info& getTypeInfo() const override { return typeid(T); }
 		};
 		

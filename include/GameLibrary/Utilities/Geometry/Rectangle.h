@@ -311,9 +311,8 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			Stringifier<T> stringifier;
-			return "Rectangle(x:"+stringifier.convertToString(&x)+", y:"+stringifier.convertToString(&y)+
-				", width:"+stringifier.convertToString(&width)+", height:"+stringifier.convertToString(&height)+")";
+			return "Rectangle(x:"+GameLibrary::stringify<T>(x)+", y:"+GameLibrary::stringify<T>(y)+
+				", width:"+GameLibrary::stringify<T>(width)+", height:"+GameLibrary::stringify<T>(height)+")";
 		}
 	};
 	

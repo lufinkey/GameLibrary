@@ -271,10 +271,9 @@ namespace GameLibrary
 			String str = "[ ";
 			size_t length = objects.size();
 			size_t lastIndex = length-1;
-			Stringifier<T> stringifier;
 			for(size_t i=0; i<length; i++)
 			{
-				str += stringifier.convertToString(&objects[i]);
+				str += GameLibrary::stringify<T>(objects[i]);
 				if(i != lastIndex)
 				{
 					str += ", ";

@@ -500,7 +500,6 @@ namespace GameLibrary
 			std::string encoded_str;
 			Plist_base64Encode(encoded_str, data);
 			node.append_child("data").append_child(pugi::node_pcdata).set_value(encoded_str.c_str());
-			pugi::xml_node newNode = node.append_child("data");
 			return true;
 		}
 		else if(typehash==typeid(Plist::date).hash_code())

@@ -269,7 +269,6 @@
     <ClCompile Include="..\..\src\Utilities\Math.cpp" />
     <ClCompile Include="..\..\src\Utilities\Number.cpp" />
     <ClCompile Include="..\..\src\Utilities\Plist.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Stringifier.cpp" />
     <ClCompile Include="..\..\src\Utilities\Thread.cpp" />
     <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp" />
     <ClCompile Include="..\..\src\Utilities\Time\posixtime.cpp" />

@@ -126,15 +126,18 @@ namespace GameLibrary
 		{
 			size_t size = points.size();
 			size_t lastIndex = size-1;
-			String str = "Polygon(";
-			Stringifier<T> stringifier;
+			String str = "Polygon( ";
 			for(size_t i=0; i<points.size(); i++)
 			{
 				const Vector2<T>& point = points.get(i);
-				str += "[" + stringifier.convertToString(&point.x) + ", " + stringifier.convertToString(&point.y) + "]";
+				str += "(" + GameLibrary::stringify<T>(point.x) + ", " + GameLibrary::stringify<T>(point.y) + ")";
 				if(i != lastIndex)
 				{
 					str += ", ";
+				}
+				else
+				{
+					str += ' ';
 				}
 			}
 			str += ")";
