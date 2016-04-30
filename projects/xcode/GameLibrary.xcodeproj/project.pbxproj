@@ -69,11 +69,9 @@
 		A039DB551CCDE89E00B0B5DA /* TouchElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB021CCDE89E00B0B5DA /* TouchElement.cpp */; };
 		A039DB561CCDE89E00B0B5DA /* ZoomPanElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB031CCDE89E00B0B5DA /* ZoomPanElement.cpp */; };
 		A039DB571CCDE89E00B0B5DA /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB051CCDE89E00B0B5DA /* Data.cpp */; };
-		A039DB581CCDE89E00B0B5DA /* Dictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB061CCDE89E00B0B5DA /* Dictionary.cpp */; };
 		A039DB591CCDE89E00B0B5DA /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB081CCDE89E00B0B5DA /* Font.cpp */; };
 		A039DB5A1CCDE89E00B0B5DA /* RenderedGlyphContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB091CCDE89E00B0B5DA /* RenderedGlyphContainer.cpp */; };
 		A039DB5B1CCDE89E00B0B5DA /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0A1CCDE89E00B0B5DA /* Math.cpp */; };
-		A039DB5C1CCDE89E00B0B5DA /* Stringifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0B1CCDE89E00B0B5DA /* Stringifier.cpp */; };
 		A039DB5D1CCDE89E00B0B5DA /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */; };
 		A039DB5E1CCDE89E00B0B5DA /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0E1CCDE89E00B0B5DA /* DateTime.cpp */; };
 		A039DB5F1CCDE89E00B0B5DA /* posixtime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0F1CCDE89E00B0B5DA /* posixtime.cpp */; };
@@ -83,6 +81,8 @@
 		A039DB631CCDE89E00B0B5DA /* MessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = A039DB191CCDE89E00B0B5DA /* MessageBox.mm */; };
 		A039DB641CCDE89E00B0B5DA /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1A1CCDE89E00B0B5DA /* View.cpp */; };
 		A039DB651CCDE89E00B0B5DA /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1B1CCDE89E00B0B5DA /* Window.cpp */; };
+		A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79A81CD4660300456C8E /* NotImplementedException.cpp */; };
+		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -335,11 +335,9 @@
 		A039DB021CCDE89E00B0B5DA /* TouchElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchElement.cpp; sourceTree = "<group>"; };
 		A039DB031CCDE89E00B0B5DA /* ZoomPanElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZoomPanElement.cpp; sourceTree = "<group>"; };
 		A039DB051CCDE89E00B0B5DA /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
-		A039DB061CCDE89E00B0B5DA /* Dictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dictionary.cpp; sourceTree = "<group>"; };
 		A039DB081CCDE89E00B0B5DA /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		A039DB091CCDE89E00B0B5DA /* RenderedGlyphContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderedGlyphContainer.cpp; sourceTree = "<group>"; };
 		A039DB0A1CCDE89E00B0B5DA /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math.cpp; sourceTree = "<group>"; };
-		A039DB0B1CCDE89E00B0B5DA /* Stringifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stringifier.cpp; sourceTree = "<group>"; };
 		A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
 		A039DB0E1CCDE89E00B0B5DA /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
 		A039DB0F1CCDE89E00B0B5DA /* posixtime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posixtime.cpp; sourceTree = "<group>"; };
@@ -353,6 +351,11 @@
 		A039DB191CCDE89E00B0B5DA /* MessageBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageBox.mm; sourceTree = "<group>"; };
 		A039DB1A1CCDE89E00B0B5DA /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		A039DB1B1CCDE89E00B0B5DA /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		A05D79A51CD465AE00456C8E /* Dictionary.impl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dictionary.impl; sourceTree = "<group>"; };
+		A05D79A61CD465D400456C8E /* NotImplementedException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotImplementedException.h; sourceTree = "<group>"; };
+		A05D79A71CD465E300456C8E /* DictionaryKeyNotFoundException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryKeyNotFoundException.h; sourceTree = "<group>"; };
+		A05D79A81CD4660300456C8E /* NotImplementedException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotImplementedException.cpp; sourceTree = "<group>"; };
+		A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictionaryKeyNotFoundException.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,6 +467,7 @@
 				A039D9E51CCDE80800B0B5DA /* IllegalArgumentException.h */,
 				A039D9E61CCDE80800B0B5DA /* IllegalStateException.h */,
 				A039D9E71CCDE80800B0B5DA /* InitializeLibraryException.h */,
+				A05D79A61CD465D400456C8E /* NotImplementedException.h */,
 				A039D9E81CCDE80800B0B5DA /* NumberFormatException.h */,
 				A039D9E91CCDE80800B0B5DA /* OutOfBoundsException.h */,
 			);
@@ -497,6 +501,7 @@
 				A039D9EE1CCDE80800B0B5DA /* BadAnyCastException.h */,
 				A039D9EF1CCDE80800B0B5DA /* BadNumberCastException.h */,
 				A039D9F01CCDE80800B0B5DA /* DataOutOfBoundsException.h */,
+				A05D79A71CD465E300456C8E /* DictionaryKeyNotFoundException.h */,
 				A039D9F31CCDE80800B0B5DA /* IllegalNumberOperationException.h */,
 				A039D9F41CCDE80800B0B5DA /* StringOutOfBoundsException.h */,
 			);
@@ -604,6 +609,7 @@
 				A039DA201CCDE80800B0B5DA /* BasicString.impl */,
 				A039DA211CCDE80800B0B5DA /* Data.h */,
 				A039DA221CCDE80800B0B5DA /* Dictionary.h */,
+				A05D79A51CD465AE00456C8E /* Dictionary.impl */,
 				A039DA2D1CCDE80800B0B5DA /* Math.h */,
 				A039DA2E1CCDE80800B0B5DA /* Number.h */,
 				A039DA2F1CCDE80800B0B5DA /* Number.impl */,
@@ -877,6 +883,7 @@
 				A039DAD11CCDE89E00B0B5DA /* IllegalArgumentException.cpp */,
 				A039DAD21CCDE89E00B0B5DA /* IllegalStateException.cpp */,
 				A039DAD31CCDE89E00B0B5DA /* InitializeLibraryException.cpp */,
+				A05D79A81CD4660300456C8E /* NotImplementedException.cpp */,
 				A039DAD41CCDE89E00B0B5DA /* NumberFormatException.cpp */,
 				A039DAD51CCDE89E00B0B5DA /* OutOfBoundsException.cpp */,
 			);
@@ -910,6 +917,7 @@
 				A039DADA1CCDE89E00B0B5DA /* BadAnyCastException.cpp */,
 				A039DADB1CCDE89E00B0B5DA /* BadNumberCastException.cpp */,
 				A039DADC1CCDE89E00B0B5DA /* DataOutOfBoundsException.cpp */,
+				A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */,
 				A039DADF1CCDE89E00B0B5DA /* IllegalNumberOperationException.cpp */,
 				A039DAE01CCDE89E00B0B5DA /* StringOutOfBoundsException.cpp */,
 			);
@@ -1008,10 +1016,8 @@
 				A039DB071CCDE89E00B0B5DA /* Font */,
 				A039DB0D1CCDE89E00B0B5DA /* Time */,
 				A039DB051CCDE89E00B0B5DA /* Data.cpp */,
-				A039DB061CCDE89E00B0B5DA /* Dictionary.cpp */,
 				A039DB0A1CCDE89E00B0B5DA /* Math.cpp */,
 				A0298F871CCF495D00886B06 /* Number.cpp */,
-				A039DB0B1CCDE89E00B0B5DA /* Stringifier.cpp */,
 				A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */,
 			);
 			path = Utilities;
@@ -1146,7 +1152,9 @@
 				A039DB2B1CCDE89E00B0B5DA /* TextureImageCreateException.cpp in Sources */,
 				A039DB2C1CCDE89E00B0B5DA /* TextureImageUpdateException.cpp in Sources */,
 				A039DB251CCDE89E00B0B5DA /* EventManager.cpp in Sources */,
+				A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */,
 				A039DB591CCDE89E00B0B5DA /* Font.cpp in Sources */,
+				A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */,
 				A039DB3A1CCDE89E00B0B5DA /* StringOutOfBoundsException.cpp in Sources */,
 				A039DB511CCDE89E00B0B5DA /* ActorMenuElement.cpp in Sources */,
 				A039DB4D1CCDE89E00B0B5DA /* FadeColorTransition.cpp in Sources */,
@@ -1154,11 +1162,9 @@
 				A039DB351CCDE89E00B0B5DA /* BadAnyCastException.cpp in Sources */,
 				A039DB3B1CCDE89E00B0B5DA /* GameLibrary.cpp in Sources */,
 				A039DB3C1CCDE89E00B0B5DA /* Color.cpp in Sources */,
-				A039DB581CCDE89E00B0B5DA /* Dictionary.cpp in Sources */,
 				A039DB5F1CCDE89E00B0B5DA /* posixtime.cpp in Sources */,
 				A039DB301CCDE89E00B0B5DA /* InitializeLibraryException.cpp in Sources */,
 				A039DB2D1CCDE89E00B0B5DA /* UnsupportedImageFormatException.cpp in Sources */,
-				A039DB5C1CCDE89E00B0B5DA /* Stringifier.cpp in Sources */,
 				A039DB621CCDE89E00B0B5DA /* MessageBox.cpp in Sources */,
 				A039DB2F1CCDE89E00B0B5DA /* IllegalStateException.cpp in Sources */,
 				A039DB1E1CCDE89E00B0B5DA /* SpriteActor.cpp in Sources */,

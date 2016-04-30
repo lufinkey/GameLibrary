@@ -265,7 +265,7 @@ namespace GameLibrary
 		#ifdef _WIN32
 		time_t timeval = _mkgmtime(&tmTime);
 		#else
-		time_t timeval = timegm(&lcl);
+		time_t timeval = timegm(&tmTime);
 		#endif
 		return timeval - (size_t)(60*utc_offset);
 	}
