@@ -556,23 +556,23 @@ namespace GameLibrary
 	
 	bool Plist_write(const Any& src, pugi::xml_node& node, String* error)
 	{
-		size_t typehash = src.getTypeInfo().hash_code();
-		if(typehash==typeid(Plist::dict).hash_code())
+		const std::type_info& typeinfo = src.getTypeInfo();
+		if(typeinfo==typeid(Plist::dict))
 		{
 			const Plist::dict& dict = src.as<Plist::dict>(false);
 			return Plist_writeDictionary(dict, node, error);
 		}
-		if(typehash==typeid(Plist::array).hash_code())
+		if(typeinfo==typeid(Plist::array))
 		{
 			const Plist::array& array = src.as<Plist::array>(false);
 			return Plist_writeArray(array, node, error);
 		}
-		else if(typehash==typeid(Plist::string).hash_code())
+		else if(typeinfo==typeid(Plist::string))
 		{
 			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<Plist::string>(false));
 			return true;
 		}
-		else if(typehash==typeid(Plist::data).hash_code())
+		else if(typeinfo==typeid(Plist::data))
 		{
 			const Plist::data& data = src.as<Plist::data>(false);
 			std::string encoded_str;
@@ -580,12 +580,12 @@ namespace GameLibrary
 			node.append_child("data").append_child(pugi::node_pcdata).set_value(encoded_str.c_str());
 			return true;
 		}
-		else if(typehash==typeid(Plist::date).hash_code())
+		else if(typeinfo==typeid(Plist::date))
 		{
 			node.append_child("date").append_child(pugi::node_pcdata).set_value(src.as<Plist::date>(false).toISO8601String());
 			return true;
 		}
-		else if(typehash==typeid(Number).hash_code()) //Plist::integer, Plist::real, Plist::boolean
+		else if(typeinfo==typeid(Number)) //Plist::integer, Plist::real, Plist::boolean
 		{
 			const Number& number = src.as<Number>(false);
 			if(number.isBool())
@@ -612,57 +612,57 @@ namespace GameLibrary
 				return true;
 			}
 		}
-		else if(typehash==typeid(WideString).hash_code())
+		else if(typeinfo==typeid(WideString))
 		{
 			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<WideString>(false).toBasicString<char>());
 			return true;
 		}
-		else if(typehash==typeid(std::string).hash_code())
+		else if(typeinfo==typeid(std::string))
 		{
 			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<std::string>(false).c_str());
 			return true;
 		}
-		else if(typehash==typeid(const char*).hash_code())
+		else if(typeinfo==typeid(const char*))
 		{
 			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<const char*>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Int64).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Int64))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int64>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Int32).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Int32))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int32>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Int16).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Int16))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int16>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Int8).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Int8))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int8>(false));
 			return true;
 		}
-		else if(typehash==typeid(long double).hash_code())
+		else if(typeinfo==typeid(long double))
 		{
 			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<long double>(false));
 			return true;
 		}
-		else if(typehash==typeid(double).hash_code())
+		else if(typeinfo==typeid(double))
 		{
 			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<double>(false));
 			return true;
 		}
-		else if(typehash==typeid(float).hash_code())
+		else if(typeinfo==typeid(float))
 		{
 			node.append_child("real").append_child(pugi::node_pcdata).set_value((String)"" + src.as<float>(false));
 			return true;
 		}
-		else if(typehash==typeid(bool).hash_code())
+		else if(typeinfo==typeid(bool))
 		{
 			bool val = src.as<bool>(false);
 			if(val)
@@ -675,22 +675,22 @@ namespace GameLibrary
 			}
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Uint64).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Uint64))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint64>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Uint32).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Uint32))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint32>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Uint16).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Uint16))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint16>(false));
 			return true;
 		}
-		else if(typehash==typeid(GameLibrary::Uint8).hash_code())
+		else if(typeinfo==typeid(GameLibrary::Uint8))
 		{
 			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint8>(false));
 			return true;

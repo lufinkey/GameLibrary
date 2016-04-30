@@ -134,46 +134,40 @@ namespace GameLibrary
 		}
 		
 		template<class U>
-		U& as(bool safe=true)
+		U& as()
 		{
 			typedef typename std::decay<U>::type T;
 			if(ptr==nullptr)
 			{
 				throw BadAnyCastException(typeid(T).name());
 			}
-			if(safe)
+			if(typeid(T)==ptr->getTypeInfo())
 			{
-				Derived<T>* derived = dynamic_cast<Derived<T>*>(ptr);
-				if(derived==nullptr)
-				{
-					throw BadAnyCastException(typeid(T).name());
-				}
+				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
 				return derived->value;
 			}
 			else
 			{
-				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
-				return derived->value;
+				throw BadAnyCastException(typeid(T).name());
 			}
 		}
 		
 		template<class U>
-		const U& as(bool safe=true) const
+		const U& as() const
 		{
 			typedef typename std::decay<U>::type T;
-			if(safe)
+			if(ptr==nullptr)
 			{
-				Derived<T>* derived = dynamic_cast<Derived<T>*>(ptr);
-				if(derived==nullptr)
-				{
-					throw BadAnyCastException(typeid(T).name());
-				}
+				throw BadAnyCastException(typeid(T).name());
+			}
+			if(typeid(T)==ptr->getTypeInfo())
+			{
+				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
 				return derived->value;
 			}
 			else
 			{
-				Derived<T>* derived = static_cast<Derived<T>*>(ptr);
-				return derived->value;
+				throw BadAnyCastException(typeid(T).name());
 			}
 		}
 		
@@ -185,7 +179,7 @@ namespace GameLibrary
 			{
 				return false;
 			}
-			if(typeid(T).hash_code()==ptr->getTypeInfo().hash_code())
+			if(typeid(T)==ptr->getTypeInfo())
 			{
 				return true;
 			}
