@@ -181,6 +181,84 @@ namespace GameLibrary
 		}
 	}
 	
+	class Plist_writer : public pugi::xml_writer
+	{
+	public:
+		FILE* file;
+		String* error;
+		bool success;
+		
+		Plist_writer(String* error) : file(nullptr), error(error), success(true)
+		{
+			//
+		}
+		
+		bool open(const String& path, String* error)
+		{
+			file = std::fopen(path, "wb");
+			if(file==nullptr)
+			{
+				if(error != nullptr)
+				{
+					//TODO add checking of errno
+					*error = "Unable to open file for writing";
+				}
+				return false;
+			}
+		}
+		
+		void close()
+		{
+			std::fclose(file);
+		}
+
+		virtual void write(const void* data, size_t size) override
+		{
+			size_t bytesWritten = std::fwrite(data, 1, size, file);
+			if(bytesWritten < size)
+			{
+				if(success)
+				{
+					success = false;
+					if(error!=nullptr)
+					{
+						*error = "Unable to write all bytes to file stream";
+					}
+				}
+			}
+		}
+	};
+	
+	bool Plist::saveToFile(const Dictionary& src, const String& path, String* error)
+	{
+		pugi::xml_document doc;
+		pugi::xml_node decNode = doc.append_child(pugi::node_declaration);
+		decNode.append_attribute("version") = "1.0";
+		decNode.append_attribute("encoding") = "UTF-8";
+		
+		// doctype node
+		doc.append_child(pugi::node_doctype).set_value("plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"");
+
+		// root node
+		pugi::xml_node plistNode = doc.append_child("plist");
+		plistNode.append_attribute("version") = "1.0";
+
+		bool success = Plist_writeDictionary(src, plistNode, error);
+		if(success)
+		{
+			Plist_writer writer(error);
+			success = writer.open(path, error);
+			if(!success)
+			{
+				return false;
+			}
+			doc.save(writer);
+			writer.close();
+			return writer.success;
+		}
+		return false;
+	}
+	
 	void Plist_base64Decode(const char* encodedData, std::vector<char>& data)
 	{
 		std::insert_iterator<std::vector<char> > ii(data, data.begin());
