@@ -159,6 +159,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\SlideTransition.h" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\Transition.h" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ActorMenuElement.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\AnimationElement.h" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ImageElement.h" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\MenuScreen.h" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextInputElement.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="..\..\src\Screen\Transition\PopoverTransition.cpp" />
     <ClCompile Include="..\..\src\Screen\Transition\SlideTransition.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\ActorMenuElement.cpp" />
+    <ClCompile Include="..\..\src\Screen\UI\AnimationElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\ImageElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\MenuScreen.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\TextInputElement.cpp" />

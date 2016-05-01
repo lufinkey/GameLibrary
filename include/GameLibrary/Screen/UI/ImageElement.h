@@ -5,7 +5,7 @@
 
 namespace GameLibrary
 {
-	/*! Displays an image to the Window. This class is non-copyable.*/
+	/*! Displays an image.*/
 	class ImageElement : public ScreenElement
 	{
 	public:
@@ -25,22 +25,18 @@ namespace GameLibrary
 		/*! default constructor; */
 		ImageElement();
 		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const RectangleD&frame)*/
-		explicit ImageElement(const RectangleD&frame);
+		explicit ImageElement(const RectangleD& frame);
 		/*! Constructs a screen element with a frame and an image to display with a given display mode
 			\param frame the frame (bounding box) of the element
 			\param image the image to display inside the element
 			\param displayMode the method to use for displaying the image; Default value is DISPLAY_STRETCH*/
-		ImageElement(const RectangleD&frame, TextureImage*image, const ImageElement::DisplayMode&displayMode = DISPLAY_STRETCH);
-		/*! Constructs a screen element with an image to display with a given display mode
+		ImageElement(const RectangleD& frame, TextureImage* image, const DisplayMode& displayMode = DISPLAY_STRETCH);
+		/*! Constructs a screen element with an image to display with a given display mode. The default frame is (0,0,0,0)
 			\param image the image to display inside the element
 			\param displayMode the method to use for displaying the image; Default value is DISPLAY_STRETCH*/
-		ImageElement(TextureImage*image, const ImageElement::DisplayMode&displayMode = DISPLAY_STRETCH);
+		ImageElement(TextureImage* image, const DisplayMode& displayMode = DISPLAY_STRETCH);
 		/*! virtual destructor*/
 		virtual ~ImageElement();
-		
-		
-		ImageElement(const ImageElement&) = delete;
-		ImageElement& operator=(const ImageElement&) = delete;
 		
 		
 		/*! Sets the TextureImage for the element to display.
@@ -58,7 +54,7 @@ namespace GameLibrary
 			\returns a TextureImage pointer, or null if no image is being displayed*/
 		TextureImage* getImage() const;
 		/*! Gets the current display method for the TextureImage within the element.
-			\returns an ImageElement::DisplayMode constant*/
+			\returns a ImageElement::DisplayMode constant*/
 		DisplayMode getDisplayMode() const;
 		/*! Gets the current section of the image that is set to be displayed, or the entire image, if no source rectangle is set.*/
 		RectangleU getImageSourceRect() const;

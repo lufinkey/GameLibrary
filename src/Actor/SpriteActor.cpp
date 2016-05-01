@@ -85,8 +85,8 @@ namespace GameLibrary
 			{
 				animation_prevFrameTime = prevUpdateTime;
 			}
+			firstUpdate = false;
 		}
-		firstUpdate = false;
 		
 		Actor::update(appData);
 
@@ -365,13 +365,8 @@ namespace GameLibrary
 		return nullptr;
 	}
 	
-	void SpriteActor::changeAnimation(const String&name, const Animation::Direction&direction)
+	void SpriteActor::changeAnimation(const String& name, const Animation::Direction& direction)
 	{
-		if(direction != Animation::FORWARD && direction != Animation::BACKWARD && direction != Animation::STOPPED && direction != Animation::NO_CHANGE)
-		{
-			throw IllegalArgumentException("direction", "Invalid enum value");
-		}
-		
 		Animation* animation = getAnimation(name);
 		if(animation == nullptr)
 		{
@@ -450,13 +445,8 @@ namespace GameLibrary
 		updateSize();
 	}
 	
-	void SpriteActor::changeAnimation(Animation*animation, const Animation::Direction&direction)
+	void SpriteActor::changeAnimation(Animation* animation, const Animation::Direction& direction)
 	{
-		if(direction != Animation::FORWARD && direction != Animation::BACKWARD && direction != Animation::STOPPED && direction != Animation::NO_CHANGE)
-		{
-			throw IllegalArgumentException("direction", "Invalid enum value");
-		}
-		
 		animation_name = "";
 		animation_current = animation;
 		

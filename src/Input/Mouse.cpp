@@ -11,13 +11,13 @@
 namespace GameLibrary
 {
 	/*Stores info about a particular mouse instance*/
-	typedef struct
+	struct MouseData
 	{
 		unsigned int mouseIndex;
 		Vector2d position;
 		Window*window;
 		bool state[4];
-	} MouseData;
+	};
 	
 	MouseData Mouse_createMouseData(Window*window, unsigned int mouseIndex, const Vector2d&position);
 	size_t Mouse_indexOfData(const ArrayList<MouseData>&mouseDataList, Window*window, unsigned int mouseIndex);

@@ -711,6 +711,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Stringifier.h">
       <Filter>include\GameLibrary\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\AnimationElement.h">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -937,6 +940,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Exception\Utilities\DictionaryKeyNotFoundException.cpp">
       <Filter>src\Exception\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\AnimationElement.cpp">
+      <Filter>src\Screen\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

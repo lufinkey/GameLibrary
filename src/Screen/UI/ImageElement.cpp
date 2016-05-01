@@ -13,14 +13,17 @@ namespace GameLibrary
 		//
 	}
 	
-	ImageElement::ImageElement(const RectangleD&frame, TextureImage*img, const ImageElement::DisplayMode&displayMd) : ScreenElement(frame)
+	ImageElement::ImageElement(const RectangleD&frame, TextureImage*img, const ImageElement::DisplayMode&displayMd)
+		: ScreenElement(frame),
+		image(img),
+		displayMode(displayMd),
+		srcrect(nullptr)
 	{
-		srcrect = nullptr;
-		image = img;
-		displayMode = displayMd;
+		//
 	}
 	
-	ImageElement::ImageElement(TextureImage*img, const ImageElement::DisplayMode&displayMode) : ImageElement(RectangleD(0, 0, 0, 0), img, displayMode)
+	ImageElement::ImageElement(TextureImage*img, const ImageElement::DisplayMode&displayMode)
+		: ImageElement(RectangleD(0, 0, 0, 0), img, displayMode)
 	{
 		//
 	}
@@ -36,7 +39,7 @@ namespace GameLibrary
 	
 	void ImageElement::drawMain(ApplicationData appData, Graphics graphics) const
 	{
-		if(image!=nullptr && isVisible())
+		if(image!=nullptr)
 		{
 			RectangleU srcRect = getImageSourceRect();
 			switch(displayMode)
@@ -90,8 +93,8 @@ namespace GameLibrary
 					{
 						for(unsigned int x=0; x<imageTimesX; x++)
 						{
-							double imageX = frame.x + (imgwidth*((double)imageTimesX));
-							double imageY = frame.y + (imgheight*((double)imageTimesY));
+							double imageX = frame.x + (imgwidth*((double)x));
+							double imageY = frame.y + (imgheight*((double)y));
 							graphics.drawImage(image, RectangleD(imageX, imageY, imgwidth, imgheight), srcRect);
 						}
 					}
