@@ -2041,7 +2041,7 @@ namespace GameLibrary
 		for(size_t i=0; i<size && !hitLetter; i++)
 		{
 			std::isupper(characters[i], locale);
-			if(!std::isblank<utf_char>((utf_char)characters[i], locale))
+			if(!std::isspace<utf_char>((utf_char)characters[i], locale))
 			{
 				startIndex = i;
 				hitLetter = true;
@@ -2055,7 +2055,7 @@ namespace GameLibrary
 		size_t endIndex = size;
 		for(size_t i=(size-1); i>=startIndex && i!=(size_t)-1 && !hitLetter; i--)
 		{
-			if(!std::isblank<utf_char>((utf_char)characters[i], locale))
+			if(!std::isspace<utf_char>((utf_char)characters[i], locale))
 			{
 				endIndex = i+1;
 				hitLetter = true;
