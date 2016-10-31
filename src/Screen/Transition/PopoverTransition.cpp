@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/Transition/PopoverTransition.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	PopoverTransition::PopoverTransition(PopoverDirection dir, bool fades)
 	{

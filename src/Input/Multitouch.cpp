@@ -8,7 +8,7 @@
 #include <climits>
 #include <mutex>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*Stores info about a particular "touch" instance*/
 	typedef struct

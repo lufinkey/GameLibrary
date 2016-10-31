@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Actor/TextActor.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	TextActor::TextActor()
 		: TextActor(0,0, "", Graphics::getDefaultFont(), Color::BLACK)

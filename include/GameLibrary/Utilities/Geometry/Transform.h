@@ -11,7 +11,7 @@
 // SFML - Simple and Fast Multimedia Library
 // Copyright (C) 2007-2014 Laurent Gomila (laurent.gom@gmail.com)
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T>
 	class Transform
@@ -261,10 +261,10 @@ namespace GameLibrary
 		String toString() const
 		{
 			return "Transform(["+
-				GameLibrary::stringify<T>(m_matrix[0])+", "+GameLibrary::stringify<T>(m_matrix[4])+", "+GameLibrary::stringify<T>(m_matrix[8])+", "+GameLibrary::stringify<T>(m_matrix[12])+"], ["+
-				"["+GameLibrary::stringify<T>(m_matrix[1])+", "+GameLibrary::stringify<T>(m_matrix[5])+", "+GameLibrary::stringify<T>(m_matrix[9])+", "+GameLibrary::stringify<T>(m_matrix[13])+"], ["+
-				"["+GameLibrary::stringify<T>(m_matrix[2])+", "+GameLibrary::stringify<T>(m_matrix[6])+", "+GameLibrary::stringify<T>(m_matrix[10])+", "+GameLibrary::stringify<T>(m_matrix[14])+"], ["+
-				"["+GameLibrary::stringify<T>(m_matrix[3])+", "+GameLibrary::stringify<T>(m_matrix[7])+", "+GameLibrary::stringify<T>(m_matrix[11])+", "+GameLibrary::stringify<T>(m_matrix[15])+"])";
+				fgl::stringify<T>(m_matrix[0])+", "+fgl::stringify<T>(m_matrix[4])+", "+fgl::stringify<T>(m_matrix[8])+", "+fgl::stringify<T>(m_matrix[12])+"], ["+
+				"["+fgl::stringify<T>(m_matrix[1])+", "+fgl::stringify<T>(m_matrix[5])+", "+fgl::stringify<T>(m_matrix[9])+", "+fgl::stringify<T>(m_matrix[13])+"], ["+
+				"["+fgl::stringify<T>(m_matrix[2])+", "+fgl::stringify<T>(m_matrix[6])+", "+fgl::stringify<T>(m_matrix[10])+", "+fgl::stringify<T>(m_matrix[14])+"], ["+
+				"["+fgl::stringify<T>(m_matrix[3])+", "+fgl::stringify<T>(m_matrix[7])+", "+fgl::stringify<T>(m_matrix[11])+", "+fgl::stringify<T>(m_matrix[15])+"])";
 		}
 		
 	private:

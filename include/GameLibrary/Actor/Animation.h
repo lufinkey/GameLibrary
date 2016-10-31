@@ -8,14 +8,14 @@
 #include <GameLibrary/Utilities/String.h>
 #include <GameLibrary/Utilities/Geometry/Rectangle.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Holds Animation data for the SpriteActor class*/
 	class Animation : public Drawable
 	{
 	public:
 		/*! The direction the Animation should move in when animating.
-			\see GameLibrary::SpriteActor::changeAnimation(const GameLibrary::String&,const GameLibrary::Animation::Direction&)*/
+			\see fgl::SpriteActor::changeAnimation(const fgl::String&,const fgl::Animation::Direction&)*/
 		typedef enum
 		{
 			/*! Animation direction stays the same as its previous value, which may be Direction::FORWARD, Direction::BACKWARD, or Direction::STOPPED*/
@@ -32,13 +32,13 @@ namespace GameLibrary
 		Animation(const Animation&);
 		/*! Constructs an Animation with a specified frame rate.
 			\param fps the frame rate in frames per second
-			\throws GameLibrary::IllegalArgumentException if fps is a negative value*/
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		explicit Animation(float fps);
 		/*! Constructs an Animation with a frame rate and a first frame.
 			\param fps the frame rate in frames per second
 			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
 			\param file the path to the image file of the first frame
-			\throws GameLibrary::IllegalArgumentException if fps is a negative value*/
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		Animation(float fps, AssetManager* assetManager, const String& file);
 		/*! Constructs an Animation with a frame rate and frames
 			\param fps the frame rate in frames per second
@@ -47,7 +47,7 @@ namespace GameLibrary
 			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
 			\param file the path to the image file to use for the frames
 			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.
-			\throws GameLibrary::IllegalArgumentException if fps is a negative value*/
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file);
 		/*! Constructs an Animation with a frame rate and frames
 			\param fps the frame rate in frames per second
@@ -56,7 +56,7 @@ namespace GameLibrary
 			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
 			\param file the path to the image file to use for the frames
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row; rows and columns start from 0
-			\throws GameLibrary::IllegalArgumentException if fps is a negative value*/
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager*assetManager, const String& file, const ArrayList<Vector2u>& sequence);
 		/*! virtual destructor
 			\note this does not unload the images loaded during construction. You must manually unload the contents of the assetManager used.*/
@@ -65,14 +65,14 @@ namespace GameLibrary
 		Animation& operator=(const Animation&);
 		
 		
-		/*! Called by GameLibrary::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
-			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
+			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the graphics object used to draw the Animation*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		
 		/*! Draws the specified frame
-			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the graphics object used to draw the Animation
 			\param frameNum the frame number to draw
 			\param dstRect the rectangle that the animation will be drawn within*/
@@ -95,11 +95,11 @@ namespace GameLibrary
 			\param mirror true to make the Animation draw vertically mirrored, and false to make the Animation draw normal vertically*/
 		void setMirroredVertical(bool mirror);
 		/*! Tells whether the Animation is mirrored horizontally.
-			\see GameLibrary::Animation::setMirroredHorizontal(bool)
+			\see fgl::Animation::setMirroredHorizontal(bool)
 			\returns true if the Animation is mirrored horizontally, false if otherwise*/
 		bool isMirroredHorizontal() const;
 		/*! Tells whether the Animation is mirrored vertically.
-			\see GameLibrary::Animation::setMirroredVertical(bool)
+			\see fgl::Animation::setMirroredVertical(bool)
 			\returns true if the Animation is mirrored vertically, false if otherwise*/
 		bool isMirroredVertical() const;
 		
@@ -153,7 +153,7 @@ namespace GameLibrary
 		
 		/*! Sets the frame rate.
 			\param fps the frame rate in frames per second
-			\throws GameLibrary::IllegalArgumentException if fps is a negative value*/
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		void setFPS(float fps);
 		/*! Gets the frame rate.
 			\returns an unsigned int representing the frame rate in frames per second*/

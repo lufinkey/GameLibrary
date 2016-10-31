@@ -7,7 +7,7 @@
 #include <GameLibrary/Utilities/Dictionary.h>
 #include <GameLibrary/Utilities/String.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Stores rendered font glyphs.*/
 	class RenderedGlyphContainer
@@ -15,7 +15,7 @@ namespace GameLibrary
 		friend class Font;
 		friend class Graphics;
 	public:
-		typedef GameLibrary::Uint16 glyph_char;
+		typedef fgl::Uint16 glyph_char;
 		typedef BasicString<glyph_char> GlyphString;
 		
 		/*! information for a rendered font glyph*/
@@ -36,7 +36,7 @@ namespace GameLibrary
 			\param fontptr an SDL font pointer (a TTF_Font pointer)
 			\param renderer an SDL_Renderer pointer
 			\param size a desired glyph size
-			\param fontstyle the desired font style \see GameLibrary::Font::Style
+			\param fontstyle the desired font style \see fgl::Font::Style
 			\param txt the string of text to render glyphs for
 			\param antialiasing tell whether smoothing is enabled
 			\returns an ArrayList of RendererdGlyph structures*/

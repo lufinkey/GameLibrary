@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/OutOfBoundsException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that a specified key is not set in a Dictionary*/
 	class DictionaryKeyNotFoundException : public OutOfBoundsException
@@ -16,7 +16,7 @@ namespace GameLibrary
 			\param keyString a String representation of the key that was not found in the Dictionary object*/
 		DictionaryKeyNotFoundException(const String& keyString);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Utilities/BadAnyCastException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	BadAnyCastException::BadAnyCastException(const String& casttype) : BadCastException("Any", casttype)
 	{

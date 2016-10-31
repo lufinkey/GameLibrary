@@ -8,7 +8,7 @@
 #include "AutoLayoutManager.h"
 #include "UpdateDrawable.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A stackable element that can be added to a Screen*/
 	class ScreenElement : public UpdateDrawable
@@ -30,10 +30,10 @@ namespace GameLibrary
 		
 		
 		/*! Updates any properties of the element, and updates all the child elements.
-			\param appData specifies information about the Application updating the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application updating the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData) override;
 		/*! Draws the element and all of its child elements. This function calls drawBackground, drawMain, and drawElements respectively.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
@@ -51,20 +51,20 @@ namespace GameLibrary
 		
 		/*! Adds a child element to this element.
 			\param element a ScreenElement pointer
-			\throws GameLibrary::IllegalArgumentException if element is null, or if the element is already a child of another ScreenElement*/
+			\throws fgl::IllegalArgumentException if element is null, or if the element is already a child of another ScreenElement*/
 		void addChildElement(ScreenElement*element);
 		/*! Removes this element from its parent element, or returns if it has no parent element.
-			\throws GameLibrary::IllegalStateException if this element is not stored within its parent element*/
+			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
 		void removeFromParentElement();
 		/*! Brings a child element to the front of the element list.
 			\param element a ScreenElement pointer
-			\throws GameLibrary::IllegalArgumentException if element is null, or if the element is not a child of this element
-			\throws GameLibrary::IllegalStateException if this element is not stored within its parent element*/
+			\throws fgl::IllegalArgumentException if element is null, or if the element is not a child of this element
+			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
 		void bringChildElementToFront(ScreenElement*element);
 		/*! Sends a child element to the back of the element list.
 			\param element a ScreenElement pointer
-			\throws GameLibrary::IllegalArgumentException if element is null, or if the element is not a child of this element
-			\throws GameLibrary::IllegalStateException if this element is not stored within its parent element*/
+			\throws fgl::IllegalArgumentException if element is null, or if the element is not a child of this element
+			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
 		void sendChildElementToBack(ScreenElement*element);
 		
 		
@@ -78,9 +78,9 @@ namespace GameLibrary
 		
 		/*! Sets a layout rule to automatically adjust the frame whenever the parent element's frame changes.
 		If this element is the child of another element, then the frame will adjust itself accordingly when this function is called.
-			\param ruleType the type of layout rule \see GameLibrary::LayoutRuleType
+			\param ruleType the type of layout rule \see fgl::LayoutRuleType
 			\param value the value of the rule given, in the specified units
-			\param valueType the units of the value parameter \see GameLibrary::LayoutValueType*/
+			\param valueType the units of the value parameter \see fgl::LayoutValueType*/
 		void setLayoutRule(const LayoutRuleType& ruleType, double value, const LayoutValueType& valueType=LAYOUTVALUE_PIXEL);
 		/*! Tells whether any layout rules have been set for this element.
 			\returns true if this element has set layout rules, or false if otherwise*/
@@ -119,18 +119,18 @@ namespace GameLibrary
 		
 	protected:
 		/*! Updates all the child elements of this element. This function is automatically called from ScreenElement::update.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void updateElements(ApplicationData appData);
 		/*! Draws the background color of the element. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawBackground(ApplicationData appData, Graphics graphics) const;
 		/*! Draws the main content of the element. This does nothing by default, and is intended to be overridden. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const;
 		/*! Draws all the child elements of this element. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const;
 		

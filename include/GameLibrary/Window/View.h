@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/Geometry/Vector2.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class View
 	{

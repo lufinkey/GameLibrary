@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Window/View.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	View::View() : View(640,480)
 	{

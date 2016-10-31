@@ -4,7 +4,7 @@
 #include <GameLibrary/Types.h>
 #include <GameLibrary/Utilities/Stringifier.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T>
 	class Vector2
@@ -117,7 +117,7 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			return "Vector2(x:" + GameLibrary::stringify<T>(x) + ", y:" + GameLibrary::stringify<T>(y) + ")";
+			return "Vector2(x:" + fgl::stringify<T>(x) + ", y:" + fgl::stringify<T>(y) + ")";
 		}
 	};
 	

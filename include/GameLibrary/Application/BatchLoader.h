@@ -6,7 +6,7 @@
 #include <GameLibrary/Utilities/Pair.h>
 #include <GameLibrary/Utilities/Time/TimeInterval.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class BatchLoaderEventListener;
 	
@@ -39,7 +39,7 @@ namespace GameLibrary
 		void setAssetManager(AssetManager*assetManager);
 		
 		
-		/*! Adds an event listener, which gets calls functions when specific events occur. \see GameLibrary::BatchLoaderEventListener
+		/*! Adds an event listener, which gets calls functions when specific events occur. \see fgl::BatchLoaderEventListener
 			\param eventListener the listener pointer*/
 		void addEventListener(BatchLoaderEventListener*eventListener);
 		/*! Removes a previously added event listener. If the event listener is not stored, the function returns.
@@ -49,17 +49,17 @@ namespace GameLibrary
 		
 		/*! Adds a path to an image to load.
 			\param path a path to an image file
-			\param value the "load" value of the image, which gets added to the current load value \see GameLibrary::BatchLoader::getLoadCurrent()*/
+			\param value the "load" value of the image, which gets added to the current load value \see fgl::BatchLoader::getLoadCurrent()*/
 		void addTexture(const String&path, unsigned int value=1);
 		/*! Adds a path to a font to load.
 			\param path a path to a font file
-			\param value the "load" value of the font, which gets added to the current load value \see GameLibrary::BatchLoader::getLoadCurrent()*/
+			\param value the "load" value of the font, which gets added to the current load value \see fgl::BatchLoader::getLoadCurrent()*/
 		void addFont(const String&path, unsigned int value=1);
 		/*! Adds a callback function to load something.
 			\param callback a callback function to call
 			\param data a pointer to be passed to the callback
-			\param value the "load" value of the function, which gets added to the current load value \see GameLibrary::BatchLoader::getLoadCurrent()
-			\throws GameLibrary::IllegalArgumentException if callback is null*/
+			\param value the "load" value of the function, which gets added to the current load value \see fgl::BatchLoader::getLoadCurrent()
+			\throws fgl::IllegalArgumentException if callback is null*/
 		void addFunction(BatchLoaderFunction callback, void*data, unsigned int value=1);
 		
 		

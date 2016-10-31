@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/Stringifier.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T>
 	/*! Contains data about a circle*/
@@ -34,7 +34,7 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			return "Circle(x:" + GameLibrary::stringify<T>(x) + ", y:" + GameLibrary::stringify<T>(y) + ", radius:" + GameLibrary::stringify<T>(radius) + ")";
+			return "Circle(x:" + fgl::stringify<T>(x) + ", y:" + fgl::stringify<T>(y) + ", radius:" + fgl::stringify<T>(radius) + ")";
 		}
 	};
 	

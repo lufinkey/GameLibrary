@@ -3,7 +3,7 @@
 
 #include "Exception.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that an attempt was made to convert a String to a numeric type, but that the String does not have the appropriate format*/
 	class NumberFormatException : public Exception
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param reason the reason that the numeric conversion failed*/
 		NumberFormatException(const String& type, const String& reason);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

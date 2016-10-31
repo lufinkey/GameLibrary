@@ -4,7 +4,7 @@
 #include <GameLibrary/Exception/Utilities/IllegalNumberOperationException.h>
 #include "Math.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type>
 	T Number::Base::to() const
@@ -25,18 +25,18 @@ namespace GameLibrary
 				switch(getNumberOfBytes())
 				{
 					case 1:
-					return (T)*((GameLibrary::Int8*)ptr);
+					return (T)*((fgl::Int8*)ptr);
 					
 					case 2:
-					return (T)*((GameLibrary::Int16*)ptr);
+					return (T)*((fgl::Int16*)ptr);
 					
 					case 4:
-					return (T)*((GameLibrary::Int32*)ptr);
+					return (T)*((fgl::Int32*)ptr);
 					
 					case 8:
-					if(sizeof(GameLibrary::Int64)==8)
+					if(sizeof(fgl::Int64)==8)
 					{
-						return (T)*((GameLibrary::Int64*)ptr);
+						return (T)*((fgl::Int64*)ptr);
 					}
 					else
 					{
@@ -53,18 +53,18 @@ namespace GameLibrary
 				switch(getNumberOfBytes())
 				{
 					case 1:
-					return (T)*((GameLibrary::Uint8*)ptr);
+					return (T)*((fgl::Uint8*)ptr);
 
 					case 2:
-					return (T)*((GameLibrary::Uint16*)ptr);
+					return (T)*((fgl::Uint16*)ptr);
 
 					case 4:
-					return (T)*((GameLibrary::Uint32*)ptr);
+					return (T)*((fgl::Uint32*)ptr);
 
 					case 8:
-					if(sizeof(GameLibrary::Uint64)==8)
+					if(sizeof(fgl::Uint64)==8)
 					{
-						return (T)*((GameLibrary::Uint64*)ptr);
+						return (T)*((fgl::Uint64*)ptr);
 					}
 					else
 					{
@@ -320,7 +320,7 @@ namespace GameLibrary
 	template<typename U, typename std::enable_if<(std::is_unsigned<U>::value), std::nullptr_t>::type>
 	Number::Base* Number::Derived<T>::impl_toSigned() const
 	{
-		return new Derived<GameLibrary::Int64>((GameLibrary::Int64)value);
+		return new Derived<fgl::Int64>((fgl::Int64)value);
 	}
 	
 	template<typename T>

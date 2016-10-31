@@ -2,7 +2,7 @@
 #include <GameLibrary/IO/Console.h>
 #include <iostream>
 
-namespace GameLibrary
+namespace fgl
 {
 	void Console::write(const String& output)
 	{

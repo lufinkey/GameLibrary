@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Screen/ScreenElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class ZoomPanElement : public ScreenElement
 	{
@@ -11,7 +11,7 @@ namespace GameLibrary
 		ZoomPanElement();
 		explicit ZoomPanElement(const RectangleD&frame);
 		
-		/*! \copydoc GameLibrary::ScreenElement::draw(GameLibrary::ApplicationData,GameLibrary::Graphics)const*/
+		/*! \copydoc fgl::ScreenElement::draw(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		void setContentOffset(const Vector2d&offset);
@@ -26,7 +26,7 @@ namespace GameLibrary
 		//TODO implement private touch event handling functions, and pass transformed appData to child elements
 		
 	protected:
-		/*! \copydoc GameLibrary::ScreenElement::drawElements(GameLibrary::ApplicationData,GameLibrary::Graphics)const*/
+		/*! \copydoc fgl::ScreenElement::drawElements(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const override;
 		
 	private:

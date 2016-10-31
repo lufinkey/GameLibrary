@@ -9,7 +9,7 @@
 #include <GameLibrary/Utilities/Geometry/Vector2.h>
 #include "View.h"
 
-namespace GameLibrary
+namespace fgl
 {
 //WindowSettings
 

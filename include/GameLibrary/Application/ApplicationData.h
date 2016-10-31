@@ -6,7 +6,7 @@
 #include <GameLibrary/Window/Window.h>
 #include "AssetManager.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class Application;
 	class Window;

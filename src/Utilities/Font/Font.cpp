@@ -6,7 +6,7 @@
 #include <SDL/SDL_ttf.h>
 #include <memory>
 
-namespace GameLibrary
+namespace fgl
 {
 	int Font::styleToTTFStyle(int fontstyle)
 	{

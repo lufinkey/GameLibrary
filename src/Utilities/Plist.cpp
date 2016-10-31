@@ -14,7 +14,7 @@
 //loading and saving plist code adapted from PlistCpp. https://github.com/animetrics/PlistCpp
 //All credit goes to animetrics
 
-namespace GameLibrary
+namespace fgl
 {
 	void Plist_base64Decode(const char* encodedData, std::vector<char>& data);
 	void Plist_base64Encode(std::string& dataEncoded, const Data& data);
@@ -626,24 +626,24 @@ namespace GameLibrary
 			node.append_child("string").append_child(pugi::node_pcdata).set_value(src.as<const char*>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Int64>())
+		else if(src.is<fgl::Int64>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int64>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Int64>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Int32>())
+		else if(src.is<fgl::Int32>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int32>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Int32>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Int16>())
+		else if(src.is<fgl::Int16>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int16>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Int16>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Int8>())
+		else if(src.is<fgl::Int8>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Int8>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Int8>());
 			return true;
 		}
 		else if(src.is<long double>())
@@ -674,24 +674,24 @@ namespace GameLibrary
 			}
 			return true;
 		}
-		else if(src.is<GameLibrary::Uint64>())
+		else if(src.is<fgl::Uint64>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint64>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Uint64>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Uint32>())
+		else if(src.is<fgl::Uint32>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint32>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Uint32>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Uint16>())
+		else if(src.is<fgl::Uint16>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint16>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Uint16>());
 			return true;
 		}
-		else if(src.is<GameLibrary::Uint8>())
+		else if(src.is<fgl::Uint8>())
 		{
-			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<GameLibrary::Uint8>());
+			node.append_child("integer").append_child(pugi::node_pcdata).set_value((String)"" + src.as<fgl::Uint8>());
 			return true;
 		}
 		else

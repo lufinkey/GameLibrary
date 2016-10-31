@@ -5,7 +5,7 @@
 #include <GameLibrary/Input/Multitouch.h>
 #include <mutex>
 
-namespace GameLibrary
+namespace fgl
 {
 	TextInputElement* TextInputElement_input_responder = nullptr;
 	std::mutex TextInputElement_responder_mutex;

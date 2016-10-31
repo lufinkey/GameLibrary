@@ -19,7 +19,7 @@
 	#include <unistd.h>
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 	String FileTools::getUserHomeDirectory()
 	{

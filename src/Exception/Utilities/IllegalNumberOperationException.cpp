@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Utilities/IllegalNumberOperationException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	IllegalNumberOperationException::IllegalNumberOperationException(const String& operatorType, const String& reason)
 		: Exception("Error perform operation \"" + operatorType + "\": "+reason),

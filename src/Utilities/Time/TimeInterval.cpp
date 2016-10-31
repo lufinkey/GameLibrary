@@ -7,7 +7,7 @@
 	#include <sys/time.h>
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 	long long TimeInterval_getCurrentMilliseconds()
 	{

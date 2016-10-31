@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/UI/ZoomPanElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	ZoomPanElement::ZoomPanElement() : ZoomPanElement(RectangleD(0,0,0,0))
 	{

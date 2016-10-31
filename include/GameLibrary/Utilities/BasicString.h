@@ -15,7 +15,7 @@
 #endif
 
 #ifndef _STRING_STANDALONE
-namespace GameLibrary
+namespace fgl
 {
 #endif
 	#ifndef _STRING_STANDALONE

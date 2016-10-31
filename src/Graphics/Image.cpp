@@ -5,7 +5,7 @@
 #include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.h>
 #include <SDL/SDL_image.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	Image::Image()
 	{

@@ -6,19 +6,19 @@
 #include <GameLibrary/Utilities/Font/Font.h>
 #include "TouchElement.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class TextInputElement : public TouchElement
 	{
 	public:
-		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const RectangleD&frame)*/
+		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit TextInputElement(const RectangleD&frame);
 		/*! virtual destructor*/
 		virtual ~TextInputElement();
 		
-		/*! \copydoc GameLibrary::ScreenElement::update(GameLibrary::ApplicationData)*/
+		/*! \copydoc fgl::ScreenElement::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc GameLibrary::ScreenElement::drawMain(GameLibrary::ApplicationData)const*/
+		/*! \copydoc fgl::ScreenElement::drawMain(fgl::ApplicationData)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		
 		virtual void becomeTextInputResponder();

@@ -3,7 +3,7 @@
 #include <GameLibrary/Screen/AutoLayoutCalculator.h>
 #include <GameLibrary/Utilities/Number.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	String LayoutRuleType_toString(const LayoutRuleType& layoutRuleType)
 	{

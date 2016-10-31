@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/OutOfBoundsException.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	OutOfBoundsException::OutOfBoundsException(const String& message) : Exception(message)
 	{

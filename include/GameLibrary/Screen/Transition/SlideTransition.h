@@ -3,7 +3,7 @@
 
 #include "Transition.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A custom Transition that slides and pushes one Drawable out of the way of the other.*/
 	class SlideTransition : public Transition
@@ -28,7 +28,7 @@ namespace GameLibrary
 		/*! virtual destructor*/
 		virtual ~SlideTransition();
 		
-		/*! \copydoc GameLibrary::Transition::draw(ApplicationData,Graphics,double,Drawable*,Drawable*)const*/
+		/*! \copydoc fgl::Transition::draw(ApplicationData,Graphics,double,Drawable*,Drawable*)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics, double progress, Drawable* element1, Drawable* element2) const override;
 		
 	protected:

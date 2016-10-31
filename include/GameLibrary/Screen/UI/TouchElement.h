@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Screen/ScreenElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class TouchElement;
 	
@@ -16,10 +16,10 @@ namespace GameLibrary
 		/*! Gives the target of the mouse event. The target is the ScreenElement which the event was performed on.
 		\returns a ScreenElement pointer*/
 		TouchElement* getTarget() const;
-		/*! Gives information about the Application updating the ScreenElement, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Gives information about the Application updating the ScreenElement, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 		\returns a const ApplicationData object reference*/
 		const ApplicationData& getApplicationData() const;
-		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see GameLibrary::Mouse \see GameLibrary::Multitouch
+		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see fgl::Mouse \see fgl::Multitouch
 		\returns an unsigned int representing an index or id*/
 		unsigned int getTouchID() const;
 		/*! Gives the position of the touch or mouse pointer (if applicable), which is relative to the element's parent's frame ([0,0] is the same as [parentFrame.x, parentFrame.y])
@@ -43,7 +43,7 @@ namespace GameLibrary
 	public:
 		/*! default constructor*/
 		TouchElement();
-		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const RectangleD&frame)*/
+		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit TouchElement(const RectangleD&frame);
 		
 		virtual void update(ApplicationData appData) override;

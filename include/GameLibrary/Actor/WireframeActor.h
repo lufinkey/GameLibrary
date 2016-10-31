@@ -3,7 +3,7 @@
 
 #include "Actor.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A specialized Actor for drawing frames or boxes. It can also be used to create regions.
 	WireframeActor can be thought of as a Rectangle with extra functionality.*/
@@ -26,17 +26,17 @@ namespace GameLibrary
 		virtual ~WireframeActor();
 		
 		
-		/*! \copydoc GameLibrary::Actor::update(ApplicationData)*/
+		/*! \copydoc fgl::Actor::update(ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc GameLibrary::Actor::draw(ApplicationData,Graphics)const*/
+		/*! \copydoc fgl::Actor::draw(ApplicationData,Graphics)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		
-		/*! \copydoc GameLibrary::Actor::getFrame()const*/
+		/*! \copydoc fgl::Actor::getFrame()const*/
 		virtual RectangleD getFrame() const override;
 		
 		
-		/*! \copydoc GameLibrary::Actor::scaleToFit(const RectangleD&)*/
+		/*! \copydoc fgl::Actor::scaleToFit(const RectangleD&)*/
 		virtual void scaleToFit(const RectangleD&container) override;
 		
 		
@@ -61,14 +61,14 @@ namespace GameLibrary
 			\returns true if the wireframe draws as a solid rectangle, or false if otherwise*/
 		bool isFilled() const;
 		
-		/*! \copydoc GameLibrary::Actor::updateSize()*/
+		/*! \copydoc fgl::Actor::updateSize()*/
 		virtual void updateSize() override;
-		/*! \copydoc GameLibrary::Actor::checkPointCollision(const Vector2d&)*/
+		/*! \copydoc fgl::Actor::checkPointCollision(const Vector2d&)*/
 		virtual bool checkPointCollision(const Vector2d&point) override;
 		
 	protected:
 		/*! Special draw function to draw the WireframeActor with specific properties. These properties are not stored into the WireframeActor. This function is called from WireframeActor::draw
-			\param appData specifies information about the Application drawing the WireframeActor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the WireframeActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param Graphics the graphics object used to draw the WireframeActor
 			\param x the x coordinate
 			\param y the y coordinate

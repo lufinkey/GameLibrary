@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	ImageOutOfBoundsException::ImageOutOfBoundsException(unsigned int ptx, unsigned int pty, unsigned int w, unsigned int h)
 		: OutOfBoundsException((String)"(" + ptx + ", " + pty + ") is out of bounds in Image with a size of (" + w + ", " + h + ")"),

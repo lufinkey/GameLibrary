@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/IllegalStateException.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	IllegalStateException::IllegalStateException(const String& message) : Exception(message)
 	{

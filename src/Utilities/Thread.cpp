@@ -7,7 +7,7 @@
 #include <system_error>
 #include <thread>
 
-namespace GameLibrary
+namespace fgl
 {
 	std::thread::id main_thread_id = std::this_thread::get_id();
 	

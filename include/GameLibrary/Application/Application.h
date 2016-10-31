@@ -9,7 +9,7 @@
 #include <GameLibrary/Window/Window.h>
 #include "ApplicationData.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class ApplicationEventListener;
 	
@@ -35,7 +35,7 @@ namespace GameLibrary
 			ORIENTATION_ALL = ORIENTATION_LANDSCAPELEFT | ORIENTATION_LANDSCAPERIGHT | ORIENTATION_PORTRAIT | ORIENTATION_PORTRAITUPSIDEDOWN
 		};
 		
-		/*! An exit code to use to exit the Application. \see GameLibrary::Application::close(int)*/
+		/*! An exit code to use to exit the Application. \see fgl::Application::close(int)*/
 		enum ExitCode
 		{
 			/*! Exit code used when an Application is already running.*/
@@ -69,17 +69,17 @@ namespace GameLibrary
 			\param assetManager the Window's AssetManager, used to unload the loaded resources.*/
 		virtual void unloadContent(AssetManager*assetManager);
 		/*! Called once every frame. Use this function to update or change any values during the frame.
-			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData);
 		/*! Called once every frame. Use this function to draw to the Window.
-			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw to the Window*/
 		virtual void draw(ApplicationData appData, Graphics g) const;
 		
 
 		/*! Runs the Application. This should only be called once by a single Application object, and not called again until the Application loop ends.
 		This function MUST be run within the main thread.
-			\param windowSettings the Window configuration for the Application \see GameLibrary::WindowSettings
+			\param windowSettings the Window configuration for the Application \see fgl::WindowSettings
 			\param orientations the supported interface orientations of the Application. This setting is only used on mobile.
 			\returns an integer representing an exit code*/
 		int run(const WindowSettings&windowSettings = Window::getDefaultSettings(), int orientations = ORIENTATION_ALL);

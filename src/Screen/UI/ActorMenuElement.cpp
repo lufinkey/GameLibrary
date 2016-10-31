@@ -2,7 +2,7 @@
 #include <GameLibrary/Screen/UI/ActorMenuElement.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	ActorMenuElement::ActorMenuElement(const RectangleD&frame) : ScreenElement(frame)
 	{

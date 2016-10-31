@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	ScreenNavigationException::ScreenNavigationException(const String&message) : Exception(message)
 	{

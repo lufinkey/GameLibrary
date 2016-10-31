@@ -3,7 +3,7 @@
 
 #include "Stringifier.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	template<class T1, class T2>
 	class Pair
@@ -72,7 +72,7 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			return "Pair( " + GameLibrary::stringify<T1>(first) + ", " + GameLibrary::stringify<T2>(second) + " )";
+			return "Pair( " + fgl::stringify<T1>(first) + ", " + fgl::stringify<T2>(second) + " )";
 		}
 	};
 }

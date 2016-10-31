@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Utilities/BadNumberCastException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	BadNumberCastException::BadNumberCastException(const String& casttype) : BadCastException("Number", casttype)
 	{

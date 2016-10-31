@@ -4,7 +4,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <GameLibrary/Exception/IllegalStateException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	SpriteActorAnimationEvent::SpriteActorAnimationEvent(const SpriteActorAnimationEvent& event)
 		: target(event.target),

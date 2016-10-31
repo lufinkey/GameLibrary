@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/Transition/FadeZoomTransition.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	FadeZoomTransition::FadeZoomTransition(double start, double end)
 	{

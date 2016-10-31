@@ -10,7 +10,7 @@
 #include <GameLibrary/Utilities/String.h>
 #include "RenderedGlyphContainer.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Holds data for a typeface, or font. It also holds a RenderedGlyphContainer for containing previously rendered glyphs.*/
 	class Font
@@ -65,7 +65,7 @@ namespace GameLibrary
 		
 		
 		/*! Sets a bitmask for the style (plain, bold, italic, etc.).
-			\param style a bitmask of style values \see GameLibrary::Font::Style*/
+			\param style a bitmask of style values \see fgl::Font::Style*/
 		void setStyle(int style);
 		/*! Sets the glyph size.
 			\param size a glyph size*/
@@ -76,7 +76,7 @@ namespace GameLibrary
 		
 		
 		/*! Gets a bitmask of font styles (plain, bold, italic, etc.)
-			\returns a bitmask of style values \see GameLibrary::Font::Style*/
+			\returns a bitmask of style values \see fgl::Font::Style*/
 		int getStyle();
 		/*! Gets the current glyph size.*/
 		unsigned int getSize();

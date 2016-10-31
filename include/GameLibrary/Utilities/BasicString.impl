@@ -14,7 +14,7 @@
 #include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.h>
 #include "ArrayList.h"
 
-namespace GameLibrary
+namespace fgl
 {
 #endif
 #define NULLCHAR 0

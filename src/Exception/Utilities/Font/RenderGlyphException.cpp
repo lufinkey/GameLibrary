@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.h>
 #include "../../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	RenderGlyphException::RenderGlyphException(const String& message) : Exception(message)
 	{

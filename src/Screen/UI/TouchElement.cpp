@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/UI/TouchElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	TouchElementEvent::TouchElementEvent(TouchElement* target, const ApplicationData& appData, unsigned int touchID, const Vector2d& pos, bool mouse)
 		: target(target), appData(appData), touchID(touchID), pos(pos), mouse(mouse) {}

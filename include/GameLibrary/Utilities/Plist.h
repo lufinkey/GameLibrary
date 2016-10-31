@@ -9,7 +9,7 @@
 #include "String.h"
 #include "Time/DateTime.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class Plist
 	{

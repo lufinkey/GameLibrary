@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Graphics/TextureImageCreateException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	TextureImageCreateException::TextureImageCreateException(const String&message) : Exception(message)
 	{

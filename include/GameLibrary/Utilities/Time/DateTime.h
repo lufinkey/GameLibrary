@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/String.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class DateTime
 	{

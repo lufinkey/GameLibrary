@@ -9,7 +9,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	TextureImage::TextureImage()
 	{
@@ -83,7 +83,7 @@ namespace GameLibrary
 			throw TextureImageUpdateException(SDL_GetError());
 		}
 		
-		GameLibrary::Uint32*texture_pixels = (GameLibrary::Uint32*)pixelptr;
+		fgl::Uint32*texture_pixels = (fgl::Uint32*)pixelptr;
 		unsigned int total = width*height;
 		for(unsigned int i=0; i<total; i++)
 		{

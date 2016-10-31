@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-namespace GameLibrary
+namespace fgl
 {
 	Data::Data()
 	{

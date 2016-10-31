@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/String.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class KeyboardEventListener;
 	
@@ -258,10 +258,10 @@ namespace GameLibrary
 		
 		/*! Begins sending text input events to all added KeyboardEventListeners. On some platforms, this function will activate the on-screen keyboard.
 		You must end text input with endTextInput() when you are finished.
-			\throws GameLibrary::IllegalStateException if this function is called while text input has already been started*/
+			\throws fgl::IllegalStateException if this function is called while text input has already been started*/
 		static void startTextInput();
 		/*! Stops recieving text input events.
-			\throws GameLibrary::IllegalStateException if text input has not been started*/
+			\throws fgl::IllegalStateException if text input has not been started*/
 		static void endTextInput();
 		
 	private:

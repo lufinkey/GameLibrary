@@ -10,7 +10,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <SDL/SDL.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*typedef struct
 	{

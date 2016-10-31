@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 
-namespace GameLibrary
+namespace fgl
 {
 	const long double Math::PI = 3.14159265358979323846264338328L;
 	

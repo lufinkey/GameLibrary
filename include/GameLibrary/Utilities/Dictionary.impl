@@ -5,7 +5,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::ValueProxy(ValueProxy&& valueProxy)
@@ -181,7 +181,7 @@ namespace GameLibrary
 		size_t index = indexOfKey(key);
 		if(index==(size_t)-1)
 		{
-			throw DictionaryKeyNotFoundException(GameLibrary::stringify<KEY_TYPE>(key));
+			throw DictionaryKeyNotFoundException(fgl::stringify<KEY_TYPE>(key));
 		}
 		return contents[index].second;
 	}
@@ -192,7 +192,7 @@ namespace GameLibrary
 		size_t index = indexOfKey(key);
 		if(index==(size_t)-1)
 		{
-			throw DictionaryKeyNotFoundException(GameLibrary::stringify<KEY_TYPE>(key));
+			throw DictionaryKeyNotFoundException(fgl::stringify<KEY_TYPE>(key));
 		}
 		return contents[index].second;
 	}
@@ -288,8 +288,8 @@ namespace GameLibrary
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
 			const Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
-			str += "(" + GameLibrary::stringify<KEY_TYPE>(pair.first) + ") => ";
-			str += "(" + GameLibrary::stringify<VALUE_TYPE>(pair.second) + ") ";
+			str += "(" + fgl::stringify<KEY_TYPE>(pair.first) + ") => ";
+			str += "(" + fgl::stringify<VALUE_TYPE>(pair.second) + ") ";
 		}
 		str += ")";
 		return str;

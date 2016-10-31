@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/UI/AnimationElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	AnimationElement::AnimationElement() : AnimationElement(RectangleD(0,0,0,0), nullptr)
 	{

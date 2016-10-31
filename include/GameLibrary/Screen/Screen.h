@@ -5,7 +5,7 @@
 #include "ScreenElement.h"
 #include "Transition/Transition.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class ScreenManager;
 	
@@ -35,11 +35,11 @@ namespace GameLibrary
 		
 		/*! Updates the properties of the Screen. This should NOT be overridden except for creating a custom Screen container.
 		If overridden, the overriding function should first call the base class's update function, and then check if the Screen contains a child Screen before updating.
-			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData) override;
 		/*! Draws the Screen and all of its children. This should NOT be overridden except for creating a custom Screen container.
 		If overridden, the overriding function should first call the base class's draw function, and then check if the Screen contains a child Screen that is transitioning before drawing.
-			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
@@ -77,12 +77,12 @@ namespace GameLibrary
 			\param transition a Transition to use to present the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition
-			\throws GameLibrary::IllegalArgumentException if the Screen being presented is:\n
+			\throws fgl::IllegalArgumentException if the Screen being presented is:\n
 				1.) null
 				2.) already presented on another Screen,\n
-				3.) a root Screen \see GameLibrary::Screen::Screen(GameLibrary::Window*),\n
+				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),\n
 				4.) already held within a ScreenManager,\n
-			\throws GameLibrary::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
+			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
 		void present(Screen*screen, const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, CompletionCallback completion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen, or if no Screen is presented on top of this Screen, this Screen is dismissed from its parent Screen.
 			\param transition a Transition to use to dismiss the Screen
@@ -135,11 +135,11 @@ namespace GameLibrary
 	protected:
 		/*! Updates the properties of the Screen. This function is called from within the update function, and should not manually be called.
 		This function is safe to override with custom behavior.
-			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void onUpdate(ApplicationData appData);
 		/*! Draws the Screen and any contents to the Window. This function is called from within the draw function, and should not be manually called.
 		This function is safe to override with custom behavior.
-			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application updating the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to Draw the Screen contents*/
 		virtual void onDraw(ApplicationData appData, Graphics graphics) const;
 		
@@ -172,16 +172,16 @@ namespace GameLibrary
 		mutable bool drawingOverlayTransition;
 		
 		
-		/*! Draws the background of the Screen. Should only be called within Screen::draw \see GameLibrary::Screen::drawingOverlayTransition for an example of how to call this
-			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Draws the background of the Screen. Should only be called within Screen::draw \see fgl::Screen::drawingOverlayTransition for an example of how to call this
+			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void drawBackground(ApplicationData appData, Graphics graphics) const;
-		/*! Draws the elements of the Screen. Should only be called within Screen::draw \see GameLibrary::Screen::drawingOverlayTransition for an example of how to call this
-			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Draws the elements of the Screen. Should only be called within Screen::draw \see fgl::Screen::drawingOverlayTransition for an example of how to call this
+			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const;
-		/*! Draws the presented Screen. Should only be called within Screen::draw \see GameLibrary::Screen::drawingOverlayTransition for an example of how to call this
-			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Draws the presented Screen. Should only be called within Screen::draw \see fgl::Screen::drawingOverlayTransition for an example of how to call this
+			\param appData specifies information about the Application drawing the Screen, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void drawOverlay(ApplicationData appData, Graphics graphics) const;
 		

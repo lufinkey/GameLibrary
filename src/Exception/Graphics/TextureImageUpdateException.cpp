@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Graphics/TextureImageUpdateException.h>
 #include "../ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	TextureImageUpdateException::TextureImageUpdateException(const String&message) : Exception(message)
 	{

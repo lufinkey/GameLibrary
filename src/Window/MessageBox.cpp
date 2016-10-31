@@ -2,7 +2,7 @@
 #include <GameLibrary/Window/MessageBox.h>
 #include <SDL/SDL.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	#if !defined(TARGETPLATFORM_IOS)
 	unsigned int MessageBox::show(Window*parent, const String&title, const String&message)

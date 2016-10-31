@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/OutOfBoundsException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that an index to an ArrayList was out of bounds*/
 	class ArrayListOutOfBoundsException : public OutOfBoundsException
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param size the size of the ArrayList*/
 		ArrayListOutOfBoundsException(size_t index, size_t size);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

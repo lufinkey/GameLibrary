@@ -7,7 +7,7 @@
 #include <GameLibrary/Input/Keyboard.h>
 #include <GameLibrary/Screen/ScreenElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Holds and updates a list of Actors, finds the currently hovered or selected actor in the list, and calls events ActorMenuElement events for it. This class is non-copyable.*/
 	class ActorMenuElement : public ScreenElement
@@ -17,15 +17,15 @@ namespace GameLibrary
 		static constexpr size_t NO_SELECTION = (size_t)-1;
 		
 		
-		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const GameLibrary::RectangleD&)*/
+		/*! \copydoc fgl::ScreenElement::ScreenElement(const fgl::RectangleD&)*/
 		explicit ActorMenuElement(const RectangleD&frame);
 		/*! virtual destructor*/
 		virtual ~ActorMenuElement();
 		
 		
-		/*! \copydoc GameLibrary::ScreenElement::update(ApplicationData)*/
+		/*! \copydoc fgl::ScreenElement::update(ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc GameLibrary::ScreenElement::setFrame(const GameLibrary::RectangleD&)*/
+		/*! \copydoc fgl::ScreenElement::setFrame(const fgl::RectangleD&)*/
 		virtual void setFrame(const RectangleD&frame) override;
 		
 		
@@ -136,10 +136,10 @@ namespace GameLibrary
 		AutoLayoutManager* getActorAutoLayoutManager(size_t index) const;
 		
 	protected:
-		/*! \copydoc GameLibrary::ScreenElement::drawMain(ApplicationData)const*/
+		/*! \copydoc fgl::ScreenElement::drawMain(ApplicationData)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor
 			\param actor the Actor from the menu being drawn*/
 		virtual void drawActor(ApplicationData appData, Graphics graphics, Actor*actor) const;

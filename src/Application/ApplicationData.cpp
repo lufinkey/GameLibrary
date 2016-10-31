@@ -2,7 +2,7 @@
 #include <GameLibrary/Application/ApplicationData.h>
 #include <GameLibrary/Application/Application.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	ApplicationData::ApplicationData(Application*app, Window*win, AssetManager*assetMgr, const TimeInterval&time, const TransformD&transfrm, double fpsMult)
 	{

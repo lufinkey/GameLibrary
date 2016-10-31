@@ -3,7 +3,7 @@
 
 #include "Exception.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that an error occurred while initializing a base Application library*/
 	class InitializeLibraryException : public Exception
@@ -17,7 +17,7 @@ namespace GameLibrary
 			\param message an explanation of the error*/
 		InitializeLibraryException(const String& library, const String& message);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

@@ -6,7 +6,7 @@
 #include <GameLibrary/Utilities/ArrayList.h>
 #include <GameLibrary/Utilities/Pair.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class Window;
 	
@@ -37,7 +37,7 @@ namespace GameLibrary
 		/*! Gets an ArrayList<String> of the secondary directories to load from if the primary directory fails.
 			\returns a const ArrayList<String> reference*/
 		const ArrayList<String>& getSecondaryRoots() const;
-		/*! Removes one of the secondary load directories. \see GameLibrary::AssetManager::addSecondaryRoot(const String&)
+		/*! Removes one of the secondary load directories. \see fgl::AssetManager::addSecondaryRoot(const String&)
 			\param root the directory to remove from the list of secondary directories*/
 		void removeSecondaryRoot(const String&root);
 		
@@ -54,7 +54,7 @@ namespace GameLibrary
 		bool loadTexture(const String&path, String*error=nullptr);
 		/*! Loads and stores a TextureImage from the given path.
 			\param path the path to load the TextureImage, relative to the AssetManager root
-			\param compositeMask an Image to create a composite mask on the loaded pixels \see GameLibrary::Image::applyCompositeMask(const GameLibrary::Image&)
+			\param compositeMask an Image to create a composite mask on the loaded pixels \see fgl::Image::applyCompositeMask(const fgl::Image&)
 			\param error a pointer to store an error string, if an error occurs
 			\returns true if the TextureImage was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
 		bool loadTexture(const String&path, const Image&compositeMask, String*error=nullptr);
@@ -69,7 +69,7 @@ namespace GameLibrary
 		TextureImage* getTexture(const String&path);
 		/*! Adds a TextureImage to be stored and managed. Once added, the TextureImage's memory is handled by AssetManager, and will be deallocated if the TextureImage is unloaded.
 			If a TextureImage is already stored with the given path, that TextureImage is deallocated and replaced with the new one.
-			\throws GameLibrary::IllegalArgumentException if the TextureImage is null
+			\throws fgl::IllegalArgumentException if the TextureImage is null
 			\param path a path to identify the TextureImage
 			\param image the TextureImage pointer to add*/
 		void addTexture(const String&path, TextureImage*image);
@@ -91,7 +91,7 @@ namespace GameLibrary
 		Font* getFont(const String&path);
 		/*! Adds a Font to be stored and managed. Once added, the Font's memory is handled by AssetManager, and will be deallocated if the Font is unloaded.
 			If a Font is already stored with the given path, that Font is deallocated and replaced with the new one.
-			\throws GameLibrary::IllegalArgumentException if the Font is null
+			\throws fgl::IllegalArgumentException if the Font is null
 			\param path a path to identify the Font
 			\param image the Font pointer to add*/
 		void addFont(const String&path, Font*font);

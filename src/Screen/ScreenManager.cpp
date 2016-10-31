@@ -4,7 +4,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	const Transition* const ScreenManager::defaultPushTransition = new SlideTransition(SlideTransition::SLIDE_LEFT);
 	

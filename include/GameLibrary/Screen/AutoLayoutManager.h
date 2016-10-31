@@ -5,7 +5,7 @@
 #include <GameLibrary/Utilities/ArrayList.h>
 #include <GameLibrary/Utilities/Dictionary.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	enum LayoutRuleType
 	{

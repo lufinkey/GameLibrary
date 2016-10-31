@@ -4,7 +4,7 @@
 #include <GameLibrary/Types.h>
 #include "String.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	//this class is horribly written. I know. I wrote it like 2 years ago. I'll rewrite it later
 	class Data

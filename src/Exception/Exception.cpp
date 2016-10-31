@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/Exception.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	Exception::Exception()
 	{

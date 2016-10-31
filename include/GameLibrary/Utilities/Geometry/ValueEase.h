@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/Time/TimeInterval.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	typedef void(*ValueEaseCallback)(void*);
 

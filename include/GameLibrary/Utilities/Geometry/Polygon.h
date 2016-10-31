@@ -5,7 +5,7 @@
 #include <GameLibrary/Utilities/Stringifier.h>
 #include "Vector2.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T>
 	/*! A series of points that make up a polygon.*/
@@ -130,7 +130,7 @@ namespace GameLibrary
 			for(size_t i=0; i<points.size(); i++)
 			{
 				const Vector2<T>& point = points.get(i);
-				str += "(" + GameLibrary::stringify<T>(point.x) + ", " + GameLibrary::stringify<T>(point.y) + ")";
+				str += "(" + fgl::stringify<T>(point.x) + ", " + fgl::stringify<T>(point.y) + ")";
 				if(i != lastIndex)
 				{
 					str += ", ";

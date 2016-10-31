@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/BadCastException.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	BadCastException::BadCastException(const String& origType, const String& castType)
 		: Exception((String)"Bad cast from type " + origType + " to type " + castType),

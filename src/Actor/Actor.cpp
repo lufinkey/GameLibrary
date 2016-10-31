@@ -4,7 +4,7 @@
 #include <GameLibrary/Input/Multitouch.h>
 #include <GameLibrary/Utilities/PlatformChecks.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	ActorMouseEvent::ActorMouseEvent()
 		: target(nullptr),

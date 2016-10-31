@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Utilities/Number.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	Number::Number()
 		: ptr(new Derived<long long>(0LL))

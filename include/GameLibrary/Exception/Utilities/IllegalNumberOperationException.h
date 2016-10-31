@@ -3,10 +3,10 @@
 
 #include <GameLibrary/Exception/Exception.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that an illegal operator was used on a Number object.
-		\see GameLibrary::Number*/
+		\see fgl::Number*/
 	class IllegalNumberOperationException : public Exception
 	{
 	public:
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param reason the actual reason for the exception*/
 		IllegalNumberOperationException(const String& operatorType, const String& reason);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

@@ -6,7 +6,7 @@
 #include <GameLibrary/Exception/Utilities/BadNumberCastException.h>
 #include "String.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class Number
 	{

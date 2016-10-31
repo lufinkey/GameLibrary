@@ -7,7 +7,7 @@
 #include "Pair.h"
 #include "String.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	class BasicDictionary

@@ -8,7 +8,7 @@
 #include <mutex>
 #include <vector>
 
-namespace GameLibrary
+namespace fgl
 {
 	//stores all the KeyboardEventListener objects for the Keyboard class
 	static ArrayList<KeyboardEventListener*> Keyboard_eventListeners;

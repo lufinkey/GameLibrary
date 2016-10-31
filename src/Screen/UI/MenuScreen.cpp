@@ -3,7 +3,7 @@
 #include <GameLibrary/Input/Multitouch.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 //MenuScreen::MainElement
 	
@@ -62,7 +62,7 @@ namespace GameLibrary
 	
 	MenuScreen::MenuScreen(Window*window) : Screen(window)
 	{
-		GameLibrary::ScreenElement* element = getElement();
+		fgl::ScreenElement* element = getElement();
 		mainElement = new MainElement(this, element->getFrame());
 		mainElement->setLayoutRule(LAYOUTRULE_LEFT,   0, LAYOUTVALUE_RATIO);
 		mainElement->setLayoutRule(LAYOUTRULE_TOP,    0, LAYOUTVALUE_RATIO);

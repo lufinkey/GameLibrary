@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/BadCastException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that casting an Any object to some other type failed*/
 	class BadAnyCastException : public BadCastException
@@ -13,7 +13,7 @@ namespace GameLibrary
 			\param casttype the type that the Any object was cast as*/
 		explicit BadAnyCastException(const String& casttype);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

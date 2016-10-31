@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/UI/ImageElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	ImageElement::ImageElement() : ImageElement(RectangleD(0,0,0,0),nullptr)
 	{

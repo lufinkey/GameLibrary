@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Screen/ScreenElement.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Displays an image.*/
 	class ImageElement : public ScreenElement
@@ -24,7 +24,7 @@ namespace GameLibrary
 		
 		/*! default constructor; */
 		ImageElement();
-		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const RectangleD&frame)*/
+		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit ImageElement(const RectangleD& frame);
 		/*! Constructs a screen element with a frame and an image to display with a given display mode
 			\param frame the frame (bounding box) of the element
@@ -43,7 +43,7 @@ namespace GameLibrary
 			\param image the TextureImage to display, or null to not display an image*/
 		void setImage(TextureImage*image);
 		/*! Sets the display method to display the TextureImage within the element.
-			\param mode a constant that dictates how to display the image \see GameLibrary::ImageElement::DisplayMode*/
+			\param mode a constant that dictates how to display the image \see fgl::ImageElement::DisplayMode*/
 		void setDisplayMode(const DisplayMode&mode);
 		/*! Sets a specific source area of the image to be displayed. The srcRect is reset when a new image is set on the element.
 			\param srcRect the section of the image to display*/
@@ -60,7 +60,7 @@ namespace GameLibrary
 		RectangleU getImageSourceRect() const;
 		
 	protected:
-		/*! \copydoc GameLibrary::ScreenElement::drawMain(GameLibrary::ApplicationData,GameLibrary::Graphics)const*/
+		/*! \copydoc fgl::ScreenElement::drawMain(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		
 	private:

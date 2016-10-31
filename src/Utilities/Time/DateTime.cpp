@@ -17,7 +17,7 @@
 #undef min
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 	#define DATETIME_TM_BASEYEAR 1900
 	

@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Types.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	#define RGBA(r,g,b,a) (a | (b<<8) | (g<<16) | (r<<24))
 	#define RGBX(r,g,b) RGBA(r,g,b,255)
@@ -200,7 +200,7 @@ namespace GameLibrary
 		Color(const Color&);
 		/*! Constructs a Color object from an RGBA32 constant
 			\param rgba an RGBA 32 bit constant constant*/
-		Color(const GameLibrary::Color::RGBA32&rgba);
+		Color(const fgl::Color::RGBA32&rgba);
 		/*! Constructs a Color object with an rgba value
 			\param r the red value
 			\param g the green value
@@ -212,7 +212,7 @@ namespace GameLibrary
 		/*! assignment operator*/
 		Color&operator=(const Color&);
 		/*! assignment operator*/
-		Color&operator=(const GameLibrary::Color::RGBA32&rgba);
+		Color&operator=(const fgl::Color::RGBA32&rgba);
 		/*! equality operator*/
 		bool operator==(const Color&) const;
 		/*! inequality operator*/
@@ -221,16 +221,16 @@ namespace GameLibrary
 		
 		/*! Creates a 32 bit RGBA integer
 			\returns an unsigned 32 bit integer*/
-		GameLibrary::Uint32 getRGBA() const;
+		fgl::Uint32 getRGBA() const;
 		/*! Creates a 32 bit ARGB integer
 			\returns an unsigned 32 bit integer*/
-		GameLibrary::Uint32 getARGB() const;
+		fgl::Uint32 getARGB() const;
 		/*! Creates a 32 bit ABGR integer
 			\returns an unsigned 32 bit integer*/
-		GameLibrary::Uint32 getABGR() const;
+		fgl::Uint32 getABGR() const;
 		/*! Creates a 32 bit BGRA integer
 			\returns an unsigned 32 bit integer*/
-		GameLibrary::Uint32 getBGRA() const;
+		fgl::Uint32 getBGRA() const;
 		
 		
 		/*! Compares another Color to check equality.

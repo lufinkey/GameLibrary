@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/Geometry/Vector2.h>
 #include <GameLibrary/Window/Window.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class MultitouchEventListener;
 	

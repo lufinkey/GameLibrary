@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Utilities/String.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Used to log output or error information to the console*/
 	class Console

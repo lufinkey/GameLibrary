@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Window/Window.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class MouseEventListener;
 	

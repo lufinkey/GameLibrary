@@ -4,7 +4,7 @@
 #include "ArrayList.h"
 #include "Pair.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	typedef void(*ThreadCallback)(void*);
 

@@ -4,7 +4,7 @@
 #include <GameLibrary/Types.h>
 #include <GameLibrary/Utilities/ArrayList.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class Application;
 	

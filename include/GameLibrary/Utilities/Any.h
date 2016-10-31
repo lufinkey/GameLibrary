@@ -5,7 +5,7 @@
 #include <GameLibrary/Exception/Utilities/BadAnyCastException.h>
 #include "Stringifier.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class Any
 	{
@@ -30,7 +30,7 @@ namespace GameLibrary
 			Derived(T&& val) : value(val) {}
 			virtual Base* clone() const override { return new Derived<T>(value); }
 			virtual void* getPtr() const override { return (void*)(&value); }
-			virtual String toString() const override { return GameLibrary::stringify<T>(value); }
+			virtual String toString() const override { return fgl::stringify<T>(value); }
 			virtual const std::type_info& getTypeInfo() const override { return typeid(T); }
 		};
 		

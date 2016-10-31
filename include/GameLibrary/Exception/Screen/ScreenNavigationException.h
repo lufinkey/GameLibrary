@@ -3,16 +3,16 @@
 
 #include <GameLibrary/Exception/Exception.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate an error when pushing, presenting, popping, or dismissing a Screen*/
 	class ScreenNavigationException : public Exception
 	{
 	public:
-		/*! \copydoc GameLibrary::Exception::Exception(const GameLibrary::String&)*/
+		/*! \copydoc fgl::Exception::Exception(const fgl::String&)*/
 		explicit ScreenNavigationException(const String&message);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

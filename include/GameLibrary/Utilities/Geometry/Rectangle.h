@@ -5,7 +5,7 @@
 #include "Vector2.h"
 #include "Polygon.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	template<typename T>
 	/*! Contains data about a rectangle*/
@@ -311,8 +311,8 @@ namespace GameLibrary
 		
 		String toString() const
 		{
-			return "Rectangle(x:"+GameLibrary::stringify<T>(x)+", y:"+GameLibrary::stringify<T>(y)+
-				", width:"+GameLibrary::stringify<T>(width)+", height:"+GameLibrary::stringify<T>(height)+")";
+			return "Rectangle(x:"+fgl::stringify<T>(x)+", y:"+fgl::stringify<T>(y)+
+				", width:"+fgl::stringify<T>(width)+", height:"+fgl::stringify<T>(height)+")";
 		}
 	};
 	
@@ -323,7 +323,7 @@ namespace GameLibrary
 	
 	template<typename T>
 	/*! Contains data about a rectangle.
-	Similar to GameLibrary::Rectangle, but rather than having a width and a height, it contains coordinates for top left and bottom right.*/
+	Similar to fgl::Rectangle, but rather than having a width and a height, it contains coordinates for top left and bottom right.*/
 	class Rect
 	{
 	public:

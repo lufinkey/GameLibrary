@@ -1,7 +1,7 @@
 
 #pragma once
 
-namespace GameLibrary
+namespace fgl
 {
 	class Math
 	{

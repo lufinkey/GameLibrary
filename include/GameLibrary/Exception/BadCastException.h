@@ -3,7 +3,7 @@
 
 #include "Exception.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that a value was cast to an invalid type*/
 	class BadCastException : public Exception
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param castedType the type casted on the original value*/
 		BadCastException(const String&originalType, const String&castedType);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

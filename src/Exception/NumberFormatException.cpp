@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/NumberFormatException.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	NumberFormatException::NumberFormatException(const String& type, const String& reason)
 		: Exception((String)"Unable to convert String to numeric type " + type + ": " + reason),

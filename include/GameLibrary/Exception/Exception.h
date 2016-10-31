@@ -4,7 +4,7 @@
 #include <exception>
 #include <GameLibrary/Utilities/BasicString.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! An exception class to throw when a generic error arises*/
 	class Exception : std::exception

@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/Transition/SlideTransition.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	SlideTransition::SlideTransition(SlideDirection dir)
 	{

@@ -3,7 +3,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <GameLibrary/Exception/IllegalStateException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	void ScreenElement::setWindow(Window*win)
 	{

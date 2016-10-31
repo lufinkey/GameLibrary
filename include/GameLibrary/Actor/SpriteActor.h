@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include "Animation.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class SpriteActorAnimationEvent
 	{
@@ -35,7 +35,7 @@ namespace GameLibrary
 	};
 	
 	/*! A specialized Actor that can draw and animate images.
-		\see GameLibrary::Animation*/
+		\see fgl::Animation*/
 	class SpriteActor : public Actor
 	{
 	public:
@@ -49,13 +49,13 @@ namespace GameLibrary
 		virtual ~SpriteActor();
 		
 		
-		/*! \copydoc GameLibrary::Actor::update(GameLibrary::ApplicationData)*/
+		/*! \copydoc fgl::Actor::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc GameLibrary::Actor::draw(GameLibrary::ApplicationData,GameLibrary::Graphics)const*/
+		/*! \copydoc fgl::Actor::draw(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		
-		/*! \copydoc GameLibrary::Actor::getFrame()const*/
+		/*! \copydoc fgl::Actor::getFrame()const*/
 		virtual RectangleD getFrame() const override;
 		
 		
@@ -66,11 +66,11 @@ namespace GameLibrary
 		
 		
 		/*! Adds an Animation. The Animation object's deallocation becomes manually managed by the SpriteActor, unless specified otherwise.
-			\throws GameLibrary::IllegalArgumentException if the SpriteActor already contains an Animation with the specified identifier
+			\throws fgl::IllegalArgumentException if the SpriteActor already contains an Animation with the specified identifier
 			\param name a user-defined identifier for the Animation
 			\param animation the Animation to be added.
 			\param destruct specify true to tell the SpriteActor to deallocate the Animation when destroyed, false to manually deallocate the memory for the Animation
-			\throws GameLibrary::IllegalArgumentException if the given name is an empty string, if an animation with the same name is already added, or if the given animation pointer is null*/
+			\throws fgl::IllegalArgumentException if the given name is an empty string, if an animation with the same name is already added, or if the given animation pointer is null*/
 		void addAnimation(const String&name, Animation*animation, bool destruct=true);
 		/*! Removes the Animation with the specified identifier from the SpriteActor. If the Animation was added with the destruct parameter set to true, the Animation is deallocated.
 			\param name the user-defined identifier for the Animation*/
@@ -86,7 +86,7 @@ namespace GameLibrary
 		/*! Changes the current Animation to the Animation with the specified identifier.
 			\param name the user-defined identifier of the Animation
 			\param direction the direction to iterate through the Animation frames
-			\throws GameLibrary::IllegalArgumentException if the given name does not match an animation name in this SpriteActor*/
+			\throws fgl::IllegalArgumentException if the given name does not match an animation name in this SpriteActor*/
 		void changeAnimation(const String&name, const Animation::Direction&direction = Animation::Direction::FORWARD);
 		/*! Changes the current animation to a given animation pointer. This animation is given an empty string for a name, and is not stored in or managed by the SpriteActor.
 			\param animation a pointer to an Animation
@@ -103,9 +103,9 @@ namespace GameLibrary
 		bool isColliding(SpriteActor*actor) const;
 		
 		
-		/*! \copydoc GameLibrary::Actor::updateSize()*/
+		/*! \copydoc fgl::Actor::updateSize()*/
 		virtual void updateSize() override;
-		/*! \copydoc GameLibrary::Actor::checkPointCollision(const Vector2d&)*/
+		/*! \copydoc fgl::Actor::checkPointCollision(const Vector2d&)*/
 		virtual bool checkPointCollision(const Vector2d&point) override;
 		
 	protected:
@@ -114,7 +114,7 @@ namespace GameLibrary
 		virtual void onAnimationFinish(const SpriteActorAnimationEvent& evt);
 		
 		/*! Special draw function to draw the SpriteActor with specific properties. These properties are not stored into the SpriteActor. This function is called from SpriteActor::draw
-			\param appData specifies information about the Application drawing the SpriteActor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the SpriteActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the SpriteActor
 			\param x the x coordinate
 			\param y the y coordinate

@@ -7,7 +7,7 @@
 #include <GameLibrary/Utilities/Geometry/Rectangle.h>
 #include "Color.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Holds an array of pixels, representing an image. An Image must be converted into a TextureImage in order to be drawn to the Window.*/
 	class Image
@@ -72,7 +72,7 @@ namespace GameLibrary
 		/*! Replaces specified pixels in the image.
 			\param colorSwaps an ArrayList containing pairs of Color values, the first in the pair being the original pixel Color, and the second being the replacement*/
 		void recolor(const ArrayList<Pair<Color,Color> >& colorSwaps);
-		/*! Applies a composite mask to the image. \see GameLibrary::Color::composite(const Color&)const*/
+		/*! Applies a composite mask to the image. \see fgl::Color::composite(const Color&)const*/
 		void applyCompositeMask(const Image&mask);
 		
 		

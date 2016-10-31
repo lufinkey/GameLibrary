@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Screen/AutoLayoutCalculator.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	AutoLayoutCalculator::AutoLayoutCalculator(const RectangleD& currentFrame, const RectangleD& containerFrame)
 		: containerFrame(containerFrame),

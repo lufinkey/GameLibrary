@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/Exception.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/* Thrown to indicate that Image::saveToFile tried to use an unsupported image format
 		\see Image::saveToFile(const String&,String*)const*/
@@ -17,7 +17,7 @@ namespace GameLibrary
 			\param format the file extension that was unsupported by Image::saveToFile*/
 		explicit UnsupportedImageFormatException(const String& format);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

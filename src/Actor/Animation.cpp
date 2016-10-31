@@ -2,7 +2,7 @@
 #include <GameLibrary/Actor/Animation.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	Animation::AnimationFrame::AnimationFrame()
 	{

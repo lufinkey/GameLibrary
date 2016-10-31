@@ -2,7 +2,7 @@
 #include <GameLibrary/Exception/InitializeLibraryException.h>
 #include "ExceptionMacros.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	InitializeLibraryException::InitializeLibraryException(const String&lib, const String&message)
 		: Exception(lib + ": " + message),

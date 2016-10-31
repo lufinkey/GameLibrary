@@ -9,7 +9,7 @@
 #include <ctime>
 #include <cstdlib>
 
-namespace GameLibrary
+namespace fgl
 {
 	void ApplicationEventHandler(void*userdata, unsigned int eventtype);
 	int ApplicationEventFilter(void*userdata, SDL_Event*event);

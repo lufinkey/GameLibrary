@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/OutOfBoundsException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that an index to a String was out of bounds*/
 	class StringOutOfBoundsException : public OutOfBoundsException
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param length the length of the String*/
 		StringOutOfBoundsException(size_t index, size_t length);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

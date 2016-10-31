@@ -4,7 +4,7 @@
 #include <GameLibrary/Screen/ScreenElement.h>
 #include <GameLibrary/Actor/Animation.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Displays an Animation object.*/
 	class AnimationElement : public ScreenElement
@@ -25,7 +25,7 @@ namespace GameLibrary
 		
 		/*! default constructor*/
 		AnimationElement();
-		/*! \copydoc GameLibrary::ScreenElement::ScreenElement(const RectangleD&frame)*/
+		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit AnimationElement(const RectangleD& frame);
 		/*! Constructs a screen element with a frame and an animation to display with a given display mode
 			\param frame the frame (bounding box) of the element
@@ -41,7 +41,7 @@ namespace GameLibrary
 		virtual ~AnimationElement();
 		
 		
-		/*! \copydoc GameLibrary::ScreenElement::update(GameLibrary::ApplicationData)*/
+		/*! \copydoc fgl::ScreenElement::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
 		
 		
@@ -56,7 +56,7 @@ namespace GameLibrary
 			\param frame the index of the frame*/
 		void setAnimationFrame(size_t frameIndex);
 		/*! Sets the display method to display the Animation within the element.
-			\param mode a constant that dictates how to display the animation \see GameLibrary::AnimationElement::DisplayMode*/
+			\param mode a constant that dictates how to display the animation \see fgl::AnimationElement::DisplayMode*/
 		void setDisplayMode(const DisplayMode& mode);
 		
 		/*! Gets the current Animation being displayed.
@@ -73,7 +73,7 @@ namespace GameLibrary
 		const DisplayMode& getDisplayMode() const;
 		
 	protected:
-		/*! \copydoc GameLibrary::ScreenElement::drawMain(GameLibrary::ApplicationData,GameLibrary::Graphics)const*/
+		/*! \copydoc fgl::ScreenElement::drawMain(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		
 	private:

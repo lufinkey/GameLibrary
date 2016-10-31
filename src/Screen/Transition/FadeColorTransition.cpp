@@ -2,7 +2,7 @@
 #include <GameLibrary/Screen/Transition/FadeColorTransition.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	FadeColorTransition::FadeColorTransition(const Color&c, double frozenPortn)
 	{

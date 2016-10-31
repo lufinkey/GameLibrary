@@ -3,16 +3,16 @@
 
 #include "Exception.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that some feature cannot be used since it is not yet implemented*/
 	class NotImplementedException : public Exception
 	{
 	public:
-		/*! \copydoc GameLibrary::Exception::Exception(const GameLibrary::String&)*/
+		/*! \copydoc fgl::Exception::Exception(const fgl::String&)*/
 		NotImplementedException(const String& message);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

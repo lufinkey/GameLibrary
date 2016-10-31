@@ -9,7 +9,7 @@
 #include <SDL/SDL.h>
 #include <condition_variable>
 
-namespace GameLibrary
+namespace fgl
 {
 	ArrayList<Window*> EventManager_windows;
 	static std::mutex EventManager_windows_mutex;

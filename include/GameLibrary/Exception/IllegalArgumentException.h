@@ -3,7 +3,7 @@
 
 #include "Exception.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that a function has been passed an illegal or inappropriate argument*/
 	class IllegalArgumentException : public Exception
@@ -17,7 +17,7 @@ namespace GameLibrary
 			\param reason the reason the parameter was illegal*/
 		IllegalArgumentException(const String& argument, const String& reason);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

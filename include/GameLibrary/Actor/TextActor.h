@@ -3,7 +3,7 @@
 
 #include "Actor.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A specialized Actor that can draw text.*/
 	class TextActor : public Actor
@@ -31,8 +31,8 @@ namespace GameLibrary
 			\param font a font to use to display the text
 			\param color the text color
 			\param fontSize the glyph size of the font
-			\param fontStyle the style (plain, bold italic, etc.) of the font \see GameLibrary::Font::Style
-			\param alignment the alignment of the text, relative the origin \see GameLibrary::TextActor::TextAlignment*/
+			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
+			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment*/
 		explicit TextActor(const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontSize=24, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_BOTTOMLEFT);
 		/*! Constructs a TextActor with a specified position, string, font, color, font size, font style, and alignment.
 			\param x the x coordinate
@@ -41,24 +41,24 @@ namespace GameLibrary
 			\param font a font to use to display the text
 			\param color the text color
 			\param fontSize the glyph size of the font
-			\param fontStyle the style (plain, bold italic, etc.) of the font \see GameLibrary::Font::Style
-			\param alignment the alignment of the text, relative the origin \see GameLibrary::TextActor::TextAlignment*/
+			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
+			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment*/
 		TextActor(double x, double y, const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontSize=24, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_BOTTOMLEFT);
 		/*virtual destructor*/
 		virtual ~TextActor();
 		
 		
-		/*! \copydoc GameLibrary::Actor::update(ApplicationData)*/
+		/*! \copydoc fgl::Actor::update(ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc GameLibrary::Actor::draw(ApplicationData,Graphics)const*/
+		/*! \copydoc fgl::Actor::draw(ApplicationData,Graphics)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		
-		/*! \copydoc GameLibrary::Actor::getFrame()const*/
+		/*! \copydoc fgl::Actor::getFrame()const*/
 		virtual RectangleD getFrame() const override;
 		
 		
-		/*! \copydoc GameLibrary::Actor::scaleToFit(const RectangleD&)*/
+		/*! \copydoc fgl::Actor::scaleToFit(const RectangleD&)*/
 		virtual void scaleToFit(const RectangleD&container) override;
 		
 		
@@ -72,10 +72,10 @@ namespace GameLibrary
 			\param fontSize the glyph size of the font*/
 		void setFontSize(unsigned int fontSize);
 		/*! Sets the style (plain, bold, italic, etc.) of the font.
-			\param fontStyle a bitmask of the font styles to use \see GameLibrary::Font::Style*/
+			\param fontStyle a bitmask of the font styles to use \see fgl::Font::Style*/
 		void setFontStyle(int fontStyle);
 		/*! Sets the alignment to display the text, relative to the origin.
-			\param alignment the alignment of the text, relative the origin \see GameLibrary::TextActor::TextAlignment*/
+			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment*/
 		void setAlignment(const TextAlignment&alignment);
 		/*! Sets the spacing between each line of text. Lines are separated by the newline (\\n) character.
 			\param spacing the amount of pixels to separate each line*/
@@ -92,24 +92,24 @@ namespace GameLibrary
 			\returns the glyph size of the font*/
 		unsigned int getFontSize() const;
 		/*! Gets the font style (plain, bold, italic, etc.) being used to display the string.
-			\returns a bitmask of the font styles being used. \see GameLibrary::Font::Style*/
+			\returns a bitmask of the font styles being used. \see fgl::Font::Style*/
 		int getFontStyle() const;
 		/*! Gets the alignment of the text, relative to the origin.
-			\returns a TextAlignment constant \see GameLibrary::TextActor::TextAlignment*/
+			\returns a TextAlignment constant \see fgl::TextActor::TextAlignment*/
 		const TextAlignment& getAlignment() const;
 		/*! Gets the spacing between each line of text. Lines of text are separated with a newline (\\n) character.
 			\returns an integer representing the amount of pixels between each line*/
 		int getLineSpacing() const;
 		
 		
-		/*! \copydoc GameLibrary::Actor::updateSize()*/
+		/*! \copydoc fgl::Actor::updateSize()*/
 		virtual void updateSize() override;
-		/*! \copydoc GameLibrary::Actor::checkPointCollision(const Vector2d&)*/
+		/*! \copydoc fgl::Actor::checkPointCollision(const Vector2d&)*/
 		virtual bool checkPointCollision(const Vector2d&point) override;
 		
 	protected:
 		/*! Special draw function to draw the TextActor with specific properties. These properties are not stored into the TextActor. This function is called from TextActor::draw
-			\param appData specifies information about the Application drawing the TextActor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the TextActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the SpriteActor
 			\param x the x coordinate
 			\param y the y coordinate

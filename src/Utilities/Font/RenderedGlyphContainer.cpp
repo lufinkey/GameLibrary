@@ -4,7 +4,7 @@
 #include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.h>
 #include <SDL/SDL_ttf.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	RenderedGlyphContainer::RenderedGlyphContainer()
 	{

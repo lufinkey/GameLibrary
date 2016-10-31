@@ -9,7 +9,7 @@
 	#include <Windows.h>
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 //WindowSettings implementation
 

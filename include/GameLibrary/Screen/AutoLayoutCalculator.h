@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/Geometry/Rectangle.h>
 #include "AutoLayoutManager.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	class AutoLayoutCalculator
 	{

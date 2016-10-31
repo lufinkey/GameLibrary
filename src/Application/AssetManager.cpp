@@ -4,7 +4,7 @@
 #include <GameLibrary/Window/Window.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	AssetManager::AssetManager(Window&win, const String&root, const ArrayList<String>&secondaryRootList)
 	{

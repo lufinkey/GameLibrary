@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/Geometry/Rectangle.h>
 #include <GameLibrary/Utilities/Geometry/Transform.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Iterates through pixel coordinates in a rectangle at a specified speed. Useful for efficiently detecting pixel level collisions.*/
 	class PixelIterator
@@ -19,7 +19,7 @@ namespace GameLibrary
 			\param yincrement the amount to increment the y value through each row iteration; Value is in terms of destination pixels, rather than source pixels
 			\param mirrorHorizontal true if the destination image or canvas is mirrored horizontally, and false if otherwise
 			\param mirrorVertical true if the destination image or canvas is mirrored vertically, and false if otherwise
-			\throws GameLibrary::IllegalArgumentException if loopRect is not contained within dstRect or if srcRect is stretches larger than dimensions*/
+			\throws fgl::IllegalArgumentException if loopRect is not contained within dstRect or if srcRect is stretches larger than dimensions*/
 		PixelIterator(const Vector2u&dimensions, const RectangleU&srcRect, const RectangleD&dstRect, const RectangleD&loopRect, double xincrement, double yincrement, bool mirrorHorizontal=false, bool mirrorVertical=false);
 		/*! Constructs a PixelIterator to loop through a given area.
 			\param dimensions the actual size of the image or canvas, in pixels
@@ -32,7 +32,7 @@ namespace GameLibrary
 			\param ratio the ratio of the source rectangle size over the non-transformed destination rectangle size
 			\param mirrorHorizontal true if the destination image or canvas is mirrored horizontally, and false if otherwise
 			\param mirrorVertical true if the destination image or canvas is mirrored vertically, and false if otherwise
-			\throws GameLibrary::IllegalArgumentException if loopRect is not contained within dstRect or if srcRect is stretches larger than dimensions*/
+			\throws fgl::IllegalArgumentException if loopRect is not contained within dstRect or if srcRect is stretches larger than dimensions*/
 		PixelIterator(const Vector2u&dimensions, const RectangleU&srcRect, const RectangleD&dstRect, const RectangleD&loopRect, double xincrement, double yincrement, const TransformD&transform, const Vector2d&ratio, bool mirrorHorizontal=false, bool mirrorVertical=false);
 		/*! copy constructor*/
 		PixelIterator(const PixelIterator&);

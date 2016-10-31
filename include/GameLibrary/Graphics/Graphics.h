@@ -6,7 +6,7 @@
 #include <GameLibrary/Utilities/Geometry/Transform.h>
 #include "Color.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Handles drawing to a Window object*/
 	class Graphics

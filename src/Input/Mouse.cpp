@@ -8,7 +8,7 @@
 #include <mutex>
 #include <vector>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*Stores info about a particular mouse instance*/
 	struct MouseData

@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/String.h>
 #include <GameLibrary/Utilities/ArrayList.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Handles reading directories and file structures from the disk*/
 	class FileTools
@@ -51,7 +51,7 @@ namespace GameLibrary
 			\param entries a pointer to an ArrayList<DirectoryEntry> to store the entries; This should not be null
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if all entries were successfully read from the directory, or false if an error is encountered
-			\throws GameLibrary::IllegalArgumentException if items is null*/
+			\throws fgl::IllegalArgumentException if items is null*/
 		static bool readEntriesFromDirectory(const String& directory, ArrayList<DirectoryEntry>* entries, String* error=nullptr);
 		
 		

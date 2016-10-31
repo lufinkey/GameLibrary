@@ -3,7 +3,7 @@
 
 #include "Transition.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A custom Transition that slides one Drawable on top of the other, with an optional fade*/
 	class PopoverTransition : public Transition
@@ -29,7 +29,7 @@ namespace GameLibrary
 		/*! virtual destructor*/
 		virtual ~PopoverTransition();
 		
-		/*! \copydoc GameLibrary::Transition::draw(ApplicationData,Graphics,double,Drawable*,Drawable*)const*/
+		/*! \copydoc fgl::Transition::draw(ApplicationData,Graphics,double,Drawable*,Drawable*)const*/
 		virtual void draw(ApplicationData appData, Graphics graphics, double progress, Drawable* element1, Drawable* element2) const override;
 		
 	protected:

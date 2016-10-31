@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Exception/OutOfBoundsException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate that a call to Image::getPixel, Image::setPixel, or TextureImage::checkPixel is out of bounds*/
 	class ImageOutOfBoundsException : public OutOfBoundsException
@@ -35,7 +35,7 @@ namespace GameLibrary
 			\param height the height of the image*/
 		ImageOutOfBoundsException(unsigned int index, unsigned int width, unsigned int height);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

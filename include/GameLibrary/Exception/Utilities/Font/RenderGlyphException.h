@@ -3,16 +3,16 @@
 
 #include <GameLibrary/Exception/Exception.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thrown to indicate an error rendering a font glyph*/
 	class RenderGlyphException : public Exception
 	{
 	public:
-		/*! \copydoc GameLibrary::Exception::Exception(const GameLibrary::String&)*/
+		/*! \copydoc fgl::Exception::Exception(const fgl::String&)*/
 		explicit RenderGlyphException(const String&message);
 		
-		/*! \copydoc GameLibrary::Exception::getClassName()const*/
+		/*! \copydoc fgl::Exception::getClassName()const*/
 		virtual String getClassName() const override;
 	};
 }

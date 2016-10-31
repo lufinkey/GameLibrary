@@ -4,7 +4,7 @@
 #include <GameLibrary/Screen/UpdateDrawable.h>
 #include <GameLibrary/Input/Mouse.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	class ActorMouseEvent
 	{
@@ -36,10 +36,10 @@ namespace GameLibrary
 		/*! Tells the type of mouse event that occured.
 			\returns an event type constant*/
 		const EventType& getEventType() const;
-		/*! Gives information about the Application updating the Actor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+		/*! Gives information about the Application updating the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\returns a const ApplicationData object reference*/
 		const ApplicationData& getApplicationData() const;
-		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see GameLibrary::Mouse \see GameLibrary::Multitouch
+		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see fgl::Mouse \see fgl::Multitouch
 			\returns an unsigned int representing an index or id*/
 		unsigned int getMouseIndex() const;
 		/*! Tells whether this event is a Mouse event or a Multitouch event
@@ -55,7 +55,7 @@ namespace GameLibrary
 		bool multitouch;
 	};
 	
-	/*! An overrideable implementation of GameLibrary::UpdateDrawable that provides the necessities to create a dynamic, movable, scalable, rotatable object that can be updated and drawn.*/
+	/*! An overrideable implementation of fgl::UpdateDrawable that provides the necessities to create a dynamic, movable, scalable, rotatable object that can be updated and drawn.*/
 	class Actor : public UpdateDrawable
 	{
 		friend class SpriteActor;
@@ -75,10 +75,10 @@ namespace GameLibrary
 		
 		
 		/*! Updates certain properties of the Actor, such as mouse state, and calls Actor events.
-			\param appData specifies information about the Application updating the Actor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData*/
+			\param appData specifies information about the Application updating the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData) override;
 		/*! Draws the Actor to the screen using the specified Graphics object
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
@@ -121,35 +121,35 @@ namespace GameLibrary
 			\param visible true makes the actor visible, false makes the actor invisible*/
 		void setVisible(bool visible);
 		/*! Sets the color of the Actor. This has a slightly different effect on different subclasses of Actor. Color is white {r=255; g=255; b=255; a=255} by default.
-			\link GameLibrary::SpriteActor - composites the color on the sprite
-			\link GameLibrary::TextActor - sets the text color
-			\link GameLibrary::WireframeActor - sets the wireframe color
-			\see GameLibrary::Color
+			\link fgl::SpriteActor - composites the color on the sprite
+			\link fgl::TextActor - sets the text color
+			\link fgl::WireframeActor - sets the wireframe color
+			\see fgl::Color
 			\param color the color to set the Actor*/
 		void setColor(const Color&color);
 		/*! Rotates the actor by the specified amount of degrees with the origin at its (x,y) position. Rotation is 0 by default.
-			\see GameLibrary::Actor::x
-			\see GameLibrary::Actor::y
+			\see fgl::Actor::x
+			\see fgl::Actor::y
 			\param degrees the rotation, in degrees, to rotate the Actor*/
 		void rotate(double degrees);
 		/*! Sets the rotation of the Actor to the specified amount of degrees with the origin at its (x,y) position. Rotation does affect mouse states. Rotation is 0 by default.
-			\see GameLibrary::Actor::x
-			\see GameLibrary::Actor::y
+			\see fgl::Actor::x
+			\see fgl::Actor::y
 			\param degrees the rotation, in degrees, to set the Actor's rotation*/
 		void setRotation(double degrees);
 		/*! Sets the transparency level of the Actor. This does not affect whether the mouse can detect the Actor. Alpha is 1 by default (fully visible).
 			\param alpha the alpha level, from 0 (fully invisible) to 1 (fully visible)*/
 		void setAlpha(double alpha);
 		/*! Sets the scale of the Actor with the origin at its (x,y) position. This does affect mouse states. Scale is 1 by default.
-			\see GameLibrary::Actor::x
-			\see GameLibrary::Actor::y
+			\see fgl::Actor::x
+			\see fgl::Actor::y
 			\param scale the ratio to scale the Actor from its default size*/
 		void setScale(double scale);
-		/*! Sets the frame (bounding box) and the border of the Actor to be drawn on top of the Actor when GameLibrary::Actor::draw is called. This is good for testing. Frame is not visible by default.
+		/*! Sets the frame (bounding box) and the border of the Actor to be drawn on top of the Actor when fgl::Actor::draw is called. This is good for testing. Frame is not visible by default.
 			\param visible true makes the frame and border visible, false makes the frame and border invisible*/
 		void setFrameVisible(bool visible);
 		/*! Sets the color of the frame (bounding box) and the border of the Actor. Frame and border color are green {r=0; g=255; b=0; a=255} by default.
-			\see GameLibrary::Actor::setFrameVisible(bool)
+			\see fgl::Actor::setFrameVisible(bool)
 			\param color the color to draw the frame and border*/
 		void setFrameColor(const Color&color);
 		/*! Sets whether the Actor is mirrored horizontally or not. If the Actor is mirrored, it will be drawn inverted horizontally. This does affect mouse states. Horizontal mirroring is false by default.
@@ -165,39 +165,39 @@ namespace GameLibrary
 		
 		
 		/*! Tells whether the Actor has been set visible. Visibility is true by default.
-			\see GameLibrary::Actor::setVisible(bool)
+			\see fgl::Actor::setVisible(bool)
 			\returns true means the Actor has been set visible, false means the Actor has been set invisible*/
 		bool isVisible() const;
 		/*! Gets the color of the Actor.  Color is white {r=255; g=255; b=255; a=255} by default.
-			\see GameLibrary::Actor::setColor(const Color&)
+			\see fgl::Actor::setColor(const Color&)
 			\returns a const reference to a Color object representing the Actor's color*/
 		const Color& getColor() const;
 		/*! Gets the Actor's rotation, in degrees, on its (x,y) origin. Rotation is 0 by default.
-			\see GameLibrary::Actor::setRotation(double)
+			\see fgl::Actor::setRotation(double)
 			\returns a double value representing the Actor's rotation in degrees*/
 		double getRotation() const;
 		/*! Gets the Actor's alpha value. Alpha is 1 by default (fully visible).
-			\see GameLibrary::Actor::setAlpha(double)
+			\see fgl::Actor::setAlpha(double)
 			\returns a double representing the alpha level, from 0 (fully invisible) to 1 (fully visible)*/
 		double getAlpha() const;
 		/*! Gets the Actor's scale ratio. Scale is 1 by default.
-			\see GameLibrary::Actor::setScale(double)
+			\see fgl::Actor::setScale(double)
 			\returns a double representing the ratio the Actor has been scaled*/
 		double getScale() const;
 		/*! Tells whether the Actor's frame (bounding box) and border have been set visible. Frame and border visibility is false by default.
-			\see GameLibrary::Actor::setFrameVisible(bool)
+			\see fgl::Actor::setFrameVisible(bool)
 			\returns true if the Actor's frame and border are visible, and false if the frame and border are invisible*/
 		bool isFrameVisible() const;
 		/*! Gets the color of the Actor's frame (bounding box) and border. Frame and border color are green {r=0; g=255; b=0; a=255} by default.
-			\see GameLibrary::Actor::setFrameColor(const Color&)
+			\see fgl::Actor::setFrameColor(const Color&)
 			\returns a const reference to a Color object representing the Actor's frame and border color*/
 		const Color& getFrameColor() const;
 		/*! Tells whether the Actor is drawn horizontally inverted. Horizontal mirroring is false by default.
-			\see GameLibrary::Actor::setMirroredHorizontal(bool)
+			\see fgl::Actor::setMirroredHorizontal(bool)
 			\returns true if the Actor is mirrored horizontally, false if otherwise.*/
 		bool isMirroredHorizontal() const;
 		/*! Tells whether the Actor is drawn vertically inverted. Vertical mirroring is false by default.
-			\see GameLibrary::Actor::setMirroredVertical(bool)
+			\see fgl::Actor::setMirroredVertical(bool)
 			\returns true if the Actor is mirrored vertically, false if otherwise.*/
 		bool isMirroredVertical() const;
 		/*! Tells whether mouse events are enabled.
@@ -205,28 +205,28 @@ namespace GameLibrary
 		bool areMouseEventsEnabled() const;
 		
 		
-		/*! Tells whether the Mouse or a Multitouch input was hovering over the Actor in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Mouse or a Multitouch input was hovering over the Actor in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input was hovering over the Actor in the most recent update call, and false if otherwise.*/
 		bool isMouseOver() const;
-		/*! Tells whether the Mouse or a Multitouch input was hovering over the Actor in the previous (before the most recent) update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Mouse or a Multitouch input was hovering over the Actor in the previous (before the most recent) update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input was hovering over the Actor in the previous update call, and false if otherwise.*/
 		bool wasMouseOver() const;
-		/*! Tells whether the Mouse or a Multitouch input was pressing the Actor in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Mouse or a Multitouch input was pressing the Actor in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input was pressing the Actor in the most recent update call, and false if otherwise.*/
 		bool isMousePressed() const;
-		/*! Tells whether the Mouse or a Multitouch input was pressing the Actor in the previous (before the most recent) call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Mouse or a Multitouch input was pressing the Actor in the previous (before the most recent) call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input was pressing the Actor in the previous update call, and false if otherwise.*/
 		bool wasMousePressed() const;
-		/*! Tells whether the Actor was just pressed in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Actor was just pressed in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input just pressed the Actor in the most recent update call, and false if otherwise.*/
 		bool didMousePress() const;
-		/*! Tells whether the Actor was just released in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time GameLibrary::Actor::update is called.
-			\see GameLibrary::Actor::update(ApplicationData)
+		/*! Tells whether the Actor was just released in the most recent update call. This function does not recheck the mouse. The Actor's mouse state gets updated every time fgl::Actor::update is called.
+			\see fgl::Actor::update(ApplicationData)
 			\returns true if a Mouse or Multitouch input just released the Actor in the most recent update call, and false if otherwise.
 			\note the Actor may still be pressed. This function just checks to see if any touchID or mouseIndex released the Actor.*/
 		bool didMouseRelease() const;
@@ -237,16 +237,16 @@ namespace GameLibrary
 		void clearMouseState();
 		
 		
-		/*! Called when a Mouse or Multitouch input presses the Actor. This function is called within the Actor's update function. \see GameLibrary::Actor::update(ApplicationData)
+		/*! Called when a Mouse or Multitouch input presses the Actor. This function is called within the Actor's update function. \see fgl::Actor::update(ApplicationData)
 			\param evt information about the event that was performed*/
 		virtual void onMousePress(const ActorMouseEvent& evt);
-		/*! Called when a Mouse or Multitouch input releases the Actor. This function is called within the Actor's update function. \see GameLibrary::Actor::update(ApplicationData)
+		/*! Called when a Mouse or Multitouch input releases the Actor. This function is called within the Actor's update function. \see fgl::Actor::update(ApplicationData)
 			\param evt information about the event that was performed*/
 		virtual void onMouseRelease(const ActorMouseEvent& evt);
-		/*! Called when a Mouse or Multitouch input enters (hovers over) the Actor. This function is called within the Actor's update function. \see GameLibrary::Actor::update(ApplicationData)
+		/*! Called when a Mouse or Multitouch input enters (hovers over) the Actor. This function is called within the Actor's update function. \see fgl::Actor::update(ApplicationData)
 			\param evt information about the event that was performed*/
 		virtual void onMouseEnter(const ActorMouseEvent& evt);
-		/*! Called when a Mouse or Multitouch input leaves (stops hovering over) the Actor. This function is called within the Actor's update function. \see GameLibrary::Actor::update(ApplicationData)
+		/*! Called when a Mouse or Multitouch input leaves (stops hovering over) the Actor. This function is called within the Actor's update function. \see fgl::Actor::update(ApplicationData)
 			\param evt information about the event that was performed*/
 		virtual void onMouseLeave(const ActorMouseEvent& evt);
 		

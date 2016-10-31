@@ -13,7 +13,7 @@
 #include <GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.h>
 #include "Stringifier.h"
 
-namespace GameLibrary
+namespace fgl
 {
 #endif
 	//Mostly just a wrapper around std::vector
@@ -273,7 +273,7 @@ namespace GameLibrary
 			size_t lastIndex = length-1;
 			for(size_t i=0; i<length; i++)
 			{
-				str += GameLibrary::stringify<T>(objects[i]);
+				str += fgl::stringify<T>(objects[i]);
 				if(i != lastIndex)
 				{
 					str += ", ";

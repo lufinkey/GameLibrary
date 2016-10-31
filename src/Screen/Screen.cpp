@@ -6,7 +6,7 @@
 #include <GameLibrary/Exception/IllegalStateException.h>
 #include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	const Transition* const Screen::defaultPresentTransition = new PopoverTransition(PopoverTransition::POPOVER_UP);
 	

@@ -1,7 +1,7 @@
 
 #include <GameLibrary/Actor/WireframeActor.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	WireframeActor::WireframeActor() : WireframeActor(0,0,0,0)
 	{

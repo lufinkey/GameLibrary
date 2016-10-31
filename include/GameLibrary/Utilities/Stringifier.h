@@ -6,7 +6,7 @@
 #include <sstream>
 #include "BasicString.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	namespace StringifyUtils
 	{

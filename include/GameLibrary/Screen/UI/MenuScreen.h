@@ -11,7 +11,7 @@
 #include <GameLibrary/Screen/Screen.h>
 #include "ActorMenuElement.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! Thin Screen wrapper around ActorMenuElement. The main difference is that this class DOES automatically handle deallocation of any added Actor pointers.*/
 	class MenuScreen : public Screen
@@ -37,13 +37,13 @@ namespace GameLibrary
 		/*! Adds a SpriteActor. This Actor's deallocation will be automatically handled when this Screen is deallocated
 			\param actor a SpriteActor pointer
 			\returns the index of the added SpriteActor
-			\throws GameLibrary::IllegalArgumentException if actor argument is null*/
+			\throws fgl::IllegalArgumentException if actor argument is null*/
 		size_t addItem(SpriteActor*actor);
 		/*! Adds a SpriteActor that will be automatically resized by the AutoLayout. This Actor's deallocation will be automatically handled when this Screen is deallocated
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param actor a SpriteActor pointer
 			\returns the index of the added SpriteActor
-			\throws GameLibrary::IllegalArgumentException if actor argument is null*/
+			\throws fgl::IllegalArgumentException if actor argument is null*/
 		size_t addItem(const RectD&bounds, SpriteActor*actor);
 		/*! Creates and adds a SpriteActor.
 			\param position the position of the Actor in the Screen
@@ -51,7 +51,7 @@ namespace GameLibrary
 			\param direction the default Animation::Direction of the Actor
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
-			\throws GameLibrary::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
+			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
 		size_t addItem(const Vector2d&position, Animation*animation, const Animation::Direction&direction=Animation::FORWARD, bool destructAnimation=true);
 		/*! Creates and adds a SpriteActor that will be automatically resized by the AutoLayout.
 			\param bounds the ratio in the frame where the Actor will be laid out
@@ -59,18 +59,18 @@ namespace GameLibrary
 			\param direction the default Animation::Direction of the Actor
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
-			\throws GameLibrary::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
+			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
 		size_t addItem(const RectD&bounds, Animation*animation, const Animation::Direction&direction=Animation::FORWARD, bool destructAnimation=true);
 		/*! Adds a TextActor. This Actor's deallocation will be automatically handled when this Screen is deallocated.
 			\param actor a TextActor pointer
 		 	\returns the index of the added item
-			\throws GameLibrary::IllegalArgumentException if actor argument is null*/
+			\throws fgl::IllegalArgumentException if actor argument is null*/
 		size_t addItem(TextActor*actor);
 		/*! Adds a TextActor that will be automatically resized by the AutoLayout. This Actor's deallocation will be automatically handled when this Screen is deallocated.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param actor a TextActor pointer
 		 	\returns the index of the added item
-			\throws GameLibrary::IllegalArgumentException if actor argument is null*/
+			\throws fgl::IllegalArgumentException if actor argument is null*/
 		size_t addItem(const RectD&bounds, TextActor*actor);
 		/*! Creates and adds a TextActor.
 			\param position the position of the Actor in the Screen
@@ -78,8 +78,8 @@ namespace GameLibrary
 			\param font a font to use to display the text
 			\param color the text color
 			\param fontSize the glyph size of the font
-			\param fontStyle the style (plain, bold italic, etc.) of the font \see GameLibrary::Font::Style
-			\param alignment the alignment of the text, relative the origin \see GameLibrary::TextActor::TextAlignment
+			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
+			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 			\returns the index of the added item*/
 		size_t addItem(const Vector2d&position, const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontsize=18, int fontstyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_CENTER);
 		/*! Creates and adds a TextActor that will be automatically resized by the AutoLayout.
@@ -88,8 +88,8 @@ namespace GameLibrary
 			\param font a font to use to display the text
 			\param color the text color
 			\param fontSize the glyph size of the font
-			\param fontStyle the style (plain, bold italic, etc.) of the font \see GameLibrary::Font::Style
-			\param alignment the alignment of the text, relative the origin \see GameLibrary::TextActor::TextAlignment
+			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
+			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 		 	\returns the index of the added item*/
 		size_t addItem(const RectD&bounds, const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontsize=18, int fontstyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_CENTER);
 		/*! Removes and deallocates a previously added Actor pointer.
@@ -185,7 +185,7 @@ namespace GameLibrary
 		
 	protected:
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see GameLibrary::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor
 			\param actor the Actor from the menu being drawn*/
 		virtual void drawItem(ApplicationData appData, Graphics graphics, Actor*item) const;

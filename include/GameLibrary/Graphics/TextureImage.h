@@ -5,7 +5,7 @@
 #include "Image.h"
 #include "Graphics.h"
 
-namespace GameLibrary
+namespace fgl
 {
 	/*! A Image that can be drawn to a Window using the Window's Graphics object. This class is non-copyable and lives on the video card memory.*/
 	class TextureImage

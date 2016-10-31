@@ -2,7 +2,7 @@
 #include <GameLibrary/Graphics/Color.h>
 #include <GameLibrary/Utilities/Math.h>
 
-namespace GameLibrary
+namespace fgl
 {
 	Color::Color()
 	{
@@ -20,7 +20,7 @@ namespace GameLibrary
 		a = A;
 	}
 	
-	Color::Color(const GameLibrary::Color::RGBA32& rgba)
+	Color::Color(const fgl::Color::RGBA32& rgba)
 	{
 		byte*rgbaArray = (byte*)(&rgba);
 		r = rgbaArray[3];
@@ -46,7 +46,7 @@ namespace GameLibrary
 		return *this;
 	}
 
-	Color& Color::operator=(const GameLibrary::Color::RGBA32& rgba)
+	Color& Color::operator=(const fgl::Color::RGBA32& rgba)
 	{
 		byte*rgbaArray = (byte*)(&rgba);
 		r = rgbaArray[3];
