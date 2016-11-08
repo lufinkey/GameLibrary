@@ -15,8 +15,10 @@
 	#include <direct.h>
 	#include <Windows.h>
 	#include <ShlObj.h>
+	#include <Shlwapi.h>
 #else
 	#include <unistd.h>
+	#include <libgen.h>
 #endif
 
 namespace fgl
@@ -168,6 +170,17 @@ namespace fgl
 			}
 		}
 		return fullpath;
+	}
+
+	String FileTools::getDirectoryComponent(const String& path)
+	{
+		fgl::String tmpPath = path;
+		#if defined(TARGETPLATFORM_WINDOWS)
+			PathRemoveFileSpecA((char*)tmpPath.getData());
+			return tmpPath.getData();
+		#else
+			return dirname((char*)tmpPath.getData());
+		#endif
 	}
 	
 	#if !defined(TARGETPLATFORM_MAC) && !defined(TARGETPLATFORM_IOS)

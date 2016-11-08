@@ -66,6 +66,12 @@ namespace fgl
 			\param second the second half of the path
 			\returns a String containing a full path from the two given paths*/
 		static String combinePathStrings(const String& first, const String& second);
+
+
+		/*! Breaks a path into the directory and filename components and returns the directory component
+			\param path the path to retrieve the directory name for
+			\returns the directory component of the path */
+		static String getDirectoryComponent(const String& path);
 		
 		
 		/*! Opens up the native file chooser to select a file.
