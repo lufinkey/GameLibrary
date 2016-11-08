@@ -112,12 +112,7 @@ namespace fgl
 						if(animation_frame >= totalFrames)
 						{
 							animation_frame = 0;
-							animation_current->setCurrentFrame(animation_frame);
 							onAnimationFinish(SpriteActorAnimationEvent(this, animation_name, animation_current));
-						}
-						else
-						{
-							animation_current->setCurrentFrame(animation_frame);
 						}
 					}
 					else if(animation_direction == Animation::BACKWARD)
@@ -129,13 +124,11 @@ namespace fgl
 							{
 								animation_frame = totalFrames-1;
 							}
-							animation_current->setCurrentFrame(animation_frame);
 							onAnimationFinish(SpriteActorAnimationEvent(this, animation_name, animation_current));
 						}
 						else
 						{
 							animation_frame--;
-							animation_current->setCurrentFrame(animation_frame);
 						}
 					}
 				}
@@ -188,8 +181,7 @@ namespace fgl
 			actorGraphics.compositeTintColor(color);
 			actorGraphics.setAlpha((byte)(alpha*255));
 			
-			animation_current->setCurrentFrame(animation_frame);
-			animation_current->draw(appData, actorGraphics);
+			animation_current->drawFrame(actorGraphics, animation_frame);
 			
 			if(frame_visible)
 			{
@@ -270,7 +262,7 @@ namespace fgl
 			}
 		}
 		
-		RectangleD frame = animation_current->getFrame(animation_frame);
+		RectangleD frame = animation_current->getRect(animation_frame);
 		frame.x*=scale;
 		frame.y*=scale;
 		frame.width*=scale;
@@ -441,7 +433,6 @@ namespace fgl
 			}
 		}
 		
-		animation->setCurrentFrame(animation_frame);
 		updateSize();
 	}
 	
@@ -528,10 +519,6 @@ namespace fgl
 			}
 		}
 		
-		if(animation!=nullptr)
-		{
-			animation->setCurrentFrame(animation_frame);
-		}
 		updateSize();
 	}
 	

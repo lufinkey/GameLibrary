@@ -58,18 +58,16 @@ namespace fgl
 		}
 	}
 
-	Animation::Animation(const Animation&animation)
+	Animation::Animation(const Animation& animation)
 	{
-		currentFrame = animation.currentFrame;
 		frames = animation.frames;
 		fps = animation.fps;
 		mirroredHorizontal = animation.mirroredHorizontal;
 		mirroredVertical = animation.mirroredVertical;
 	}
 	
-	Animation& Animation::operator=(const Animation&animation)
+	Animation& Animation::operator=(const Animation& animation)
 	{
-		currentFrame = animation.currentFrame;
 		frames = animation.frames;
 		fps = animation.fps;
 		mirroredHorizontal = animation.mirroredHorizontal;
@@ -85,7 +83,6 @@ namespace fgl
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
 		fps = fps_arg;
-		currentFrame = 0;
 		mirroredHorizontal = false;
 		mirroredVertical = false;
 	}
@@ -152,11 +149,6 @@ namespace fgl
 		return mirroredVertical;
 	}
 
-	unsigned int Animation::getFrameWidth() const
-	{
-		return getFrameWidth(currentFrame);
-	}
-
 	unsigned int Animation::getFrameWidth(size_t frameNum) const
 	{
 		const AnimationFrame& animFrame = frames.get(frameNum);
@@ -170,11 +162,6 @@ namespace fgl
 			unsigned int imgwidth = img->getWidth();
 			return (imgwidth/animFrame.cols);
 		}
-	}
-
-	unsigned int Animation::getFrameHeight() const
-	{
-		return getFrameHeight(currentFrame);
 	}
 
 	unsigned int Animation::getFrameHeight(size_t frameNum) const
@@ -192,7 +179,7 @@ namespace fgl
 		}
 	}
 
-	void Animation::addFrame(AssetManager*assetManager, const String&file)
+	void Animation::addFrame(AssetManager* assetManager, const String& file)
 	{
 		if(file.length()>0)
 		{
@@ -206,7 +193,7 @@ namespace fgl
 		}
 	}
 
-	void Animation::addFrames(AssetManager*assetManager, const String&file, unsigned int rows, unsigned int cols)
+	void Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols)
 	{
 		unsigned int total = rows*cols;
 		if(total>0 && file.length()>0)
@@ -230,7 +217,7 @@ namespace fgl
 		}
 	}
 
-	void Animation::addFrames(AssetManager*assetManager, const String&file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>&sequence)
+	void Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence)
 	{
 		unsigned int total = rows*cols;
 		if(total > 0 && file.length()>0)
@@ -258,16 +245,6 @@ namespace fgl
 				}
 			}
 		}
-	}
-	
-	void Animation::setCurrentFrame(size_t frameNum)
-	{
-		currentFrame = frameNum;
-	}
-	
-	size_t Animation::getCurrentFrame() const
-	{
-		return currentFrame;
 	}
 	
 	size_t Animation::getTotalFrames() const
@@ -307,11 +284,6 @@ namespace fgl
 		return frames.get(frameNum).img;
 	}
 
-	TextureImage* Animation::getImage() const
-	{
-		return getImage(currentFrame);
-	}
-
 	RectangleU Animation::getImageSourceRect(size_t fNum) const
 	{
 		size_t frameNum = fNum;
@@ -330,17 +302,7 @@ namespace fgl
 		return frames.get(frameNum).getSourceRect();
 	}
 	
-	RectangleU Animation::getImageSourceRect() const
-	{
-		return getImageSourceRect(currentFrame);
-	}
-	
-	RectangleD Animation::getFrame() const
-	{
-		return getFrame(currentFrame);
-	}
-	
-	RectangleD Animation::getFrame(size_t frameNum) const
+	RectangleD Animation::getRect(size_t frameNum) const
 	{
 		const AnimationFrame& animFrame = frames.get(frameNum);
 		TextureImage* img = animFrame.img;
@@ -360,9 +322,8 @@ namespace fgl
 		}
 	}
 
-	void Animation::draw(ApplicationData appData, Graphics graphics) const
+	void Animation::drawFrame(Graphics graphics, size_t frameNum) const
 	{
-		size_t frameNum = currentFrame;
 		size_t totalFrames = frames.size();
 		if(totalFrames == 0)
 		{
@@ -380,12 +341,12 @@ namespace fgl
 			}
 		}
 
-		RectangleD dstRect = getFrame(frameNum);
+		RectangleD dstRect = getRect(frameNum);
 		
-		drawFrame(appData, graphics, frameNum, dstRect);
+		drawFrame(graphics, frameNum, dstRect);
 	}
 	
-	void Animation::drawFrame(ApplicationData& appData, Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const
+	void Animation::drawFrame(Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const
 	{
 		const AnimationFrame& animFrame = frames.get(frameNum);
 		

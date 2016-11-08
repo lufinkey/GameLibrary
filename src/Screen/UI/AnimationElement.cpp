@@ -83,12 +83,7 @@ namespace fgl
 						if(animation_frame >= totalFrames)
 						{
 							animation_frame = 0;
-							animation->setCurrentFrame(animation_frame);
 							//TODO on animation finish
-						}
-						else
-						{
-							animation->setCurrentFrame(animation_frame);
 						}
 					}
 					else if(animation_direction == Animation::BACKWARD)
@@ -100,13 +95,11 @@ namespace fgl
 							{
 								animation_frame = totalFrames-1;
 							}
-							animation->setCurrentFrame(animation_frame);
 							//TODO on animation finish
 						}
 						else
 						{
 							animation_frame--;
-							animation->setCurrentFrame(animation_frame);
 						}
 					}
 				}
@@ -135,13 +128,13 @@ namespace fgl
 					break;
 				}
 			}
-			RectangleD animRect = animation->getFrame(anim_frame);
+			RectangleD animRect = animation->getRect(anim_frame);
 			switch(displayMode)
 			{
 				default:
 				case DISPLAY_STRETCH:
 				{
-					animation->drawFrame(appData, graphics, anim_frame, getFrame());
+					animation->drawFrame(graphics, anim_frame, getFrame());
 				}
 				break;
 
@@ -151,7 +144,7 @@ namespace fgl
 					if(animRect.width!=0 && animRect.height!=0 && frame.width!=0 && frame.height!=0)
 					{
 						animRect.scaleToFit(frame);
-						animation->drawFrame(appData, graphics, anim_frame, animRect);
+						animation->drawFrame(graphics, anim_frame, animRect);
 					}
 				}
 				break;
@@ -163,7 +156,7 @@ namespace fgl
 					{
 						animRect.scaleToFill(frame);
 						graphics.clip(frame);
-						animation->drawFrame(appData, graphics, anim_frame, animRect);
+						animation->drawFrame(graphics, anim_frame, animRect);
 					}
 				}
 				break;
@@ -180,7 +173,7 @@ namespace fgl
 						{
 							double animX = frame.x + (animRect.width*((double)x));
 							double animY = frame.y + (animRect.height*((double)y));
-							animation->drawFrame(appData, graphics, anim_frame, RectangleD(animX, animY, animRect.width, animRect.height));
+							animation->drawFrame(graphics, anim_frame, RectangleD(animX, animY, animRect.width, animRect.height));
 						}
 					}
 				}

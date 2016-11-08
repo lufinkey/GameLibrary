@@ -11,7 +11,7 @@
 namespace fgl
 {
 	/*! Holds Animation data for the SpriteActor class*/
-	class Animation : public Drawable
+	class Animation
 	{
 	public:
 		/*! The direction the Animation should move in when animating.
@@ -60,23 +60,22 @@ namespace fgl
 		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager*assetManager, const String& file, const ArrayList<Vector2u>& sequence);
 		/*! virtual destructor
 			\note this does not unload the images loaded during construction. You must manually unload the contents of the assetManager used.*/
-		virtual ~Animation();
+		~Animation();
 		/*! assignment operator*/
 		Animation& operator=(const Animation&);
 		
 		
 		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
-			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see fgl::ApplicationData
-			\param graphics the graphics object used to draw the Animation*/
-		virtual void draw(ApplicationData appData, Graphics graphics) const override;
+			\param graphics the graphics object used to draw the Animation
+			\param frameNum the frame number to draw */
+		void drawFrame(Graphics graphics, size_t frameNum) const;
 		
 		
 		/*! Draws the specified frame
-			\param appData specifies information about the Application drawing the Animation, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the graphics object used to draw the Animation
 			\param frameNum the frame number to draw
-			\param dstRect the rectangle that the animation will be drawn within*/
-		void drawFrame(ApplicationData& appData, Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const;
+			\param dstRect the rectangle that the animation will be drawn within */
+		void drawFrame(Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const;
 		
 		
 		/*! Loads and re-stores the images for each frame of the Animation.
@@ -140,12 +139,6 @@ namespace fgl
 		void addFrames(AssetManager*assetManager, const String&file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>&sequence);
 		
 		
-		/*! Sets the current frame. No relation to Animation::getFrame().
-			\param frameNum the index of the frame*/
-		void setCurrentFrame(size_t frameNum);
-		/*! Gets the current frame. No relation to Animation::getFrame().
-			\returns the frame index of the current frame*/
-		size_t getCurrentFrame() const;
 		/*! Gets the total amount of frames stored in the Animation.
 			\returns the total amount of frames*/
 		size_t getTotalFrames() const;
@@ -164,25 +157,15 @@ namespace fgl
 			\param frameNum the frame index
 			\returns the TextureImage for the specified frame*/
 		TextureImage* getImage(size_t frameNum) const;
-		/*! Gets the image being used in the current frame.
-			\returns the TextureImage for the current frame*/
-		TextureImage* getImage() const;
 		/*! Gets the source Rectangle for the TextureImage at the specified frame.
 			\param frameNum the frame index
 			\returns the source Rectangle for the specified frame*/
 		RectangleU getImageSourceRect(size_t frameNum) const;
-		/*! Gets the source Rectangle for the TextureImage at the current frame.
-			\returns the source Rectangle for the current frame*/
-		RectangleU getImageSourceRect() const;
-		
-		
-		/*! Gets the frame (bounding box) of the Animation at the current frame (animation frame).
-			\returns the current bounding box of the Animation*/
-		virtual RectangleD getFrame() const override;
+
 		/*! Gets the frame (bounding box) of the Animation at the specified frame (animation frame).
 			\param frameNum the frame index
 			\returns the bounding box of the Animation*/
-		virtual RectangleD getFrame(size_t frameNum) const;
+		RectangleD getRect(size_t frameNum) const;
 		
 	private:
 		class AnimationFrame
@@ -203,7 +186,6 @@ namespace fgl
 			RectangleU getSourceRect() const;
 		};
 
-		size_t currentFrame;
 		ArrayList<AnimationFrame> frames;
 
 		float fps;
