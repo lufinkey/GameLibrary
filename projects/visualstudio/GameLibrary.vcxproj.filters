@@ -714,6 +714,12 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\AnimationElement.h">
       <Filter>include\GameLibrary\Screen\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Dictionary.impl">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.impl">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -944,13 +950,5 @@
     <ClCompile Include="..\..\src\Screen\UI\AnimationElement.cpp">
       <Filter>src\Screen\UI</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\include\GameLibrary\Utilities\Number.impl">
-      <Filter>include\GameLibrary\Utilities</Filter>
-    </None>
-    <None Include="..\..\include\GameLibrary\Utilities\Dictionary.impl">
-      <Filter>include\GameLibrary\Utilities</Filter>
-    </None>
   </ItemGroup>
 </Project>

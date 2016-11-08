@@ -281,8 +281,12 @@
     <ClCompile Include="..\..\src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\GameLibrary\Utilities\Dictionary.impl" />
-    <None Include="..\..\include\GameLibrary\Utilities\Number.impl" />
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Dictionary.impl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.impl">
+      <FileType>Document</FileType>
+    </ClInclude>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{68890e50-b78e-43fb-bff3-c96e86766c57}</ProjectGuid>

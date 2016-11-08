@@ -59,7 +59,6 @@ namespace fgl
 		const VALUE_TYPE& get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const;
 		
 		ValueProxy operator[](const KEY_TYPE& key);
-		const VALUE_TYPE& operator[](const KEY_TYPE& key) const;
 		
 		ArrayList<KEY_TYPE> getKeys() const;
 		ArrayList<VALUE_TYPE> getValues() const;
