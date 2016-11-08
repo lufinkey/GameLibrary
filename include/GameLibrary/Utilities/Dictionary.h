@@ -85,7 +85,7 @@ namespace fgl
 	{
 		try
 		{
-			Any& value = dict.get(key);
+			const Any& value = dict.get(key);
 			try
 			{
 				return value.as<RESULT_TYPE>();
@@ -106,7 +106,7 @@ namespace fgl
 	{
 		try
 		{
-			Any& value = dict.get(key);
+			const Any& value = dict.get(key);
 			try
 			{
 				return value.as<RESULT_TYPE>();
@@ -117,6 +117,34 @@ namespace fgl
 			}
 		}
 		catch(const DictionaryKeyNotFoundException&)
+		{
+			return defaultValue;
+		}
+	}
+
+	template<typename RESULT_TYPE>
+	RESULT_TYPE extract(const ArrayList<fgl::Any>& array, size_t index)
+	{
+		const Any& value = array.get(index);
+		try
+		{
+			return value.as<RESULT_TYPE>();
+		}
+		catch(const BadAnyCastException&)
+		{
+			return RESULT_TYPE();
+		}
+	}
+
+	template<typename RESULT_TYPE>
+	RESULT_TYPE extract(const ArrayList<fgl::Any>& array, size_t index, const RESULT_TYPE& defaultValue)
+	{
+		const Any& value = array.get(index);
+		try
+		{
+			return value.as<RESULT_TYPE>();
+		}
+		catch(const BadAnyCastException&)
 		{
 			return defaultValue;
 		}
