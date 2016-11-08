@@ -100,6 +100,27 @@ namespace fgl
 			return RESULT_TYPE();
 		}
 	}
+
+	template<typename RESULT_TYPE>
+	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::key_type& key, const RESULT_TYPE& defaultValue)
+	{
+		try
+		{
+			Any& value = dict.get(key);
+			try
+			{
+				return value.as<RESULT_TYPE>();
+			}
+			catch(const BadAnyCastException&)
+			{
+				return defaultValue;
+			}
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return defaultValue;
+		}
+	}
 }
 
 #include "Dictionary.impl"
