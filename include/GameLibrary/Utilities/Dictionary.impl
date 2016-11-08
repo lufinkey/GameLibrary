@@ -117,6 +117,12 @@ namespace fgl
 	{
 		//
 	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::has(const KEY_TYPE& key) const
+	{
+		return indexOfKey(key) != (size_t)-1;
+	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE& value)

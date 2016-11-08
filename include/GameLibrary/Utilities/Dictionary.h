@@ -47,6 +47,8 @@ namespace fgl
 		BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents);
 		~BasicDictionary();
+
+		bool has(const KEY_TYPE& key) const;
 		
 		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE& value);
 		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE&& value);
