@@ -77,6 +77,27 @@ namespace fgl
 	};
 	
 	typedef BasicDictionary<String, Any> Dictionary;
+
+	template<typename RESULT_TYPE>
+	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::key_type& key)
+	{
+		try
+		{
+			Any& value = dict.get(key);
+			try
+			{
+				return value.as<RESULT_TYPE>();
+			}
+			catch(const BadAnyCastException&)
+			{
+				return RESULT_TYPE();
+			}
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return RESULT_TYPE();
+		}
+	}
 }
 
 #include "Dictionary.impl"
