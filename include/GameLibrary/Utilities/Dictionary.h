@@ -69,6 +69,8 @@ namespace fgl
 		size_t size() const;
 		void clear();
 		void reserve(size_t size);
+
+		bool isEmpty() const;
 		
 		String toString() const;
 		

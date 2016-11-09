@@ -198,7 +198,7 @@ namespace fgl
 			return as<U>();
 		}
 		
-		bool empty() const
+		bool isEmpty() const
 		{
 			return !ptr;
 		}

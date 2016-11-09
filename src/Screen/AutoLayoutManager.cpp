@@ -172,12 +172,12 @@ namespace fgl
 				{
 					const Dictionary& ruleData = pair.second.as<const Dictionary&>();
 					Any value_any = ruleData.get("value", Any());
-					if(!value_any.empty() && value_any.is<Number>())
+					if(!value_any.isEmpty() && value_any.is<Number>())
 					{
 						double value = value_any.as<Number>().toArithmeticValue<double>();
 						LayoutValueType valueType = LAYOUTVALUE_PIXEL;
 						Any valueType_any = ruleData.get("valueType", Any());
-						if(!valueType_any.empty() && valueType_any.is<String>())
+						if(!valueType_any.isEmpty() && valueType_any.is<String>())
 						{
 							String valueType_str = valueType_any.as<String>();
 							bool validValue = false;
