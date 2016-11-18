@@ -472,7 +472,7 @@ namespace fgl
 			}
 			Any value;
 			bool result = Plist_parse(&value, ptr, *it, error);
-			if(!value.empty())
+			if(!value.isEmpty())
 			{
 				dst->set(key, std::move(value));
 			}
@@ -492,7 +492,7 @@ namespace fgl
 		{
 			Any value;
 			bool result = Plist_parse(&value, ptr, *it, error);
-			if(!value.empty())
+			if(!value.isEmpty())
 			{
 				dst->add(std::move(value));
 			}
