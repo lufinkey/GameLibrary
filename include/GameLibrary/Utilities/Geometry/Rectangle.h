@@ -36,6 +36,14 @@ namespace fgl
 		{
 			//
 		}
+
+		/*! Explicit conversion between Rectangle template types. 
+			\param rectangle the rectangle being converted from*/
+		template<typename U>
+		explicit Rectangle(const Rectangle<U>& rectangle) : x((U)rectangle.x), y((U)rectangle.y), width((U)rectangle.width), height((U)rectangle.height)
+		{
+			//
+		}
 		
 		/*! Calculates whether a given point is inside the bounds of the rectangle.
 			\param point the point to check
