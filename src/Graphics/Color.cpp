@@ -136,6 +136,15 @@ namespace fgl
 		return Color(cr,cg,cb,ca);
 	}
 
+	Color Color::negative(bool alpha) const
+	{
+		if(alpha)
+		{
+			return Color(255-r, 255-g, 255-b, 255-a);
+		}
+		return Color(255-r, 255-g, 255-b, a);
+	}
+
 	Color Color::random(bool alpha)
 	{
 		Color color;

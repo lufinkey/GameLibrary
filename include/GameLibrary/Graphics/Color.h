@@ -242,6 +242,10 @@ namespace fgl
 			\param comp the Color to composite on top of the current Color
 			\returns a Color object with the given color composited on top of it.*/
 		Color composite(const Color&comp) const;
+
+		/*! Inverts the color to its negative
+			\returns a negative Color*/
+		Color negative(bool alpha=false) const;
 		
 		/*! Generates a random Color value.
 			\param alpha true to randomize the alpha value, false to only randomize the RGB values
