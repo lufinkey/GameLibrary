@@ -79,14 +79,14 @@ namespace fgl
 		
 		
 		/*! Sets the alpha (transparency) of the Graphics.
-			\param alpha the alpha value, from 0 (fully transparent) to 255 (fully visible)*/
-		virtual void setAlpha(byte alpha);
-		/*! Composites the alpha (transparency) of the Graphics. this->alpha *= (alpha/255);
-			\param alpha the alpha value to composite, from 0 (fully transparent) to 255 (fully visible)*/
-		virtual void compositeAlpha(byte alpha);
+			\param alpha the alpha value, from 0.0 (fully transparent) to 1.0 (fully visible); If the value is outside these boundaries, it is adjusted*/
+		virtual void setAlpha(float alpha);
+		/*! Composites the alpha (transparency) of the Graphics. this->alpha *= alphaComposite;
+			\param alpha the alpha value to composite, from 0.0 (fully transparent) to 1.0 (fully visible); If the resulting alpha value is outside these boundaries, it is adjusted*/
+		virtual void compositeAlpha(float alphaComposite);
 		/*! Gets the current alpha value.
 			\returns an unsigned byte value*/
-		virtual byte getAlpha() const;
+		virtual float getAlpha() const;
 		
 		
 		/*! Sets the Color that the graphics draws with.
@@ -260,7 +260,7 @@ namespace fgl
 
 		Color color;
 		Color tintColor;
-		byte alpha;
+		float alpha;
 		
 		Font*font;
 		static Font*defaultFont;

@@ -179,7 +179,7 @@ namespace fgl
 			
 			Graphics actorGraphics(graphics);
 			actorGraphics.compositeTintColor(color);
-			actorGraphics.setAlpha((byte)(alpha*255));
+			actorGraphics.setAlpha((float)alpha);
 			
 			animation_current->drawFrame(actorGraphics, animation_frame);
 			

@@ -54,7 +54,7 @@ namespace fgl
 		
 		if(fade)
 		{
-			graphics.compositeAlpha((byte)(progress*255));
+			graphics.compositeAlpha((float)progress);
 		}
 		graphics.translate((double)translationX, (double)translationY);
 		

@@ -79,7 +79,7 @@ namespace fgl
 			
 			Graphics actorGraphics(graphics);
 			actorGraphics.setColor(color);
-			actorGraphics.setAlpha((byte)(alpha*255));
+			actorGraphics.setAlpha((float)alpha);
 
 			if(filled)
 			{

@@ -33,7 +33,7 @@ namespace fgl
 			element1->draw(appData, graphics);
 			
 			graphics.setColor(color);
-			graphics.compositeAlpha((byte)(alpha*255));
+			graphics.compositeAlpha((float)alpha);
 			graphics.fillRect(e1center.x-(e1rect.width/2), e1center.y-(e1rect.height/2), e1rect.width, e1rect.height);
 		}
 		else if(progress > secondPart)
@@ -46,7 +46,7 @@ namespace fgl
 			element2->draw(appData, graphics);
 			
 			graphics.setColor(color);
-			graphics.compositeAlpha((byte)(alpha*255));
+			graphics.compositeAlpha((float)alpha);
 			graphics.fillRect(e2center.x-(e2rect.width/2), e2center.y-(e2rect.height/2), e2rect.width, e2rect.height);
 		}
 		else

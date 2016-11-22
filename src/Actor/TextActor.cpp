@@ -85,7 +85,7 @@ namespace fgl
 			
 			Graphics actorGraphics(graphics);
 			actorGraphics.setColor(color);
-			actorGraphics.setAlpha((byte)(alpha*255));
+			actorGraphics.setAlpha((float)alpha);
 			
 			unsigned int size_original = font->getSize();
 			int style_original = font->getStyle();

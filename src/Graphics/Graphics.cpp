@@ -24,7 +24,7 @@ namespace fgl
 	{
 		setColor(Color::BLACK);
 		setTintColor(Color::WHITE);
-		setAlpha(255);
+		setAlpha(1.0f);
 		
 		setFont(defaultFont);
 		
@@ -205,7 +205,7 @@ namespace fgl
 		
 		color = Color::BLACK;
 		tintColor = Color::WHITE;
-		alpha = 255;
+		alpha = 1.0f;
 		
 		if(defaultFont == nullptr)
 		{
@@ -311,7 +311,7 @@ namespace fgl
 		clip.h = (int)(clipBottom - (double)clip.y);
 		
 		Color colorComp = color.composite(tintColor);
-		byte newAlpha = (byte)((double)colorComp.a * ((double)alpha/255));
+		byte newAlpha = (byte)(colorComp.a * alpha);
 		
 		SDL_RenderSetClipRect((SDL_Renderer*)renderer, &clip);
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, colorComp.r, colorComp.g, colorComp.b, newAlpha);
@@ -409,18 +409,33 @@ namespace fgl
 		return transform;
 	}
 	
-	void Graphics::setAlpha(byte a)
+	void Graphics::setAlpha(float a)
 	{
+		if(alpha > 1.0f)
+		{
+			alpha = 1.0f;
+		}
+		else if(alpha < 0.0f)
+		{
+			alpha = 0.0f;
+		}
 		alpha = a;
 	}
 
-	void Graphics::compositeAlpha(byte a)
+	void Graphics::compositeAlpha(float aComposite)
 	{
-		double mult = ((double)a)/255;
-		alpha = (byte)(((double)alpha)*mult);
+		alpha = alpha*aComposite;
+		if(alpha > 1.0f)
+		{
+			alpha = 1.0f;
+		}
+		else if(alpha < 0.0f)
+		{
+			alpha = 0.0f;
+		}
 	}
 
-	byte Graphics::getAlpha() const
+	float Graphics::getAlpha() const
 	{
 		return alpha;
 	}
@@ -504,7 +519,6 @@ namespace fgl
 		Vector2u dimensions = font->measureString(text);
 		unsigned int fontSize = font->getSize();
 		Color compColor = color.composite(tintColor);
-		double alphaMult = (double)alpha / 255;
 		
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
@@ -537,7 +551,7 @@ namespace fgl
 			beginDraw();
 			
 			SDL_SetTextureColorMod(texture, compColor.r, compColor.g, compColor.b);
-			SDL_SetTextureAlphaMod(texture, (byte)(compColor.a * alphaMult));
+			SDL_SetTextureAlphaMod(texture, (byte)(compColor.a * alpha));
 			
 			SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)glyph.texture, nullptr, &rect, rotation, &center, SDL_FLIP_NONE);
 			
@@ -617,9 +631,8 @@ namespace fgl
 		
 		beginDraw();
 		
-		double alphaMult = (double)alpha/255;
 		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, compColor.r, compColor.g, compColor.b);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, (byte)(compColor.a * alphaMult));
+		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, (byte)(compColor.a * alpha));
 		
 		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &rect, rotation, &center, SDL_FLIP_NONE);
 		
@@ -777,9 +790,8 @@ namespace fgl
 
 			beginDraw();
 
-			double alphaMult = (double)alpha/255;
 			SDL_SetTextureColorMod(texture, tintColor.r, tintColor.g, tintColor.b);
-			SDL_SetTextureAlphaMod(texture, (byte)(tintColor.a * alphaMult));
+			SDL_SetTextureAlphaMod(texture, (byte)(tintColor.a * alpha));
 
 			SDL_RenderCopyEx((SDL_Renderer*)renderer, texture, &srcrect, &dstrect, rotation, &center, SDL_FLIP_NONE);
 

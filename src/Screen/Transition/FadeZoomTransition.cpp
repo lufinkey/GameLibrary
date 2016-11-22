@@ -23,13 +23,12 @@ namespace fgl
 
 		double xOffset = (e2rect.width - (e2rect.width * zoom)) / (double)(2 * zoom);
 		double yOffset = (e2rect.height - (e2rect.height * zoom)) / (double)(2 * zoom);
-		byte alpha = (byte)(progress*255);
 
 		element1->draw(appData, graphics);
 
 		graphics.translate(xOffset+(e2center.x*zoom), yOffset+(e2center.y*zoom));
 		graphics.scale(zoom, zoom);
-		graphics.setAlpha(alpha);
+		graphics.setAlpha((float)progress);
 
 		element2->draw(appData, graphics);
 	}
