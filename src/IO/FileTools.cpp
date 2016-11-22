@@ -15,7 +15,6 @@
 	#include <direct.h>
 	#include <Windows.h>
 	#include <ShlObj.h>
-	#include <Shlwapi.h>
 #else
 	#include <unistd.h>
 	#include <libgen.h>
@@ -176,8 +175,19 @@ namespace fgl
 	{
 		fgl::String tmpPath = path;
 		#if defined(TARGETPLATFORM_WINDOWS)
-			PathRemoveFileSpecA((char*)tmpPath.getData());
-			return tmpPath.getData();
+			char driveNameStr[_MAX_DRIVE];
+			char dirStr[_MAX_DIR];
+			_splitpath(path.getData(), driveNameStr, dirStr, nullptr, nullptr);
+			fgl::String driveName = driveNameStr;
+			fgl::String dir = dirStr;
+			if(driveName.length()>0)
+			{
+				return driveName+dir;
+			}
+			else
+			{
+				return dir;
+			}
 		#else
 			return dirname((char*)tmpPath.getData());
 		#endif
