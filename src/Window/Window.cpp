@@ -402,12 +402,12 @@ namespace fgl
 	{
 		if(windowdata != nullptr)
 		{
-			SDL_DestroyWindow((SDL_Window*)windowdata);
-			windowdata = nullptr;
-			delete graphics;
-			graphics = nullptr;
 			delete assetManager;
 			assetManager = nullptr;
+			delete graphics;
+			graphics = nullptr;
+			SDL_DestroyWindow((SDL_Window*)windowdata);
+			windowdata = nullptr;
 			settings = WindowSettings();
 			if(view != nullptr)
 			{
