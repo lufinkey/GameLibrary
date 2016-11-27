@@ -68,7 +68,7 @@ namespace fgl
 		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
 			\param graphics the graphics object used to draw the Animation
 			\param frameNum the frame number to draw */
-		void drawFrame(Graphics graphics, size_t frameNum) const;
+		void drawFrame(Graphics& graphics, size_t frameNum) const;
 		
 		
 		/*! Draws the specified frame

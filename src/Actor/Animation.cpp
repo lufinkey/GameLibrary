@@ -322,7 +322,7 @@ namespace fgl
 		}
 	}
 
-	void Animation::drawFrame(Graphics graphics, size_t frameNum) const
+	void Animation::drawFrame(Graphics& graphics, size_t frameNum) const
 	{
 		size_t totalFrames = frames.size();
 		if(totalFrames == 0)
