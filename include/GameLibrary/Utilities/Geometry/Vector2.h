@@ -28,16 +28,16 @@ namespace fgl
 			//
 		}
 
+		template<typename U>
+		explicit Vector2(const Vector2<U>& vect) : x((T)vect.x), y((T)vect.y)
+		{
+			//
+		}
+
 		void operator=(const Vector2<T>&vect)
 		{
 			x = vect.x;
 			y = vect.y;
-		}
-		
-		template<typename U>
-		explicit operator Vector2<U>() const
-		{
-			return Vector2<U>((U)x, (U)y);
 		}
 
 		Vector2<T> operator+(const Vector2<T>&vect) const
