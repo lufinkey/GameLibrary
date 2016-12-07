@@ -37,6 +37,7 @@
 #include "Graphics/Color.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Image.h"
+#include "Graphics/PixelIterator.h"
 #include "Graphics/TextureImage.h"
 
 #include "Input/Keyboard.h"
