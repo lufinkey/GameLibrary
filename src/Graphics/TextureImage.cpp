@@ -418,4 +418,9 @@ namespace fgl
 	{
 		return height;
 	}
+
+	fgl::Vector2u TextureImage::getDimensions() const
+	{
+		return fgl::Vector2u(width, height);
+	}
 }

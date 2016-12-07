@@ -85,6 +85,9 @@ namespace fgl
 		/*! Gets the height of the image.
 			\returns an unsigned integer representing the height of the image, in pixels*/
 		unsigned int getHeight() const;
+		/*! Gets the dimensions of the image.
+			\returns a Vector2u with the width (x) and height (y) of the image, in pixels*/
+		fgl::Vector2u getDimensions() const;
 		
 	private:
 		ArrayList<Color> pixels;

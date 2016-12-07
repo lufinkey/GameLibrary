@@ -71,6 +71,9 @@ namespace fgl
 		/*! Gets the height of the texture.
 			\returns an unsigned integer representing the height of the texture, in pixels*/
 		unsigned int getHeight() const;
+		/*! Gets the dimensions of the texture.
+			\returns a Vector2u with the width (x) and height (y) of the texture, in pixels*/
+		fgl::Vector2u getDimensions() const;
 		
 	private:
 		void*texture;

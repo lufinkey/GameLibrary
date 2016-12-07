@@ -374,4 +374,9 @@ namespace fgl
 	{
 		return height;
 	}
+
+	fgl::Vector2u Image::getDimensions() const
+	{
+		return fgl::Vector2u(width, height);
+	}
 }
