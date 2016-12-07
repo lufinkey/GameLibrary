@@ -41,7 +41,8 @@ namespace fgl
 		currentPoint.y = loopRect.y - dstRect.y;
 		row = 0;
 		lastRowStartIndex = 0;
-		currentPixelIndex = calculatePixelIndex();
+		currentPixelPoint = calculatePixelPoint();
+		currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 		lastRowStartIndex = currentPixelIndex;
 	}
 	
@@ -82,7 +83,8 @@ namespace fgl
 		currentPoint.y = loopRect.y - dstRect.y;
 		row = 0;
 		lastRowStartIndex = 0;
-		currentPixelIndex = calculatePixelIndex();
+		currentPixelPoint = calculatePixelPoint();
+		currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 		lastRowStartIndex = currentPixelIndex;
 	}
 	
@@ -134,10 +136,9 @@ namespace fgl
 		ratio = iterator.ratio;
 		return *this;
 	}
-	
-	double PixelIterator::calculatePixelIndex()
+
+	Vector2d PixelIterator::calculatePixelPoint()
 	{
-		double pixelIndex = -1;
 		if(usesTransform)
 		{
 			Vector2d pixelPoint = inverseTransform.transform(currentPoint);
@@ -159,14 +160,7 @@ namespace fgl
 			{
 				pixelPoint.y = srcRectD.y + pixelPoint.y;
 			}
-			if(pixelPoint.x < srcRectD.x || pixelPoint.y < srcRectD.y || pixelPoint.x > srcRectRight || pixelPoint.y > srcRectBottom)
-			{
-				pixelIndex = -1;
-			}
-			else
-			{
-				pixelIndex = (dimensions.x*Math::floor(pixelPoint.y))+pixelPoint.x;
-			}
+			return pixelPoint;
 		}
 		else
 		{
@@ -189,9 +183,27 @@ namespace fgl
 				pixelPoint.y = srcRectD.y + pixelPoint.y;
 				row = pixelPoint.y - Math::floor(pixelPoint.y);
 			}
-			pixelIndex = (dimensions.x*Math::floor(pixelPoint.y))+pixelPoint.x;
+			return pixelPoint;
 		}
-		return pixelIndex;
+	}
+	
+	double PixelIterator::calculatePixelIndex(const Vector2d& pixelPoint)
+	{
+		if(usesTransform)
+		{
+			if(pixelPoint.x < srcRectD.x || pixelPoint.y < srcRectD.y || pixelPoint.x > srcRectRight || pixelPoint.y > srcRectBottom)
+			{
+				return -1;
+			}
+			else
+			{
+				return (dimensions.x*Math::floor(pixelPoint.y))+pixelPoint.x;
+			}
+		}
+		else
+		{
+			return (dimensions.x*Math::floor(pixelPoint.y))+pixelPoint.x;
+		}
 	}
 	
 	bool PixelIterator::nextPixelIndex()
@@ -212,7 +224,8 @@ namespace fgl
 						running = false;
 					}
 				}
-				currentPixelIndex = calculatePixelIndex();
+				currentPixelPoint = calculatePixelPoint();
+				currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 			}
 			else
 			{
@@ -257,7 +270,8 @@ namespace fgl
 					{
 						currentPoint.y = loopRectRel.top;
 						row = 0;
-						currentPixelIndex = calculatePixelIndex();
+						currentPixelPoint = calculatePixelPoint();
+						currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 						running = false;
 					}
 				}
@@ -268,6 +282,11 @@ namespace fgl
 			}
 		}
 		return running;
+	}
+
+	Vector2d PixelIterator::getCurrentPixelPoint() const
+	{
+		return currentPixelPoint;
 	}
 	
 	double PixelIterator::getCurrentPixelIndex() const
