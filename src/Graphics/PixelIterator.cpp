@@ -189,16 +189,9 @@ namespace fgl
 	
 	double PixelIterator::calculatePixelIndex(const Vector2d& pixelPoint)
 	{
-		if(usesTransform)
+		if(pixelPoint.x < srcRectD.x || pixelPoint.y < srcRectD.y || pixelPoint.x >= srcRectRight || pixelPoint.y >= srcRectBottom)
 		{
-			if(pixelPoint.x < srcRectD.x || pixelPoint.y < srcRectD.y || pixelPoint.x > srcRectRight || pixelPoint.y > srcRectBottom)
-			{
-				return -1;
-			}
-			else
-			{
-				return (dimensions.x*Math::floor(pixelPoint.y))+pixelPoint.x;
-			}
+			return -1;
 		}
 		else
 		{
