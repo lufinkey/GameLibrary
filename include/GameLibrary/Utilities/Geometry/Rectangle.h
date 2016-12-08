@@ -124,9 +124,9 @@ namespace fgl
 		}
 		
 		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle, relative to the top left corner of this rectangle
-			\param rect the rectangle to check the overlap with
-			\returns a rectangle representing the overlap, or a Rectangle containing a width and height of 0 if the rectangle is not overlapping*/
-		Rectangle getIntersect(const Rectangle<T>&rect) const
+			\param rect the rectangle to check the intersect with
+			\returns a rectangle representing the intersect, or a Rectangle containing an x, y, width, and height of 0 if the rectangle is not intersecting*/
+		Rectangle getIntersect(const Rectangle<T>& rect) const
 		{
 			T overlapLeft = 0;
 			T overlapTop = 0;
@@ -203,8 +203,17 @@ namespace fgl
 			overlapRect.height = overlapBottom - overlapTop;
 			return overlapRect;
 		}
+
+		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle. 
+			\param rect the rectangle to check the overlap with
+			\returns a rectangle representing the overlap, or a Rectangle containing an x, y, width, and height of 0 if the rectangle is not overlapping. */
+		Rectangle getOverlap(const Rectangle<T>& rect) const
+		{
+			Rectangle<T> overlap = getIntersect(rect);
+			return Rectangle<T>(x+overlap.x, y+overlap.y, overlap.width, overlap.height);
+		}
 	
-		void combine(const Rectangle<T>&rect)
+		void combine(const Rectangle<T>& rect)
 		{
 			T rect_left = rect.x;
 			T rect_top = rect.y;
