@@ -229,7 +229,6 @@ namespace fgl
 			}
 			else
 			{
-				//TODO Remind me to change this bullshit that I thought for some reason was a good idea
 				started = true;
 			}
 		}
