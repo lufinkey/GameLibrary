@@ -103,16 +103,10 @@ namespace fgl
 		bool isMirroredVertical() const;
 		
 		
-		/*! Gets the width of the current frame. No relation to Animation::getFrame().
-			\returns the width of the current frame*/
-		unsigned int getFrameWidth() const;
 		/*! Gets the width of the specified frame. No relation to Animation::getFrame().
 			\param frameNum the index of the frame
 			\returns the width of the specified frame*/
 		unsigned int getFrameWidth(size_t frameNum) const;
-		/*! Gets the height of the current frame. No relation to Animation::getFrame().
-			\returns the height of the current frame*/
-		unsigned int getFrameHeight() const;
 		/*! Gets the height of the specified frame. No relation to Animation::getFrame().
 			\param frameNum the index of the frame
 			\returns the height of the specified frame*/
