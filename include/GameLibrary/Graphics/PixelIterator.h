@@ -71,7 +71,7 @@ namespace fgl
 		bool started;
 		
 		Vector2d currentPoint; //relative to dstRect
-		Vector2d currentPixelPoint; //relative to the srcRect
+		Vector2d currentPixelPoint; //relative to the image
 		double currentPixelIndex; //relative to the image
 		double lastRowStartIndex;
 		double row;
