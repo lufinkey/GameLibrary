@@ -14,7 +14,7 @@ namespace fgl
 			\param dimensions the actual size of the image or canvas, in pixels
 			\param srcRect the source rectangle of the area being checked
 			\param dstRect the destination rectangle of the section of the canvas or image being drawn; Useful if an image or canvas is stretched
-			\param loopRect the rectangle to loop through in terms of destination pixels, rather than source pixels
+			\param loopRect the rectangle to loop through in terms of destination pixels, rather than source pixels, and relative to the top left corner of dstRect
 			\param xincrement the amount to increment the x value through each iteration; Value is in terms of destination pixels, rather than source pixels
 			\param yincrement the amount to increment the y value through each row iteration; Value is in terms of destination pixels, rather than source pixels
 			\param mirrorHorizontal true if the destination image or canvas is mirrored horizontally, and false if otherwise
@@ -25,7 +25,7 @@ namespace fgl
 			\param dimensions the actual size of the image or canvas, in pixels
 			\param srcRect the source rectangle of the area being checked
 			\param dstRect the destination rectangle of the section of the canvas or image being drawn; Useful if an image or canvas is stretched
-			\param loopRect the rectangle to loop through in terms of destination pixels, rather than source pixels
+			\param loopRect the rectangle to loop through in terms of destination pixels, rather than source pixels, and relative to the top left corner of dstRect
 			\param xincrement the amount to increment the x value through each iteration; Value is in terms of destination pixels, rather than source pixels
 			\param yincrement the amount to increment the y value through each row iteration; Value is in terms of destination pixels, rather than source pixels
 			\param transform the transformation of the desination image or canvas
