@@ -18,7 +18,7 @@ namespace fgl
 		T radius;
 		
 		/*! default constructor*/
-		Circle()
+		Circle() : x(0), y(0), radius(0)
 		{
 			//
 		}
