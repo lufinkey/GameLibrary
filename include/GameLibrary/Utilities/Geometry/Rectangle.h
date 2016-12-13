@@ -203,15 +203,6 @@ namespace fgl
 			overlapRect.height = overlapBottom - overlapTop;
 			return overlapRect;
 		}
-
-		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle. 
-			\param rect the rectangle to check the overlap with
-			\returns a rectangle representing the overlap, or a Rectangle containing an x, y, width, and height of 0 if the rectangle is not overlapping. */
-		Rectangle getOverlap(const Rectangle<T>& rect) const
-		{
-			Rectangle<T> overlap = getIntersect(rect);
-			return Rectangle<T>(x+overlap.x, y+overlap.y, overlap.width, overlap.height);
-		}
 	
 		void combine(const Rectangle<T>& rect)
 		{
