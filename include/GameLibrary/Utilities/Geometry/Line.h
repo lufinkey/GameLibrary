@@ -36,7 +36,7 @@ namespace fgl
 		/*! Constructs a line with two points.
 			\param point1 the first point
 			\param point2 the second point*/
-		Line(const Vector2<T>& point1, const Vector2d<T>& point2) : point1(point1), point2(point2)
+		Line(const Vector2<T>& point1, const Vector2<T>& point2) : point1(point1), point2(point2)
 		{
 			//
 		}
@@ -54,10 +54,10 @@ namespace fgl
 			\returns true if the line segments intersect, false if they do not*/
 		bool segmentsIntersect(const Line<T>& line, Vector2<T>* intersection = nullptr) const
 		{
-			T s10_x = line1p2.x - line1p1.x;
-			T s10_y = line1p2.y - line1p1.y;
-			T s02_x = line1p1.x - line2p1.x;
-			T s02_y = line1p1.y - line2p1.y;
+			T s10_x = point2.x - point1.x;
+			T s10_y = point2.y - point1.y;
+			T s02_x = point1.x - line.point1.x;
+			T s02_y = point1.y - line.point1.y;
 
 			T s_numer = (s10_x * s02_y) - (s10_y * s02_x);
 			if(s_numer < 0)
@@ -65,8 +65,8 @@ namespace fgl
 				return false; //no intersection
 			}
 
-			T s32_x = line2p2.x - line2p1.x;
-			T s32_y = line2p2.y - line2p1.y;
+			T s32_x = line.point2.x - line.point1.x;
+			T s32_y = line.point2.y - line.point1.y;
 			T t_numer = (s32_x * s02_y) - (s32_y * s02_x);
 			if(t_numer < 0)
 			{
@@ -85,14 +85,14 @@ namespace fgl
 				if(std::is_integral<T>())
 				{
 					long double t = (long double)t_numer / (long double)denom;
-					intersection->x = line1p1.x + (T)(t * (long double)s10_x);
-					intersection->y = line1p1.y + (T)(t * (long double)s10_y);
+					intersection->x = point1.x + (T)(t * (long double)s10_x);
+					intersection->y = point1.y + (T)(t * (long double)s10_y);
 				}
 				else
 				{
-					T = t_numer/denom;
-					intersection->x = line1p1.x + (T)(t * s10_x);
-					intersection->y = line1p1.y + (T)(t * s10_y);
+					T t = t_numer/denom;
+					intersection->x = point1.x + (T)(t * s10_x);
+					intersection->y = point1.y + (T)(t * s10_y);
 				}
 			}
 			return true;

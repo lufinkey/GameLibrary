@@ -720,6 +720,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.impl">
       <Filter>include\GameLibrary\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Line.h">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">

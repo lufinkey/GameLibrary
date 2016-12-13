@@ -177,6 +177,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Font\Font.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Font\RenderedGlyphContainer.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Circle.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Line.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Polygon.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Rectangle.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Transform.h" />
