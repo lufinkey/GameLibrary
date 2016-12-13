@@ -88,20 +88,20 @@ namespace fgl
 			bottom1 = y+height;
 			bottom2 = rect.y+rect.height;
 			
-			if (bottom1 < top2)
+			if (bottom1 <= top2)
 			{
 				return false;
 			}
-			if (top1 > bottom2)
+			if (top1 >= bottom2)
 			{
 				return false;
 			}
 			
-			if (right1 < left2)
+			if (right1 <= left2)
 			{
 				return false;
 			}
-			if (left1 > right2)
+			if (left1 >= right2)
 			{
 				return false;
 			}
