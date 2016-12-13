@@ -123,7 +123,7 @@ namespace fgl
 			return Vector2<T>(x+(width/2), y+(height/2));
 		}
 		
-		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle, relative to the top left corner of this rectangle
+		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle
 			\param rect the rectangle to check the intersect with
 			\returns a rectangle representing the intersect, or a Rectangle containing an x, y, width, and height of 0 if the rectangle is not intersecting*/
 		Rectangle getIntersect(const Rectangle<T>& rect) const
