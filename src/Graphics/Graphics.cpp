@@ -778,6 +778,16 @@ namespace fgl
 			dstrect.h = (int)(pnt1.y+((dy2 - (double)((int)dy1))*scaling.y)-((int)dstrect.y));
 			
 			RectangleD dstrectBox((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
+			if(dstrectBox.width < 0)
+			{
+				dstrectBox.width = -dstrectBox.width;
+				dstrectBox.x = dstrectBox.x - dstrectBox.width;
+			}
+			if(dstrectBox.height < 0)
+			{
+				dstrectBox.height = -dstrectBox.height;
+				dstrectBox.y = dstrectBox.y - dstrectBox.height;
+			}
 			RectangleD cliprectBox(clipoffset.x+cliprect.x, clipoffset.y+cliprect.y, cliprect.width, cliprect.height);
 			if(!cliprectBox.intersects(dstrectBox))
 			{
