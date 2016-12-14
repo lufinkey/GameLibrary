@@ -374,7 +374,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Rectangle<T>& toRectangle() const
+		Rectangle<T> toRectangle() const
 		{
 			return Rectangle<T>(left,top,right-left,bottom-top);
 		}
