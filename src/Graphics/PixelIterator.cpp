@@ -286,4 +286,9 @@ namespace fgl
 	{
 		return currentPixelIndex;
 	}
+
+	Vector2d PixelIterator::getCurrentPoint() const
+	{
+		return fgl::Vector2d(dstRect.x+currentPoint.x, dstRect.y+currentPoint.y);
+	}
 }

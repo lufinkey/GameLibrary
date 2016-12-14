@@ -44,11 +44,14 @@ namespace fgl
 			\returns true if there is still more area to iterate through, or false if the iterator has finished iterating and has returned to the starting point*/
 		bool nextPixelIndex();
 		/*! Gets the current pixel x and y coordinates, in source image units. These coordinates may be inside or outside of the image source rectangle.
-		\returns a Vector2d representing the current pixel coordinates of the iterator*/
+		\returns a Vector2d representing the current pixel coordinates of the iterator, relative to the image*/
 		Vector2d getCurrentPixelPoint() const;
 		/*! Gets the current pixel "index". This value should be floored and converted to an integer before checking against an image or canvas.
 			\returns a double value representing the current iteration through the images pixel indexes; This value will be negative if outside of the bounds of the image or canvas*/
 		double getCurrentPixelIndex() const;
+		/*! Gets the real x and y coordinates of the current increment. 
+			\returns a Vector2d representing the current coordinates of the iterator*/
+		Vector2d getCurrentPoint() const;
 		
 	private:
 		Vector2d calculatePixelPoint();
