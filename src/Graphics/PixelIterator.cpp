@@ -7,10 +7,6 @@ namespace fgl
 {
 	PixelIterator::PixelIterator(const Vector2u&dims, const RectangleU&srcrect, const RectangleD&dstrect, const RectangleD&looprect, double xincrement, double yincrement, bool mirrorHorizontal_arg, bool mirrorVertical_arg)
 	{
-		if(!dstrect.contains(looprect))
-		{
-			throw IllegalArgumentException("loopRect", "not within bounds of dstRect");
-		}
 		if((unsigned int)(srcrect.x + srcrect.width) > dims.x)
 		{
 			throw IllegalArgumentException("srcRect", "not within bounds of dimensions");
@@ -48,10 +44,6 @@ namespace fgl
 	
 	PixelIterator::PixelIterator(const Vector2u&dims, const RectangleU&srcrect, const RectangleD&dstrect, const RectangleD&looprect, double xincrement, double yincrement, const TransformD&transform, const Vector2d&rat, bool mirrorHorizontal_arg, bool mirrorVertical_arg)
 	{
-		if(!dstrect.contains(looprect))
-		{
-			throw IllegalArgumentException("loopRect", "not within bounds of dstRect");
-		}
 		if((unsigned int)(srcrect.x + srcrect.width) > dims.x)
 		{
 			throw IllegalArgumentException("srcRect", "not within bounds of dimensions");
