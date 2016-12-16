@@ -9,6 +9,7 @@
 #include <GameLibrary/Window/Window.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <SDL/SDL.h>
+#include <Windows.h>
 
 namespace fgl
 {
@@ -16,9 +17,22 @@ namespace fgl
 	{
 		SDL_GLContext context;
 	} GameLibrary_ContextData;*/
+
+	fgl::String Graphics_getDefaultFontPath()
+	{
+#if defined(TARGETPLATFORM_WINDOWS)
+		char windows_path[MAX_PATH];
+		GetWindowsDirectoryA(windows_path, MAX_PATH);
+		fgl::String fontPath((char*)windows_path);
+		fontPath += "\\Fonts\\arial.ttf";
+		return fontPath;
+#else
+		return "fonts/arial.ttf";
+#endif
+	}
 	
 	Font* Graphics::defaultFont = nullptr;
-	String Graphics::defaultFontPath = "fonts/arial.ttf";
+	String Graphics::defaultFontPath = Graphics_getDefaultFontPath();
 	
 	void Graphics::reset(const Color&clearColor)
 	{

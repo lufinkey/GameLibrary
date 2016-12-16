@@ -27,7 +27,7 @@ namespace fgl
 		/*! Gets the default Graphics font.
 			\returns a Font pointer*/
 		static Font*getDefaultFont();
-		/*! Sets the path to load the default Font. This function should be called before Application::initialize() is called. Otherwise, it will have no effect.*/
+		/*! Sets the path to load the default Font. This function should be called before an Application's initialize() is called. Otherwise, it will have no effect.*/
 		static void setDefaultFontPath(const String&path);
 		
 		
