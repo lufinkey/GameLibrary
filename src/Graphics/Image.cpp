@@ -61,102 +61,134 @@ namespace fgl
 		width = 0;
 		height = 0;
 	}
+
+	bool Image_loadFromSDLSurface(SDL_Surface* surface, ArrayList<Color>& pixels, String* error)
+	{
+		int mustlock = SDL_MUSTLOCK(surface);
+		if(mustlock!=0)
+		{
+			if(SDL_LockSurface(surface) < 0)
+			{
+				if(error!=nullptr)
+				{
+					*error = SDL_GetError();
+				}
+				return false;
+			}
+		}
+
+		unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
+
+		unsigned int rmask = (unsigned int)surface->format->Rmask;
+		unsigned int rshift = (unsigned int)surface->format->Rshift;
+		unsigned int gmask = (unsigned int)surface->format->Gmask;
+		unsigned int gshift = (unsigned int)surface->format->Gshift;
+		unsigned int bmask = (unsigned int)surface->format->Bmask;
+		unsigned int bshift = (unsigned int)surface->format->Bshift;
+		unsigned int amask = (unsigned int)surface->format->Amask;
+		unsigned int ashift = (unsigned int)surface->format->Ashift;
+
+		unsigned int width = (unsigned int)surface->w;
+		unsigned int height = (unsigned int)surface->h;
+		unsigned int total = width*height;
+		pixels.resize(total);
+
+		unsigned int pitchDif = ((unsigned int)surface->pitch - (width*bpp));
+
+		unsigned int counter = 0;
+		byte*surfacePixels = (byte*)surface->pixels;
+
+		unsigned int i=0;
+		for(unsigned int ycnt=0; ycnt<height; ycnt++)
+		{
+			for(unsigned int xcnt = 0; xcnt < width; xcnt++)
+			{
+				switch(bpp)
+				{
+					case 1:
+					pixels[i].r = surfacePixels[counter];
+					pixels[i].g = surfacePixels[counter];
+					pixels[i].b = surfacePixels[counter];
+					pixels[i].a = 255;
+					break;
+
+					case 2:
+					pixels[i].r = surfacePixels[counter];
+					pixels[i].g = surfacePixels[counter+1];
+					pixels[i].b = surfacePixels[counter+1];
+					pixels[i].a = 255;
+					break;
+
+					case 3:
+					{
+						int color = *((int*)&surfacePixels[counter]);
+						pixels[i].r = (byte)((color & rmask) >> rshift);
+						pixels[i].g = (byte)((color & gmask) >> gshift);
+						pixels[i].b = (byte)((color & bmask) >> bshift);
+						pixels[i].a = 255;
+					}
+					break;
+
+					case 4:
+					{
+						int color = *((int*)&surfacePixels[counter]);
+						pixels[i].r = (byte)((color & rmask) >> rshift);
+						pixels[i].g = (byte)((color & gmask) >> gshift);
+						pixels[i].b = (byte)((color & bmask) >> bshift);
+						pixels[i].a = (byte)((color & amask) >> ashift);
+					}
+					break;
+				}
+				i++;
+				counter += bpp;
+			}
+			counter += pitchDif;
+		}
+
+		if(mustlock != 0)
+		{
+			SDL_UnlockSurface(surface);
+		}
+
+		return true;
+	}
+
+	bool Image::loadFromPointer(const void* pointer, size_t size, String* error)
+	{
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, size), 1);
+		if(surface != nullptr)
+		{
+			if(Image_loadFromSDLSurface(surface, pixels, error))
+			{
+				width = (unsigned int)surface->w;
+				height = (unsigned int)surface->h;
+				SDL_FreeSurface(surface);
+				return true;
+			}
+			SDL_FreeSurface(surface);
+			return false;
+		}
+		if(error!=nullptr)
+		{
+			*error = IMG_GetError();
+		}
+		return false;
+	}
 	
-	bool Image::loadFromFile(const String&path, String*error)
+	bool Image::loadFromFile(const String& path, String* error)
 	{
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
 		{
-			int mustlock = SDL_MUSTLOCK(surface);
-			if(mustlock!=0)
+			if(Image_loadFromSDLSurface(surface, pixels, error))
 			{
-				if(SDL_LockSurface(surface) < 0)
-				{
-					if(error!=nullptr)
-					{
-						*error = SDL_GetError();
-					}
-					SDL_FreeSurface(surface);
-					return false;
-				}
+				width = (unsigned int)surface->w;
+				height = (unsigned int)surface->h;
+				SDL_FreeSurface(surface);
+				return true;
 			}
-
-			unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
-			
-			unsigned int rmask = (unsigned int)surface->format->Rmask;
-			unsigned int rshift = (unsigned int)surface->format->Rshift;
-			unsigned int gmask = (unsigned int)surface->format->Gmask;
-			unsigned int gshift = (unsigned int)surface->format->Gshift;
-			unsigned int bmask = (unsigned int)surface->format->Bmask;
-			unsigned int bshift = (unsigned int)surface->format->Bshift;
-			unsigned int amask = (unsigned int)surface->format->Amask;
-			unsigned int ashift = (unsigned int)surface->format->Ashift;
-			
-			width = (unsigned int)surface->w;
-			height = (unsigned int)surface->h;
-			unsigned int total = width*height;
-			pixels.resize(total);
-
-			unsigned int pitchDif = ((unsigned int)surface->pitch - (width*bpp));
-			
-			unsigned int counter = 0;
-			byte*surfacePixels = (byte*)surface->pixels;
-
-			unsigned int i=0;
-			for(unsigned int ycnt=0; ycnt<height; ycnt++)
-			{
-				for(unsigned int xcnt = 0; xcnt < width; xcnt++)
-				{
-					switch(bpp)
-					{
-						case 1:
-						pixels[i].r = surfacePixels[counter];
-						pixels[i].g = surfacePixels[counter];
-						pixels[i].b = surfacePixels[counter];
-						pixels[i].a = 255;
-						break;
-
-						case 2:
-						pixels[i].r = surfacePixels[counter];
-						pixels[i].g = surfacePixels[counter+1];
-						pixels[i].b = surfacePixels[counter+1];
-						pixels[i].a = 255;
-						break;
-
-						case 3:
-						{
-							int color = *((int*)&surfacePixels[counter]);
-							pixels[i].r = (byte)((color & rmask) >> rshift);
-							pixels[i].g = (byte)((color & gmask) >> gshift);
-							pixels[i].b = (byte)((color & bmask) >> bshift);
-							pixels[i].a = 255;
-						}
-						break;
-						
-						case 4:
-						{
-							int color = *((int*)&surfacePixels[counter]);
-							pixels[i].r = (byte)((color & rmask) >> rshift);
-							pixels[i].g = (byte)((color & gmask) >> gshift);
-							pixels[i].b = (byte)((color & bmask) >> bshift);
-							pixels[i].a = (byte)((color & amask) >> ashift);
-						}
-						break;
-					}
-					i++;
-					counter += bpp;
-				}
-				counter += pitchDif;
-			}
-
-			if(mustlock != 0)
-			{
-				SDL_UnlockSurface(surface);
-			}
-
 			SDL_FreeSurface(surface);
-
-			return true;
+			return false;
 		}
 		if(error!=nullptr)
 		{

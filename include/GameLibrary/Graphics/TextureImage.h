@@ -25,26 +25,33 @@ namespace fgl
 			\param width the width of the image, in pixels
 			\param height the height of the image, in pixels
 			\param graphics the graphics object to create the texture on the video card memory*/
-		void create(unsigned int width, unsigned int height, Graphics&graphics);
+		void create(unsigned int width, unsigned int height, Graphics& graphics);
 		/*! Updates the texture using an array of pixels.
 			\param pixels an array of pixels to write to the texture
 			\note updating a texture is a slow operation, and requires writing to the video card memory*/
-		void update(const Color*pixels);
+		void update(const Color* pixels);
 		/*! Clears all data from the texture and resets the width and height to 0.*/
 		void clear();
 		
+		/*! Loads the image data from a pointer and writes it to the video card memory.
+			\param pointer the memory address of the image data
+			\param size the size of the image data, in bytes
+			\param graphics the graphics object to create the texture on the video card memory
+			\param error an optional String pointer to store the error message if the function fails
+			\returns true if the load succeeds, or false if an error is encountered*/
+		bool loadFromPointer(const void* pointer, size_t size, Graphics& graphics, String* error=nullptr);
 		/*! Loads the image data from a file path and writes it to the video card memory.
 			\param path the path to the image file
 			\param graphics the graphics object to create the texture on the video card memory
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromFile(const String&path, Graphics&graphics, String*error=nullptr);
+		bool loadFromFile(const String& path, Graphics& graphics, String* error=nullptr);
 		/*! Loads the image data from an Image object and writes it to the video card memory.
 			\param image the Image to load from
 			\param graphics the graphics object to create the texture on the video card memory
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromImage(const Image&image, Graphics&graphics, String*error=nullptr);
+		bool loadFromImage(const Image& image, Graphics& graphics, String* error=nullptr);
 		//Image copyToImage() const;
 		
 		
@@ -76,7 +83,7 @@ namespace fgl
 		fgl::Vector2u getDimensions() const;
 		
 	private:
-		void*texture;
+		void* texture;
 		std::vector<bool> pixels;
 		unsigned int width;
 		unsigned int height;

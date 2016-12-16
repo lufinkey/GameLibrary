@@ -30,16 +30,21 @@ namespace fgl
 		void clear();
 		
 		
+		/*! Loads the image data from a pointer
+			\param pointer the memory address of the image data
+			\param size the size of the image data, in bytes
+			\param error an optional String pointer to store the error message if the function fails */
+		bool loadFromPointer(const void* pointer, size_t size, String* error=nullptr);
 		/*! Loads the image data from a file path.
 			\param path the path to the image file
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromFile(const String&path, String*error=nullptr);
+		bool loadFromFile(const String& path, String*error=nullptr);
 		/*! Saves the image data to a file. File type is automatically deduced from the file extension. This function currently only supports BMP and PNG.
 			\param path the path to save the file
 			\param error an optional String pointer to store the error message if the function fails
 			\return true if the load succeeds, or false if an error is encountered*/
-		bool saveToFile(const String&path, String*error=nullptr) const;
+		bool saveToFile(const String& path, String*error=nullptr) const;
 		
 		
 		/*! Sets the color of the pixel at the given index.

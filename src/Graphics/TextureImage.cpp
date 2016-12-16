@@ -145,156 +145,189 @@ namespace fgl
 		width = 0;
 		height = 0;
 	}
+
+	SDL_Texture* TextureImage_loadFromSDLSurface(SDL_Surface* surface, std::vector<bool>& pixels, SDL_Renderer* renderer, String* error)
+	{
+		int mustlock = SDL_MUSTLOCK(surface);
+		if(mustlock!=0)
+		{
+			if(SDL_LockSurface(surface) < 0)
+			{
+				if(error!=nullptr)
+				{
+					*error = SDL_GetError();
+				}
+				return nullptr;
+			}
+		}
+
+		unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
+
+		unsigned int rmask = (unsigned int)surface->format->Rmask;
+		unsigned int rshift = (unsigned int)surface->format->Rshift;
+		unsigned int gmask = (unsigned int)surface->format->Gmask;
+		unsigned int gshift = (unsigned int)surface->format->Gshift;
+		unsigned int bmask = (unsigned int)surface->format->Bmask;
+		unsigned int bshift = (unsigned int)surface->format->Bshift;
+		unsigned int amask = (unsigned int)surface->format->Amask;
+		unsigned int ashift = (unsigned int)surface->format->Ashift;
+
+		unsigned int w = (unsigned int)surface->w;
+		unsigned int h = (unsigned int)surface->h;
+		unsigned int total = w*h;
+
+		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
+		if(texture == nullptr)
+		{
+			if(error!=nullptr)
+			{
+				*error = SDL_GetError();
+			}
+			SDL_UnlockSurface(surface);
+			return nullptr;
+		}
+
+		void*pixelptr;
+		int pitch;
+		if(SDL_LockTexture(texture, nullptr, &pixelptr, &pitch) < 0)
+		{
+			if(error!=nullptr)
+			{
+				*error = SDL_GetError();
+			}
+			SDL_DestroyTexture(texture);
+			SDL_UnlockSurface(surface);
+			return nullptr;
+		}
+
+		pixels.resize(total);
+		pixels.shrink_to_fit();
+
+		unsigned int pitchDif = ((unsigned int)surface->pitch - (w*bpp));
+
+		unsigned int counter = 0;
+		byte*surfacePixels = (byte*)surface->pixels;
+		int*texture_pixels = (int*)pixelptr;
+
+		unsigned int i=0;
+		for(unsigned int ycnt=0; ycnt<h; ycnt++)
+		{
+			for(unsigned int xcnt = 0; xcnt < w; xcnt++)
+			{
+				Color px;
+				switch(bpp)
+				{
+					case 1:
+					px.r = surfacePixels[counter];
+					px.g = surfacePixels[counter];
+					px.b = surfacePixels[counter];
+					px.a = 255;
+					break;
+
+					case 2:
+					px.r = surfacePixels[counter];
+					px.g = surfacePixels[counter+1];
+					px.b = surfacePixels[counter+1];
+					px.a = 255;
+					break;
+
+					case 3:
+					{
+						int color = *((int*)&surfacePixels[counter]);
+						px.r = (byte)((color & rmask) >> rshift);
+						px.g = (byte)((color & gmask) >> gshift);
+						px.b = (byte)((color & bmask) >> bshift);
+						px.a = 255;
+					}
+					break;
+
+					case 4:
+					{
+						int color = *((int*)&surfacePixels[counter]);
+						px.r = (byte)((color & rmask) >> rshift);
+						px.g = (byte)((color & gmask) >> gshift);
+						px.b = (byte)((color & bmask) >> bshift);
+						px.a = (byte)((color & amask) >> ashift);
+					}
+					break;
+				}
+
+				if(px.a>0)
+				{
+					pixels[i] = true;
+				}
+				else
+				{
+					pixels[i] = false;
+				}
+				unsigned int abgr = px.getRGBA();
+				texture_pixels[i] = abgr;
+				i++;
+				counter += bpp;
+			}
+			counter += pitchDif;
+		}
+
+		SDL_UnlockTexture(texture);
+		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+		if(mustlock != 0)
+		{
+			SDL_UnlockSurface(surface);
+		}
+
+		return texture;
+	}
+
+	bool TextureImage::loadFromPointer(const void* pointer, size_t size, Graphics& graphics, String* error)
+	{
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, size), 1);
+		if(surface != nullptr)
+		{
+			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error);
+			if(newTexture!=nullptr)
+			{
+				width = (unsigned int)surface->w;
+				height = (unsigned int)surface->h;
+				SDL_FreeSurface(surface);
+				if(texture != nullptr)
+				{
+					SDL_DestroyTexture((SDL_Texture*)texture);
+					texture = nullptr;
+				}
+				texture = newTexture;
+				return true;
+			}
+			SDL_FreeSurface(surface);
+			return false;
+		}
+		if(error!=nullptr)
+		{
+			*error = IMG_GetError();
+		}
+		return false;
+	}
 	
-	bool TextureImage::loadFromFile(const String&path, Graphics&graphics, String*error)
+	bool TextureImage::loadFromFile(const String& path, Graphics& graphics, String* error)
 	{
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
 		{
-			int mustlock = SDL_MUSTLOCK(surface);
-			if(mustlock!=0)
+			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error);
+			if(newTexture!=nullptr)
 			{
-				if(SDL_LockSurface(surface) < 0)
-				{
-					if(error!=nullptr)
-					{
-						*error = SDL_GetError();
-					}
-					SDL_FreeSurface(surface);
-					return false;
-				}
-			}
-			
-			unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
-			
-			unsigned int rmask = (unsigned int)surface->format->Rmask;
-			unsigned int rshift = (unsigned int)surface->format->Rshift;
-			unsigned int gmask = (unsigned int)surface->format->Gmask;
-			unsigned int gshift = (unsigned int)surface->format->Gshift;
-			unsigned int bmask = (unsigned int)surface->format->Bmask;
-			unsigned int bshift = (unsigned int)surface->format->Bshift;
-			unsigned int amask = (unsigned int)surface->format->Amask;
-			unsigned int ashift = (unsigned int)surface->format->Ashift;
-			
-			unsigned int w = (unsigned int)surface->w;
-			unsigned int h = (unsigned int)surface->h;
-			unsigned int total = w*h;
-			
-			SDL_Texture* newTexture = SDL_CreateTexture((SDL_Renderer*)graphics.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
-			if(newTexture == nullptr)
-			{
-				if(error!=nullptr)
-				{
-					*error = SDL_GetError();
-				}
-				SDL_UnlockSurface(surface);
+				width = (unsigned int)surface->w;
+				height = (unsigned int)surface->h;
 				SDL_FreeSurface(surface);
-				return false;
-			}
-			if(texture != nullptr)
-			{
-				SDL_DestroyTexture((SDL_Texture*)texture);
-				texture = nullptr;
-			}
-			
-			void*pixelptr;
-			int pitch;
-			if(SDL_LockTexture(newTexture, nullptr, &pixelptr, &pitch) < 0)
-			{
-				if(error!=nullptr)
+				if(texture != nullptr)
 				{
-					*error = SDL_GetError();
+					SDL_DestroyTexture((SDL_Texture*)texture);
+					texture = nullptr;
 				}
-				SDL_DestroyTexture(newTexture);
-				SDL_UnlockSurface(surface);
-				SDL_FreeSurface(surface);
-				return false;
+				texture = newTexture;
+				return true;
 			}
-
-			texture = (void*)newTexture;
-
-			pixels.resize(total);
-			pixels.shrink_to_fit();
-
-			unsigned int pitchDif = ((unsigned int)surface->pitch - (w*bpp));
-
-			unsigned int counter = 0;
-			byte*surfacePixels = (byte*)surface->pixels;
-			int*texture_pixels = (int*)pixelptr;
-
-			unsigned int i=0;
-			for(unsigned int ycnt=0; ycnt<h; ycnt++)
-			{
-				for(unsigned int xcnt = 0; xcnt < w; xcnt++)
-				{
-					Color px;
-					switch(bpp)
-					{
-						case 1:
-						px.r = surfacePixels[counter];
-						px.g = surfacePixels[counter];
-						px.b = surfacePixels[counter];
-						px.a = 255;
-						break;
-
-						case 2:
-						px.r = surfacePixels[counter];
-						px.g = surfacePixels[counter+1];
-						px.b = surfacePixels[counter+1];
-						px.a = 255;
-						break;
-						
-						case 3:
-						{
-							int color = *((int*)&surfacePixels[counter]);
-							px.r = (byte)((color & rmask) >> rshift);
-							px.g = (byte)((color & gmask) >> gshift);
-							px.b = (byte)((color & bmask) >> bshift);
-							px.a = 255;
-						}
-						break;
-						
-						case 4:
-						{
-							int color = *((int*)&surfacePixels[counter]);
-							px.r = (byte)((color & rmask) >> rshift);
-							px.g = (byte)((color & gmask) >> gshift);
-							px.b = (byte)((color & bmask) >> bshift);
-							px.a = (byte)((color & amask) >> ashift);
-						}
-						break;
-					}
-					
-					if(px.a>0)
-					{
-						pixels[i] = true;
-					}
-					else
-					{
-						pixels[i] = false;
-					}
-					unsigned int abgr = px.getRGBA();
-					texture_pixels[i] = abgr;
-					i++;
-					counter += bpp;
-				}
-				counter += pitchDif;
-			}
-
-			SDL_UnlockTexture((SDL_Texture*)texture);
-			SDL_SetTextureBlendMode((SDL_Texture*)texture,SDL_BLENDMODE_BLEND);
-
-			width = w;
-			height = h;
-
-			if(mustlock != 0)
-			{
-				SDL_UnlockSurface(surface);
-			}
-
-			SDL_FreeSurface(surface);
-
-			return true;
+			return false;
 		}
 		if(error!=nullptr)
 		{
