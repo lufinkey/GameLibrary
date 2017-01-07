@@ -193,6 +193,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Thread.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\DateTime.h" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\TimeInterval.h" />
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Tools.h" />
     <ClInclude Include="..\..\include\GameLibrary\Window\MessageBox.h" />
     <ClInclude Include="..\..\include\GameLibrary\Window\View.h" />
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="..\..\src\Utilities\Time\posixtime.cpp" />
     <ClCompile Include="..\..\src\Utilities\Time\time64\time64.c" />
     <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp" />
+    <ClCompile Include="..\..\src\Utilities\Tools.cpp" />
     <ClCompile Include="..\..\src\Window\MessageBox.cpp" />
     <ClCompile Include="..\..\src\Window\View.cpp" />
     <ClCompile Include="..\..\src\Window\Window.cpp" />

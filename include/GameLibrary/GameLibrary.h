@@ -77,6 +77,7 @@
 #include "Utilities/Plist.h"
 #include "Utilities/String.h"
 #include "Utilities/Thread.h"
+#include "Utilities/Tools.h"
 #include "Utilities/Font/Font.h"
 #include "Utilities/Geometry/Circle.h"
 #include "Utilities/Geometry/Line.h"

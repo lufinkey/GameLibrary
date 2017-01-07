@@ -723,6 +723,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Line.h">
       <Filter>include\GameLibrary\Utilities\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Tools.h">
+      <Filter>include\GameLibrary\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -952,6 +955,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Screen\UI\AnimationElement.cpp">
       <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\Tools.cpp">
+      <Filter>src\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
