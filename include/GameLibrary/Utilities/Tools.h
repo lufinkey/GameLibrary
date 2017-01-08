@@ -2,11 +2,39 @@
 #pragma once
 
 #include <functional>
+#include <optional>
 
 namespace fgl
 {
-	bool attempt(std::function<void()> block);
+#define lambda(...) [=](__VA_ARGS__)
+#define immlambda(...) [&](__VA_ARGS__)
+#define autolambda(...) [&](__VA_ARGS__) -> auto
 
-#define func(...) [=](__VA_ARGS__)
-#define imfunc(...) [&](__VA_ARGS__)
+	bool attempt(std::function<void()> block);
+	
+	template<typename T>
+	std::optional<T> attempt(std::function<std::optional<T>()> block)
+	{
+		try
+		{
+			return block();
+		}
+		catch(...)
+		{
+			return nullptr;
+		}
+	}
+	
+	template<typename T>
+	std::optional<T> attempt(std::function<T()> block)
+	{
+		try
+		{
+			return block();
+		}
+		catch(...)
+		{
+			return nullptr;
+		}
+	}
 }
