@@ -28,7 +28,7 @@ namespace fgl
 	{
 		try
 		{
-			return block();
+			return std::optional<T>(block());
 		}
 		catch(...)
 		{
