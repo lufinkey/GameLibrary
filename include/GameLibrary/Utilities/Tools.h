@@ -6,9 +6,7 @@
 
 namespace fgl
 {
-#define lambda(...) [=](__VA_ARGS__)
-#define immlambda(...) [&](__VA_ARGS__)
-#define autolambda(...) [&](__VA_ARGS__) -> auto
+	#define funcwrap [&]()->auto
 
 	bool attempt(std::function<void()> block);
 	
