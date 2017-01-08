@@ -21,7 +21,7 @@ namespace fgl
 		}
 		catch(...)
 		{
-			return nullptr;
+			return {};
 		}
 	}
 	
@@ -34,7 +34,7 @@ namespace fgl
 		}
 		catch(...)
 		{
-			return nullptr;
+			return {};
 		}
 	}
 }
