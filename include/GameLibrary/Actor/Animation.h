@@ -136,7 +136,9 @@ namespace fgl
 		/*! Gets the total amount of frames stored in the Animation.
 			\returns the total amount of frames*/
 		size_t getTotalFrames() const;
-		
+		/*! Tells whether the animation has loaded all of it's images, or if it failed to load images.
+			\returns true if all images were loaded, or false if one or more images failed to load */
+		bool didLoadAllImages() const;
 		
 		/*! Sets the frame rate.
 			\param fps the frame rate in frames per second

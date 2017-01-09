@@ -251,6 +251,18 @@ namespace fgl
 	{
 		return frames.size();
 	}
+
+	bool Animation::didLoadAllImages() const
+	{
+		for(size_t frames_size=frames.size(), i=0; i<frames_size; i++)
+		{
+			if(frames[i].img==nullptr)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	void Animation::setFPS(float framerate)
 	{
