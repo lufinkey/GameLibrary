@@ -85,6 +85,44 @@
 		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F14962381E24140C00C37F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F14962321E24140B00C37F22 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FD6526630DE8FCCB002AD96B;
+			remoteInfo = libSDL;
+		};
+		F149623A1E24140C00C37F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F14962321E24140B00C37F22 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAB598141BB5C1B100BE72C5;
+			remoteInfo = "libSDL-tv";
+		};
+		F14962461E2415CF00C37F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F149623F1E2415CF00C37F22 /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA74107AF4C45004B6283;
+			remoteInfo = libSDL_image;
+		};
+		F149624C1E2415F400C37F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F14962481E2415F400C37F22 /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA95407AF96B2004B6283;
+			remoteInfo = "Static Library";
+		};
+		F14962521E2415FE00C37F22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F149624E1E2415FE00C37F22 /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD6E07AFA17000BB41DA;
+			remoteInfo = "Static Library";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		A039D8251CCDE2D500B0B5DA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -357,6 +395,10 @@
 		A05D79A81CD4660300456C8E /* NotImplementedException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotImplementedException.cpp; sourceTree = "<group>"; };
 		A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictionaryKeyNotFoundException.cpp; sourceTree = "<group>"; };
 		F14962301E24000A00C37F22 /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		F14962321E24140B00C37F22 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../../external/SDL/SDL/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
+		F149623F1E2415CF00C37F22 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = "../../external/SDL/SDL_image/Xcode-iOS/SDL_image.xcodeproj"; sourceTree = "<group>"; };
+		F14962481E2415F400C37F22 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = "../../external/SDL/SDL_mixer/Xcode-iOS/SDL_mixer.xcodeproj"; sourceTree = "<group>"; };
+		F149624E1E2415FE00C37F22 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = "../../external/SDL/SDL_ttf/Xcode-iOS/SDL_ttf.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,6 +415,7 @@
 		A039D81E1CCDE2D500B0B5DA = {
 			isa = PBXGroup;
 			children = (
+				F14962311E2413EA00C37F22 /* dependencies */,
 				A039D8291CCDE2D500B0B5DA /* GameLibrary */,
 				A039D8281CCDE2D500B0B5DA /* Products */,
 			);
@@ -1068,6 +1111,50 @@
 			path = Window;
 			sourceTree = "<group>";
 		};
+		F14962311E2413EA00C37F22 /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				F14962321E24140B00C37F22 /* SDL.xcodeproj */,
+				F149623F1E2415CF00C37F22 /* SDL_image.xcodeproj */,
+				F14962481E2415F400C37F22 /* SDL_mixer.xcodeproj */,
+				F149624E1E2415FE00C37F22 /* SDL_ttf.xcodeproj */,
+			);
+			name = dependencies;
+			sourceTree = "<group>";
+		};
+		F14962331E24140B00C37F22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F14962391E24140C00C37F22 /* libSDL2.a */,
+				F149623B1E24140C00C37F22 /* libSDL2.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F14962401E2415CF00C37F22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F14962471E2415CF00C37F22 /* libSDL2_image.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F14962491E2415F400C37F22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F149624D1E2415F400C37F22 /* libSDL2_mixer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F149624F1E2415FE00C37F22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F14962531E2415FE00C37F22 /* libSDL2_ttf.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1112,12 +1199,68 @@
 			mainGroup = A039D81E1CCDE2D500B0B5DA;
 			productRefGroup = A039D8281CCDE2D500B0B5DA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F14962331E24140B00C37F22 /* Products */;
+					ProjectRef = F14962321E24140B00C37F22 /* SDL.xcodeproj */;
+				},
+				{
+					ProductGroup = F14962401E2415CF00C37F22 /* Products */;
+					ProjectRef = F149623F1E2415CF00C37F22 /* SDL_image.xcodeproj */;
+				},
+				{
+					ProductGroup = F14962491E2415F400C37F22 /* Products */;
+					ProjectRef = F14962481E2415F400C37F22 /* SDL_mixer.xcodeproj */;
+				},
+				{
+					ProductGroup = F149624F1E2415FE00C37F22 /* Products */;
+					ProjectRef = F149624E1E2415FE00C37F22 /* SDL_ttf.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A039D8261CCDE2D500B0B5DA /* GameLibrary */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F14962391E24140C00C37F22 /* libSDL2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2.a;
+			remoteRef = F14962381E24140C00C37F22 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F149623B1E24140C00C37F22 /* libSDL2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2.a;
+			remoteRef = F149623A1E24140C00C37F22 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F14962471E2415CF00C37F22 /* libSDL2_image.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_image.a;
+			remoteRef = F14962461E2415CF00C37F22 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F149624D1E2415F400C37F22 /* libSDL2_mixer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_mixer.a;
+			remoteRef = F149624C1E2415F400C37F22 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F14962531E2415FE00C37F22 /* libSDL2_ttf.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_ttf.a;
+			remoteRef = F14962521E2415FE00C37F22 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A039D8231CCDE2D500B0B5DA /* Sources */ = {
