@@ -2,7 +2,9 @@
 #pragma once
 
 #include <functional>
-#include <optional>
+#ifdef _HAS_STD_OPTIONAL
+	#include <optional>
+#endif
 
 namespace fgl
 {
@@ -10,6 +12,7 @@ namespace fgl
 
 	bool attempt(std::function<void()> block);
 	
+#ifdef _HAS_STD_OPTIONAL
 	template<typename T>
 	std::optional<T> attempt(std::function<std::optional<T>()> block)
 	{
@@ -35,4 +38,5 @@ namespace fgl
 			return {};
 		}
 	}
+#endif
 }
