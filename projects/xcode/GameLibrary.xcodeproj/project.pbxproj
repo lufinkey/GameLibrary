@@ -356,6 +356,7 @@
 		A05D79A71CD465E300456C8E /* DictionaryKeyNotFoundException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DictionaryKeyNotFoundException.h; sourceTree = "<group>"; };
 		A05D79A81CD4660300456C8E /* NotImplementedException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotImplementedException.cpp; sourceTree = "<group>"; };
 		A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DictionaryKeyNotFoundException.cpp; sourceTree = "<group>"; };
+		F14962301E24000A00C37F22 /* Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -618,6 +619,7 @@
 				A039DA321CCDE80800B0B5DA /* String.h */,
 				A039DA331CCDE80800B0B5DA /* Stringifier.h */,
 				A039DA341CCDE80800B0B5DA /* Thread.h */,
+				F14962301E24000A00C37F22 /* Tools.h */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

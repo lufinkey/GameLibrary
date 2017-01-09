@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "Pair.h"
 #include "String.h"
+#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.h>
 
 namespace fgl
 {

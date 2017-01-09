@@ -9,7 +9,10 @@
 #include <GameLibrary/Window/Window.h>
 #include <GameLibrary/Exception/IllegalArgumentException.h>
 #include <SDL/SDL.h>
-#include <Windows.h>
+
+#if defined(TARGETPLATFORM_WINDOWS)
+	#include <Windows.h>
+#endif
 
 namespace fgl
 {
