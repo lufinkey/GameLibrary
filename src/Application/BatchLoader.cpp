@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Application/BatchLoader.h>
-#include <GameLibrary/Window/Window.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/IllegalStateException.h>
+#include <GameLibrary/Application/BatchLoader.hpp>
+#include <GameLibrary/Window/Window.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
 
 namespace fgl
 {

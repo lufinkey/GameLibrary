@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Window/MessageBox.h>
+#include <GameLibrary/Window/MessageBox.hpp>
 #include <SDL/SDL.h>
 
 namespace fgl

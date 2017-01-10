@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Actor/WireframeActor.h>
+#include <GameLibrary/Actor/WireframeActor.hpp>
 
 namespace fgl
 {

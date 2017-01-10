@@ -2,8 +2,8 @@
 #pragma once
 
 #include <cstdio>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.h>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp>
 
 namespace fgl
 {

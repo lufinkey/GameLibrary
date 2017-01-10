@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Screen/Transition/FadeColorTransition.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Screen/Transition/FadeColorTransition.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

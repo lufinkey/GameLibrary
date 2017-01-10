@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Utilities/Thread.h>
-#include <GameLibrary/Types.h>
+#include <GameLibrary/Utilities/Thread.hpp>
+#include <GameLibrary/Types.hpp>
 #include <condition_variable>
 #include <iostream>
 #include <mutex>

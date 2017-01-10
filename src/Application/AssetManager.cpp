@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Application/AssetManager.h>
-#include <GameLibrary/IO/FileTools.h>
-#include <GameLibrary/Window/Window.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Application/AssetManager.hpp>
+#include <GameLibrary/IO/FileTools.hpp>
+#include <GameLibrary/Window/Window.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

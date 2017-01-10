@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Screen/UI/ZoomPanElement.h>
+#include <GameLibrary/Screen/UI/ZoomPanElement.hpp>
 
 namespace fgl
 {

@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Application/ApplicationData.h>
-#include <GameLibrary/Application/Application.h>
+#include <GameLibrary/Application/ApplicationData.hpp>
+#include <GameLibrary/Application/Application.hpp>
 
 namespace fgl
 {

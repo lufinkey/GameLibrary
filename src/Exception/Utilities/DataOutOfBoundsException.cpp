@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/DataOutOfBoundsException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/DataOutOfBoundsException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

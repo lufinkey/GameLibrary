@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/IllegalNumberOperationException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/IllegalNumberOperationException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

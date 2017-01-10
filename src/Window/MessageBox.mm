@@ -1,8 +1,8 @@
 
 #ifdef __OBJC__
 
-#include <GameLibrary/Window/MessageBox.h>
-#include <GameLibrary/Utilities/Thread.h>
+#include <GameLibrary/Window/MessageBox.hpp>
+#include <GameLibrary/Utilities/Thread.hpp>
 #include <SDL/SDL.h>
 
 #if defined(TARGETPLATFORM_IOS)
@@ -20,11 +20,11 @@ namespace GameLibrary
 														cancelButtonTitle:@"OK"
 														otherButtonTitles:nil];
 		[alert show];
-		EventManager::update();
+		EventManager::update(false);
 		while(alert.visible)
 		{
 			Thread::sleep(16);
-			EventManager::update();
+			EventManager::update(false);
 		}
 		#if !__has_feature(objc_arc)
 			[alert release];
@@ -72,11 +72,11 @@ namespace GameLibrary
 			[alert addButtonWithTitle:[NSString stringWithUTF8String:options[i]]];
 		}
 		[alert show];
-		EventManager::update();
+		EventManager::update(false);
 		while(alert.visible)
 		{
 			Thread::sleep(16);
-			EventManager::update();
+			EventManager::update(false);
 		}
 		NSInteger result = [messageDelegate result];
 		#if !__has_feature(objc_arc)

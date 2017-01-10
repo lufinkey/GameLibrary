@@ -1,11 +1,11 @@
 
-#include "EventManager.h"
-#include <GameLibrary/Application/Application.h>
-#include <GameLibrary/Input/Keyboard.h>
-#include <GameLibrary/Input/Mouse.h>
-#include <GameLibrary/Input/Multitouch.h>
-#include <GameLibrary/Utilities/Thread.h>
-#include <GameLibrary/Window/Window.h>
+#include "EventManager.hpp"
+#include <GameLibrary/Application/Application.hpp>
+#include <GameLibrary/Input/Keyboard.hpp>
+#include <GameLibrary/Input/Mouse.hpp>
+#include <GameLibrary/Input/Multitouch.hpp>
+#include <GameLibrary/Utilities/Thread.hpp>
+#include <GameLibrary/Window/Window.hpp>
 #include <SDL/SDL.h>
 #include <condition_variable>
 
@@ -82,7 +82,7 @@ namespace fgl
 		return EventManager_quitRequest;
 	}
 	
-	void EventManager::update()
+	void EventManager::update(bool updateInputs)
 	{
 		if(!Thread::isMainThread())
 		{
@@ -239,9 +239,12 @@ namespace fgl
 			resizingWindow = nullptr;
 		}
 		
-		Keyboard::update();
-		Mouse::update();
-		Multitouch::update();
+		if(updateInputs)
+		{
+			Keyboard::update();
+			Mouse::update();
+			Multitouch::update();
+		}
 		Thread::update();
 	}
 	

@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Actor/SpriteActor.h>
-#include <GameLibrary/Graphics/PixelIterator.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/IllegalStateException.h>
+#include <GameLibrary/Actor/SpriteActor.hpp>
+#include <GameLibrary/Graphics/PixelIterator.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
 
 namespace fgl
 {

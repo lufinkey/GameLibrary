@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Graphics/TextureImageCreateException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Graphics/TextureImageCreateException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

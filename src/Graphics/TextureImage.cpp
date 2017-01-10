@@ -1,11 +1,11 @@
 
-#include <GameLibrary/Graphics/TextureImage.h>
-#include <GameLibrary/Graphics/Image.h>
-#include <GameLibrary/IO/Console.h>
-#include <GameLibrary/Exception/InitializeLibraryException.h>
-#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.h>
-#include <GameLibrary/Exception/Graphics/TextureImageCreateException.h>
-#include <GameLibrary/Exception/Graphics/TextureImageUpdateException.h>
+#include <GameLibrary/Graphics/TextureImage.hpp>
+#include <GameLibrary/Graphics/Image.hpp>
+#include <GameLibrary/IO/Console.hpp>
+#include <GameLibrary/Exception/InitializeLibraryException.hpp>
+#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
+#include <GameLibrary/Exception/Graphics/TextureImageCreateException.hpp>
+#include <GameLibrary/Exception/Graphics/TextureImageUpdateException.hpp>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 

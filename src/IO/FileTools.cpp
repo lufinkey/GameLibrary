@@ -3,9 +3,9 @@
 	#define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include <GameLibrary/IO/FileTools.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/IO/FileTools.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 #include <stdlib.h>
 #include <dirent.h>

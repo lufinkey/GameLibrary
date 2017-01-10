@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Utilities/Number.h>
+#include <GameLibrary/Utilities/Number.hpp>
 
 namespace fgl
 {

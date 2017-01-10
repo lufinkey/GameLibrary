@@ -1,7 +1,7 @@
 
-#include <GameLibrary/Screen/UI/MenuScreen.h>
-#include <GameLibrary/Input/Multitouch.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Screen/UI/MenuScreen.hpp>
+#include <GameLibrary/Input/Multitouch.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

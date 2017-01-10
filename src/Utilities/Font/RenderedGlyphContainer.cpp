@@ -1,7 +1,7 @@
 
-#include <GameLibrary/Utilities/Font/RenderedGlyphContainer.h>
-#include <GameLibrary/Utilities/Font/Font.h>
-#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.h>
+#include <GameLibrary/Utilities/Font/RenderedGlyphContainer.hpp>
+#include <GameLibrary/Utilities/Font/Font.hpp>
+#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
 #include <SDL/SDL_ttf.h>
 
 namespace fgl

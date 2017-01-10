@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Screen/ScreenManager.h>
-#include <GameLibrary/Screen/Transition/SlideTransition.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
+#include <GameLibrary/Screen/ScreenManager.hpp>
+#include <GameLibrary/Screen/Transition/SlideTransition.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/Screen/ScreenNavigationException.hpp>
 
 namespace fgl
 {

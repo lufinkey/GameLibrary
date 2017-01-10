@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/NotImplementedException.h>
-#include "ExceptionMacros.h"
+#include <GameLibrary/Exception/NotImplementedException.hpp>
+#include "ExceptionMacros.hpp"
 
 namespace fgl
 {

@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/BadAnyCastException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/BadAnyCastException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

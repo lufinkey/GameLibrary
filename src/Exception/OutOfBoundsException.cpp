@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/OutOfBoundsException.h>
-#include "ExceptionMacros.h"
+#include <GameLibrary/Exception/OutOfBoundsException.hpp>
+#include "ExceptionMacros.hpp"
 
 namespace fgl
 {

@@ -1,9 +1,9 @@
 
-#include <GameLibrary/Input/Multitouch.h>
-#include <GameLibrary/IO/Console.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include "../Application/EventManager.h"
+#include <GameLibrary/Input/Multitouch.hpp>
+#include <GameLibrary/IO/Console.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include "../Application/EventManager.hpp"
 #include <SDL/SDL.h>
 #include <climits>
 #include <mutex>

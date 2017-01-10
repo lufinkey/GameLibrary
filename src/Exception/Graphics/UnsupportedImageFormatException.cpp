@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

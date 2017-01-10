@@ -1,5 +1,5 @@
 
-#include <GameLibrary/GameLibrary.h>
+#include <GameLibrary/GameLibrary.hpp>
 
 #ifndef TARGETPLATFORM_WINDOWS
 int main(int argc, char *argv[]);

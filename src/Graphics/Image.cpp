@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Graphics/Image.h>
-#include <GameLibrary/Graphics/PixelIterator.h>
-#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.h>
-#include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.h>
+#include <GameLibrary/Graphics/Image.hpp>
+#include <GameLibrary/Graphics/PixelIterator.hpp>
+#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
+#include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.hpp>
 #include <SDL/SDL_image.h>
 
 namespace fgl

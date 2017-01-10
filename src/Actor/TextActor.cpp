@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Actor/TextActor.h>
+#include <GameLibrary/Actor/TextActor.hpp>
 
 namespace fgl
 {

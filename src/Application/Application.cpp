@@ -1,10 +1,10 @@
 
-#include <GameLibrary/Application/Application.h>
-#include <GameLibrary/Exception/InitializeLibraryException.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include <GameLibrary/Utilities/Thread.h>
-#include <GameLibrary/Utilities/Time/DateTime.h>
-#include "EventManager.h"
+#include <GameLibrary/Application/Application.hpp>
+#include <GameLibrary/Exception/InitializeLibraryException.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include <GameLibrary/Utilities/Thread.hpp>
+#include <GameLibrary/Utilities/Time/DateTime.hpp>
+#include "EventManager.hpp"
 #include <SDL/SDL.h>
 #include <ctime>
 #include <cstdlib>

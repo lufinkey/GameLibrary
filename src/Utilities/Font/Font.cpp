@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Utilities/Font/Font.h>
-#include <GameLibrary/Utilities/Data.h>
-#include <GameLibrary/Exception/InitializeLibraryException.h>
-#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.h>
+#include <GameLibrary/Utilities/Font/Font.hpp>
+#include <GameLibrary/Utilities/Data.hpp>
+#include <GameLibrary/Exception/InitializeLibraryException.hpp>
+#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
 #include <SDL/SDL_ttf.h>
 #include <memory>
 

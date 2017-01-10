@@ -1,11 +1,11 @@
 
-#include <GameLibrary/Screen/ScreenElement.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/IllegalStateException.h>
+#include <GameLibrary/Screen/ScreenElement.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
 
 namespace fgl
 {
-	void ScreenElement::setWindow(Window*win)
+	void ScreenElement::setWindow(Window* win)
 	{
 		Window*oldWindow = window;
 
@@ -37,12 +37,12 @@ namespace fgl
 		}
 	}
 	
-	void ScreenElement::onRemoveFromWindow(Window*window)
+	void ScreenElement::onRemoveFromWindow(Window* window)
 	{
 		//
 	}
 	
-	void ScreenElement::onAddToWindow(Window*window)
+	void ScreenElement::onAddToWindow(Window* window)
 	{
 		//
 	}
@@ -136,7 +136,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenElement::setFrame(const RectangleD&frame_arg)
+	void ScreenElement::setFrame(const RectangleD& frame_arg)
 	{
 		frame = frame_arg;
 		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++)
@@ -195,7 +195,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenElement::bringChildElementToFront(ScreenElement*element)
+	void ScreenElement::bringChildElementToFront(ScreenElement* element)
 	{
 		if(element == nullptr)
 		{
@@ -219,7 +219,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenElement::sendChildElementToBack(ScreenElement*element)
+	void ScreenElement::sendChildElementToBack(ScreenElement* element)
 	{
 		if(element == nullptr)
 		{
@@ -274,7 +274,7 @@ namespace fgl
 		return autoLayoutMgr;
 	}
 	
-	void ScreenElement::setBackgroundColor(const Color&color)
+	void ScreenElement::setBackgroundColor(const Color& color)
 	{
 		backgroundColor = color;
 	}

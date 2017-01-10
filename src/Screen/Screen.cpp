@@ -1,10 +1,10 @@
 
-#include <GameLibrary/Screen/Screen.h>
-#include <GameLibrary/Screen/ScreenManager.h>
-#include <GameLibrary/Screen/Transition/PopoverTransition.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/IllegalStateException.h>
-#include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
+#include <GameLibrary/Screen/Screen.hpp>
+#include <GameLibrary/Screen/ScreenManager.hpp>
+#include <GameLibrary/Screen/Transition/PopoverTransition.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
+#include <GameLibrary/Exception/Screen/ScreenNavigationException.hpp>
 
 namespace fgl
 {

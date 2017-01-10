@@ -1,9 +1,9 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <GameLibrary/Utilities/Data.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/Utilities/DataOutOfBoundsException.h>
+#include <GameLibrary/Utilities/Data.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/Utilities/DataOutOfBoundsException.hpp>
 #include <cstdio>
 #include <cstdlib>
 

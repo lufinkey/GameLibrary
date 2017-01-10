@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Actor/Actor.h>
-#include <GameLibrary/Input/Mouse.h>
-#include <GameLibrary/Input/Multitouch.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
+#include <GameLibrary/Actor/Actor.hpp>
+#include <GameLibrary/Input/Mouse.hpp>
+#include <GameLibrary/Input/Multitouch.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
 
 namespace fgl
 {

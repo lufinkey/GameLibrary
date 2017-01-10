@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Graphics/Color.h>
-#include <GameLibrary/Utilities/Math.h>
+#include <GameLibrary/Graphics/Color.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
 
 namespace fgl
 {

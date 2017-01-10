@@ -1,10 +1,10 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <GameLibrary/Utilities/Time/DateTime.h>
-#include <GameLibrary/Utilities/ArrayList.h>
-#include <GameLibrary/Utilities/Math.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
+#include <GameLibrary/Utilities/Time/DateTime.hpp>
+#include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include "posixtime.h"
 #include "time64/time64.h"
 #include <ctime>

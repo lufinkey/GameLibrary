@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Screen/ScreenNavigationException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Screen/ScreenNavigationException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

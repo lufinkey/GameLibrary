@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Screen/Transition/SlideTransition.h>
+#include <GameLibrary/Screen/Transition/SlideTransition.hpp>
 
 namespace fgl
 {

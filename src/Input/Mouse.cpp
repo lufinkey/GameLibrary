@@ -1,9 +1,9 @@
 
-#include <GameLibrary/Input/Mouse.h>
-#include <GameLibrary/Utilities/ArrayList.h>
-#include <GameLibrary/Utilities/Pair.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include "../Application/EventManager.h"
+#include <GameLibrary/Input/Mouse.hpp>
+#include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/Pair.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include "../Application/EventManager.hpp"
 #include <SDL/SDL.h>
 #include <mutex>
 #include <vector>

@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Screen/Transition/FadeZoomTransition.h>
+#include <GameLibrary/Screen/Transition/FadeZoomTransition.hpp>
 
 namespace fgl
 {

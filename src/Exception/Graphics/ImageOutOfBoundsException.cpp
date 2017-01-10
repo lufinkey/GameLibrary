@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

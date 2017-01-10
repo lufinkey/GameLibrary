@@ -1,7 +1,7 @@
 
-#include <GameLibrary/Window/Window.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include "../Application/EventManager.h"
+#include <GameLibrary/Window/Window.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include "../Application/EventManager.hpp"
 #include <SDL/SDL.h>
 #include <SDL/SDL_syswm.h>
 

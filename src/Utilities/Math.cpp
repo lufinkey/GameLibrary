@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Utilities/Math.h>
+#include <GameLibrary/Utilities/Math.hpp>
 #include <cmath>
 #include <cstdlib>
 

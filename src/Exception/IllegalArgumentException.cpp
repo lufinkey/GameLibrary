@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include "ExceptionMacros.h"
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include "ExceptionMacros.hpp"
 
 namespace fgl
 {

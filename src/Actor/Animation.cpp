@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Actor/Animation.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Actor/Animation.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Screen/AutoLayoutCalculator.h>
+#include <GameLibrary/Screen/AutoLayoutCalculator.hpp>
 
 namespace fgl
 {

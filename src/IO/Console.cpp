@@ -1,5 +1,5 @@
 
-#include <GameLibrary/IO/Console.h>
+#include <GameLibrary/IO/Console.hpp>
 #include <iostream>
 
 namespace fgl

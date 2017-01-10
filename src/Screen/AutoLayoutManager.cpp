@@ -1,7 +1,7 @@
 
-#include <GameLibrary/Screen/AutoLayoutManager.h>
-#include <GameLibrary/Screen/AutoLayoutCalculator.h>
-#include <GameLibrary/Utilities/Number.h>
+#include <GameLibrary/Screen/AutoLayoutManager.hpp>
+#include <GameLibrary/Screen/AutoLayoutCalculator.hpp>
+#include <GameLibrary/Utilities/Number.hpp>
 
 namespace fgl
 {

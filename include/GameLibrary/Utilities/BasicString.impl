@@ -10,9 +10,9 @@
 
 #ifndef _STRING_STANDALONE
 
-#include <GameLibrary/Exception/NumberFormatException.h>
-#include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.h>
-#include "ArrayList.h"
+#include <GameLibrary/Exception/NumberFormatException.hpp>
+#include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.hpp>
+#include "ArrayList.hpp"
 
 namespace fgl
 {

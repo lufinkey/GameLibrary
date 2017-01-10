@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Utilities/Plist.h>
-#include <GameLibrary/Types.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Utilities/Plist.hpp>
+#include <GameLibrary/Types.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <pugixml.hpp>
 #include <base64.hpp>
 #include <cstdio>
@@ -205,6 +205,7 @@ namespace fgl
 				}
 				return false;
 			}
+			return true;
 		}
 		
 		void close()

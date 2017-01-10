@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Utilities/Time/TimeInterval.h>
+#include <GameLibrary/Utilities/Time/TimeInterval.hpp>
 #include "posixtime.h"
 #include <time.h>
 

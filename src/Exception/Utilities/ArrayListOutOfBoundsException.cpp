@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.h>
-#include "../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.hpp>
+#include "../ExceptionMacros.hpp"
 
 namespace fgl
 {

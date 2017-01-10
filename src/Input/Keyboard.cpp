@@ -1,9 +1,9 @@
 
-#include <GameLibrary/Input/Keyboard.h>
-#include <GameLibrary/Utilities/ArrayList.h>
-#include <GameLibrary/Utilities/Pair.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
-#include <GameLibrary/Exception/IllegalStateException.h>
+#include <GameLibrary/Input/Keyboard.hpp>
+#include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/Pair.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
 #include <SDL/SDL.h>
 #include <mutex>
 #include <vector>

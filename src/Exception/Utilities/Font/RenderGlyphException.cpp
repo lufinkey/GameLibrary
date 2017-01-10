@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.h>
-#include "../../ExceptionMacros.h"
+#include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
+#include "../../ExceptionMacros.hpp"
 
 namespace fgl
 {

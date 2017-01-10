@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Screen/UI/ActorMenuElement.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Screen/UI/ActorMenuElement.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

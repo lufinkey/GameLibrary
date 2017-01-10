@@ -1,8 +1,8 @@
 
-#include <GameLibrary/Screen/UI/TextInputElement.h>
-#include <GameLibrary/Input/Keyboard.h>
-#include <GameLibrary/Input/Mouse.h>
-#include <GameLibrary/Input/Multitouch.h>
+#include <GameLibrary/Screen/UI/TextInputElement.hpp>
+#include <GameLibrary/Input/Keyboard.hpp>
+#include <GameLibrary/Input/Mouse.hpp>
+#include <GameLibrary/Input/Multitouch.hpp>
 #include <mutex>
 
 namespace fgl

@@ -1,7 +1,7 @@
 
 #ifdef __OBJC__
 
-#include <GameLibrary/IO/FileTools.h>
+#include <GameLibrary/IO/FileTools.hpp>
 
 #if defined(TARGETPLATFORM_MAC)
 #import <AppKit/AppKit.h>

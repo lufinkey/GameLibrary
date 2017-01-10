@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Window/View.h>
+#include <GameLibrary/Window/View.hpp>
 
 namespace fgl
 {

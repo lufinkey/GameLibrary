@@ -1,13 +1,13 @@
 
-#include <GameLibrary/Graphics/Graphics.h>
-#include <GameLibrary/Graphics/TextureImage.h>
-#include <GameLibrary/IO/Console.h>
-#include <GameLibrary/Utilities/Math.h>
-#include <GameLibrary/Utilities/PlatformChecks.h>
-#include <GameLibrary/Utilities/Font/Font.h>
-#include <GameLibrary/Window/View.h>
-#include <GameLibrary/Window/Window.h>
-#include <GameLibrary/Exception/IllegalArgumentException.h>
+#include <GameLibrary/Graphics/Graphics.hpp>
+#include <GameLibrary/Graphics/TextureImage.hpp>
+#include <GameLibrary/IO/Console.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
+#include <GameLibrary/Utilities/Font/Font.hpp>
+#include <GameLibrary/Window/View.hpp>
+#include <GameLibrary/Window/Window.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <SDL/SDL.h>
 
 #if defined(TARGETPLATFORM_WINDOWS)

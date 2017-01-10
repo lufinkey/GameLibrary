@@ -1,6 +1,6 @@
 
-#include <GameLibrary/Exception/NumberFormatException.h>
-#include "ExceptionMacros.h"
+#include <GameLibrary/Exception/NumberFormatException.hpp>
+#include "ExceptionMacros.hpp"
 
 namespace fgl
 {
