@@ -91,11 +91,11 @@ namespace fgl
 		/*! Scales and repositions the Actor to fit within the specified container
 			\param container the frame to fit the Actor into.
 			\note this function will not work correctly if the Actor's scale value is set to 0*/
-		virtual void scaleToFit(const RectangleD&container);
+		virtual void scaleToFit(const RectangleD& container);
 		/*! Scales the Actor to fit within the specified size
-			\param the size to fit the Actor within
+			\param size the width and height to fit the Actor within
 			\note this function will not work correctly if the Actor's scale value is set to 0*/
-		void scaleToFit(const Vector2d&size);
+		void scaleToFit(const Vector2d& size);
 		
 		
 		/*! Gets the width of the Actor object. This value is affected by scale, but is not affected by rotation.
@@ -126,7 +126,7 @@ namespace fgl
 			\link fgl::WireframeActor - sets the wireframe color
 			\see fgl::Color
 			\param color the color to set the Actor*/
-		void setColor(const Color&color);
+		void setColor(const Color& color);
 		/*! Rotates the actor by the specified amount of degrees with the origin at its (x,y) position. Rotation is 0 by default.
 			\see fgl::Actor::x
 			\see fgl::Actor::y
@@ -151,7 +151,7 @@ namespace fgl
 		/*! Sets the color of the frame (bounding box) and the border of the Actor. Frame and border color are green {r=0; g=255; b=0; a=255} by default.
 			\see fgl::Actor::setFrameVisible(bool)
 			\param color the color to draw the frame and border*/
-		void setFrameColor(const Color&color);
+		void setFrameColor(const Color& color);
 		/*! Sets whether the Actor is mirrored horizontally or not. If the Actor is mirrored, it will be drawn inverted horizontally. This does affect mouse states. Horizontal mirroring is false by default.
 			\param mirror true makes the Actor drawn inverted horizontally, and false makes the Actor drawn correctly horizontally*/
 		void setMirroredHorizontal(bool mirror);

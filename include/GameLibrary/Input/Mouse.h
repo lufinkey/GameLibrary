@@ -35,7 +35,7 @@ namespace fgl
 			\param window the window containing the mouse instance, or null for the currently mouse-focused window
 			\param mouseIndex the mouse instance index
 			\param button a constant representing the mouse button to check
-			\param returns true if the mouse button is currently in a pressed state, or false if otherwise*/
+			\returns true if the mouse button is currently in a pressed state, or false if otherwise*/
 		static bool isButtonPressed(Window* window, unsigned int mouseIndex, Button button);
 		/*! Gets the current position of a mouse instance inside of a given window.
 			\param window the window containing the mouse instance, or null for the currently mouse-focused window
@@ -68,7 +68,7 @@ namespace fgl
 			\param window the window containing the mouse instance, or null for the currently mouse-focused window
 			\param mouseIndex the mouse instance index
 			\param button a constant representing the mouse button to check
-			\param returns true if the mouse button was in a pressed state in the previous frame, or false if otherwise*/
+			\returns true if the mouse button was in a pressed state in the previous frame, or false if otherwise*/
 		static bool wasButtonPressed(Window* window, unsigned int mouseIndex, Button button);
 		/*! Gets the previous frame's position of a mouse instance inside of a given window.
 			\param window the window containing the mouse instance, or null for the currently mouse-focused window

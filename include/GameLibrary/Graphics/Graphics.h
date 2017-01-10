@@ -82,7 +82,7 @@ namespace fgl
 			\param alpha the alpha value, from 0.0 (fully transparent) to 1.0 (fully visible); If the value is outside these boundaries, it is adjusted*/
 		virtual void setAlpha(float alpha);
 		/*! Composites the alpha (transparency) of the Graphics. this->alpha *= alphaComposite;
-			\param alpha the alpha value to composite, from 0.0 (fully transparent) to 1.0 (fully visible); If the resulting alpha value is outside these boundaries, it is adjusted*/
+			\param alphaComposite the alpha value to composite, from 0.0 (fully transparent) to 1.0 (fully visible); If the resulting alpha value is outside these boundaries, it is adjusted*/
 		virtual void compositeAlpha(float alphaComposite);
 		/*! Gets the current alpha value.
 			\returns an unsigned byte value*/

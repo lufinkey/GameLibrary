@@ -50,7 +50,8 @@ namespace fgl
 		}
 
 		/*! Tells if the two line segments intersect
-			\param segment the line segment to check intersection against
+			\param line the line segment to check intersection against
+			\param intersection outputs the point of intersection between the two line segments, if any
 			\returns true if the line segments intersect, false if they do not*/
 		bool segmentsIntersect(const Line<T>& line, Vector2<T>* intersection = nullptr) const
 		{

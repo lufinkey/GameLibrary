@@ -71,7 +71,7 @@ namespace fgl
 		
 		/*! Calculates whether a given rectangle is intersecting the bounds of this rectangle.
 			\param rect the rectangle to check
-			\param true if the given rectangle is intersecting this rectangle's bounds, or false if otherwise*/
+			\returns true if the given rectangle is intersecting this rectangle's bounds, or false if otherwise*/
 		bool intersects(const Rectangle<T>&rect) const
 		{
 			T left1, left2;

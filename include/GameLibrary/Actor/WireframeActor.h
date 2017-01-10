@@ -37,12 +37,12 @@ namespace fgl
 		
 		
 		/*! \copydoc fgl::Actor::scaleToFit(const RectangleD&)*/
-		virtual void scaleToFit(const RectangleD&container) override;
+		virtual void scaleToFit(const RectangleD& container) override;
 		
 		
 		/*! Sets the width and height of the wireframe. Equivelant to Wireframe::setSize(double,double).
 			\param size the width (size.x) and height (size.y) of the wireframe*/
-		void setSize(const Vector2d&size);
+		void setSize(const Vector2d& size);
 		/*! Sets the width and height of the wireframe. Equivelant to Wireframe::setSize(const Vector2d&).
 			\param width the width of the wireframe
 			\param height the height of the wireframe*/
@@ -64,16 +64,16 @@ namespace fgl
 		/*! \copydoc fgl::Actor::updateSize()*/
 		virtual void updateSize() override;
 		/*! \copydoc fgl::Actor::checkPointCollision(const Vector2d&)*/
-		virtual bool checkPointCollision(const Vector2d&point) override;
+		virtual bool checkPointCollision(const Vector2d& point) override;
 		
 	protected:
 		/*! Special draw function to draw the WireframeActor with specific properties. These properties are not stored into the WireframeActor. This function is called from WireframeActor::draw
 			\param appData specifies information about the Application drawing the WireframeActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
-			\param Graphics the graphics object used to draw the WireframeActor
+			\param graphics the graphics object used to draw the WireframeActor
 			\param x the x coordinate
 			\param y the y coordinate
 			\param scale the ratio to size the WireframeActor from its default size*/
-		virtual void drawActor(ApplicationData&appData, Graphics&graphics, double x, double y, double scale) const;
+		virtual void drawActor(ApplicationData& appData, Graphics& graphics, double x, double y, double scale) const;
 		
 	private:
 		bool filled;

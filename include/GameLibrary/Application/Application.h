@@ -74,7 +74,7 @@ namespace fgl
 		/*! Called once every frame. Use this function to draw to the Window.
 			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw to the Window*/
-		virtual void draw(ApplicationData appData, Graphics g) const;
+		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		
 
 		/*! Runs the Application. This should only be called once by a single Application object, and not called again until the Application loop ends.

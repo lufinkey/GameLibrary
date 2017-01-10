@@ -25,7 +25,7 @@ namespace fgl
 		MenuScreen();
 		/*! Constructs a MenuScreen to be the root Screen of a Window. Only one screen in any Screen stack should be delegated as the root Screen.
 			\param window the Window that the Screen will be contained within*/
-		explicit MenuScreen(Window*window);
+		explicit MenuScreen(Window* window);
 		/*! virtual destructor*/
 		virtual ~MenuScreen();
 		
@@ -38,13 +38,13 @@ namespace fgl
 			\param actor a SpriteActor pointer
 			\returns the index of the added SpriteActor
 			\throws fgl::IllegalArgumentException if actor argument is null*/
-		size_t addItem(SpriteActor*actor);
+		size_t addItem(SpriteActor* actor);
 		/*! Adds a SpriteActor that will be automatically resized by the AutoLayout. This Actor's deallocation will be automatically handled when this Screen is deallocated
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param actor a SpriteActor pointer
 			\returns the index of the added SpriteActor
 			\throws fgl::IllegalArgumentException if actor argument is null*/
-		size_t addItem(const RectD&bounds, SpriteActor*actor);
+		size_t addItem(const RectD& bounds, SpriteActor* actor);
 		/*! Creates and adds a SpriteActor.
 			\param position the position of the Actor in the Screen
 			\param animation the default Animation of the Actor
@@ -52,7 +52,7 @@ namespace fgl
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
-		size_t addItem(const Vector2d&position, Animation*animation, const Animation::Direction&direction=Animation::FORWARD, bool destructAnimation=true);
+		size_t addItem(const Vector2d& position, Animation* animation, const Animation::Direction& direction=Animation::FORWARD, bool destructAnimation=true);
 		/*! Creates and adds a SpriteActor that will be automatically resized by the AutoLayout.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param animation the default Animation of the Actor
@@ -60,18 +60,18 @@ namespace fgl
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
-		size_t addItem(const RectD&bounds, Animation*animation, const Animation::Direction&direction=Animation::FORWARD, bool destructAnimation=true);
+		size_t addItem(const RectD& bounds, Animation* animation, const Animation::Direction& direction=Animation::FORWARD, bool destructAnimation=true);
 		/*! Adds a TextActor. This Actor's deallocation will be automatically handled when this Screen is deallocated.
 			\param actor a TextActor pointer
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if actor argument is null*/
-		size_t addItem(TextActor*actor);
+		size_t addItem(TextActor* actor);
 		/*! Adds a TextActor that will be automatically resized by the AutoLayout. This Actor's deallocation will be automatically handled when this Screen is deallocated.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param actor a TextActor pointer
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if actor argument is null*/
-		size_t addItem(const RectD&bounds, TextActor*actor);
+		size_t addItem(const RectD& bounds, TextActor* actor);
 		/*! Creates and adds a TextActor.
 			\param position the position of the Actor in the Screen
 			\param text a string to display
@@ -81,7 +81,7 @@ namespace fgl
 			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
 			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 			\returns the index of the added item*/
-		size_t addItem(const Vector2d&position, const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontsize=18, int fontstyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_CENTER);
+		size_t addItem(const Vector2d& position, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Color::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
 		/*! Creates and adds a TextActor that will be automatically resized by the AutoLayout.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param text a string to display
@@ -91,7 +91,7 @@ namespace fgl
 			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
 			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 		 	\returns the index of the added item*/
-		size_t addItem(const RectD&bounds, const String&text, Font*font=Graphics::getDefaultFont(), const Color&color=Color::BLACK, unsigned int fontsize=18, int fontstyle=Font::STYLE_PLAIN, const TextActor::TextAlignment&alignment=TextActor::ALIGN_CENTER);
+		size_t addItem(const RectD& bounds, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Color::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
 		/*! Removes and deallocates a previously added Actor pointer.
 			\param index the index of the Actor. When an Actor is removed, the indexes of other Actors may change*/
 		void removeItem(size_t index);
@@ -143,19 +143,19 @@ namespace fgl
 		
 		/*! Adds a keyboard key to manually move up in the menu.
 			\param key a key constant*/
-		void addUpKey(const Keyboard::Key&key);
+		void addUpKey(const Keyboard::Key& key);
 		/*! Adds a keyboard key to manually move down in the menu.
 			\param key a key constant*/
-		void addDownKey(const Keyboard::Key&key);
+		void addDownKey(const Keyboard::Key& key);
 		/*! Adds a keyboard key to manually move left in the menu.
 			\param key a key constant*/
-		void addLeftKey(const Keyboard::Key&key);
+		void addLeftKey(const Keyboard::Key& key);
 		/*! Adds a keyboard key to manually move right in the menu.
 			\param key a key constant*/
-		void addRightKey(const Keyboard::Key&key);
+		void addRightKey(const Keyboard::Key& key);
 		/*! Adds a keyboard key to manually select the current menu item.
 			\param key a key constant*/
-		void addSelectKey(const Keyboard::Key&key);
+		void addSelectKey(const Keyboard::Key& key);
 		/*! Removes all the added keys from the menu.*/
 		void clearKeys();
 		
@@ -187,8 +187,8 @@ namespace fgl
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.
 			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor
-			\param actor the Actor from the menu being drawn*/
-		virtual void drawItem(ApplicationData appData, Graphics graphics, Actor*item) const;
+			\param item the Actor from the menu being drawn*/
+		virtual void drawItem(ApplicationData appData, Graphics graphics, Actor* item) const;
 		
 	private:
 		class MainElement : public ActorMenuElement
@@ -197,10 +197,10 @@ namespace fgl
 			MenuScreen*menuScreen;
 			
 		protected:
-			virtual void drawActor(ApplicationData appData, Graphics graphics, Actor*actor) const override;
+			virtual void drawActor(ApplicationData appData, Graphics graphics, Actor* actor) const override;
 			
 		public:
-			MainElement(MenuScreen*menuScreen, const RectangleD&frame);
+			MainElement(MenuScreen* menuScreen, const RectangleD& frame);
 			virtual ~MainElement();
 			
 			virtual void onActorHover(size_t index) override;

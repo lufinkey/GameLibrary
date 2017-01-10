@@ -80,7 +80,7 @@ namespace fgl
 		//
 	}
 
-	void Application::draw(ApplicationData appData, Graphics g) const
+	void Application::draw(ApplicationData appData, Graphics graphics) const
 	{
 		//
 	}
