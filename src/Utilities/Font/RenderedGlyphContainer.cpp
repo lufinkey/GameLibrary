@@ -2,7 +2,7 @@
 #include <GameLibrary/Utilities/Font/RenderedGlyphContainer.hpp>
 #include <GameLibrary/Utilities/Font/Font.hpp>
 #include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
-#include <SDL/SDL_ttf.h>
+#include "SDL_ttf.h"
 
 namespace fgl
 {

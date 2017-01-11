@@ -3,7 +3,7 @@
 
 #include <GameLibrary/Window/MessageBox.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #if defined(TARGETPLATFORM_IOS)
 	#import <UIKit/UIKit.h>

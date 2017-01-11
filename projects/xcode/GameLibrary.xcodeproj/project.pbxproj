@@ -1450,7 +1450,10 @@
 					../../include,
 					../../external/base64/include,
 					../../external/pugixml/include,
-					../../external/SDL/include,
+					../../external/SDL/SDL/include,
+					../../external/SDL/SDL_image,
+					../../external/SDL/SDL_mixer,
+					../../external/SDL/SDL_ttf,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1466,7 +1469,10 @@
 					../../include,
 					../../external/base64/include,
 					../../external/pugixml/include,
-					../../external/SDL/include,
+					../../external/SDL/SDL/include,
+					../../external/SDL/SDL_image,
+					../../external/SDL/SDL_mixer,
+					../../external/SDL/SDL_ttf,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";

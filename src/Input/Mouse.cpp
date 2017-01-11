@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/Pair.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include "../Application/EventManager.hpp"
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include <mutex>
 #include <vector>
 

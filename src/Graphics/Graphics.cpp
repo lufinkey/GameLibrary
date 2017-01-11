@@ -8,7 +8,7 @@
 #include <GameLibrary/Window/View.hpp>
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #if defined(TARGETPLATFORM_WINDOWS)
 	#include <Windows.h>

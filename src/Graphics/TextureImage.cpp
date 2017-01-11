@@ -6,8 +6,8 @@
 #include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
 #include <GameLibrary/Exception/Graphics/TextureImageCreateException.hpp>
 #include <GameLibrary/Exception/Graphics/TextureImageUpdateException.hpp>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include "SDL.h"
+#include "SDL_image.h"
 
 namespace fgl
 {

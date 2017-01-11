@@ -3,7 +3,7 @@
 #include <GameLibrary/Graphics/PixelIterator.hpp>
 #include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
 #include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.hpp>
-#include <SDL/SDL_image.h>
+#include <SDL_image.h>
 
 namespace fgl
 {
