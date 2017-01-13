@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 #include <memory>
 #include <locale>
 #include <regex>
@@ -806,7 +807,7 @@ namespace fgl
 	
 	typedef BasicString<std::string::value_type> String;
 	typedef BasicString<std::wstring::value_type> WideString;
-	
+
 #ifndef _STRING_STANDALONE
 }
 #endif

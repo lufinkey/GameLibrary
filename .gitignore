@@ -6,6 +6,7 @@
 /projects/visualstudio/.vs
 /projects/visualstudio/build
 /projects/visualstudio/bin
+/projects/visualstudio/packages
 
 #Xcode
 .DS_Store

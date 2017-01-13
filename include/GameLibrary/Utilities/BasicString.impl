@@ -1,5 +1,6 @@
 
-#pragma once
+#ifndef _FGL_STRING_DEFINITION
+#define _FGL_STRING_DEFINITION
 
 #include <cctype>
 #include <codecvt>
@@ -12,7 +13,7 @@
 
 #include <GameLibrary/Exception/NumberFormatException.hpp>
 #include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.hpp>
-#include "ArrayList.hpp"
+#include <GameLibrary/Utilities/ArrayList.hpp>
 
 namespace fgl
 {
@@ -304,7 +305,7 @@ namespace fgl
 	{
 		return characters;
 	}
-	
+
 	template<typename CHAR_TYPE>
 	BasicString<CHAR_TYPE>::operator std::basic_string<CHAR_TYPE>() const
 	{
@@ -3444,4 +3445,6 @@ namespace fgl
 	
 #ifndef _STRING_STANDALONE
 }
+#endif
+
 #endif

@@ -10,6 +10,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include "SDL.h"
 
+#define WIN32_LEAN_AND_MEAN
 #if defined(TARGETPLATFORM_WINDOWS)
 	#include <Windows.h>
 #endif

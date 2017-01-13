@@ -13,8 +13,9 @@
 
 #if defined(TARGETPLATFORM_WINDOWS)
 	#include <direct.h>
-	#include <Windows.h>
+	#define CINTERFACE
 	#include <ShlObj.h>
+	#include <Windows.h>
 #else
 	#include <unistd.h>
 	#include <libgen.h>

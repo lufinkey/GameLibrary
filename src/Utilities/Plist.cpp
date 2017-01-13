@@ -1,8 +1,13 @@
 
+#ifdef _WIN32
+	#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <GameLibrary/Utilities/Plist.hpp>
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Exception/NumberFormatException.hpp>
 #include <pugixml.hpp>
 #include <base64.hpp>
 #include <cstdio>
