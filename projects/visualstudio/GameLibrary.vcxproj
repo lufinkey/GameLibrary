@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\external\base64\include\base64.hpp" />
     <ClInclude Include="..\..\external\dirent\include\dirent.h" />
+    <ClInclude Include="..\..\external\pugixml\src\pugiconfig.hpp" />
+    <ClInclude Include="..\..\external\pugixml\src\pugixml.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Animation.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\SpriteActor.hpp" />
@@ -122,6 +124,7 @@
     <ClInclude Include="..\..\src\Utilities\Time\time64\time64_limits.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp" />
     <ClCompile Include="..\..\src\Actor\Actor.cpp" />
     <ClCompile Include="..\..\src\Actor\Animation.cpp" />
     <ClCompile Include="..\..\src\Actor\SpriteActor.cpp" />
@@ -266,16 +269,16 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</RuntimeTypeInfo>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</RuntimeTypeInfo>
       <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</FunctionLevelLinking>
       <DataLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DataLevelLinking>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</RuntimeTypeInfo>

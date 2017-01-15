@@ -148,6 +148,12 @@
     <Filter Include="external\dirent\include">
       <UniqueIdentifier>{f5eb8630-42ef-483f-9281-1e4b25771dc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\pugixml">
+      <UniqueIdentifier>{63cf7a35-e1e3-405f-bbae-f45da5db7da7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\pugixml\src">
+      <UniqueIdentifier>{49580141-2384-4530-b291-069ffc9b6fdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp">
@@ -459,6 +465,12 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\String.hpp">
       <Filter>include\GameLibrary\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\external\pugixml\src\pugiconfig.hpp">
+      <Filter>external\pugixml\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\pugixml\src\pugixml.hpp">
+      <Filter>external\pugixml\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -688,6 +700,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\Tools.cpp">
       <Filter>src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp">
+      <Filter>external\pugixml\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
