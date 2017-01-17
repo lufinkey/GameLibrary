@@ -173,18 +173,5 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(SolutionDir)packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets" />
-    <Import Project="$(SolutionDir)packages\libpng.redist.1.6.19.1\build\native\libpng.redist.targets" />
-    <Import Project="$(SolutionDir)packages\libtiff.redist.4.0.6.2\build\native\libtiff.redist.targets" />
-    <Import Project="$(SolutionDir)packages\libwebp.v140.redist.0.5.0.1\build\native\libwebp.v140.redist.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets" />
-    <Import Project="$(SolutionDir)packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2_image.v140.redist.2.0.1\build\native\sdl2_image.v140.redist.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2_image.v140.2.0.1\build\native\sdl2_image.v140.targets" />
-    <Import Project="$(SolutionDir)packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2_ttf.v140.redist.2.0.14\build\native\sdl2_ttf.v140.redist.targets" />
-    <Import Project="$(SolutionDir)packages\sdl2_ttf.v140.2.0.14\build\native\sdl2_ttf.v140.targets" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

@@ -212,7 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\GameLibrary\Utilities\BasicString.impl" />
-    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{68890e50-b78e-43fb-bff3-c96e86766c57}</ProjectGuid>
@@ -269,16 +268,16 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</RuntimeTypeInfo>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</RuntimeTypeInfo>
       <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</FunctionLevelLinking>
       <DataLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DataLevelLinking>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</RuntimeTypeInfo>
@@ -289,10 +288,10 @@
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">lib/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkTimeCodeGeneration>
@@ -300,10 +299,10 @@
       </IgnoreSpecificDefaultLibraries>
     </Lib>
     <Lib>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">lib/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </IgnoreSpecificDefaultLibraries>
@@ -312,50 +311,36 @@
       <LinkLibraryDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lib/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </IgnoreSpecificDefaultLibraries>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">lib/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </IgnoreSpecificDefaultLibraries>
     </Lib>
+    <PreBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building dependencies...</Message>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building dependencies...</Message>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building dependencies...</Message>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building dependencies...</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(SolutionDir)packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets" Condition="Exists('$(SolutionDir)packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\libpng.redist.1.6.19.1\build\native\libpng.redist.targets" Condition="Exists('$(SolutionDir)packages\libpng.redist.1.6.19.1\build\native\libpng.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\libtiff.redist.4.0.6.2\build\native\libtiff.redist.targets" Condition="Exists('$(SolutionDir)packages\libtiff.redist.4.0.6.2\build\native\libtiff.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\libwebp.v140.redist.0.5.0.1\build\native\libwebp.v140.redist.targets" Condition="Exists('$(SolutionDir)packages\libwebp.v140.redist.0.5.0.1\build\native\libwebp.v140.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets" Condition="Exists('$(SolutionDir)packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets" Condition="Exists('$(SolutionDir)packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets')" />
-    <Import Project="$(SolutionDir)packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('$(SolutionDir)packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2_image.v140.redist.2.0.1\build\native\sdl2_image.v140.redist.targets" Condition="Exists('$(SolutionDir)packages\sdl2_image.v140.redist.2.0.1\build\native\sdl2_image.v140.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2_image.v140.2.0.1\build\native\sdl2_image.v140.targets" Condition="Exists('$(SolutionDir)packages\sdl2_image.v140.2.0.1\build\native\sdl2_image.v140.targets')" />
-    <Import Project="$(SolutionDir)packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets" Condition="Exists('$(SolutionDir)packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2_ttf.v140.redist.2.0.14\build\native\sdl2_ttf.v140.redist.targets" Condition="Exists('$(SolutionDir)packages\sdl2_ttf.v140.redist.2.0.14\build\native\sdl2_ttf.v140.redist.targets')" />
-    <Import Project="$(SolutionDir)packages\sdl2_ttf.v140.2.0.14\build\native\sdl2_ttf.v140.targets" Condition="Exists('$(SolutionDir)packages\sdl2_ttf.v140.2.0.14\build\native\sdl2_ttf.v140.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\libjpeg.redist.9.0.1.4\build\native\libjpeg.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\libpng.redist.1.6.19.1\build\native\libpng.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\libpng.redist.1.6.19.1\build\native\libpng.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\libtiff.redist.4.0.6.2\build\native\libtiff.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\libtiff.redist.4.0.6.2\build\native\libtiff.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\libwebp.v140.redist.0.5.0.1\build\native\libwebp.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\libwebp.v140.redist.0.5.0.1\build\native\libwebp.v140.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2.v140.redist.2.0.4\build\native\sdl2.v140.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2.v140.2.0.4\build\native\sdl2.v140.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2_image.v140.redist.2.0.1\build\native\sdl2_image.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2_image.v140.redist.2.0.1\build\native\sdl2_image.v140.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2_image.v140.2.0.1\build\native\sdl2_image.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2_image.v140.2.0.1\build\native\sdl2_image.v140.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\freetype.redist.2.6.2.1\build\native\freetype.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2_ttf.v140.redist.2.0.14\build\native\sdl2_ttf.v140.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2_ttf.v140.redist.2.0.14\build\native\sdl2_ttf.v140.redist.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)packages\sdl2_ttf.v140.2.0.14\build\native\sdl2_ttf.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)packages\sdl2_ttf.v140.2.0.14\build\native\sdl2_ttf.v140.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

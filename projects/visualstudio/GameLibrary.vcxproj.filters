@@ -709,6 +709,5 @@
     <None Include="..\..\include\GameLibrary\Utilities\BasicString.impl">
       <Filter>include\GameLibrary\Utilities</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

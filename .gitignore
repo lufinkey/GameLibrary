@@ -7,6 +7,7 @@
 /projects/visualstudio/.vs
 /projects/visualstudio/build
 /projects/visualstudio/bin
+/projects/visualstudio/lib
 /projects/visualstudio/packages
 /projects/visualstudio/test/build
 
