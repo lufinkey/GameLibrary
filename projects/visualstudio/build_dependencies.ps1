@@ -1,6 +1,7 @@
 #!C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell -file
-param([string]$GameLibraryPath, [string]$Config = "Debug", [string]$Platform = "Win32", [string]$PlatformToolset = "v140", [string]$OutputDir)
+param([string]$GameLibraryPath="", [string]$Config = "Debug", [string]$Platform = "Win32", [string]$PlatformToolset = "v140", [string]$OutputDir="")
 
+echo "$OutputDir"
 $exitvalue=0
 
 $msbuild_path=(Resolve-Path HKLM:\SOFTWARE\MICROSOFT\MSBuild\ToolsVersions\14.0 | Get-ItemProperty -Name MSBuildToolsPath).MSBuildToolsPath
@@ -8,12 +9,11 @@ $msbuild_path="$msbuild_path\msbuild.exe"
 
 $lib_path="$GameLibraryPath\projects\visualstudio\lib\$Platform\$Config"
 mkdir -p "$lib_path"
-
 mkdir -p "$OutputDir"
 
 #Compile SDL2
 $SDL_path="$GameLibraryPath\external\SDL\SDL\VisualC"
-& "$msbuild_path" "$SDL_path\SDL.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
+& "$msbuild_path" /t:SDL2 "$SDL_path\SDL.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
 $SDL_output_path="$SDL_path\$Platform\$Config"
 if(Test-Path "$SDL_output_path\SDL2.dll")
 {
@@ -37,7 +37,7 @@ $SDL_image_path="$GameLibraryPath\external\SDL\SDL_image\VisualC"
 	'<AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>', '<AdditionalIncludeDirectories>external\include;..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>') |
 	Set-Content "$SDL_image_path\SDL_image.vcxproj"
 copy -Path "$SDL_output_path\SDL2.lib" -Destination "$SDL_image_path\SDL2.lib"
-& "$msbuild_path" "$SDL_image_path\SDL_image.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
+& "$msbuild_path" /t:SDL2_image "$SDL_image_path\SDL_image.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
 $SDL_image_output_path="$SDL_image_path\$Platform\$Config"
 if(Test-Path "$SDL_image_output_path\SDL2_image.dll")
 {
@@ -60,7 +60,7 @@ $SDL_ttf_path="$GameLibraryPath\external\SDL\SDL_ttf\VisualC"
 	'<AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>', '<AdditionalIncludeDirectories>external\include;..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>') |
 	Set-Content "$SDL_ttf_path\SDL_ttf.vcxproj"
 copy -Path "$SDL_output_path\SDL2.lib" -Destination "$SDL_ttf_path\SDL2.lib"
-& "$msbuild_path" "$SDL_ttf_path\SDL_ttf.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
+& "$msbuild_path" /t:SDL2_ttf "$SDL_ttf_path\SDL_ttf.sln" "/p:PlatformToolset=$PlatformToolset" "/p:Configuration=$Config" "/p:Platform=$Platform"
 $SDL_ttf_output_path="$SDL_ttf_path\$Platform\$Config"
 if(Test-Path "$SDL_ttf_output_path\SDL2_ttf.dll")
 {

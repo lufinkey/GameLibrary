@@ -325,19 +325,19 @@
       </IgnoreSpecificDefaultLibraries>
     </Lib>
     <PreBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.." -Config "$(Configuration)" -Platform "$(Platform)" -PlatformToolset "$(MinSupportedVCTargetsVersion)" -OutputDir "$(OutputPath)."</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building dependencies...</Message>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.." -Config "$(Configuration)" -Platform "$(Platform)" -PlatformToolset "$(MinSupportedVCTargetsVersion)" -OutputDir "$(OutputPath)."</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building dependencies...</Message>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.." -Config "$(Configuration)" -Platform "$(Platform)" -PlatformToolset "$(MinSupportedVCTargetsVersion)" -OutputDir "$(OutputPath)."</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building dependencies...</Message>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy RemoteSigned -file "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)\..\..\" -Config "$(Configuration)" -Platform "$(Platform)" -OutputDir "$(OutputPath)" -PlatformToolset "$(MinSupportedVCTargetsVersion)"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.." -Config "$(Configuration)" -Platform "$(Platform)" -PlatformToolset "$(MinSupportedVCTargetsVersion)" -OutputDir "$(OutputPath)."</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building dependencies...</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
