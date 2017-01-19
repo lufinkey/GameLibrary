@@ -1,7 +1,6 @@
 #!C:/WINDOWS/System32/WindowsPowerShell/v1.0/powershell -file
 param([string]$GameLibraryPath="", [string]$Config = "Debug", [string]$Platform = "Win32", [string]$PlatformToolset = "v140", [string]$OutputDir="")
 
-echo "$OutputDir"
 $exitvalue=0
 
 $msbuild_path=(Resolve-Path HKLM:\SOFTWARE\MICROSOFT\MSBuild\ToolsVersions\14.0 | Get-ItemProperty -Name MSBuildToolsPath).MSBuildToolsPath
