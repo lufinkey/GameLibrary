@@ -23,10 +23,10 @@ namespace fgl
 			\param transform the view transform of the Application
 			\param framespeedMult the frame speed multiplier of the Application*/
 		ApplicationData(Application*application, Window*window, AssetManager*assetManager, const TimeInterval&timeInterval, const TransformD&transform, double framespeedMult);
-		/*! copy constructor*/
-		ApplicationData(const ApplicationData&);
-		/*! assignment operator*/
-		ApplicationData& operator=(const ApplicationData&);
+
+
+		//! Optional additional data to be passed down to drawables and updateables
+		Dictionary additionalData;
 		
 		
 		/*! Gets the Application being used.

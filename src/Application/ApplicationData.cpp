@@ -14,28 +14,6 @@ namespace fgl
 		framespeedMult = fpsMult;
 	}
 
-	ApplicationData::ApplicationData(const ApplicationData&appdata)
-	{
-		application = appdata.application;
-		window = appdata.window;
-		assetManager = appdata.assetManager;
-		timeInterval = appdata.timeInterval;
-		transform = appdata.transform;
-		framespeedMult = appdata.framespeedMult;
-	}
-
-	ApplicationData& ApplicationData::operator=(const ApplicationData&appdata)
-	{
-		application = appdata.application;
-		window = appdata.window;
-		assetManager = appdata.assetManager;
-		timeInterval = appdata.timeInterval;
-		transform = appdata.transform;
-		framespeedMult = appdata.framespeedMult;
-
-		return *this;
-	}
-
 	Application* ApplicationData::getApplication() const
 	{
 		return application;
