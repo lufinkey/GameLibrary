@@ -1449,7 +1449,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../external/base64/include,
-					../../external/pugixml/include,
+					../../external/pugixml/src,
 					../../external/SDL/SDL/include,
 					../../external/SDL/SDL_image,
 					../../external/SDL/SDL_mixer,
@@ -1468,7 +1468,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../external/base64/include,
-					../../external/pugixml/include,
+					../../external/pugixml/src,
 					../../external/SDL/SDL/include,
 					../../external/SDL/SDL_image,
 					../../external/SDL/SDL_mixer,

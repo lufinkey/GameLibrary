@@ -67,20 +67,6 @@ namespace fgl
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const BasicDictionary<KEY_TYPE, VALUE_TYPE>& dict)
-		: contents(dict.contents)
-	{
-		//
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(BasicDictionary<KEY_TYPE, VALUE_TYPE>&& dict)
-		: contents(dict.contents)
-	{
-		//
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values)
 	{
 		size_t keys_size = keys.size();

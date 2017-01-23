@@ -42,8 +42,6 @@ namespace fgl
 		};
 		
 		BasicDictionary();
-		BasicDictionary(const BasicDictionary&);
-		BasicDictionary(BasicDictionary&&);
 		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
 		BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents);
