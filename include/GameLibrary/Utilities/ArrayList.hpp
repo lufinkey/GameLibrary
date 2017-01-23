@@ -32,18 +32,6 @@ namespace fgl
 			//
 		}
 		
-		ArrayList(const ArrayList<T>& arr)
-			: objects(arr.objects)
-		{
-			//
-		}
-		
-		ArrayList(ArrayList<T>&& arr)
-			: objects(arr.objects)
-		{
-			//
-		}
-		
 		template<size_t SIZE>
 		ArrayList(const std::array<T, SIZE>& arr)
 			: objects()
@@ -76,20 +64,6 @@ namespace fgl
 		~ArrayList()
 		{
 			//
-		}
-		
-		ArrayList<T>& operator=(const ArrayList<T>& arr)
-		{
-			objects = arr.objects;
-			objects.shrink_to_fit();
-			return *this;
-		}
-		
-		ArrayList<T>& operator=(const std::vector<T>& vect)
-		{
-			objects = vect;
-			objects.shrink_to_fit();
-			return *this;
 		}
 		
 		T& operator[] (size_t index)
