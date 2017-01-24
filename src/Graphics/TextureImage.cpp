@@ -207,7 +207,7 @@ namespace fgl
 
 		unsigned int counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
-		int*texture_pixels = (int*)pixelptr;
+		fgl::Uint32*texture_pixels = (fgl::Uint32*)pixelptr;
 
 		unsigned int i=0;
 		for(unsigned int ycnt=0; ycnt<h; ycnt++)
@@ -260,7 +260,7 @@ namespace fgl
 				{
 					pixels[i] = false;
 				}
-				unsigned int abgr = px.getRGBA();
+				fgl::Uint32 abgr = px.getRGBA();
 				texture_pixels[i] = abgr;
 				i++;
 				counter += bpp;
