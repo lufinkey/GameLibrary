@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <type_traits>
 #include <vector>
+#include <functional>
 
 #ifdef _ARRAYLIST_STANDALONE
 #include <stdexcept>
@@ -26,6 +27,11 @@ namespace fgl
 	public:
 		static constexpr size_t NOT_FOUND = (size_t)-1;
 		typedef T value_type;
+		
+		typedef typename std::vector<T>::iterator iterator;
+		typedef typename std::vector<T>::const_iterator const_iterator;
+		typedef typename std::vector<T>::reverse_iterator reverse_iterator;
+		typedef typename std::vector<T>::const_reverse_iterator const_reverse_iterator;
 		
 		ArrayList()
 		{
@@ -64,6 +70,66 @@ namespace fgl
 		~ArrayList()
 		{
 			//
+		}
+		
+		iterator begin()
+		{
+			return objects.begin();
+		}
+		
+		const_iterator begin() const
+		{
+			return objects.begin();
+		}
+		
+		const_iterator cbegin() const
+		{
+			return objects.cbegin();
+		}
+		
+		iterator end()
+		{
+			return objects.end();
+		}
+		
+		const_iterator end() const
+		{
+			return objects.end();
+		}
+		
+		const_iterator cend() const
+		{
+			return objects.cend();
+		}
+		
+		reverse_iterator rbegin()
+		{
+			return objects.rbegin();
+		}
+		
+		const_reverse_iterator rbegin() const
+		{
+			return objects.rbegin();
+		}
+		
+		const_reverse_iterator crbegin() const
+		{
+			return objects.crbegin();
+		}
+		
+		reverse_iterator rend()
+		{
+			return objects.rend();
+		}
+		
+		const_reverse_iterator rend() const
+		{
+			return objects.rend();
+		}
+		
+		const_reverse_iterator crend() const
+		{
+			return objects.crend();
 		}
 		
 		T& operator[] (size_t index)
@@ -240,6 +306,30 @@ namespace fgl
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
 		}
 		
+		ArrayList<T> filter(std::function<bool(const T&)> func) const
+		{
+			ArrayList<T> newList;
+			size_t length = objects.size();
+			for(size_t i=0; i<length; i++)
+			{
+				const T& obj = objects[i];
+				if(func(obj))
+				{
+					newList.add(obj);
+				}
+			}
+			return newList;
+		}
+		
+		void sort(std::function<bool(const T&,const T&)> func)
+		{
+			if(objects.size()<=1)
+			{
+				return;
+			}
+			mergeSort(0, objects.size()-1, func);
+		}
+		
 		String toString() const
 		{
 			String str = "[ ";
@@ -255,6 +345,77 @@ namespace fgl
 			}
 			str += " ]";
 			return str;
+		}
+		
+	private:
+		void mergeSort(size_t left, size_t right, std::function<bool(const T&,const T&)>& func)
+		{
+			if(left < right)
+			{
+				size_t mid = left + (right-left)/2;
+				mergeSort(left, mid, func);
+				mergeSort(mid+1, right, func);
+				merge(left, mid, right, func);
+			}
+		}
+		
+		void merge(size_t left, size_t mid, size_t right, std::function<bool(const T&,const T&)>& func)
+		{
+			size_t i, j, k;
+			size_t n1 = mid - left + 1;
+			size_t n2 =  right - mid;
+			
+			/* create temp arrays */
+			T leftObjs[n1], rightObjs[n2];
+			
+			/* Copy data to temp arrays leftObjs[] and rightObjs[] */
+			for (i = 0; i < n1; i++)
+			{
+				leftObjs[i] = objects[left + i];
+			}
+			for (j = 0; j < n2; j++)
+			{
+				rightObjs[j] = objects[mid + 1+ j];
+			}
+			
+			/* Merge the temp arrays back into objects[left..right]*/
+			i = 0; // Initial index of first subarray
+			j = 0; // Initial index of second subarray
+			k = left; // Initial index of merged subarray
+			while (i < n1 && j < n2)
+			{
+				const T& leftObj = leftObjs[i];
+				const T& rightObj = rightObjs[j];
+				if (func(leftObj, rightObj))
+				{
+					objects[k] = leftObjs[i];
+					i++;
+				}
+				else
+				{
+					objects[k] = rightObjs[j];
+					j++;
+				}
+				k++;
+			}
+			
+			/* Copy the remaining elements of leftObjs[], if there
+			 are any */
+			while (i < n1)
+			{
+				objects[k] = leftObjs[i];
+				i++;
+				k++;
+			}
+			
+			/* Copy the remaining elements of rightObjs[], if there
+			 are any */
+			while (j < n2)
+			{
+				objects[k] = rightObjs[j];
+				j++;
+				k++;
+			}
 		}
 	};
 	
