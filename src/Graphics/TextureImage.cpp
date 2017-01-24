@@ -148,6 +148,28 @@ namespace fgl
 
 	SDL_Texture* TextureImage_loadFromSDLSurface(SDL_Surface* surface, std::vector<bool>& pixels, SDL_Renderer* renderer, String* error)
 	{
+		SDL_Surface* convertedSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
+		if(convertedSurface==nullptr)
+		{
+			if(error!=nullptr)
+			{
+				*error = SDL_GetError();
+			}
+			return nullptr;
+		}
+		surface = convertedSurface;
+
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, convertedSurface);
+		if(texture == nullptr)
+		{
+			if(error!=nullptr)
+			{
+				*error = SDL_GetError();
+			}
+			SDL_FreeSurface(convertedSurface);
+			return nullptr;
+		}
+
 		int mustlock = SDL_MUSTLOCK(surface);
 		if(mustlock!=0)
 		{
@@ -157,12 +179,14 @@ namespace fgl
 				{
 					*error = SDL_GetError();
 				}
+				SDL_DestroyTexture(texture);
+				SDL_FreeSurface(convertedSurface);
 				return nullptr;
 			}
 		}
-
+		
 		unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
-
+		
 		unsigned int rmask = (unsigned int)surface->format->Rmask;
 		unsigned int rshift = (unsigned int)surface->format->Rshift;
 		unsigned int gmask = (unsigned int)surface->format->Gmask;
@@ -171,34 +195,10 @@ namespace fgl
 		unsigned int bshift = (unsigned int)surface->format->Bshift;
 		unsigned int amask = (unsigned int)surface->format->Amask;
 		unsigned int ashift = (unsigned int)surface->format->Ashift;
-
+		
 		unsigned int w = (unsigned int)surface->w;
 		unsigned int h = (unsigned int)surface->h;
 		unsigned int total = w*h;
-
-		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
-		if(texture == nullptr)
-		{
-			if(error!=nullptr)
-			{
-				*error = SDL_GetError();
-			}
-			SDL_UnlockSurface(surface);
-			return nullptr;
-		}
-
-		void*pixelptr;
-		int pitch;
-		if(SDL_LockTexture(texture, nullptr, &pixelptr, &pitch) < 0)
-		{
-			if(error!=nullptr)
-			{
-				*error = SDL_GetError();
-			}
-			SDL_DestroyTexture(texture);
-			SDL_UnlockSurface(surface);
-			return nullptr;
-		}
 
 		pixels.resize(total);
 		pixels.shrink_to_fit();
@@ -207,7 +207,6 @@ namespace fgl
 
 		unsigned int counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
-		fgl::Uint32*texture_pixels = (fgl::Uint32*)pixelptr;
 
 		unsigned int i=0;
 		for(unsigned int ycnt=0; ycnt<h; ycnt++)
@@ -260,21 +259,19 @@ namespace fgl
 				{
 					pixels[i] = false;
 				}
-				fgl::Uint32 abgr = px.getRGBA();
-				texture_pixels[i] = abgr;
 				i++;
 				counter += bpp;
 			}
 			counter += pitchDif;
 		}
 
-		SDL_UnlockTexture(texture);
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
 		if(mustlock != 0)
 		{
 			SDL_UnlockSurface(surface);
 		}
+		SDL_FreeSurface(convertedSurface);
 
 		return texture;
 	}
