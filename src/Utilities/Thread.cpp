@@ -11,8 +11,14 @@ namespace fgl
 {
 	std::thread::id main_thread_id = std::this_thread::get_id();
 	
-	ArrayList<Thread::MainThreadCallback> Thread::mainThreadCallbacks;
-	static std::mutex Thread_mainthread_callback_mutex;
+	struct MainThreadFunction
+	{
+		std::function<void()> func;
+		std::condition_variable* waitCondition;
+	};
+	
+	static ArrayList<MainThreadFunction> Thread_mainThreadFunctions;
+	static std::mutex Thread_mainThreadFunctions_mutex;
 	
 	static bool Thread_mainthread_updating = false;
 	
@@ -163,13 +169,13 @@ namespace fgl
 		}
 	}
 	
-	void Thread::runCallbackInMainThread(ThreadCallback callback, void*data, bool wait)
+	void Thread::runOnMainThread(std::function<void()> func, bool wait)
 	{
 		if(wait)
 		{
 			if(isMainThread())
 			{
-				callback(data);
+				func();
 			}
 			else
 			{
@@ -177,34 +183,32 @@ namespace fgl
 				std::unique_lock<std::mutex> lck(mtx);
 				std::condition_variable cv;
 				
-				MainThreadCallback callbackdata;
-				callbackdata.first = callback;
-				callbackdata.second.first = data;
-				callbackdata.second.second = (void*)(&cv);
+				MainThreadFunction functionData;
+				functionData.func = func;
+				functionData.waitCondition = &cv;
 				
-				Thread_mainthread_callback_mutex.lock();
-				Thread::mainThreadCallbacks.add(callbackdata);
-				Thread_mainthread_callback_mutex.unlock();
+				Thread_mainThreadFunctions_mutex.lock();
+				Thread_mainThreadFunctions.add(functionData);
+				Thread_mainThreadFunctions_mutex.unlock();
 				
 				cv.wait(lck);
 			}
 		}
 		else
 		{
-			MainThreadCallback callbackdata;
-			callbackdata.first = callback;
-			callbackdata.second.first = data;
-			callbackdata.second.second = nullptr;
+			MainThreadFunction functionData;
+			functionData.func = func;
+			functionData.waitCondition = nullptr;
 			
-			Thread_mainthread_callback_mutex.lock();
-			Thread::mainThreadCallbacks.add(callbackdata);
-			Thread_mainthread_callback_mutex.unlock();
+			Thread_mainThreadFunctions_mutex.lock();
+			Thread_mainThreadFunctions.add(functionData);
+			Thread_mainThreadFunctions_mutex.unlock();
 		}
 	}
 	
-	void Thread::runCallbackInThread(ThreadCallback callback, void*data)
+	void Thread::runOnThread(std::function<void()> func)
 	{
-		std::thread th(callback, data);
+		std::thread th(func);
 		th.detach();
 	}
 	
@@ -223,18 +227,18 @@ namespace fgl
 		{
 			Thread_mainthread_updating = true;
 			
-			Thread_mainthread_callback_mutex.lock();
-			ArrayList<MainThreadCallback> mainthread_callback_calls = mainThreadCallbacks;
-			mainThreadCallbacks.clear();
-			Thread_mainthread_callback_mutex.unlock();
+			Thread_mainThreadFunctions_mutex.lock();
+			ArrayList<MainThreadFunction> mainthread_functions = Thread_mainThreadFunctions;
+			Thread_mainThreadFunctions.clear();
+			Thread_mainThreadFunctions_mutex.unlock();
 			
-			for(unsigned int i = 0; i < mainthread_callback_calls.size(); i++)
+			for(size_t i=0; i < mainthread_functions.size(); i++)
 			{
-				MainThreadCallback& callbackdata = mainthread_callback_calls.get(i);
-				callbackdata.first(callbackdata.second.first);
-				if(callbackdata.second.second != nullptr)
+				MainThreadFunction& functionData = mainthread_functions[i];
+				functionData.func();
+				if(functionData.waitCondition != nullptr)
 				{
-					((std::condition_variable*)callbackdata.second.second)->notify_all();
+					functionData.waitCondition->notify_all();
 				}
 			}
 			
