@@ -279,16 +279,29 @@ namespace fgl
 	{
 		return contents.size()==0;
 	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)> func) const
+	{
+		return BasicDictionary<KEY_TYPE, VALUE_TYPE>(contents.filter([&func](const KEY_TYPE& key, const VALUE_TYPE& value){
+			return func(key, value);
+		}));
+	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const
 	{
 		String str = (String)"BasicDictionary<" + typeid(KEY_TYPE).name() + "," + typeid(VALUE_TYPE).name() + ">( ";
+		size_t lastIndex = contents.size()-1;
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
 			const Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
 			str += "(" + fgl::stringify<KEY_TYPE>(pair.first) + ") => ";
-			str += "(" + fgl::stringify<VALUE_TYPE>(pair.second) + ") ";
+			str += "(" + fgl::stringify<VALUE_TYPE>(pair.second) + ")";
+			if(i!=lastIndex)
+			{
+				str += ", ";
+			}
 		}
 		str += ")";
 		return str;
