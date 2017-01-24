@@ -174,7 +174,7 @@ namespace fgl
 		}
 	}
 	
-	void Window::create(const WindowSettings&windowSettings)
+	void Window::create(const WindowSettings& windowSettings)
 	{
 		if(windowdata != nullptr)
 		{
@@ -257,6 +257,7 @@ namespace fgl
 			}
 		}
 		
+		windowed_size = windowSettings.size;
 		bool createdView = false;
 		if(view == nullptr)
 		{
