@@ -155,7 +155,7 @@ namespace fgl
 
 	bool Image::loadFromPointer(const void* pointer, size_t size, String* error)
 	{
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, size), 1);
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)size), 1);
 		if(surface != nullptr)
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))

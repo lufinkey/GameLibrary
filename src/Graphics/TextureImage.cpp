@@ -278,7 +278,7 @@ namespace fgl
 
 	bool TextureImage::loadFromPointer(const void* pointer, size_t size, Graphics& graphics, String* error)
 	{
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, size), 1);
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)size), 1);
 		if(surface != nullptr)
 		{
 			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error);
