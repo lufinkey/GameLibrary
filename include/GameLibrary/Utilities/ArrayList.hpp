@@ -2,6 +2,7 @@
 #pragma once
 
 #include <array>
+#include <algorithm>
 #include <climits>
 #include <initializer_list>
 #include <type_traits>
@@ -222,30 +223,132 @@ namespace fgl
 		
 		void add(size_t index, const T& obj)
 		{
-			if(index <= objects.size())
+			if(index > objects.size())
 			{
-				objects.insert(objects.begin()+index, obj);
-				return;
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			objects.insert(objects.begin()+index, obj);
 		}
 		
 		void add(size_t index, T&& obj)
 		{
-			if(index <= objects.size())
+			if(index > objects.size())
 			{
-				objects.insert(objects.begin()+index, obj);
-				return;
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			objects.insert(objects.begin()+index, obj);
+		}
+		
+		void addAll(const ArrayList<T>& array)
+		{
+			objects.reserve(objects.size()+array.objects.size());
+			for(size_t array_size=array.objects.size(), i=0; i<array_size; i++)
+			{
+				objects.push_back(array.objects[i]);
+			}
+		}
+		
+		void addAll(ArrayList<T>&& array)
+		{
+			objects.reserve(objects.size()+array.objects.size());
+			for(size_t array_size=array.objects.size(), i=0; i<array_size; i++)
+			{
+				objects.push_back(std::move(array.objects[i]));
+			}
+		}
+		
+		void addAll(size_t index, const ArrayList<T>& array)
+		{
+			size_t size = objects.size();
+			if(index > size)
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			size_t array_size = array.objects.size();
+			if(array_size > 0)
+			{
+				size_t fromIndex = index;
+				if(fromIndex == size)
+				{
+					objects.reserve(size+array_size);
+					for(size_t i=0; i<array_size; i++)
+					{
+						objects.push_back(array.objects[i]);
+					}
+				}
+				else
+				{
+					size_t toIndex = index + array.objects.size();
+					objects.resize(size+array_size);
+					while (toIndex < size)
+					{
+						objects[toIndex] = objects[fromIndex];
+						fromIndex++;
+						toIndex++;
+					}
+					size_t counter = index;
+					for(size_t i=0; i<array_size; i++)
+					{
+						objects[counter] = array.objects[i];
+						counter++;
+					}
+				}
+			}
+		}
+		
+		void addAll(size_t index, ArrayList<T>&& array)
+		{
+			size_t size = objects.size();
+			if(index > size)
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			size_t array_size = array.objects.size();
+			if(array_size > 0)
+			{
+				size_t fromIndex = index;
+				if(fromIndex == size)
+				{
+					objects.reserve(size+array_size);
+					for(size_t i=0; i<array_size; i++)
+					{
+						objects.push_back(std::move(array.objects[i]));
+					}
+				}
+				else
+				{
+					size_t toIndex = index + array.objects.size();
+					objects.resize(size+array_size);
+					while (toIndex < size)
+					{
+						objects[toIndex] = objects[fromIndex];
+						fromIndex++;
+						toIndex++;
+					}
+					size_t counter = index;
+					for(size_t i=0; i<array_size; i++)
+					{
+						objects[counter] = std::move(array.objects[i]);
+						counter++;
+					}
+				}
+			}
 		}
 		
 		void remove(size_t index)
