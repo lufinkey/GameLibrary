@@ -18,26 +18,15 @@ namespace fgl
 			//
 		}
 
-		Vector2(const T&X, const T&Y) : x(X), y(Y)
-		{
-			//
-		}
-
-		Vector2(const Vector2<T>&vect) : x(vect.x), y(vect.y)
+		Vector2(const T& x, const T& y) : x(x), y(y)
 		{
 			//
 		}
 
 		template<typename U>
-		explicit Vector2(const Vector2<U>& vect) : x((T)vect.x), y((T)vect.y)
+		explicit Vector2(const Vector2<U>& vect) : x(static_cast<T>(vect.x)), y(static_cast<T>(vect.y))
 		{
 			//
-		}
-
-		void operator=(const Vector2<T>&vect)
-		{
-			x = vect.x;
-			y = vect.y;
 		}
 
 		Vector2<T>& operator+=(const Vector2<T>& vect)
