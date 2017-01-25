@@ -67,7 +67,21 @@ namespace fgl
 			y/=vect.y;
 			return *this;
 		}
-
+		
+		Vector2<T>& operator*=(const T& num)
+		{
+			x*=num;
+			y*=num;
+			return *this;
+		}
+		
+		Vector2<T>& operator/=(const T& num)
+		{
+			x/=num;
+			y/=num;
+			return *this;
+		}
+		
 		bool operator==(const Vector2<T>&vect) const
 		{
 			if (x == vect.x && y == vect.y)
@@ -123,6 +137,18 @@ namespace fgl
 	Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2<T>(left.x/right.x, left.y/right.y);
+	}
+	
+	template<typename T>
+	Vector2<T> operator*(const Vector2<T>& left, const T& right)
+	{
+		return Vector2<T>(left.x*right, left.y*right);
+	}
+	
+	template<typename T>
+	Vector2<T> operator/(const Vector2<T>& left, const T& right)
+	{
+		return Vector2<T>(left.x/right, left.y/right);
 	}
 	
 	
