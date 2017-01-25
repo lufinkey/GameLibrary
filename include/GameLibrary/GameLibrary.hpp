@@ -86,6 +86,7 @@
 #include "Utilities/Geometry/Transform.hpp"
 #include "Utilities/Geometry/ValueEase.hpp"
 #include "Utilities/Geometry/Vector2.hpp"
+#include "Utilities/Geometry/Vector3.hpp"
 #include "Utilities/Time/DateTime.hpp"
 #include "Utilities/Time/TimeInterval.hpp"
 

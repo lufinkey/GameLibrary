@@ -405,6 +405,7 @@
 		F15F32231E25739E00710AC8 /* Line.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Line.hpp; sourceTree = "<group>"; };
 		F15F32241E2573C100710AC8 /* Plist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plist.cpp; sourceTree = "<group>"; };
 		F15F32261E2573C600710AC8 /* Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tools.cpp; sourceTree = "<group>"; };
+		F1C39D521E3920A4008A5EF6 /* Vector3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector3.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -693,6 +694,7 @@
 				A039DA2A1CCDE80800B0B5DA /* Transform.hpp */,
 				A039DA2B1CCDE80800B0B5DA /* ValueEase.hpp */,
 				A039DA2C1CCDE80800B0B5DA /* Vector2.hpp */,
+				F1C39D521E3920A4008A5EF6 /* Vector3.hpp */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
