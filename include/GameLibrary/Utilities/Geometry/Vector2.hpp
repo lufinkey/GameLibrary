@@ -40,48 +40,28 @@ namespace fgl
 			y = vect.y;
 		}
 
-		Vector2<T> operator+(const Vector2<T>&vect) const
-		{
-			return Vector2<T>(x+vect.x, y+vect.y);
-		}
-
-		Vector2<T> operator-(const Vector2<T>&vect) const
-		{
-			return Vector2<T>(x-vect.x, y-vect.y);
-		}
-
-		Vector2<T> operator*(const Vector2<T>&vect) const
-		{
-			return Vector2<T>(x*vect.x, y*vect.y);
-		}
-
-		Vector2<T> operator/(const Vector2<T>&vect) const
-		{
-			return Vector2<T>(x/vect.x, y/vect.y);
-		}
-
-		Vector2<T>& operator+=(const Vector2<T>&vect)
+		Vector2<T>& operator+=(const Vector2<T>& vect)
 		{
 			x+=vect.x;
 			y+=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator-=(const Vector2<T>&vect)
+		Vector2<T>& operator-=(const Vector2<T>& vect)
 		{
 			x-=vect.x;
 			y-=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator*=(const Vector2<T>&vect)
+		Vector2<T>& operator*=(const Vector2<T>& vect)
 		{
 			x*=vect.x;
 			y*=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator/=(const Vector2<T>&vect)
+		Vector2<T>& operator/=(const Vector2<T>& vect)
 		{
 			x/=vect.x;
 			y/=vect.y;
@@ -120,6 +100,32 @@ namespace fgl
 			return "Vector2(x:" + fgl::stringify<T>(x) + ", y:" + fgl::stringify<T>(y) + ")";
 		}
 	};
+	
+	template<typename T>
+	Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
+	{
+		return Vector2<T>(left.x+right.x, left.y+right.y);
+	}
+	
+	template<typename T>
+	Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
+	{
+		return Vector2<T>(left.x-right.x, left.y-right.y);
+	}
+	
+	template<typename T>
+	Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
+	{
+		return Vector2<T>(left.x*right.x, left.y*right.y);
+	}
+	
+	template<typename T>
+	Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
+	{
+		return Vector2<T>(left.x/right.x, left.y/right.y);
+	}
+	
+	
 	
 	typedef Vector2<byte> Vector2b;
 	typedef Vector2<int> Vector2i;
