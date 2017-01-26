@@ -52,7 +52,7 @@ namespace fgl
 	
 	RenderedGlyphContainer::RenderedGlyph RenderedGlyphContainer::getGlyph(glyph_char glyph, void*fontptr, void*renderer, unsigned int size, int fontstyle, bool antialiasing)
 	{
-		size_t index = ArrayList<Pair<glyph_char, RenderedGlyphStyles*> >::NOT_FOUND;
+		size_t index = ArrayList<std::pair<glyph_char, RenderedGlyphStyles*> >::NOT_FOUND;
 		for(size_t i=0; i<glyphs.size(); i++)
 		{
 			if(glyphs.get(i).first == glyph)
@@ -61,10 +61,10 @@ namespace fgl
 				i = glyphs.size();
 			}
 		}
-		if(index == ArrayList<Pair<glyph_char, RenderedGlyphStyles*> >::NOT_FOUND)
+		if(index == ArrayList<std::pair<glyph_char, RenderedGlyphStyles*> >::NOT_FOUND)
 		{
 			RenderedGlyphStyles* glyphStyles = new RenderedGlyphStyles();
-			glyphs.add(Pair<glyph_char, RenderedGlyphStyles*>(glyph, glyphStyles));
+			glyphs.add(std::pair<glyph_char, RenderedGlyphStyles*>(glyph, glyphStyles));
 
 			RenderedGlyph renderedGlyph = renderGlyph(glyph, fontptr, renderer, size, fontstyle, antialiasing);
 			glyphStyles->styles.add(renderedGlyph);

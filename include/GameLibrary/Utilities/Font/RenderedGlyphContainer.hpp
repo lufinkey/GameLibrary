@@ -51,7 +51,7 @@ namespace fgl
 			ArrayList<RenderedGlyph> styles;
 		} RenderedGlyphStyles;
 		
-		ArrayList<Pair<glyph_char, RenderedGlyphStyles*> > glyphs;
+		ArrayList<std::pair<glyph_char, RenderedGlyphStyles*> > glyphs;
 		std::mutex mlock;
 		
 		RenderedGlyph renderGlyph(glyph_char glyph, void*fontptr, void*renderer, unsigned int size, int fontstyle, bool antialiasing);

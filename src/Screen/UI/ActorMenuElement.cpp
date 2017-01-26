@@ -22,10 +22,10 @@ namespace fgl
 	void ActorMenuElement::update(ApplicationData appData)
 	{
 		ScreenElement::update(appData);
-		ArrayList<Pair<Keyboard::Key, KeyDirection> > keyList = keys;
+		ArrayList<std::pair<Keyboard::Key, KeyDirection> > keyList = keys;
 		for(size_t i=0; i<keyList.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& keypair = keyList.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& keypair = keyList.get(i);
 			if(Keyboard::isKeyPressed(keypair.first) && !Keyboard::wasKeyPressed(keypair.first))
 			{
 				//on key press
@@ -475,70 +475,70 @@ namespace fgl
 	{
 		for(size_t i=0; i<keys.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
 			if(cmp.first == key)
 			{
 				keys.remove(i);
 				i = keys.size();
 			}
 		}
-		keys.add(Pair<Keyboard::Key, KeyDirection>(key, KEYDIR_UP));
+		keys.add(std::pair<Keyboard::Key, KeyDirection>(key, KEYDIR_UP));
 	}
 	
 	void ActorMenuElement::addDownKey(const Keyboard::Key&key)
 	{
 		for(size_t i=0; i<keys.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
 			if(cmp.first == key)
 			{
 				keys.remove(i);
 				i = keys.size();
 			}
 		}
-		keys.add(Pair<Keyboard::Key, KeyDirection>(key, KEYDIR_DOWN));
+		keys.add(std::pair<Keyboard::Key, KeyDirection>(key, KEYDIR_DOWN));
 	}
 	
 	void ActorMenuElement::addLeftKey(const Keyboard::Key&key)
 	{
 		for(size_t i=0; i<keys.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
 			if(cmp.first == key)
 			{
 				keys.remove(i);
 				i = keys.size();
 			}
 		}
-		keys.add(Pair<Keyboard::Key, KeyDirection>(key, KEYDIR_LEFT));
+		keys.add(std::pair<Keyboard::Key, KeyDirection>(key, KEYDIR_LEFT));
 	}
 	
 	void ActorMenuElement::addRightKey(const Keyboard::Key&key)
 	{
 		for(size_t i=0; i<keys.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
 			if(cmp.first == key)
 			{
 				keys.remove(i);
 				i = keys.size();
 			}
 		}
-		keys.add(Pair<Keyboard::Key, KeyDirection>(key, KEYDIR_RIGHT));
+		keys.add(std::pair<Keyboard::Key, KeyDirection>(key, KEYDIR_RIGHT));
 	}
 	
 	void ActorMenuElement::addSelectKey(const Keyboard::Key&key)
 	{
 		for(size_t i=0; i<keys.size(); i++)
 		{
-			Pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
+			std::pair<Keyboard::Key, KeyDirection>& cmp = keys.get(i);
 			if(cmp.first == key)
 			{
 				keys.remove(i);
 				i = keys.size();
 			}
 		}
-		keys.add(Pair<Keyboard::Key, KeyDirection>(key, KEYDIR_SELECT));
+		keys.add(std::pair<Keyboard::Key, KeyDirection>(key, KEYDIR_SELECT));
 	}
 	
 	void ActorMenuElement::clearKeys()

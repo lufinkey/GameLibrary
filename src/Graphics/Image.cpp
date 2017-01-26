@@ -326,7 +326,7 @@ namespace fgl
 		return pixels;
 	}
 
-	void Image::recolor(const ArrayList<Pair<Color, Color> >& colorSwaps)
+	void Image::recolor(const ArrayList<std::pair<Color, Color> >& colorSwaps)
 	{
 		size_t total = pixels.size();
 		size_t totalSwaps = colorSwaps.size();
@@ -335,7 +335,7 @@ namespace fgl
 			const Color& color = pixels.get(i);
 			for(size_t j=0; j<totalSwaps; j++)
 			{
-				const Pair<Color,Color>& colorSwap = colorSwaps.get(j);
+				const std::pair<Color,Color>& colorSwap = colorSwaps.get(j);
 				if(color.equals(colorSwap.first))
 				{
 					pixels.set(i, colorSwap.second);

@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include <utility>
 #include <GameLibrary/Graphics/TextureImage.hpp>
 #include <GameLibrary/Utilities/Font/Font.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
-#include <GameLibrary/Utilities/Pair.hpp>
 
 namespace fgl
 {
@@ -106,8 +106,8 @@ namespace fgl
 	private:
 		Window*window;
 		
-		ArrayList<Pair<String,TextureImage*> > textures;
-		ArrayList<Pair<String,Font*> > fonts;
+		ArrayList<std::pair<String,TextureImage*> > textures;
+		ArrayList<std::pair<String,Font*> > fonts;
 		
 		String rootdir;
 		ArrayList<String> secondaryRoots;

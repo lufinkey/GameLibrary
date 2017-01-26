@@ -59,7 +59,7 @@ namespace fgl
 		size_t total = sizeList.size();
 		for(size_t i=0; i<total; i++)
 		{
-			const Pair<unsigned int, void*>& fontSize = sizeList.get(i);
+			const std::pair<unsigned int, void*>& fontSize = sizeList.get(i);
 			if(fontSize.first == size)
 			{
 				return fontSize.second;
@@ -69,7 +69,7 @@ namespace fgl
 		void* fontsizeptr = loadFontSize(size);
 		if(fontsizeptr != nullptr)
 		{
-			sizeList.add(Pair<unsigned int, void*>(size, fontsizeptr));
+			sizeList.add(std::pair<unsigned int, void*>(size, fontsizeptr));
 		}
 		return fontsizeptr;
 	}
@@ -81,7 +81,7 @@ namespace fgl
 			FontSizeList& sizeList = *fontsizes.get();
 			for(unsigned int i=0; i<sizeList.size(); i++)
 			{
-				Pair<unsigned int, void*>& fontSize = sizeList.get(i);
+				std::pair<unsigned int, void*>& fontSize = sizeList.get(i);
 				TTF_Font* fontSizeData = (TTF_Font*)fontSize.second;
 				TTF_CloseFont(fontSizeData);
 				fontSize.second = nullptr;
@@ -204,7 +204,7 @@ namespace fgl
 		}
 		FontSizeList* sizeList = new FontSizeList();
 		fontsizes = std::shared_ptr<FontSizeList>(sizeList);
-		sizeList->add(Pair<unsigned int, void*>(defaultsize, (void*)loadedfont));
+		sizeList->add(std::pair<unsigned int, void*>(defaultsize, (void*)loadedfont));
 		mlock.unlock();
 		return true;
 	}
@@ -213,13 +213,13 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<glyphs.size(); i++)
 		{
-			Pair<RenderedGlyphContainer*, void*>& container = glyphs.get(i);
+			std::pair<RenderedGlyphContainer*, void*>& container = glyphs.get(i);
 			if(container.second == renderer)
 			{
 				return container.first;
 			}
 		}
-		Pair<RenderedGlyphContainer*, void*> container;
+		std::pair<RenderedGlyphContainer*, void*> container;
 		container.first = new RenderedGlyphContainer();
 		container.second = renderer;
 		glyphs.add(container);

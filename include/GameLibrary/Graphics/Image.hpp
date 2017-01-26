@@ -2,7 +2,6 @@
 #pragma once
 
 #include <GameLibrary/Utilities/ArrayList.hpp>
-#include <GameLibrary/Utilities/Pair.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include "Color.hpp"
@@ -76,7 +75,7 @@ namespace fgl
 		
 		/*! Replaces specified pixels in the image.
 			\param colorSwaps an ArrayList containing pairs of Color values, the first in the pair being the original pixel Color, and the second being the replacement*/
-		void recolor(const ArrayList<Pair<Color,Color> >& colorSwaps);
+		void recolor(const ArrayList<std::pair<Color,Color> >& colorSwaps);
 		/*! Applies a composite mask to the image. \see fgl::Color::composite(const Color&)const*/
 		void applyCompositeMask(const Image&mask);
 		

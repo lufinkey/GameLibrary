@@ -160,10 +160,10 @@ namespace fgl
 	void AutoLayoutManager::setRules(const Dictionary& rulesDict)
 	{
 		removeAllRules();
-		const ArrayList<Pair<String, Any> >& contents = rulesDict.getContents();
+		const ArrayList<std::pair<String, Any> >& contents = rulesDict.getContents();
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
-			const Pair<String, Any> pair = contents.get(i);
+			const std::pair<String, Any> pair = contents.get(i);
 			bool valid = false;
 			LayoutRuleType ruleType = LayoutRuleType_fromString(pair.first, &valid);
 			if(valid)

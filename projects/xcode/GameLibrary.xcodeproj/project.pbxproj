@@ -219,7 +219,6 @@
 		A039DA2D1CCDE80800B0B5DA /* Math.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Math.hpp; sourceTree = "<group>"; };
 		A039DA2E1CCDE80800B0B5DA /* Number.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Number.hpp; sourceTree = "<group>"; };
 		A039DA2F1CCDE80800B0B5DA /* Number.impl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Number.impl; sourceTree = "<group>"; };
-		A039DA301CCDE80800B0B5DA /* Pair.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pair.hpp; sourceTree = "<group>"; };
 		A039DA311CCDE80800B0B5DA /* PlatformChecks.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlatformChecks.hpp; sourceTree = "<group>"; };
 		A039DA321CCDE80800B0B5DA /* String.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = String.hpp; sourceTree = "<group>"; };
 		A039DA331CCDE80800B0B5DA /* Stringifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Stringifier.hpp; sourceTree = "<group>"; };
@@ -664,7 +663,6 @@
 				A039DA2D1CCDE80800B0B5DA /* Math.hpp */,
 				A039DA2E1CCDE80800B0B5DA /* Number.hpp */,
 				A039DA2F1CCDE80800B0B5DA /* Number.impl */,
-				A039DA301CCDE80800B0B5DA /* Pair.hpp */,
 				A039DA311CCDE80800B0B5DA /* PlatformChecks.hpp */,
 				F15F32221E25730900710AC8 /* Plist.hpp */,
 				A039DA321CCDE80800B0B5DA /* String.hpp */,

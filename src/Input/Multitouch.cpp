@@ -40,7 +40,7 @@ namespace fgl
 	static bool Multitouch_callingListeners = false;
 	
 	//stores listeners that were added or removed from inside a MultitouchEventListener event
-	static ArrayList<Pair<MultitouchEventListener*, bool> > Multitouch_changedListeners;
+	static ArrayList<std::pair<MultitouchEventListener*, bool> > Multitouch_changedListeners;
 	static std::mutex Multitouch_changedListeners_mutex;
 	
 	static std::mutex Multitouch_state_mutex;
@@ -179,7 +179,7 @@ namespace fgl
 			Multitouch_changedListeners_mutex.lock();
 			for(size_t j=0; j<Multitouch_changedListeners.size(); j++)
 			{
-				Pair<MultitouchEventListener*,bool>& cmp = Multitouch_changedListeners.get(j);
+				std::pair<MultitouchEventListener*,bool>& cmp = Multitouch_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -230,7 +230,7 @@ namespace fgl
 			Multitouch_changedListeners_mutex.lock();
 			for(size_t j=0; j<Multitouch_changedListeners.size(); j++)
 			{
-				Pair<MultitouchEventListener*,bool>& cmp = Multitouch_changedListeners.get(j);
+				std::pair<MultitouchEventListener*,bool>& cmp = Multitouch_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -498,7 +498,7 @@ namespace fgl
 		if(Multitouch_callingListeners)
 		{
 			Multitouch_changedListeners_mutex.lock();
-			Multitouch_changedListeners.add(Pair<MultitouchEventListener*,bool>(listener,true));
+			Multitouch_changedListeners.add(std::pair<MultitouchEventListener*,bool>(listener,true));
 			Multitouch_changedListeners_mutex.unlock();
 		}
 		Multitouch_eventListeners_mutex.lock();
@@ -516,7 +516,7 @@ namespace fgl
 		if(Multitouch_callingListeners)
 		{
 			Multitouch_changedListeners_mutex.lock();
-			Multitouch_changedListeners.add(Pair<MultitouchEventListener*,bool>(listener,false));
+			Multitouch_changedListeners.add(std::pair<MultitouchEventListener*,bool>(listener,false));
 			Multitouch_changedListeners_mutex.unlock();
 		}
 		Multitouch_eventListeners_mutex.lock();

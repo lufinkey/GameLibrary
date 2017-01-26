@@ -161,7 +161,7 @@ namespace fgl
 			KEYDIR_SELECT
 		} KeyDirection;
 		
-		ArrayList<Pair<Keyboard::Key, KeyDirection> > keys;
+		ArrayList<std::pair<Keyboard::Key, KeyDirection> > keys;
 	};
 	
 	//TODO make moveHoverUp, moveHoverDown, moveHoverLeft, and moveHoverRight look for the nearest box in the specified direction

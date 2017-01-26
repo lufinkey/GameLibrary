@@ -38,7 +38,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<textures.size(); i++)
 		{
-			Pair<String,TextureImage*>& pair = textures.get(i);
+			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
 			{
 				return true;
@@ -62,7 +62,7 @@ namespace fgl
 			{
 				error->clear();
 			}
-			textures.add(Pair<String,TextureImage*>(path, texture));
+			textures.add(std::pair<String,TextureImage*>(path, texture));
 			return true;
 		}
 		else
@@ -76,7 +76,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<textures.size(); i++)
 		{
-			Pair<String,TextureImage*>& pair = textures.get(i);
+			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
 			{
 				return true;
@@ -105,7 +105,7 @@ namespace fgl
 			success = texture->loadFromImage(image, *window->getGraphics(), error);
 			if(success)
 			{
-				textures.add(Pair<String,TextureImage*>(path, texture));
+				textures.add(std::pair<String,TextureImage*>(path, texture));
 				return true;
 			}
 			else
@@ -124,7 +124,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<textures.size(); i++)
 		{
-			Pair<String,TextureImage*>& pair = textures.get(i);
+			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
 			{
 				delete pair.second;
@@ -147,7 +147,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<textures.size(); i++)
 		{
-			Pair<String,TextureImage*>& pair = textures.get(i);
+			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
 			{
 				return pair.second;
@@ -164,7 +164,7 @@ namespace fgl
 		}
 		for(size_t i=0; i<textures.size(); i++)
 		{
-			Pair<String,TextureImage*>& pair = textures.get(i);
+			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
 			{
 				delete pair.second;
@@ -172,14 +172,14 @@ namespace fgl
 				i = textures.size();
 			}
 		}
-		textures.add(Pair<String, TextureImage*>(path, image));
+		textures.add(std::pair<String, TextureImage*>(path, image));
 	}
 
 	bool AssetManager::loadFont(const String&path, String*error)
 	{
 		for(unsigned int i=0; i<fonts.size(); i++)
 		{
-			Pair<String,Font*>& pair = fonts.get(i);
+			std::pair<String,Font*>& pair = fonts.get(i);
 			if(pair.first.equals(path))
 			{
 				return true;
@@ -203,7 +203,7 @@ namespace fgl
 			{
 				error->clear();
 			}
-			fonts.add(Pair<String,Font*>(path, font));
+			fonts.add(std::pair<String,Font*>(path, font));
 			return true;
 		}
 		else
@@ -217,7 +217,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<fonts.size(); i++)
 		{
-			Pair<String,Font*>& pair = fonts.get(i);
+			std::pair<String,Font*>& pair = fonts.get(i);
 			if(pair.first.equals(path))
 			{
 				delete pair.second;
@@ -240,7 +240,7 @@ namespace fgl
 	{
 		for(unsigned int i=0; i<fonts.size(); i++)
 		{
-			Pair<String,Font*>& pair = fonts.get(i);
+			std::pair<String,Font*>& pair = fonts.get(i);
 			if(pair.first.equals(path))
 			{
 				return pair.second;
@@ -253,7 +253,7 @@ namespace fgl
 	{
 		if(font!=nullptr)
 		{
-			fonts.add(Pair<String, Font*>(path, font));
+			fonts.add(std::pair<String, Font*>(path, font));
 		}
 	}
 	

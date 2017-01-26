@@ -3,10 +3,10 @@
 
 #include <mutex>
 #include <memory>
+#include <utility>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Data.hpp>
-#include <GameLibrary/Utilities/Pair.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include "RenderedGlyphContainer.hpp"
 
@@ -85,11 +85,11 @@ namespace fgl
 		bool getAntialiasing();
 		
 	private:
-		typedef ArrayList<Pair<unsigned int, void*> > FontSizeList;
+		typedef ArrayList<std::pair<unsigned int, void*> > FontSizeList;
 		
 		std::shared_ptr<FontSizeList> fontsizes;
 		std::shared_ptr<Data> fontdata;
-		ArrayList<Pair<RenderedGlyphContainer*, void*> > glyphs;
+		ArrayList<std::pair<RenderedGlyphContainer*, void*> > glyphs;
 		
 		unsigned int size;
 		int style;

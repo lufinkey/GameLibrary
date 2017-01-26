@@ -24,7 +24,7 @@ namespace fgl
 	void Plist_base64Decode(const char* encodedData, std::vector<char>& data);
 	void Plist_base64Encode(std::string& dataEncoded, const Data& data);
 	
-	Pair<size_t, size_t> Plist_getParsePosition(const void* ptr, size_t offset);
+	std::pair<size_t, size_t> Plist_getParsePosition(const void* ptr, size_t offset);
 	bool Plist_parse(Any* dst, const void* ptr, pugi::xml_node& node, String* error);
 	bool Plist_parseDictionary(Plist::dict* dst, const void* ptr, pugi::xml_node&node, String* error);
 	bool Plist_parseArray(Plist::array* dst, const void* ptr, pugi::xml_node& node, String* error);
@@ -289,7 +289,7 @@ namespace fgl
 		#endif
 	}
 	
-	Pair<size_t, size_t> Plist_getParsePosition(const void* ptr, size_t offset)
+	std::pair<size_t, size_t> Plist_getParsePosition(const void* ptr, size_t offset)
 	{
 		size_t currentLine = 1;
 		size_t currentOffset = 0;
@@ -320,7 +320,7 @@ namespace fgl
 				didNewline = false;
 			}
 		}
-		return Pair<size_t, size_t>(currentLine, currentOffset);
+		return std::pair<size_t, size_t>(currentLine, currentOffset);
 	}
 	
 	bool Plist_parse(Any* dst, const void* ptr, pugi::xml_node& node, String* error)
@@ -553,7 +553,7 @@ namespace fgl
 	void Plist_parse_error(const void* ptr, pugi::xml_node& node, const String& error_message, String* error)
 	{
 		size_t offset = node.offset_debug();
-		Pair<size_t, size_t> doc_pos = Plist_getParsePosition(ptr, offset);
+		std::pair<size_t, size_t> doc_pos = Plist_getParsePosition(ptr, offset);
 		if(error!=nullptr)
 		{
 			*error = (String)"" + doc_pos.first + ":" + doc_pos.second + ": " + error_message;
@@ -710,10 +710,10 @@ namespace fgl
 	bool Plist_writeDictionary(const Plist::dict& src, pugi::xml_node& node, String* error)
 	{
 		pugi::xml_node dict_node = node.append_child("dict");
-		const ArrayList<Pair<Plist::key, Any> >& contents = src.getContents();
+		const ArrayList<std::pair<Plist::key, Any> >& contents = src.getContents();
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
-			const Pair<Plist::key, Any>& pair = contents.get(i);
+			const std::pair<Plist::key, Any>& pair = contents.get(i);
 			pugi::xml_node key_node = dict_node.append_child("key");
 			key_node.append_child(pugi::node_pcdata).set_value(pair.first);
 			bool result = Plist_write(pair.second, dict_node, error);

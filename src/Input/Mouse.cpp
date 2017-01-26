@@ -1,12 +1,12 @@
 
 #include <GameLibrary/Input/Mouse.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
-#include <GameLibrary/Utilities/Pair.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include "../Application/EventManager.hpp"
 #include "SDL.h"
 #include <mutex>
 #include <vector>
+#include <utility>
 
 namespace fgl
 {
@@ -31,7 +31,7 @@ namespace fgl
 	static bool Mouse_callingListeners = false;
 
 	//stores listeners that were added or removed from inside a MouseEventListener event
-	static ArrayList<Pair<MouseEventListener*, bool> > Mouse_changedListeners;
+	static ArrayList<std::pair<MouseEventListener*, bool> > Mouse_changedListeners;
 	static std::mutex Mouse_changedListeners_mutex;
 	
 	static std::mutex Mouse_state_mutex;
@@ -101,7 +101,7 @@ namespace fgl
 			Mouse_changedListeners_mutex.lock();
 			for(size_t j=0; j<Mouse_changedListeners.size(); j++)
 			{
-				Pair<MouseEventListener*,bool>& cmp = Mouse_changedListeners.get(j);
+				std::pair<MouseEventListener*,bool>& cmp = Mouse_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -152,7 +152,7 @@ namespace fgl
 			Mouse_changedListeners_mutex.lock();
 			for(size_t j=0; j<Mouse_changedListeners.size(); j++)
 			{
-				Pair<MouseEventListener*,bool>& cmp = Mouse_changedListeners.get(j);
+				std::pair<MouseEventListener*,bool>& cmp = Mouse_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -488,7 +488,7 @@ namespace fgl
 		if(Mouse_callingListeners)
 		{
 			Mouse_changedListeners_mutex.lock();
-			Mouse_changedListeners.add(Pair<MouseEventListener*,bool>(eventListener,true));
+			Mouse_changedListeners.add(std::pair<MouseEventListener*,bool>(eventListener,true));
 			Mouse_changedListeners_mutex.unlock();
 		}
 		Mouse_eventListeners_mutex.lock();
@@ -506,7 +506,7 @@ namespace fgl
 		if(Mouse_callingListeners)
 		{
 			Mouse_changedListeners_mutex.lock();
-			Mouse_changedListeners.add(Pair<MouseEventListener*,bool>(eventListener,false));
+			Mouse_changedListeners.add(std::pair<MouseEventListener*,bool>(eventListener,false));
 			Mouse_changedListeners_mutex.unlock();
 		}
 		Mouse_eventListeners_mutex.lock();

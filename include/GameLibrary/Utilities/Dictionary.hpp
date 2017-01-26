@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include <utility>
 #include "Any.hpp"
 #include "ArrayList.hpp"
 #include "Data.hpp"
-#include "Pair.hpp"
 #include "String.hpp"
 #include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp>
 
@@ -16,7 +16,7 @@ namespace fgl
 	public:
 		typedef KEY_TYPE Key;
 		typedef VALUE_TYPE Value;
-		typedef Pair<KEY_TYPE, VALUE_TYPE> Entry;
+		typedef std::pair<KEY_TYPE, VALUE_TYPE> Entry;
 		
 		typedef typename ArrayList<Entry>::iterator iterator;
 		typedef typename ArrayList<Entry>::const_iterator const_iterator;
@@ -48,8 +48,8 @@ namespace fgl
 		
 		BasicDictionary();
 		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
-		BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents);
-		BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents);
+		BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents);
+		BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents);
 		~BasicDictionary();
 		
 		iterator begin();
@@ -81,7 +81,7 @@ namespace fgl
 		
 		ArrayList<KEY_TYPE> getKeys() const;
 		ArrayList<VALUE_TYPE> getValues() const;
-		const ArrayList<Pair<KEY_TYPE, VALUE_TYPE>>& getContents() const;
+		const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE>>& getContents() const;
 		
 		size_t size() const;
 		void clear();
@@ -94,7 +94,7 @@ namespace fgl
 		String toString() const;
 		
 	private:
-		ArrayList<Pair<KEY_TYPE, VALUE_TYPE> > contents;
+		ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> > contents;
 		
 		size_t indexOfKey(const KEY_TYPE& key) const;
 	};

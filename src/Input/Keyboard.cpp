@@ -1,11 +1,11 @@
 
 #include <GameLibrary/Input/Keyboard.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
-#include <GameLibrary/Utilities/Pair.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <GameLibrary/Exception/IllegalStateException.hpp>
 #include "SDL.h"
 #include <mutex>
+#include <utility>
 #include <vector>
 
 namespace fgl
@@ -18,7 +18,7 @@ namespace fgl
 	static bool Keyboard_callingListeners = false;
 
 	//stores listeners that were added or removed from inside a KeyboardEventListener event
-	static ArrayList<Pair<KeyboardEventListener*, bool> > Keyboard_changedListeners;
+	static ArrayList<std::pair<KeyboardEventListener*, bool> > Keyboard_changedListeners;
 	static std::mutex Keyboard_changedListeners_mutex;
 	
 	static std::mutex Keyboard_key_mutex;
@@ -53,7 +53,7 @@ namespace fgl
 			Keyboard_changedListeners_mutex.lock();
 			for(size_t j=0; j<Keyboard_changedListeners.size(); j++)
 			{
-				Pair<KeyboardEventListener*,bool>& cmp = Keyboard_changedListeners.get(j);
+				std::pair<KeyboardEventListener*,bool>& cmp = Keyboard_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -103,7 +103,7 @@ namespace fgl
 			Keyboard_changedListeners_mutex.lock();
 			for(size_t j=0; j<Keyboard_changedListeners.size(); j++)
 			{
-				Pair<KeyboardEventListener*,bool>& cmp = Keyboard_changedListeners.get(j);
+				std::pair<KeyboardEventListener*,bool>& cmp = Keyboard_changedListeners.get(j);
 				if(cmp.first == listener)
 				{
 					if(!cmp.second)
@@ -242,7 +242,7 @@ namespace fgl
 		if(Keyboard_callingListeners)
 		{
 			Keyboard_changedListeners_mutex.lock();
-			Keyboard_changedListeners.add(Pair<KeyboardEventListener*,bool>(eventListener,true));
+			Keyboard_changedListeners.add(std::pair<KeyboardEventListener*,bool>(eventListener,true));
 			Keyboard_changedListeners_mutex.unlock();
 		}
 		Keyboard_eventListeners_mutex.lock();
@@ -260,7 +260,7 @@ namespace fgl
 		if(Keyboard_callingListeners)
 		{
 			Keyboard_changedListeners_mutex.lock();
-			Keyboard_changedListeners.add(Pair<KeyboardEventListener*,bool>(eventListener,false));
+			Keyboard_changedListeners.add(std::pair<KeyboardEventListener*,bool>(eventListener,false));
 			Keyboard_changedListeners_mutex.unlock();
 		}
 		Keyboard_eventListeners_mutex.lock();

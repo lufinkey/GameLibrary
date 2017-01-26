@@ -78,21 +78,21 @@ namespace fgl
 		contents.resize(keys_size);
 		for(size_t i=0; i<keys_size; i++)
 		{
-			Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
+			std::pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
 			pair.first = keys[i];
 			pair.second = keys[i];
 		}
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents)
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents)
 		: contents(contents)
 	{
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents)
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents)
 		: contents(contents)
 	{
 		//
@@ -189,7 +189,7 @@ namespace fgl
 		if(index==(size_t)-1)
 		{
 			index = contents.size();
-			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
 		}
 		else
 		{
@@ -205,7 +205,7 @@ namespace fgl
 		if(index==(size_t)-1)
 		{
 			index = contents.size();
-			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
 		}
 		else
 		{
@@ -221,7 +221,7 @@ namespace fgl
 		if(index==(size_t)-1)
 		{
 			index = contents.size();
-			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
 		}
 		else
 		{
@@ -237,7 +237,7 @@ namespace fgl
 		if(index==(size_t)-1)
 		{
 			index = contents.size();
-			contents.add(Pair<KEY_TYPE, VALUE_TYPE>(key, value));
+			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
 		}
 		else
 		{
@@ -323,7 +323,7 @@ namespace fgl
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getContents() const
+	const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getContents() const
 	{
 		return contents;
 	}
@@ -367,7 +367,7 @@ namespace fgl
 		size_t lastIndex = contents.size()-1;
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
-			const Pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
+			const std::pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
 			str += "(" + fgl::stringify<KEY_TYPE>(pair.first) + ") => ";
 			str += "(" + fgl::stringify<VALUE_TYPE>(pair.second) + ")";
 			if(i!=lastIndex)
