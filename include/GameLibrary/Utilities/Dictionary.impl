@@ -105,6 +105,78 @@ namespace fgl
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin()
+	{
+		return contents.begin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin() const
+	{
+		return contents.begin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cbegin() const
+	{
+		return contents.cbegin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end()
+	{
+		return contents.end();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end() const
+	{
+		return contents.end();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cend() const
+	{
+		return contents.cend();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin()
+	{
+		return contents.rbegin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin() const
+	{
+		return contents.rbegin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crbegin() const
+	{
+		return contents.crbegin();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend()
+	{
+		return contents.rend();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend() const
+	{
+		return contents.rend();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crend() const
+	{
+		return contents.crend();
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
 	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::has(const KEY_TYPE& key) const
 	{
 		return indexOfKey(key) != (size_t)-1;

@@ -14,9 +14,14 @@ namespace fgl
 	class BasicDictionary
 	{
 	public:
-		typedef KEY_TYPE key_type;
-		typedef VALUE_TYPE value_type;
-		typedef BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary_type;
+		typedef KEY_TYPE Key;
+		typedef VALUE_TYPE Value;
+		typedef Pair<KEY_TYPE, VALUE_TYPE> Entry;
+		
+		typedef typename ArrayList<Entry>::iterator iterator;
+		typedef typename ArrayList<Entry>::const_iterator const_iterator;
+		typedef typename ArrayList<Entry>::reverse_iterator reverse_iterator;
+		typedef typename ArrayList<Entry>::const_reverse_iterator const_reverse_iterator;
 		
 		class ValueProxy
 		{
@@ -46,6 +51,19 @@ namespace fgl
 		BasicDictionary(const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >&& contents);
 		~BasicDictionary();
+		
+		iterator begin();
+		const_iterator begin() const;
+		const_iterator cbegin() const;
+		iterator end();
+		const_iterator end() const;
+		const_iterator cend() const;
+		reverse_iterator rbegin();
+		const_reverse_iterator rbegin() const;
+		const_reverse_iterator crbegin() const;
+		reverse_iterator rend();
+		const_reverse_iterator rend() const;
+		const_reverse_iterator crend() const;
 
 		bool has(const KEY_TYPE& key) const;
 		
@@ -63,7 +81,7 @@ namespace fgl
 		
 		ArrayList<KEY_TYPE> getKeys() const;
 		ArrayList<VALUE_TYPE> getValues() const;
-		const ArrayList<Pair<KEY_TYPE, VALUE_TYPE> >& getContents() const;
+		const ArrayList<Pair<KEY_TYPE, VALUE_TYPE>>& getContents() const;
 		
 		size_t size() const;
 		void clear();
@@ -84,7 +102,7 @@ namespace fgl
 	typedef BasicDictionary<String, Any> Dictionary;
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::key_type& key)
+	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::Key& key)
 	{
 		try
 		{
@@ -105,7 +123,7 @@ namespace fgl
 	}
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::key_type& key, const RESULT_TYPE& defaultValue)
+	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::Key& key, const RESULT_TYPE& defaultValue)
 	{
 		try
 		{
