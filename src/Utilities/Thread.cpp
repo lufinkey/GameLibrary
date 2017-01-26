@@ -169,7 +169,7 @@ namespace fgl
 		}
 	}
 	
-	void Thread::runOnMainThread(std::function<void()> func, bool wait)
+	void Thread::runOnMainThread(const std::function<void()>& func, bool wait)
 	{
 		if(wait)
 		{
@@ -206,7 +206,7 @@ namespace fgl
 		}
 	}
 	
-	void Thread::runOnThread(std::function<void()> func)
+	void Thread::runOnThread(const std::function<void()>& func)
 	{
 		std::thread th(func);
 		th.detach();

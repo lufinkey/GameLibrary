@@ -36,10 +36,10 @@ namespace fgl
 		/*! Runs a given function on the main thread
 			\param func the function to run on the main thread
 			\param wait true to wait until the function finishes, or false to continue */
-		static void runOnMainThread(std::function<void()> func, bool wait=false);
+		static void runOnMainThread(const std::function<void()>& func, bool wait=false);
 		/*! Runs a given function in a new thread.
 			\param func the function to run */
-		static void runOnThread(std::function<void()> func);
+		static void runOnThread(const std::function<void()>& func);
 		/*! Tells if the current thread is the main thread
 			\returns true if the current thread is the main thread */
 		static bool isMainThread();

@@ -10,7 +10,7 @@ namespace fgl
 {
 	#define funcwrap [&]()->auto
 
-	bool attempt(std::function<void()> block);
+	bool attempt(const std::function<void()>& block);
 	
 #ifdef _HAS_STD_OPTIONAL
 	template<typename T>

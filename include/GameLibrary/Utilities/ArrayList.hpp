@@ -409,7 +409,7 @@ namespace fgl
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
 		}
 		
-		ArrayList<T> filter(std::function<bool(const T&)> func) const
+		ArrayList<T> filter(const std::function<bool(const T&)>& func) const
 		{
 			ArrayList<T> newList;
 			size_t length = objects.size();
@@ -424,7 +424,7 @@ namespace fgl
 			return newList;
 		}
 		
-		void sort(std::function<bool(const T&,const T&)> func)
+		void sort(const std::function<bool(const T&,const T&)>& func)
 		{
 			if(objects.size()<=1)
 			{
@@ -451,7 +451,7 @@ namespace fgl
 		}
 		
 	private:
-		void mergeSort(size_t left, size_t right, std::function<bool(const T&,const T&)>& func)
+		void mergeSort(size_t left, size_t right, const std::function<bool(const T&,const T&)>& func)
 		{
 			if(left < right)
 			{
@@ -462,7 +462,7 @@ namespace fgl
 			}
 		}
 		
-		void merge(size_t left, size_t mid, size_t right, std::function<bool(const T&,const T&)>& func)
+		void merge(size_t left, size_t mid, size_t right, const std::function<bool(const T&,const T&)>& func)
 		{
 			size_t i, j, k;
 			size_t n1 = mid - left + 1;

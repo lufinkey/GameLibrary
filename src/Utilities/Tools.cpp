@@ -3,7 +3,7 @@
 
 namespace fgl
 {
-	bool attempt(std::function<void()> block)
+	bool attempt(const std::function<void()>& block)
 	{
 		try
 		{

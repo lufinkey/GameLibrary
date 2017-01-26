@@ -281,7 +281,7 @@ namespace fgl
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)> func) const
+	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(const std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const
 	{
 		return BasicDictionary<KEY_TYPE, VALUE_TYPE>(contents.filter([&func](const KEY_TYPE& key, const VALUE_TYPE& value){
 			return func(key, value);
