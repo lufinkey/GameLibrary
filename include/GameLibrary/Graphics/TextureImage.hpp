@@ -27,9 +27,13 @@ namespace fgl
 			\param graphics the graphics object to create the texture on the video card memory*/
 		void create(unsigned int width, unsigned int height, Graphics& graphics);
 		/*! Updates the texture using an array of pixels.
-			\param pixels an array of pixels to write to the texture
+			\param pixels an array of pixels to write to the texture. The size of this buffer should be the image width*height*4 bytes
 			\note updating a texture is a slow operation, and requires writing to the video card memory*/
 		void update(const Color* pixels);
+		/*! Updates the texture using an array of pixels.
+			\param pixels an array of pixels to write to the texture. The size of this buffer should be region.width*region.height*4 bytes
+			\note updating a texture is a slow operation, and requires writing to the video card memory*/
+		void update(const Color* pixels, const RectangleU& region);
 		/*! Clears all data from the texture and resets the width and height to 0.*/
 		void clear();
 		

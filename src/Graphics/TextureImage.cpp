@@ -70,47 +70,34 @@ namespace fgl
 		}
 	}
 
-	void TextureImage::update(const Color*pxls)
+	void TextureImage::update(const Color* pixels)
 	{
 		if(texture == nullptr)
 		{
 			throw TextureImageUpdateException("Cannot update an empty TextureImage");
 		}
-		SDL_UpdateTexture((SDL_Texture*)texture, nullptr, pxls, (int)(width*4));
-		SDL_SetTextureBlendMode((SDL_Texture*)texture,SDL_BLENDMODE_BLEND);
+		SDL_UpdateTexture((SDL_Texture*)texture, nullptr, pixels, (int)(width*4));
 	}
 
-	//TODO figure out where the Rect updates first, so I can figure out how to update the bool vector
-	//TODO add checking for out of bounds
-	/*void TextureImage::update(const Color*pixels, unsigned int x, unsigned int y, unsigned int w, unsigned int h)
+	void TextureImage::update(const Color* pixels, const RectangleU& region)
 	{
 		if(texture == nullptr)
 		{
 			throw TextureImageUpdateException("Cannot update an empty TextureImage");
+		}
+		else if(region.x >= width || (region.x+region.width) >= width || region.y >= height || (region.y+region.height) >= height)
+		{
+			throw OutOfBoundsException("region is out of bounds");
 		}
 
 		SDL_Rect rect;
-		rect.x = (int)x;
-		rect.y = (int)y;
-		rect.w = (int)w;
-		rect.h = (int)h;
+		rect.x = (int)region.x;
+		rect.y = (int)region.y;
+		rect.w = (int)region.width;
+		rect.h = (int)region.height;
 
-		void* pixelptr;
-		int pitch;
-		if(SDL_LockTexture((SDL_Texture*)texture, &rect, &pixelptr, &pitch) < 0)
-		{
-			throw TextureImageUpdateException(SDL_GetError());
-		}
-
-		Color*texture_pixels = (Color*)pixelptr;
-		unsigned int total = w*h;
-		for(unsigned int i=0; i<total; i++)
-		{
-			texture_pixels[i] = pixels[i];
-		}
-
-		SDL_UnlockTexture((SDL_Texture*)texture);
-	}*/
+		SDL_UpdateTexture((SDL_Texture*)texture, &rect, pixels, (int)(width*4));
+	}
 	
 	void TextureImage::clear()
 	{
