@@ -131,7 +131,11 @@ namespace fgl
 		}
 		surface = convertedSurface;
 
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+		unsigned int w = (unsigned int)surface->w;
+		unsigned int h = (unsigned int)surface->h;
+		unsigned int totalSize = w*h;
+		
+		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
 		if(texture == nullptr)
 		{
 			if(error!=nullptr)
@@ -157,6 +161,8 @@ namespace fgl
 			}
 		}
 		
+		SDL_UpdateTexture(texture, nullptr, surface->pixels, surface->pitch);
+		
 		unsigned int bpp = (unsigned int)surface->format->BytesPerPixel;
 		
 		unsigned int rmask = (unsigned int)surface->format->Rmask;
@@ -167,12 +173,8 @@ namespace fgl
 		unsigned int bshift = (unsigned int)surface->format->Bshift;
 		unsigned int amask = (unsigned int)surface->format->Amask;
 		unsigned int ashift = (unsigned int)surface->format->Ashift;
-		
-		unsigned int w = (unsigned int)surface->w;
-		unsigned int h = (unsigned int)surface->h;
-		unsigned int total = w*h;
 
-		pixels.resize(total);
+		pixels.resize(totalSize);
 		pixels.shrink_to_fit();
 
 		unsigned int pitchDif = ((unsigned int)surface->pitch - (w*bpp));
