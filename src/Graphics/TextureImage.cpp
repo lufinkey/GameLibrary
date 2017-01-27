@@ -1,7 +1,6 @@
 
 #include <GameLibrary/Graphics/TextureImage.hpp>
 #include <GameLibrary/Graphics/Image.hpp>
-#include <GameLibrary/IO/Console.hpp>
 #include <GameLibrary/Exception/InitializeLibraryException.hpp>
 #include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
 #include <GameLibrary/Exception/Graphics/TextureImageCreateException.hpp>

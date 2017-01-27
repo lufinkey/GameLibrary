@@ -1,6 +1,7 @@
 
 #include <GameLibrary/Graphics/Image.hpp>
 #include <GameLibrary/Graphics/PixelIterator.hpp>
+#include <GameLibrary/Exception/InitializeLibraryException.hpp>
 #include <GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp>
 #include <GameLibrary/Exception/Graphics/UnsupportedImageFormatException.hpp>
 #include <SDL_image.h>
@@ -12,8 +13,7 @@ namespace fgl
 		int flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
 		if(IMG_Init(flags) != flags)
 		{
-			//TODO replace with more specific exception type
-			throw Exception(IMG_GetError());
+			throw InitializeLibraryException("SDL_image", IMG_GetError());
 		}
 
 		width = 0;
