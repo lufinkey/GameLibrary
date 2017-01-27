@@ -76,30 +76,7 @@ namespace fgl
 		{
 			throw TextureImageUpdateException("Cannot update an empty TextureImage");
 		}
-		void* pixelptr;
-		int pitch;
-		if(SDL_LockTexture((SDL_Texture*)texture, nullptr, &pixelptr, &pitch) < 0)
-		{
-			throw TextureImageUpdateException(SDL_GetError());
-		}
-		
-		fgl::Uint32*texture_pixels = (fgl::Uint32*)pixelptr;
-		unsigned int total = width*height;
-		for(unsigned int i=0; i<total; i++)
-		{
-			const Color& color = pxls[i];
-			if(color.a > 0)
-			{
-				pixels[i]=true;
-			}
-			else
-			{
-				pixels[i] = false;
-			}
-			texture_pixels[i] = color.getRGBA();
-		}
-		
-		SDL_UnlockTexture((SDL_Texture*)texture);
+		SDL_UpdateTexture((SDL_Texture*)texture, nullptr, pxls, (int)(width*4));
 		SDL_SetTextureBlendMode((SDL_Texture*)texture,SDL_BLENDMODE_BLEND);
 	}
 
@@ -146,7 +123,7 @@ namespace fgl
 		height = 0;
 	}
 
-	SDL_Texture* TextureImage_loadFromSDLSurface(SDL_Surface* surface, std::vector<bool>& pixels, SDL_Renderer* renderer, String* error)
+	SDL_Texture* TextureImage_loadFromSDLSurface(SDL_Surface* surface, std::vector<bool>& pixels, SDL_Renderer* renderer, String* error, bool freeSurface)
 	{
 		SDL_Surface* convertedSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
 		if(convertedSurface==nullptr)
@@ -155,18 +132,26 @@ namespace fgl
 			{
 				*error = SDL_GetError();
 			}
+			if(freeSurface)
+			{
+				SDL_FreeSurface(surface);
+			}
 			return nullptr;
+		}
+		if(freeSurface)
+		{
+			SDL_FreeSurface(surface);
 		}
 		surface = convertedSurface;
 
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, convertedSurface);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if(texture == nullptr)
 		{
 			if(error!=nullptr)
 			{
 				*error = SDL_GetError();
 			}
-			SDL_FreeSurface(convertedSurface);
+			SDL_FreeSurface(surface);
 			return nullptr;
 		}
 
@@ -271,7 +256,7 @@ namespace fgl
 		{
 			SDL_UnlockSurface(surface);
 		}
-		SDL_FreeSurface(convertedSurface);
+		SDL_FreeSurface(surface);
 
 		return texture;
 	}
@@ -281,21 +266,20 @@ namespace fgl
 		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)size), 1);
 		if(surface != nullptr)
 		{
-			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error);
+			unsigned int w = (unsigned int)surface->w;
+			unsigned int h = (unsigned int)surface->h;
+			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
 			if(newTexture!=nullptr)
 			{
-				width = (unsigned int)surface->w;
-				height = (unsigned int)surface->h;
-				SDL_FreeSurface(surface);
+				width = w;
+				height = h;
 				if(texture != nullptr)
 				{
 					SDL_DestroyTexture((SDL_Texture*)texture);
-					texture = nullptr;
 				}
 				texture = newTexture;
 				return true;
 			}
-			SDL_FreeSurface(surface);
 			return false;
 		}
 		if(error!=nullptr)
@@ -310,16 +294,16 @@ namespace fgl
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
 		{
-			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error);
+			unsigned int w = (unsigned int)surface->w;
+			unsigned int h = (unsigned int)surface->h;
+			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
 			if(newTexture!=nullptr)
 			{
-				width = (unsigned int)surface->w;
-				height = (unsigned int)surface->h;
-				SDL_FreeSurface(surface);
+				width = w;
+				height = h;
 				if(texture != nullptr)
 				{
 					SDL_DestroyTexture((SDL_Texture*)texture);
-					texture = nullptr;
 				}
 				texture = newTexture;
 				return true;
