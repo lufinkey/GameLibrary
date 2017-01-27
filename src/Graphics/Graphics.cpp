@@ -798,9 +798,10 @@ namespace fgl
 			dstrect.w = (int)Math::ceil(realDx2 - (double)dstrect.x);
 			dstrect.h = (int)Math::ceil(realDy2 - (double)dstrect.y);
 			
-			RectangleD dstrectBox((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
+			RectangleD dstrectBox;
 			if(rotation==0)
 			{
+				dstrectBox = RectangleD((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
 				if(dstrectBox.width < 0)
 				{
 					dstrectBox.width = -dstrectBox.width;
