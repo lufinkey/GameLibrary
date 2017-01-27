@@ -798,24 +798,24 @@ namespace fgl
 			dstrect.w = (int)Math::ceil(realDx2 - (double)dstrect.x);
 			dstrect.h = (int)Math::ceil(realDy2 - (double)dstrect.y);
 			
-			RectangleD dstrectBox;
-			if(rotation==0)
+			RectangleD dstrectBox = RectangleD((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
+			if(rotation!=0)
 			{
-				dstrectBox = RectangleD((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
-				if(dstrectBox.width < 0)
-				{
-					dstrectBox.width = -dstrectBox.width;
-					dstrectBox.x = dstrectBox.x - dstrectBox.width;
-				}
-				if(dstrectBox.height < 0)
-				{
-					dstrectBox.height = -dstrectBox.height;
-					dstrectBox.y = dstrectBox.y - dstrectBox.height;
-				}
+				dstrectBox = RectangleD(dx1, dy1, dx2-dx1, dy2-dy1);
 			}
-			else
+			if(dstrectBox.width < 0)
 			{
-				dstrectBox = transform.transform(RectangleD(dx1, dy1, dx2-dx1, dy2-dy1));
+				dstrectBox.width = -dstrectBox.width;
+				dstrectBox.x = dstrectBox.x - dstrectBox.width;
+			}
+			if(dstrectBox.height < 0)
+			{
+				dstrectBox.height = -dstrectBox.height;
+				dstrectBox.y = dstrectBox.y - dstrectBox.height;
+			}
+			if(rotation!=0)
+			{
+				dstrectBox = transform.transform(dstrectBox);
 			}
 			RectangleD cliprectBox(clipoffset.x+cliprect.x, clipoffset.y+cliprect.y, cliprect.width, cliprect.height);
 			if(!cliprectBox.intersects(dstrectBox))
