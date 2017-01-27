@@ -788,23 +788,33 @@ namespace fgl
 			srcrect.h = (int)(sy2 - sy1);
 			
 			Vector2d pnt1 = transform.transform(Vector2d(dx1, dy1));
+
+			double realDx2 = pnt1.x + ((dx2-dx1)*scaling.x);
+			double realDy2 = pnt1.y + ((dy2-dy1)*scaling.y);
 			
 			SDL_Rect dstrect;
 			dstrect.x = (int)pnt1.x;
 			dstrect.y = (int)pnt1.y;
-			dstrect.w = (int)(pnt1.x+((dx2 - (double)((int)dx1))*scaling.x)-((int)dstrect.x));
-			dstrect.h = (int)(pnt1.y+((dy2 - (double)((int)dy1))*scaling.y)-((int)dstrect.y));
+			dstrect.w = (int)Math::ceil(realDx2 - (double)dstrect.x);
+			dstrect.h = (int)Math::ceil(realDy2 - (double)dstrect.y);
 			
 			RectangleD dstrectBox((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
-			if(dstrectBox.width < 0)
+			if(rotation==0)
 			{
-				dstrectBox.width = -dstrectBox.width;
-				dstrectBox.x = dstrectBox.x - dstrectBox.width;
+				if(dstrectBox.width < 0)
+				{
+					dstrectBox.width = -dstrectBox.width;
+					dstrectBox.x = dstrectBox.x - dstrectBox.width;
+				}
+				if(dstrectBox.height < 0)
+				{
+					dstrectBox.height = -dstrectBox.height;
+					dstrectBox.y = dstrectBox.y - dstrectBox.height;
+				}
 			}
-			if(dstrectBox.height < 0)
+			else
 			{
-				dstrectBox.height = -dstrectBox.height;
-				dstrectBox.y = dstrectBox.y - dstrectBox.height;
+				dstrectBox = transform.transform(RectangleD(dx1, dy1, dx2-dx1, dy2-dy1));
 			}
 			RectangleD cliprectBox(clipoffset.x+cliprect.x, clipoffset.y+cliprect.y, cliprect.width, cliprect.height);
 			if(!cliprectBox.intersects(dstrectBox))
