@@ -2,6 +2,7 @@
 #pragma once
 
 #include <mutex>
+#include <GameLibrary/Types.hpp>
 #include <GameLibrary/Application/AssetManager.hpp>
 #include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Graphics/Image.hpp>
@@ -20,19 +21,14 @@ namespace fgl
 		Vector2i position;
 		Vector2u size;
 		String title;
-		Image*icon;
+		Image* icon;
 		Color backgroundColor;
-		int style;
-
-		void* createIconData() const;
+		Uint32 style;
 		
 	public:
 		WindowSettings();
-		WindowSettings(const WindowSettings&);
-		WindowSettings(const Vector2i& position, const Vector2u& size, const String&title="", Image*icon=nullptr, const Color&backgroundColor=Color::WHITE, int style=0);
+		WindowSettings(const Vector2i& position, const Vector2u& size, const String&title="", Image*icon=nullptr, const Color&backgroundColor=Color::WHITE, Uint32 style=0);
 		~WindowSettings();
-
-		WindowSettings& operator=(const WindowSettings&);
 		
 		void setPosition(const Vector2i&);
 		const Vector2i& getPosition() const;
@@ -49,8 +45,8 @@ namespace fgl
 		void setBackgroundColor(const Color&);
 		const Color& getBackgroundColor() const;
 		
-		void setStyle(int);
-		int getStyle() const;
+		void setStyle(Uint32);
+		Uint32 getStyle() const;
 	};
 
 //Window
@@ -99,35 +95,34 @@ namespace fgl
 
 		static RectangleI getDisplayBounds(unsigned int displayIndex);
 		
-		const Vector2i& getPosition();
+		Vector2i getPosition() const;
 		void setPosition(const Vector2i&);
 		
-		const Vector2u& getSize();
+		Vector2u getSize() const;
 		void setSize(const Vector2u&);
 
-		const String& getTitle();
+		String getTitle() const;
 		void setTitle(const String&);
 
-		const Color& getBackgroundColor();
+		Color getBackgroundColor() const;
 		void setBackgroundColor(const Color&color);
 
-		Image* getIcon();
 		void setIcon(Image*);
 
-		View* getView();
+		View* getView() const;
 		
-		bool isOpen();
-		bool isFocused();
-		bool isVisible();
+		bool isOpen() const;
+		bool isFocused() const;
+		bool isVisible() const;
 		void setVisible(bool);
-		bool isFullscreen();
+		bool isFullscreen() const;
 		void setFullscreen(bool);
 		void setFullscreen(bool toggle, unsigned int width, unsigned int height);
 
 		void addEventListener(WindowEventListener*);
 		void removeEventListener(WindowEventListener*);
 
-		TransformD getViewTransform();
+		TransformD getViewTransform() const;
 
 		void getHandlePtr(void*ptr) const;
 		void*getWindowData() const;
@@ -136,14 +131,16 @@ namespace fgl
 		void*windowdata;
 		unsigned int windowID;
 		void*icondata;
-		View*view;
+		View* view;
 		Graphics*graphics;
 		AssetManager*assetManager;
-		WindowSettings settings;
+		Color backgroundColor;
 		Vector2u windowed_size;
 		
 		ArrayList<WindowEventListener*> eventListeners;
 		std::mutex listenermutex;
+
+		void* createIconData(const Image* icon) const;
 		
 		void callListenerEvent(byte eventType, int x, int y, bool external, bool* returnVal = nullptr);
 	};

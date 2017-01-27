@@ -14,50 +14,30 @@ namespace fgl
 //WindowSettings implementation
 
 	WindowSettings::WindowSettings()
+		: position(Vector2i(Window::POSITION_UNDEFINED, Window::POSITION_UNDEFINED)),
+		size(Vector2u(640, 480)),
+		title("Program"),
+		icon(nullptr),
+		backgroundColor(Color::WHITE),
+		style(Window::STYLE_DEFAULT)
 	{
-		position = Vector2i(Window::POSITION_UNDEFINED, Window::POSITION_UNDEFINED);
-		size = Vector2u(640,480);
-		title = "Program";
-		icon = nullptr;
-		backgroundColor = Color::WHITE;
-		style = Window::STYLE_DEFAULT;
+		//
 	}
 
-	WindowSettings::WindowSettings(const WindowSettings&windowSettings)
+	WindowSettings::WindowSettings(const Vector2i& position, const Vector2u& size, const String& title, Image* icon, const Color& backgroundColor, Uint32 style)
+		: position(position),
+		size(size),
+		title(title),
+		icon(icon),
+		backgroundColor(backgroundColor),
+		style(style)
 	{
-		position = windowSettings.position;
-		size = windowSettings.size;
-		title = windowSettings.title;
-		icon = windowSettings.icon;
-		backgroundColor = windowSettings.backgroundColor;
-		style = windowSettings.style;
-	}
-
-	WindowSettings::WindowSettings(const Vector2i& pos, const Vector2u& sz, const String&ttl, Image*ico, const Color&bgcolor, int sty)
-	{
-		position = pos;
-		size = sz;
-		title = ttl;
-		icon = ico;
-		backgroundColor = bgcolor;
-		style = sty;
+		//
 	}
 
 	WindowSettings::~WindowSettings()
 	{
 		//
-	}
-
-	WindowSettings& WindowSettings::operator=(const WindowSettings&windowSettings)
-	{
-		position = windowSettings.position;
-		size = windowSettings.size;
-		title = windowSettings.title;
-		icon = windowSettings.icon;
-		backgroundColor = windowSettings.backgroundColor;
-		style = windowSettings.style;
-
-		return *this;
 	}
 		
 	void WindowSettings::setPosition(const Vector2i&pos)
@@ -90,20 +70,6 @@ namespace fgl
 		return title;
 	}
 	
-	void* WindowSettings::createIconData() const
-	{
-		void*icondata = nullptr;
-		if(icon != nullptr)
-		{
-			const ArrayList<Color>& pixels = icon->getPixels();
-			if(pixels.size()>0)
-			{
-				icondata = (void*)SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)icon->getWidth(), (int)icon->getHeight(), 32, (int)(icon->getWidth()*4), 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-			}
-		}
-		return icondata;
-	}
-	
 	void WindowSettings::setIcon(Image*ico)
 	{
 		icon = ico;
@@ -124,12 +90,12 @@ namespace fgl
 		return backgroundColor;
 	}
 	
-	void WindowSettings::setStyle(int sty)
+	void WindowSettings::setStyle(Uint32 sty)
 	{
 		style = sty;
 	}
 	
-	int WindowSettings::getStyle() const
+	Uint32 WindowSettings::getStyle() const
 	{
 		return style;
 	}
@@ -148,7 +114,6 @@ namespace fgl
 	
 	Window::Window()
 	{
-		windowed_size = settings.size;
 		view = nullptr;
 		windowdata = nullptr;
 		windowID = 0;
@@ -202,8 +167,8 @@ namespace fgl
 			}
 		#endif
 		
-		unsigned int flags = 0;
-		int style = windowSettings.style;
+		Uint32 flags = 0;
+		Uint32 style = windowSettings.style;
 		if(style != Window::STYLE_DEFAULT)
 		{
 			if((style & Window::STYLE_BORDERLESS) == Window::STYLE_BORDERLESS)
@@ -250,7 +215,7 @@ namespace fgl
 		
 		if(windowSettings.getIcon()!=nullptr)
 		{
-			icondata = windowSettings.createIconData();
+			icondata = createIconData(windowSettings.getIcon());
 			if(icondata!=nullptr)
 			{
 				SDL_SetWindowIcon((SDL_Window*)windowdata, (SDL_Surface*)icondata);
@@ -288,11 +253,6 @@ namespace fgl
 			throw Exception(e);
 		}
 		
-		settings = windowSettings;
-#ifdef TARGETPLATFORMTYPE_MOBILE
-		settings.position.x = 0;
-		settings.position.y = 0;
-#endif
 		if((style & Window::STYLE_FULLSCREEN) != Window::STYLE_FULLSCREEN)
 		{
 			windowed_size = windowSettings.size;
@@ -384,7 +344,7 @@ namespace fgl
 			}
 			//SDL_GL_SwapWindow((SDL_Window*)windowdata);
 			SDL_RenderPresent((SDL_Renderer*)graphics->renderer);
-			graphics->reset(settings.getBackgroundColor());
+			graphics->reset(backgroundColor);
 		}
 	}
 	
@@ -409,7 +369,6 @@ namespace fgl
 			graphics = nullptr;
 			SDL_DestroyWindow((SDL_Window*)windowdata);
 			windowdata = nullptr;
-			settings = WindowSettings();
 			if(view != nullptr)
 			{
 				delete view;
@@ -428,8 +387,11 @@ namespace fgl
 		}
 
 		Image*img = new Image();
-		img->create(settings.size.x, settings.size.y);
-		if(SDL_RenderReadPixels((SDL_Renderer*)graphics->renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, (void*)(img->getPixels().getData()), settings.size.x * 4) < 0)
+		int winWidth = 0;
+		int winHeight = 0;
+		SDL_GetWindowSize((SDL_Window*)windowdata, &winWidth, &winHeight);
+		img->create((unsigned int)winWidth, (unsigned int)winHeight);
+		if(SDL_RenderReadPixels((SDL_Renderer*)graphics->renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, (void*)(img->getPixels().getData()), (unsigned int)winWidth * 4) < 0)
 		{
 			//TODO replace with more specific exception type
 			throw Exception(SDL_GetError());
@@ -457,16 +419,16 @@ namespace fgl
 		return RectangleI();
 	}
 	
-	const Vector2i& Window::getPosition()
+	Vector2i Window::getPosition() const
 	{
 		if(windowdata != nullptr)
 		{
 			int x = 0;
 			int y = 0;
 			SDL_GetWindowPosition((SDL_Window*)windowdata,&x,&y);
-			settings.setPosition(Vector2i(x,y));
+			return Vector2i(x, y);
 		}
-		return settings.position;
+		return Vector2i(0,0);
 	}
 	
 	void Window::setPosition(const Vector2i&pos)
@@ -474,26 +436,21 @@ namespace fgl
 		if(windowdata!=nullptr)
 		{
 			#ifndef TARGETPLATFORMTYPE_MOBILE
-				settings.setPosition(pos);
 				SDL_SetWindowPosition((SDL_Window*)windowdata,pos.x,pos.y);
 			#endif
 		}
 	}
 	
-	const Vector2u& Window::getSize()
+	Vector2u Window::getSize() const
 	{
 		if(windowdata != nullptr)
 		{
 			int w = 0;
 			int h = 0;
 			SDL_GetWindowSize((SDL_Window*)windowdata,&w,&h);
-			settings.setSize(Vector2u((unsigned int)w,(unsigned int)h));
-			if((settings.style & Window::STYLE_FULLSCREEN) != Window::STYLE_FULLSCREEN)
-			{
-				windowed_size = settings.size;
-			}
+			return Vector2u((unsigned int)w, (unsigned int)h);
 		}
-		return settings.size;
+		return Vector2u(0, 0);
 	}
 	
 	void Window::setSize(const Vector2u&size)
@@ -501,16 +458,11 @@ namespace fgl
 #if defined(TARGETPLATFORMTYPE_DESKTOP)
 		if(windowdata != nullptr)
 		{
-			if((settings.style & Window::STYLE_FULLSCREEN) == Window::STYLE_FULLSCREEN)
+			if((SDL_GetWindowFlags((SDL_Window*)windowdata) & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
 			{
-				if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, 0) < 0)
-				{
-					return;
-				}
-				settings.style = settings.style & ~Window::STYLE_FULLSCREEN;
+				//update windowed_size if window is not fullscreen
+				windowed_size = size;
 			}
-			settings.setSize(size);
-			windowed_size = size;
 			SDL_SetWindowSize((SDL_Window*)windowdata,(int)size.x,(int)size.y);
 			if(view != nullptr && view->matchesWindow())
 			{
@@ -520,44 +472,37 @@ namespace fgl
 #endif
 	}
 	
-	const String& Window::getTitle()
+	String Window::getTitle() const
 	{
 		if(windowdata != nullptr)
 		{
-			settings.setTitle(SDL_GetWindowTitle((SDL_Window*)windowdata));
+			return SDL_GetWindowTitle((SDL_Window*)windowdata);
 		}
-		return settings.title;
+		return "";
 	}
 	
 	void Window::setTitle(const String&title)
 	{
 		if(windowdata != nullptr)
 		{
-			settings.setTitle(title);
 			SDL_SetWindowTitle((SDL_Window*)windowdata, title);
 		}
 	}
 	
-	const Color& Window::getBackgroundColor()
+	Color Window::getBackgroundColor() const
 	{
-		return settings.getBackgroundColor();
+		return backgroundColor;
 	}
 	
 	void Window::setBackgroundColor(const Color&bgcolor)
 	{
-		settings.setBackgroundColor(bgcolor);
-	}
-	
-	Image* Window::getIcon()
-	{
-		return settings.icon;
+		backgroundColor = bgcolor;
 	}
 	
 	void Window::setIcon(Image*icon)
 	{
 		if(windowdata != nullptr)
 		{
-			settings.setIcon(icon);
 			if(icondata != nullptr)
 			{
 				SDL_FreeSurface((SDL_Surface*)icondata);
@@ -569,18 +514,18 @@ namespace fgl
 			}
 			else
 			{
-				icondata = settings.createIconData();
+				icondata = createIconData(icon);
 				SDL_SetWindowIcon((SDL_Window*)windowdata, (SDL_Surface*)icondata);
 			}
 		}
 	}
 	
-	View* Window::getView()
+	View* Window::getView() const
 	{
 		return view;
 	}
 	
-	bool Window::isOpen()
+	bool Window::isOpen() const
 	{
 		if(windowdata != nullptr)
 		{
@@ -589,11 +534,11 @@ namespace fgl
 		return false;
 	}
 	
-	bool Window::isFocused()
+	bool Window::isFocused() const
 	{
 		if(windowdata != nullptr)
 		{
-			unsigned int flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
 			if((flags & SDL_WINDOW_INPUT_FOCUS) == SDL_WINDOW_INPUT_FOCUS)
 			{
 				return true;
@@ -602,19 +547,14 @@ namespace fgl
 		return false;
 	}
 	
-	bool Window::isVisible()
+	bool Window::isVisible() const
 	{
 		if(windowdata != nullptr)
 		{
-			unsigned int flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
 			if((flags & SDL_WINDOW_SHOWN) == SDL_WINDOW_SHOWN)
 			{
-				settings.setStyle(settings.style & ~Window::STYLE_HIDDEN);
 				return true;
-			}
-			else
-			{
-				settings.setStyle(settings.style | Window::STYLE_HIDDEN);
 			}
 		}
 		return false;
@@ -624,7 +564,7 @@ namespace fgl
 	{
 		if(windowdata != nullptr)
 		{
-			unsigned int flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
 			if(toggle)
 			{
 				if((flags & SDL_WINDOW_HIDDEN) == SDL_WINDOW_HIDDEN)
@@ -642,19 +582,14 @@ namespace fgl
 		}
 	}
 	
-	bool Window::isFullscreen()
+	bool Window::isFullscreen() const
 	{
 		if(windowdata != nullptr)
 		{
-			unsigned int flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
 			if((flags & SDL_WINDOW_FULLSCREEN) == SDL_WINDOW_FULLSCREEN)
 			{
-				settings.setStyle(settings.style | Window::STYLE_FULLSCREEN);
 				return true;
-			}
-			else
-			{
-				settings.setStyle(settings.style & ~Window::STYLE_FULLSCREEN);
 			}
 		}
 		return false;
@@ -669,18 +604,18 @@ namespace fgl
 	{
 		if(windowdata != nullptr)
 		{
-			unsigned int flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
 			if(toggle)
 			{
 				if((flags & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
 				{
-					Vector2u oldsize = settings.size;
+					int oldWidth = 0;
+					int oldHeight = 0;
+					SDL_GetWindowSize((SDL_Window*)windowdata, &oldWidth, &oldHeight);
 					SDL_SetWindowSize((SDL_Window*)windowdata, (int)width, (int)height);
 					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, SDL_WINDOW_FULLSCREEN)==0)
 					{
-						settings.setStyle(settings.style | Window::STYLE_FULLSCREEN);
-						settings.setSize(Vector2u(width,height));
-						windowed_size = oldsize;
+						windowed_size = Vector2u((unsigned int)oldWidth, (unsigned int)oldHeight);
 						if(view != nullptr && view->matchesWindow())
 						{
 							view->setSize((double)width, (double)height);
@@ -688,7 +623,7 @@ namespace fgl
 					}
 					else
 					{
-						SDL_SetWindowSize((SDL_Window*)windowdata, (int)oldsize.x, (int)oldsize.y);
+						//An error occured. I guess just ignore this...?
 					}
 				}
 			}
@@ -698,16 +633,33 @@ namespace fgl
 				{
 					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, 0)==0)
 					{
-						settings.setStyle(settings.style & ~Window::STYLE_FULLSCREEN);
 						SDL_SetWindowSize((SDL_Window*)windowdata, (int)width, (int)height);
 						if(view != nullptr && view->matchesWindow())
 						{
 							view->setSize((double)width, (double)height);
 						}
 					}
+					else
+					{
+						//An error occured. I guess just ignore this...?
+					}
 				}
 			}
 		}
+	}
+	
+	void* Window::createIconData(const Image* icon) const
+	{
+		void*icondata = nullptr;
+		if(icon != nullptr)
+		{
+			const ArrayList<Color>& pixels = icon->getPixels();
+			if(pixels.size()>0)
+			{
+				icondata = (void*)SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)icon->getWidth(), (int)icon->getHeight(), 32, (int)(icon->getWidth()*4), 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+			}
+		}
+		return icondata;
 	}
 	
 	void Window::addEventListener(WindowEventListener*listener)
@@ -806,7 +758,7 @@ namespace fgl
 		}
 	}
 	
-	TransformD Window::getViewTransform()
+	TransformD Window::getViewTransform() const
 	{
 		TransformD transform;
 		
@@ -894,6 +846,8 @@ namespace fgl
 			SDL_GetWindowWMInfo((SDL_Window*)windowdata, &info);
 			#if defined(TARGETPLATFORM_WINDOWS)
 				*((HWND*)ptr) = info.info.win.window;
+			#else
+				//TODO handle other systems
 			#endif
 		}
 	}
