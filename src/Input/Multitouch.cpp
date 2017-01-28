@@ -4,7 +4,7 @@
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include "../Application/EventManager.hpp"
-#include "SDL.h"
+#include <SDL.h>
 #include <climits>
 #include <mutex>
 

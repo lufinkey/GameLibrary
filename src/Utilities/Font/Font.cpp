@@ -3,7 +3,7 @@
 #include <GameLibrary/Utilities/Data.hpp>
 #include <GameLibrary/Exception/InitializeLibraryException.hpp>
 #include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
 #include <memory>
 
 namespace fgl

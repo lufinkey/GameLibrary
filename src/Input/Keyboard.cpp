@@ -3,7 +3,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <GameLibrary/Exception/IllegalStateException.hpp>
-#include "SDL.h"
+#include <SDL.h>
 #include <mutex>
 #include <utility>
 #include <vector>

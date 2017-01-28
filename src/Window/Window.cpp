@@ -2,8 +2,8 @@
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include "../Application/EventManager.hpp"
-#include "SDL.h"
-#include "SDL_syswm.h"
+#include <SDL.h>
+#include <SDL_syswm.h>
 
 #if defined(TARGETPLATFORM_WINDOWS)
 	#include <Windows.h>

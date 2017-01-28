@@ -8,7 +8,7 @@
 #include <GameLibrary/Window/View.hpp>
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
-#include "SDL.h"
+#include <SDL.h>
 
 #define WIN32_LEAN_AND_MEAN
 #if defined(TARGETPLATFORM_WINDOWS)

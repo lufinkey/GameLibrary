@@ -5,7 +5,7 @@
 #include <GameLibrary/Utilities/Thread.hpp>
 #include <GameLibrary/Utilities/Time/DateTime.hpp>
 #include "EventManager.hpp"
-#include "SDL.h"
+#include <SDL.h>
 #include <ctime>
 #include <cstdlib>
 

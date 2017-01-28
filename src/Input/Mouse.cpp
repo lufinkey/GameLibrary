@@ -3,7 +3,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include "../Application/EventManager.hpp"
-#include "SDL.h"
+#include <SDL.h>
 #include <mutex>
 #include <vector>
 #include <utility>

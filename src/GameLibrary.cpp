@@ -8,7 +8,7 @@ int main(int argc, char *argv[]);
 #undef main
 #endif
 
-#include "SDL_main.h"
+#include <SDL_main.h>
 
 int main(int argc, char *argv[])
 {

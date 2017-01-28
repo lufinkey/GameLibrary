@@ -6,7 +6,7 @@
 #include <GameLibrary/Input/Multitouch.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
 #include <GameLibrary/Window/Window.hpp>
-#include "SDL.h"
+#include <SDL.h>
 #include <condition_variable>
 
 namespace fgl
