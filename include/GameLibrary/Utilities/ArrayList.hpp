@@ -469,7 +469,8 @@ namespace fgl
 			size_t n2 =  right - mid;
 			
 			/* create temp arrays */
-			T leftObjs[n1], rightObjs[n2];
+			T* leftObjs = new T[n1];
+			T* rightObjs = new T[n2];
 			
 			/* Copy data to temp arrays leftObjs[] and rightObjs[] */
 			for (i = 0; i < n1; i++)
@@ -519,6 +520,9 @@ namespace fgl
 				j++;
 				k++;
 			}
+			
+			delete[] leftObjs;
+			delete[] rightObjs;
 		}
 	};
 	
