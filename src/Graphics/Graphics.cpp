@@ -261,24 +261,24 @@ namespace fgl
 	}
 	
 	Graphics::Graphics(const Graphics&g)
+		: derived(true),
+		window(g.window),
+		renderer(g.renderer),
+		renderTarget(g.renderTarget),
+		renderTarget_width(g.renderTarget_width),
+		renderTarget_height(g.renderTarget_height),
+		color(g.color),
+		tintColor(g.tintColor),
+		alpha(g.alpha),
+		font(g.font),
+		pixel(g.pixel),
+		cliprect(g.cliprect),
+		clipoffset(g.clipoffset),
+		transform(g.transform),
+		rotation(g.rotation),
+		scaling(g.scaling)
 	{
-		derived = true;
-		window = g.window;
-		renderer = g.renderer;
-		renderTarget = g.renderTarget;
-		renderTarget_width = g.renderTarget_width;
-		renderTarget_height = g.renderTarget_height;
-		renderTarget_height = 0;
-		color = g.color;
-		tintColor = g.tintColor;
-		alpha = g.alpha;
-		font = g.font;
-		pixel = g.pixel;
-		cliprect = g.cliprect;
-		clipoffset = g.clipoffset;
-		transform = g.transform;
-		rotation = g.rotation;
-		scaling = g.scaling;
+		//
 	}
 	
 	Graphics::~Graphics()
