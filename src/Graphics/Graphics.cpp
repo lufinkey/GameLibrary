@@ -296,25 +296,6 @@ namespace fgl
 		}
 	}
 
-	/*Graphics& Graphics::operator=(const Graphics&g)
-	{
-		window = g.window;
-		renderer = g.renderer;
-		renderTarget = g.renderTarget;
-		color = g.color;
-		tintColor = g.tintColor;
-		alpha = g.alpha;
-		font = g.font;
-		pixel = g.pixel;
-		cliprect = g.cliprect;
-		clipoffset = g.clipoffset;
-		transform = g.transform;
-		rotation = g.rotation;
-		scaling = g.scaling;
-		
-		return *this;
-	}*/
-
 	void Graphics::beginDraw()
 	{
 		double clipLeft = (clipoffset.x + cliprect.x);
