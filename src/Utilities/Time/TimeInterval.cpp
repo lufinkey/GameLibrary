@@ -132,7 +132,7 @@ namespace fgl
 		return *this;
 	}
 	
-	void TimeInterval::update() const
+	void TimeInterval::update()
 	{
 		long long currentmillis = TimeInterval_getCurrentMilliseconds();
 		milliseconds += (currentmillis - lastmillis);
@@ -165,11 +165,8 @@ namespace fgl
 
 	const long long& TimeInterval::getMilliseconds() const
 	{
-		if(running)
-		{
-			update();
-		}
-		return milliseconds;
+		long long currentmillis = TimeInterval_getCurrentMilliseconds();
+		return milliseconds + (currentmillis - lastmillis);
 	}
 	
 	String TimeInterval::toString() const

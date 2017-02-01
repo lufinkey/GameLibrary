@@ -39,10 +39,10 @@ namespace fgl
 		String toString() const;
 		
 	private:
-		mutable long long milliseconds;
-		mutable long long lastmillis;
+		long long milliseconds;
+		long long lastmillis;
 		bool running;
 		
-		void update() const;
+		void update();
 	};
 }
