@@ -18,12 +18,6 @@ namespace fgl
 			//
 		}
 		
-		/*! copy constructor*/
-		Polygon(const Polygon<T>&polygon)
-		{
-			points = polygon.points;
-		}
-		
 		/*! Constructs a Polygon from an array of x coordinates and an array of y coordinates.
 			\param xpoints an array of x coordinates
 			\param ypoints an array of y coordinates
@@ -52,13 +46,6 @@ namespace fgl
 			{
 				Polygon::points.add(points[i]);
 			}
-		}
-		
-		/*! assignment operator*/
-		Polygon<T>& operator=(const Polygon<T>&polygon)
-		{
-			points = polygon.points;
-			return *this;
 		}
 		
 		/*! Adds a point to the set of points in the polygon.
