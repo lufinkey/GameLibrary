@@ -197,8 +197,12 @@ namespace fgl
 		//void fillOval(double x1,double y1,double w,double h);
 		//void fillOval(const RectangleD& rect);
 		
-		void drawPolygon(const PolygonD&polygon);
-		//void fillPolygon(const PolygonD&polygon);
+		/*! Draws a polygon outline to the Window
+			\param polygon the polygon to draw */
+		void drawPolygon(const PolygonD& polygon);
+		/*! Draws a filled polygon to the Window
+			\param polygon the polygon to draw */
+		void fillPolygon(const PolygonD& polygon);
 		
 		
 		/*! Draws a TextureImage to the Window.

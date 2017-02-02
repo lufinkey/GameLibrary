@@ -9,6 +9,7 @@
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <SDL.h>
+#include <SDL2_gfxPrimitives.h>
 
 #define WIN32_LEAN_AND_MEAN
 #if defined(TARGETPLATFORM_WINDOWS)
@@ -702,10 +703,29 @@ namespace fgl
 		}
 	}
 	
-	/*void Graphics::fillPolygon(const Polygon& polygon)
+	void Graphics::fillPolygon(const PolygonD& polygon)
 	{
-		//
-	}*/
+		PolygonD transformedPolygon = transform.transform(polygon);
+		const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
+		Sint16* polygonX = new Sint16[points.size()];
+		Sint16* polygonY = new Sint16[points.size()];
+		for(size_t i=0; i<points.size(); i++)
+		{
+			polygonX[i] = (Sint16)points[i].x;
+			polygonY[i] = (Sint16)points[i].y;
+		}
+		
+		beginDraw();
+		
+		Uint8 r = 0;
+		Uint8 g = 0;
+		Uint8 b = 0;
+		Uint8 a = 0;
+		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
+		filledPolygonRGBA((SDL_Renderer*)renderer, polygonX, polygonY, (int)points.size(), r, g, b, a);
+		
+		endDraw();
+	}
 	
 	void Graphics::drawImage(TextureImage*img, double x, double y)
 	{

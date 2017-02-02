@@ -83,6 +83,10 @@
 		A039DB651CCDE89E00B0B5DA /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1B1CCDE89E00B0B5DA /* Window.cpp */; };
 		A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79A81CD4660300456C8E /* NotImplementedException.cpp */; };
 		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
+		F15BC3881E4378B7001910A4 /* SDL2_framerate.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC37F1E4378B7001910A4 /* SDL2_framerate.c */; };
+		F15BC3891E4378B7001910A4 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3821E4378B7001910A4 /* SDL2_gfxPrimitives.c */; };
+		F15BC38A1E4378B7001910A4 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3841E4378B7001910A4 /* SDL2_imageFilter.c */; };
+		F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */; };
 		F15F32251E2573C100710AC8 /* Plist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32241E2573C100710AC8 /* Plist.cpp */; };
 		F15F32271E2573C600710AC8 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32261E2573C600710AC8 /* Tools.cpp */; };
 /* End PBXBuildFile section */
@@ -318,6 +322,15 @@
 		F149623F1E2415CF00C37F22 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = "../../external/SDL/SDL_image/Xcode-iOS/SDL_image.xcodeproj"; sourceTree = "<group>"; };
 		F14962481E2415F400C37F22 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = "../../external/SDL/SDL_mixer/Xcode-iOS/SDL_mixer.xcodeproj"; sourceTree = "<group>"; };
 		F149624E1E2415FE00C37F22 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = "../../external/SDL/SDL_ttf/Xcode-iOS/SDL_ttf.xcodeproj"; sourceTree = "<group>"; };
+		F15BC37F1E4378B7001910A4 /* SDL2_framerate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL2_framerate.c; sourceTree = "<group>"; };
+		F15BC3801E4378B7001910A4 /* SDL2_framerate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_framerate.h; sourceTree = "<group>"; };
+		F15BC3811E4378B7001910A4 /* SDL2_gfxPrimitives_font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_gfxPrimitives_font.h; sourceTree = "<group>"; };
+		F15BC3821E4378B7001910A4 /* SDL2_gfxPrimitives.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = SDL2_gfxPrimitives.c; sourceTree = "<group>"; };
+		F15BC3831E4378B7001910A4 /* SDL2_gfxPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_gfxPrimitives.h; sourceTree = "<group>"; };
+		F15BC3841E4378B7001910A4 /* SDL2_imageFilter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL2_imageFilter.c; sourceTree = "<group>"; };
+		F15BC3851E4378B7001910A4 /* SDL2_imageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_imageFilter.h; sourceTree = "<group>"; };
+		F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL2_rotozoom.c; sourceTree = "<group>"; };
+		F15BC3871E4378B7001910A4 /* SDL2_rotozoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_rotozoom.h; sourceTree = "<group>"; };
 		F15F32221E25730900710AC8 /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
 		F15F32231E25739E00710AC8 /* Line.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Line.hpp; sourceTree = "<group>"; };
 		F15F32241E2573C100710AC8 /* Plist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plist.cpp; sourceTree = "<group>"; };
@@ -641,6 +654,7 @@
 			children = (
 				A039DA3D1CCDE86A00B0B5DA /* base64 */,
 				A039DA431CCDE86A00B0B5DA /* pugixml */,
+				F15BC3771E437880001910A4 /* SDL */,
 			);
 			path = external;
 			sourceTree = "<group>";
@@ -973,6 +987,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F15BC3771E437880001910A4 /* SDL */ = {
+			isa = PBXGroup;
+			children = (
+				F15BC37E1E437899001910A4 /* SDL_gfx */,
+			);
+			path = SDL;
+			sourceTree = "<group>";
+		};
+		F15BC37E1E437899001910A4 /* SDL_gfx */ = {
+			isa = PBXGroup;
+			children = (
+				F15BC37F1E4378B7001910A4 /* SDL2_framerate.c */,
+				F15BC3801E4378B7001910A4 /* SDL2_framerate.h */,
+				F15BC3811E4378B7001910A4 /* SDL2_gfxPrimitives_font.h */,
+				F15BC3821E4378B7001910A4 /* SDL2_gfxPrimitives.c */,
+				F15BC3831E4378B7001910A4 /* SDL2_gfxPrimitives.h */,
+				F15BC3841E4378B7001910A4 /* SDL2_imageFilter.c */,
+				F15BC3851E4378B7001910A4 /* SDL2_imageFilter.h */,
+				F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */,
+				F15BC3871E4378B7001910A4 /* SDL2_rotozoom.h */,
+			);
+			path = SDL_gfx;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1120,11 +1158,13 @@
 				A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */,
 				A039DB3A1CCDE89E00B0B5DA /* StringOutOfBoundsException.cpp in Sources */,
 				A039DB511CCDE89E00B0B5DA /* ActorMenuElement.cpp in Sources */,
+				F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */,
 				A039DB4D1CCDE89E00B0B5DA /* FadeColorTransition.cpp in Sources */,
 				A039DB4C1CCDE89E00B0B5DA /* ScreenManager.cpp in Sources */,
 				A039DB351CCDE89E00B0B5DA /* BadAnyCastException.cpp in Sources */,
 				A039DB3B1CCDE89E00B0B5DA /* GameLibrary.cpp in Sources */,
 				A039DB3C1CCDE89E00B0B5DA /* Color.cpp in Sources */,
+				F15BC3881E4378B7001910A4 /* SDL2_framerate.c in Sources */,
 				A039DB5F1CCDE89E00B0B5DA /* posixtime.cpp in Sources */,
 				A039DB301CCDE89E00B0B5DA /* InitializeLibraryException.cpp in Sources */,
 				A039DB2D1CCDE89E00B0B5DA /* UnsupportedImageFormatException.cpp in Sources */,
@@ -1142,6 +1182,7 @@
 				A039DB411CCDE89E00B0B5DA /* Keyboard.cpp in Sources */,
 				A039DB221CCDE89E00B0B5DA /* ApplicationData.cpp in Sources */,
 				A039DB4E1CCDE89E00B0B5DA /* FadeZoomTransition.cpp in Sources */,
+				F15BC3891E4378B7001910A4 /* SDL2_gfxPrimitives.c in Sources */,
 				A039DB361CCDE89E00B0B5DA /* BadNumberCastException.cpp in Sources */,
 				A039DB501CCDE89E00B0B5DA /* SlideTransition.cpp in Sources */,
 				A039DB321CCDE89E00B0B5DA /* OutOfBoundsException.cpp in Sources */,
@@ -1161,6 +1202,7 @@
 				A039DB441CCDE89E00B0B5DA /* Console.cpp in Sources */,
 				A039DB3F1CCDE89E00B0B5DA /* PixelIterator.cpp in Sources */,
 				A039DB281CCDE89E00B0B5DA /* BadCastException.cpp in Sources */,
+				F15BC38A1E4378B7001910A4 /* SDL2_imageFilter.c in Sources */,
 				F15F32251E2573C100710AC8 /* Plist.cpp in Sources */,
 				A039DB641CCDE89E00B0B5DA /* View.cpp in Sources */,
 			);
@@ -1262,6 +1304,7 @@
 					../../external/SDL/SDL_image,
 					../../external/SDL/SDL_mixer,
 					../../external/SDL/SDL_ttf,
+					../../external/SDL/SDL_gfx,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1281,6 +1324,7 @@
 					../../external/SDL/SDL_image,
 					../../external/SDL/SDL_mixer,
 					../../external/SDL/SDL_ttf,
+					../../external/SDL/SDL_gfx,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
