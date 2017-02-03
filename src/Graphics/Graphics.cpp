@@ -591,9 +591,9 @@ namespace fgl
 		double right = x+width;
 		double bottom = y+height;
 		Vector2d topleft = transform.transform(Vector2d(x, y));
-		Vector2d topright = transform.transform(Vector2d(right, y));
-		Vector2d bottomright = transform.transform(Vector2d(right, bottom));
-		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
+		Vector2d topright = transform.transform(Vector2d(right-1.0, y));
+		Vector2d bottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
+		Vector2d bottomleft = transform.transform(Vector2d(x, bottom-1.0));
 
 		beginDraw();
 		
