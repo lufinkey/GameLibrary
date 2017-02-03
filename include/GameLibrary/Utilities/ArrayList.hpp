@@ -461,6 +461,11 @@ namespace fgl
 			return ArrayList<T>(std::vector<T>(objects.begin()+startIndex, objects.begin()+endIndex));
 		}
 		
+		ArrayList<T> subArray(size_t startIndex) const
+		{
+			return subArray(startIndex, objects.size());
+		}
+		
 		String toString() const
 		{
 			String str = "[ ";
