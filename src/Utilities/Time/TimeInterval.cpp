@@ -163,7 +163,7 @@ namespace fgl
 		lastmillis = TimeInterval_getCurrentMilliseconds();
 	}
 
-	const long long& TimeInterval::getMilliseconds() const
+	long long TimeInterval::getMilliseconds() const
 	{
 		long long currentmillis = TimeInterval_getCurrentMilliseconds();
 		return milliseconds + (currentmillis - lastmillis);

@@ -34,7 +34,7 @@ namespace fgl
 		void stop();
 		void reset();
 		
-		const long long& getMilliseconds() const;
+		long long getMilliseconds() const;
 		
 		String toString() const;
 		
