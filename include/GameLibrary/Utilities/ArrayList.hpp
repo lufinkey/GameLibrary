@@ -52,6 +52,12 @@ namespace fgl
 			//
 		}
 		
+		ArrayList(std::vector<T>&& vect)
+			: objects(vect)
+		{
+			//
+		}
+		
 		ArrayList(std::initializer_list<T> list)
 			: objects(list)
 		{
@@ -406,6 +412,7 @@ namespace fgl
 		
 		bool contains(const T& obj) const
 		{
+			
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
 		}
 		
@@ -431,6 +438,27 @@ namespace fgl
 				return;
 			}
 			mergeSort(0, objects.size()-1, func);
+		}
+		
+		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
+		{
+			if(startIndex > objects.size())
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(startIndex, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			else if(endIndex > objects.size())
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(endIndex, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			return ArrayList<T>(std::vector<T>(objects.begin()+startIndex, objects.begin()+endIndex));
 		}
 		
 		String toString() const
