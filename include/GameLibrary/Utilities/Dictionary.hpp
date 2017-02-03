@@ -77,6 +77,8 @@ namespace fgl
 		VALUE_TYPE& get(const KEY_TYPE& key, VALUE_TYPE& defaultValue);
 		const VALUE_TYPE& get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const;
 		
+		void remove(const KEY_TYPE& key);
+		
 		ValueProxy operator[](const KEY_TYPE& key);
 		
 		ArrayList<KEY_TYPE> getKeys() const;

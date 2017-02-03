@@ -289,7 +289,17 @@ namespace fgl
 		}
 		return contents[index].second;
 	}
-	
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::remove(const KEY_TYPE& key)
+	{
+		size_t index = indexOfKey(key);
+		if(index!=(size_t)-1)
+		{
+			contents.remove(index);
+		}
+	}
+
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy BasicDictionary<KEY_TYPE, VALUE_TYPE>::operator[](const KEY_TYPE& key)
 	{
