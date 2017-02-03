@@ -669,11 +669,11 @@ namespace fgl
 	
 	void Graphics::drawPolygon(const PolygonD& polygon)
 	{
-		PolygonD transformedPolygon = transform.transform(polygon);
-		
-		const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
-		if(points.size() > 0)
+		if(polygon.getPoints().size() > 0)
 		{
+			PolygonD transformedPolygon = transform.transform(polygon);
+			const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
+		
 			beginDraw();
 			
 			if(points.size() == 1)
@@ -705,26 +705,29 @@ namespace fgl
 	
 	void Graphics::fillPolygon(const PolygonD& polygon)
 	{
-		PolygonD transformedPolygon = transform.transform(polygon);
-		const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
-		Sint16* polygonX = new Sint16[points.size()];
-		Sint16* polygonY = new Sint16[points.size()];
-		for(size_t i=0; i<points.size(); i++)
+		if(polygon.getPoints().size() > 0)
 		{
-			polygonX[i] = (Sint16)points[i].x;
-			polygonY[i] = (Sint16)points[i].y;
+			PolygonD transformedPolygon = transform.transform(polygon);
+			const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
+			Sint16* polygonX = new Sint16[points.size()];
+			Sint16* polygonY = new Sint16[points.size()];
+			for(size_t i=0; i<points.size(); i++)
+			{
+				polygonX[i] = (Sint16)points[i].x;
+				polygonY[i] = (Sint16)points[i].y;
+			}
+			
+			beginDraw();
+			
+			Uint8 r = 0;
+			Uint8 g = 0;
+			Uint8 b = 0;
+			Uint8 a = 0;
+			SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
+			filledPolygonRGBA((SDL_Renderer*)renderer, polygonX, polygonY, (int)points.size(), r, g, b, a);
+			
+			endDraw();
 		}
-		
-		beginDraw();
-		
-		Uint8 r = 0;
-		Uint8 g = 0;
-		Uint8 b = 0;
-		Uint8 a = 0;
-		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
-		filledPolygonRGBA((SDL_Renderer*)renderer, polygonX, polygonY, (int)points.size(), r, g, b, a);
-		
-		endDraw();
 	}
 	
 	void Graphics::drawImage(TextureImage*img, double x, double y)
