@@ -571,83 +571,90 @@ namespace fgl
 
 	void Graphics::drawLineRaw(double x1, double y1, double x2, double y2, double width)
 	{
-		SDL_Rect dstRect;
-		double degrees = 0;
-
-		if(x1==x2 || y1==y2)
+		if(width==1.0)
 		{
-			if(x1 > x2)
-			{
-				double tmpX = x1;
-				x1 = x2;
-				x2 = tmpX;
-			}
-			else if(y1 > y2)
-			{
-				double tmpY = y1;
-				y1 = y2;
-				y2 = tmpY;
-			}
+			SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)x1, (int)y1, (int)x2, (int)y2);
+		}
+		else
+		{
+			SDL_Rect dstRect;
+			double degrees = 0;
 
-			if(x1 == x2)
+			if(x1==x2 || y1==y2)
 			{
-				dstRect.x = (int)x1;
-				dstRect.y = (int)y1;
-				dstRect.w = (int)Math::ceil(width);
-				dstRect.h = (int)Math::ceil(y2-y1);
-			}
-			else if(y1 == y2)
-			{
-				dstRect.x = (int)x1;
-				dstRect.y = (int)y1;
-				dstRect.w = (int)Math::ceil(x2-x1);
-				dstRect.h = (int)Math::ceil(width);
+				if(x1 > x2)
+				{
+					double tmpX = x1;
+					x1 = x2;
+					x2 = tmpX;
+				}
+				else if(y1 > y2)
+				{
+					double tmpY = y1;
+					y1 = y2;
+					y2 = tmpY;
+				}
+
+				if(x1 == x2)
+				{
+					dstRect.x = (int)x1;
+					dstRect.y = (int)y1;
+					dstRect.w = (int)Math::ceil(width);
+					dstRect.h = (int)Math::ceil(y2-y1);
+				}
+				else if(y1 == y2)
+				{
+					dstRect.x = (int)x1;
+					dstRect.y = (int)y1;
+					dstRect.w = (int)Math::ceil(x2-x1);
+					dstRect.h = (int)Math::ceil(width);
+				}
+				else
+				{
+					//this would literally never happen, but lets put some code here anyway
+					Console::writeErrorLine("congrats. your processor is fucked");
+					dstRect.x = 0;
+					dstRect.y = 0;
+					dstRect.w = 0;
+					dstRect.h = 0;
+				}
 			}
 			else
 			{
-				//this would literally never happen, but lets put some code here anyway
-				Console::writeErrorLine("congrats. your processor is fucked");
-				dstRect.x = 0;
-				dstRect.y = 0;
-				dstRect.w = 0;
-				dstRect.h = 0;
+				degrees = -Math::radtodeg(Math::atan2(x2-x1, y2-y1))+90;
+				double dist = Math::distance(x1, y1, x2, y2);
+
+				dstRect.x = (int)x1;
+				dstRect.y = (int)y1;
+				dstRect.w = (int)Math::ceil(dist);
+				dstRect.h = (int)Math::ceil(width);
 			}
+
+			SDL_Point center;
+			center.x = 0;
+			center.y = 0;
+
+			Uint8 r = 0;
+			Uint8 g = 0;
+			Uint8 b = 0;
+			Uint8 a = 0;
+			SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
+
+			SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
+			SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
+
+			if(degrees==0)
+			{
+				SDL_RenderCopy((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect);
+			}
+			else
+			{
+				SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
+			}
+
+			SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255, 255, 255);
+			SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
 		}
-		else
-		{
-			degrees = -Math::radtodeg(Math::atan2(x2-x1, y2-y1))+90;
-			double dist = Math::distance(x1, y1, x2, y2);
-
-			dstRect.x = (int)x1;
-			dstRect.y = (int)y1;
-			dstRect.w = (int)Math::ceil(dist);
-			dstRect.h = (int)Math::ceil(width);
-		}
-
-		SDL_Point center;
-		center.x = 0;
-		center.y = 0;
-
-		Uint8 r = 0;
-		Uint8 g = 0;
-		Uint8 b = 0;
-		Uint8 a = 0;
-		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
-
-		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
-
-		if(degrees==0)
-		{
-			SDL_RenderCopy((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect);
-		}
-		else
-		{
-			SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
-		}
-
-		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255, 255, 255);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
 	}
 
 	double Graphics::getTransformedLineWidth(double x1, double y1, double x2, double y2) const
