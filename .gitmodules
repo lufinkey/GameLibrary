@@ -14,10 +14,11 @@
 	path = external/SDL/SDL_ttf
 	url = https://github.com/SDL-mirror/SDL_ttf
 	ignore = dirty
+[submodule "external/SDL/SDL_gfx"]
+	path = external/SDL/SDL_gfx
+	url = https://github.com/svn2github/sdl2_gfx
+	ignore = dirty
 [submodule "external/pugixml"]
 	path = external/pugixml
 	url = https://github.com/zeux/pugixml
 	ignore = dirty
-[submodule "external/SDL/SDL_gfx"]
-	path = external/SDL/SDL_gfx
-	url = https://github.com/svn2github/sdl2_gfx

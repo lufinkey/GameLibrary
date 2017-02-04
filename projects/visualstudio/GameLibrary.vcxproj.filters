@@ -154,6 +154,12 @@
     <Filter Include="external\pugixml\src">
       <UniqueIdentifier>{49580141-2384-4530-b291-069ffc9b6fdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\SDL">
+      <UniqueIdentifier>{244c6857-072c-4a2e-8934-bd3a46dc62af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\SDL\SDL_gfx">
+      <UniqueIdentifier>{fcf560be-cdb6-44a5-8be0-ae901ef33f3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp">
@@ -471,6 +477,21 @@
     <ClInclude Include="..\..\external\pugixml\src\pugixml.hpp">
       <Filter>external\pugixml\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.h">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives.h">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives_font.h">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_imageFilter.h">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.h">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -703,6 +724,18 @@
     </ClCompile>
     <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp">
       <Filter>external\pugixml\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives.c">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_imageFilter.c">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.c">
+      <Filter>external\SDL\SDL_gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.c">
+      <Filter>external\SDL\SDL_gfx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

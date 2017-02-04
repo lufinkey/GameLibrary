@@ -23,6 +23,11 @@
     <ClInclude Include="..\..\external\dirent\include\dirent.h" />
     <ClInclude Include="..\..\external\pugixml\src\pugiconfig.hpp" />
     <ClInclude Include="..\..\external\pugixml\src\pugixml.hpp" />
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.h" />
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives.h" />
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives_font.h" />
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_imageFilter.h" />
+    <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.h" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Animation.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\SpriteActor.hpp" />
@@ -125,6 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp" />
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.c" />
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_gfxPrimitives.c" />
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_imageFilter.c" />
+    <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.c" />
     <ClCompile Include="..\..\src\Actor\Actor.cpp" />
     <ClCompile Include="..\..\src\Actor\Animation.cpp" />
     <ClCompile Include="..\..\src\Actor\SpriteActor.cpp" />
@@ -268,16 +277,16 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;../../external/SDL/SDL_gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;../../external/SDL/SDL_gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</RuntimeTypeInfo>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</RuntimeTypeInfo>
       <FunctionLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</FunctionLevelLinking>
       <DataLevelLinking Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DataLevelLinking>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;../../external/SDL/SDL_gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../include;../../external/base64/include;../../external/dirent/include;../../external/pugixml/src;../../external/SDL/SDL/include;../../external/SDL/SDL_image;../../external/SDL/SDL_ttf;../../external/SDL/SDL_gfx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MSCompatibility>
       <MSCompatibility Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</MSCompatibility>
       <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</RuntimeTypeInfo>
