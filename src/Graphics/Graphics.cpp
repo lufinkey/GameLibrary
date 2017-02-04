@@ -637,7 +637,14 @@ namespace fgl
 		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
 		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
 
-		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
+		if(degrees==0)
+		{
+			SDL_RenderCopy((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect);
+		}
+		else
+		{
+			SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
+		}
 
 		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255, 255, 255);
 		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
