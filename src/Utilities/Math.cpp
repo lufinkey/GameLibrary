@@ -29,6 +29,24 @@ namespace fgl
 	float Math::atan2(float x, float y) { return std::atan2(x, y); }
 	double Math::atan2(double x, double y){ return std::atan2(x, y); }
 	long double Math::atan2(long double x, long double y){ return std::atan2(x, y); }
+	float Math::distance(float x1, float y1, float x2, float y2)
+	{
+		float a = x2-x1;
+		float b = y2-y1;
+		return std::sqrt((a*a)+(b*b));
+	}
+	double Math::distance(double x1, double y1, double x2, double y2)
+	{
+		double a = x2-x1;
+		double b = y2-y1;
+		return std::sqrt((a*a)+(b*b));
+	}
+	long double Math::distance(long double x1, long double y1, long double x2, long double y2)
+	{
+		long double a = x2-x1;
+		long double b = y2-y1;
+		return std::sqrt((a*a)+(b*b));
+	}
 	
 	//Logarithmic
 	float Math::log(float arg) { return std::log(arg); }

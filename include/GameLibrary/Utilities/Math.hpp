@@ -30,6 +30,9 @@ namespace fgl
 		static float atan2(float x, float y);
 		static double atan2(double x, double y);
 		static long double atan2(long double x, long double y);
+		static float distance(float x1, float y1, float x2, float y2);
+		static double distance(double x1, double y1, double x2, double y2);
+		static long double distance(long double x1, long double y1, long double x2, long double y2);
 
 		//Logarithmic
 		static float log(float arg); //natural log
