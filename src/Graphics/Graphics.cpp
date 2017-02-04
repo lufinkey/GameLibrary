@@ -262,8 +262,7 @@ namespace fgl
 	}
 	
 	Graphics::Graphics(const Graphics&g)
-		: derived(true),
-		window(g.window),
+		: window(g.window),
 		renderer(g.renderer),
 		renderTarget(g.renderTarget),
 		renderTarget_width(g.renderTarget_width),
@@ -275,9 +274,10 @@ namespace fgl
 		pixel(g.pixel),
 		cliprect(g.cliprect),
 		clipoffset(g.clipoffset),
-		transform(g.transform),
 		rotation(g.rotation),
-		scaling(g.scaling)
+		scaling(g.scaling),
+		transform(g.transform),
+		derived(true)
 	{
 		//
 	}
@@ -568,15 +568,110 @@ namespace fgl
 	{
 		drawString(text, point.x, point.y);
 	}
+
+	void Graphics::drawLineRaw(double x1, double y1, double x2, double y2, double width)
+	{
+		SDL_Rect dstRect;
+		double degrees = 0;
+
+		if(x1==x2 || y1==y2)
+		{
+			if(x1 > x2)
+			{
+				double tmpX = x1;
+				x1 = x2;
+				x2 = tmpX;
+			}
+			else if(y1 > y2)
+			{
+				double tmpY = y1;
+				y1 = y2;
+				y2 = tmpY;
+			}
+
+			if(x1 == x2)
+			{
+				dstRect.x = (int)x1;
+				dstRect.y = (int)y1;
+				dstRect.w = (int)Math::ceil(width);
+				dstRect.h = (int)Math::ceil(y2-y1);
+			}
+			else if(y1 == y2)
+			{
+				dstRect.x = (int)x1;
+				dstRect.y = (int)y1;
+				dstRect.w = (int)Math::ceil(x2-x1);
+				dstRect.h = (int)Math::ceil(width);
+			}
+			else
+			{
+				//this would literally never happen, but lets put some code here anyway
+				Console::writeErrorLine("congrats. your processor is fucked");
+				dstRect.x = 0;
+				dstRect.y = 0;
+				dstRect.w = 0;
+				dstRect.h = 0;
+			}
+		}
+		else
+		{
+			degrees = -Math::radtodeg(Math::atan2(x2-x1, y2-y1))+90;
+			double dist = Math::distance(x1, y1, x2, y2);
+
+			dstRect.x = (int)x1;
+			dstRect.y = (int)y1;
+			dstRect.w = (int)Math::ceil(dist);
+			dstRect.h = (int)Math::ceil(width);
+		}
+
+		SDL_Point center;
+		center.x = 0;
+		center.y = 0;
+
+		Uint8 r = 0;
+		Uint8 g = 0;
+		Uint8 b = 0;
+		Uint8 a = 0;
+		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
+
+		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
+		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
+
+		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
+
+		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255, 255, 255);
+		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
+	}
+
+	double Graphics::getTransformedLineWidth(double x1, double y1, double x2, double y2) const
+	{
+		double lineWidth = 1;
+		double xDist = Math::abs(x2-x1);
+		double yDist = Math::abs(y2-y1);
+		if(xDist > yDist)
+		{
+			lineWidth = scaling.y;
+		}
+		else if(yDist > xDist)
+		{
+			lineWidth = scaling.x;
+		}
+		else
+		{
+			lineWidth = (scaling.x+scaling.y)/2;
+		}
+		return lineWidth;
+	}
 	
 	void Graphics::drawLine(double x1, double y1, double x2, double y2)
 	{
+		double lineWidth = getTransformedLineWidth(x1, x2, y1, y2);
 		Vector2d pnt1 = transform.transform(Vector2d(x1, y1));
 		Vector2d pnt2 = transform.transform(Vector2d(x2, y2));
 		
 		beginDraw();
-		
-		SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)pnt1.x, (int)pnt1.y, (int)pnt2.x, (int)pnt2.y);
+
+		drawLineRaw(pnt1.x, pnt1.y, pnt2.x, pnt2.y, lineWidth);
 		
 		endDraw();
 	}
@@ -588,20 +683,27 @@ namespace fgl
 
 	void Graphics::drawRect(double x, double y, double width, double height)
 	{
+		if(width==0 || height==0)
+		{
+			return;
+		}
 		double right = x+width;
 		double bottom = y+height;
 		Vector2d topleft = transform.transform(Vector2d(x, y));
-		Vector2d topright = transform.transform(Vector2d(right-1.0, y));
-		Vector2d bottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
-		Vector2d bottomleft = transform.transform(Vector2d(x, bottom-1.0));
+		Vector2d topright = transform.transform(Vector2d(right, y));
+		Vector2d innerTopright = transform.transform(Vector2d(right-1.0, y));
+		Vector2d bottomright = transform.transform(Vector2d(right, bottom));
+		Vector2d innerBottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
+		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
+		Vector2d innerBottomleft = transform.transform(Vector2d(x, bottom-1.0));
 
 		beginDraw();
 		
-		SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)topleft.x, (int)topleft.y, (int)topright.x, (int)topright.y);
-		SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)topright.x, (int)topright.y, (int)bottomright.x, (int)bottomright.y);
-		SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)bottomleft.x, (int)bottomleft.y, (int)bottomright.x, (int)bottomright.y);
-		SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)topleft.x, (int)topleft.y, (int)bottomleft.x, (int)bottomleft.y);
-
+		drawLineRaw(topleft.x, topleft.y, topright.x, topright.y, scaling.y);
+		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, bottomright.y, scaling.x);
+		drawLineRaw(bottomleft.x, innerBottomleft.y, bottomright.x, innerBottomright.y, scaling.y);
+		drawLineRaw(topleft.x, topleft.y, bottomleft.x, bottomleft.y, scaling.x);
+		
 		endDraw();
 	}
 
@@ -627,12 +729,16 @@ namespace fgl
 		center.x = 0;
 		center.y = 0;
 		
-		Color compColor = color.composite(tintColor);
-		
 		beginDraw();
+
+		Uint8 r = 0;
+		Uint8 g = 0;
+		Uint8 b = 0;
+		Uint8 a = 0;
+		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
 		
-		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, compColor.r, compColor.g, compColor.b);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, (byte)(compColor.a * alpha));
+		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
+		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
 		
 		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &rect, rotation, &center, SDL_FLIP_NONE);
 		
@@ -671,9 +777,10 @@ namespace fgl
 	{
 		if(polygon.getPoints().size() > 0)
 		{
+			const ArrayList<Vector2d>& origPoints = polygon.getPoints();
 			PolygonD transformedPolygon = transform.transform(polygon);
 			const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
-		
+
 			beginDraw();
 			
 			if(points.size() == 1)
@@ -686,15 +793,20 @@ namespace fgl
 				for(unsigned int i=0; i<points.size(); i++)
 				{
 					const Vector2d& point = points.get(i);
+					const Vector2d& origPoint = origPoints.get(i);
 					if(i == (points.size()-1))
 					{
+						const Vector2d& origStartPoint = origPoints.get(0);
 						const Vector2d& startPoint = points.get(0);
-						SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)point.x, (int)point.y, (int)startPoint.x, (int)startPoint.y);
+						double lineWidth = getTransformedLineWidth(origPoint.x, origPoint.y, origStartPoint.x, origStartPoint.y);
+						drawLineRaw(point.x, point.y, startPoint.x, startPoint.y, lineWidth);
 					}
 					else
 					{
+						const Vector2d& origNextPoint = origPoints.get(i+1);
 						const Vector2d& nextPoint = points.get(i+1);
-						SDL_RenderDrawLine((SDL_Renderer*)renderer, (int)point.x, (int)point.y, (int)nextPoint.x, (int)nextPoint.y);
+						double lineWidth = getTransformedLineWidth(origPoint.x, origPoint.y, origNextPoint.x, origNextPoint.y);
+						drawLineRaw(point.x, point.y, nextPoint.x, nextPoint.y, lineWidth);
 					}
 				}
 			}

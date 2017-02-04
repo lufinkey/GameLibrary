@@ -256,6 +256,11 @@ namespace fgl
 		void endDraw();
 		
 	private:
+		//! Draws a line without calling beginDraw or endDraw
+		void drawLineRaw(double x1, double y1, double x2, double y2, double width);
+		//! Gets the line width based on the transform
+		double getTransformedLineWidth(double x1, double y1, double x2, double y2) const;
+
 		Window*window;
 		void*renderer;
 		void*renderTarget;
