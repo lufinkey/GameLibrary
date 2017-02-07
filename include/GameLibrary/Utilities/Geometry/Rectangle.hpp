@@ -45,6 +45,25 @@ namespace fgl
 			//
 		}
 		
+		bool equals(const Rectangle<T>& rectangle) const
+		{
+			if(x==rectangle.x && y==rectangle.y && width==rectangle.width && height==rectangle.height)
+			{
+				return true;
+			}
+			return false;
+		}
+		
+		bool operator==(const Rectangle<T>& rectangle) const
+		{
+			return equals(rectangle);
+		}
+		
+		bool operator!=(const Rectangle<T>& rectangle) const
+		{
+			return !equals(rectangle);
+		}
+		
 		/*! Calculates whether a given point is inside the bounds of the rectangle.
 			\param point the point to check
 			\returns true if the given point is inside the rectangle's bounds, or false if otherwise*/
