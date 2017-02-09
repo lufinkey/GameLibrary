@@ -437,7 +437,7 @@ namespace fgl
 			{
 				return;
 			}
-			std::sort(objects.begin(), objects.end(), func);
+			std::stable_sort(objects.begin(), objects.end(), func);
 		}
 		
 		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
