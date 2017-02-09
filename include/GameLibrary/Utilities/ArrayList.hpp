@@ -461,6 +461,11 @@ namespace fgl
 			return subArray(startIndex, objects.size());
 		}
 		
+		ArrayList<T> reversed() const
+		{
+			return ArrayList<T>(std::vector<T>(objects.rbegin(), objects.rend()));
+		}
+		
 		String toString() const
 		{
 			String str = "[ ";
