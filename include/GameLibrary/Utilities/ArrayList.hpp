@@ -393,10 +393,9 @@ namespace fgl
 		
 		size_t indexOf(const T& obj) const
 		{
-			size_t length = objects.size();
-			for(size_t i=0; i<length; i++)
+			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
 			{
-				const T& cmp = (const T&)objects[i];
+				const T& cmp = objects[i];
 				if(obj==cmp)
 				{
 					return i;
@@ -405,9 +404,34 @@ namespace fgl
 			return ArrayList<T>::NOT_FOUND;
 		}
 		
-		size_t indexOf(const std::function<bool(const T&)>& func) const
+		size_t indexWhere(const std::function<bool(const T&)>& func) const
 		{
 			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
+			{
+				if(func(objects[i]))
+				{
+					return i;
+				}
+			}
+			return ArrayList<T>::NOT_FOUND;
+		}
+		
+		size_t lastIndexOf(const T& obj) const
+		{
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				const T& cmp = objects[i];
+				if(obj==cmp)
+				{
+					return i;
+				}
+			}
+			return ArrayList<T>::NOT_FOUND;
+		}
+		
+		size_t lastIndexWhere(const std::function<bool(const T&)>& func) const
+		{
+			for(size_t i=(objects.size()-1); i!=-1; i--)
 			{
 				if(func(objects[i]))
 				{
