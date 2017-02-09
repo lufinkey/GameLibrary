@@ -415,6 +415,7 @@ namespace fgl
 		{
 			ArrayList<T> newList;
 			size_t length = objects.size();
+			newList.reserve(length);
 			for(size_t i=0; i<length; i++)
 			{
 				const T& obj = objects[i];
@@ -423,6 +424,7 @@ namespace fgl
 					newList.add(obj);
 				}
 			}
+			newList.shrinkToFit();
 			return newList;
 		}
 		
