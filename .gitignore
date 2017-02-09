@@ -13,7 +13,7 @@
 
 #Xcode
 .DS_Store
-/projects/xcode/*.xcodeproj/*.xcworkspace
-/projects/xcode/*.xcodeproj/xcuserdata
-/projects/xcode/Build
-/projects/xcode/DerivedData
+/projects/xcode*/*.xcodeproj/*.xcworkspace
+/projects/xcode*/*.xcodeproj/xcuserdata
+/projects/xcode*/Build
+/projects/xcode*/DerivedData
