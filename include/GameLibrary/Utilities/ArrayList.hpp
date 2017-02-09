@@ -405,9 +405,20 @@ namespace fgl
 			return ArrayList<T>::NOT_FOUND;
 		}
 		
+		size_t indexOf(const std::function<bool(const T&)>& func) const
+		{
+			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
+			{
+				if(func(objects[i]))
+				{
+					return i;
+				}
+			}
+			return ArrayList<T>::NOT_FOUND;
+		}
+		
 		bool contains(const T& obj) const
 		{
-			
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
 		}
 		
