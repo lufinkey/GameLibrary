@@ -41,9 +41,9 @@ namespace fgl
 		
 		template<size_t SIZE>
 		ArrayList(const std::array<T, SIZE>& arr)
-			: objects()
+			: objects(arr.begin(), arr.end())
 		{
-			objects.assign(arr.begin(), arr.end());
+			//
 		}
 		
 		ArrayList(const std::vector<T>& vect)
