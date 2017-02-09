@@ -706,7 +706,6 @@ namespace fgl
 		Vector2d topleft = transform.transform(Vector2d(x, y));
 		Vector2d topright = transform.transform(Vector2d(right, y));
 		Vector2d innerTopright = transform.transform(Vector2d(right-1.0, y));
-		Vector2d bottomright = transform.transform(Vector2d(right, bottom));
 		Vector2d innerBottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
 		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
 		Vector2d innerBottomleft = transform.transform(Vector2d(x, bottom-1.0));
@@ -714,7 +713,7 @@ namespace fgl
 		beginDraw();
 		
 		drawLineRaw(topleft.x, topleft.y, innerTopright.x, topright.y, scaling.y);
-		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, bottomright.y, scaling.x);
+		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, innerBottomright.y, scaling.x);
 		drawLineRaw(bottomleft.x, innerBottomleft.y, innerBottomright.x, innerBottomright.y, scaling.y);
 		drawLineRaw(topleft.x, topleft.y, bottomleft.x, innerBottomleft.y, scaling.x);
 		
