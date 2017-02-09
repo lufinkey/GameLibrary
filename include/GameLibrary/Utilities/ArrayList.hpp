@@ -190,11 +190,6 @@ namespace fgl
 				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 			#endif
 		}
-		
-		T* getData()
-		{
-			return objects.data();
-		}
 
 		const T* getData() const
 		{
