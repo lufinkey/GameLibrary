@@ -437,7 +437,7 @@ namespace fgl
 			{
 				return;
 			}
-			mergeSort(0, objects.size()-1, func);
+			std::sort(objects.begin(), objects.end(), func);
 		}
 		
 		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
@@ -481,81 +481,6 @@ namespace fgl
 			}
 			str += " ]";
 			return str;
-		}
-		
-	private:
-		void mergeSort(size_t left, size_t right, const std::function<bool(const T&,const T&)>& func)
-		{
-			if(left < right)
-			{
-				size_t mid = left + (right-left)/2;
-				mergeSort(left, mid, func);
-				mergeSort(mid+1, right, func);
-				merge(left, mid, right, func);
-			}
-		}
-		
-		void merge(size_t left, size_t mid, size_t right, const std::function<bool(const T&,const T&)>& func)
-		{
-			size_t i, j, k;
-			size_t n1 = mid - left + 1;
-			size_t n2 =  right - mid;
-			
-			/* create temp arrays */
-			T* leftObjs = new T[n1];
-			T* rightObjs = new T[n2];
-			
-			/* Copy data to temp arrays leftObjs[] and rightObjs[] */
-			for (i = 0; i < n1; i++)
-			{
-				leftObjs[i] = objects[left + i];
-			}
-			for (j = 0; j < n2; j++)
-			{
-				rightObjs[j] = objects[mid + 1+ j];
-			}
-			
-			/* Merge the temp arrays back into objects[left..right]*/
-			i = 0; // Initial index of first subarray
-			j = 0; // Initial index of second subarray
-			k = left; // Initial index of merged subarray
-			while (i < n1 && j < n2)
-			{
-				const T& leftObj = leftObjs[i];
-				const T& rightObj = rightObjs[j];
-				if (func(leftObj, rightObj))
-				{
-					objects[k] = leftObjs[i];
-					i++;
-				}
-				else
-				{
-					objects[k] = rightObjs[j];
-					j++;
-				}
-				k++;
-			}
-			
-			/* Copy the remaining elements of leftObjs[], if there
-			 are any */
-			while (i < n1)
-			{
-				objects[k] = leftObjs[i];
-				i++;
-				k++;
-			}
-			
-			/* Copy the remaining elements of rightObjs[], if there
-			 are any */
-			while (j < n2)
-			{
-				objects[k] = rightObjs[j];
-				j++;
-				k++;
-			}
-			
-			delete[] leftObjs;
-			delete[] rightObjs;
 		}
 	};
 	
