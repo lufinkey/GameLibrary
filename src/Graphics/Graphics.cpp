@@ -713,10 +713,10 @@ namespace fgl
 
 		beginDraw();
 		
-		drawLineRaw(topleft.x, topleft.y, topright.x, topright.y, scaling.y);
+		drawLineRaw(topleft.x, topleft.y, innerTopright.x, topright.y, scaling.y);
 		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, bottomright.y, scaling.x);
-		drawLineRaw(bottomleft.x, innerBottomleft.y, bottomright.x, innerBottomright.y, scaling.y);
-		drawLineRaw(topleft.x, topleft.y, bottomleft.x, bottomleft.y, scaling.x);
+		drawLineRaw(bottomleft.x, innerBottomleft.y, innerBottomright.x, innerBottomright.y, scaling.y);
+		drawLineRaw(topleft.x, topleft.y, bottomleft.x, innerBottomleft.y, scaling.x);
 		
 		endDraw();
 	}
