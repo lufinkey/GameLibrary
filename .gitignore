@@ -1,3 +1,6 @@
+#Make
+/build
+/bin
 
 #Visual Studio
 /projects/visualstudio/*.VC.db
@@ -15,5 +18,7 @@
 .DS_Store
 /projects/xcode*/*.xcodeproj/*.xcworkspace
 /projects/xcode*/*.xcodeproj/xcuserdata
+/projects/xcode*/*.xcworkspace/xcshareddata
+/projects/xcode*/*.xcworkspace/xcuserdata
 /projects/xcode*/Build
 /projects/xcode*/DerivedData
