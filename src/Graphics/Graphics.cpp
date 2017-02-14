@@ -577,7 +577,7 @@ namespace fgl
 		}
 		else
 		{
-			SDL_Rect dstRect;
+			RectangleD dstRect;
 			double degrees = 0;
 
 			if(x1==x2 || y1==y2)
@@ -597,17 +597,17 @@ namespace fgl
 
 				if(x1 == x2)
 				{
-					dstRect.x = (int)x1;
-					dstRect.y = (int)y1;
-					dstRect.w = (int)Math::ceil(width);
-					dstRect.h = (int)Math::ceil(y2-y1);
+					dstRect.x = x1;
+					dstRect.y = y1;
+					dstRect.width = width;
+					dstRect.height = y2-y1;
 				}
 				else if(y1 == y2)
 				{
-					dstRect.x = (int)x1;
-					dstRect.y = (int)y1;
-					dstRect.w = (int)Math::ceil(x2-x1);
-					dstRect.h = (int)Math::ceil(width);
+					dstRect.x = x1;
+					dstRect.y = y1;
+					dstRect.width = x2-x1;
+					dstRect.height = width;
 				}
 				else
 				{
@@ -615,8 +615,8 @@ namespace fgl
 					Console::writeErrorLine("congrats. your processor is fucked");
 					dstRect.x = 0;
 					dstRect.y = 0;
-					dstRect.w = 0;
-					dstRect.h = 0;
+					dstRect.width = 0;
+					dstRect.height = 0;
 				}
 			}
 			else
@@ -624,10 +624,10 @@ namespace fgl
 				degrees = -Math::radtodeg(Math::atan2(x2-x1, y2-y1))+90;
 				double dist = Math::distance(x1, y1, x2, y2);
 
-				dstRect.x = (int)x1;
-				dstRect.y = (int)y1;
-				dstRect.w = (int)Math::ceil(dist);
-				dstRect.h = (int)Math::ceil(width);
+				dstRect.x = x1;
+				dstRect.y = y1;
+				dstRect.width = dist;
+				dstRect.height = width;
 			}
 
 			SDL_Point center;
@@ -640,20 +640,7 @@ namespace fgl
 			Uint8 a = 0;
 			SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
 
-			SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
-			SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
-
-			if(degrees==0)
-			{
-				SDL_RenderCopy((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect);
-			}
-			else
-			{
-				SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &dstRect, degrees, &center, SDL_FLIP_NONE);
-			}
-
-			SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255, 255, 255);
-			SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
+			drawImageRaw(pixel, dstRect.x, dstRect.y, dstRect.x+dstRect.width, dstRect.y+dstRect.height, 0, 0, 1, 1, degrees, Color(r, g, b, a));
 		}
 	}
 
@@ -706,16 +693,22 @@ namespace fgl
 		Vector2d topleft = transform.transform(Vector2d(x, y));
 		Vector2d topright = transform.transform(Vector2d(right, y));
 		Vector2d innerTopright = transform.transform(Vector2d(right-1.0, y));
+		Vector2d bottomright = transform.transform(Vector2d(right, bottom));
 		Vector2d innerBottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
 		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
 		Vector2d innerBottomleft = transform.transform(Vector2d(x, bottom-1.0));
 
 		beginDraw();
 		
-		drawLineRaw(topleft.x, topleft.y, innerTopright.x, topright.y, scaling.y);
+		/*drawLineRaw(topleft.x, topleft.y, innerTopright.x, topright.y, scaling.y);
 		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, innerBottomright.y, scaling.x);
 		drawLineRaw(bottomleft.x, innerBottomleft.y, innerBottomright.x, innerBottomright.y, scaling.y);
-		drawLineRaw(topleft.x, topleft.y, bottomleft.x, innerBottomleft.y, scaling.x);
+		drawLineRaw(topleft.x, topleft.y, bottomleft.x, innerBottomleft.y, scaling.x);*/
+
+		drawLineRaw(topleft.x, topleft.y, topright.x, topright.y, scaling.y);
+		drawLineRaw(topright.x, topright.y, bottomright.x, bottomright.y, scaling.x);
+		drawLineRaw(bottomleft.x, bottomleft.y, bottomright.x, bottomright.y, scaling.y);
+		drawLineRaw(topleft.x, topleft.y, bottomleft.x, bottomleft.y, scaling.x);
 		
 		endDraw();
 	}
@@ -729,19 +722,6 @@ namespace fgl
 	{
 		Vector2d pnt = transform.transform(Vector2d(x, y));
 		
-		double rectLeft = pnt.x;
-		double rectTop = pnt.y;
-		
-		SDL_Rect rect;
-		rect.x = (int)rectLeft;
-		rect.y = (int)rectTop;
-		rect.w = (int)(rectLeft + (width*scaling.x) - (int)rectLeft);
-		rect.h = (int)(rectTop + (height*scaling.y) - (int)rectTop);
-		
-		SDL_Point center;
-		center.x = 0;
-		center.y = 0;
-		
 		beginDraw();
 
 		Uint8 r = 0;
@@ -749,14 +729,8 @@ namespace fgl
 		Uint8 b = 0;
 		Uint8 a = 0;
 		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
-		
-		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, r, g, b);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, a);
-		
-		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)pixel->texture, nullptr, &rect, rotation, &center, SDL_FLIP_NONE);
-		
-		SDL_SetTextureColorMod((SDL_Texture*)pixel->texture, 255,255,255);
-		SDL_SetTextureAlphaMod((SDL_Texture*)pixel->texture, 255);
+
+		drawImageRaw(pixel, pnt.x, pnt.y, pnt.x+(width*scaling.x), pnt.y+(height*scaling.y), 0, 0, 1, 1, rotation, Color(r, g, b, a));
 		
 		endDraw();
 	}
@@ -854,6 +828,77 @@ namespace fgl
 			endDraw();
 		}
 	}
+
+	void Graphics::drawImageRaw(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod)
+	{
+		SDL_Texture*texture = (SDL_Texture*)img->texture;
+		unsigned int texWidth = img->width;
+		unsigned int texHeight = img->height;
+		if(texWidth==0 || texHeight==0)
+		{
+			return;
+		}
+
+		bool flipHort = false;
+		bool flipVert = false;
+		SDL_RendererFlip flip = SDL_FLIP_NONE;
+		if(dx2 < dx1)
+		{
+			double tmp = dx1;
+			dx1 = dx2;
+			dx2 = tmp;
+			//really SDL...? I really have to force cast this bitwise operation?
+			flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
+			flipHort = true;
+		}
+		if(dy2 < dy1)
+		{
+			double tmp = dy1;
+			dy1 = dy2;
+			dy2 = tmp;
+			//...absolutely brilliant
+			flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
+			flipVert = true;
+		}
+
+		SDL_Rect dstrect;
+		dstrect.x = (int)dx1;
+		dstrect.y = (int)dy1;
+		dstrect.w = (int)Math::ceil(dx2 - (double)dstrect.x);
+		dstrect.h = (int)Math::ceil(dy2 - (double)dstrect.y);
+
+		SDL_Point center;
+		if(flipHort)
+		{
+			center.x = dstrect.w;
+		}
+		else
+		{
+			center.x = 0;
+		}
+		if(flipVert)
+		{
+			center.y = dstrect.h;
+		}
+		else
+		{
+			center.y = 0;
+		}
+
+		SDL_Rect srcrect;
+		srcrect.x = (int)sx1;
+		srcrect.y = (int)sy1;
+		srcrect.w = (int)(sx2 - sx1);
+		srcrect.h = (int)(sy2 - sy1);
+
+		SDL_SetTextureColorMod(texture, colormod.r, colormod.g, colormod.b);
+		SDL_SetTextureAlphaMod(texture, colormod.a);
+
+		SDL_RenderCopyEx((SDL_Renderer*)renderer, texture, &srcrect, &dstrect, rotation, &center, flip);
+
+		SDL_SetTextureColorMod(texture, 255, 255, 255);
+		SDL_SetTextureAlphaMod(texture, 255);
+	}
 	
 	void Graphics::drawImage(TextureImage*img, double x, double y)
 	{
@@ -910,24 +955,12 @@ namespace fgl
 		unsigned int texHeight = img->height;
 		if(texWidth != 0 && texHeight != 0)
 		{
-			SDL_Rect srcrect;
-			srcrect.x = (int)sx1;
-			srcrect.y = (int)sy1;
-			srcrect.w = (int)(sx2 - sx1);
-			srcrect.h = (int)(sy2 - sy1);
-			
 			Vector2d pnt1 = transform.transform(Vector2d(dx1, dy1));
 
 			double realDx2 = pnt1.x + ((dx2-dx1)*scaling.x);
 			double realDy2 = pnt1.y + ((dy2-dy1)*scaling.y);
 			
-			SDL_Rect dstrect;
-			dstrect.x = (int)pnt1.x;
-			dstrect.y = (int)pnt1.y;
-			dstrect.w = (int)Math::ceil(realDx2 - (double)dstrect.x);
-			dstrect.h = (int)Math::ceil(realDy2 - (double)dstrect.y);
-			
-			RectangleD dstrectBox = RectangleD((double)dstrect.x, (double)dstrect.y, (double)dstrect.w, (double)dstrect.h);
+			RectangleD dstrectBox = RectangleD(pnt1.x, pnt1.y, realDx2-pnt1.x, realDy2-pnt1.y);
 			if(rotation!=0)
 			{
 				dstrectBox = RectangleD(dx1, dy1, dx2-dx1, dy2-dy1);
@@ -952,19 +985,9 @@ namespace fgl
 				return;
 			}
 			
-			SDL_Point center;
-			center.x = 0;
-			center.y = 0;
-
 			beginDraw();
 
-			SDL_SetTextureColorMod(texture, tintColor.r, tintColor.g, tintColor.b);
-			SDL_SetTextureAlphaMod(texture, (byte)(tintColor.a * alpha));
-
-			SDL_RenderCopyEx((SDL_Renderer*)renderer, texture, &srcrect, &dstrect, rotation, &center, SDL_FLIP_NONE);
-
-			SDL_SetTextureColorMod(texture, 255,255,255);
-			SDL_SetTextureAlphaMod(texture, 255);
+			drawImageRaw(img, pnt1.x, pnt1.y, realDx2, realDy2, sx1, sy1, sx2, sy2, rotation, Color(tintColor.r, tintColor.g, tintColor.b, (byte)(tintColor.a * alpha)));
 
 			endDraw();
 		}

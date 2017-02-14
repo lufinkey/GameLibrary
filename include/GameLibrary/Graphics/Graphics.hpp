@@ -256,10 +256,12 @@ namespace fgl
 		void endDraw();
 		
 	private:
-		//! Draws a line without calling beginDraw or endDraw
+		//! Draws a line without calling beginDraw or endDraw or transforming coordinates
 		void drawLineRaw(double x1, double y1, double x2, double y2, double width);
 		//! Gets the line width based on the transform
 		double getTransformedLineWidth(double x1, double y1, double x2, double y2) const;
+		//! Draws an image without calling beginDraw or endDraw or transforming coordinates
+		void drawImageRaw(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod);
 
 		Window*window;
 		void*renderer;
