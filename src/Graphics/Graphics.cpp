@@ -690,25 +690,27 @@ namespace fgl
 		}
 		double right = x+width;
 		double bottom = y+height;
+
+		double fullwidth = width*scaling.x;
+		double fullheight = height*scaling.y;
+
 		Vector2d topleft = transform.transform(Vector2d(x, y));
-		Vector2d topright = transform.transform(Vector2d(right, y));
-		Vector2d innerTopright = transform.transform(Vector2d(right-1.0, y));
-		Vector2d bottomright = transform.transform(Vector2d(right, bottom));
-		Vector2d innerBottomright = transform.transform(Vector2d(right-1.0, bottom-1.0));
-		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
-		Vector2d innerBottomleft = transform.transform(Vector2d(x, bottom-1.0));
+		Vector2d topright = transform.transform(Vector2d(right-1.0, y));
+		Vector2d bottomleft = transform.transform(Vector2d(x, bottom-1.0));
 
 		beginDraw();
-		
-		/*drawLineRaw(topleft.x, topleft.y, innerTopright.x, topright.y, scaling.y);
-		drawLineRaw(innerTopright.x, topright.y, innerBottomright.x, innerBottomright.y, scaling.x);
-		drawLineRaw(bottomleft.x, innerBottomleft.y, innerBottomright.x, innerBottomright.y, scaling.y);
-		drawLineRaw(topleft.x, topleft.y, bottomleft.x, innerBottomleft.y, scaling.x);*/
 
-		drawLineRaw(topleft.x, topleft.y, topright.x, topright.y, scaling.y);
-		drawLineRaw(topright.x, topright.y, bottomright.x, bottomright.y, scaling.x);
-		drawLineRaw(bottomleft.x, bottomleft.y, bottomright.x, bottomright.y, scaling.y);
-		drawLineRaw(topleft.x, topleft.y, bottomleft.x, bottomleft.y, scaling.x);
+		Uint8 r = 0;
+		Uint8 g = 0;
+		Uint8 b = 0;
+		Uint8 a = 0;
+		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
+		Color color(r, g, b, a);
+
+		drawImageRaw(pixel, topleft.x, topleft.y, topleft.x+fullwidth, topleft.y+scaling.y, 0, 0, 1, 1, rotation, color);
+		drawImageRaw(pixel, topright.x, topright.y, topright.x+scaling.x, topright.y+fullheight, 0, 0, 1, 1, rotation, color);
+		drawImageRaw(pixel, topleft.x, topleft.y, topleft.x+scaling.x, topleft.y+fullheight, 0, 0, 1, 1, rotation, color);
+		drawImageRaw(pixel, bottomleft.x, bottomleft.y, bottomleft.x+fullwidth, bottomleft.y+scaling.y, 0, 0, 1, 1, rotation, color);
 		
 		endDraw();
 	}
