@@ -53,7 +53,7 @@ namespace fgl
 			\param direction a constant representing the animation direction*/
 		void setAnimationDirection(const Animation::Direction& direction);
 		/*! Sets the current frame of animation.
-			\param frame the index of the frame*/
+			\param frameIndex the index of the frame*/
 		void setAnimationFrame(size_t frameIndex);
 		/*! Sets the display method to display the Animation within the element.
 			\param mode a constant that dictates how to display the animation \see fgl::AnimationElement::DisplayMode*/

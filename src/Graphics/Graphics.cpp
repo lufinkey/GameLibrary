@@ -952,7 +952,6 @@ namespace fgl
 		{
 			throw IllegalArgumentException("img", "cannot be null");
 		}
-		SDL_Texture*texture = (SDL_Texture*)img->texture;
 		unsigned int texWidth = img->width;
 		unsigned int texHeight = img->height;
 		if(texWidth != 0 && texHeight != 0)
