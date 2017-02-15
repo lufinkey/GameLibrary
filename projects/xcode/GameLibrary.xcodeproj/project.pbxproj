@@ -92,6 +92,100 @@
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F15A1FDB1E54A384008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF66C0761BA81005FE872;
+			remoteInfo = Framework;
+		};
+		F15A1FDD1E54A384008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF6B30761BA81005FE872;
+			remoteInfo = "Static Library";
+		};
+		F15A1FDF1E54A384008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB31407717554B71006C0E22;
+			remoteInfo = "Shared Library";
+		};
+		F15A1FE11E54A384008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF6BE0761BA81005FE872;
+			remoteInfo = "Standard DMG";
+		};
+		F15A1FE91E54A39A008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA72E07AF4C45004B6283;
+			remoteInfo = Framework;
+		};
+		F15A1FEB1E54A39A008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA74107AF4C45004B6283;
+			remoteInfo = "Static Library";
+		};
+		F15A1FED1E54A39A008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA74507AF4C45004B6283;
+			remoteInfo = "Create DMG";
+		};
+		F15A1FF51E54A3B7008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA90607AF96B2004B6283;
+			remoteInfo = Framework;
+		};
+		F15A1FF71E54A3B7008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA95407AF96B2004B6283;
+			remoteInfo = "Static Library";
+		};
+		F15A1FF91E54A3B7008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA95807AF96B3004B6283;
+			remoteInfo = "Create DMG";
+		};
+		F15A20011E54A3C3008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD6707AFA17000BB41DA;
+			remoteInfo = Framework;
+		};
+		F15A20031E54A3C3008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD6E07AFA17000BB41DA;
+			remoteInfo = "Static Library";
+		};
+		F15A20051E54A3C3008D83E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD7207AFA17000BB41DA;
+			remoteInfo = "Create DMG";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		F15A1E1D1E549860008D83E5 /* libGameLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGameLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F15A1E2D1E5498C7008D83E5 /* Actor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Actor.hpp; sourceTree = "<group>"; };
@@ -287,6 +381,10 @@
 		F15A1F731E549ADD008D83E5 /* SDL2_imageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_imageFilter.h; sourceTree = "<group>"; };
 		F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL2_rotozoom.c; sourceTree = "<group>"; };
 		F15A1F751E549ADD008D83E5 /* SDL2_rotozoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_rotozoom.h; sourceTree = "<group>"; };
+		F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = ../../external/SDL/SDL/Xcode/SDL/SDL.xcodeproj; sourceTree = "<group>"; };
+		F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../../external/SDL/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
+		F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = ../../external/SDL/SDL_mixer/Xcode/SDL_mixer.xcodeproj; sourceTree = "<group>"; };
+		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +418,10 @@
 		F15A1E281E54988D008D83E5 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */,
+				F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */,
+				F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */,
+				F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */,
 			);
 			name = dependencies;
 			sourceTree = "<group>";
@@ -925,6 +1027,47 @@
 			path = SDL_gfx;
 			sourceTree = "<group>";
 		};
+		F15A1FD51E54A384008D83E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F15A1FDC1E54A384008D83E5 /* SDL2.framework */,
+				F15A1FDE1E54A384008D83E5 /* libSDL2.a */,
+				F15A1FE01E54A384008D83E5 /* libSDL2.dylib */,
+				F15A1FE21E54A384008D83E5 /* Standard DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F15A1FE41E54A39A008D83E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F15A1FEA1E54A39A008D83E5 /* SDL2_image.framework */,
+				F15A1FEC1E54A39A008D83E5 /* libSDL2_image.a */,
+				F15A1FEE1E54A39A008D83E5 /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F15A1FF01E54A3B7008D83E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F15A1FF61E54A3B7008D83E5 /* SDL2_mixer.framework */,
+				F15A1FF81E54A3B7008D83E5 /* libSDL2_mixer.a */,
+				F15A1FFA1E54A3B7008D83E5 /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F15A1FFC1E54A3C3008D83E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F15A20021E54A3C3008D83E5 /* SDL2_ttf.framework */,
+				F15A20041E54A3C3008D83E5 /* libSDL2_ttf.a */,
+				F15A20061E54A3C3008D83E5 /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -980,12 +1123,124 @@
 			mainGroup = F15A1E141E54985F008D83E5;
 			productRefGroup = F15A1E1E1E549860008D83E5 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F15A1FD51E54A384008D83E5 /* Products */;
+					ProjectRef = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+				},
+				{
+					ProductGroup = F15A1FE41E54A39A008D83E5 /* Products */;
+					ProjectRef = F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */;
+				},
+				{
+					ProductGroup = F15A1FF01E54A3B7008D83E5 /* Products */;
+					ProjectRef = F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */;
+				},
+				{
+					ProductGroup = F15A1FFC1E54A3C3008D83E5 /* Products */;
+					ProjectRef = F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F15A1E1C1E549860008D83E5 /* GameLibrary */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F15A1FDC1E54A384008D83E5 /* SDL2.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SDL2.framework;
+			remoteRef = F15A1FDB1E54A384008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FDE1E54A384008D83E5 /* libSDL2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2.a;
+			remoteRef = F15A1FDD1E54A384008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FE01E54A384008D83E5 /* libSDL2.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libSDL2.dylib;
+			remoteRef = F15A1FDF1E54A384008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FE21E54A384008D83E5 /* Standard DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Standard DMG";
+			remoteRef = F15A1FE11E54A384008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FEA1E54A39A008D83E5 /* SDL2_image.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SDL2_image.framework;
+			remoteRef = F15A1FE91E54A39A008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FEC1E54A39A008D83E5 /* libSDL2_image.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_image.a;
+			remoteRef = F15A1FEB1E54A39A008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FEE1E54A39A008D83E5 /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = F15A1FED1E54A39A008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FF61E54A3B7008D83E5 /* SDL2_mixer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SDL2_mixer.framework;
+			remoteRef = F15A1FF51E54A3B7008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FF81E54A3B7008D83E5 /* libSDL2_mixer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_mixer.a;
+			remoteRef = F15A1FF71E54A3B7008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A1FFA1E54A3B7008D83E5 /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = F15A1FF91E54A3B7008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A20021E54A3C3008D83E5 /* SDL2_ttf.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SDL2_ttf.framework;
+			remoteRef = F15A20011E54A3C3008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A20041E54A3C3008D83E5 /* libSDL2_ttf.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_ttf.a;
+			remoteRef = F15A20031E54A3C3008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F15A20061E54A3C3008D83E5 /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = F15A20051E54A3C3008D83E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F15A1E191E549860008D83E5 /* Sources */ = {
