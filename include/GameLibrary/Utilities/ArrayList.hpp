@@ -364,16 +364,36 @@ namespace fgl
 		
 		void remove(size_t index)
 		{
-			if(index < objects.size())
+			if(index >= objects.size())
 			{
-				objects.erase(objects.begin()+index);
-				return;
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			objects.erase(objects.begin()+index);
+		}
+
+		void remove(size_t startIndex, size_t endIndex)
+		{
+			if(startIndex > objects.size())
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(startIndex, objects.size());
+				#else
+					throw std::out_of_range("startIndex " + std::to_string(startIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			if(endIndex > objects.size())
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(endIndex, objects.size());
+				#else
+					throw std::out_of_range("endIndex " + std::to_string(endIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
+			}
+			objects.erase(objects.begin()+startIndex, objects.begin()+endIndex);
 		}
 		
 		void clear()
