@@ -107,6 +107,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Transform.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\ValueEase.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Vector2.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Vector3.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Math.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Number.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Pair.hpp" />

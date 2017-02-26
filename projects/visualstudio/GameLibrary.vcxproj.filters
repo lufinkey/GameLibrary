@@ -492,6 +492,9 @@
     <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.h">
       <Filter>external\SDL\SDL_gfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Vector3.hpp">
+      <Filter>include\GameLibrary\Utilities\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">

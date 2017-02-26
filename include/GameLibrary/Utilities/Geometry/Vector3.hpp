@@ -29,6 +29,12 @@ namespace fgl
 		{
 			//
 		}
+
+		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
+		Vector3<T> operator-() const
+		{
+			return Vector3<T>(-x, -y, -z);
+		}
 		
 		Vector3<T>& operator+=(const Vector3<T>& vect)
 		{
