@@ -195,6 +195,16 @@ namespace fgl
 		{
 			return objects.data();
 		}
+
+		std::vector<T>& getVector()
+		{
+			return objects;
+		}
+
+		const std::vector<T>& getVector() const
+		{
+			return objects;
+		}
 		
 		void set(size_t index, const T& obj)
 		{
