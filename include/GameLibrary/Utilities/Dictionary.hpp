@@ -66,6 +66,7 @@ namespace fgl
 		const_reverse_iterator crend() const;
 
 		bool has(const KEY_TYPE& key) const;
+		size_t indexOfKey(const KEY_TYPE& key) const;
 		
 		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE& value);
 		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE&& value);
@@ -76,6 +77,9 @@ namespace fgl
 		const VALUE_TYPE& get(const KEY_TYPE& key) const;
 		VALUE_TYPE& get(const KEY_TYPE& key, VALUE_TYPE& defaultValue);
 		const VALUE_TYPE& get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const;
+
+		VALUE_TYPE& valueAt(size_t index);
+		const VALUE_TYPE& valueAt(size_t index) const;
 		
 		void remove(const KEY_TYPE& key);
 		
@@ -97,8 +101,6 @@ namespace fgl
 		
 	private:
 		ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> > contents;
-		
-		size_t indexOfKey(const KEY_TYPE& key) const;
 	};
 	
 	typedef BasicDictionary<String, Any> Dictionary;

@@ -181,6 +181,19 @@ namespace fgl
 	{
 		return indexOfKey(key) != (size_t)-1;
 	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::indexOfKey(const KEY_TYPE& key) const
+	{
+		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
+		{
+			if(contents[i].first == key)
+			{
+				return i;
+			}
+		}
+		return (size_t)-1;
+	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE& value)
@@ -291,6 +304,18 @@ namespace fgl
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::valueAt(size_t index)
+	{
+		return contents[index].second;
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::valueAt(size_t index) const
+	{
+		return contents[index].second;
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
 	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::remove(const KEY_TYPE& key)
 	{
 		size_t index = indexOfKey(key);
@@ -387,18 +412,5 @@ namespace fgl
 		}
 		str += ")";
 		return str;
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::indexOfKey(const KEY_TYPE& key) const
-	{
-		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
-		{
-			if(contents[i].first == key)
-			{
-				return i;
-			}
-		}
-		return (size_t)-1;
 	}
 }
