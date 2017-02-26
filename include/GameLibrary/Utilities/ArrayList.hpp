@@ -141,54 +141,54 @@ namespace fgl
 		
 		T& operator[] (size_t index)
 		{
-			if(index<objects.size())
+			if(index >= objects.size())
 			{
-				return objects[index];
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			return objects[index];
 		}
 		
 		const T& operator[] (size_t index) const
 		{
-			if(index<objects.size())
+			if(index >= objects.size())
 			{
-				return objects[index];
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			return objects[index];
 		}
 		
 		T& get(size_t index)
 		{
-			if(index < objects.size())
+			if(index >= objects.size())
 			{
-				return objects[index];
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			return objects[index];
 		}
 		
 		const T& get(size_t index) const
 		{
-			if(index<objects.size())
+			if(index >= objects.size())
 			{
-				return objects[index];
+				#ifndef _ARRAYLIST_STANDALONE
+					throw ArrayListOutOfBoundsException(index, objects.size());
+				#else
+					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
+				#endif
 			}
-			#ifndef _ARRAYLIST_STANDALONE
-				throw ArrayListOutOfBoundsException(index, objects.size());
-			#else
-				throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
-			#endif
+			return objects[index];
 		}
 
 		const T* getData() const
@@ -208,11 +208,7 @@ namespace fgl
 		
 		void set(size_t index, const T& obj)
 		{
-			if(index < objects.size())
-			{
-				objects[index] = obj;
-			}
-			else
+			if(index >= objects.size())
 			{
 				#ifndef _ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
@@ -220,6 +216,7 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
+			objects[index] = obj;
 		}
 		
 		void add(const T& obj)
