@@ -83,6 +83,10 @@
 		A039DB651CCDE89E00B0B5DA /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1B1CCDE89E00B0B5DA /* Window.cpp */; };
 		A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79A81CD4660300456C8E /* NotImplementedException.cpp */; };
 		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
+		F14465141E675F920088EAA3 /* libSDL2_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F14962471E2415CF00C37F22 /* libSDL2_image.a */; };
+		F14465151E675F920088EAA3 /* libSDL2_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F149624D1E2415F400C37F22 /* libSDL2_mixer.a */; };
+		F14465161E675F920088EAA3 /* libSDL2_ttf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F14962531E2415FE00C37F22 /* libSDL2_ttf.a */; };
+		F14465171E675F920088EAA3 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F14962391E24140C00C37F22 /* libSDL2.a */; };
 		F15BC3881E4378B7001910A4 /* SDL2_framerate.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC37F1E4378B7001910A4 /* SDL2_framerate.c */; };
 		F15BC3891E4378B7001910A4 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3821E4378B7001910A4 /* SDL2_gfxPrimitives.c */; };
 		F15BC38A1E4378B7001910A4 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3841E4378B7001910A4 /* SDL2_imageFilter.c */; };
@@ -345,6 +349,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14465171E675F920088EAA3 /* libSDL2.a in Frameworks */,
+				F14465141E675F920088EAA3 /* libSDL2_image.a in Frameworks */,
+				F14465151E675F920088EAA3 /* libSDL2_mixer.a in Frameworks */,
+				F14465161E675F920088EAA3 /* libSDL2_ttf.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
