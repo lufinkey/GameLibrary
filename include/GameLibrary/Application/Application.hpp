@@ -103,8 +103,14 @@ namespace fgl
 			\returns a reference to a TimeInterval object*/
 		const TimeInterval& getTime() const;
 		
+		/*! Gets the path to the resource directory for the application
+			\returns a path to the resource directory */
+		const fgl::String& getResourceDirectory() const;
+		
 	private:
 		Window* window;
+		String resourceDirectory;
+		
 		ArrayList<ApplicationEventListener*> eventListeners;
 		std::mutex listenermutex;
 		

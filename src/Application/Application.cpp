@@ -1,6 +1,7 @@
 
 #include <GameLibrary/Application/Application.hpp>
 #include <GameLibrary/Exception/InitializeLibraryException.hpp>
+#include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
 #include <GameLibrary/Utilities/Time/DateTime.hpp>
@@ -52,6 +53,17 @@ namespace fgl
 		window = new Window();
 		privateWindowListener = (void*)(new Application_WindowEventListener(this));
 		window->addEventListener((WindowEventListener*)privateWindowListener);
+		
+		char* basePath = SDL_GetBasePath();
+		if(basePath!=nullptr)
+		{
+			resourceDirectory = basePath;
+			SDL_free(basePath);
+		}
+		else
+		{
+			resourceDirectory = FileTools::getCurrentWorkingDirectory();
+		}
 	}
 
 	Application::~Application()
@@ -301,6 +313,11 @@ namespace fgl
 	const TimeInterval& Application::getTime() const
 	{
 		return apptime;
+	}
+	
+	const String& Application::getResourceDirectory() const
+	{
+		return resourceDirectory;
 	}
 
 	void Application::callListenerEvent(unsigned int eventtype)
