@@ -43,9 +43,13 @@ namespace fgl
 		static String getUserHomeDirectory();
 		
 		
-		/*! Gets the path of the current working directory.
+		/*! Gets the path for the current working directory.
 			\returns a String containing the path to the working directory*/
 		static String getCurrentWorkingDirectory();
+		/*! Sets the path for the current working directory.
+			\param directory a path to the new working directory
+			\returns true if the working directory was successfully set, or false if there was an error */
+		static bool setCurrentWorkingDirectory(const String& directory);
 		/*! Stores a list of items in a directory inside of an ArrayList of DirectoryEntry objects.
 			\param directory the directory to read entries
 			\param entries a pointer to an ArrayList<DirectoryEntry> to store the entries; This should not be null

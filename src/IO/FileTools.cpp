@@ -55,6 +55,23 @@ namespace fgl
 		return buffer;
 	}
 	
+	bool FileTools::setCurrentWorkingDirectory(const String& directory)
+	{
+		#if defined(TARGETPLATFORM_WINDOWS)
+			if(_chdir((const char*)directory)==0)
+			{
+				return true;
+			}
+			return false;
+		#else
+			if(chdir((const char*)directory)==0)
+			{
+				return true;
+			}
+			return false;
+		#endif
+	}
+	
 	bool FileTools::readEntriesFromDirectory(const String&directory, ArrayList<DirectoryEntry>*entries, String*error)
 	{
 		if(entries == nullptr)
