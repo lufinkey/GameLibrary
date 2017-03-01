@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F144648D1E6725E40088EAA3 /* libSDL2_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A1FEC1E54A39A008D83E5 /* libSDL2_image.a */; };
+		F144648E1E6725E40088EAA3 /* libSDL2_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A1FF81E54A3B7008D83E5 /* libSDL2_mixer.a */; };
+		F144648F1E6725E40088EAA3 /* libSDL2_ttf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A20041E54A3C3008D83E5 /* libSDL2_ttf.a */; };
+		F14464901E6725E40088EAA3 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A1FDE1E54A384008D83E5 /* libSDL2.a */; };
+		F14464E61E672ED70088EAA3 /* FreeType.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F14464E51E672ED40088EAA3 /* FreeType.framework */; };
+		F14464EF1E6730160088EAA3 /* webp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F14464EE1E6730160088EAA3 /* webp.framework */; };
 		F15A1F091E5498D1008D83E5 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA21E5498D0008D83E5 /* Actor.cpp */; };
 		F15A1F0A1E5498D1008D83E5 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA31E5498D0008D83E5 /* Animation.cpp */; };
 		F15A1F0B1E5498D1008D83E5 /* SpriteActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA41E5498D0008D83E5 /* SpriteActor.cpp */; };
@@ -93,6 +99,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F14464D31E672C790088EAA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BECDF66D0761BA81005FE872;
+			remoteInfo = "Static Library";
+		};
+		F14464D51E672C790088EAA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BE1FA72F07AF4C45004B6283;
+			remoteInfo = "Static Library";
+		};
+		F14464D71E672C790088EAA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BE1FA90707AF96B2004B6283;
+			remoteInfo = "Static Library";
+		};
+		F14464D91E672C790088EAA3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BE48FD6807AFA17000BB41DA;
+			remoteInfo = "Static Library";
+		};
 		F15A1FDB1E54A384008D83E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F15A1FD41E54A384008D83E5 /* SDL.xcodeproj */;
@@ -187,6 +221,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F14464E51E672ED40088EAA3 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FreeType.framework; sourceTree = "<group>"; };
+		F14464EE1E6730160088EAA3 /* webp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = webp.framework; sourceTree = "<group>"; };
 		F15A1E1D1E549860008D83E5 /* libGameLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGameLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F15A1E2D1E5498C7008D83E5 /* Actor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Actor.hpp; sourceTree = "<group>"; };
 		F15A1E2E1E5498C7008D83E5 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
@@ -392,18 +428,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14464901E6725E40088EAA3 /* libSDL2.a in Frameworks */,
+				F144648D1E6725E40088EAA3 /* libSDL2_image.a in Frameworks */,
+				F144648E1E6725E40088EAA3 /* libSDL2_mixer.a in Frameworks */,
+				F144648F1E6725E40088EAA3 /* libSDL2_ttf.a in Frameworks */,
+				F14464EF1E6730160088EAA3 /* webp.framework in Frameworks */,
+				F14464E61E672ED70088EAA3 /* FreeType.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F14464E41E672ED40088EAA3 /* EmbeddedFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F14464E51E672ED40088EAA3 /* FreeType.framework */,
+				F14464EE1E6730160088EAA3 /* webp.framework */,
+			);
+			path = EmbeddedFrameworks;
+			sourceTree = "<group>";
+		};
 		F15A1E141E54985F008D83E5 = {
 			isa = PBXGroup;
 			children = (
 				F15A1E281E54988D008D83E5 /* dependencies */,
 				F15A1E291E5498AC008D83E5 /* GameLibrary */,
 				F15A1E1E1E549860008D83E5 /* Products */,
+				F14464E41E672ED40088EAA3 /* EmbeddedFrameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1092,6 +1144,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				F14464D41E672C790088EAA3 /* PBXTargetDependency */,
+				F14464D61E672C790088EAA3 /* PBXTargetDependency */,
+				F14464D81E672C790088EAA3 /* PBXTargetDependency */,
+				F14464DA1E672C790088EAA3 /* PBXTargetDependency */,
 			);
 			name = GameLibrary;
 			productName = GameLibrary;
@@ -1335,6 +1391,29 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F14464D41E672C790088EAA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Static Library";
+			targetProxy = F14464D31E672C790088EAA3 /* PBXContainerItemProxy */;
+		};
+		F14464D61E672C790088EAA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Static Library";
+			targetProxy = F14464D51E672C790088EAA3 /* PBXContainerItemProxy */;
+		};
+		F14464D81E672C790088EAA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Static Library";
+			targetProxy = F14464D71E672C790088EAA3 /* PBXContainerItemProxy */;
+		};
+		F14464DA1E672C790088EAA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Static Library";
+			targetProxy = F14464D91E672C790088EAA3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		F15A1E1F1E549860008D83E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1427,6 +1506,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EmbeddedFrameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../external/base64/include,
@@ -1436,6 +1519,7 @@
 					../../external/SDL/SDL_mixer,
 					../../external/SDL/SDL_ttf,
 					../../external/SDL/SDL_gfx,
+					../../external/SDL/SDL_ttf/Xcode/Frameworks/FreeType.framework/Headers,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1445,6 +1529,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EmbeddedFrameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					../../external/base64/include,
@@ -1454,6 +1542,7 @@
 					../../external/SDL/SDL_mixer,
 					../../external/SDL/SDL_ttf,
 					../../external/SDL/SDL_gfx,
+					../../external/SDL/SDL_ttf/Xcode/Frameworks/FreeType.framework/Headers,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
