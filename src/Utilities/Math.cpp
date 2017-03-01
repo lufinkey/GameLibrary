@@ -76,6 +76,35 @@ namespace fgl
 	long double Math::floor(long double arg){ return std::floor(arg); }
 	float Math::round(float arg) { return std::round(arg); }
 	double Math::round(double arg){ return std::round(arg); }
+
+	float Math::round(float arg, unsigned int precision)
+	{
+		if(precision==0)
+		{
+			return round(arg);
+		}
+		float mult = pow(10, (float)precision);
+		return round(arg*mult)/mult;
+	}
+	double Math::round(double arg, unsigned int precision)
+	{
+		if(precision==0)
+		{
+			return round(arg);
+		}
+		double mult = pow(10, (double)precision);
+		return round(arg*mult)/mult;
+	}
+	long double Math::round(long double arg, unsigned int precision)
+	{
+		if(precision==0)
+		{
+			return round(arg);
+		}
+		long double mult = pow(10, (long double)precision);
+		return round(arg*mult)/mult;
+	}
+
 	long double Math::round(long double arg){ return std::round(arg); }
 	float Math::fmod(float left, float right){ return std::fmod(left, right); }
 	double Math::fmod(double left, double right){ return std::fmod(left, right); }
