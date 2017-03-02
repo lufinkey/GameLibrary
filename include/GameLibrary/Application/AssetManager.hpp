@@ -52,12 +52,6 @@ namespace fgl
 			\param error a pointer to store an error string, if an error occurs
 			\returns true if the TextureImage was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
 		bool loadTexture(const String& path, String* error=nullptr);
-		/*! Loads and stores a TextureImage from the given path.
-			\param path the path to load the TextureImage, relative to the AssetManager root
-			\param compositeMask an Image to create a composite mask on the loaded pixels \see fgl::Image::applyCompositeMask(const fgl::Image&)
-			\param error a pointer to store an error string, if an error occurs
-			\returns true if the TextureImage was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
-		bool loadTexture(const String& path, const Image& compositeMask, String* error=nullptr);
 		/*! Unloads and deallocates a stored TextureImage. If a TextureImage with the given path is not stored, the function returns.
 			\param path the path that the TextureImage was loaded from, or the path given in AssetManager::addTexture*/
 		void unloadTexture(const String& path);
@@ -97,10 +91,18 @@ namespace fgl
 		void addFont(const String& path, Font* font);
 		
 		
+		/*! Adds a dependent asset manager to get assets from before attempting to load the asset
+			\param assetManager the asset manager to add */
+		void addAssetManager(AssetManager* assetManager);
+		/*! Removes a dependent asset manager
+			\param assetManager the asset manager to remove */
+		void removeAssetManager(AssetManager* assetManager);
+		
+		
 		/*! Reloads and re-stores all stored assets from their paths.
 			\returns the total amount of successfully reloaded assets*/
 		unsigned int reload();
-		/*! Unloads and deallocates all stored assets.*/
+		/*! Unloads and deallocates all stored assets. This does not include assets stored in dependent asset managers */
 		void unload();
 		
 	private:
@@ -111,5 +113,7 @@ namespace fgl
 		
 		String rootdir;
 		ArrayList<String> secondaryRoots;
+		
+		ArrayList<AssetManager*> assetManagers;
 	};
 }

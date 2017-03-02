@@ -36,6 +36,14 @@ namespace fgl
 
 	bool AssetManager::loadTexture(const String&path, String*error)
 	{
+		for(auto assetManager : assetManagers)
+		{
+			if(assetManager->getTexture(path)!=nullptr)
+			{
+				return true;
+			}
+		}
+		
 		for(unsigned int i=0; i<textures.size(); i++)
 		{
 			std::pair<String,TextureImage*>& pair = textures.get(i);
@@ -68,54 +76,6 @@ namespace fgl
 		else
 		{
 			delete texture;
-			return false;
-		}
-	}
-	
-	bool AssetManager::loadTexture(const String&path, const Image&compositeMask, String*error)
-	{
-		for(unsigned int i=0; i<textures.size(); i++)
-		{
-			std::pair<String,TextureImage*>& pair = textures.get(i);
-			if(pair.first.equals(path))
-			{
-				return true;
-			}
-		}
-		
-		Image image;
-		String fullpath = FileTools::combinePathStrings(rootdir, path);
-		bool success = image.loadFromFile(fullpath, error);
-		unsigned int secondaryIndex = 0;
-		while(!success && secondaryIndex<secondaryRoots.size())
-		{
-			const String& secondaryRoot = secondaryRoots.get(secondaryIndex);
-			fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-			success = image.loadFromFile(fullpath, error);
-			secondaryIndex++;
-		}
-		if(success)
-		{
-			if(error!=nullptr)
-			{
-				error->clear();
-			}
-			image.applyCompositeMask(compositeMask);
-			TextureImage* texture = new TextureImage();
-			success = texture->loadFromImage(image, *window->getGraphics(), error);
-			if(success)
-			{
-				textures.add(std::pair<String,TextureImage*>(path, texture));
-				return true;
-			}
-			else
-			{
-				delete texture;
-				return false;
-			}
-		}
-		else
-		{
 			return false;
 		}
 	}
@@ -153,6 +113,15 @@ namespace fgl
 				return pair.second;
 			}
 		}
+		
+		for(auto assetManager : assetManagers)
+		{
+			TextureImage* texture = assetManager->getTexture(path);
+			if(texture!=nullptr)
+			{
+				return texture;
+			}
+		}
 		return nullptr;
 	}
 	
@@ -177,6 +146,14 @@ namespace fgl
 
 	bool AssetManager::loadFont(const String&path, String*error)
 	{
+		for(auto assetManager : assetManagers)
+		{
+			if(assetManager->getFont(path)!=nullptr)
+			{
+				return true;
+			}
+		}
+		
 		for(unsigned int i=0; i<fonts.size(); i++)
 		{
 			std::pair<String,Font*>& pair = fonts.get(i);
@@ -246,6 +223,15 @@ namespace fgl
 				return pair.second;
 			}
 		}
+		
+		for(auto assetManager : assetManagers)
+		{
+			Font* font = assetManager->getFont(path);
+			if(font!=nullptr)
+			{
+				return font;
+			}
+		}
 		return nullptr;
 	}
 	
@@ -254,6 +240,20 @@ namespace fgl
 		if(font!=nullptr)
 		{
 			fonts.add(std::pair<String, Font*>(path, font));
+		}
+	}
+	
+	void AssetManager::addAssetManager(AssetManager* assetManager)
+	{
+		assetManagers.add(assetManager);
+	}
+	
+	void AssetManager::removeAssetManager(AssetManager* assetManager)
+	{
+		size_t index = assetManagers.indexOf(assetManager);
+		if(index!=-1)
+		{
+			assetManagers.remove(index);
 		}
 	}
 	
