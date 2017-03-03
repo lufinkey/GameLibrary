@@ -20,7 +20,7 @@ namespace fgl
 			\param secondaryRoots alternate root folders to search if an asset cannot be loaded inside the main root folder*/
 		explicit AssetManager(Window& window, const String& root="", const ArrayList<String>& secondaryRoots=ArrayList<String>());
 		/*! virtual destructor*/
-		~AssetManager();
+		virtual ~AssetManager();
 		
 		
 		/*! Sets the primary root directory to load assets.
