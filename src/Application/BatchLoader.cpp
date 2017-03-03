@@ -75,16 +75,15 @@ namespace fgl
 		loadtotal += value;
 	}
 
-	void BatchLoader::addFunction(BatchLoaderFunction function, void*data, unsigned int value)
+	void BatchLoader::addFunction(unsigned int value, const std::function<bool(AssetManager*,String*)>& func)
 	{
-		if(function == nullptr)
+		if(!func)
 		{
-			throw IllegalArgumentException("function", "null");
+			throw IllegalArgumentException("func", "cannot be null");
 		}
 		LoadInfo info;
 		info.type = LOADTYPE_FUNCTION;
-		info.data1 = (void*)function;
-		info.data2 = data;
+		info.func = func;
 		info.value = value;
 		loadlist.add(info);
 		loadtotal += value;
@@ -202,8 +201,7 @@ namespace fgl
 				case LOADTYPE_FUNCTION:
 				{
 					String error;
-					BatchLoaderFunction function = (BatchLoaderFunction)info.data1;
-					bool success = function(assetManager, info.data2, &error);
+					bool success = info.func(assetManager, &error);
 					loadcurrent += info.value;
 					if(success)
 					{
@@ -211,7 +209,7 @@ namespace fgl
 						for(unsigned int i=0; i<listeners.size(); i++)
 						{
 							BatchLoaderEventListener*listener = listeners.get(i);
-							listener->onBatchLoaderLoadFunction(this, function, info.data2, info.value);
+							listener->onBatchLoaderLoadFunction(this, info.func, info.value);
 						}
 					}
 					else
@@ -220,7 +218,7 @@ namespace fgl
 						for(unsigned int i=0; i<listeners.size(); i++)
 						{
 							BatchLoaderEventListener*listener = listeners.get(i);
-							listener->onBatchLoaderErrorFunction(this, function, info.data2, info.value, error);
+							listener->onBatchLoaderErrorFunction(this, info.func, info.value, error);
 						}
 					}
 				}

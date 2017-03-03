@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <functional>
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
@@ -15,7 +16,7 @@ namespace fgl
 		\tThird argument is an error string, that can be set if an error occurs\n
 		\n
 		\tThis returns true on success, or false on failure*/
-	typedef bool(*BatchLoaderFunction)(AssetManager*,void*,String*);
+	typedef bool(*BatchLoaderFunction)(AssetManager*, String*);
 
 	/*! Stores and loads a list of assets.*/
 	class BatchLoader
@@ -55,11 +56,10 @@ namespace fgl
 			\param value the "load" value of the font, which gets added to the current load value \see fgl::BatchLoader::getLoadCurrent()*/
 		void addFont(const String&path, unsigned int value=1);
 		/*! Adds a callback function to load something.
-			\param callback a callback function to call
-			\param data a pointer to be passed to the callback
 			\param value the "load" value of the function, which gets added to the current load value \see fgl::BatchLoader::getLoadCurrent()
+			\param func the loading function. This function should return true if successful, or return false and set the error message (second argument) if unsuccessful
 			\throws fgl::IllegalArgumentException if callback is null*/
-		void addFunction(BatchLoaderFunction callback, void*data, unsigned int value=1);
+		void addFunction(unsigned int value, const std::function<bool(AssetManager* assetManager,String* error)>& func);
 		
 		
 		/*! Gets the current load value. Each time an asset tries to load, this value is incremented by the asset's given value.
@@ -94,8 +94,7 @@ namespace fgl
 			String path;
 			LoadType type;
 			unsigned int value;
-			void*data1;
-			void*data2;
+			std::function<bool(AssetManager*,String*)> func;
 		} LoadInfo;
 
 		AssetManager*assetManager;
@@ -120,44 +119,42 @@ namespace fgl
 		virtual ~BatchLoaderEventListener(){}
 		/*! Called when the BatchLoader calls loadAll.
 			\param batchLoader the current BatchLoader*/
-		virtual void onBatchLoaderStart(BatchLoader*batchLoader){}
+		virtual void onBatchLoaderStart(BatchLoader* batchLoader){}
 		/*! Called when the BatchLoader successfully loads a TextureImage
 			\param batchLoader the current BatchLoader
 			\param path the path to the loaded asset
 			\param value the load value of the asset*/
-		virtual void onBatchLoaderLoadTexture(BatchLoader*batchLoader, const String&path, unsigned int value){}
+		virtual void onBatchLoaderLoadTexture(BatchLoader* batchLoader, const String&path, unsigned int value){}
 		/*! Called when the BatchLoader successfully loads a Font
 			\param batchLoader the current BatchLoader
 			\param path the path to the loaded asset
 			\param value the load value of the asset*/
-		virtual void onBatchLoaderLoadFont(BatchLoader*batchLoader, const String&path, unsigned int value){}
+		virtual void onBatchLoaderLoadFont(BatchLoader* batchLoader, const String&path, unsigned int value){}
 		/*! Called when the BatchLoader runs a load function that returns success.
 			\param batchLoader the current BatchLoader
-			\param function the callback function that was called
-			\param data the data that was passed to the callback function
+			\param func the load function that was called
 			\param value the load value of the asset*/
-		virtual void onBatchLoaderLoadFunction(BatchLoader*batchLoader, BatchLoaderFunction function, void*data, unsigned int value){}
+		virtual void onBatchLoaderLoadFunction(BatchLoader* batchLoader, const std::function<bool(AssetManager*, String*)>& func, unsigned int value){}
 		/*! Called when the BatchLoader fails to load a TextureImage
 			\param batchLoader the current BatchLoader
 			\param path the path to the loaded asset
 			\param value the load value of the asset
 			\param error the error message*/
-		virtual void onBatchLoaderErrorTexture(BatchLoader*batchLoader, const String&path, unsigned int value, const String&error){}
+		virtual void onBatchLoaderErrorTexture(BatchLoader* batchLoader, const String&path, unsigned int value, const String&error){}
 		/*! Called when the BatchLoader fails to load a Font
 			\param batchLoader the current BatchLoader
 			\param path the path to the loaded asset
 			\param value the load value of the asset
 			\param error the error message*/
-		virtual void onBatchLoaderErrorFont(BatchLoader*batchLoader, const String&path, unsigned int value, const String&error){}
+		virtual void onBatchLoaderErrorFont(BatchLoader* batchLoader, const String&path, unsigned int value, const String&error){}
 		/*! Called when the BatchLoader runs a load function that returns failure.
 			\param batchLoader the current BatchLoader
-			\param function the callback function that was called
-			\param data the data that was passed to the callback function
+			\param func the load function that was called
 			\param value the load value of the asset
 			\param error the error message*/
-		virtual void onBatchLoaderErrorFunction(BatchLoader*batchLoader, BatchLoaderFunction function, void*data, unsigned int value, const String&error){}
+		virtual void onBatchLoaderErrorFunction(BatchLoader* batchLoader, const std::function<bool(AssetManager*,String*)>& func, unsigned int value, const String& error){}
 		/*! Called when the BatchLoader finishes running loadAll
 			\param batchLoader the current BatchLoader*/
-		virtual void onBatchLoaderFinish(BatchLoader*batchLoader){}
+		virtual void onBatchLoaderFinish(BatchLoader* batchLoader){}
 	};
 }
