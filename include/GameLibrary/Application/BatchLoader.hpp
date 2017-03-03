@@ -25,8 +25,6 @@ namespace fgl
 		/*! Constructs a BatchLoader with a given AssetManager.
 			\param assetManager the AssetManager to use for loading the assets*/
 		explicit BatchLoader(AssetManager*assetManager);
-		/*! copy constructor*/
-		BatchLoader(const BatchLoader&);
 		/*! virtual destructor*/
 		~BatchLoader();
 		

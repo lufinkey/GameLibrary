@@ -15,17 +15,6 @@ namespace fgl
 		loading = false;
 	}
 
-	BatchLoader::BatchLoader(const BatchLoader&batchLoader)
-	{
-		assetManager = batchLoader.assetManager;
-		loadlist = batchLoader.loadlist;
-		loadindex = batchLoader.loadindex;
-		loadcurrent = batchLoader.loadcurrent;
-		loadtotal = batchLoader.loadtotal;
-		eventListeners = batchLoader.eventListeners;
-		loading = batchLoader.loading;
-	}
-
 	BatchLoader::~BatchLoader()
 	{
 		//
