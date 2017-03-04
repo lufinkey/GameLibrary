@@ -83,13 +83,13 @@ namespace fgl
 
 		Window& operator=(const Window&) = delete;
 		
-		void create(const WindowSettings&settings = Window::getDefaultSettings());
+		void create(const WindowSettings& settings = Window::getDefaultSettings());
 		
 		void refresh();
-		void clear(const Color&clearColor=Color::WHITE);
+		void clear(const Color& clearColor=Color::WHITE);
 		void destroy();
 		
-		Image*capture();
+		Image* capture();
 		virtual Graphics* getGraphics();
 		AssetManager* getAssetManager();
 
@@ -125,7 +125,7 @@ namespace fgl
 		TransformD getViewTransform() const;
 
 		void getHandlePtr(void*ptr) const;
-		void*getWindowData() const;
+		void* getWindowData() const;
 		
 	private:
 		void*windowdata;

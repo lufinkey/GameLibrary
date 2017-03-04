@@ -48,9 +48,14 @@ namespace fgl
 		}
 	}
 	
-	Window* AssetManager::getWindow() const
+	Window& AssetManager::getWindow()
 	{
-		return window;
+		return *window;
+	}
+
+	const Window& AssetManager::getWindow() const
+	{
+		return *window;
 	}
 
 	bool AssetManager::loadTexture(const String& path, String* error)

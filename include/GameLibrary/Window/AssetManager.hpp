@@ -43,8 +43,11 @@ namespace fgl
 		
 		
 		/*! Gets the Window that assets are being loaded for.
-			\returns a Window pointer*/
-		Window* getWindow() const;
+			\returns a Window reference*/
+		Window& getWindow();
+		/*! Gets the Window that assets are being loaded for.
+			\returns a const Window reference*/
+		const Window& getWindow() const;
 		
 		
 		/*! Loads and stores a TextureImage from the given path.
