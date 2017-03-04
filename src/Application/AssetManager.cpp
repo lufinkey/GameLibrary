@@ -6,7 +6,7 @@
 
 namespace fgl
 {
-	AssetManager::AssetManager(Window&win, const String&root, const ArrayList<String>&secondaryRootList)
+	AssetManager::AssetManager(Window& win, const String& root, const ArrayList<String>& secondaryRootList)
 	{
 		window = &win;
 		rootdir = root;
@@ -19,7 +19,7 @@ namespace fgl
 		unloadFonts();
 	}
 	
-	void AssetManager::setRootDirectory(const String&root)
+	void AssetManager::setRootDirectory(const String& root)
 	{
 		rootdir = root;
 	}
@@ -53,20 +53,19 @@ namespace fgl
 		return window;
 	}
 
-	bool AssetManager::loadTexture(const String&path, String*error)
+	bool AssetManager::loadTexture(const String& path, String* error)
 	{
-		for(auto assetManager : assetManagers)
+		for(auto& texturePair : textures)
 		{
-			if(assetManager->getTexture(path)!=nullptr)
+			if(texturePair.first.equals(path))
 			{
 				return true;
 			}
 		}
-		
-		for(unsigned int i=0; i<textures.size(); i++)
+
+		for(auto assetManager : assetManagers)
 		{
-			std::pair<String,TextureImage*>& pair = textures.get(i);
-			if(pair.first.equals(path))
+			if(assetManager->getTexture(path)!=nullptr)
 			{
 				return true;
 			}
@@ -75,13 +74,17 @@ namespace fgl
 		TextureImage* texture = new TextureImage();
 		String fullpath = FileTools::combinePathStrings(rootdir, path);
 		bool success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
-		unsigned int secondaryIndex = 0;
-		while(!success && secondaryIndex<secondaryRoots.size())
+		if(!success)
 		{
-			const String& secondaryRoot = secondaryRoots.get(secondaryIndex);
-			fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-			success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
-			secondaryIndex++;
+			for(auto& secondaryRoot : secondaryRoots)
+			{
+				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+				success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
+				if(success)
+				{
+					break;
+				}
+			}
 		}
 		if(success)
 		{
@@ -99,9 +102,9 @@ namespace fgl
 		}
 	}
 
-	void AssetManager::unloadTexture(const String&path)
+	void AssetManager::unloadTexture(const String& path)
 	{
-		for(unsigned int i=0; i<textures.size(); i++)
+		for(size_t textures_size=textures.size(), i=0; i<textures_size; i++)
 		{
 			std::pair<String,TextureImage*>& pair = textures.get(i);
 			if(pair.first.equals(path))
@@ -115,21 +118,20 @@ namespace fgl
 
 	void AssetManager::unloadTextures()
 	{
-		for(unsigned int i=0; i<textures.size(); i++)
+		for(auto& texturePair : textures)
 		{
-			delete textures.get(i).second;
+			delete texturePair.second;
 		}
 		textures.clear();
 	}
 
-	TextureImage* AssetManager::getTexture(const String&path)
+	TextureImage* AssetManager::getTexture(const String& path)
 	{
-		for(unsigned int i=0; i<textures.size(); i++)
+		for(auto& texturePair : textures)
 		{
-			std::pair<String,TextureImage*>& pair = textures.get(i);
-			if(pair.first.equals(path))
+			if(texturePair.first.equals(path))
 			{
-				return pair.second;
+				return texturePair.second;
 			}
 		}
 		
@@ -144,39 +146,28 @@ namespace fgl
 		return nullptr;
 	}
 	
-	void AssetManager::addTexture(const String&path, TextureImage*image)
+	void AssetManager::addTexture(const String& path, TextureImage* texture)
 	{
-		if(image==nullptr)
+		if(texture==nullptr)
 		{
-			throw IllegalArgumentException("image", "null");
+			throw IllegalArgumentException("texture", "cannot be null");
 		}
-		for(size_t i=0; i<textures.size(); i++)
-		{
-			std::pair<String,TextureImage*>& pair = textures.get(i);
-			if(pair.first.equals(path))
-			{
-				delete pair.second;
-				textures.remove(i);
-				i = textures.size();
-			}
-		}
-		textures.add(std::pair<String, TextureImage*>(path, image));
+		textures.add(std::pair<String, TextureImage*>(path, texture));
 	}
 
-	bool AssetManager::loadFont(const String&path, String*error)
+	bool AssetManager::loadFont(const String& path, String* error)
 	{
-		for(auto assetManager : assetManagers)
+		for(auto& fontPair : fonts)
 		{
-			if(assetManager->getFont(path)!=nullptr)
+			if(fontPair.first.equals(path))
 			{
 				return true;
 			}
 		}
-		
-		for(unsigned int i=0; i<fonts.size(); i++)
+
+		for(auto assetManager : assetManagers)
 		{
-			std::pair<String,Font*>& pair = fonts.get(i);
-			if(pair.first.equals(path))
+			if(assetManager->getFont(path)!=nullptr)
 			{
 				return true;
 			}
@@ -185,13 +176,17 @@ namespace fgl
 		Font* font = new Font();
 		String fullpath = FileTools::combinePathStrings(rootdir, path);
 		bool success = font->loadFromFile(fullpath, 24, error);
-		unsigned int secondaryIndex = 0;
-		while(!success && secondaryIndex<secondaryRoots.size())
+		if(!success)
 		{
-			const String& secondaryRoot = secondaryRoots.get(secondaryIndex);
-			fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-			success = font->loadFromFile(fullpath, 24, error);
-			secondaryIndex++;
+			for(auto& secondaryRoot : secondaryRoots)
+			{
+				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+				success = font->loadFromFile(fullpath, 24, error);
+				if(success)
+				{
+					break;
+				}
+			}
 		}
 		if(success)
 		{
@@ -209,9 +204,9 @@ namespace fgl
 		}
 	}
 
-	void AssetManager::unloadFont(const String&path)
+	void AssetManager::unloadFont(const String& path)
 	{
-		for(unsigned int i=0; i<fonts.size(); i++)
+		for(size_t fonts_size=fonts.size(), i=0; i<fonts_size; i++)
 		{
 			std::pair<String,Font*>& pair = fonts.get(i);
 			if(pair.first.equals(path))
@@ -225,21 +220,20 @@ namespace fgl
 
 	void AssetManager::unloadFonts()
 	{
-		for(unsigned int i=0; i<fonts.size(); i++)
+		for(auto& fontPair : fonts)
 		{
-			delete fonts.get(i).second;
+			delete fontPair.second;
 		}
 		fonts.clear();
 	}
 
-	Font* AssetManager::getFont(const String&path)
+	Font* AssetManager::getFont(const String& path)
 	{
-		for(unsigned int i=0; i<fonts.size(); i++)
+		for(auto& fontPair : fonts)
 		{
-			std::pair<String,Font*>& pair = fonts.get(i);
-			if(pair.first.equals(path))
+			if(fontPair.first.equals(path))
 			{
-				return pair.second;
+				return fontPair.second;
 			}
 		}
 		
@@ -254,7 +248,7 @@ namespace fgl
 		return nullptr;
 	}
 	
-	void AssetManager::addFont(const String&path, Font*font)
+	void AssetManager::addFont(const String& path, Font* font)
 	{
 		if(font!=nullptr)
 		{

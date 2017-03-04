@@ -65,8 +65,8 @@ namespace fgl
 			If a TextureImage is already stored with the given path, that TextureImage is deallocated and replaced with the new one.
 			\throws fgl::IllegalArgumentException if the TextureImage is null
 			\param path a path to identify the TextureImage
-			\param image the TextureImage pointer to add*/
-		void addTexture(const String& path, TextureImage* image);
+			\param texture the TextureImage pointer to add*/
+		void addTexture(const String& path, TextureImage* texture);
 		
 		
 		/*! Loads and stores a Font from the given path.
@@ -106,7 +106,7 @@ namespace fgl
 		void unload();
 		
 	private:
-		Window*window;
+		Window* window;
 		
 		ArrayList<std::pair<String,TextureImage*> > textures;
 		ArrayList<std::pair<String,Font*> > fonts;
