@@ -97,6 +97,9 @@ namespace fgl
 		/*! Removes a dependent asset manager
 			\param assetManager the asset manager to remove */
 		void removeAssetManager(AssetManager* assetManager);
+		/*! Gets all the dependent asset managers.
+			\returns an ArrayList of asset managers*/
+		const ArrayList<AssetManager*>& getAssetManagers() const;
 		
 		
 		/*! Gives the total number of assets stored in the asset manager.

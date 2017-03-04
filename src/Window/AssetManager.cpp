@@ -268,6 +268,11 @@ namespace fgl
 		}
 	}
 
+	const ArrayList<AssetManager*>& AssetManager::getAssetManagers() const
+	{
+		return assetManagers;
+	}
+
 	size_t AssetManager::getAssetCount() const
 	{
 		return textures.size()+fonts.size();
