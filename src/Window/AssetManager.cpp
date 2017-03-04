@@ -58,6 +58,25 @@ namespace fgl
 		return *window;
 	}
 
+	FILE* AssetManager::openFile(const String& path, const char* mode) const
+	{
+		String fullpath = FileTools::combinePathStrings(rootdir, path);
+		FILE* file = fopen(fullpath, mode);
+		if(file==nullptr)
+		{
+			for(auto& secondaryRoot : secondaryRoots)
+			{
+				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+				file = fopen(fullpath, mode);
+				if(file!=nullptr)
+				{
+					break;
+				}
+			}
+		}
+		return file;
+	}
+
 	bool AssetManager::loadTexture(const String& path, String* error)
 	{
 		for(auto& texturePair : textures)

@@ -48,6 +48,12 @@ namespace fgl
 		/*! Gets the Window that assets are being loaded for.
 			\returns a const Window reference*/
 		const Window& getWindow() const;
+
+
+		/*! Opens a FILE pointer.
+			\param path the path to the file
+			\returns a FILE pointer that must be closed using fclose, or NULL if the file could not be loaded */
+		FILE* openFile(const String& path, const char* mode) const;
 		
 		
 		/*! Loads and stores a TextureImage from the given path.
