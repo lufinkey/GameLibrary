@@ -101,13 +101,13 @@ namespace fgl
 		
 		/*! Gives the total number of assets stored in the asset manager.
 			\returns a count of the number of assets stored*/
-		size_t getAssetCount() const;
+		virtual size_t getAssetCount() const;
 		/*! Reloads and re-stores all stored assets from their paths.
 			\param safely fallback on old assets in the case of a reload failure
 			\returns the total amount of successfully reloaded assets*/
-		size_t reload(bool safely=true);
+		virtual size_t reload(bool safely=true);
 		/*! Unloads and deallocates all stored assets. This does not include assets stored in dependent asset managers */
-		void unload();
+		virtual void unload();
 		
 	private:
 		Window* window;
