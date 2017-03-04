@@ -38,7 +38,7 @@ namespace fgl
 	
 	
 	
-	bool Plist::loadFromFile(Dictionary* dst, const String& path, String* error)
+	bool Plist::loadFromPath(Dictionary* dst, const String& path, String* error)
 	{
 		if(dst==nullptr)
 		{

@@ -177,7 +177,11 @@ namespace fgl
 		}
 		else
 		{
+			#ifdef TARGETPLATFORM_WINDOWS
+			if(first.charAt(first.length()-1)=='/' || first.charAt(first.length()-1)=='\\')
+			#else
 			if(first.charAt(first.length()-1)=='/')
+			#endif
 			{
 				fullpath = first + second;
 			}

@@ -24,7 +24,7 @@ namespace fgl
 		typedef Number real;
 		typedef Number boolean;
 		
-		static bool loadFromFile(Dictionary* dst, const String& path, String* error=nullptr);
+		static bool loadFromPath(Dictionary* dst, const String& path, String* error=nullptr);
 		static bool loadFromData(Dictionary* dst, const Data& data, String* error=nullptr);
 		static bool loadFromString(Dictionary* dst, const String& string, String* error=nullptr);
 		static bool loadFromPointer(Dictionary* dst, const void* pointer, size_t length, String* error=nullptr);
