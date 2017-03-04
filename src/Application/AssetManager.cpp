@@ -28,6 +28,25 @@ namespace fgl
 	{
 		return rootdir;
 	}
+
+	void AssetManager::addSecondaryRoot(const String& root)
+	{
+		secondaryRoots.add(root);
+	}
+
+	const ArrayList<String>& AssetManager::getSecondaryRoots() const
+	{
+		return secondaryRoots;
+	}
+
+	void AssetManager::removeSecondaryRoot(const String& root)
+	{
+		size_t index = secondaryRoots.indexOf(root);
+		if(index!=-1)
+		{
+			secondaryRoots.remove(index);
+		}
+	}
 	
 	Window* AssetManager::getWindow() const
 	{
