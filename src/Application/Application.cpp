@@ -59,7 +59,7 @@ namespace fgl
 		privateWindowListener = (void*)(new Application_WindowEventListener(this));
 		window->addEventListener((WindowEventListener*)privateWindowListener);
 
-		#ifdef _MSC_VER
+		#if defined(TARGETPLATFORM_WINDOWS) && defined(_MSC_VER)
 		if(IsDebuggerPresent())
 		{
 			resourceDirectory = FileTools::getCurrentWorkingDirectory();
@@ -77,7 +77,7 @@ namespace fgl
 			{
 				resourceDirectory = FileTools::getCurrentWorkingDirectory();
 			}
-		#ifdef _MSC_VER
+		#if defined(TARGETPLATFORM_WINDOWS) && defined(_MSC_VER)
 		}
 		#endif
 	}
