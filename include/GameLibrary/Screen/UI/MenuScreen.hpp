@@ -185,7 +185,7 @@ namespace fgl
 		
 	protected:
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor
 			\param item the Actor from the menu being drawn*/
 		virtual void drawItem(ApplicationData appData, Graphics graphics, Actor* item) const;

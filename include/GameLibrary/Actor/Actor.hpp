@@ -36,7 +36,7 @@ namespace fgl
 		/*! Tells the type of mouse event that occured.
 			\returns an event type constant*/
 		const EventType& getEventType() const;
-		/*! Gives information about the Application updating the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+		/*! Gives information about the Application updating the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\returns a const ApplicationData object reference*/
 		const ApplicationData& getApplicationData() const;
 		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see fgl::Mouse \see fgl::Multitouch
@@ -75,10 +75,10 @@ namespace fgl
 		
 		
 		/*! Updates certain properties of the Actor, such as mouse state, and calls Actor events.
-			\param appData specifies information about the Application updating the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
+			\param appData specifies information about the Application updating the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData) override;
 		/*! Draws the Actor to the screen using the specified Graphics object
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		

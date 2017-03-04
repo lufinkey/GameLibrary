@@ -5,15 +5,14 @@
 
 namespace fgl
 {
-	class View
+	class Viewport
 	{
 		friend class Graphics;
 	public:
-		View();
-		View(const View&);
-		explicit View(const Vector2d& size);
-		View(double width, double height);
-		~View();
+		Viewport();
+		explicit Viewport(const Vector2d& size);
+		Viewport(double width, double height);
+		~Viewport();
 		
 		void setSize(double width, double height);
 		void setSize(const Vector2d& size);

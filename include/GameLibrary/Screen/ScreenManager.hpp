@@ -125,7 +125,7 @@ namespace fgl
 		
 	protected:
 		/*! Draws all contained Screen pointers. This function is automatically called from within ScreenManager::draw.
-			\param appData specifies information about the Application drawing the contained Screen pointers, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the contained Screen pointers, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the contained Screen pointers*/
 		void drawScreens(ApplicationData appData, Graphics graphics) const;
 		

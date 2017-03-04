@@ -16,7 +16,7 @@ namespace fgl
 		/*! Gives the target of the mouse event. The target is the ScreenElement which the event was performed on.
 		\returns a ScreenElement pointer*/
 		TouchElement* getTarget() const;
-		/*! Gives information about the Application updating the ScreenElement, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+		/*! Gives information about the Application updating the ScreenElement, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 		\returns a const ApplicationData object reference*/
 		const ApplicationData& getApplicationData() const;
 		/*! Gives the touchID or mouseIndex of the input. If Multitouch::isAvailable() returns true, touchID represents a multitouch id. Otherwise, touchID represents a mouse index. \see fgl::Mouse \see fgl::Multitouch

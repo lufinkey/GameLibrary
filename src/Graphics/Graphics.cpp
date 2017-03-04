@@ -5,7 +5,7 @@
 #include <GameLibrary/Utilities/Math.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Font/Font.hpp>
-#include <GameLibrary/Window/View.hpp>
+#include <GameLibrary/Window/Viewport.hpp>
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <SDL.h>

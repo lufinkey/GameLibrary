@@ -14,7 +14,7 @@ namespace fgl
 		virtual ~Drawable(){};
 		
 		/*! Draws the entity to the Window.
-			\param appData specifies information about the Application drawing the Drawable, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the Drawable, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Drawable*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const = 0;
 		

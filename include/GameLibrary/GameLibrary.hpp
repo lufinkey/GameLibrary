@@ -91,7 +91,7 @@
 
 #include "Window/AssetManager.hpp"
 #include "Window/Window.hpp"
-#include "Window/View.hpp"
+#include "Window/Viewport.hpp"
 #include "Window/MessageBox.hpp"
 
 #ifndef TARGETPLATFORM_WINDOWS

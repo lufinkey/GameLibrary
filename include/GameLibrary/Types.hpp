@@ -103,7 +103,7 @@ namespace fgl
 	
 	//Window
 	class AssetManager;
-	class View;
+	class Viewport;
 	class Window;
 	
 	typedef signed char Int8;

@@ -139,7 +139,7 @@ namespace fgl
 		/*! \copydoc fgl::ScreenElement::drawMain(ApplicationData)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.
-			\param appData specifies information about the Application drawing the Actor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor
 			\param actor the Actor from the menu being drawn*/
 		virtual void drawActor(ApplicationData appData, Graphics graphics, Actor*actor) const;

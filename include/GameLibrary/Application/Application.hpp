@@ -69,10 +69,10 @@ namespace fgl
 			\param assetManager the Window's AssetManager, used to unload the loaded resources.*/
 		virtual void unloadContent(AssetManager*assetManager);
 		/*! Called once every frame. Use this function to update or change any values during the frame.
-			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
+			\param appData specifies information about the Application, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData);
 		/*! Called once every frame. Use this function to draw to the Window.
-			\param appData specifies information about the Application, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw to the Window*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		

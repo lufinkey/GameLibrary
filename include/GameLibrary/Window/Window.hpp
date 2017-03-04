@@ -8,7 +8,7 @@
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
 #include "AssetManager.hpp"
-#include "View.hpp"
+#include "Viewport.hpp"
 
 namespace fgl
 {
@@ -109,7 +109,7 @@ namespace fgl
 
 		void setIcon(Image*);
 
-		View* getView() const;
+		Viewport* getView() const;
 		
 		bool isOpen() const;
 		bool isFocused() const;
@@ -131,7 +131,7 @@ namespace fgl
 		void*windowdata;
 		unsigned int windowID;
 		void*icondata;
-		View* view;
+		Viewport* view;
 		Graphics*graphics;
 		AssetManager*assetManager;
 		Color backgroundColor;

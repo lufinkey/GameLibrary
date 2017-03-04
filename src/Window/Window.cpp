@@ -226,7 +226,7 @@ namespace fgl
 		bool createdView = false;
 		if(view == nullptr)
 		{
-			view = new View((double)windowed_size.x, (double)windowed_size.y);
+			view = new Viewport((double)windowed_size.x, (double)windowed_size.y);
 			createdView = true;
 		}
 		
@@ -520,7 +520,7 @@ namespace fgl
 		}
 	}
 	
-	View* Window::getView() const
+	Viewport* Window::getView() const
 	{
 		return view;
 	}

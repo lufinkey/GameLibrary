@@ -120,7 +120,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Tools.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\AssetManager.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\MessageBox.hpp" />
-    <ClInclude Include="..\..\include\GameLibrary\Window\View.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Window\Viewport.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.hpp" />
     <ClInclude Include="..\..\src\Application\EventManager.hpp" />
     <ClInclude Include="..\..\src\Exception\ExceptionMacros.hpp" />
@@ -209,7 +209,7 @@
     <ClCompile Include="..\..\src\Utilities\Tools.cpp" />
     <ClCompile Include="..\..\src\Window\AssetManager.cpp" />
     <ClCompile Include="..\..\src\Window\MessageBox.cpp" />
-    <ClCompile Include="..\..\src\Window\View.cpp" />
+    <ClCompile Include="..\..\src\Window\Viewport.cpp" />
     <ClCompile Include="..\..\src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -68,7 +68,7 @@ namespace fgl
 		
 	protected:
 		/*! Special draw function to draw the WireframeActor with specific properties. These properties are not stored into the WireframeActor. This function is called from WireframeActor::draw
-			\param appData specifies information about the Application drawing the WireframeActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the WireframeActor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the graphics object used to draw the WireframeActor
 			\param x the x coordinate
 			\param y the y coordinate

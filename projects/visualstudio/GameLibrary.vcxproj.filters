@@ -384,9 +384,6 @@
     <ClInclude Include="..\..\include\GameLibrary\Window\MessageBox.hpp">
       <Filter>include\GameLibrary\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GameLibrary\Window\View.hpp">
-      <Filter>include\GameLibrary\Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.hpp">
       <Filter>include\GameLibrary\Window</Filter>
     </ClInclude>
@@ -493,6 +490,9 @@
       <Filter>include\GameLibrary\Utilities\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Window\AssetManager.hpp">
+      <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Window\Viewport.hpp">
       <Filter>include\GameLibrary\Window</Filter>
     </ClInclude>
   </ItemGroup>
@@ -683,9 +683,6 @@
     <ClCompile Include="..\..\src\Window\MessageBox.cpp">
       <Filter>src\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Window\View.cpp">
-      <Filter>src\Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Window\Window.cpp">
       <Filter>src\Window</Filter>
     </ClCompile>
@@ -738,6 +735,9 @@
       <Filter>external\SDL\SDL_gfx</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Window\AssetManager.cpp">
+      <Filter>src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Window\Viewport.cpp">
       <Filter>src\Window</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,7 +18,7 @@ namespace fgl
 		virtual ~Transition(){}
 		
 		/*! Draws the two Drawable objects in their transition state. For best results, the two Drawable objects should have the same frame (bounding box), or be set at the same coordinates.
-			\param appData specifies information about the Application drawing the Transition, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the Transition, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Transition
 			\param progress the current Transition progress, from 0 to 1; Making this a value other than 0 through 1 causes undefined behavior
 			\param element1 the first Drawable being transitioned

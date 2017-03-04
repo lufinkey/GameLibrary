@@ -114,7 +114,7 @@ namespace fgl
 		virtual void onAnimationFinish(const SpriteActorAnimationEvent& evt);
 		
 		/*! Special draw function to draw the SpriteActor with specific properties. These properties are not stored into the SpriteActor. This function is called from SpriteActor::draw
-			\param appData specifies information about the Application drawing the SpriteActor, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the SpriteActor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the SpriteActor
 			\param x the x coordinate
 			\param y the y coordinate

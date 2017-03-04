@@ -30,10 +30,10 @@ namespace fgl
 		
 		
 		/*! Updates any properties of the element, and updates all the child elements.
-			\param appData specifies information about the Application updating the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
+			\param appData specifies information about the Application updating the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
 		virtual void update(ApplicationData appData) override;
 		/*! Draws the element and all of its child elements. This function calls drawBackground, drawMain, and drawElements respectively.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
@@ -119,18 +119,18 @@ namespace fgl
 		
 	protected:
 		/*! Updates all the child elements of this element. This function is automatically called from ScreenElement::update.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData*/
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
 		virtual void updateElements(ApplicationData appData);
 		/*! Draws the background color of the element. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawBackground(ApplicationData appData, Graphics graphics) const;
 		/*! Draws the main content of the element. This does nothing by default, and is intended to be overridden. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const;
 		/*! Draws all the child elements of this element. This function is automatically called from ScreenElement::draw.
-			\param appData specifies information about the Application drawing the element, such as the Window object, the View transform, etc. \see fgl::ApplicationData
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const;
 		

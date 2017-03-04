@@ -14,7 +14,7 @@ namespace fgl
 	class ApplicationData
 	{
 	public:
-		/*! Constructs an ApplicationData object with an Application, Window, AssetManager, elapsed time, View Transform, and framespeed multiplier.
+		/*! Constructs an ApplicationData object with an Application, Window, AssetManager, elapsed time, Viewport Transform, and framespeed multiplier.
 			\param application the Application
 			\param window the Application's Window
 			\param assetManager the current AssetManager
@@ -46,7 +46,7 @@ namespace fgl
 		/*! Gets the view transform of the Window
 			\returns a Transform reference*/
 		TransformD& getTransform();
-		/*! Gets the View Transform of the Window
+		/*! Gets the Viewport Transform of the Window
 			\returns a const Transform reference*/
 		const TransformD& getTransform() const;
 		/*! Gets the frame speed multiplier of the Application
@@ -66,7 +66,7 @@ namespace fgl
 		/*! Sets the elapsed time of the Application
 			\param time a constant TimeInterval reference*/
 		void setTime(const TimeInterval&time);
-		/*! Sets the current View Transform
+		/*! Sets the current Viewport Transform
 			\param transform a const Transform reference*/
 		void setTransform(const TransformD&transform);
 		
