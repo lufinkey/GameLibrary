@@ -99,6 +99,9 @@ namespace fgl
 		void removeAssetManager(AssetManager* assetManager);
 		
 		
+		/*! Gives the total number of assets stored in the asset manager.
+			\returns a count of the number of assets stored*/
+		size_t getAssetCount() const;
 		/*! Reloads and re-stores all stored assets from their paths.
 			\returns the total amount of successfully reloaded assets*/
 		size_t reload();

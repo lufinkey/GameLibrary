@@ -269,6 +269,11 @@ namespace fgl
 			assetManagers.remove(index);
 		}
 	}
+
+	size_t AssetManager::getAssetCount() const
+	{
+		return textures.size()+fonts.size();
+	}
 	
 	size_t AssetManager::reload()
 	{
