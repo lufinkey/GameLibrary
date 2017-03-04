@@ -13,7 +13,6 @@ namespace fgl
 	//Application
 	class Application;
 	class ApplicationData;
-	class AssetManager;
 	class BatchLoader;
 	class EventManager;
 	
@@ -102,7 +101,8 @@ namespace fgl
 	class Number;
 	class Thread;
 	
-	//View
+	//Window
+	class AssetManager;
 	class View;
 	class Window;
 	

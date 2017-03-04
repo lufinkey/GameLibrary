@@ -180,9 +180,6 @@
     <ClInclude Include="..\..\include\GameLibrary\Application\ApplicationData.hpp">
       <Filter>include\GameLibrary\Application</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GameLibrary\Application\AssetManager.hpp">
-      <Filter>include\GameLibrary\Application</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Application\BatchLoader.hpp">
       <Filter>include\GameLibrary\Application</Filter>
     </ClInclude>
@@ -495,6 +492,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Geometry\Vector3.hpp">
       <Filter>include\GameLibrary\Utilities\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Window\AssetManager.hpp">
+      <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -516,9 +516,6 @@
       <Filter>src\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Application\ApplicationData.cpp">
-      <Filter>src\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Application\AssetManager.cpp">
       <Filter>src\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Application\BatchLoader.cpp">
@@ -739,6 +736,9 @@
     </ClCompile>
     <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.c">
       <Filter>external\SDL\SDL_gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Window\AssetManager.cpp">
+      <Filter>src\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

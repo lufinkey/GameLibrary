@@ -35,7 +35,6 @@
     <ClInclude Include="..\..\include\GameLibrary\Actor\WireframeActor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Application\Application.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Application\ApplicationData.hpp" />
-    <ClInclude Include="..\..\include\GameLibrary\Application\AssetManager.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Application\BatchLoader.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Audio\Music.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Audio\Sound.hpp" />
@@ -119,6 +118,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\DateTime.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Time\TimeInterval.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Tools.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Window\AssetManager.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\MessageBox.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\View.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.hpp" />
@@ -142,7 +142,6 @@
     <ClCompile Include="..\..\src\Actor\WireframeActor.cpp" />
     <ClCompile Include="..\..\src\Application\Application.cpp" />
     <ClCompile Include="..\..\src\Application\ApplicationData.cpp" />
-    <ClCompile Include="..\..\src\Application\AssetManager.cpp" />
     <ClCompile Include="..\..\src\Application\BatchLoader.cpp" />
     <ClCompile Include="..\..\src\Application\EventManager.cpp" />
     <ClCompile Include="..\..\src\Audio\Music.cpp" />
@@ -208,6 +207,7 @@
     <ClCompile Include="..\..\src\Utilities\Time\time64\time64.c" />
     <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp" />
     <ClCompile Include="..\..\src\Utilities\Tools.cpp" />
+    <ClCompile Include="..\..\src\Window\AssetManager.cpp" />
     <ClCompile Include="..\..\src\Window\MessageBox.cpp" />
     <ClCompile Include="..\..\src\Window\View.cpp" />
     <ClCompile Include="..\..\src\Window\Window.cpp" />

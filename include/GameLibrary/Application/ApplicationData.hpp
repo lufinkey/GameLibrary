@@ -4,7 +4,6 @@
 #include <GameLibrary/Utilities/Geometry/Transform.hpp>
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
 #include <GameLibrary/Window/Window.hpp>
-#include "AssetManager.hpp"
 
 namespace fgl
 {

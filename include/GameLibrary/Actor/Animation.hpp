@@ -2,11 +2,11 @@
 #pragma once
 
 #include <GameLibrary/Application/ApplicationData.hpp>
-#include <GameLibrary/Application/AssetManager.hpp>
 #include <GameLibrary/Screen/Drawable.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
+#include <GameLibrary/Window/AssetManager.hpp>
 
 namespace fgl
 {

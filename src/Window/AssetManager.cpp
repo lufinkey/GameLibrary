@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Application/AssetManager.hpp>
+#include <GameLibrary/Window/AssetManager.hpp>
 #include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Window/Window.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>

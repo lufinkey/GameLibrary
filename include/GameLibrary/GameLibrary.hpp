@@ -8,7 +8,6 @@
 
 #include "Application/Application.hpp"
 #include "Application/ApplicationData.hpp"
-#include "Application/AssetManager.hpp"
 #include "Application/BatchLoader.hpp"
 
 #include "Audio/Music.hpp"
@@ -90,6 +89,7 @@
 #include "Utilities/Time/DateTime.hpp"
 #include "Utilities/Time/TimeInterval.hpp"
 
+#include "Window/AssetManager.hpp"
 #include "Window/Window.hpp"
 #include "Window/View.hpp"
 #include "Window/MessageBox.hpp"

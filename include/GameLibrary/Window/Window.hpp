@@ -3,11 +3,11 @@
 
 #include <mutex>
 #include <GameLibrary/Types.hpp>
-#include <GameLibrary/Application/AssetManager.hpp>
 #include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Graphics/Image.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
+#include "AssetManager.hpp"
 #include "View.hpp"
 
 namespace fgl
