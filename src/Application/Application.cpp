@@ -10,6 +10,11 @@
 #include <ctime>
 #include <cstdlib>
 
+#ifdef TARGETPLATFORM_WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <Windows.h>
+#endif
+
 namespace fgl
 {
 	void ApplicationEventHandler(void*userdata, unsigned int eventtype);
@@ -53,17 +58,28 @@ namespace fgl
 		window = new Window();
 		privateWindowListener = (void*)(new Application_WindowEventListener(this));
 		window->addEventListener((WindowEventListener*)privateWindowListener);
-		
-		char* basePath = SDL_GetBasePath();
-		if(basePath!=nullptr)
-		{
-			resourceDirectory = basePath;
-			SDL_free(basePath);
-		}
-		else
+
+		#ifdef _MSC_VER
+		if(IsDebuggerPresent())
 		{
 			resourceDirectory = FileTools::getCurrentWorkingDirectory();
 		}
+		else
+		{
+		#endif
+			char* basePath = SDL_GetBasePath();
+			if(basePath!=nullptr)
+			{
+				resourceDirectory = basePath;
+				SDL_free(basePath);
+			}
+			else
+			{
+				resourceDirectory = FileTools::getCurrentWorkingDirectory();
+			}
+		#ifdef _MSC_VER
+		}
+		#endif
 	}
 
 	Application::~Application()
@@ -213,6 +229,7 @@ namespace fgl
 		
 		window->create(settings);
 		window->clear(Color::BLACK);
+		window->getAssetManager()->setRootDirectory(resourceDirectory);
 		
 		return exitcode;
 	}
