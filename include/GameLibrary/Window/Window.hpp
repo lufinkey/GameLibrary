@@ -128,12 +128,12 @@ namespace fgl
 		void* getWindowData() const;
 		
 	private:
-		void*windowdata;
+		void* windowdata;
 		unsigned int windowID;
-		void*icondata;
+		void* icondata;
 		Viewport* view;
-		Graphics*graphics;
-		AssetManager*assetManager;
+		Graphics* graphics;
+		AssetManager* assetManager;
 		Color backgroundColor;
 		Vector2u windowed_size;
 		

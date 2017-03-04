@@ -113,12 +113,16 @@ namespace fgl
 	}
 	
 	Window::Window()
+		: windowdata(nullptr), 
+		windowID(-1),
+		icondata(nullptr),
+		view(nullptr),
+		graphics(nullptr),
+		assetManager(nullptr),
+		backgroundColor(Color::WHITE),
+		windowed_size(0,0)
 	{
-		view = nullptr;
-		windowdata = nullptr;
-		windowID = 0;
-		icondata = nullptr;
-		graphics = nullptr;
+		//
 	}
 	
 	Window::~Window()
@@ -234,7 +238,7 @@ namespace fgl
 		{
 			graphics = new Graphics(*this);
 		}
-		catch(const Exception&e)
+		catch(const Exception& e)
 		{
 			SDL_DestroyWindow((SDL_Window*)windowdata);
 			windowdata = nullptr;
@@ -250,7 +254,7 @@ namespace fgl
 				icondata = nullptr;
 			}
 			//TODO replace with more specific exception type
-			throw Exception(e);
+			throw;
 		}
 		
 		if((style & Window::STYLE_FULLSCREEN) != Window::STYLE_FULLSCREEN)
