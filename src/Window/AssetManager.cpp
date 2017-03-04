@@ -125,7 +125,7 @@ namespace fgl
 		textures.clear();
 	}
 
-	TextureImage* AssetManager::getTexture(const String& path)
+	TextureImage* AssetManager::getTexture(const String& path) const
 	{
 		for(auto& texturePair : textures)
 		{
@@ -134,7 +134,6 @@ namespace fgl
 				return texturePair.second;
 			}
 		}
-		
 		for(auto assetManager : assetManagers)
 		{
 			TextureImage* texture = assetManager->getTexture(path);
@@ -227,7 +226,7 @@ namespace fgl
 		fonts.clear();
 	}
 
-	Font* AssetManager::getFont(const String& path)
+	Font* AssetManager::getFont(const String& path) const
 	{
 		for(auto& fontPair : fonts)
 		{
@@ -236,7 +235,6 @@ namespace fgl
 				return fontPair.second;
 			}
 		}
-		
 		for(auto assetManager : assetManagers)
 		{
 			Font* font = assetManager->getFont(path);

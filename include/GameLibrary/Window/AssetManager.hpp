@@ -60,7 +60,7 @@ namespace fgl
 		/*! Gets a stored TextureImage.
 			\param path the path that the TextureImage was loaded from, or the path given in AssetManager::addTexture
 			\returns a TextureImage pointer, or null if there is no TextureImage is stored with that path.*/
-		TextureImage* getTexture(const String& path);
+		TextureImage* getTexture(const String& path) const;
 		/*! Adds a TextureImage to be stored and managed. Once added, the TextureImage's memory is handled by AssetManager, and will be deallocated if the TextureImage is unloaded.
 			If a TextureImage is already stored with the given path, that TextureImage is deallocated and replaced with the new one.
 			\throws fgl::IllegalArgumentException if the TextureImage is null
@@ -82,7 +82,7 @@ namespace fgl
 		/*! Gets a stored Font.
 			\param path the path that the Font was loaded from, or the path given in AssetManager::addTexture
 			\returns a Font pointer, or null if there is no Font is stored with that path.*/
-		Font* getFont(const String& path);
+		Font* getFont(const String& path) const;
 		/*! Adds a Font to be stored and managed. Once added, the Font's memory is handled by AssetManager, and will be deallocated if the Font is unloaded.
 			If a Font is already stored with the given path, that Font is deallocated and replaced with the new one.
 			\throws fgl::IllegalArgumentException if the Font is null
