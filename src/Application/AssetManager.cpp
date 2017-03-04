@@ -276,35 +276,35 @@ namespace fgl
 		}
 	}
 	
-	unsigned int AssetManager::reload()
+	size_t AssetManager::reload()
 	{
 		ArrayList<String> texturePaths;
-		texturePaths.resize(textures.size());
+		texturePaths.reserve(textures.size());
 		ArrayList<String> fontPaths;
-		fontPaths.resize(fonts.size());
+		fontPaths.reserve(fonts.size());
 		
-		for(unsigned int i=0; i<textures.size(); i++)
+		for(auto& texturePair : textures)
 		{
-			texturePaths.set(i, textures.get(i).first);
+			texturePaths.add(texturePair.first);
 		}
-		for(unsigned int i=0; i<fonts.size(); i++)
+		for(auto& fontPair : fonts)
 		{
-			fontPaths.set(i, fonts.get(i).first);
+			fontPaths.add(fontPair.first);
 		}
 		
 		unload();
 		
-		unsigned int successCounter = 0;
-		for(unsigned int i=0; i<texturePaths.size(); i++)
+		size_t successCounter = 0;
+		for(auto& texturePath : texturePaths)
 		{
-			if(loadTexture(texturePaths.get(i)))
+			if(loadTexture(texturePath))
 			{
 				successCounter++;
 			}
 		}
-		for(unsigned int i=0; i<fontPaths.size(); i++)
+		for(auto& fontPath : fontPaths)
 		{
-			if(loadFont(fontPaths.get(i)))
+			if(loadFont(fontPath))
 			{
 				successCounter++;
 			}
