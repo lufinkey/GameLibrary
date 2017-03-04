@@ -275,40 +275,77 @@ namespace fgl
 		return textures.size()+fonts.size();
 	}
 	
-	size_t AssetManager::reload()
+	size_t AssetManager::reload(bool safely)
 	{
-		ArrayList<String> texturePaths;
-		texturePaths.reserve(textures.size());
-		ArrayList<String> fontPaths;
-		fontPaths.reserve(fonts.size());
-		
-		for(auto& texturePair : textures)
+		if(safely)
 		{
-			texturePaths.add(texturePair.first);
-		}
-		for(auto& fontPair : fonts)
-		{
-			fontPaths.add(fontPair.first);
-		}
-		
-		unload();
-		
-		size_t successCounter = 0;
-		for(auto& texturePath : texturePaths)
-		{
-			if(loadTexture(texturePath))
+			auto oldTextures = textures;
+			auto oldFonts = fonts;
+			textures.clear();
+			fonts.clear();
+
+			size_t successCounter = 0;
+			for(auto& texturePair : textures)
 			{
-				successCounter++;
+				if(loadTexture(texturePair.first))
+				{
+					successCounter++;
+					delete texturePair.second;
+				}
+				else
+				{
+					textures.add(texturePair);
+				}
 			}
-		}
-		for(auto& fontPath : fontPaths)
-		{
-			if(loadFont(fontPath))
+			for(auto& fontPair : fonts)
 			{
-				successCounter++;
+				if(loadFont(fontPair.first))
+				{
+					successCounter++;
+					delete fontPair.second;
+				}
+				else
+				{
+					fonts.add(fontPair);
+				}
 			}
+			return successCounter;
 		}
-		return successCounter;
+		else
+		{
+			ArrayList<String> texturePaths;
+			texturePaths.reserve(textures.size());
+			ArrayList<String> fontPaths;
+			fontPaths.reserve(fonts.size());
+
+			for(auto& texturePair : textures)
+			{
+				texturePaths.add(texturePair.first);
+			}
+			for(auto& fontPair : fonts)
+			{
+				fontPaths.add(fontPair.first);
+			}
+
+			unload();
+
+			size_t successCounter = 0;
+			for(auto& texturePath : texturePaths)
+			{
+				if(loadTexture(texturePath))
+				{
+					successCounter++;
+				}
+			}
+			for(auto& fontPath : fontPaths)
+			{
+				if(loadFont(fontPath))
+				{
+					successCounter++;
+				}
+			}
+			return successCounter;
+		}
 	}
 	
 	void AssetManager::unload()
