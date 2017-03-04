@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include "Any.hpp"
 #include "ArrayList.hpp"
 #include "Data.hpp"
@@ -25,6 +26,7 @@ namespace fgl
 		typedef Number boolean;
 		
 		static bool loadFromPath(Dictionary* dst, const String& path, String* error=nullptr);
+		static bool loadFromFile(Dictionary* dst, FILE* file, String* error=nullptr);
 		static bool loadFromData(Dictionary* dst, const Data& data, String* error=nullptr);
 		static bool loadFromString(Dictionary* dst, const String& string, String* error=nullptr);
 		static bool loadFromPointer(Dictionary* dst, const void* pointer, size_t length, String* error=nullptr);

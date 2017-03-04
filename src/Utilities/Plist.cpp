@@ -37,25 +37,19 @@ namespace fgl
 	bool Plist_writeArray(const ArrayList<VALUE_TYPE>& src, pugi::xml_node& node, String* error);
 	
 	
-	
-	bool Plist::loadFromPath(Dictionary* dst, const String& path, String* error)
+
+	bool Plist::loadFromFile(Dictionary* dst, FILE* file, String* error)
 	{
 		if(dst==nullptr)
 		{
 			throw IllegalArgumentException("dst", "cannot be null");
 		}
-		
-		//load the file into memory
-		FILE*file = std::fopen(path, "rb");
-		if(file == nullptr)
+		if(file==nullptr)
 		{
-			//TODO add switch for errno
-			if(error!=nullptr)
-			{
-				*error = "Unable to load plist from file";
-			}
-			return false;
+			throw IllegalArgumentException("file", "cannot be null");
 		}
+
+		long originalFileTell = std::ftell(file);
 		std::fseek(file, 0, SEEK_END);
 		long fileSize = std::ftell(file);
 		std::fseek(file, 0, SEEK_SET);
@@ -79,11 +73,34 @@ namespace fgl
 			throw std::bad_alloc();
 		}
 		std::fread((void*)fileContent, 1, (size_t)fileSize, file);
-		std::fclose(file);
-		
+		std::fseek(file, originalFileTell, SEEK_SET);
+
 		//parse the data
 		bool success = loadFromPointer(dst, (const void*)fileContent, (size_t)fileSize, error);
 		std::free(fileContent);
+		return success;
+	}
+	
+	bool Plist::loadFromPath(Dictionary* dst, const String& path, String* error)
+	{
+		if(dst==nullptr)
+		{
+			throw IllegalArgumentException("dst", "cannot be null");
+		}
+		
+		//load the file into memory
+		FILE* file = std::fopen(path, "rb");
+		if(file == nullptr)
+		{
+			//TODO add switch for errno
+			if(error!=nullptr)
+			{
+				*error = "Unable to load plist from file";
+			}
+			return false;
+		}
+		bool success = loadFromFile(dst, file, error);
+		std::fclose(file);
 		return success;
 	}
 	
