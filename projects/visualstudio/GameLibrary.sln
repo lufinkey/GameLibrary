@@ -2,12 +2,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLibrary", "GameLibrary.vcxproj", "{68890E50-B78E-43FB-BFF3-C96E86766C57}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{B8654427-FE94-48A1-8D38-EC8AF9A4BEEA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{68890E50-B78E-43FB-BFF3-C96E86766C57} = {68890E50-B78E-43FB-BFF3-C96E86766C57}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLibrary", "GameLibrary.vcxproj", "{68890E50-B78E-43FB-BFF3-C96E86766C57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
