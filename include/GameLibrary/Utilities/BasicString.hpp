@@ -602,6 +602,13 @@ namespace fgl
 		size_t lastIndexOf(const BasicString<CHAR_TYPE>& find) const;
 		size_t lastIndexOf(const CHAR_TYPE* find, size_t startIndex) const;
 		size_t lastIndexOf(const CHAR_TYPE* find) const;
+
+		bool startsWith(const CHAR_TYPE* str) const;
+		bool startsWith(const CHAR_TYPE* str, size_t length) const;
+		bool startsWith(const BasicString<CHAR_TYPE>& str) const;
+		bool endsWith(const CHAR_TYPE* str) const;
+		bool endsWith(const CHAR_TYPE* str, size_t length) const;
+		bool endsWith(const BasicString<CHAR_TYPE>& str) const;
 		
 		BasicString<CHAR_TYPE> replace(const CHAR_TYPE& find, const CHAR_TYPE& replace) const;
 		BasicString<CHAR_TYPE> replace(const BasicString<CHAR_TYPE>& find, const BasicString<CHAR_TYPE>& replace) const;

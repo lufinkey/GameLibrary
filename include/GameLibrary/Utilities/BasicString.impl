@@ -1457,6 +1457,67 @@ namespace fgl
 	{
 		return lastIndexOf(find, size-1);
 	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::startsWith(const CHAR_TYPE* str) const
+	{
+		return startsWith(str, BasicString<CHAR_TYPE>::strlen(str));
+	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::startsWith(const CHAR_TYPE* str, size_t length) const
+	{
+		if(length > size)
+		{
+			return false;
+		}
+		for(size_t i=0; i<length; i++)
+		{
+			if(characters[i]!=str[i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::startsWith(const BasicString<CHAR_TYPE>& str) const
+	{
+		return startsWith(str.characters, str.size)
+	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::endsWith(const CHAR_TYPE* str) const
+	{
+		return endsWith(str, BasicString<CHAR_TYPE>::strlen(str));
+	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::endsWith(const CHAR_TYPE* str, size_t length) const
+	{
+		if(length > size)
+		{
+			return false;
+		}
+		size_t str_index = length-1;
+		size_t str_end = size-length-1;
+		for(size_t i=(size-1); i!=str_end; i--)
+		{
+			if(characters[i]!=str[str_index])
+			{
+				return false;
+			}
+			str_index--;
+		}
+		return true;
+	}
+
+	template<typename CHAR_TYPE>
+	bool BasicString<CHAR_TYPE>::endsWith(const BasicString<CHAR_TYPE>& str) const
+	{
+		return endsWith(str.characters, str.size);
+	}
 	
 	template<typename CHAR_TYPE>
 	BasicString<CHAR_TYPE> BasicString<CHAR_TYPE>::replace(const CHAR_TYPE& find, const CHAR_TYPE& replace) const
