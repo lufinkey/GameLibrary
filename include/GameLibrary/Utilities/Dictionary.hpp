@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <map>
 #include <utility>
 #include "Any.hpp"
 #include "ArrayList.hpp"
@@ -47,6 +48,8 @@ namespace fgl
 		};
 		
 		BasicDictionary();
+		BasicDictionary(std::initializer_list<std::pair<KEY_TYPE, VALUE_TYPE>> list);
+		BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& map);
 		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
 		BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents);

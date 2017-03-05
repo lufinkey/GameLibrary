@@ -65,6 +65,20 @@ namespace fgl
 	{
 		//
 	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& map)
+		: contents(std::vector<std::pair<KEY_TYPE, VALUE_TYPE>>(map.begin(), map.end()))
+	{
+		//
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(std::initializer_list<std::pair<KEY_TYPE, VALUE_TYPE>> list)
+		: contents(list)
+	{
+		//
+	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values)
