@@ -20,7 +20,7 @@ namespace fgl
 		ScreenElement();
 		/*! Constructs an element with a given frame (bounding box).
 			\param frame the bounding box of the element*/
-		explicit ScreenElement(const RectangleD&frame);
+		explicit ScreenElement(const RectangleD& frame);
 		/*! virtual destructor*/
 		virtual ~ScreenElement();
 		
@@ -40,7 +40,7 @@ namespace fgl
 		
 		/*! Sets the actual frame (bounding box) of the element inside of its parent.
 			\param frame a RectangleD object representing the element's bounding box within its parent*/
-		virtual void setFrame(const RectangleD&frame);
+		virtual void setFrame(const RectangleD& frame);
 		/*! Gets the actual frame (bounding box) of the element inside of its parent.
 			\returns a RectangleD object representing the element's bounding box within its parent*/
 		virtual RectangleD getFrame() const override;
@@ -52,7 +52,7 @@ namespace fgl
 		/*! Adds a child element to this element.
 			\param element a ScreenElement pointer
 			\throws fgl::IllegalArgumentException if element is null, or if the element is already a child of another ScreenElement*/
-		void addChildElement(ScreenElement*element);
+		void addChildElement(ScreenElement* element);
 		/*! Removes this element from its parent element, or returns if it has no parent element.
 			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
 		void removeFromParentElement();
@@ -60,12 +60,12 @@ namespace fgl
 			\param element a ScreenElement pointer
 			\throws fgl::IllegalArgumentException if element is null, or if the element is not a child of this element
 			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
-		void bringChildElementToFront(ScreenElement*element);
+		void bringChildElementToFront(ScreenElement* element);
 		/*! Sends a child element to the back of the element list.
 			\param element a ScreenElement pointer
 			\throws fgl::IllegalArgumentException if element is null, or if the element is not a child of this element
 			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
-		void sendChildElementToBack(ScreenElement*element);
+		void sendChildElementToBack(ScreenElement* element);
 		
 		
 		/*! Gets the list of child elements of this element.
@@ -137,10 +137,10 @@ namespace fgl
 		
 		/*! Called when this element is removed from an element that is stored in a Screen, which is presented on, or is itself, a root screen.
 			\param window the Window pointer*/
-		virtual void onRemoveFromWindow(Window*window);
+		virtual void onRemoveFromWindow(Window* window);
 		/*! Called when this element is added to an element that is stored in a Screen, which is presented on, or is itself, a root screen.
 			\param window the Window pointer*/
-		virtual void onAddToWindow(Window*window);
+		virtual void onAddToWindow(Window* window);
 		
 		ScreenElement* tellChildrenHandleMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos);
 		void tellChildrenElementHandledMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos, ScreenElement* element);

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <functional>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include "ScreenElement.hpp"
 #include "Transition/Transition.hpp"
@@ -8,9 +9,6 @@
 namespace fgl
 {
 	class ScreenManager;
-	
-	/*! A callback that handles a completion of presenting, dismissing, pushing, or popping of a Screen*/
-	typedef void(*CompletionCallback)(void*);
 
 	/*! An drawable entity that can be used to separate different menus or screens of an Application. This class is non-copyable.*/
 	class Screen : public UpdateDrawable
@@ -83,12 +81,12 @@ namespace fgl
 				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),\n
 				4.) already held within a ScreenManager,\n
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void present(Screen*screen, const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, CompletionCallback completion=nullptr);
+		void present(Screen*screen, const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen, or if no Screen is presented on top of this Screen, this Screen is dismissed from its parent Screen.
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition*/
-		void dismiss(const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, CompletionCallback completion=nullptr);
+		void dismiss(const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		
 		
 		/*! Gets the root ScreenElement.
@@ -203,20 +201,19 @@ namespace fgl
 			const Transition*transition;
 			double progress;
 			unsigned long long duration;
-			CompletionCallback completion;
-			void* caller;
+			std::function<void()> completion;
 		} TransitionData;
 		
-		static void TransitionData_clear(TransitionData&data);
-		static void TransitionData_begin(TransitionData&data, Screen*screen, Screen*transitionScreen, TransitionAction action, const Transition*transition, unsigned long long duration, CompletionCallback completion, void*caller);
+		static void TransitionData_clear(TransitionData& data);
+		static void TransitionData_begin(TransitionData& data, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, unsigned long long duration, const std::function<void()>& completion=nullptr);
 		/*Makes sure the TransitionData is initialized, if it requires it.*/
-		static void TransitionData_checkInitialization(ApplicationData& appData, TransitionData&data);
+		static void TransitionData_checkInitialization(ApplicationData& appData, TransitionData& data);
 		/*Applies any new progress to the transition.
 		If the transition finishes, a constant representing the finished transition is returned. Otherwise, 0 is returned.*/
-		static byte TransitionData_applyProgress(ApplicationData& appData, TransitionData&data);
+		static byte TransitionData_applyProgress(ApplicationData& appData, TransitionData& data);
 		/*Checks if the transition is finished by calling TransitionData_applyProgress, and stores the objects that need calling if so.*/
-		static void TransitionData_checkFinished(ApplicationData&appData, TransitionData&data, Screen**onDidDisappearCaller, Screen**onDidAppearCaller);
-		static void TransitionData_callVirtualFunctions(TransitionData&data, Screen*onDidDisappearCaller, Screen*onDidAppearCaller);
+		static void TransitionData_checkFinished(ApplicationData& appData, TransitionData& data, Screen** onDidDisappearCaller, Screen** onDidAppearCaller);
+		static void TransitionData_callVirtualFunctions(TransitionData& data, Screen* onDidDisappearCaller, Screen* onDidAppearCaller);
 		
 		Window* window;
 		Vector2d framesize;

@@ -8,7 +8,7 @@ namespace fgl
 {
 	const Transition* const ScreenManager::defaultPushTransition = new SlideTransition(SlideTransition::SLIDE_LEFT);
 	
-	void ScreenManager::setWindow(Window*win)
+	void ScreenManager::setWindow(Window* win)
 	{
 		if(window!=win)
 		{
@@ -37,7 +37,7 @@ namespace fgl
 		}
 	}
 	
-	ScreenManager::ScreenManager(Window*window, Screen*rootScreen) : Screen(window)
+	ScreenManager::ScreenManager(Window* window, Screen* rootScreen) : Screen(window)
 	{
 		if(rootScreen == nullptr)
 		{
@@ -61,7 +61,7 @@ namespace fgl
 		screens.add(rootScreen);
 	}
 	
-	ScreenManager::ScreenManager(Screen*rootScreen) : ScreenManager(nullptr, rootScreen)
+	ScreenManager::ScreenManager(Screen* rootScreen) : ScreenManager(nullptr, rootScreen)
 	{
 		//
 	}
@@ -77,7 +77,7 @@ namespace fgl
 		screens.clear();
 	}
 	
-	void ScreenManager::onWillAppear(const Transition*transition)
+	void ScreenManager::onWillAppear(const Transition* transition)
 	{
 		Screen::onWillAppear(transition);
 		if(pushpopData.action==TRANSITION_NONE)
@@ -86,7 +86,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenManager::onDidAppear(const Transition*transition)
+	void ScreenManager::onDidAppear(const Transition* transition)
 	{
 		Screen::onDidAppear(transition);
 		if(pushpopData.action==TRANSITION_NONE)
@@ -95,13 +95,13 @@ namespace fgl
 		}
 	}
 	
-	void ScreenManager::onWillDisappear(const Transition*transition)
+	void ScreenManager::onWillDisappear(const Transition* transition)
 	{
 		Screen::onWillDisappear(transition);
 		screens.get(screens.size()-1)->onWillDisappear(transition);
 	}
 	
-	void ScreenManager::onDidDisappear(const Transition*transition)
+	void ScreenManager::onDidDisappear(const Transition* transition)
 	{
 		Screen::onDidDisappear(transition);
 		screens.get(screens.size()-1)->onDidDisappear(transition);
@@ -191,7 +191,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenManager::set(const ArrayList<Screen*>& newScreens, const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	void ScreenManager::set(const ArrayList<Screen*>& newScreens, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(!isshown)
 		{
@@ -269,9 +269,9 @@ namespace fgl
 					screen->setWindow(window);
 				}
 
-				if(completion != nullptr)
+				if(completion)
 				{
-					completion((void*)this);
+					completion();
 				}
 			}
 			else
@@ -282,12 +282,12 @@ namespace fgl
 				if(screens.contains(lastNewScreen))
 				{
 					//pop animation
-					TransitionData_begin(pushpopData, lastNewScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion, (void*)this);
+					TransitionData_begin(pushpopData, lastNewScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion);
 				}
 				else
 				{
 					//push animation
-					TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion, (void*)this);
+					TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion);
 				}
 				for(unsigned int i=0; i<screens.size(); i++)
 				{
@@ -317,18 +317,18 @@ namespace fgl
 						topOldScreen->onDidDisappear(transition);
 						topNewScreen->onDidAppear(transition);
 
-						if(completion != nullptr)
+						if(completion)
 						{
-							completion((void*)this);
+							completion();
 						}
 					}
 					else
 					{
 						TransitionData_clear(overlayData);
 
-						if(completion != nullptr)
+						if(completion)
 						{
-							completion((void*)this);
+							completion();
 						}
 					}
 				}
@@ -344,7 +344,7 @@ namespace fgl
 		}
 	}
 	
-	void ScreenManager::push(Screen*screen, const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	void ScreenManager::push(Screen* screen, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(!isshown)
 		{
@@ -361,7 +361,7 @@ namespace fgl
 		push(screens, transition, duration, completion);
 	}
 	
-	void ScreenManager::push(const ArrayList<Screen*>& newScreens, const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	void ScreenManager::push(const ArrayList<Screen*>& newScreens, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(!isshown)
 		{
@@ -426,7 +426,7 @@ namespace fgl
 			Screen* topNewScreen = lastNewScreen->getTopScreen();
 			
 			bool ontop = isOnTop();
-			TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion, (void*)this);
+			TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion);
 			for(unsigned int i=0; i<newScreens.size(); i++)
 			{
 				Screen* screen = newScreens.get(i);
@@ -447,18 +447,18 @@ namespace fgl
 					topOldScreen->onDidDisappear(transition);
 					topNewScreen->onDidAppear(transition);
 
-					if(completion != nullptr)
+					if(completion)
 					{
-						completion((void*)this);
+						completion();
 					}
 				}
 				else
 				{
 					TransitionData_clear(overlayData);
 
-					if(completion != nullptr)
+					if(completion)
 					{
-						completion((void*)this);
+						completion();
 					}
 				}
 			}
@@ -473,7 +473,7 @@ namespace fgl
 		}
 	}
 	
-	Screen* ScreenManager::pop(const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	Screen* ScreenManager::pop(const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(pushpopData.action != TRANSITION_NONE)
 		{
@@ -489,7 +489,7 @@ namespace fgl
 		}
 	}
 	
-	ArrayList<Screen*> ScreenManager::popTo(Screen*screen, const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	ArrayList<Screen*> ScreenManager::popTo(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(pushpopData.action != TRANSITION_NONE)
 		{
@@ -528,7 +528,7 @@ namespace fgl
 			Screen* topNewScreen = newScreen->getTopScreen();
 
 			bool ontop = isOnTop();
-			TransitionData_begin(pushpopData, newScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion, (void*)this);
+			TransitionData_begin(pushpopData, newScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion);
 
 			if(transition == nullptr || duration == 0)
 			{
@@ -542,18 +542,18 @@ namespace fgl
 					topOldScreen->onDidDisappear(transition);
 					topNewScreen->onDidAppear(transition);
 
-					if(completion != nullptr)
+					if(completion)
 					{
-						completion((void*)this);
+						completion();
 					}
 				}
 				else
 				{
 					TransitionData_clear(overlayData);
 
-					if(completion != nullptr)
+					if(completion)
 					{
-						completion((void*)this);
+						completion();
 					}
 				}
 			}
@@ -570,7 +570,7 @@ namespace fgl
 		}
 	}
 	
-	ArrayList<Screen*> ScreenManager::popToRoot(const Transition*transition, unsigned long long duration, CompletionCallback completion)
+	ArrayList<Screen*> ScreenManager::popToRoot(const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(pushpopData.action != TRANSITION_NONE)
 		{
