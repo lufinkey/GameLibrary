@@ -2,13 +2,14 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #ifdef _HAS_STD_OPTIONAL
 	#include <optional>
 #endif
 
 namespace fgl
 {
-	#define funcwrap [&]()->auto
+	#define funcwrap(...) [&]( __VA_ARGS__ )->auto
 
 	bool attempt(const std::function<void()>& block);
 	
@@ -39,4 +40,10 @@ namespace fgl
 		}
 	}
 #endif
+
+	template<typename T>
+	std::shared_ptr<T> share(T* value)
+	{
+		return std::shared_ptr<T>(value);
+	}
 }
