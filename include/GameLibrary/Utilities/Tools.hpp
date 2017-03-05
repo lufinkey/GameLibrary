@@ -9,7 +9,7 @@
 
 namespace fgl
 {
-	#define funcwrap [&]()->auto
+#define funcwrap(...) [&]()->auto { return __VA_ARGS__; }
 
 	bool attempt(const std::function<void()>& block);
 	
