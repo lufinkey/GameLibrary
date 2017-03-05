@@ -15,9 +15,9 @@ namespace fgl
 			/*! Stretch the image to fill the frame*/
 			DISPLAY_STRETCH,
 			/*! Scale the image to be contained within the frame, but maintain the aspect ratio of the image.*/
-			DISPLAY_FIT,
+			DISPLAY_FIT_CENTER,
 			/*! Scale the image to fill the frame, but don't stretch the image. If a part of the image is outside the frame, it is clipped.*/
-			DISPLAY_ZOOM,
+			DISPLAY_FILL,
 			/*! Repeat the image to fill the frame*/
 			DISPLAY_REPEAT
 		} DisplayMode;

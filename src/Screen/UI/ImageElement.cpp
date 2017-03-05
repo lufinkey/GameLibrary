@@ -8,22 +8,22 @@ namespace fgl
 		//
 	}
 	
-	ImageElement::ImageElement(const RectangleD&frame) : ImageElement(frame,nullptr)
+	ImageElement::ImageElement(const RectangleD& frame) : ImageElement(frame, nullptr)
 	{
 		//
 	}
 	
-	ImageElement::ImageElement(const RectangleD&frame, TextureImage*img, const ImageElement::DisplayMode&displayMd)
+	ImageElement::ImageElement(const RectangleD& frame, TextureImage* image, const ImageElement::DisplayMode& displayMode)
 		: ScreenElement(frame),
-		image(img),
-		displayMode(displayMd),
+		image(image),
+		displayMode(displayMode),
 		srcrect(nullptr)
 	{
 		//
 	}
 	
-	ImageElement::ImageElement(TextureImage*img, const ImageElement::DisplayMode&displayMode)
-		: ImageElement(RectangleD(0, 0, 0, 0), img, displayMode)
+	ImageElement::ImageElement(TextureImage* image, const ImageElement::DisplayMode& displayMode)
+		: ImageElement(RectangleD(0, 0, 0, 0), image, displayMode)
 	{
 		//
 	}
@@ -51,7 +51,7 @@ namespace fgl
 				}
 				break;
 				
-				case DISPLAY_FIT:
+				case DISPLAY_FIT_CENTER:
 				{
 					RectangleD frame = getFrame();
 					double imgwidth = (double)srcRect.width;
@@ -65,7 +65,7 @@ namespace fgl
 				}
 				break;
 				
-				case DISPLAY_ZOOM:
+				case DISPLAY_FILL:
 				{
 					RectangleD frame = getFrame();
 
