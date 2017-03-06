@@ -31,6 +31,8 @@ namespace fgl
 		fgl::String fontPath((char*)windows_path);
 		fontPath += "\\Fonts\\arial.ttf";
 		return fontPath;
+#elif defined(TARGETPLATFORM_MAC) || defined(TARGETPLATFORM_IOS_SIMULATOR)
+		return "/Library/Fonts/Arial.ttf";
 #else
 		return "fonts/arial.ttf";
 #endif
@@ -204,7 +206,7 @@ namespace fgl
 		}
 	}
 	
-	Graphics::Graphics(Window&win)
+	Graphics::Graphics(Window& win)
 	{
 		if(win.windowdata == nullptr)
 		{
@@ -562,8 +564,6 @@ namespace fgl
 			
 			SDL_SetTextureColorMod(texture, 255,255,255);
 			SDL_SetTextureAlphaMod(texture, 255);
-
-			drawLineRaw(pnt.x+(double)rect.w, pnt.y, pnt.x+(double)rect.w, pnt.y+(double)rect.h, 1);
 			
 			x_offset += glyphDimensions.x;
 		}
