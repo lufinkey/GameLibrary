@@ -109,7 +109,7 @@ namespace fgl
 			\returns the border width, in pixels */
 		float getBorderWidth() const;
 		/*! Sets the border color of this element. If the color is equal to Color::TRANSPARENT, the background color will not be drawn.
-			\param color the color to draw the border */
+			\param borderColor the color to draw the border */
 		void setBorderColor(const Color& borderColor);
 		/*! Gets the border color of this element.
 			\returns the border color */

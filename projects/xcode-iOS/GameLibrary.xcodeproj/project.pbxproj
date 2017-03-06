@@ -16,7 +16,6 @@
 		A039DB201CCDE89E00B0B5DA /* WireframeActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DABD1CCDE89E00B0B5DA /* WireframeActor.cpp */; };
 		A039DB211CCDE89E00B0B5DA /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DABF1CCDE89E00B0B5DA /* Application.cpp */; };
 		A039DB221CCDE89E00B0B5DA /* ApplicationData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAC01CCDE89E00B0B5DA /* ApplicationData.cpp */; };
-		A039DB231CCDE89E00B0B5DA /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAC11CCDE89E00B0B5DA /* AssetManager.cpp */; };
 		A039DB241CCDE89E00B0B5DA /* BatchLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAC21CCDE89E00B0B5DA /* BatchLoader.cpp */; };
 		A039DB251CCDE89E00B0B5DA /* EventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAC31CCDE89E00B0B5DA /* EventManager.cpp */; };
 		A039DB261CCDE89E00B0B5DA /* Music.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DAC61CCDE89E00B0B5DA /* Music.cpp */; };
@@ -79,7 +78,6 @@
 		A039DB611CCDE89E00B0B5DA /* TimeInterval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB161CCDE89E00B0B5DA /* TimeInterval.cpp */; };
 		A039DB621CCDE89E00B0B5DA /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB181CCDE89E00B0B5DA /* MessageBox.cpp */; };
 		A039DB631CCDE89E00B0B5DA /* MessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = A039DB191CCDE89E00B0B5DA /* MessageBox.mm */; };
-		A039DB641CCDE89E00B0B5DA /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1A1CCDE89E00B0B5DA /* View.cpp */; };
 		A039DB651CCDE89E00B0B5DA /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1B1CCDE89E00B0B5DA /* Window.cpp */; };
 		A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79A81CD4660300456C8E /* NotImplementedException.cpp */; };
 		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
@@ -93,6 +91,8 @@
 		F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */; };
 		F15F32251E2573C100710AC8 /* Plist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32241E2573C100710AC8 /* Plist.cpp */; };
 		F15F32271E2573C600710AC8 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32261E2573C600710AC8 /* Tools.cpp */; };
+		F17D96E61E6DB59C003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96E51E6DB59C003F4D85 /* AssetManager.cpp */; };
+		F17D96E81E6DB5A1003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96E71E6DB5A1003F4D85 /* Viewport.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,7 +155,6 @@
 		A039D9D41CCDE80800B0B5DA /* WireframeActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WireframeActor.hpp; sourceTree = "<group>"; };
 		A039D9D61CCDE80800B0B5DA /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
 		A039D9D71CCDE80800B0B5DA /* ApplicationData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ApplicationData.hpp; sourceTree = "<group>"; };
-		A039D9D81CCDE80800B0B5DA /* AssetManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		A039D9D91CCDE80800B0B5DA /* BatchLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BatchLoader.hpp; sourceTree = "<group>"; };
 		A039D9DB1CCDE80800B0B5DA /* Music.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Music.hpp; sourceTree = "<group>"; };
 		A039D9DC1CCDE80800B0B5DA /* Sound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sound.hpp; sourceTree = "<group>"; };
@@ -234,7 +233,6 @@
 		A039DA361CCDE80800B0B5DA /* DateTime.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DateTime.hpp; sourceTree = "<group>"; };
 		A039DA371CCDE80800B0B5DA /* TimeInterval.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TimeInterval.hpp; sourceTree = "<group>"; };
 		A039DA391CCDE80800B0B5DA /* MessageBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MessageBox.hpp; sourceTree = "<group>"; };
-		A039DA3A1CCDE80800B0B5DA /* View.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = View.hpp; sourceTree = "<group>"; };
 		A039DA3B1CCDE80800B0B5DA /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		A039DA3F1CCDE86A00B0B5DA /* base64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = base64.hpp; sourceTree = "<group>"; };
 		A039DA481CCDE86A00B0B5DA /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
@@ -245,7 +243,6 @@
 		A039DABD1CCDE89E00B0B5DA /* WireframeActor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WireframeActor.cpp; sourceTree = "<group>"; };
 		A039DABF1CCDE89E00B0B5DA /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		A039DAC01CCDE89E00B0B5DA /* ApplicationData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplicationData.cpp; sourceTree = "<group>"; };
-		A039DAC11CCDE89E00B0B5DA /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		A039DAC21CCDE89E00B0B5DA /* BatchLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchLoader.cpp; sourceTree = "<group>"; };
 		A039DAC31CCDE89E00B0B5DA /* EventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventManager.cpp; sourceTree = "<group>"; };
 		A039DAC41CCDE89E00B0B5DA /* EventManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventManager.hpp; sourceTree = "<group>"; };
@@ -314,7 +311,6 @@
 		A039DB161CCDE89E00B0B5DA /* TimeInterval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeInterval.cpp; sourceTree = "<group>"; };
 		A039DB181CCDE89E00B0B5DA /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; };
 		A039DB191CCDE89E00B0B5DA /* MessageBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageBox.mm; sourceTree = "<group>"; };
-		A039DB1A1CCDE89E00B0B5DA /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		A039DB1B1CCDE89E00B0B5DA /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		A05D79A51CD465AE00456C8E /* Dictionary.impl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dictionary.impl; sourceTree = "<group>"; };
 		A05D79A61CD465D400456C8E /* NotImplementedException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NotImplementedException.hpp; sourceTree = "<group>"; };
@@ -341,6 +337,10 @@
 		F15F32261E2573C600710AC8 /* Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tools.cpp; sourceTree = "<group>"; };
 		F16ACC3D1E3A9A5500DC5DC9 /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		F16ACC3E1E3A9A5500DC5DC9 /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
+		F17D96E31E6DB57C003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
+		F17D96E41E6DB581003F4D85 /* Viewport.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Viewport.hpp; sourceTree = "<group>"; };
+		F17D96E51E6DB59C003F4D85 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
+		F17D96E71E6DB5A1003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		F1C39D521E3920A4008A5EF6 /* Vector3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector3.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -432,7 +432,6 @@
 			children = (
 				A039D9D61CCDE80800B0B5DA /* Application.hpp */,
 				A039D9D71CCDE80800B0B5DA /* ApplicationData.hpp */,
-				A039D9D81CCDE80800B0B5DA /* AssetManager.hpp */,
 				A039D9D91CCDE80800B0B5DA /* BatchLoader.hpp */,
 			);
 			path = Application;
@@ -650,8 +649,9 @@
 		A039DA381CCDE80800B0B5DA /* Window */ = {
 			isa = PBXGroup;
 			children = (
+				F17D96E31E6DB57C003F4D85 /* AssetManager.hpp */,
 				A039DA391CCDE80800B0B5DA /* MessageBox.hpp */,
-				A039DA3A1CCDE80800B0B5DA /* View.hpp */,
+				F17D96E41E6DB581003F4D85 /* Viewport.hpp */,
 				A039DA3B1CCDE80800B0B5DA /* Window.hpp */,
 			);
 			path = Window;
@@ -737,7 +737,6 @@
 			children = (
 				A039DABF1CCDE89E00B0B5DA /* Application.cpp */,
 				A039DAC01CCDE89E00B0B5DA /* ApplicationData.cpp */,
-				A039DAC11CCDE89E00B0B5DA /* AssetManager.cpp */,
 				A039DAC21CCDE89E00B0B5DA /* BatchLoader.cpp */,
 				A039DAC41CCDE89E00B0B5DA /* EventManager.hpp */,
 				A039DAC31CCDE89E00B0B5DA /* EventManager.cpp */,
@@ -943,9 +942,10 @@
 		A039DB171CCDE89E00B0B5DA /* Window */ = {
 			isa = PBXGroup;
 			children = (
+				F17D96E51E6DB59C003F4D85 /* AssetManager.cpp */,
 				A039DB181CCDE89E00B0B5DA /* MessageBox.cpp */,
 				A039DB191CCDE89E00B0B5DA /* MessageBox.mm */,
-				A039DB1A1CCDE89E00B0B5DA /* View.cpp */,
+				F17D96E71E6DB5A1003F4D85 /* Viewport.cpp */,
 				A039DB1B1CCDE89E00B0B5DA /* Window.cpp */,
 			);
 			path = Window;
@@ -1155,11 +1155,12 @@
 				A039DB5D1CCDE89E00B0B5DA /* Thread.cpp in Sources */,
 				A039DB481CCDE89E00B0B5DA /* AutoLayoutCalculator.cpp in Sources */,
 				A039DB381CCDE89E00B0B5DA /* RenderGlyphException.cpp in Sources */,
-				A039DB231CCDE89E00B0B5DA /* AssetManager.cpp in Sources */,
+				F17D96E61E6DB59C003F4D85 /* AssetManager.cpp in Sources */,
 				A039DB241CCDE89E00B0B5DA /* BatchLoader.cpp in Sources */,
 				A039DB431CCDE89E00B0B5DA /* Multitouch.cpp in Sources */,
 				A039DB2B1CCDE89E00B0B5DA /* TextureImageCreateException.cpp in Sources */,
 				A039DB2C1CCDE89E00B0B5DA /* TextureImageUpdateException.cpp in Sources */,
+				F17D96E81E6DB5A1003F4D85 /* Viewport.cpp in Sources */,
 				A039DB251CCDE89E00B0B5DA /* EventManager.cpp in Sources */,
 				A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */,
 				A039DB591CCDE89E00B0B5DA /* Font.cpp in Sources */,
@@ -1212,7 +1213,6 @@
 				A039DB281CCDE89E00B0B5DA /* BadCastException.cpp in Sources */,
 				F15BC38A1E4378B7001910A4 /* SDL2_imageFilter.c in Sources */,
 				F15F32251E2573C100710AC8 /* Plist.cpp in Sources */,
-				A039DB641CCDE89E00B0B5DA /* View.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

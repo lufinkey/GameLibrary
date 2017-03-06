@@ -20,7 +20,6 @@
 		F15A1F0D1E5498D1008D83E5 /* WireframeActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA61E5498D0008D83E5 /* WireframeActor.cpp */; };
 		F15A1F0E1E5498D1008D83E5 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA81E5498D0008D83E5 /* Application.cpp */; };
 		F15A1F0F1E5498D1008D83E5 /* ApplicationData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EA91E5498D0008D83E5 /* ApplicationData.cpp */; };
-		F15A1F101E5498D1008D83E5 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EAA1E5498D0008D83E5 /* AssetManager.cpp */; };
 		F15A1F111E5498D1008D83E5 /* BatchLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EAB1E5498D0008D83E5 /* BatchLoader.cpp */; };
 		F15A1F121E5498D1008D83E5 /* EventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EAC1E5498D0008D83E5 /* EventManager.cpp */; };
 		F15A1F141E5498D1008D83E5 /* Music.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EAF1E5498D1008D83E5 /* Music.cpp */; };
@@ -89,13 +88,16 @@
 		F15A1F581E5498D1008D83E5 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F031E5498D1008D83E5 /* Tools.cpp */; };
 		F15A1F591E5498D1008D83E5 /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F051E5498D1008D83E5 /* MessageBox.cpp */; };
 		F15A1F5A1E5498D1008D83E5 /* MessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F061E5498D1008D83E5 /* MessageBox.mm */; };
-		F15A1F5B1E5498D1008D83E5 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F071E5498D1008D83E5 /* View.cpp */; };
 		F15A1F5C1E5498D1008D83E5 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F081E5498D1008D83E5 /* Window.cpp */; };
 		F15A1F6A1E549A9A008D83E5 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F681E549A96008D83E5 /* pugixml.cpp */; };
 		F15A1F761E549ADD008D83E5 /* SDL2_framerate.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F6D1E549ADD008D83E5 /* SDL2_framerate.c */; };
 		F15A1F791E549ADD008D83E5 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F701E549ADD008D83E5 /* SDL2_gfxPrimitives.c */; };
 		F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F721E549ADD008D83E5 /* SDL2_imageFilter.c */; };
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
+		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
+		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
+		F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */; };
+		F17D96CA1E6DB4C4003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,7 +233,6 @@
 		F15A1E311E5498C7008D83E5 /* WireframeActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WireframeActor.hpp; sourceTree = "<group>"; };
 		F15A1E331E5498C7008D83E5 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
 		F15A1E341E5498C7008D83E5 /* ApplicationData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ApplicationData.hpp; sourceTree = "<group>"; };
-		F15A1E351E5498C7008D83E5 /* AssetManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		F15A1E361E5498C7008D83E5 /* BatchLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BatchLoader.hpp; sourceTree = "<group>"; };
 		F15A1E381E5498C7008D83E5 /* Music.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Music.hpp; sourceTree = "<group>"; };
 		F15A1E391E5498C7008D83E5 /* Sound.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sound.hpp; sourceTree = "<group>"; };
@@ -318,7 +319,6 @@
 		F15A1E9A1E5498C7008D83E5 /* TimeInterval.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TimeInterval.hpp; sourceTree = "<group>"; };
 		F15A1E9B1E5498C7008D83E5 /* Tools.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Tools.hpp; sourceTree = "<group>"; };
 		F15A1E9D1E5498C7008D83E5 /* MessageBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MessageBox.hpp; sourceTree = "<group>"; };
-		F15A1E9E1E5498C7008D83E5 /* View.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = View.hpp; sourceTree = "<group>"; };
 		F15A1E9F1E5498C7008D83E5 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
 		F15A1EA21E5498D0008D83E5 /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		F15A1EA31E5498D0008D83E5 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
@@ -327,7 +327,6 @@
 		F15A1EA61E5498D0008D83E5 /* WireframeActor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WireframeActor.cpp; sourceTree = "<group>"; };
 		F15A1EA81E5498D0008D83E5 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		F15A1EA91E5498D0008D83E5 /* ApplicationData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplicationData.cpp; sourceTree = "<group>"; };
-		F15A1EAA1E5498D0008D83E5 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		F15A1EAB1E5498D0008D83E5 /* BatchLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchLoader.cpp; sourceTree = "<group>"; };
 		F15A1EAC1E5498D0008D83E5 /* EventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventManager.cpp; sourceTree = "<group>"; };
 		F15A1EAD1E5498D1008D83E5 /* EventManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventManager.hpp; sourceTree = "<group>"; };
@@ -402,7 +401,6 @@
 		F15A1F031E5498D1008D83E5 /* Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tools.cpp; sourceTree = "<group>"; };
 		F15A1F051E5498D1008D83E5 /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; };
 		F15A1F061E5498D1008D83E5 /* MessageBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageBox.mm; sourceTree = "<group>"; };
-		F15A1F071E5498D1008D83E5 /* View.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		F15A1F081E5498D1008D83E5 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		F15A1F601E5499E1008D83E5 /* base64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = base64.hpp; sourceTree = "<group>"; };
 		F15A1F671E549A96008D83E5 /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
@@ -421,6 +419,10 @@
 		F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../../external/SDL/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
 		F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = ../../external/SDL/SDL_mixer/Xcode/SDL_mixer.xcodeproj; sourceTree = "<group>"; };
 		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
+		F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Viewport.hpp; sourceTree = "<group>"; };
+		F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
+		F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
+		F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -534,7 +536,6 @@
 			children = (
 				F15A1E331E5498C7008D83E5 /* Application.hpp */,
 				F15A1E341E5498C7008D83E5 /* ApplicationData.hpp */,
-				F15A1E351E5498C7008D83E5 /* AssetManager.hpp */,
 				F15A1E361E5498C7008D83E5 /* BatchLoader.hpp */,
 			);
 			path = Application;
@@ -753,8 +754,9 @@
 		F15A1E9C1E5498C7008D83E5 /* Window */ = {
 			isa = PBXGroup;
 			children = (
+				F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */,
 				F15A1E9D1E5498C7008D83E5 /* MessageBox.hpp */,
-				F15A1E9E1E5498C7008D83E5 /* View.hpp */,
+				F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */,
 				F15A1E9F1E5498C7008D83E5 /* Window.hpp */,
 			);
 			path = Window;
@@ -796,7 +798,6 @@
 			children = (
 				F15A1EA81E5498D0008D83E5 /* Application.cpp */,
 				F15A1EA91E5498D0008D83E5 /* ApplicationData.cpp */,
-				F15A1EAA1E5498D0008D83E5 /* AssetManager.cpp */,
 				F15A1EAB1E5498D0008D83E5 /* BatchLoader.cpp */,
 				F15A1EAC1E5498D0008D83E5 /* EventManager.cpp */,
 				F15A1EAD1E5498D1008D83E5 /* EventManager.hpp */,
@@ -1003,9 +1004,10 @@
 		F15A1F041E5498D1008D83E5 /* Window */ = {
 			isa = PBXGroup;
 			children = (
+				F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */,
 				F15A1F051E5498D1008D83E5 /* MessageBox.cpp */,
 				F15A1F061E5498D1008D83E5 /* MessageBox.mm */,
-				F15A1F071E5498D1008D83E5 /* View.cpp */,
+				F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */,
 				F15A1F081E5498D1008D83E5 /* Window.cpp */,
 			);
 			path = Window;
@@ -1127,6 +1129,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
+				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,7 +1322,6 @@
 				F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */,
 				F15A1F491E5498D1008D83E5 /* Data.cpp in Sources */,
 				F15A1F0D1E5498D1008D83E5 /* WireframeActor.cpp in Sources */,
-				F15A1F101E5498D1008D83E5 /* AssetManager.cpp in Sources */,
 				F15A1F381E5498D1008D83E5 /* NetworkProtocol.cpp in Sources */,
 				F15A1F2E1E5498D1008D83E5 /* Graphics.cpp in Sources */,
 				F15A1F431E5498D1008D83E5 /* AnimationElement.cpp in Sources */,
@@ -1333,6 +1336,7 @@
 				F15A1F1A1E5498D1008D83E5 /* TextureImageCreateException.cpp in Sources */,
 				F15A1F1B1E5498D1008D83E5 /* TextureImageUpdateException.cpp in Sources */,
 				F15A1F4E1E5498D1008D83E5 /* Plist.cpp in Sources */,
+				F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */,
 				F15A1F311E5498D1008D83E5 /* TextureImage.cpp in Sources */,
 				F15A1F4B1E5498D1008D83E5 /* RenderedGlyphContainer.cpp in Sources */,
 				F15A1F2B1E5498D1008D83E5 /* StringOutOfBoundsException.cpp in Sources */,
@@ -1365,7 +1369,6 @@
 				F15A1F411E5498D1008D83E5 /* SlideTransition.cpp in Sources */,
 				F15A1F0F1E5498D1008D83E5 /* ApplicationData.cpp in Sources */,
 				F15A1F321E5498D1008D83E5 /* Keyboard.cpp in Sources */,
-				F15A1F5B1E5498D1008D83E5 /* View.cpp in Sources */,
 				F15A1F2C1E5498D1008D83E5 /* GameLibrary.cpp in Sources */,
 				F15A1F451E5498D1008D83E5 /* MenuScreen.cpp in Sources */,
 				F15A1F391E5498D1008D83E5 /* AutoLayoutCalculator.cpp in Sources */,
@@ -1378,6 +1381,7 @@
 				F15A1F581E5498D1008D83E5 /* Tools.cpp in Sources */,
 				F15A1F3A1E5498D1008D83E5 /* AutoLayoutManager.cpp in Sources */,
 				F15A1F211E5498D1008D83E5 /* NumberFormatException.cpp in Sources */,
+				F17D96CA1E6DB4C4003F4D85 /* AssetManager.cpp in Sources */,
 				F15A1F3B1E5498D1008D83E5 /* Screen.cpp in Sources */,
 				F15A1F191E5498D1008D83E5 /* ImageOutOfBoundsException.cpp in Sources */,
 				F15A1F091E5498D1008D83E5 /* Actor.cpp in Sources */,
