@@ -690,7 +690,7 @@ namespace fgl
 	{
 		return backgroundColor; //return ScreenElement::getBackgroundColor();
 	}
-	
+
 #define MOUSEBUTTONS_COUNT 4
 	
 	size_t Screen::getTouchDataIndex(ArrayList<Screen::MouseTouchData>& touches, unsigned int touchID)
@@ -729,7 +729,7 @@ namespace fgl
 		return unlisted;
 	}
 	
-	void Screen::updateElementMouse(ApplicationData& appData)
+	void Screen::updateElementMouse(ApplicationData appData)
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
@@ -753,14 +753,7 @@ namespace fgl
 			if(touch_index!=ArrayList<Screen::MouseTouchData>::NOT_FOUND)
 			{
 				MouseTouchData& touchData = currentTouches[touch_index];
-				for(size_t j=1; j<MOUSEBUTTONS_COUNT; j++)
-				{
-					if(touchData.state[j])
-					{
-						element->handleMouseRelease(appData, touchData.touchID, (Mouse::Button)j, touchData.pos);
-					}
-				}
-				element->handleMouseDisconnect(appData, touchData.touchID);
+				element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHCANCEL, touchData.touchID, appData, touchData.pos, true));
 				currentTouches.remove(touch_index);
 			}
 		}
@@ -776,13 +769,14 @@ namespace fgl
 				touchData.touchID = mouseIndex;
 				touchData.pos = mouseTransform.transform(Mouse::getPosition(window, mouseIndex));
 				//TODO add mouse connect handler
-				element->handleMouseMove(appData, touchData.touchID, touchData.pos);
+				element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHMOVE, touchData.touchID, appData, touchData.pos, true));
 				for(size_t j=0; j<MOUSEBUTTONS_COUNT; j++)
 				{
 					touchData.state[j] = Mouse::isButtonPressed(window, mouseIndex, (Mouse::Button)j);
 					if(touchData.state[j] && j!=0)
 					{
-						element->handleMousePress(appData, touchData.touchID, (Mouse::Button)j, touchData.pos);
+						//TODO include mouse buttons
+						element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHDOWN, touchData.touchID, appData, touchData.pos, true));
 					}
 				}
 				currentTouches.add(touchData);
@@ -795,7 +789,7 @@ namespace fgl
 				if(mousepos!=touchData_ptr->pos)
 				{
 					//mouse moved
-					element->handleMouseMove(appData, touchData_ptr->touchID, mousepos);
+					element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHMOVE, touchData_ptr->touchID, appData, mousepos, true));
 				}
 				touchData_ptr->pos = mousepos;
 			}
@@ -807,13 +801,14 @@ namespace fgl
 				bool state = Mouse::isButtonPressed(window, touchData.touchID, (Mouse::Button)j);
 				if(touchData.state[j]!=state)
 				{
+					//TODO include mouse buttons
 					if(state)
 					{
-						element->handleMousePress(appData, touchData.touchID, (Mouse::Button)j, touchData.pos);
+						element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHDOWN, touchData.touchID, appData, touchData.pos, true));
 					}
 					else
 					{
-						element->handleMouseRelease(appData, touchData.touchID, (Mouse::Button)j, touchData.pos);
+						element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHUP, touchData.touchID, appData, touchData.pos, true));
 					}
 					touchData.state[j] = state;
 				}
@@ -821,7 +816,7 @@ namespace fgl
 		}
 	}
 	
-	void Screen::updateElementTouch(ApplicationData& appData)
+	void Screen::updateElementTouch(ApplicationData appData)
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
@@ -839,7 +834,7 @@ namespace fgl
 			if(touch_index!=ArrayList<Screen::MouseTouchData>::NOT_FOUND)
 			{
 				MouseTouchData& touchData = currentTouches[touch_index];
-				element->handleTouchEnd(appData, touchData.touchID, touchData.pos);
+				element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHUP, touchData.touchID, appData, touchData.pos, false));
 				currentTouches.remove(touch_index);
 			}
 		}
@@ -857,8 +852,8 @@ namespace fgl
 				{
 					touchData.state[j] = false;
 				}
-				touchData.state[Mouse::BUTTON_LEFT] = true; //for backwards compatibility
-				element->handleTouchBegin(appData, touchData.touchID, touchData.pos);
+				touchData.state[Mouse::BUTTON_LEFT] = true; //touch events are detected as the left mouse button being pressed
+				element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHDOWN, touchData.touchID, appData, touchData.pos, false));
 				currentTouches.add(touchData);
 			}
 			else
@@ -868,7 +863,7 @@ namespace fgl
 				if(touchpos!=touchData.pos)
 				{
 					//touch moved
-					element->handleTouchMove(appData, touchData.touchID, touchpos);
+					element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHMOVE, touchData.touchID, appData, touchpos, false));
 				}
 				touchData.pos = touchpos;
 			}

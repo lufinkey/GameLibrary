@@ -60,14 +60,18 @@ namespace fgl
 		//
 	}
 	
-	ScreenElement::ScreenElement(const RectangleD& frame_arg)
+	ScreenElement::ScreenElement(const RectangleD& frame)
+		: window(nullptr),
+		frame(frame),
+		screen(nullptr),
+		parentElement(nullptr),
+		backgroundColor(Color::TRANSPARENT),
+		borderWidth(0),
+		borderColor(Color::BLACK),
+		visible(true),
+		clipsToFrame(false)
 	{
-		frame = frame_arg;
-		window = nullptr;
-		screen = nullptr;
-		parentElement = nullptr;
-		visible = true;
-		backgroundColor = Color::TRANSPARENT;
+		//
 	}
 	
 	ScreenElement::~ScreenElement()
@@ -103,6 +107,15 @@ namespace fgl
 			graphics.setColor(backgroundColor);
 			graphics.fillRect(rect.x, rect.y, rect.width, rect.height);
 		}
+		if(borderWidth != 0 && !borderColor.equals(Color::TRANSPARENT))
+		{
+			RectangleD frame = getFrame();
+			graphics.setColor(borderColor);
+			graphics.fillRect(frame.x, frame.y, frame.width, (double)borderWidth);
+			graphics.fillRect(frame.x, frame.y, (double)borderWidth, frame.height);
+			graphics.fillRect(frame.x, frame.y+frame.height-(double)borderWidth, frame.width, (double)borderWidth);
+			graphics.fillRect(frame.x+frame.width-(double)borderWidth, frame.y, (double)borderWidth, frame.height);
+		}
 	}
 	
 	void ScreenElement::drawMain(ApplicationData appData, Graphics graphics) const
@@ -113,9 +126,8 @@ namespace fgl
 	void ScreenElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
 		ArrayList<ScreenElement*> children = childElements;
-		for(size_t i=0; i<children.size(); i++)
+		for(auto element : children)
 		{
-			ScreenElement* element = children.get(i);
 			element->draw(appData, graphics);
 		}
 	}
@@ -164,7 +176,7 @@ namespace fgl
 	{
 		if(element == nullptr)
 		{
-			throw IllegalArgumentException("element", "null");
+			throw IllegalArgumentException("element", "cannot be null");
 		}
 		else if(element->parentElement != nullptr)
 		{
@@ -199,7 +211,7 @@ namespace fgl
 	{
 		if(element == nullptr)
 		{
-			throw IllegalArgumentException("element", "null");
+			throw IllegalArgumentException("element", "cannot be null");
 		}
 		else if(element->parentElement != this)
 		{
@@ -223,7 +235,7 @@ namespace fgl
 	{
 		if(element == nullptr)
 		{
-			throw IllegalArgumentException("element", "null");
+			throw IllegalArgumentException("element", "cannot be null");
 		}
 		else if(element->parentElement != this)
 		{
@@ -283,6 +295,26 @@ namespace fgl
 	{
 		return backgroundColor;
 	}
+
+	void ScreenElement::setBorderWidth(float borderWidth_arg)
+	{
+		borderWidth = borderWidth_arg;
+	}
+
+	float ScreenElement::getBorderWidth() const
+	{
+		return borderWidth;
+	}
+
+	void ScreenElement::setBorderColor(const Color& borderColor_arg)
+	{
+		borderColor = borderColor_arg;
+	}
+
+	const Color& ScreenElement::getBorderColor() const
+	{
+		return borderColor;
+	}
 	
 	void ScreenElement::setVisible(bool toggle)
 	{
@@ -316,301 +348,106 @@ namespace fgl
 	{
 		return clipsToFrame;
 	}
-	
-	ScreenElement* ScreenElement::handleMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos)
-	{
-		return tellChildrenHandleMouseMove(appData, mouseIndex, mousepos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMouseMove(appData, mouseIndex, mousepos, element);
-		//Open for implementation
-	}
-	
-	ScreenElement* ScreenElement::handleMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos)
-	{
-		return tellChildrenHandleMousePress(appData, mouseIndex, button, mousepos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMousePress(appData, mouseIndex, button, mousepos, element);
-		//Open for implementation
-	}
-	
-	ScreenElement* ScreenElement::handleMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos)
-	{
-		return tellChildrenHandleMouseRelease(appData, mouseIndex, button, mousepos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMouseRelease(appData, mouseIndex, button, mousepos, element);
-		//Open for implementation
-	}
-	
-	void ScreenElement::handleMouseDisconnect(const ApplicationData& appData, unsigned int mouseIndex)
-	{
-		tellChildrenHandleMouseDisconnect(appData, mouseIndex);
-		//Open for implementation
-	}
-	
-	
-	ScreenElement* ScreenElement::handleTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		return tellChildrenHandleTouchMove(appData, touchID, touchpos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		tellChildrenElementHandledTouchMove(appData, touchID, touchpos, element);
-		//Open for implementation
-	}
-	
-	ScreenElement* ScreenElement::handleTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		return tellChildrenHandleTouchBegin(appData, touchID, touchpos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		tellChildrenElementHandledTouchBegin(appData, touchID, touchpos, element);
-		//Open for implementation
-	}
-	
-	ScreenElement* ScreenElement::handleTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		return tellChildrenHandleTouchEnd(appData, touchID, touchpos);
-		//Open for implementation
-	}
-	void ScreenElement::elementHandledTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		tellChildrenElementHandledTouchEnd(appData, touchID, touchpos, element);
-		//Open for implementation
-	}
-	
-	
-	
-	ScreenElement* ScreenElement::tellChildrenHandleMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleMouseMove(appData, mouseIndex, mousepos);
-			}
-			else
-			{
-				child->elementHandledMouseMove(appData, mouseIndex, mousepos, handler);
-			}
-		}
-		return handler;
-	}
-	void ScreenElement::tellChildrenElementHandledMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos, ScreenElement* element)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledMouseMove(appData, mouseIndex, mousepos, element);
-		}
-	}
-	
-	ScreenElement* ScreenElement::tellChildrenHandleMousePress(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleMousePress(appData, mouseIndex, button, mousepos);
-			}
-			else
-			{
-				child->elementHandledMousePress(appData, mouseIndex, button, mousepos, handler);
-			}
-		}
-		return handler;
-	}
-	void ScreenElement::tellChildrenElementHandledMousePress(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos, ScreenElement* element)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledMousePress(appData, mouseIndex, button, mousepos, element);
-		}
-	}
-	
-	ScreenElement* ScreenElement::tellChildrenHandleMouseRelease(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleMouseRelease(appData, mouseIndex, button, mousepos);
-			}
-			else
-			{
-				child->elementHandledMouseRelease(appData, mouseIndex, button, mousepos, handler);
-			}
-		}
-		return handler;
-	}
-	void ScreenElement::tellChildrenElementHandledMouseRelease(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos, ScreenElement* element)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		mousepos.x -= frame.x;
-		mousepos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledMouseRelease(appData, mouseIndex, button, mousepos, element);
-		}
-	}
-	
-	void ScreenElement::tellChildrenHandleMouseDisconnect(ApplicationData appData, unsigned int mouseIndex)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
 
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
+	bool ScreenElement::handleTouchEvent(const TouchEvent& touchEvent)
+	{
+		//Open for implementation
+		return false;
+	}
+
+	void ScreenElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
+	{
+		//Open for implementation
+	}
+
+	bool ScreenElement::sendTouchEvent(const TouchEvent& touchEvent)
+	{
+		if(handleTouchEvent(touchEvent))
 		{
-			childElements.get(i)->handleMouseDisconnect(appData, mouseIndex);
+			ArrayList<ScreenElement*> elements = childElements;
+			for(size_t i=(elements.size()-1); i!=-1; i--)
+			{
+				ScreenElement* element = elements[i];
+				RectangleD frame = element->getFrame();
+				element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
+			}
+			return true;
+		}
+		else
+		{
+			bool handled = false;
+			ArrayList<ScreenElement*> elements = childElements;
+			for(size_t i=(elements.size()-1); i!=-1; i--)
+			{
+				ScreenElement* element = elements[i];
+				RectangleD frame = element->getFrame();
+				if(handled)
+				{
+					element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
+				}
+				else
+				{
+					if(element->sendTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y))))
+					{
+						handled = true;
+					}
+				}
+			}
+			return handled;
 		}
 	}
-	
-	
-	ScreenElement* ScreenElement::tellChildrenHandleTouchMove(ApplicationData appData, unsigned int touchID, Vector2d touchpos)
+
+	void ScreenElement::sendHandledTouchEvent(const TouchEvent& touchEvent)
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
+		otherElementHandledTouchEvent(touchEvent);
+		ArrayList<ScreenElement*> elements = childElements;
+		for(size_t i=(elements.size()-1); i!=-1; i--)
 		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleTouchMove(appData, touchID, touchpos);
-			}
-			else
-			{
-				child->elementHandledTouchMove(appData, touchID, touchpos, handler);
-			}
-		}
-		return handler;
-	}
-	void ScreenElement::tellChildrenElementHandledTouchMove(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element)
-	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledTouchMove(appData, touchID, touchpos, element);
+			ScreenElement* element = elements[i];
+			RectangleD frame = element->getFrame();
+			element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
 		}
 	}
-	
-	ScreenElement* ScreenElement::tellChildrenHandleTouchBegin(ApplicationData appData, unsigned int touchID, Vector2d touchpos)
+
+	ScreenElement::TouchEvent::TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse)
+		: eventType(eventType),
+		touchID(touchID),
+		appData(appData),
+		position(position),
+		mouse(isMouse)
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleTouchBegin(appData, touchID, touchpos);
-			}
-			else
-			{
-				child->elementHandledTouchBegin(appData, touchID, touchpos, handler);
-			}
-		}
-		return handler;
+		//
 	}
-	void ScreenElement::tellChildrenElementHandledTouchBegin(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element)
+
+	ScreenElement::TouchEvent ScreenElement::TouchEvent::relativeTo(const Vector2d& point) const
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledTouchBegin(appData, touchID, touchpos, element);
-		}
+		ApplicationData newAppData = appData;
+		newAppData.getTransform().translate(point);
+		return TouchEvent(eventType, touchID, newAppData, position-point, mouse);
 	}
-	
-	ScreenElement* ScreenElement::tellChildrenHandleTouchEnd(ApplicationData appData, unsigned int touchID, Vector2d touchpos)
+
+	const ScreenElement::TouchEvent::EventType& ScreenElement::TouchEvent::getEventType() const
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		ScreenElement* handler = nullptr;
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			ScreenElement* child = childElements.get(i);
-			if(handler==nullptr)
-			{
-				handler = child->handleTouchEnd(appData, touchID, touchpos);
-			}
-			else
-			{
-				child->elementHandledTouchEnd(appData, touchID, touchpos, handler);
-			}
-		}
-		return handler;
+		return eventType;
 	}
-	void ScreenElement::tellChildrenElementHandledTouchEnd(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element)
+
+	unsigned int ScreenElement::TouchEvent::getTouchID() const
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
-		touchpos.x -= frame.x;
-		touchpos.y -= frame.y;
-		
-		for(size_t i=(childElements.size()-1); i!=(size_t)-1; i--)
-		{
-			childElements.get(i)->elementHandledTouchEnd(appData, touchID, touchpos, element);
-		}
+		return touchID;
+	}
+
+	const ApplicationData& ScreenElement::TouchEvent::getApplicationData() const
+	{
+		return appData;
+	}
+
+	const Vector2d& ScreenElement::TouchEvent::getPosition() const
+	{
+		return position;
+	}
+
+	bool ScreenElement::TouchEvent::isMouseEvent() const
+	{
+		return mouse;
 	}
 }

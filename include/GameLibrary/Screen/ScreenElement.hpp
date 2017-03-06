@@ -10,6 +10,8 @@
 
 namespace fgl
 {
+	class Screen;
+
 	/*! A stackable element that can be added to a Screen*/
 	class ScreenElement : public UpdateDrawable
 	{
@@ -92,12 +94,26 @@ namespace fgl
 		const AutoLayoutManager& getAutoLayoutManager() const;
 		
 		
-		/*! Sets the background color of this element. If the color is equal to Color::TRANSPARENT, the background will not get drawn.
+		/*! Sets the background color of this element. If the color is equal to Color::TRANSPARENT, the background will not be drawn.
 			\param color a Color value*/
-		void setBackgroundColor(const Color&color);
+		void setBackgroundColor(const Color& color);
 		/*! Gets the background of this element.
 			\returns a const Color value reference*/
 		const Color& getBackgroundColor() const;
+
+
+		/*! Sets the border width of this element. If the width is 0, the border will not be drawn.
+			\param borderWidth the width of the border, in pixels */
+		void setBorderWidth(float borderWidth);
+		/*! Gets the width of the border on this element.
+			\returns the border width, in pixels */
+		float getBorderWidth() const;
+		/*! Sets the border color of this element. If the color is equal to Color::TRANSPARENT, the background color will not be drawn.
+			\param color the color to draw the border */
+		void setBorderColor(const Color& borderColor);
+		/*! Gets the border color of this element.
+			\returns the border color */
+		const Color& getBorderColor() const;
 		
 		
 		/*! Sets this element's visibility. If an element is set to not be visible, it will not be drawn, and neither will its children.
@@ -116,6 +132,37 @@ namespace fgl
 		/*! Tells whether this element clips its child elements to its frame.
 			\returns true if clipping is enabled, or false if clipping is not enabled*/
 		bool isClippedToFrame() const;
+
+		
+		//! Represents a touch event on a ScreenElement
+		class TouchEvent
+		{
+		public:
+			typedef enum
+			{
+				EVENTTYPE_TOUCHDOWN,
+				EVENTTYPE_TOUCHUP,
+				EVENTTYPE_TOUCHMOVE,
+				EVENTTYPE_TOUCHCANCEL
+			} EventType;
+
+			TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse);
+
+			TouchEvent relativeTo(const Vector2d& point) const;
+
+			const EventType& getEventType() const;
+			unsigned int getTouchID() const;
+			const ApplicationData& getApplicationData() const;
+			const Vector2d& getPosition() const;
+			bool isMouseEvent() const;
+
+		private:
+			EventType eventType;
+			unsigned int touchID;
+			ApplicationData appData;
+			Vector2d position;
+			bool mouse;
+		};
 		
 	protected:
 		/*! Updates all the child elements of this element. This function is automatically called from ScreenElement::update.
@@ -141,53 +188,38 @@ namespace fgl
 		/*! Called when this element is added to an element that is stored in a Screen, which is presented on, or is itself, a root screen.
 			\param window the Window pointer*/
 		virtual void onAddToWindow(Window* window);
-		
-		ScreenElement* tellChildrenHandleMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos);
-		void tellChildrenElementHandledMouseMove(ApplicationData appData, unsigned int mouseIndex, Vector2d mousepos, ScreenElement* element);
-		ScreenElement* tellChildrenHandleMousePress(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos);
-		void tellChildrenElementHandledMousePress(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos, ScreenElement* element);
-		ScreenElement* tellChildrenHandleMouseRelease(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos);
-		void tellChildrenElementHandledMouseRelease(ApplicationData appData, unsigned int mouseIndex, Mouse::Button button, Vector2d mousepos, ScreenElement* element);
-		void tellChildrenHandleMouseDisconnect(ApplicationData appData, unsigned int mouseIndex);
-		
-		ScreenElement* tellChildrenHandleTouchMove(ApplicationData appData, unsigned int touchID, Vector2d touchpos);
-		void tellChildrenElementHandledTouchMove(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element);
-		ScreenElement* tellChildrenHandleTouchBegin(ApplicationData appData, unsigned int touchID, Vector2d touchpos);
-		void tellChildrenElementHandledTouchBegin(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element);
-		ScreenElement* tellChildrenHandleTouchEnd(ApplicationData appData, unsigned int touchID, Vector2d touchpos);
-		void tellChildrenElementHandledTouchEnd(ApplicationData appData, unsigned int touchID, Vector2d touchpos, ScreenElement* element);
+
+
+		/*! Handles or ignores a given touch event. Override this method to provide custom touch behavior.
+			\param touchEvent the event that occured
+			\returns true if the element handles the event, false if the element ignores the event */
+		virtual bool handleTouchEvent(const TouchEvent& touchEvent);
+		/*! Called when a sibling higher in the element stack or a parent of this element handles a touch event.
+			\param touchEvent the event that occured */
+		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent);
 		
 	private:
-		Window*window;
+		bool sendTouchEvent(const TouchEvent& touchEvent);
+		void sendHandledTouchEvent(const TouchEvent& touchEvent);
+
+		virtual void setWindow(Window*window);
+		void autoLayoutFrame();
+
+		Window* window;
 		
 		RectangleD frame;
 		
-		Screen*screen;
+		Screen* screen;
 		ScreenElement* parentElement;
 		ArrayList<ScreenElement*> childElements;
 		
 		AutoLayoutManager autoLayoutMgr;
 		
+		Color backgroundColor;
+		float borderWidth;
+		Color borderColor;
+
 		bool visible;
 		bool clipsToFrame;
-		Color backgroundColor;
-		
-		virtual void setWindow(Window*window);
-		void autoLayoutFrame();
-		
-		virtual ScreenElement* handleMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos);
-		virtual void elementHandledMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos, ScreenElement* element);
-		virtual ScreenElement* handleMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos);
-		virtual void elementHandledMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element);
-		virtual ScreenElement* handleMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos);
-		virtual void elementHandledMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element);
-		virtual void handleMouseDisconnect(const ApplicationData& appData, unsigned int mouseIndex);
-		
-		virtual ScreenElement* handleTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos);
-		virtual void elementHandledTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element);
-		virtual ScreenElement* handleTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos);
-		virtual void elementHandledTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element);
-		virtual ScreenElement* handleTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos);
-		virtual void elementHandledTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element);
 	};
 }

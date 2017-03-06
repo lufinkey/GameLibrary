@@ -47,7 +47,7 @@ namespace fgl
 		virtual RectangleD getFrame() const override;
 		
 		
-		//TODO add events for navigation from ScreenManager
+		//TODO add events for navigation from ScreenManager?
 		
 		
 		/*! Called when the Screen's frame has changed, possibly due to frame resizing, or window resizing, or a mobile device orientation change.
@@ -75,17 +75,17 @@ namespace fgl
 			\param transition a Transition to use to present the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition
-			\throws fgl::IllegalArgumentException if the Screen being presented is:\n
+			\throws fgl::IllegalArgumentException if the Screen being presented is:
 				1.) null
-				2.) already presented on another Screen,\n
-				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),\n
-				4.) already held within a ScreenManager,\n
+				2.) already presented on another Screen,
+				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),
+				4.) already held within a ScreenManager,
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
 		void present(Screen*screen, const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen, or if no Screen is presented on top of this Screen, this Screen is dismissed from its parent Screen.
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition*/
+			\param completion a callback to call when the Screen finishes the transition */
 		void dismiss(const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		
 		
@@ -242,7 +242,7 @@ namespace fgl
 		static size_t getTouchDataIndex(ArrayList<MouseTouchData>& touches, unsigned int touchID);
 		static ArrayList<unsigned int> getUnlistedTouchIDs(ArrayList<MouseTouchData>& touches, ArrayList<unsigned int>& touchIDs);
 		
-		void updateElementMouse(ApplicationData& appData);
-		void updateElementTouch(ApplicationData& appData);
+		void updateElementMouse(ApplicationData appData);
+		void updateElementTouch(ApplicationData appData);
 	};
 }

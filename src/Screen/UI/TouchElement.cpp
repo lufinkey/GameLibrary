@@ -3,15 +3,6 @@
 
 namespace fgl
 {
-	TouchElementEvent::TouchElementEvent(TouchElement* target, const ApplicationData& appData, unsigned int touchID, const Vector2d& pos, bool mouse)
-		: target(target), appData(appData), touchID(touchID), pos(pos), mouse(mouse) {}
-	
-	TouchElement* TouchElementEvent::getTarget() const { return target; }
-	const ApplicationData& TouchElementEvent::getApplicationData() const { return appData; }
-	unsigned int TouchElementEvent::getTouchID() const { return touchID; }
-	const Vector2d& TouchElementEvent::getPosition() const { return pos; }
-	bool TouchElementEvent::isMouseEvent() const { return mouse; }
-	
 	TouchElement::TouchElement() : TouchElement(RectangleD(0, 0, 0, 0))
 	{
 		//
@@ -28,35 +19,47 @@ namespace fgl
 		ScreenElement::update(appData);
 		if(!isVisibleInHeirarchy())
 		{
-			for(size_t i=(touches.size()-1); i!=SIZE_MAX; i--)
+			for(size_t i=(touches.size()-1); i!=-1; i--)
 			{
-				TouchData& touchData = touches[i];
-				cancelTouch(appData, touchData.touchID, touchData.pos, touchData.mouse);
+				const TouchEvent& touchData = touches[i].lastEvent;
+				cancelTouch(TouchEvent(touchData.getEventType(), touchData.getTouchID(), appData, touchData.getPosition(), touchData.isMouseEvent()));
 			}
 		}
-	}
-	
-	void TouchElement::onMouseEnter(const TouchElementEvent& evt) {}
-	void TouchElement::onMouseLeave(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchCancel(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchDown(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchUpInside(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchUpOutside(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchMoveInside(const TouchElementEvent& evt) {}
-	void TouchElement::onTouchMoveOutside(const TouchElementEvent& evt) {}
-	
-	bool TouchElement::checkPointCollision(const Vector2d& point)
-	{
-		if(isVisibleInHeirarchy())
+		unsigned int mouseCount = Mouse::getTotalMouseInstances(appData.getWindow());
+		for(unsigned int i=0; i<mouseCount; i++)
 		{
+			Vector2d position = appData.getTransform().getInverse().transform(Mouse::getPosition(appData.getWindow(), i));
 			RectangleD frame = getFrame();
-			if(frame.contains(point))
+			position.x -= frame.x;
+			position.y -= frame.y;
+			if(isPointInsideFrame(position))
 			{
-				return true;
+				size_t index = enteredMouses.indexOf(i);
+				if(index==-1)
+				{
+					enteredMouses.add(i);
+					onMouseEnter(i);
+				}
+			}
+			else
+			{
+				size_t index = enteredMouses.indexOf(i);
+				if(index!=-1)
+				{
+					enteredMouses.remove(index);
+					onMouseLeave(i);
+				}
 			}
 		}
-		return false;
 	}
+	
+	void TouchElement::onMouseEnter(unsigned int mouseIndex) {}
+	void TouchElement::onMouseLeave(unsigned int mouseIndex) {}
+	void TouchElement::onTouchCancel(const TouchEvent& evt) {}
+	void TouchElement::onTouchDown(const TouchEvent& evt) {}
+	void TouchElement::onTouchUpInside(const TouchEvent& evt) {}
+	void TouchElement::onTouchUpOutside(const TouchEvent& evt) {}
+	bool TouchElement::onTouchMove(const TouchEvent& evt) { return true; }
 	
 	void TouchElement::setTouchEnabled(bool toggle)
 	{
@@ -69,342 +72,143 @@ namespace fgl
 	}
 	
 	
-	TouchElement::TouchData* TouchElement::getTouch(unsigned int touchID)
+	size_t TouchElement::getTouchIndex(unsigned int touchID, bool mouse) const
 	{
 		for(size_t touches_size=touches.size(), i=0; i<touches_size; i++)
 		{
-			TouchData& touch = touches[i];
-			if(touch.touchID==touchID)
+			const TouchData& touchData = touches[i];
+			if(touchData.lastEvent.getTouchID()==touchID && touchData.lastEvent.isMouseEvent()==mouse)
 			{
-				return &touch;
+				return i;
 			}
 		}
-		return nullptr;
+		return -1;
 	}
-	
-	TouchElement::TouchData* TouchElement::addTouch(unsigned int touchID, const Vector2d& pos, bool inside, bool pressedInside, bool mouse)
+
+	void TouchElement::addTouch(const TouchEvent& touchEvent)
 	{
-		for(size_t touches_size=touches.size(), i=0; i<touches_size; i++)
+		size_t touchIndex = getTouchIndex(touchEvent.getTouchID(), touchEvent.isMouseEvent());
+		if(touchIndex==-1)
 		{
-			TouchData& touchData = touches[i];
-			if(touchData.touchID==touchID)
-			{
-				touchData.touchID = touchID;
-				touchData.pos = pos;
-				touchData.inside = inside;
-				touchData.pressedInside = pressedInside;
-				touchData.mouse = mouse;
-				return &touchData;
-			}
-		}
-		TouchData touchData;
-		touchData.touchID = touchID;
-		touchData.pos = pos;
-		touchData.inside = inside;
-		touchData.pressedInside = pressedInside;
-		touchData.mouse = mouse;
-		touches.add(touchData);
-		return &touches[touches.size()-1];
-	}
-	
-	void TouchElement::removeTouch(unsigned int touchID)
-	{
-		for(size_t touches_size=touches.size(), i=0; i<touches_size; i++)
-		{
-			if(touches[i].touchID==touchID)
-			{
-				touches.remove(i);
-				return;
-			}
-		}
-	}
-	
-	void TouchElement::cancelTouch(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, bool mouse)
-	{
-		TouchData* touchData = getTouch(touchID);
-		if(touchData!=nullptr)
-		{
-			if(touchData->pressedInside)
-			{
-				if(mouse)
-				{
-					if(touchData->inside)
-					{
-						onMouseLeave(TouchElementEvent(this, appData, touchID, touchpos, mouse));
-					}
-				}
-				onTouchCancel(TouchElementEvent(this, appData, touchID, touchpos, mouse));
-			}
-			else
-			{
-				if(mouse)
-				{
-					if(touchData->inside)
-					{
-						onMouseLeave(TouchElementEvent(this, appData, touchID, touchpos, mouse));
-					}
-				}
-			}
-			removeTouch(touchID);
-		}
-	}
-	
-	
-	
-	ScreenElement* TouchElement::handleMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos)
-	{
-		TouchData* touchData = getTouch(mouseIndex);
-		if(touchData==nullptr)
-		{
-			ScreenElement* handler = tellChildrenHandleMouseMove(appData, mouseIndex, mousepos);
-			if(handler!=nullptr)
-			{
-				return handler;
-			}
-			else if(checkPointCollision(mousepos))
-			{
-				touchData = addTouch(mouseIndex, mousepos, true, false, true);
-				onMouseEnter(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-				return this;
-			}
-			return nullptr;
-		}
-		else if(touchData->pressedInside)
-		{
-			if(checkPointCollision(mousepos))
-			{
-				bool wasinside = touchData->inside;
-				touchData->pos = mousepos;
-				touchData->inside = true;
-				if(!wasinside)
-				{
-					onMouseEnter(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-				}
-				onTouchMoveInside(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-			}
-			else
-			{
-				bool wasinside = touchData->inside;
-				touchData->pos = mousepos;
-				touchData->inside = false;
-				if(wasinside)
-				{
-					onMouseLeave(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-				}
-				onTouchMoveOutside(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-			}
-			tellChildrenElementHandledMouseMove(appData, mouseIndex, mousepos, this);
-			return this;
-		}
-		else if(!checkPointCollision(mousepos))
-		{
-			removeTouch(mouseIndex);
-			onMouseLeave(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-		}
-		ScreenElement* handler = tellChildrenHandleMouseMove(appData, mouseIndex, mousepos);
-		if(handler!=nullptr && touchData->inside)
-		{
-			cancelTouch(appData, mouseIndex, mousepos, true);
-		}
-		return handler;
-	}
-	
-	void TouchElement::elementHandledMouseMove(const ApplicationData& appData, unsigned int mouseIndex, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMouseMove(appData, mouseIndex, mousepos, element);
-		cancelTouch(appData, mouseIndex, mousepos, true);
-	}
-	
-	ScreenElement* TouchElement::handleMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos)
-	{
-		TouchData* touchData = getTouch(mouseIndex);
-		if(touchData==nullptr)
-		{
-			ScreenElement* handler = tellChildrenHandleMousePress(appData, mouseIndex, button, mousepos);
-			if(handler!=nullptr)
-			{
-				return handler;
-			}
-			else if(checkPointCollision(mousepos))
-			{
-				touchData = addTouch(mouseIndex, mousepos, true, true, true);
-				onMouseEnter(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-				onTouchDown(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-				return this;
-			}
-			return nullptr;
-		}
-		else if(button==Mouse::BUTTON_LEFT && checkPointCollision(mousepos))
-		{
-			touchData->pressedInside = true;
-			touchData->pos = mousepos;
-			onTouchDown(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-			tellChildrenElementHandledMousePress(appData, mouseIndex, button, mousepos, this);
-			return this;
-		}
-		ScreenElement* handler = tellChildrenHandleMousePress(appData, mouseIndex, button, mousepos);
-		if(handler!=nullptr && touchData->inside)
-		{
-			cancelTouch(appData, mouseIndex, mousepos, true);
-		}
-		return handler;
-	}
-	
-	void TouchElement::elementHandledMousePress(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMousePress(appData, mouseIndex, button, mousepos, element);
-		cancelTouch(appData, mouseIndex, mousepos, true);
-	}
-	
-	ScreenElement* TouchElement::handleMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos)
-	{
-		TouchData* touchData = getTouch(mouseIndex);
-		if(touchData==nullptr)
-		{
-			return tellChildrenHandleMouseRelease(appData, mouseIndex, button, mousepos);
-		}
-		else if(touchData->pressedInside)
-		{
-			touchData->pressedInside = false;
-			touchData->pos = mousepos;
-			if(touchData->inside)
-			{
-				onTouchUpInside(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-			}
-			else
-			{
-				onTouchUpOutside(TouchElementEvent(this, appData, mouseIndex, mousepos, true));
-			}
-			removeTouch(mouseIndex);
-			tellChildrenElementHandledMouseRelease(appData, mouseIndex, button, mousepos, this);
-			return this;
-		}
-		ScreenElement* handler = tellChildrenHandleMouseRelease(appData, mouseIndex, button, mousepos);
-		if(handler!=nullptr && touchData->inside)
-		{
-			cancelTouch(appData, mouseIndex, mousepos, true);
-		}
-		return handler;
-	}
-	
-	void TouchElement::elementHandledMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element)
-	{
-		tellChildrenElementHandledMouseRelease(appData, mouseIndex, button, mousepos, element);
-		cancelTouch(appData, mouseIndex, mousepos, true);
-	}
-	
-	void TouchElement::handleMouseDisconnect(const ApplicationData& appData, unsigned int mouseIndex)
-	{
-		tellChildrenHandleMouseDisconnect(appData, mouseIndex);
-		TouchData* touchData = getTouch(mouseIndex);
-		if(touchData!=nullptr)
-		{
-			cancelTouch(appData, mouseIndex, touchData->pos, true);
-		}
-	}
-	
-	
-	
-	ScreenElement* TouchElement::handleTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		TouchData* touchData = getTouch(touchID);
-		if(touchData==nullptr)
-		{
-			return tellChildrenHandleTouchMove(appData, touchID, touchpos);
-		}
-		else if(touchData->pressedInside)
-		{
-			if(checkPointCollision(touchpos))
-			{
-				touchData->pos = touchpos;
-				touchData->inside = true;
-				onTouchMoveInside(TouchElementEvent(this, appData, touchID, touchpos, false));
-			}
-			else
-			{
-				touchData->pos = touchpos;
-				touchData->inside = false;
-				onTouchMoveOutside(TouchElementEvent(this, appData, touchID, touchpos, false));
-			}
-			tellChildrenElementHandledTouchMove(appData, touchID, touchpos, this);
-			return this;
-		}
-		else if(!checkPointCollision(touchpos))
-		{
-			removeTouch(touchID);
-		}
-		ScreenElement* handler = tellChildrenHandleMouseMove(appData, touchID, touchpos);
-		if(handler!=nullptr && touchData->inside)
-		{
-			cancelTouch(appData, touchID, touchpos, false);
-		}
-		return handler;
-	}
-	
-	void TouchElement::elementHandledTouchMove(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		tellChildrenElementHandledTouchMove(appData, touchID, touchpos, element);
-		cancelTouch(appData, touchID, touchpos, false);
-	}
-	
-	ScreenElement* TouchElement::handleTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		ScreenElement* handler = tellChildrenHandleTouchBegin(appData, touchID, touchpos);
-		if(handler!=nullptr)
-		{
-			removeTouch(touchID);
-			return handler;
-		}
-		else if(checkPointCollision(touchpos))
-		{
-			addTouch(touchID, touchpos, true, true, false);
-			onTouchDown(TouchElementEvent(this, appData, touchID, touchpos, false));
-			return this;
-		}
-		return nullptr;
-	}
-	
-	void TouchElement::elementHandledTouchBegin(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		tellChildrenElementHandledTouchBegin(appData, touchID, touchpos, element);
-		cancelTouch(appData, touchID, touchpos, false);
-	}
-	
-	ScreenElement* TouchElement::handleTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		TouchData* touchData = getTouch(touchID);
-		if(touchData==nullptr)
-		{
-			return tellChildrenHandleTouchEnd(appData, touchID, touchpos);
-		}
-		else if(touchData->pressedInside)
-		{
-			if(checkPointCollision(touchpos))
-			{
-				touchData->pos = touchpos;
-				touchData->inside = true;
-				onTouchUpInside(TouchElementEvent(this, appData, touchID, touchpos, false));
-			}
-			else
-			{
-				touchData->pos = touchpos;
-				touchData->inside = false;
-				onTouchUpOutside(TouchElementEvent(this, appData, touchID, touchpos, false));
-			}
-			tellChildrenElementHandledTouchEnd(appData, touchID, touchpos, this);
-			removeTouch(touchID);
-			return this;
+			TouchData touchData = { .lastEvent=touchEvent, .inside=true };
+			touches.add(touchData);
 		}
 		else
 		{
-			removeTouch(touchID);
+			TouchData& touchData = touches[touchIndex];
+			touchData.lastEvent = touchEvent;
+			touchData.inside = true;
 		}
-		return tellChildrenHandleTouchEnd(appData, touchID, touchpos);
 	}
 	
-	void TouchElement::elementHandledTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
+	void TouchElement::removeTouch(unsigned int touchID, bool mouse)
 	{
-		tellChildrenElementHandledTouchEnd(appData, touchID, touchpos, element);
-		cancelTouch(appData, touchID, touchpos, false);
+		size_t touchIndex = getTouchIndex(touchID, mouse);
+		if(touchIndex!=-1)
+		{
+			touches.remove(touchIndex);
+		}
+	}
+	
+	void TouchElement::cancelTouch(const TouchEvent& touchEvent)
+	{
+		size_t touchIndex = getTouchIndex(touchEvent.getTouchID(), touchEvent.isMouseEvent());
+		if(touchIndex!=-1)
+		{
+			TouchData touchData = touches[touchIndex];
+			removeTouch(touchData.lastEvent.getTouchID(), touchData.lastEvent.isMouseEvent());
+			/*if(touchData.lastEvent.isMouseEvent())
+			{
+				if(touchData.inside)
+				{
+					onMouseLeave(touchEvent.getTouchID());
+				}
+			}*/
+			onTouchCancel(touchEvent);
+		}
+	}
+
+	bool TouchElement::isPointInsideFrame(const Vector2d& point) const
+	{
+		RectangleD frame = getFrame();
+		frame.x = 0;
+		frame.y = 0;
+		return frame.contains(point);
+	}
+
+
+	bool TouchElement::handleTouchEvent(const TouchEvent& touchEvent)
+	{
+		switch(touchEvent.getEventType())
+		{
+			case TouchEvent::EVENTTYPE_TOUCHDOWN:
+			if(isPointInsideFrame(touchEvent.getPosition()))
+			{
+				addTouch(touchEvent);
+				onTouchDown(touchEvent);
+				return true;
+			}
+			return false;
+
+			case TouchEvent::EVENTTYPE_TOUCHMOVE:
+			{
+				size_t touchIndex = getTouchIndex(touchEvent.getTouchID(), touchEvent.isMouseEvent());
+				if(touchIndex==-1)
+				{
+					return false;
+				}
+				else
+				{
+					TouchData& touchData = touches[touchIndex];
+					touchData.lastEvent = touchEvent;
+					bool shouldContinueTracking = onTouchMove(touchEvent);
+					if(shouldContinueTracking)
+					{
+						touchData.inside = isPointInsideFrame(touchEvent.getPosition());
+						return true;
+					}
+					else
+					{
+						cancelTouch(touchEvent);
+						return false;
+					}
+				}
+			}
+
+			case TouchEvent::EVENTTYPE_TOUCHUP:
+			{
+				size_t touchIndex = getTouchIndex(touchEvent.getTouchID(), touchEvent.isMouseEvent());
+				if(touchIndex==-1)
+				{
+					return false;
+				}
+				else
+				{
+					bool inside = isPointInsideFrame(touchEvent.getPosition());
+					removeTouch(touchEvent.getTouchID(), touchEvent.isMouseEvent());
+					if(inside)
+					{
+						onTouchUpInside(touchEvent);
+					}
+					else
+					{
+						onTouchUpOutside(touchEvent);
+					}
+					return true;
+				}
+			}
+
+			case TouchEvent::EVENTTYPE_TOUCHCANCEL:
+			{
+				cancelTouch(touchEvent);
+				return false;
+			}
+		}
+		return false;
+	}
+
+	void TouchElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
+	{
+		cancelTouch(touchEvent);
 	}
 }

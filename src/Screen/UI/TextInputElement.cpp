@@ -33,10 +33,11 @@ namespace fgl
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
 		cursorIndex(0),
-		borderColor(Color::BLACK),
 		textInputListener(this)
 	{
 		setBackgroundColor(Color::WHITE);
+		setBorderWidth(1.0f);
+		setBorderColor(Color::BLACK);
 	}
 	
 	TextInputElement::~TextInputElement()
@@ -49,12 +50,12 @@ namespace fgl
 	
 	void TextInputElement::update(ApplicationData appData)
 	{
-		ScreenElement::update(appData);
+		TouchElement::update(appData);
 	}
 	
 	void TextInputElement::drawMain(ApplicationData appData, Graphics graphics) const
 	{
-		ScreenElement::drawMain(appData, graphics);
+		TouchElement::drawMain(appData, graphics);
 		RectangleD frame = getFrame();
 		if(font!=nullptr)
 		{
@@ -66,8 +67,6 @@ namespace fgl
 			graphics.setFont(font);
 			graphics.drawString(text, textX, textY);
 		}
-		graphics.setColor(borderColor);
-		graphics.drawRect(frame);
 	}
 	
 	void TextInputElement::becomeTextInputResponder()
@@ -171,65 +170,12 @@ namespace fgl
 		return cursorIndex;
 	}
 	
-	void TextInputElement::setBorderColor(const Color& color)
-	{
-		borderColor = color;
-	}
-	
-	const Color& TextInputElement::getBorderColor() const
-	{
-		return borderColor;
-	}
-	
-	void TextInputElement::onTouchUpInside(const TouchElementEvent& evt)
+	void TextInputElement::onTouchUpInside(const TouchEvent& evt)
 	{
 		TouchElement::onTouchUpInside(evt);
 		if(!isTextInputResponder())
 		{
 			becomeTextInputResponder();
 		}
-	}
-	
-	ScreenElement* TextInputElement::handleMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos)
-	{
-		ScreenElement* handler = TouchElement::handleMouseRelease(appData, mouseIndex, button, mousepos);
-		if(isTextInputResponder())
-		{
-			if(handler!=this)
-			{
-				resignTextInputResponder();
-			}
-		}
-		return handler;
-	}
-	void TextInputElement::elementHandledMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element)
-	{
-		if(isTextInputResponder())
-		{
-			resignTextInputResponder();
-		}
-		TouchElement::elementHandledMouseRelease(appData, mouseIndex, button, mousepos, element);
-	}
-	
-	ScreenElement* TextInputElement::handleTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos)
-	{
-		ScreenElement* handler = TouchElement::handleTouchEnd(appData, touchID, touchpos);
-		if(isTextInputResponder())
-		{
-			if(handler!=this)
-			{
-				resignTextInputResponder();
-			}
-		}
-		return handler;
-	}
-	
-	void TextInputElement::elementHandledTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element)
-	{
-		if(isTextInputResponder())
-		{
-			resignTextInputResponder();
-		}
-		TouchElement::elementHandledTouchEnd(appData, touchID, touchpos, element);
 	}
 }

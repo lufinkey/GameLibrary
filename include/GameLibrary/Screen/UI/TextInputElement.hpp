@@ -16,9 +16,9 @@ namespace fgl
 		/*! virtual destructor*/
 		virtual ~TextInputElement();
 		
-		/*! \copydoc fgl::ScreenElement::update(fgl::ApplicationData)*/
+		/*! \copydoc fgl::TouchElement::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc fgl::ScreenElement::drawMain(fgl::ApplicationData)const*/
+		/*! \copydoc fgl::TouchElement::drawMain(fgl::ApplicationData)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		
 		virtual void becomeTextInputResponder();
@@ -31,13 +31,10 @@ namespace fgl
 		void setFont(Font* font);
 		Font* getFont() const;
 		
-		void setBorderColor(const Color& borderColor);
-		const Color& getBorderColor() const;
-		
 		void setCursorIndex(size_t cursorIndex);
 		size_t getCursorIndex() const;
 		
-		virtual void onTouchUpInside(const TouchElementEvent& evt) override;
+		virtual void onTouchUpInside(const TouchEvent& evt) override;
 		
 	private:
 		class TextInputListener : public KeyboardEventListener
@@ -57,14 +54,7 @@ namespace fgl
 		Color textColor;
 		Font* font;
 		size_t cursorIndex;
-		Color borderColor;
 		
 		TextInputListener textInputListener;
-		
-		virtual ScreenElement* handleMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos) override;
-		virtual void elementHandledMouseRelease(const ApplicationData& appData, unsigned int mouseIndex, Mouse::Button button, const Vector2d& mousepos, ScreenElement* element) override;
-		
-		virtual ScreenElement* handleTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos) override;
-		virtual void elementHandledTouchEnd(const ApplicationData& appData, unsigned int touchID, const Vector2d& touchpos, ScreenElement* element) override;
 	};
 }
