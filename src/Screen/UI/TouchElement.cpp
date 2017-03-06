@@ -17,7 +17,7 @@ namespace fgl
 	void TouchElement::update(ApplicationData appData)
 	{
 		ScreenElement::update(appData);
-		if(!isVisibleInHeirarchy())
+		if(!isVisibleInHeirarchy() || !touchEnabled)
 		{
 			for(size_t i=(touches.size()-1); i!=-1; i--)
 			{
@@ -139,6 +139,11 @@ namespace fgl
 
 	bool TouchElement::handleTouchEvent(const TouchEvent& touchEvent)
 	{
+		if(!touchEnabled)
+		{
+			cancelTouch(touchEvent);
+			return false;
+		}
 		switch(touchEvent.getEventType())
 		{
 			case TouchEvent::EVENTTYPE_TOUCHDOWN:
