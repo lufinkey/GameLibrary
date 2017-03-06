@@ -226,7 +226,7 @@ namespace fgl
 		return container.first;
 	}
 
-	ArrayList<RenderedGlyphContainer::RenderedGlyph> Font::getRenderedGlyphs(const GlyphString&text, void*renderer)
+	ArrayList<RenderedGlyphContainer::RenderedGlyph> Font::getRenderedGlyphs(const GlyphString& text, void* renderer, unsigned int size, int style)
 	{
 		if(fontdata!=nullptr)
 		{

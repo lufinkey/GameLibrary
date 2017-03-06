@@ -101,7 +101,7 @@ namespace fgl
 		void* getFontPtr(unsigned int size);
 		void clearFontSizes();
 		RenderedGlyphContainer* getRenderedGlyphContainer(void*renderer);
-		ArrayList<RenderedGlyphContainer::RenderedGlyph> getRenderedGlyphs(const GlyphString&text, void*renderer);
+		ArrayList<RenderedGlyphContainer::RenderedGlyph> getRenderedGlyphs(const GlyphString&text, void*renderer, unsigned int size, int style);
 		
 		static int styleToTTFStyle(int fontstyle);
 	};

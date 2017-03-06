@@ -515,10 +515,17 @@ namespace fgl
 	
 	void Graphics::drawString(const WideString& text, double x1, double y1)
 	{
-		ArrayList<RenderedGlyphContainer::RenderedGlyph> glyphs = font->getRenderedGlyphs((Font::GlyphString)text,renderer);
+		unsigned int renderedFontSize = font->getSize();
+		if(!window->getView()->maintainResolution)
+		{
+			renderedFontSize = (unsigned int)Math::abs(scaling.y*font->getSize());
+		}
+		ArrayList<RenderedGlyphContainer::RenderedGlyph> glyphs = font->getRenderedGlyphs((Font::GlyphString)text,renderer, renderedFontSize, font->getStyle());
 		Vector2u dimensions = font->measureString(text);
 		unsigned int fontSize = font->getSize();
 		Color compColor = color.composite(tintColor);
+
+		beginDraw();
 		
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
@@ -548,8 +555,6 @@ namespace fgl
 			center.x = 0;
 			center.y = 0;
 			
-			beginDraw();
-			
 			SDL_SetTextureColorMod(texture, compColor.r, compColor.g, compColor.b);
 			SDL_SetTextureAlphaMod(texture, (byte)(compColor.a * alpha));
 			
@@ -557,11 +562,13 @@ namespace fgl
 			
 			SDL_SetTextureColorMod(texture, 255,255,255);
 			SDL_SetTextureAlphaMod(texture, 255);
-			
-			endDraw();
+
+			drawLineRaw(pnt.x+(double)rect.w, pnt.y, pnt.x+(double)rect.w, pnt.y+(double)rect.h, 1);
 			
 			x_offset += glyphDimensions.x;
 		}
+
+		endDraw();
 	}
 	
 	void Graphics::drawString(const WideString&text, const Vector2d& point)
