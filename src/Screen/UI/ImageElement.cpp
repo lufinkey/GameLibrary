@@ -3,6 +3,8 @@
 
 namespace fgl
 {
+	constexpr RectangleU ImageElement::DEFAULT_SRC_RECT;
+
 	ImageElement::ImageElement() : ImageElement(RectangleD(0,0,0,0),nullptr)
 	{
 		//
@@ -17,7 +19,7 @@ namespace fgl
 		: ScreenElement(frame),
 		image(image),
 		displayMode(displayMode),
-		srcrect(nullptr)
+		srcrect(DEFAULT_SRC_RECT)
 	{
 		//
 	}
@@ -26,15 +28,6 @@ namespace fgl
 		: ImageElement(RectangleD(0, 0, 0, 0), image, displayMode)
 	{
 		//
-	}
-	
-	ImageElement::~ImageElement()
-	{
-		if(srcrect != nullptr)
-		{
-			delete srcrect;
-			srcrect = nullptr;
-		}
 	}
 	
 	void ImageElement::drawMain(ApplicationData appData, Graphics graphics) const
@@ -107,11 +100,6 @@ namespace fgl
 	void ImageElement::setImage(TextureImage*img)
 	{
 		image = img;
-		if(srcrect != nullptr)
-		{
-			delete srcrect;
-			srcrect = nullptr;
-		}
 	}
 	
 	void ImageElement::setDisplayMode(const DisplayMode&mode)
@@ -119,14 +107,9 @@ namespace fgl
 		displayMode = mode;
 	}
 	
-	void ImageElement::setImageSourceRect(const RectangleU&srcRect)
+	void ImageElement::setImageSourceRect(const RectangleU&srcrect_arg)
 	{
-		if(srcrect != nullptr)
-		{
-			delete srcrect;
-			srcrect = nullptr;
-		}
-		srcrect = new RectangleU(srcRect.x, srcRect.y, srcRect.width, srcRect.height);
+		srcrect = srcrect_arg;
 	}
 	
 	TextureImage* ImageElement::getImage() const
@@ -145,13 +128,13 @@ namespace fgl
 		{
 			return RectangleU(0,0,0,0);
 		}
-		else if(srcrect == nullptr)
+		else if(srcrect.x==-1 && srcrect.y==-1 && srcrect.width==-1 && srcrect.height==-1)
 		{
 			return RectangleU(0,0,image->getWidth(),image->getHeight());
 		}
 		else
 		{
-			return *srcrect;
+			return srcrect;
 		}
 	}
 }

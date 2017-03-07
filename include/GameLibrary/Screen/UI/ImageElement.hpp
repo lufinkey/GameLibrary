@@ -21,6 +21,9 @@ namespace fgl
 			/*! Repeat the image to fill the frame*/
 			DISPLAY_REPEAT
 		} DisplayMode;
+
+		//! constant RectangleU value to match the source rect to the full size of the image
+		static constexpr RectangleU DEFAULT_SRC_RECT = RectangleU(-1,-1,-1,-1);
 		
 		/*! default constructor; */
 		ImageElement();
@@ -35,19 +38,17 @@ namespace fgl
 			\param image the image to display inside the element
 			\param displayMode the method to use for displaying the image; Default value is DISPLAY_STRETCH*/
 		ImageElement(TextureImage* image, const DisplayMode& displayMode = DISPLAY_STRETCH);
-		/*! virtual destructor*/
-		virtual ~ImageElement();
 		
 		
 		/*! Sets the TextureImage for the element to display.
 			\param image the TextureImage to display, or null to not display an image*/
-		void setImage(TextureImage*image);
+		void setImage(TextureImage* image);
 		/*! Sets the display method to display the TextureImage within the element.
 			\param mode a constant that dictates how to display the image \see fgl::ImageElement::DisplayMode*/
-		void setDisplayMode(const DisplayMode&mode);
+		void setDisplayMode(const DisplayMode& mode);
 		/*! Sets a specific source area of the image to be displayed. The srcRect is reset when a new image is set on the element.
 			\param srcRect the section of the image to display*/
-		void setImageSourceRect(const RectangleU&srcRect);
+		void setImageSourceRect(const RectangleU& srcRect);
 		
 		
 		/*! Gets the current TextureImage being displayed.
@@ -56,7 +57,8 @@ namespace fgl
 		/*! Gets the current display method for the TextureImage within the element.
 			\returns a ImageElement::DisplayMode constant*/
 		DisplayMode getDisplayMode() const;
-		/*! Gets the current section of the image that is set to be displayed, or the entire image, if no source rectangle is set.*/
+		/*! Gets the current section of the image that is set to be displayed, or the entire image if the source rectangle has not been set.
+			\returns a rectangle representing the area of the image to be drawn */
 		RectangleU getImageSourceRect() const;
 		
 	protected:
@@ -66,6 +68,6 @@ namespace fgl
 	private:
 		TextureImage* image;
 		DisplayMode displayMode;
-		RectangleU* srcrect;
+		RectangleU srcrect;
 	};
 }
