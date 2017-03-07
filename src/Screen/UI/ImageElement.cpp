@@ -35,64 +35,29 @@ namespace fgl
 		if(image!=nullptr)
 		{
 			RectangleU srcRect = getImageSourceRect();
-			switch(displayMode)
+			RectangleD drawFrame = getImageDrawFrame();
+			if(drawFrame.width!=0 && drawFrame.height!=0)
 			{
-				default:
-				case DISPLAY_STRETCH:
+				RectangleD frame = getFrame();
+				graphics.clip(frame);
+				if(displayMode==DISPLAY_REPEAT)
 				{
-					graphics.drawImage(image, getFrame(), srcRect);
-				}
-				break;
-				
-				case DISPLAY_FIT_CENTER:
-				{
-					RectangleD frame = getFrame();
-					double imgwidth = (double)srcRect.width;
-					double imgheight = (double)srcRect.height;
-					if(imgwidth!=0 && imgheight!=0 && frame.width!=0 && frame.height!=0)
-					{
-						RectangleD drawFrame(frame.x, frame.y, imgwidth, imgheight);
-						drawFrame.scaleToFit(frame);
-						graphics.drawImage(image, drawFrame, srcRect);
-					}
-				}
-				break;
-				
-				case DISPLAY_FILL:
-				{
-					RectangleD frame = getFrame();
-
-					double imgwidth = (double)srcRect.width;
-					double imgheight = (double)srcRect.height;
-					if(imgwidth!=0 && imgheight!=0 && frame.width!=0 && frame.height!=0)
-					{
-						RectangleD drawFrame(frame.x, frame.y, imgwidth, imgheight);
-						drawFrame.scaleToFill(frame);
-						graphics.clip(frame);
-						graphics.drawImage(image, drawFrame, srcRect);
-					}
-				}
-				break;
-				
-				case DISPLAY_REPEAT:
-				{
-					RectangleD frame = getFrame();
-					graphics.clip(frame);
-					double imgwidth = (double)srcRect.width;
-					double imgheight = (double)srcRect.height;
-					unsigned int imageTimesX = (unsigned int)Math::ceil(frame.width/imgwidth);
-					unsigned int imageTimesY = (unsigned int)Math::ceil(frame.height/imgheight);
+					unsigned int imageTimesX = (unsigned int)Math::ceil(frame.width/drawFrame.width);
+					unsigned int imageTimesY = (unsigned int)Math::ceil(frame.height/drawFrame.height);
 					for(unsigned int y=0; y<imageTimesY; y++)
 					{
 						for(unsigned int x=0; x<imageTimesX; x++)
 						{
-							double imageX = frame.x + (imgwidth*((double)x));
-							double imageY = frame.y + (imgheight*((double)y));
-							graphics.drawImage(image, RectangleD(imageX, imageY, imgwidth, imgheight), srcRect);
+							double imageX = drawFrame.x + (drawFrame.width*((double)x));
+							double imageY = drawFrame.y + (drawFrame.height*((double)y));
+							graphics.drawImage(image, RectangleD(imageX, imageY, drawFrame.width, drawFrame.height), srcRect);
 						}
 					}
 				}
-				break;
+				else
+				{
+					graphics.drawImage(image, drawFrame, srcRect);
+				}
 			}
 		}
 	}
@@ -101,25 +66,25 @@ namespace fgl
 	{
 		image = img;
 	}
-	
-	void ImageElement::setDisplayMode(const DisplayMode&mode)
-	{
-		displayMode = mode;
-	}
-	
-	void ImageElement::setImageSourceRect(const RectangleU&srcrect_arg)
-	{
-		srcrect = srcrect_arg;
-	}
-	
+
 	TextureImage* ImageElement::getImage() const
 	{
 		return image;
 	}
 	
+	void ImageElement::setDisplayMode(const DisplayMode&mode)
+	{
+		displayMode = mode;
+	}
+
 	ImageElement::DisplayMode ImageElement::getDisplayMode() const
 	{
 		return displayMode;
+	}
+	
+	void ImageElement::setImageSourceRect(const RectangleU&srcrect_arg)
+	{
+		srcrect = srcrect_arg;
 	}
 	
 	RectangleU ImageElement::getImageSourceRect() const
@@ -135,6 +100,59 @@ namespace fgl
 		else
 		{
 			return srcrect;
+		}
+	}
+
+	RectangleD ImageElement::getImageDrawFrame() const
+	{
+		RectangleD frame = getFrame();
+		switch(displayMode)
+		{
+			case DISPLAY_STRETCH:
+			return frame;
+
+			case DISPLAY_FIT_CENTER:
+			{
+				RectangleU srcRect = getImageSourceRect();
+				if(srcRect.width!=0 && srcRect.height!=0 && frame.width!=0 && frame.height!=0)
+				{
+					RectangleD drawFrame(frame.x, frame.y, (double)srcRect.width, (double)srcRect.height);
+					drawFrame.scaleToFit(frame);
+					return drawFrame;
+				}
+				return RectangleD(frame.x+(frame.width/2), frame.y+(frame.height/2), 0, 0);
+			}
+
+			case DISPLAY_FILL:
+			{
+				RectangleU srcRect = getImageSourceRect();
+				if(srcRect.width!=0 && srcRect.height!=0 && frame.width!=0 && frame.height!=0)
+				{
+					RectangleD drawFrame(frame.x, frame.y, (double)srcRect.width, (double)srcRect.height);
+					drawFrame.scaleToFill(frame);
+					return drawFrame;
+				}
+				return RectangleD(frame.x+(frame.width/2), frame.y+(frame.height/2), 0, 0);
+			}
+
+			case DISPLAY_REPEAT:
+			{
+				RectangleU srcRect = getImageSourceRect();
+				return RectangleD(frame.x, frame.y, (double)srcRect.width, (double)srcRect.height);
+			}
+		}
+		return RectangleD(frame.x+(frame.width/2), frame.y+(frame.height/2), 0, 0);
+	}
+
+	RectangleD ImageElement::getImageDisplayFrame() const
+	{
+		if(displayMode==DISPLAY_REPEAT || displayMode==DISPLAY_STRETCH)
+		{
+			return getFrame();
+		}
+		else
+		{
+			return getImageDrawFrame();
 		}
 	}
 }

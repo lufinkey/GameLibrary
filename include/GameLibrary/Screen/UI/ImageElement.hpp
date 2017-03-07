@@ -60,6 +60,15 @@ namespace fgl
 		/*! Gets the current section of the image that is set to be displayed, or the entire image if the source rectangle has not been set.
 			\returns a rectangle representing the area of the image to be drawn */
 		RectangleU getImageSourceRect() const;
+
+
+		/*! Gets the frame where the image will be drawn.
+			If the display mode is set to DISPLAY_REPEAT, this will give the frame where the first image is drawn.
+			\returns a rectangle representing the area where the image is drawn. */
+		RectangleD getImageDrawFrame() const;
+		/*! Gets the frame where the image will actually be displayed. If the image is drawn outside the frame of the element, this frame will be clipped.
+			If the display mode is set to DISPLAY_REPEAT, this will give the entire frame of the element. */
+		RectangleD getImageDisplayFrame() const;
 		
 	protected:
 		/*! \copydoc fgl::ScreenElement::drawMain(fgl::ApplicationData,fgl::Graphics)const*/
