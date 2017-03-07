@@ -1,4 +1,8 @@
 
+#ifdef _WIN32
+	#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <GameLibrary/Window/AssetManager.hpp>
 #include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Window/Window.hpp>
