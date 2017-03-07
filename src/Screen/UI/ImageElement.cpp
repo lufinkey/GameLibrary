@@ -146,13 +146,14 @@ namespace fgl
 
 	RectangleD ImageElement::getImageDisplayFrame() const
 	{
+		RectangleD frame = getFrame();
 		if(displayMode==DISPLAY_REPEAT || displayMode==DISPLAY_STRETCH)
 		{
-			return getFrame();
+			return frame;
 		}
 		else
 		{
-			return getImageDrawFrame();
+			return frame.getIntersect(getImageDrawFrame());
 		}
 	}
 }

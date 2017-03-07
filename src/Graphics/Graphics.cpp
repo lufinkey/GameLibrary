@@ -492,7 +492,7 @@ namespace fgl
 		cliprect = cr;
 	}
 	
-	void Graphics::clip(const RectangleD&cr)
+	void Graphics::clip(const RectangleD& cr)
 	{
 		RectangleD trueCR = transform.transform(cr);
 		trueCR.x -= clipoffset.x;
