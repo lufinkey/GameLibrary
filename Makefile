@@ -19,7 +19,6 @@ SRC_FILES =\
 	src/Actor/WireframeActor.cpp\
 	src/Application/Application.cpp\
 	src/Application/ApplicationData.cpp\
-	src/Application/AssetManager.cpp\
 	src/Application/BatchLoader.cpp\
 	src/Application/EventManager.cpp\
 	src/Audio/Music.cpp\
@@ -85,9 +84,10 @@ SRC_FILES =\
 	src/Utilities/Time/posixtime.cpp\
 	src/Utilities/Time/TimeInterval.cpp\
 	src/Utilities/Time/time64/time64.c\
+	src/Window/AssetManager.cpp\
 	src/Window/MessageBox.cpp\
 	src/Window/MessageBox.mm\
-	src/Window/View.cpp\
+	src/Window/Viewport.cpp\
 	src/Window/Window.cpp
 
 INCLUDES =\
