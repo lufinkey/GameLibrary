@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Actor/Actor.hpp"
+#include "Actor/Animation.hpp"
 #include "Actor/SpriteActor.hpp"
 #include "Actor/TextActor.hpp"
 #include "Actor/WireframeActor.hpp"
@@ -61,6 +62,7 @@
 #include "Screen/Transition/PopoverTransition.hpp"
 #include "Screen/Transition/SlideTransition.hpp"
 #include "Screen/UI/ActorMenuElement.hpp"
+#include "Screen/UI/AnimationElement.hpp"
 #include "Screen/UI/ImageElement.hpp"
 #include "Screen/UI/MenuScreen.hpp"
 #include "Screen/UI/TextInputElement.hpp"
