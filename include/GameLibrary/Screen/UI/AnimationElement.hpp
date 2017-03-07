@@ -18,12 +18,10 @@ namespace fgl
 		/*! Constructs a screen element with a frame and an animation to display with a given display mode
 			\param frame the frame (bounding box) of the element
 			\param animation the animation to display inside the element
-			\param direction the direction that frames should iterate for the Animation when animating
-			\param displayMode the method to use for displaying the animation; Default value is DISPLAY_STRETCH*/
+			\param direction the direction that frames should iterate for the Animation when animating */
 		AnimationElement(const RectangleD& frame, Animation* animation, const Animation::Direction& direction = Animation::FORWARD);
 		/*! Constructs a screen element with an animation to display with a given display mode. The default frame is (0,0,0,0)
-			\param animation the animation to display inside the element
-			\param displayMode the method to use for displaying the animation; Default value is DISPLAY_STRETCH*/
+			\param animation the animation to display inside the element */
 		AnimationElement(Animation* animation, const Animation::Direction& direction = Animation::FORWARD);
 		/*! virtual destructor*/
 		virtual ~AnimationElement();
