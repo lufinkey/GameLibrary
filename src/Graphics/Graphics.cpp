@@ -59,23 +59,23 @@ namespace fgl
 		
 		SDL_RenderSetViewport((SDL_Renderer*)renderer, nullptr);
 		
-		if(window->view != nullptr && window->view->matchWindow)
+		if(window->viewport != nullptr && window->viewport->matchWindow)
 		{
 			const Vector2u& winSz = window->getSize();
-			window->view->setSize((double)winSz.x, (double)winSz.y);
+			window->viewport->setSize((double)winSz.x, (double)winSz.y);
 		}
 		
-		if(window->view != nullptr && window->view->maintainResolution)
+		if(window->viewport != nullptr && window->viewport->maintainResolution)
 		{
-			if((renderTarget_width!=(unsigned int)window->view->size.x) || (renderTarget_height!=(unsigned int)window->view->size.y))
+			if((renderTarget_width!=(unsigned int)window->viewport->size.x) || (renderTarget_height!=(unsigned int)window->viewport->size.y))
 			{
 				if(renderTarget!=nullptr)
 				{
 					SDL_DestroyTexture((SDL_Texture*)renderTarget);
 					renderTarget = nullptr;
 				}
-				renderTarget_width = (unsigned int)window->view->size.x;
-				renderTarget_height = (unsigned int)window->view->size.y;
+				renderTarget_width = (unsigned int)window->viewport->size.x;
+				renderTarget_height = (unsigned int)window->viewport->size.y;
 				renderTarget = SDL_CreateTexture((SDL_Renderer*)renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (int)renderTarget_width, (int)renderTarget_height);
 				if(renderTarget==nullptr)
 				{
@@ -109,12 +109,12 @@ namespace fgl
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, 0,0,0,255);
 		
 		double zoom = 1;
-		if(window->view!=nullptr)
+		if(window->viewport!=nullptr)
 		{
-			zoom = window->view->zoom;
+			zoom = window->viewport->zoom;
 		}
 		
-		if(window->view!=nullptr && window->view->maintainResolution && renderTarget!=nullptr)
+		if(window->viewport!=nullptr && window->viewport->maintainResolution && renderTarget!=nullptr)
 		{
 			setClipRect(0, 0, renderTarget_width, renderTarget_height);
 			Vector2d winSize((double)renderTarget_width, (double)renderTarget_height);
@@ -123,13 +123,13 @@ namespace fgl
 			scale(zoom, zoom);
 			translate(difY, difX);
 		}
-		else if(window->view == nullptr || window->view->matchWindow)
+		else if(window->viewport == nullptr || window->viewport->matchWindow)
 		{
 			const Vector2u& winSz = window->getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			if(window->view != nullptr)
+			if(window->viewport != nullptr)
 			{
-				window->view->setSize((double)winSz.x, (double)winSz.y);
+				window->viewport->setSize((double)winSz.x, (double)winSz.y);
 			}
 			
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
@@ -140,12 +140,12 @@ namespace fgl
 			scale(zoom,zoom);
 			translate(difY, difX);
 		}
-		else if(window->view->letterboxed)
+		else if(window->viewport->letterboxed)
 		{
 			double multScale = 1;
 			Vector2u winSz = window->getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			Vector2d viewSize = window->view->getSize();
+			Vector2d viewSize = window->viewport->getSize();
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
 			
 			double ratX = winSize.x /viewSize.x;
@@ -192,7 +192,7 @@ namespace fgl
 		{
 			Vector2u winSz = window->getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			Vector2d viewSize = window->view->getSize();
+			Vector2d viewSize = window->viewport->getSize();
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
 			
 			double ratX = winSize.x /viewSize.x;
@@ -241,7 +241,7 @@ namespace fgl
 		}
 		font = defaultFont;
 		
-		if(win.view == nullptr || win.view->matchWindow)
+		if(win.viewport == nullptr || win.viewport->matchWindow)
 		{
 			const Vector2u& winSize = win.getSize();
 			cliprect = RectangleD(0, 0, (double)winSize.x, (double)winSize.y);
@@ -518,7 +518,7 @@ namespace fgl
 	void Graphics::drawString(const WideString& text, double x1, double y1)
 	{
 		unsigned int renderedFontSize = font->getSize();
-		if(!window->getView()->maintainResolution)
+		if(window->getViewport()==nullptr || !window->getViewport()->maintainResolution)
 		{
 			renderedFontSize = (unsigned int)Math::abs(scaling.y*font->getSize());
 		}

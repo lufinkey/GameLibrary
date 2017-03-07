@@ -116,7 +116,7 @@ namespace fgl
 		: windowdata(nullptr), 
 		windowID(-1),
 		icondata(nullptr),
-		view(nullptr),
+		viewport(nullptr),
 		graphics(nullptr),
 		assetManager(nullptr),
 		backgroundColor(Color::WHITE),
@@ -131,10 +131,10 @@ namespace fgl
 		{
 			destroy();
 		}
-		if(view != nullptr)
+		if(viewport != nullptr)
 		{
-			delete view;
-			view = nullptr;
+			delete viewport;
+			viewport = nullptr;
 		}
 		if(icondata != nullptr)
 		{
@@ -227,11 +227,11 @@ namespace fgl
 		}
 		
 		windowed_size = windowSettings.size;
-		bool createdView = false;
-		if(view == nullptr)
+		bool createdViewport = false;
+		if(viewport == nullptr)
 		{
-			view = new Viewport((double)windowed_size.x, (double)windowed_size.y);
-			createdView = true;
+			viewport = new Viewport((double)windowed_size.x, (double)windowed_size.y);
+			createdViewport = true;
 		}
 		
 		try
@@ -243,10 +243,10 @@ namespace fgl
 			SDL_DestroyWindow((SDL_Window*)windowdata);
 			windowdata = nullptr;
 			windowID = 0;
-			if(createdView)
+			if(createdViewport)
 			{
-				delete view;
-				view = nullptr;
+				delete viewport;
+				viewport = nullptr;
 			}
 			if(icondata!=nullptr)
 			{
@@ -263,9 +263,9 @@ namespace fgl
 		}
 		else
 		{
-			if(view!=nullptr)
+			if(viewport!=nullptr)
 			{
-				Vector2d viewSize = view->getSize();
+				Vector2d viewSize = viewport->getSize();
 				windowed_size = Vector2u((unsigned int)viewSize.x, (unsigned int)viewSize.y);
 			}
 			else
@@ -286,7 +286,7 @@ namespace fgl
 			if(graphics->renderTarget!=nullptr)
 			{
 				SDL_SetRenderTarget((SDL_Renderer*)graphics->renderer, nullptr);
-				if(view==nullptr || view->matchesWindow())
+				if(viewport==nullptr || viewport->matchesWindow())
 				{
 					SDL_SetRenderDrawColor((SDL_Renderer*)graphics->renderer, 0, 0, 0, 0);
 					SDL_RenderClear((SDL_Renderer*)graphics->renderer);
@@ -298,7 +298,7 @@ namespace fgl
 					dstRect.h = (int)windowSize.y;
 					SDL_RenderCopy((SDL_Renderer*)graphics->renderer, (SDL_Texture*)graphics->renderTarget, nullptr, &dstRect);
 				}
-				else if(view->isLetterboxed())
+				else if(viewport->isLetterboxed())
 				{
 					SDL_SetRenderDrawColor((SDL_Renderer*)graphics->renderer, 0, 0, 0, 0);
 					SDL_RenderClear((SDL_Renderer*)graphics->renderer);
@@ -373,10 +373,10 @@ namespace fgl
 			graphics = nullptr;
 			SDL_DestroyWindow((SDL_Window*)windowdata);
 			windowdata = nullptr;
-			if(view != nullptr)
+			if(viewport != nullptr)
 			{
-				delete view;
-				view = nullptr;
+				delete viewport;
+				viewport = nullptr;
 			}
 			EventManager::removeWindow(this);
 			windowID = 0;
@@ -468,9 +468,9 @@ namespace fgl
 				windowed_size = size;
 			}
 			SDL_SetWindowSize((SDL_Window*)windowdata,(int)size.x,(int)size.y);
-			if(view != nullptr && view->matchesWindow())
+			if(viewport != nullptr && viewport->matchesWindow())
 			{
-				view->setSize((double)size.x, (double)size.y);
+				viewport->setSize((double)size.x, (double)size.y);
 			}
 		}
 #endif
@@ -524,9 +524,9 @@ namespace fgl
 		}
 	}
 	
-	Viewport* Window::getView() const
+	Viewport* Window::getViewport() const
 	{
-		return view;
+		return viewport;
 	}
 	
 	bool Window::isOpen() const
@@ -620,9 +620,9 @@ namespace fgl
 					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, SDL_WINDOW_FULLSCREEN)==0)
 					{
 						windowed_size = Vector2u((unsigned int)oldWidth, (unsigned int)oldHeight);
-						if(view != nullptr && view->matchesWindow())
+						if(viewport != nullptr && viewport->matchesWindow())
 						{
-							view->setSize((double)width, (double)height);
+							viewport->setSize((double)width, (double)height);
 						}
 					}
 					else
@@ -638,9 +638,9 @@ namespace fgl
 					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, 0)==0)
 					{
 						SDL_SetWindowSize((SDL_Window*)windowdata, (int)width, (int)height);
-						if(view != nullptr && view->matchesWindow())
+						if(viewport != nullptr && viewport->matchesWindow())
 						{
-							view->setSize((double)width, (double)height);
+							viewport->setSize((double)width, (double)height);
 						}
 					}
 					else
@@ -762,7 +762,7 @@ namespace fgl
 		}
 	}
 	
-	TransformD Window::getViewTransform() const
+	TransformD Window::getViewportTransform() const
 	{
 		TransformD transform;
 		
@@ -772,18 +772,18 @@ namespace fgl
 		}
 		
 		double zoom = 1;
-		if(view!=nullptr)
+		if(viewport!=nullptr)
 		{
-			zoom = view->getZoom();
+			zoom = viewport->getZoom();
 		}
 		
-		if(view == nullptr || view->matchesWindow())
+		if(viewport == nullptr || viewport->matchesWindow())
 		{
 			const Vector2u& winSz = getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			if(view != nullptr)
+			if(viewport != nullptr)
 			{
-				view->setSize((double)winSz.x, (double)winSz.y);
+				viewport->setSize((double)winSz.x, (double)winSz.y);
 			}
 			
 			double difX = (winSize.x - (winSize.x*zoom))/(2*zoom);
@@ -792,12 +792,12 @@ namespace fgl
 			transform.scale(zoom, zoom);
 			transform.translate(difX, difY);
 		}
-		else if(view->isLetterboxed())
+		else if(viewport->isLetterboxed())
 		{
 			double multScale = 1;
 			Vector2u winSz = getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			Vector2d viewSize = view->getSize();
+			Vector2d viewSize = viewport->getSize();
 			
 			double ratX = winSize.x /viewSize.x;
 			double ratY = winSize.y /viewSize.y;
@@ -825,7 +825,7 @@ namespace fgl
 		{
 			Vector2u winSz = getSize();
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
-			Vector2d viewSize = view->getSize();
+			Vector2d viewSize = viewport->getSize();
 			
 			double ratX = winSize.x /viewSize.x;
 			double ratY = winSize.y /viewSize.y;

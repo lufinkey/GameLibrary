@@ -262,7 +262,7 @@ namespace fgl
 			
 			TimeInterval currentapptime = apptime;
 			currentapptime.stop();
-			ApplicationData appdata(this,window,window->getAssetManager(),currentapptime,window->getViewTransform(), framespeedMult);
+			ApplicationData appdata(this,window,window->getAssetManager(),currentapptime,window->getViewportTransform(), framespeedMult);
 			if(!app_closing)
 			{
 				update(appdata);

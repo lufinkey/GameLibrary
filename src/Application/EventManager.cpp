@@ -104,9 +104,9 @@ namespace fgl
 			{
 				if(event.type==SDL_WINDOWEVENT && event.window.event==SDL_WINDOWEVENT_RESIZED)
 				{
-					if(resizingWindow->view != nullptr && resizingWindow->view->matchesWindow())
+					if(resizingWindow->viewport != nullptr && resizingWindow->viewport->matchesWindow())
 					{
-						resizingWindow->view->setSize((double)event.window.data1, (double)event.window.data2);
+						resizingWindow->viewport->setSize((double)event.window.data1, (double)event.window.data2);
 					}
 					resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, event.window.data1, event.window.data2, true);
 					skip = true;

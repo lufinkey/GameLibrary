@@ -14,17 +14,17 @@ namespace fgl
 	{
 		if(window != nullptr)
 		{
-			Viewport*view = window->getView();
+			Viewport* viewport = window->getViewport();
 			Vector2d size;
-			if(view != nullptr)
+			if(viewport != nullptr)
 			{
-				if(view->matchesWindow())
+				if(viewport->matchesWindow())
 				{
 					size = (Vector2d)window->getSize();
 				}
 				else
 				{
-					size = view->getSize();
+					size = viewport->getSize();
 				}
 			}
 			else
@@ -175,7 +175,7 @@ namespace fgl
 		window = wndw;
 		if(window != nullptr)
 		{
-			Viewport*view = window->getView();
+			Viewport*view = window->getViewport();
 			if(view != nullptr)
 			{
 				const Vector2d& size = view->getSize();

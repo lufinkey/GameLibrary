@@ -109,7 +109,7 @@ namespace fgl
 
 		void setIcon(Image*);
 
-		Viewport* getView() const;
+		Viewport* getViewport() const;
 		
 		bool isOpen() const;
 		bool isFocused() const;
@@ -122,7 +122,7 @@ namespace fgl
 		void addEventListener(WindowEventListener*);
 		void removeEventListener(WindowEventListener*);
 
-		TransformD getViewTransform() const;
+		TransformD getViewportTransform() const;
 
 		void getHandlePtr(void*ptr) const;
 		void* getWindowData() const;
@@ -131,7 +131,7 @@ namespace fgl
 		void* windowdata;
 		unsigned int windowID;
 		void* icondata;
-		Viewport* view;
+		Viewport* viewport;
 		Graphics* graphics;
 		AssetManager* assetManager;
 		Color backgroundColor;
