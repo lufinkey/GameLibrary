@@ -179,8 +179,26 @@ namespace fgl
 		{
 			throw IllegalArgumentException("element", "already added to another ScreenElement");
 		}
-		element->parentElement = this;
 		childElements.add(element);
+		element->parentElement = this;
+		if(element->hasLayoutRules())
+		{
+			element->autoLayoutFrame();
+		}
+	}
+	
+	void ScreenElement::addChildElement(size_t index, fgl::ScreenElement* element)
+	{
+		if(element == nullptr)
+		{
+			throw IllegalArgumentException("element", "cannot be null");
+		}
+		else if(element->parentElement != nullptr)
+		{
+			throw IllegalArgumentException("element", "already added to another ScreenElement");
+		}
+		childElements.add(index, element);
+		element->parentElement = this;
 		if(element->hasLayoutRules())
 		{
 			element->autoLayoutFrame();

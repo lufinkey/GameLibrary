@@ -55,6 +55,11 @@ namespace fgl
 			\param element a ScreenElement pointer
 			\throws fgl::IllegalArgumentException if element is null, or if the element is already a child of another ScreenElement*/
 		void addChildElement(ScreenElement* element);
+		/*! Inserts a child element in this element at a given index.
+			\param index the index in the child elements array to insert the element
+			\param element a ScreenElement pointer
+			\throws fgl::IllegalArgumentException if the element is null or if the element is already a child of another ScreenElement*/
+		void addChildElement(size_t index, ScreenElement* element);
 		/*! Removes this element from its parent element, or returns if it has no parent element.
 			\throws fgl::IllegalStateException if this element is not stored within its parent element*/
 		void removeFromParentElement();
