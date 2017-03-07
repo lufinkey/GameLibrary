@@ -18,7 +18,7 @@ namespace fgl
 		T radius;
 		
 		/*! default constructor*/
-		Circle() : x(0), y(0), radius(0)
+		constexpr Circle() : x(0), y(0), radius(0)
 		{
 			//
 		}
@@ -27,7 +27,7 @@ namespace fgl
 			\param x the x coordinate for the center point
 			\param y the y coordinate for the center point
 			\param radius the radius*/
-		Circle(const T&x, const T&y, const T&radius) : x(x), y(y), radius(radius)
+		constexpr Circle(const T& x, const T& y, const T& radius) : x(x), y(y), radius(radius)
 		{
 			//
 		}

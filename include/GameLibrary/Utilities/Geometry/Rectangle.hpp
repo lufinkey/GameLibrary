@@ -22,7 +22,7 @@ namespace fgl
 		T height;
 		
 		/*! default constructor*/
-		Rectangle() : x(0), y(0), width(0), height(0)
+		constexpr Rectangle() : x(0), y(0), width(0), height(0)
 		{
 			//
 		}
@@ -32,7 +32,7 @@ namespace fgl
 			\param y the y coordinate of the top left of the rectangle
 			\param width the width of the rectangle
 			\param height the height of the rectangle*/
-		Rectangle(const T&x, const T&y, const T&width, const T&height) : x(x), y(y), width(width), height(height)
+		constexpr Rectangle(const T& x, const T& y, const T& width, const T& height) : x(x), y(y), width(width), height(height)
 		{
 			//
 		}

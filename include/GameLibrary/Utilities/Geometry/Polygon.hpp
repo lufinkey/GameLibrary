@@ -22,7 +22,7 @@ namespace fgl
 			\param xpoints an array of x coordinates
 			\param ypoints an array of y coordinates
 			\param numpoints the size of the xpoints and ypoints arrays*/
-		Polygon(const T*xpoints, const T*ypoints, unsigned int numpoints)
+		Polygon(const T* xpoints, const T* ypoints, unsigned int numpoints)
 		{
 			for (unsigned int i=0; i<numpoints; i++)
 			{
@@ -32,7 +32,7 @@ namespace fgl
 		
 		/*! Constructs a Polygon from an ArrayList of coordinates.
 			\param points a list of points in the polygon*/
-		explicit Polygon(const ArrayList<Vector2<T> >& points)
+		explicit Polygon(const ArrayList<Vector2<T>>& points)
 		{
 			Polygon<T>::points = points;
 		}
@@ -51,21 +51,21 @@ namespace fgl
 		/*! Adds a point to the set of points in the polygon.
 			\param x the x coordinate of the point
 			\param y the y coordinate of the point*/
-		void addPoint(const T&x, const T&y)
+		void addPoint(const T& x, const T& y)
 		{
 			points.add(Vector2<T>(x,y));
 		}
 		
 		/*! Adds a point to the set of points in the polygon.
 			\param point the coordinates of the point*/
-		void addPoint(const Vector2<T>&point)
+		void addPoint(const Vector2<T>& point)
 		{
 			points.add(point);
 		}
 		
 		/*! Gets a list of all of the points in the polygon.
 			\returns a const ArrayList reference of Vector2d objects*/
-		const ArrayList<Vector2<T> >& getPoints() const
+		const ArrayList<Vector2<T>>& getPoints() const
 		{
 			return points;
 		}
@@ -74,7 +74,7 @@ namespace fgl
 			\param x the x coordinate of the point to check
 			\param y the y coordinate of the point to check
 			\returns true if the point is inside of the polygon, or false if otherwise*/
-		bool contains(const T&x, const T&y) const
+		bool contains(const T& x, const T& y) const
 		{
 			if(points.size() == 0)
 			{
@@ -98,7 +98,7 @@ namespace fgl
 		/*! Tells whether a given point is within the polygon.
 			\param point the coordinates of the point to check
 			\returns true if the point is inside of the polygon, or false if otherwise*/
-		bool contains(const Vector2<T>&point) const
+		bool contains(const Vector2<T>& point) const
 		{
 			return contains(point.x, point.y);
 		}
@@ -132,7 +132,7 @@ namespace fgl
 		}
 		
 	private:
-		ArrayList<Vector2<T> > points;
+		ArrayList<Vector2<T>> points;
 	};
 	
 	typedef Polygon<int> PolygonI;

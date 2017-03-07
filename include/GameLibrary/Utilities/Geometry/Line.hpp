@@ -18,7 +18,7 @@ namespace fgl
 		fgl::Vector2d point2;
 
 		/*! default constructor*/
-		Line()
+		constexpr Line()
 		{
 			//
 		}
@@ -28,7 +28,7 @@ namespace fgl
 			\param y1 the y coordinate for the first point
 			\param x2 the x coordinate for the second point
 			\param y2 the y coordinate for the second point*/
-		Line(const T& x1, const T& y1, const T& x2, const T& y2) : point1(x1,y1), point2(x2, y2)
+		constexpr Line(const T& x1, const T& y1, const T& x2, const T& y2) : point1(x1,y1), point2(x2, y2)
 		{
 			//
 		}

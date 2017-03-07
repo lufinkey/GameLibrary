@@ -13,12 +13,12 @@ namespace fgl
 		T x;
 		T y;
 
-		Vector2() : x(0), y(0)
+		constexpr Vector2() : x(0), y(0)
 		{
 			//
 		}
 
-		Vector2(const T& x, const T& y) : x(x), y(y)
+		constexpr Vector2(const T& x, const T& y) : x(x), y(y)
 		{
 			//
 		}
