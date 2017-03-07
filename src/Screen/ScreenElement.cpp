@@ -76,10 +76,7 @@ namespace fgl
 	
 	ScreenElement::~ScreenElement()
 	{
-		while(childElements.size()>0)
-		{
-			childElements.get(childElements.size()-1)->removeFromParentElement();
-		}
+		//
 	}
 	
 	void ScreenElement::update(ApplicationData appData)
