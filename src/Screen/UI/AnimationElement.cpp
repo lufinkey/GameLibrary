@@ -13,15 +13,15 @@ namespace fgl
 		//
 	}
 	
-	AnimationElement::AnimationElement(const RectangleD& frame, Animation* animation, const Animation::Direction& direction, const DisplayMode& displayMode)
+	AnimationElement::AnimationElement(const RectangleD& frame, Animation* animation, const Animation::Direction& direction)
 		: ScreenElement(frame),
 		animation(animation),
 		animation_direction(direction),
 		animation_frame(0),
 		animation_prevFrameTime(0),
 		prevUpdateTime(0),
-		displayMode(displayMode),
-		firstUpdate(true)
+		firstUpdate(true),
+		imageElement(nullptr)
 	{
 		if(animation_direction==Animation::NO_CHANGE)
 		{
@@ -34,17 +34,20 @@ namespace fgl
 				animation_frame = animation->getTotalFrames() - 1;
 			}
 		}
+		imageElement = new ImageElement(RectangleD(0, 0, frame.width, frame.height));
+		updateAnimationImage();
+		addChildElement(imageElement);
 	}
 	
-	AnimationElement::AnimationElement(Animation* animation, const Animation::Direction& direction, const DisplayMode& displayMode)
-		: AnimationElement(RectangleD(0,0,0,0), animation, direction, displayMode)
+	AnimationElement::AnimationElement(Animation* animation, const Animation::Direction& direction)
+		: AnimationElement(RectangleD(0,0,0,0), animation, direction)
 	{
 		//
 	}
 	
 	AnimationElement::~AnimationElement()
 	{
-		//
+		delete imageElement;
 	}
 	
 	void AnimationElement::update(ApplicationData appData)
@@ -102,84 +105,17 @@ namespace fgl
 							animation_frame--;
 						}
 					}
+
+					updateAnimationImage();
 				}
 			}
 		}
 	}
-	
-	void AnimationElement::drawMain(ApplicationData appData, Graphics graphics) const
+
+	void AnimationElement::setFrame(const RectangleD& frame)
 	{
-		if(animation!=nullptr && animation->getTotalFrames()>0)
-		{
-			size_t anim_frame = animation_frame;
-			if(anim_frame >= animation->getTotalFrames())
-			{
-				switch(animation_direction)
-				{
-					default:
-					case Animation::NO_CHANGE:
-					case Animation::FORWARD:
-					case Animation::STOPPED:
-					anim_frame = 0;
-					break;
-
-					case Animation::BACKWARD:
-					anim_frame = animation->getTotalFrames() - 1;
-					break;
-				}
-			}
-			RectangleD animRect = animation->getRect(anim_frame);
-			switch(displayMode)
-			{
-				default:
-				case DISPLAY_STRETCH:
-				{
-					animation->drawFrame(graphics, anim_frame, getFrame());
-				}
-				break;
-
-				case DISPLAY_FIT:
-				{
-					RectangleD frame = getFrame();
-					if(animRect.width!=0 && animRect.height!=0 && frame.width!=0 && frame.height!=0)
-					{
-						animRect.scaleToFit(frame);
-						animation->drawFrame(graphics, anim_frame, animRect);
-					}
-				}
-				break;
-
-				case DISPLAY_ZOOM:
-				{
-					RectangleD frame = getFrame();
-					if(animRect.width!=0 && animRect.height!=0 && frame.width!=0 && frame.height!=0)
-					{
-						animRect.scaleToFill(frame);
-						graphics.clip(frame);
-						animation->drawFrame(graphics, anim_frame, animRect);
-					}
-				}
-				break;
-
-				case DISPLAY_REPEAT:
-				{
-					RectangleD frame = getFrame();
-					graphics.clip(frame);
-					unsigned int imageTimesX = (unsigned int)Math::ceil(frame.width/animRect.width);
-					unsigned int imageTimesY = (unsigned int)Math::ceil(frame.height/animRect.height);
-					for(unsigned int y=0; y<imageTimesY; y++)
-					{
-						for(unsigned int x=0; x<imageTimesX; x++)
-						{
-							double animX = frame.x + (animRect.width*((double)x));
-							double animY = frame.y + (animRect.height*((double)y));
-							animation->drawFrame(graphics, anim_frame, RectangleD(animX, animY, animRect.width, animRect.height));
-						}
-					}
-				}
-				break;
-			}
-		}
+		ScreenElement::setFrame(frame);
+		imageElement->setFrame(RectangleD(0, 0, frame.width, frame.height));
 	}
 	
 	void AnimationElement::setAnimation(Animation* anim, const Animation::Direction& direction)
@@ -247,6 +183,8 @@ namespace fgl
 				}
 			}
 		}
+
+		updateAnimationImage();
 	}
 	
 	void AnimationElement::setAnimationDirection(const Animation::Direction& direction)
@@ -260,11 +198,7 @@ namespace fgl
 	void AnimationElement::setAnimationFrame(size_t frameIndex)
 	{
 		animation_frame = frameIndex;
-	}
-	
-	void AnimationElement::setDisplayMode(const DisplayMode& mode)
-	{
-		displayMode = mode;
+		updateAnimationImage();
 	}
 	
 	Animation* AnimationElement::getAnimation() const
@@ -281,9 +215,31 @@ namespace fgl
 	{
 		return animation_frame;
 	}
-	
-	const AnimationElement::DisplayMode& AnimationElement::getDisplayMode() const
+
+	ImageElement* AnimationElement::getImageElement() const
 	{
-		return displayMode;
+		return imageElement;
+	}
+
+	void AnimationElement::updateAnimationImage()
+	{
+		if(animation!=nullptr)
+		{
+			if(animation->getTotalFrames()>0)
+			{
+				imageElement->setImage(animation->getImage(animation_frame));
+				imageElement->setImageSourceRect(animation->getImageSourceRect(animation_frame));
+			}
+			else
+			{
+				imageElement->setImage(nullptr);
+				imageElement->setImageSourceRect(ImageElement::DEFAULT_SRC_RECT);
+			}
+		}
+		else
+		{
+			imageElement->setImage(nullptr);
+			imageElement->setImageSourceRect(ImageElement::DEFAULT_SRC_RECT);
+		}
 	}
 }
