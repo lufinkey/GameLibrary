@@ -49,21 +49,6 @@ namespace fgl
 		Vector2d fixedPoint((point.x-contentOffset.x)/zoom, (point.y-contentOffset.y)/zoom);
 		zoomOnPoint(fixedPoint, zoom);
 	}
-
-	void ZoomPanElement::draw(ApplicationData appData, Graphics graphics) const
-	{
-		Graphics mainGraphics(graphics);
-		RectangleD frame = getFrame();
-		if(isClippedToFrame())
-		{
-			mainGraphics.clip(frame);
-		}
-		drawBackground(appData, mainGraphics);
-		drawMain(appData, mainGraphics);
-		drawBorder(appData, mainGraphics);
-		graphics.translate(frame.x, frame.y);
-		drawElements(appData, graphics);
-	}
 	
 	void ZoomPanElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
