@@ -121,65 +121,74 @@ namespace fgl
 	void AnimationElement::setAnimation(Animation* anim, const Animation::Direction& direction)
 	{
 		animation = anim;
-		switch(direction)
+		if(animation==nullptr)
 		{
-			case Animation::FORWARD:
-			case Animation::STOPPED:
+			animation_frame = 0;
+			animation_prevFrameTime = prevUpdateTime;
+			animation_direction = direction;
+		}
+		else
+		{
+			switch(direction)
 			{
-				animation_frame = 0;
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
-
-			case Animation::BACKWARD:
-			{
-				size_t totalFrames = animation->getTotalFrames();
-				if(totalFrames>0)
-				{
-					animation_frame = (totalFrames-1);
-				}
-				else
+				case Animation::FORWARD:
+				case Animation::STOPPED:
 				{
 					animation_frame = 0;
+					animation_prevFrameTime = prevUpdateTime;
+					animation_direction = direction;
 				}
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
+				break;
 
-			case Animation::NO_CHANGE:
-			{
-				switch(animation_direction)
+				case Animation::BACKWARD:
 				{
-					default:
-					case Animation::NO_CHANGE:
-					case Animation::FORWARD:
-					case Animation::STOPPED:
+					size_t totalFrames = animation->getTotalFrames();
+					if(totalFrames>0)
 					{
-						if(animation_frame >= animation->getTotalFrames())
-						{
-							animation_frame = 0;
-						}
+						animation_frame = (totalFrames-1);
 					}
-					break;
-
-					case Animation::BACKWARD:
+					else
 					{
-						size_t totalFrames = animation->getTotalFrames();
-						if(animation_frame >= totalFrames)
+						animation_frame = 0;
+					}
+					animation_prevFrameTime = prevUpdateTime;
+					animation_direction = direction;
+				}
+				break;
+
+				case Animation::NO_CHANGE:
+				{
+					switch(animation_direction)
+					{
+						default:
+						case Animation::NO_CHANGE:
+						case Animation::FORWARD:
+						case Animation::STOPPED:
 						{
-							if(totalFrames>0)
-							{
-								animation_frame = (totalFrames-1);
-							}
-							else
+							if(animation_frame >= animation->getTotalFrames())
 							{
 								animation_frame = 0;
 							}
 						}
+						break;
+
+						case Animation::BACKWARD:
+						{
+							size_t totalFrames = animation->getTotalFrames();
+							if(animation_frame >= totalFrames)
+							{
+								if(totalFrames>0)
+								{
+									animation_frame = (totalFrames-1);
+								}
+								else
+								{
+									animation_frame = 0;
+								}
+							}
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}
