@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Screen/Transition/PopoverTransition.hpp>
+#include <GameLibrary/Screen/Screen.hpp>
 
 namespace fgl
 {
@@ -21,36 +22,36 @@ namespace fgl
 		//
 	}
 	
-	void PopoverTransition::draw(ApplicationData appData, Graphics graphics, double progress, Drawable*element1, Drawable*element2) const
+	void PopoverTransition::draw(ApplicationData appData, Graphics graphics, double progress, Screen* screen1, Screen* screen2) const
 	{
-		RectangleD e1rect = element1->getFrame();
-		RectangleD e2rect = element2->getFrame();
+		Vector2d e1size = screen1->getSize();
+		Vector2d e2size = screen2->getSize();
 		
-		double xOff = (e2rect.width - e1rect.width)/2;
-		double yOff = (e2rect.height - e1rect.height)/2;
+		double xOff = (e2size.x - e1size.x)/2;
+		double yOff = (e2size.y - e1size.y)/2;
 		
 		double translationX = xOff;
 		double translationY = yOff;
 		switch(direction)
 		{
 			case POPOVER_UP:
-			translationY += (e1rect.height*(1-progress));
+			translationY += (e1size.y*(1-progress));
 			break;
 			
 			case POPOVER_DOWN:
-			translationY += -(e1rect.height + (e1rect.height*progress));
+			translationY += -(e1size.y + (e1size.y*progress));
 			break;
 			
 			case POPOVER_LEFT:
-			translationX += -(e1rect.width - (e1rect.width*progress));
+			translationX += -(e1size.x - (e1size.x*progress));
 			break;
 			
 			case POPOVER_RIGHT:
-			translationX += (e1rect.width * (1-progress));
+			translationX += (e1size.x * (1-progress));
 			break;
 		}
 		
-		element1->draw(appData, graphics);
+		screen1->draw(appData, graphics);
 		
 		if(fade)
 		{
@@ -58,6 +59,6 @@ namespace fgl
 		}
 		graphics.translate((double)translationX, (double)translationY);
 		
-		element2->draw(appData, graphics);
+		screen2->draw(appData, graphics);
 	}
 }

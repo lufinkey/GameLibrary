@@ -50,9 +50,6 @@
 #include "Network/NetworkProtocol.hpp"
 
 #include "Screen/AutoLayoutManager.hpp"
-#include "Screen/Updateable.hpp"
-#include "Screen/Drawable.hpp"
-#include "Screen/UpdateDrawable.hpp"
 #include "Screen/ScreenElement.hpp"
 #include "Screen/Screen.hpp"
 #include "Screen/ScreenManager.hpp"

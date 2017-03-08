@@ -10,8 +10,8 @@ namespace fgl
 {
 	class ScreenManager;
 
-	/*! An drawable entity that can be used to separate different menus or screens of an Application. This class is non-copyable.*/
-	class Screen : public UpdateDrawable
+	/*! A drawable entity that can be used to separate different menus or screens of an Application. This class is non-copyable.*/
+	class Screen
 	{
 		friend class ScreenManager;
 	public:
@@ -34,40 +34,40 @@ namespace fgl
 		/*! Updates the properties of the Screen. This should NOT be overridden except for creating a custom Screen container.
 		If overridden, the overriding function should first call the base class's update function, and then check if the Screen contains a child Screen before updating.
 			\param appData specifies information about the Application updating the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
-		virtual void update(ApplicationData appData) override;
+		virtual void update(ApplicationData appData);
 		/*! Draws the Screen and all of its children. This should NOT be overridden except for creating a custom Screen container.
 		If overridden, the overriding function should first call the base class's draw function, and then check if the Screen contains a child Screen that is transitioning before drawing.
 			\param appData specifies information about the Application drawing the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
-		virtual void draw(ApplicationData appData, Graphics graphics) const override;
+		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		
 		
-		/*! Gets the actual frame (bounding box) of the Screen inside the Window.
-			\returns a RectangleD object representing the Screen's bounding box*/
-		virtual RectangleD getFrame() const override;
+		/*! Gets the size of the Screen inside the Window.
+			\returns a Vector2d object representing the Screen's size in pixels*/
+		const Vector2d& getSize() const;
 		
 		
 		//TODO add events for navigation from ScreenManager?
 		
 		
-		/*! Called when the Screen's frame has changed, possibly due to frame resizing, or window resizing, or a mobile device orientation change.
-			\param oldFrame the previous frame
-			\param newFrame the new frame*/
-		virtual void onFrameChange(const RectangleD&oldFrame, const RectangleD& newFrame);
+		/*! Called when the Screen's size has changed, possibly due to frame resizing, or window resizing, or a mobile device orientation change.
+			\param oldSize the previous frame
+			\param newSize the new frame*/
+		virtual void onSizeChange(const Vector2d& oldSize, const Vector2d& newSize);
 		
 		
 		/*! Called when the Screen is about to appear at the top level of the Screen stack.
 			\param transition the Transition used to display the Screen, or null if no Transition was used*/
-		virtual void onWillAppear(const Transition*transition);
+		virtual void onWillAppear(const Transition* transition);
 		/*! Called when the Screen has just appeared at the top level of the Screen stack.
 			\param transition the Transition used to display the Screen, or null if no Transition was used*/
-		virtual void onDidAppear(const Transition*transition);
+		virtual void onDidAppear(const Transition* transition);
 		/*! Called when the Screen is about to disappear off the top level of the Screen stack.
 			\param transition the Transition used to hide the Screen, or null if no Transition was used*/
-		virtual void onWillDisappear(const Transition*transition);
+		virtual void onWillDisappear(const Transition* transition);
 		/*! Called when the Screen has just disappeared off the top level of the Screen stack.
 			\param transition the Transition used to hide the Screen, or null if no Transition was used*/
-		virtual void onDidDisappear(const Transition*transition);
+		virtual void onDidDisappear(const Transition* transition);
 		
 		
 		/*! Presents another Screen on top of this Screen. Only one child Screen can be presented to a Screen at a time, but the top level Screen can always present another Screen.
@@ -81,17 +81,17 @@ namespace fgl
 				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),
 				4.) already held within a ScreenManager,
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void present(Screen*screen, const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void present(Screen*screen, const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen, or if no Screen is presented on top of this Screen, this Screen is dismissed from its parent Screen.
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition */
-		void dismiss(const Transition*transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void dismiss(const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
 		
 		
 		/*! Gets the root ScreenElement.
 			\returns a ScreenElement pointer*/
-		ScreenElement* getElement();
+		ScreenElement* getElement() const;
 		/*! Gets the ScreenManager that the Screen is contained within.
 			\returns a ScreenManager pointer, or null if the Screen is not contained within a ScreenManager*/
 		ScreenManager* getScreenManager() const;
@@ -134,12 +134,12 @@ namespace fgl
 		/*! Updates the properties of the Screen. This function is called from within the update function, and should not manually be called.
 		This function is safe to override with custom behavior.
 			\param appData specifies information about the Application updating the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
-		virtual void onUpdate(ApplicationData appData);
+		virtual void onUpdate(const ApplicationData& appData);
 		/*! Draws the Screen and any contents to the Window. This function is called from within the draw function, and should not be manually called.
 		This function is safe to override with custom behavior.
 			\param appData specifies information about the Application updating the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to Draw the Screen contents*/
-		virtual void onDraw(ApplicationData appData, Graphics graphics) const;
+		virtual void onDraw(const ApplicationData& appData, Graphics graphics) const;
 		
 		
 		/*! Used to tell if the Screen is drawing an overlay. This value is only set within the draw function.

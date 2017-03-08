@@ -24,7 +24,7 @@ namespace fgl
 		ApplicationData(Application*application, Window*window, AssetManager*assetManager, const TimeInterval&timeInterval, const TransformD&transform, double framespeedMult);
 
 
-		//! Optional additional data to be passed down to drawables and updateables
+		//! Optional additional data to be passed down to draw and update functions
 		Dictionary additionalData;
 		
 		

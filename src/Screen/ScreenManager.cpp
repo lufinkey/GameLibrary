@@ -148,9 +148,6 @@ namespace fgl
 	{
 		if(childScreen==nullptr || overlayData.action!=TRANSITION_NONE)
 		{
-			RectangleD frame = getFrame();
-			graphics.translate(frame.x, frame.y);
-
 			if(pushpopData.action == TRANSITION_NONE)
 			{
 				screens.get(screens.size()-1)->draw(appData, graphics);
@@ -164,7 +161,7 @@ namespace fgl
 					progress = 1 - progress;
 				}
 
-				pushpopData.transition->draw(appData, graphics, progress, static_cast<Drawable*>(pushpopData.screen), static_cast<Drawable*>(pushpopData.transitionScreen));
+				pushpopData.transition->draw(appData, graphics, progress, pushpopData.screen, pushpopData.transitionScreen);
 			}
 		}
 	}

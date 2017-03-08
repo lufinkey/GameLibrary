@@ -10,7 +10,7 @@ namespace fgl
 {
 	const Transition* const Screen::defaultPresentTransition = new PopoverTransition(PopoverTransition::POPOVER_UP);
 	
-	void Screen::updateFrame(Window*window)
+	void Screen::updateFrame(Window* window)
 	{
 		if(window != nullptr)
 		{
@@ -33,17 +33,16 @@ namespace fgl
 			}
 			if(framesize.x!=size.x || framesize.y!=size.y)
 			{
-				RectangleD oldFrame(0, 0, framesize.x, framesize.y);
-				RectangleD newFrame(0, 0, size.x, size.y);
+				Vector2d oldSize = framesize;
 				framesize = size; //setFrame(RectangleD(frame.x, frame.y, size.x, size.y));
 				ScreenElement* mainElement = getElement();
 				mainElement->setFrame(RectangleD(0,0,size.x,size.y));
-				onFrameChange(oldFrame, newFrame);
+				onSizeChange(oldSize, size);
 			}
 		}
 	}
 	
-	void Screen::setWindow(Window*win)
+	void Screen::setWindow(Window* win)
 	{
 		if(window!=win)
 		{
@@ -162,7 +161,7 @@ namespace fgl
 	
 	Screen::Screen(Window*wndw)
 	{
-		element = nullptr;
+		element = new ScreenElement(RectangleD(0,0, framesize.x, framesize.y));
 		screenManager = nullptr;
 		parentScreen = nullptr;
 		childScreen = nullptr;
@@ -182,8 +181,7 @@ namespace fgl
 				if(framesize.x!=size.x || framesize.y!=size.y)
 				{
 					framesize = size; //frame = RectangleD(frame.x, frame.y, size.x, size.y);
-					ScreenElement* mainElement = getElement();
-					mainElement->setFrame(RectangleD(0,0,size.x,size.y));
+					element->setFrame(RectangleD(0,0,size.x,size.y));
 				}
 			}
 		}
@@ -202,14 +200,10 @@ namespace fgl
 			childScreen->parentScreen = nullptr;
 			childScreen = nullptr;
 		}
-		if(element != nullptr)
-		{
-			delete element;
-			element = nullptr;
-		}
+		delete element;
 	}
 	
-	void Screen::onFrameChange(const RectangleD& oldFrame, const RectangleD& newFrame)
+	void Screen::onSizeChange(const Vector2d& oldFrame, const Vector2d& newFrame)
 	{
 		//Open for implementation
 	}
@@ -290,7 +284,7 @@ namespace fgl
 		updateFrame(window);
 	}
 	
-	void Screen::onUpdate(ApplicationData appData)
+	void Screen::onUpdate(const ApplicationData& appData)
 	{
 		//Open for implementation
 	}
@@ -302,9 +296,8 @@ namespace fgl
 			//ScreenElement::drawBackground(appData, graphics);
 			if(!backgroundColor.equals(Color::TRANSPARENT))
 			{
-				RectangleD frame = getFrame();
 				graphics.setColor(backgroundColor);
-				graphics.fillRect(frame.x, frame.y, frame.width, frame.height);
+				graphics.fillRect(0, 0, framesize.x, framesize.y);
 			}
 		}
 	}
@@ -326,14 +319,11 @@ namespace fgl
 	{
 		if(childScreen!=nullptr || overlayData.action!=TRANSITION_NONE)
 		{
-			RectangleD frame = getFrame();
-			graphics.translate(frame.x, frame.y);
-			
 			if(overlayData.action == TRANSITION_NONE)
 			{
-				RectangleD overlayFrame = childScreen->getFrame();
-				double xOff = (overlayFrame.width - frame.width)/2;
-				double yOff = (overlayFrame.height - frame.height)/2;
+				Vector2d overlaySize = childScreen->getSize();
+				double xOff = (overlaySize.x - framesize.x)/2;
+				double yOff = (overlaySize.y - framesize.y)/2;
 				graphics.translate(xOff, yOff);
 				childScreen->draw(appData, graphics);
 			}
@@ -346,7 +336,7 @@ namespace fgl
 					progress = 1 - progress;
 				}
 				
-				overlayData.transition->draw(appData, graphics, progress, static_cast<Drawable*>(overlayData.screen), static_cast<Drawable*>(overlayData.transitionScreen));
+				overlayData.transition->draw(appData, graphics, progress, overlayData.screen, overlayData.transitionScreen);
 			}
 		}
 	}
@@ -372,14 +362,14 @@ namespace fgl
 		}
 	}
 	
-	void Screen::onDraw(ApplicationData appData, Graphics graphics) const
+	void Screen::onDraw(const ApplicationData& appData, Graphics graphics) const
 	{
 		//Open for implementation
 	}
 	
-	RectangleD Screen::getFrame() const
+	const Vector2d& Screen::getSize() const
 	{
-		return RectangleD(0,0,framesize.x,framesize.y);
+		return framesize;
 	}
 	
 	void Screen::present(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
@@ -581,13 +571,8 @@ namespace fgl
 		}
 	}
 	
-	ScreenElement* Screen::getElement()
+	ScreenElement* Screen::getElement() const
 	{
-		if(element == nullptr)
-		{
-			RectangleD screenFrame = getFrame();
-			element = new ScreenElement(RectangleD(0,0, screenFrame.width, screenFrame.height));
-		}
 		return element;
 	}
 	
@@ -733,8 +718,6 @@ namespace fgl
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
 		TransformD mouseTransform = appData.getTransform().getInverse();
 		
 		ArrayList<unsigned int> mouseIndexes;
@@ -820,8 +803,6 @@ namespace fgl
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
 		TransformD touchTransform = appData.getTransform().getInverse();
 
 		ArrayList<unsigned int> touchIDs = Multitouch::getTouchIDs(window);

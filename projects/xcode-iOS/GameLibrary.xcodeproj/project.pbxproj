@@ -193,7 +193,6 @@
 		A039DA041CCDE80800B0B5DA /* NetworkProtocol.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NetworkProtocol.hpp; sourceTree = "<group>"; };
 		A039DA061CCDE80800B0B5DA /* AutoLayoutCalculator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoLayoutCalculator.hpp; sourceTree = "<group>"; };
 		A039DA071CCDE80800B0B5DA /* AutoLayoutManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoLayoutManager.hpp; sourceTree = "<group>"; };
-		A039DA081CCDE80800B0B5DA /* Drawable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Drawable.hpp; sourceTree = "<group>"; };
 		A039DA091CCDE80800B0B5DA /* Screen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Screen.hpp; sourceTree = "<group>"; };
 		A039DA0A1CCDE80800B0B5DA /* ScreenElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenElement.hpp; sourceTree = "<group>"; };
 		A039DA0B1CCDE80800B0B5DA /* ScreenManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenManager.hpp; sourceTree = "<group>"; };
@@ -208,8 +207,6 @@
 		A039DA161CCDE80800B0B5DA /* TextInputElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextInputElement.hpp; sourceTree = "<group>"; };
 		A039DA171CCDE80800B0B5DA /* TouchElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchElement.hpp; sourceTree = "<group>"; };
 		A039DA181CCDE80800B0B5DA /* ZoomPanElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ZoomPanElement.hpp; sourceTree = "<group>"; };
-		A039DA191CCDE80800B0B5DA /* Updateable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Updateable.hpp; sourceTree = "<group>"; };
-		A039DA1A1CCDE80800B0B5DA /* UpdateDrawable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UpdateDrawable.hpp; sourceTree = "<group>"; };
 		A039DA1B1CCDE80800B0B5DA /* Types.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Types.hpp; sourceTree = "<group>"; };
 		A039DA1D1CCDE80800B0B5DA /* Any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Any.hpp; sourceTree = "<group>"; };
 		A039DA1E1CCDE80800B0B5DA /* ArrayList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArrayList.hpp; sourceTree = "<group>"; };
@@ -559,12 +556,9 @@
 				A039DA121CCDE80800B0B5DA /* UI */,
 				A039DA061CCDE80800B0B5DA /* AutoLayoutCalculator.hpp */,
 				A039DA071CCDE80800B0B5DA /* AutoLayoutManager.hpp */,
-				A039DA081CCDE80800B0B5DA /* Drawable.hpp */,
 				A039DA091CCDE80800B0B5DA /* Screen.hpp */,
 				A039DA0A1CCDE80800B0B5DA /* ScreenElement.hpp */,
 				A039DA0B1CCDE80800B0B5DA /* ScreenManager.hpp */,
-				A039DA191CCDE80800B0B5DA /* Updateable.hpp */,
-				A039DA1A1CCDE80800B0B5DA /* UpdateDrawable.hpp */,
 			);
 			path = Screen;
 			sourceTree = "<group>";

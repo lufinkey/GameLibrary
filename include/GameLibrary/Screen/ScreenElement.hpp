@@ -2,18 +2,19 @@
 #pragma once
 
 #include <mutex>
+#include <GameLibrary/Application/ApplicationData.hpp>
+#include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Input/Mouse.hpp>
 #include <GameLibrary/Input/Multitouch.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include "AutoLayoutManager.hpp"
-#include "UpdateDrawable.hpp"
 
 namespace fgl
 {
 	class Screen;
 
-	/*! A stackable element that can be added to a Screen*/
-	class ScreenElement : public UpdateDrawable
+	/*! A stackable element that can be added to a Screen */
+	class ScreenElement
 	{
 		friend class Screen;
 		friend class ScreenManager;
@@ -33,11 +34,11 @@ namespace fgl
 		
 		/*! Updates any properties of the element, and updates all the child elements.
 			\param appData specifies information about the Application updating the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
-		virtual void update(ApplicationData appData) override;
+		virtual void update(ApplicationData appData);
 		/*! Draws the element and all of its child elements. This function calls drawBackground, drawMain, and drawElements respectively.
 			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
-		virtual void draw(ApplicationData appData, Graphics graphics) const override;
+		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		
 		
 		/*! Sets the actual frame (bounding box) of the element inside of its parent.
@@ -45,7 +46,7 @@ namespace fgl
 		virtual void setFrame(const RectangleD& frame);
 		/*! Gets the actual frame (bounding box) of the element inside of its parent.
 			\returns a RectangleD object representing the element's bounding box within its parent*/
-		virtual RectangleD getFrame() const override;
+		RectangleD getFrame() const;
 		/*! Gets the center coordinates of the frame.
 			\returns a Vector2d point*/
 		Vector2d getCenter() const;

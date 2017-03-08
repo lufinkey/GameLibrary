@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include <GameLibrary/Screen/UpdateDrawable.hpp>
+#include <GameLibrary/Application/ApplicationData.hpp>
+#include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Input/Mouse.hpp>
 
 namespace fgl
@@ -55,8 +56,8 @@ namespace fgl
 		bool multitouch;
 	};
 	
-	/*! An overrideable implementation of fgl::UpdateDrawable that provides the necessities to create a dynamic, movable, scalable, rotatable object that can be updated and drawn.*/
-	class Actor : public UpdateDrawable
+	/*! Provides the necessities to create a dynamic, movable, scalable, rotatable object that can be updated and drawn.*/
+	class Actor
 	{
 		friend class SpriteActor;
 		friend class TextActor;
@@ -76,16 +77,16 @@ namespace fgl
 		
 		/*! Updates certain properties of the Actor, such as mouse state, and calls Actor events.
 			\param appData specifies information about the Application updating the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
-		virtual void update(ApplicationData appData) override;
+		virtual void update(ApplicationData appData);
 		/*! Draws the Actor to the screen using the specified Graphics object
 			\param appData specifies information about the Application drawing the Actor, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Actor*/
-		virtual void draw(ApplicationData appData, Graphics graphics) const override;
+		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		
 		
 		/*! Gets the actual bounding box of the Actor. The bounding box resizes based on rotation, scaling, and other transformations.
 			\returns a RectangleD object representing the Actor's bounding box*/
-		virtual RectangleD getFrame() const override;
+		virtual RectangleD getFrame() const;
 		
 		
 		/*! Scales and repositions the Actor to fit within the specified container

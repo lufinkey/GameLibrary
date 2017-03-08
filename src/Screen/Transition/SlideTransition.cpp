@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Screen/Transition/SlideTransition.hpp>
+#include <GameLibrary/Screen/Screen.hpp>
 
 namespace fgl
 {
@@ -20,36 +21,20 @@ namespace fgl
 		//
 	}
 	
-	void SlideTransition::draw(ApplicationData appData, Graphics graphics, double progress, Drawable*element1, Drawable*element2) const
+	void SlideTransition::draw(ApplicationData appData, Graphics graphics, double progress, Screen* screen1, Screen* screen2) const
 	{
-		Graphics element1Graphics(graphics);
-		Graphics element2Graphics(graphics);
+		Graphics screen1Graphics(graphics);
+		Graphics screen2Graphics(graphics);
 		
 		double h1 = 0;
 		double h2 = 0;
 		double w1 = 0;
 		double w2 = 0;
 
-		RectangleD e1rect = element1->getFrame();
-		RectangleD e2rect = element2->getFrame();
+		Vector2d e1size = screen1->getSize();
+		Vector2d e2size = screen2->getSize();
 
-		Vector2d mainSize;
-		if(e1rect.x > e2rect.x)
-		{
-			mainSize.x = e1rect.width;
-		}
-		else
-		{
-			mainSize.x = e2rect.width;
-		}
-		if(e1rect.y > e2rect.y)
-		{
-			mainSize.y = e1rect.height;
-		}
-		else
-		{
-			mainSize.y = e2rect.height;
-		}
+		Vector2d mainSize = Vector2d(Math::max(e1size.x, e2size.x), Math::max(e2size.x, e2size.y));
 		
 		switch(direction)
 		{
@@ -82,10 +67,10 @@ namespace fgl
 			break;
 		}
 		
-		element1Graphics.translate((double)w1, (double)h1);
-		element2Graphics.translate((double)w2, (double)h2);
+		screen1Graphics.translate((double)w1, (double)h1);
+		screen2Graphics.translate((double)w2, (double)h2);
 		
-		element1->draw(appData, element1Graphics);
-		element2->draw(appData, element2Graphics);
+		screen1->draw(appData, screen1Graphics);
+		screen2->draw(appData, screen2Graphics);
 	}
 }

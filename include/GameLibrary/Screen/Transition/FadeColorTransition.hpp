@@ -5,7 +5,7 @@
 
 namespace fgl
 {
-	/*! A custom Transition that fades from one Drawable to a solid color, and then fades to the other Drawable*/
+	/*! A custom Transition that fades from one Screen to a solid color, and then fades to the other Screen*/
 	class FadeColorTransition : public Transition
 	{
 	public:
@@ -17,8 +17,8 @@ namespace fgl
 		/*! virtual destructor*/
 		virtual ~FadeColorTransition();
 		
-		/*! \copydoc fgl::Transition::draw(ApplicationData,Graphics,double,Drawable*,Drawable*)const*/
-		virtual void draw(ApplicationData appData, Graphics graphics, double progress, Drawable* element1, Drawable* element2) const override;
+		/*! \copydoc fgl::Transition::draw(ApplicationData,Graphics,double,Screen*,Screen*)const*/
+		virtual void draw(ApplicationData appData, Graphics graphics, double progress, Screen* screen1, Screen* screen2) const override;
 		
 	protected:
 		/*! the solid color to fade between*/
