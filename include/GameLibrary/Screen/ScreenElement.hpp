@@ -181,6 +181,10 @@ namespace fgl
 			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const;
+		/*! Draws the border on top of the element. This function is called from ScreenElement::draw.
+			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
+			\param graphics the Graphics object used to draw the element*/
+		virtual void drawBorder(ApplicationData appData, Graphics graphics) const;
 		/*! Draws all the child elements of this element. This function is automatically called from ScreenElement::draw.
 			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/

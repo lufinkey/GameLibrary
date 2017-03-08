@@ -60,6 +60,7 @@ namespace fgl
 		}
 		drawBackground(appData, mainGraphics);
 		drawMain(appData, mainGraphics);
+		drawBorder(appData, mainGraphics);
 		graphics.translate(frame.x, frame.y);
 		drawElements(appData, graphics);
 	}

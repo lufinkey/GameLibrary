@@ -104,6 +104,10 @@ namespace fgl
 			graphics.setColor(backgroundColor);
 			graphics.fillRect(rect.x, rect.y, rect.width, rect.height);
 		}
+	}
+
+	void ScreenElement::drawBorder(ApplicationData appData, Graphics graphics) const
+	{
 		if(borderWidth != 0 && !borderColor.equals(Color::TRANSPARENT))
 		{
 			RectangleD frame = getFrame();
@@ -140,6 +144,7 @@ namespace fgl
 			}
 			drawBackground(appData, graphics);
 			drawMain(appData, graphics);
+			drawBorder(appData, graphics);
 			graphics.translate(frame.x, frame.y);
 			drawElements(appData, graphics);
 		}
