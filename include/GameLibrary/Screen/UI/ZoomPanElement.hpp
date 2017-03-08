@@ -22,10 +22,11 @@ namespace fgl
 
 		//TODO implement private touch event handling functions, and pass transformed appData to child elements
 		
-	private:
+	protected:
 		/*! \copydoc fgl::ScreenElement::drawElements(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const override;
 
+	private:
 		Vector2d contentOffset;
 		double zoomScale;
 	};
