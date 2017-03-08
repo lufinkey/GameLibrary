@@ -3,7 +3,7 @@
 
 #include "ImageElement.hpp"
 #include <GameLibrary/Screen/ScreenElement.hpp>
-#include <GameLibrary/Actor/Animation.hpp>
+#include <GameLibrary/Actor/AnimationPlayer.hpp>
 
 namespace fgl
 {
@@ -61,13 +61,7 @@ namespace fgl
 	private:
 		void updateAnimationImage();
 
-		Animation* animation;
-		Animation::Direction animation_direction;
-		size_t animation_frame;
-		long long animation_prevFrameTime;
-		long long prevUpdateTime;
-		bool firstUpdate;
-
+		AnimationPlayer animationPlayer;
 		ImageElement* imageElement;
 	};
 }

@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Actor.hpp"
-#include "Animation.hpp"
+#include "AnimationPlayer.hpp"
 
 namespace fgl
 {
@@ -130,16 +130,9 @@ namespace fgl
 		} AnimationInfo;
 		
 		ArrayList<AnimationInfo> animations;
+		String animationName;
+		AnimationPlayer animationPlayer;
 		
-		String animation_name;
-		Animation* animation_current;
-		size_t animation_frame;
-		long long animation_prevFrameTime;
-		Animation::Direction animation_direction;
-
 		Vector2d framesize;
-		
-		bool firstUpdate;
-		long long prevUpdateTime;
 	};
 }

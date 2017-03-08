@@ -54,14 +54,6 @@ namespace fgl
 	{
 		x = x1;
 		y = y1;
-
-		animation_current = nullptr;
-		animation_frame = 0;
-		animation_prevFrameTime = 0;
-		animation_direction = Animation::FORWARD;
-
-		firstUpdate = true;
-		prevUpdateTime = 0;
 	}
 	
 	SpriteActor::~SpriteActor()
@@ -78,62 +70,13 @@ namespace fgl
 	
 	void SpriteActor::update(ApplicationData appData)
 	{
-		prevUpdateTime = appData.getTime().getMilliseconds();
-		if(firstUpdate)
-		{
-			if(animations.size()>0)
+		animationPlayer.update(appData, [&](AnimationPlayer::AnimationEvent event){
+			if(event==AnimationPlayer::ANIMATIONEVENT_FINISHED)
 			{
-				animation_prevFrameTime = prevUpdateTime;
+				onAnimationFinish(SpriteActorAnimationEvent(this, animationName, animationPlayer.getAnimation()));
 			}
-			firstUpdate = false;
-		}
-		
+		});
 		Actor::update(appData);
-
-		//update animation loop
-		if(animation_direction == Animation::STOPPED)
-		{
-			animation_prevFrameTime = prevUpdateTime;
-		}
-		else if(animation_current!=nullptr)
-		{
-			float fps = animation_current->getFPS();
-			if(fps!=0)
-			{
-				long long waitTime = (long long)(1000.0f/fps);
-				long long finishTime = animation_prevFrameTime + waitTime;
-				if(finishTime <= prevUpdateTime)
-				{
-					animation_prevFrameTime = prevUpdateTime;
-					if(animation_direction == Animation::FORWARD)
-					{
-						animation_frame++;
-						size_t totalFrames = animation_current->getTotalFrames();
-						if(animation_frame >= totalFrames)
-						{
-							animation_frame = 0;
-							onAnimationFinish(SpriteActorAnimationEvent(this, animation_name, animation_current));
-						}
-					}
-					else if(animation_direction == Animation::BACKWARD)
-					{
-						if(animation_frame == 0)
-						{
-							size_t totalFrames = animation_current->getTotalFrames();
-							if(totalFrames > 0)
-							{
-								animation_frame = totalFrames-1;
-							}
-							onAnimationFinish(SpriteActorAnimationEvent(this, animation_name, animation_current));
-						}
-						else
-						{
-							animation_frame--;
-						}
-					}
-				}
-			}
-		}
 	}
 
 	void SpriteActor::draw(ApplicationData appData, Graphics graphics) const
@@ -143,7 +86,7 @@ namespace fgl
 	
 	void SpriteActor::drawActor(ApplicationData&appData, Graphics&graphics, double x, double y, double scale) const
 	{
-		if(visible && scale!=0 && animation_current!=nullptr)
+		if(visible && scale!=0 && animationPlayer.getAnimation()!=nullptr)
 		{
 			graphics.translate(x, y);
 			Graphics boundingBoxGraphics(graphics);
@@ -181,7 +124,7 @@ namespace fgl
 			actorGraphics.compositeTintColor(color);
 			actorGraphics.setAlpha((float)alpha);
 			
-			animation_current->drawFrame(actorGraphics, animation_frame);
+			animationPlayer.draw(actorGraphics);
 			
 			if(frame_visible)
 			{
@@ -235,7 +178,9 @@ namespace fgl
 	
 	void SpriteActor::updateSize()
 	{
-		if(animation_current == nullptr || animation_current->getTotalFrames()==0)
+		Animation* animation = animationPlayer.getAnimation();
+		size_t frameIndex = animationPlayer.getFrameIndex();
+		if(animation == nullptr || animation->getTotalFrames()==0)
 		{
 			framesize.x = 0;
 			framesize.y = 0;
@@ -244,25 +189,7 @@ namespace fgl
 			return;
 		}
 		
-		if(animation_frame > animation_current->getTotalFrames())
-		{
-			switch(animation_direction)
-			{
-				case Animation::NO_CHANGE:
-				animation_direction = Animation::FORWARD;
-				
-				case Animation::STOPPED:
-				case Animation::FORWARD:
-				animation_frame = 0;
-				break;
-				
-				case Animation::BACKWARD:
-				animation_frame = animation_current->getTotalFrames()-1;
-				break;
-			}
-		}
-		
-		RectangleD frame = animation_current->getRect(animation_frame);
+		RectangleD frame = animation->getRect(frameIndex);
 		frame.x*=scale;
 		frame.y*=scale;
 		frame.width*=scale;
@@ -315,10 +242,10 @@ namespace fgl
 			AnimationInfo animInfo = animations.get(i);
 			if(animInfo.name.equals(name))
 			{
-				if(animInfo.name.equals(animation_name))
+				if(animInfo.name.equals(animationName))
 				{
-					animation_current = nullptr;
-					animation_name = "";
+					animationPlayer.setAnimation(nullptr);
+					animationName = "";
 				}
 				if(animInfo.destruct)
 				{
@@ -365,174 +292,30 @@ namespace fgl
 			throw IllegalArgumentException("name", "animation does not exist");
 		}
 		
-		animation_name = name;
-		animation_current = animation;
-		
-		switch(direction)
-		{
-			case Animation::FORWARD:
-			case Animation::STOPPED:
-			{
-				animation_frame = 0;
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
-			
-			case Animation::BACKWARD:
-			{
-				size_t totalFrames = animation->getTotalFrames();
-				if(totalFrames>0)
-				{
-					animation_frame = (totalFrames-1);
-				}
-				else
-				{
-					animation_frame = 0;
-				}
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
-			
-			case Animation::NO_CHANGE:
-			{
-				switch(animation_direction)
-				{
-					default:
-					case Animation::NO_CHANGE:
-					break;
-					
-					case Animation::FORWARD:
-					case Animation::STOPPED:
-					{
-						if(animation_frame >= animation->getTotalFrames())
-						{
-							animation_frame = 0;
-						}
-					}
-					break;
-					
-					case Animation::BACKWARD:
-					{
-						size_t totalFrames = animation->getTotalFrames();
-						if(animation_frame >= totalFrames)
-						{
-							if(totalFrames>0)
-							{
-								animation_frame = (totalFrames-1);
-							}
-							else
-							{
-								animation_frame = 0;
-							}
-						}
-					}
-					break;
-				}
-			}
-		}
-		
+		animationName = name;
+		animationPlayer.setAnimation(animation, direction);
 		updateSize();
 	}
 	
 	void SpriteActor::changeAnimation(Animation* animation, const Animation::Direction& direction)
 	{
-		animation_name = "";
-		animation_current = animation;
-		
-		switch(direction)
-		{
-			case Animation::FORWARD:
-			case Animation::STOPPED:
-			{
-				animation_frame = 0;
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
-			
-			case Animation::BACKWARD:
-			{
-				size_t totalFrames = 0;
-				if(animation!=nullptr)
-				{
-					totalFrames = animation->getTotalFrames();
-				}
-				if(totalFrames>0)
-				{
-					animation_frame = (totalFrames-1);
-				}
-				else
-				{
-					animation_frame = 0;
-				}
-				animation_prevFrameTime = prevUpdateTime;
-				animation_direction = direction;
-			}
-			break;
-			
-			case Animation::NO_CHANGE:
-			{
-				switch(animation_direction)
-				{
-					default:
-					case Animation::NO_CHANGE:
-					break;
-					
-					case Animation::FORWARD:
-					case Animation::STOPPED:
-					{
-						size_t totalFrames = 0;
-						if(animation!=nullptr)
-						{
-							totalFrames = animation->getTotalFrames();
-						}
-						if(animation_frame >= totalFrames)
-						{
-							animation_frame = 0;
-						}
-					}
-					break;
-					
-					case Animation::BACKWARD:
-					{
-						size_t totalFrames = 0;
-						if(animation!=nullptr)
-						{
-							totalFrames = animation->getTotalFrames();
-						}
-						if(animation_frame >= totalFrames)
-						{
-							if(totalFrames>0)
-							{
-								animation_frame = (totalFrames-1);
-							}
-							else
-							{
-								animation_frame = 0;
-							}
-						}
-					}
-					break;
-				}
-			}
-		}
-		
+		animationName = "";
+		animationPlayer.setAnimation(animation, direction);
 		updateSize();
 	}
 	
 	void SpriteActor::reloadAnimations(AssetManager*assetManager)
 	{
-		for(unsigned int i=0; i<animations.size(); i++)
+		for(auto& animData : animations)
 		{
-			animations.get(i).animation->reloadFrames(assetManager);
+			animData.animation->reloadFrames(assetManager);
 		}
 	}
 	
 	bool SpriteActor::checkPointCollision(const Vector2d&point)
 	{
-		if(animation_current == nullptr)
+		Animation* animation = animationPlayer.getAnimation();
+		if(animation==nullptr || animation->getTotalFrames()==0)
 		{
 			return false;
 		}
@@ -548,11 +331,11 @@ namespace fgl
 			pointFixed.x += width/2;
 			pointFixed.y += height/2;
 			
-			if((mirroredHorizontal && !animation_current->isMirroredHorizontal()) || (!mirroredHorizontal && animation_current->isMirroredHorizontal()))
+			if((mirroredHorizontal && !animation->isMirroredHorizontal()) || (!mirroredHorizontal && animation->isMirroredHorizontal()))
 			{
 				pointFixed.x = width - pointFixed.x;
 			}
-			if((mirroredVertical && !animation_current->isMirroredVertical()) || (!mirroredVertical && animation_current->isMirroredVertical()))
+			if((mirroredVertical && !animation->isMirroredVertical()) || (!mirroredVertical && animation->isMirroredVertical()))
 			{
 				pointFixed.y = height - pointFixed.y;
 			}
@@ -564,8 +347,9 @@ namespace fgl
 				return false;
 			}
 			
-			TextureImage* img = animation_current->getImage(animation_frame);
-			RectangleU srcRect = animation_current->getImageSourceRect(animation_frame);
+			size_t frameIndex = animationPlayer.getFrameIndex();
+			TextureImage* img = animation->getImage(frameIndex);
+			RectangleU srcRect = animation->getImageSourceRect(frameIndex);
 			unsigned int pxlX = (unsigned int)(ratX*((double)srcRect.width));
 			unsigned int pxlY = (unsigned int)(ratY*((double)srcRect.height));
 
@@ -574,13 +358,15 @@ namespace fgl
 		return false;
 	}
 	
-	bool SpriteActor::isColliding(SpriteActor*actor) const
+	bool SpriteActor::isColliding(SpriteActor* actor) const
 	{
 		if(actor == nullptr)
 		{
 			throw IllegalArgumentException("actor", "null");
 		}
-		else if(animation_current==nullptr || actor->animation_current==nullptr || scale==0 || actor->scale==0)
+		Animation* animation = animationPlayer.getAnimation();
+		Animation* actor_animation = actor->animationPlayer.getAnimation();
+		if(animation==nullptr || actor_animation==nullptr || scale==0 || actor->scale==0)
 		{
 			return false;
 		}
@@ -601,38 +387,40 @@ namespace fgl
 				incr = actor->scale;
 			}
 			
-			TextureImage* img = animation_current->getImage(animation_frame);
+			size_t frameIndex = animationPlayer.getFrameIndex();
+			TextureImage* img = animation->getImage(frameIndex);
 			if(img == nullptr)
 			{
 				throw IllegalStateException("The animation images within SpriteActor have not been loaded through an AssetManager");
 			}
-			RectangleU srcRect = animation_current->getImageSourceRect(animation_frame);
+			RectangleU srcRect = animation->getImageSourceRect(frameIndex);
 			
-			TextureImage* actor_img = actor->animation_current->getImage(actor->animation_frame);
+			size_t actor_frameIndex = actor->animationPlayer.getFrameIndex();
+			TextureImage* actor_img = actor_animation->getImage(actor_frameIndex);
 			if(actor_img == nullptr)
 			{
 				throw IllegalStateException("The animation images within SpriteActor have not been loaded through an AssetManager");
 			}
-			RectangleU actor_srcRect = actor->animation_current->getImageSourceRect(actor->animation_frame);
+			RectangleU actor_srcRect = actor_animation->getImageSourceRect(actor_frameIndex);
 			
 			bool mirrorHorizontal = false;
-			if(mirroredHorizontal != animation_current->isMirroredHorizontal())
+			if(mirroredHorizontal != animation->isMirroredHorizontal())
 			{
 				mirrorHorizontal = true;
 			}
 			bool mirrorVertical = false;
-			if(mirroredVertical != animation_current->isMirroredVertical())
+			if(mirroredVertical != animation->isMirroredVertical())
 			{
 				mirrorVertical = true;
 			}
 			
 			bool actor_mirrorHorizontal = false;
-			if(actor->mirroredHorizontal != actor->animation_current->isMirroredHorizontal())
+			if(actor->mirroredHorizontal != actor_animation->isMirroredHorizontal())
 			{
 				actor_mirrorHorizontal = true;
 			}
 			bool actor_mirrorVertical = false;
-			if(actor->mirroredVertical != actor->animation_current->isMirroredVertical())
+			if(actor->mirroredVertical != actor_animation->isMirroredVertical())
 			{
 				actor_mirrorVertical = true;
 			}
