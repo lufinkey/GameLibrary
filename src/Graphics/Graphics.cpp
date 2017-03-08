@@ -873,8 +873,8 @@ namespace fgl
 		SDL_Rect dstrect;
 		dstrect.x = (int)dx1;
 		dstrect.y = (int)dy1;
-		dstrect.w = (int)Math::ceil(dx2 - (double)dstrect.x);
-		dstrect.h = (int)Math::ceil(dy2 - (double)dstrect.y);
+		dstrect.w = (int)(dx2 - (double)dstrect.x);
+		dstrect.h = (int)(dy2 - (double)dstrect.y);
 
 		SDL_Point center;
 		if(flipHort)
