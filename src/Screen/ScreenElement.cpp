@@ -112,10 +112,20 @@ namespace fgl
 		{
 			RectangleD frame = getFrame();
 			graphics.setColor(borderColor);
-			graphics.fillRect(frame.x, frame.y, frame.width, (double)borderWidth);
-			graphics.fillRect(frame.x, frame.y, (double)borderWidth, frame.height);
-			graphics.fillRect(frame.x, frame.y+frame.height-(double)borderWidth, frame.width, (double)borderWidth);
-			graphics.fillRect(frame.x+frame.width-(double)borderWidth, frame.y, (double)borderWidth, frame.height);
+			if(borderWidth > 0)
+			{
+				graphics.fillRect(frame.x, frame.y, frame.width, (double)borderWidth);
+				graphics.fillRect(frame.x, frame.y, (double)borderWidth, frame.height);
+				graphics.fillRect(frame.x, frame.y+frame.height-(double)borderWidth, frame.width, (double)borderWidth);
+				graphics.fillRect(frame.x+frame.width-(double)borderWidth, frame.y, (double)borderWidth, frame.height);
+			}
+			else
+			{
+				graphics.fillRect(frame.x-(double)-borderWidth, frame.y, frame.width+(double)(2*-borderWidth), (double)borderWidth);
+				graphics.fillRect(frame.x, frame.y-(double)-borderWidth, (double)borderWidth, frame.height+(double)(2*-borderWidth));
+				graphics.fillRect(frame.x-(double)-borderWidth, frame.y+frame.height-(double)borderWidth, frame.width+(double)(2*-borderWidth), (double)borderWidth);
+				graphics.fillRect(frame.x+frame.width-(double)borderWidth, frame.y-(double)-borderWidth, (double)borderWidth, frame.height+(double)(2*-borderWidth));
+			}
 		}
 	}
 	
