@@ -74,7 +74,7 @@ namespace fgl
 		return letterboxed;
 	}
 	
-	void Viewport::setMaintainResolution(bool toggle)
+	void Viewport::setMaintainsResolution(bool toggle)
 	{
 		maintainResolution = toggle;
 	}

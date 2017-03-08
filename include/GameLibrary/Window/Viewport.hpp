@@ -27,7 +27,7 @@ namespace fgl
 		void setLetterboxed(bool toggle);
 		bool isLetterboxed() const;
 		
-		void setMaintainResolution(bool toggle);
+		void setMaintainsResolution(bool toggle);
 		bool maintainsResolution() const;
 	private:
 		Vector2d size;
