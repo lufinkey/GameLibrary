@@ -30,6 +30,7 @@
     <ClInclude Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.h" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\Animation.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Actor\AnimationPlayer.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\SpriteActor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\TextActor.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Actor\WireframeActor.hpp" />
@@ -73,7 +74,6 @@
     <ClInclude Include="..\..\include\GameLibrary\Network\NetworkProtocol.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\AutoLayoutCalculator.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\AutoLayoutManager.hpp" />
-    <ClInclude Include="..\..\include\GameLibrary\Screen\Drawable.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\Screen.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\ScreenElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\ScreenManager.hpp" />
@@ -89,8 +89,6 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextInputElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TouchElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ZoomPanElement.hpp" />
-    <ClInclude Include="..\..\include\GameLibrary\Screen\Updateable.hpp" />
-    <ClInclude Include="..\..\include\GameLibrary\Screen\UpdateDrawable.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Types.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\Any.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Utilities\ArrayList.hpp" />
@@ -137,6 +135,7 @@
     <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_rotozoom.c" />
     <ClCompile Include="..\..\src\Actor\Actor.cpp" />
     <ClCompile Include="..\..\src\Actor\Animation.cpp" />
+    <ClCompile Include="..\..\src\Actor\AnimationPlayer.cpp" />
     <ClCompile Include="..\..\src\Actor\SpriteActor.cpp" />
     <ClCompile Include="..\..\src\Actor\TextActor.cpp" />
     <ClCompile Include="..\..\src\Actor\WireframeActor.cpp" />

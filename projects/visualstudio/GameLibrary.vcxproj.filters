@@ -282,16 +282,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\AutoLayoutManager.hpp">
       <Filter>include\GameLibrary\Screen</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\GameLibrary\Screen\Drawable.hpp">
-      <Filter>include\GameLibrary\Screen</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Screen\ScreenManager.hpp">
-      <Filter>include\GameLibrary\Screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GameLibrary\Screen\Updateable.hpp">
-      <Filter>include\GameLibrary\Screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GameLibrary\Screen\UpdateDrawable.hpp">
       <Filter>include\GameLibrary\Screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Screen\Transition\FadeColorTransition.hpp">
@@ -494,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Window\Viewport.hpp">
       <Filter>include\GameLibrary\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Actor\AnimationPlayer.hpp">
+      <Filter>include\GameLibrary\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -739,6 +733,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Window\Viewport.cpp">
       <Filter>src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Actor\AnimationPlayer.cpp">
+      <Filter>src\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
