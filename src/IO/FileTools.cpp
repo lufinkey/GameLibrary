@@ -168,6 +168,22 @@ namespace fgl
 		return true;
 	}
 	
+	bool FileTools::isPathAbsolute(const String& path)
+	{
+		#if defined(TARGETPLATFORM_WINDOWS)
+			char driveNameStr[_MAX_DRIVE];
+			driveNameStr[0]='\0';
+			_splitpath(path.getData(), driveNameStr, nullptr, nullptr, nullptr);
+			if(BasicString<char>::strlen(driveNameStr)>0)
+			{
+				return true;
+			}
+			return false;
+		#else
+			return path.startsWith("/");
+		#endif
+	}
+	
 	String FileTools::combinePathStrings(const String&first, const String&second)
 	{
 		String fullpath;

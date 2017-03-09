@@ -65,6 +65,10 @@ namespace fgl
 		static bool isDirectoryEmpty(const String& directory);
 		
 		
+		/*! Checks if a given path is an absolute path or a relative path
+			\param path the path to check
+			\returns true if the path is absolute, or false if the path is relative or is not a valid path */
+		static bool isPathAbsolute(const String& path);
 		/*! Combines two path strings into a single path.
 			\param first the first half of the path
 			\param second the second half of the path
