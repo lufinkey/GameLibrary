@@ -26,6 +26,9 @@ namespace fgl
 
 		void setTextAlignment(TextAlignment textAlignment);
 		TextAlignment getTextAlignment() const;
+		
+		void setTextColor(const Color& textColor);
+		const Color& getTextColor() const;
 
 		void setFont(Font* font);
 		Font* getFont() const;

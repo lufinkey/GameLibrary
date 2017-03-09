@@ -60,8 +60,10 @@
 #include "Screen/Transition/SlideTransition.hpp"
 #include "Screen/UI/ActorMenuElement.hpp"
 #include "Screen/UI/AnimationElement.hpp"
+#include "Screen/UI/ButtonElement.hpp"
 #include "Screen/UI/ImageElement.hpp"
 #include "Screen/UI/MenuScreen.hpp"
+#include "Screen/UI/TextElement.hpp"
 #include "Screen/UI/TextInputElement.hpp"
 #include "Screen/UI/ZoomPanElement.hpp"
 

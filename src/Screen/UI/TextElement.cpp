@@ -122,6 +122,16 @@ namespace fgl
 		return textAlignment;
 	}
 	
+	void TextElement::setTextColor(const fgl::Color& textColor_arg)
+	{
+		textColor = textColor_arg;
+	}
+	
+	const Color& TextElement::getTextColor() const
+	{
+		return textColor;
+	}
+	
 	void TextElement::setFont(Font* font_arg)
 	{
 		font = font_arg;
