@@ -130,7 +130,7 @@ namespace fgl
 			return ss.str();
 		}
 		
-		template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+		template<typename T, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value, std::nullptr_t>::type = nullptr>
 		String stringify(const T* val)
 		{
 			String str;
