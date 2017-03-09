@@ -26,6 +26,7 @@ namespace fgl
 		graphics.setFont(font);
 		graphics.setColor(textColor);
 		RectangleD frame = getFrame();
+		graphics.clip(frame);
 		double y = frame.y;
 		switch(textAlignment)
 		{
