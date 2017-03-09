@@ -2,12 +2,13 @@
 #ifdef __OBJC__
 
 #include <GameLibrary/IO/FileTools.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
 
 #if defined(TARGETPLATFORM_MAC)
 #import <AppKit/AppKit.h>
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 #if defined(TARGETPLATFORM_MAC)
 	
