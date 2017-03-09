@@ -19,7 +19,12 @@ namespace fgl
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height)))
 	{
+		titles[BUTTONSTATE_NORMAL] = title;
+		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
+		images[BUTTONSTATE_NORMAL] = nullptr;
+		
 		titleElement->setText(title);
+		titleElement->setTextColor(Color::BLACK);
 		
 		addChildElement(titleElement);
 		addChildElement(imageElement);
@@ -75,43 +80,125 @@ namespace fgl
 		return handler;
 	}
 	
-	void ButtonElement::setTitle(const String& title)
+	void ButtonElement::setButtonState(ButtonState buttonState_arg)
 	{
-		titleElement->setText(title);
+		buttonState = buttonState_arg;
+		imageElement->setImage(getImage(buttonState));
+		titleElement->setText(getTitle(buttonState));
+		titleElement->setTextColor(getTitleColor(buttonState));
 		layoutChildElements();
 	}
 	
-	const String& ButtonElement::getTitle() const
+	ButtonElement::ButtonState ButtonElement::getButtonState() const
 	{
-		return titleElement->getText();
+		return buttonState;
 	}
 	
-	void ButtonElement::setTitleColor(const fgl::Color& titleColor)
+	void ButtonElement::setTitle(const String& title, ButtonState state)
 	{
-		titleElement->setTextColor(titleColor);
+		titles[state] = title;
+		if(state==buttonState && title!=titleElement->getText())
+		{
+			titleElement->setText(title);
+			layoutChildElements();
+		}
 	}
 	
-	const Color& ButtonElement::getTitleColor() const
+	const String& ButtonElement::getTitle(ButtonState state) const
 	{
-		return titleElement->getTextColor();
+		try
+		{
+			return titles.get(state);
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return titles.get(BUTTONSTATE_NORMAL);
+		}
 	}
 	
-	void ButtonElement::setImage(TextureImage* image)
+	void ButtonElement::setTitleColor(const fgl::Color& titleColor, ButtonState state)
 	{
-		imageElement->setImage(image);
-		layoutChildElements();
+		titleColors[state] = titleColor;
+		if(state==buttonState)
+		{
+			titleElement->setTextColor(titleColor);
+		}
 	}
 	
-	TextureImage* ButtonElement::getImage() const
+	const Color& ButtonElement::getTitleColor(ButtonState state) const
 	{
-		return imageElement->getImage();
+		try
+		{
+			return titleColors.get(state);
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return titleColors.get(BUTTONSTATE_NORMAL);
+		}
+	}
+	
+	void ButtonElement::setImage(TextureImage* image, ButtonState state)
+	{
+		images[state] = image;
+		if(state==buttonState)
+		{
+			imageElement->setImage(image);
+			layoutChildElements();
+		}
+	}
+	
+	TextureImage* ButtonElement::getImage(ButtonState state) const
+	{
+		try
+		{
+			TextureImage* image = images.get(state);
+			if(image==nullptr)
+			{
+				return images.get(BUTTONSTATE_NORMAL);
+			}
+			else
+			{
+				return image;
+			}
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return images.get(BUTTONSTATE_NORMAL);
+		}
+	}
+	
+	void ButtonElement::onMouseEnter(unsigned int mouseIndex)
+	{
+		//TODO should do something here related to BUTTONSTATE_HOVERED
+	}
+	
+	void ButtonElement::onMouseLeave(unsigned int mouseIndex)
+	{
+		//TODO should do something here related to BUTTONSTATE_HOVERED
+	}
+	
+	void ButtonElement::onTouchDown(const TouchEvent& touchEvent)
+	{
+		setButtonState(BUTTONSTATE_PRESSED);
 	}
 	
 	void ButtonElement::onTouchUpInside(const TouchEvent& touchEvent)
 	{
+		//TODO do BUTTONSTATE_HOVERED if still hovered
+		setButtonState(BUTTONSTATE_NORMAL);
 		if(handler)
 		{
 			handler();
 		}
+	}
+	
+	void ButtonElement::onTouchUpOutside(const TouchEvent& touchEvent)
+	{
+		setButtonState(BUTTONSTATE_NORMAL);
+	}
+	
+	void ButtonElement::onTouchCancel(const TouchEvent& touchEvent)
+	{
+		setButtonState(BUTTONSTATE_NORMAL);
 	}
 }
