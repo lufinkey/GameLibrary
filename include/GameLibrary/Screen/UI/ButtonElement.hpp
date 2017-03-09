@@ -39,6 +39,9 @@ namespace fgl
 		void setImage(TextureImage* image, ButtonState state);
 		TextureImage* getImage(ButtonState state) const;
 		
+		TextElement* getTitleElement() const;
+		ImageElement* getImageElement() const;
+		
 	protected:
 		virtual void onMouseEnter(unsigned int mouseIndex) override;
 		virtual void onMouseLeave(unsigned int mouseIndex) override;

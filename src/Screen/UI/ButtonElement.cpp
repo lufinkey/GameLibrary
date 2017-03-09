@@ -167,6 +167,16 @@ namespace fgl
 		}
 	}
 	
+	TextElement* ButtonElement::getTitleElement() const
+	{
+		return titleElement;
+	}
+	
+	ImageElement* ButtonElement::getImageElement() const
+	{
+		return imageElement;
+	}
+	
 	void ButtonElement::onMouseEnter(unsigned int mouseIndex)
 	{
 		//TODO should do something here related to BUTTONSTATE_HOVERED
