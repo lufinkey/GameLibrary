@@ -141,4 +141,15 @@ namespace fgl
 	{
 		return fontSize;
 	}
+	
+	double TextElement::measureTextHeight(double frameWidth) const
+	{
+		double textHeight = 0;
+		ArrayList<MeasuredLine> lines = measureLines();
+		for(auto& line : lines)
+		{
+			textHeight += line.size.y;
+		}
+		return textHeight;
+	}
 }

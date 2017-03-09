@@ -32,6 +32,8 @@ namespace fgl
 
 		void setFontSize(unsigned int fontSize);
 		unsigned int getFontSize() const;
+		
+		double measureTextHeight(double frameWidth) const;
 
 	private:
 		struct MeasuredLine
