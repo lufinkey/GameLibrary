@@ -2,6 +2,7 @@
 #ifdef __OBJC__
 
 #include <GameLibrary/Window/MessageBox.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
 #include "SDL.h"
 
@@ -9,7 +10,7 @@
 	#import <UIKit/UIKit.h>
 #endif
 
-namespace GameLibrary
+namespace fgl
 {
 	#if defined(TARGETPLATFORM_IOS)
 	unsigned int MessageBox::show(Window*parent, const String&title, const String&message)
