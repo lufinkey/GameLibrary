@@ -94,6 +94,8 @@
 		F15A1F791E549ADD008D83E5 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F701E549ADD008D83E5 /* SDL2_gfxPrimitives.c */; };
 		F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F721E549ADD008D83E5 /* SDL2_imageFilter.c */; };
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
+		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
+		F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F59D81E719C1200FAFD86 /* TextElement.cpp */; };
 		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
 		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 		F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */; };
@@ -271,7 +273,6 @@
 		F15A1E631E5498C7008D83E5 /* NetworkProtocol.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NetworkProtocol.hpp; sourceTree = "<group>"; };
 		F15A1E651E5498C7008D83E5 /* AutoLayoutCalculator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoLayoutCalculator.hpp; sourceTree = "<group>"; };
 		F15A1E661E5498C7008D83E5 /* AutoLayoutManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoLayoutManager.hpp; sourceTree = "<group>"; };
-		F15A1E671E5498C7008D83E5 /* Drawable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Drawable.hpp; sourceTree = "<group>"; };
 		F15A1E681E5498C7008D83E5 /* Screen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Screen.hpp; sourceTree = "<group>"; };
 		F15A1E691E5498C7008D83E5 /* ScreenElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenElement.hpp; sourceTree = "<group>"; };
 		F15A1E6A1E5498C7008D83E5 /* ScreenManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScreenManager.hpp; sourceTree = "<group>"; };
@@ -287,8 +288,6 @@
 		F15A1E761E5498C7008D83E5 /* TextInputElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextInputElement.hpp; sourceTree = "<group>"; };
 		F15A1E771E5498C7008D83E5 /* TouchElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchElement.hpp; sourceTree = "<group>"; };
 		F15A1E781E5498C7008D83E5 /* ZoomPanElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ZoomPanElement.hpp; sourceTree = "<group>"; };
-		F15A1E791E5498C7008D83E5 /* Updateable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Updateable.hpp; sourceTree = "<group>"; };
-		F15A1E7A1E5498C7008D83E5 /* UpdateDrawable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UpdateDrawable.hpp; sourceTree = "<group>"; };
 		F15A1E7B1E5498C7008D83E5 /* Types.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Types.hpp; sourceTree = "<group>"; };
 		F15A1E7D1E5498C7008D83E5 /* Any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Any.hpp; sourceTree = "<group>"; };
 		F15A1E7E1E5498C7008D83E5 /* ArrayList.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArrayList.hpp; sourceTree = "<group>"; };
@@ -419,6 +418,8 @@
 		F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../../external/SDL/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
 		F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = ../../external/SDL/SDL_mixer/Xcode/SDL_mixer.xcodeproj; sourceTree = "<group>"; };
 		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
+		F15F59D61E719BFF00FAFD86 /* TextElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextElement.hpp; sourceTree = "<group>"; };
+		F15F59D81E719C1200FAFD86 /* TextElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextElement.cpp; sourceTree = "<group>"; };
 		F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Viewport.hpp; sourceTree = "<group>"; };
 		F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
@@ -656,12 +657,9 @@
 				F15A1E711E5498C7008D83E5 /* UI */,
 				F15A1E651E5498C7008D83E5 /* AutoLayoutCalculator.hpp */,
 				F15A1E661E5498C7008D83E5 /* AutoLayoutManager.hpp */,
-				F15A1E671E5498C7008D83E5 /* Drawable.hpp */,
 				F15A1E681E5498C7008D83E5 /* Screen.hpp */,
 				F15A1E691E5498C7008D83E5 /* ScreenElement.hpp */,
 				F15A1E6A1E5498C7008D83E5 /* ScreenManager.hpp */,
-				F15A1E791E5498C7008D83E5 /* Updateable.hpp */,
-				F15A1E7A1E5498C7008D83E5 /* UpdateDrawable.hpp */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -685,6 +683,7 @@
 				F15A1E731E5498C7008D83E5 /* AnimationElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
+				F15F59D61E719BFF00FAFD86 /* TextElement.hpp */,
 				F15A1E761E5498C7008D83E5 /* TextInputElement.hpp */,
 				F15A1E771E5498C7008D83E5 /* TouchElement.hpp */,
 				F15A1E781E5498C7008D83E5 /* ZoomPanElement.hpp */,
@@ -947,6 +946,7 @@
 				F15A1EEA1E5498D1008D83E5 /* AnimationElement.cpp */,
 				F15A1EEB1E5498D1008D83E5 /* ImageElement.cpp */,
 				F15A1EEC1E5498D1008D83E5 /* MenuScreen.cpp */,
+				F15F59D81E719C1200FAFD86 /* TextElement.cpp */,
 				F15A1EED1E5498D1008D83E5 /* TextInputElement.cpp */,
 				F15A1EEE1E5498D1008D83E5 /* TouchElement.cpp */,
 				F15A1EEF1E5498D1008D83E5 /* ZoomPanElement.cpp */,
@@ -1130,6 +1130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
+				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
 				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1326,6 +1327,7 @@
 				F15A1F2E1E5498D1008D83E5 /* Graphics.cpp in Sources */,
 				F15A1F431E5498D1008D83E5 /* AnimationElement.cpp in Sources */,
 				F15A1F571E5498D1008D83E5 /* TimeInterval.cpp in Sources */,
+				F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */,
 				F15A1F351E5498D1008D83E5 /* Console.cpp in Sources */,
 				F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */,
 				F15A1F5A1E5498D1008D83E5 /* MessageBox.mm in Sources */,

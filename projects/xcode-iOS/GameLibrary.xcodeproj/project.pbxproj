@@ -91,6 +91,7 @@
 		F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */; };
 		F15F32251E2573C100710AC8 /* Plist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32241E2573C100710AC8 /* Plist.cpp */; };
 		F15F32271E2573C600710AC8 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32261E2573C600710AC8 /* Tools.cpp */; };
+		F15F59C81E718D0D00FAFD86 /* TextElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F59C71E718D0D00FAFD86 /* TextElement.cpp */; };
 		F16DB5911E7088C700AB31DE /* AnimationElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16DB5901E7088C700AB31DE /* AnimationElement.cpp */; };
 		F16DB59B1E708DC600AB31DE /* AnimationPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16DB59A1E708DC600AB31DE /* AnimationPlayer.cpp */; };
 		F17D96E61E6DB59C003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96E51E6DB59C003F4D85 /* AssetManager.cpp */; };
@@ -334,6 +335,8 @@
 		F15F32231E25739E00710AC8 /* Line.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Line.hpp; sourceTree = "<group>"; };
 		F15F32241E2573C100710AC8 /* Plist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plist.cpp; sourceTree = "<group>"; };
 		F15F32261E2573C600710AC8 /* Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tools.cpp; sourceTree = "<group>"; };
+		F15F59C01E718CFE00FAFD86 /* TextElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextElement.hpp; sourceTree = "<group>"; };
+		F15F59C71E718D0D00FAFD86 /* TextElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextElement.cpp; sourceTree = "<group>"; };
 		F16ACC3D1E3A9A5500DC5DC9 /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		F16ACC3E1E3A9A5500DC5DC9 /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
 		F16DB5901E7088C700AB31DE /* AnimationElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationElement.cpp; sourceTree = "<group>"; };
@@ -582,6 +585,7 @@
 				F16DB5981E7088E400AB31DE /* AnimationElement.hpp */,
 				A039DA141CCDE80800B0B5DA /* ImageElement.hpp */,
 				A039DA151CCDE80800B0B5DA /* MenuScreen.hpp */,
+				F15F59C01E718CFE00FAFD86 /* TextElement.hpp */,
 				A039DA161CCDE80800B0B5DA /* TextInputElement.hpp */,
 				A039DA171CCDE80800B0B5DA /* TouchElement.hpp */,
 				A039DA181CCDE80800B0B5DA /* ZoomPanElement.hpp */,
@@ -889,6 +893,7 @@
 				F16DB5901E7088C700AB31DE /* AnimationElement.cpp */,
 				A039DAFF1CCDE89E00B0B5DA /* ImageElement.cpp */,
 				A039DB001CCDE89E00B0B5DA /* MenuScreen.cpp */,
+				F15F59C71E718D0D00FAFD86 /* TextElement.cpp */,
 				A039DB011CCDE89E00B0B5DA /* TextInputElement.cpp */,
 				A039DB021CCDE89E00B0B5DA /* TouchElement.cpp */,
 				A039DB031CCDE89E00B0B5DA /* ZoomPanElement.cpp */,
@@ -1160,6 +1165,7 @@
 				A039DB5D1CCDE89E00B0B5DA /* Thread.cpp in Sources */,
 				A039DB481CCDE89E00B0B5DA /* AutoLayoutCalculator.cpp in Sources */,
 				A039DB381CCDE89E00B0B5DA /* RenderGlyphException.cpp in Sources */,
+				F15F59C81E718D0D00FAFD86 /* TextElement.cpp in Sources */,
 				F17D96E61E6DB59C003F4D85 /* AssetManager.cpp in Sources */,
 				A039DB241CCDE89E00B0B5DA /* BatchLoader.cpp in Sources */,
 				A039DB431CCDE89E00B0B5DA /* Multitouch.cpp in Sources */,

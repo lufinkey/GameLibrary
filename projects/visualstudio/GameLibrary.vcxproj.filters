@@ -489,6 +489,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Actor\AnimationPlayer.hpp">
       <Filter>include\GameLibrary\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextElement.hpp">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -736,6 +739,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Actor\AnimationPlayer.cpp">
       <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\TextElement.cpp">
+      <Filter>src\Screen\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
