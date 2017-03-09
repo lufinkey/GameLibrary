@@ -41,9 +41,10 @@ namespace fgl
 		ScreenElement::update(appData);
 	}
 
-	void AnimationElement::setFrame(const RectangleD& frame)
+	void AnimationElement::layoutChildElements()
 	{
-		ScreenElement::setFrame(frame);
+		ScreenElement::layoutChildElements();
+		RectangleD frame = getFrame();
 		imageElement->setFrame(RectangleD(0, 0, frame.width, frame.height));
 	}
 	

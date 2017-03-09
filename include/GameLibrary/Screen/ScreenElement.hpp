@@ -41,9 +41,11 @@ namespace fgl
 		virtual void draw(ApplicationData appData, Graphics graphics) const;
 		
 		
+		/*! Called to layout child elements inside this element. */
+		virtual void layoutChildElements();
 		/*! Sets the actual frame (bounding box) of the element inside of its parent.
 			\param frame a RectangleD object representing the element's bounding box within its parent*/
-		virtual void setFrame(const RectangleD& frame);
+		void setFrame(const RectangleD& frame);
 		/*! Gets the actual frame (bounding box) of the element inside of its parent.
 			\returns a RectangleD object representing the element's bounding box within its parent*/
 		RectangleD getFrame() const;

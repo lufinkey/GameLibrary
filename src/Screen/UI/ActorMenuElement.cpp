@@ -238,9 +238,10 @@ namespace fgl
 		}
 	}
 	
-	void ActorMenuElement::setFrame(const RectangleD&frame)
+	void ActorMenuElement::layoutChildElements()
 	{
-		ScreenElement::setFrame(frame);
+		ScreenElement::layoutChildElements();
+		RectangleD frame = getFrame();
 		ScreenElement* parentElement = getParentElement();
 		if(parentElement!=nullptr)
 		{

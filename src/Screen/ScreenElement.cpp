@@ -163,6 +163,11 @@ namespace fgl
 	void ScreenElement::setFrame(const RectangleD& frame_arg)
 	{
 		frame = frame_arg;
+		layoutChildElements();
+	}
+	
+	void ScreenElement::layoutChildElements()
+	{
 		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++)
 		{
 			ScreenElement* childElement = childElements.get(i);

@@ -26,7 +26,7 @@ namespace fgl
 		/*! \copydoc fgl::ScreenElement::update(ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
 		/*! \copydoc fgl::ScreenElement::setFrame(const fgl::RectangleD&)*/
-		virtual void setFrame(const RectangleD&frame) override;
+		virtual void layoutChildElements() override;
 		
 		
 		/*! Adds an actor to the menu.
