@@ -34,6 +34,7 @@ namespace fgl
 		void setCursorIndex(size_t cursorIndex);
 		size_t getCursorIndex() const;
 		
+	protected:
 		virtual void onTouchUpInside(const TouchEvent& evt) override;
 		
 	private:
