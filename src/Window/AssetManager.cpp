@@ -64,21 +64,28 @@ namespace fgl
 
 	FILE* AssetManager::openFile(const String& path, const char* mode) const
 	{
-		String fullpath = FileTools::combinePathStrings(rootdir, path);
-		FILE* file = fopen(fullpath, mode);
-		if(file==nullptr)
+		if(FileTools::isPathAbsolute(path))
 		{
-			for(auto& secondaryRoot : secondaryRoots)
+			return fopen(path, mode);
+		}
+		else
+		{
+			String fullpath = FileTools::combinePathStrings(rootdir, path);
+			FILE* file = fopen(fullpath, mode);
+			if(file==nullptr)
 			{
-				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-				file = fopen(fullpath, mode);
-				if(file!=nullptr)
+				for(auto& secondaryRoot : secondaryRoots)
 				{
-					break;
+					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+					file = fopen(fullpath, mode);
+					if(file!=nullptr)
+					{
+						break;
+					}
 				}
 			}
+			return file;
 		}
-		return file;
 	}
 
 	bool AssetManager::loadTexture(const String& path, String* error)
@@ -100,17 +107,25 @@ namespace fgl
 		}
 
 		TextureImage* texture = new TextureImage();
-		String fullpath = FileTools::combinePathStrings(rootdir, path);
-		bool success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
-		if(!success)
+		bool success = false;
+		if(FileTools::isPathAbsolute(path))
 		{
-			for(auto& secondaryRoot : secondaryRoots)
+			success = texture->loadFromFile(path, *window->getGraphics(), error);
+		}
+		else
+		{
+			String fullpath = FileTools::combinePathStrings(rootdir, path);
+			success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
+			if(!success)
 			{
-				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-				success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
-				if(success)
+				for(auto& secondaryRoot : secondaryRoots)
 				{
-					break;
+					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+					success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
+					if(success)
+					{
+						break;
+					}
 				}
 			}
 		}
@@ -201,17 +216,25 @@ namespace fgl
 		}
 
 		Font* font = new Font();
-		String fullpath = FileTools::combinePathStrings(rootdir, path);
-		bool success = font->loadFromFile(fullpath, 24, error);
-		if(!success)
+		bool success = false;
+		if(FileTools::isPathAbsolute(path))
 		{
-			for(auto& secondaryRoot : secondaryRoots)
+			success = font->loadFromFile(path, 24, error);
+		}
+		else
+		{
+			String fullpath = FileTools::combinePathStrings(rootdir, path);
+			success = font->loadFromFile(fullpath, 24, error);
+			if(!success)
 			{
-				fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-				success = font->loadFromFile(fullpath, 24, error);
-				if(success)
+				for(auto& secondaryRoot : secondaryRoots)
 				{
-					break;
+					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
+					success = font->loadFromFile(fullpath, 24, error);
+					if(success)
+					{
+						break;
+					}
 				}
 			}
 		}
