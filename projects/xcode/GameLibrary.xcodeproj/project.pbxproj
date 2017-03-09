@@ -96,6 +96,10 @@
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
 		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
 		F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F59D81E719C1200FAFD86 /* TextElement.cpp */; };
+		F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */; };
+		F15F5A7A1E71E2BD00FAFD86 /* ButtonElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */; };
+		F15F5A7C1E71E2DB00FAFD86 /* ButtonElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F5A7B1E71E2DB00FAFD86 /* ButtonElement.cpp */; };
+		F15F5A7E1E71E2E900FAFD86 /* AnimationPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F5A7D1E71E2E900FAFD86 /* AnimationPlayer.cpp */; };
 		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
 		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 		F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */; };
@@ -420,6 +424,10 @@
 		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
 		F15F59D61E719BFF00FAFD86 /* TextElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextElement.hpp; sourceTree = "<group>"; };
 		F15F59D81E719C1200FAFD86 /* TextElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextElement.cpp; sourceTree = "<group>"; };
+		F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
+		F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ButtonElement.hpp; sourceTree = "<group>"; };
+		F15F5A7B1E71E2DB00FAFD86 /* ButtonElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonElement.cpp; sourceTree = "<group>"; };
+		F15F5A7D1E71E2E900FAFD86 /* AnimationPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationPlayer.cpp; sourceTree = "<group>"; };
 		F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Viewport.hpp; sourceTree = "<group>"; };
 		F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
@@ -525,6 +533,7 @@
 			children = (
 				F15A1E2D1E5498C7008D83E5 /* Actor.hpp */,
 				F15A1E2E1E5498C7008D83E5 /* Animation.hpp */,
+				F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */,
 				F15A1E2F1E5498C7008D83E5 /* SpriteActor.hpp */,
 				F15A1E301E5498C7008D83E5 /* TextActor.hpp */,
 				F15A1E311E5498C7008D83E5 /* WireframeActor.hpp */,
@@ -681,6 +690,7 @@
 			children = (
 				F15A1E721E5498C7008D83E5 /* ActorMenuElement.hpp */,
 				F15A1E731E5498C7008D83E5 /* AnimationElement.hpp */,
+				F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
 				F15F59D61E719BFF00FAFD86 /* TextElement.hpp */,
@@ -785,6 +795,7 @@
 			children = (
 				F15A1EA21E5498D0008D83E5 /* Actor.cpp */,
 				F15A1EA31E5498D0008D83E5 /* Animation.cpp */,
+				F15F5A7D1E71E2E900FAFD86 /* AnimationPlayer.cpp */,
 				F15A1EA41E5498D0008D83E5 /* SpriteActor.cpp */,
 				F15A1EA51E5498D0008D83E5 /* TextActor.cpp */,
 				F15A1EA61E5498D0008D83E5 /* WireframeActor.cpp */,
@@ -944,6 +955,7 @@
 			children = (
 				F15A1EE91E5498D1008D83E5 /* ActorMenuElement.cpp */,
 				F15A1EEA1E5498D1008D83E5 /* AnimationElement.cpp */,
+				F15F5A7B1E71E2DB00FAFD86 /* ButtonElement.cpp */,
 				F15A1EEB1E5498D1008D83E5 /* ImageElement.cpp */,
 				F15A1EEC1E5498D1008D83E5 /* MenuScreen.cpp */,
 				F15F59D81E719C1200FAFD86 /* TextElement.cpp */,
@@ -1130,7 +1142,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
+				F15F5A7A1E71E2BD00FAFD86 /* ButtonElement.hpp in Headers */,
 				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
+				F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */,
 				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1325,6 +1339,7 @@
 				F15A1F0D1E5498D1008D83E5 /* WireframeActor.cpp in Sources */,
 				F15A1F381E5498D1008D83E5 /* NetworkProtocol.cpp in Sources */,
 				F15A1F2E1E5498D1008D83E5 /* Graphics.cpp in Sources */,
+				F15F5A7E1E71E2E900FAFD86 /* AnimationPlayer.cpp in Sources */,
 				F15A1F431E5498D1008D83E5 /* AnimationElement.cpp in Sources */,
 				F15A1F571E5498D1008D83E5 /* TimeInterval.cpp in Sources */,
 				F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */,
@@ -1349,6 +1364,7 @@
 				F15A1F1F1E5498D1008D83E5 /* InitializeLibraryException.cpp in Sources */,
 				F15A1F331E5498D1008D83E5 /* Mouse.cpp in Sources */,
 				F15A1F471E5498D1008D83E5 /* TouchElement.cpp in Sources */,
+				F15F5A7C1E71E2DB00FAFD86 /* ButtonElement.cpp in Sources */,
 				F15A1F4F1E5498D1008D83E5 /* Thread.cpp in Sources */,
 				F15A1F401E5498D1008D83E5 /* PopoverTransition.cpp in Sources */,
 				F15A1F2A1E5498D1008D83E5 /* IllegalNumberOperationException.cpp in Sources */,
