@@ -66,8 +66,8 @@ namespace fgl
 		mainElement = new MainElement(this, element->getFrame());
 		mainElement->setLayoutRule(LAYOUTRULE_LEFT,   0, LAYOUTVALUE_RATIO);
 		mainElement->setLayoutRule(LAYOUTRULE_TOP,    0, LAYOUTVALUE_RATIO);
-		mainElement->setLayoutRule(LAYOUTRULE_RIGHT,  1, LAYOUTVALUE_RATIO);
-		mainElement->setLayoutRule(LAYOUTRULE_BOTTOM, 1, LAYOUTVALUE_RATIO);
+		mainElement->setLayoutRule(LAYOUTRULE_RIGHT,  0, LAYOUTVALUE_RATIO);
+		mainElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0, LAYOUTVALUE_RATIO);
 		element->addChildElement(mainElement);
 	}
 	
