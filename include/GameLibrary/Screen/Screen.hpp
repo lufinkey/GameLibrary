@@ -122,14 +122,6 @@ namespace fgl
 			\returns true if a transition to dismiss a presented Screen is occurring, or false if otherwise*/
 		bool isDismissing() const;
 		
-		
-		/*! Sets the background color.
-			\param color a Color value*/
-		void setBackgroundColor(const Color&color);
-		/*! Gets the background color.
-			\returns a Color value*/
-		const Color& getBackgroundColor() const;
-		
 	protected:
 		/*! Updates the properties of the Screen. This function is called from within the update function, and should not manually be called.
 		This function is safe to override with custom behavior.
@@ -142,38 +134,6 @@ namespace fgl
 		virtual void onDraw(const ApplicationData& appData, Graphics graphics) const;
 		
 		
-		/*! Used to tell if the Screen is drawing an overlay. This value is only set within the draw function.
-		An example of how to use this within the draw function is this:
-		\code{.cpp}
-			void draw(ApplicationData appData, Graphics graphics) const
-			{
-				if(!isPresenting() && !isDismissing())
-				{
-					drawBackground(appData, graphics);
-					drawElements(appData, graphics);
-					drawOverlay(appData, graphics);
-				}
-				else if(drawingOverlayTransition)
-				{
-					drawBackground(appData, graphics);
-					drawElements(appData, graphics);
-				}
-				else
-				{
-					drawingOverlayTransition = true;
-					drawOverlay(appData, graphics);
-					drawingOverlayTransition = false;
-				}
-			}
-		\endcode\n
-		This is useful if making a custom Screen container, such as ScreenManager*/
-		mutable bool drawingOverlayTransition;
-		
-		
-		/*! Draws the background of the Screen. Should only be called within Screen::draw \see fgl::Screen::drawingOverlayTransition for an example of how to call this
-			\param appData specifies information about the Application drawing the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
-			\param graphics the Graphics object used to draw the Screen*/
-		virtual void drawBackground(ApplicationData appData, Graphics graphics) const;
 		/*! Draws the elements of the Screen. Should only be called within Screen::draw \see fgl::Screen::drawingOverlayTransition for an example of how to call this
 			\param appData specifies information about the Application drawing the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
@@ -217,7 +177,6 @@ namespace fgl
 		
 		Window* window;
 		Vector2d framesize;
-		Color backgroundColor;
 		
 		TransitionData overlayData;
 		
@@ -227,6 +186,8 @@ namespace fgl
 		ScreenManager* screenManager;
 		
 		bool isshown;
+		// Used to tell if the Screen is drawing an overlay. This value is only set within the draw function.
+		mutable bool drawingOverlayTransition;
 		
 		void updateFrame(Window*window);
 		virtual void setWindow(Window*window);

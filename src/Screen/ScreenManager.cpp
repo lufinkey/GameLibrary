@@ -166,26 +166,10 @@ namespace fgl
 		}
 	}
 	
-	void ScreenManager::draw(ApplicationData appData, Graphics graphics) const
+	void ScreenManager::drawElements(ApplicationData appData, Graphics graphics) const
 	{
-		if(overlayData.action==TRANSITION_NONE)
-		{
-			drawScreens(appData, graphics);
-			drawElements(appData, graphics);
-			drawOverlay(appData, graphics);
-		}
-		else if(drawingOverlayTransition)
-		{
-			drawBackground(appData, graphics);
-			drawScreens(appData, graphics);
-			drawElements(appData, graphics);
-		}
-		else
-		{
-			drawingOverlayTransition = true;
-			drawOverlay(appData, graphics);
-			drawingOverlayTransition = false;
-		}
+		drawScreens(appData, graphics);
+		Screen::drawElements(appData, graphics);
 	}
 	
 	void ScreenManager::set(const ArrayList<Screen*>& newScreens, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)

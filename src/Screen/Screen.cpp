@@ -159,7 +159,7 @@ namespace fgl
 		}
 	}
 	
-	Screen::Screen(Window*wndw)
+	Screen::Screen(Window* window_arg)
 	{
 		element = new ScreenElement(RectangleD(0,0, framesize.x, framesize.y));
 		screenManager = nullptr;
@@ -167,11 +167,10 @@ namespace fgl
 		childScreen = nullptr;
 		drawingOverlayTransition = false;
 		isshown = false;
-		backgroundColor = Color::TRANSPARENT;
 
 		TransitionData_clear(overlayData);
 
-		window = wndw;
+		window = window_arg;
 		if(window != nullptr)
 		{
 			Viewport*view = window->getViewport();
@@ -289,19 +288,6 @@ namespace fgl
 		//Open for implementation
 	}
 	
-	void Screen::drawBackground(ApplicationData appData, Graphics graphics) const
-	{
-		if(childScreen == nullptr || overlayData.action != TRANSITION_NONE)
-		{
-			//ScreenElement::drawBackground(appData, graphics);
-			if(!backgroundColor.equals(Color::TRANSPARENT))
-			{
-				graphics.setColor(backgroundColor);
-				graphics.fillRect(0, 0, framesize.x, framesize.y);
-			}
-		}
-	}
-	
 	void Screen::drawElements(ApplicationData appData, Graphics graphics) const
 	{
 		if(childScreen == nullptr || overlayData.action != TRANSITION_NONE)
@@ -345,13 +331,11 @@ namespace fgl
 	{
 		if(overlayData.action==TRANSITION_NONE)
 		{
-			drawBackground(appData, graphics);
 			drawElements(appData, graphics);
 			drawOverlay(appData, graphics);
 		}
 		else if(drawingOverlayTransition)
 		{
-			drawBackground(appData, graphics);
 			drawElements(appData, graphics);
 		}
 		else
@@ -664,16 +648,6 @@ namespace fgl
 			return true;
 		}
 		return false;
-	}
-	
-	void Screen::setBackgroundColor(const Color&color)
-	{
-		backgroundColor = color; //ScreenElement::setBackgroundColor(color);
-	}
-	
-	const Color& Screen::getBackgroundColor() const
-	{
-		return backgroundColor; //return ScreenElement::getBackgroundColor();
 	}
 
 #define MOUSEBUTTONS_COUNT 4

@@ -41,8 +41,6 @@ namespace fgl
 		
 		/*! \copydoc fgl::Screen::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc fgl::Screen::draw(fgl::ApplicationData,fgl::Graphics)const*/
-		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		
 		/*! \copydoc fgl::Screen::onWillAppear(const fgl::Transition*transition)*/
@@ -127,7 +125,9 @@ namespace fgl
 		/*! Draws all contained Screen pointers. This function is automatically called from within ScreenManager::draw.
 			\param appData specifies information about the Application drawing the contained Screen pointers, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the contained Screen pointers*/
-		void drawScreens(ApplicationData appData, Graphics graphics) const;
+		virtual void drawScreens(ApplicationData appData, Graphics graphics) const;
+		/*! \copydoc fgl::Screen::drawElements(fgl::ApplicationData,fgl::Graphics)*/
+		virtual void drawElements(ApplicationData appData, Graphics graphics) const override;
 		
 	private:
 		TransitionData pushpopData;
