@@ -5,10 +5,10 @@ namespace fgl
 {
 	AutoLayoutCalculator::AutoLayoutCalculator(const RectangleD& currentFrame, const RectangleD& containerFrame)
 		: containerFrame(containerFrame),
-		left(currentFrame.x),
-		top(currentFrame.y),
-		right(currentFrame.x+currentFrame.width),
-		bottom(currentFrame.y+currentFrame.height),
+		beginX(currentFrame.x),
+		beginY(currentFrame.y),
+		endX(currentFrame.x+currentFrame.width),
+		endY(currentFrame.y+currentFrame.height),
 		centerX(currentFrame.x+(currentFrame.width/2)),
 		centerY(currentFrame.y+(currentFrame.height/2)),
 		width(currentFrame.width),
@@ -20,44 +20,44 @@ namespace fgl
 	
 	RectangleD AutoLayoutCalculator::getCalculatedFrame() const
 	{
-		return RectangleD(left, top, right-left, bottom-top);
+		return RectangleD(beginX, beginY, endX-beginX, endY-beginY);
 	}
 	
 	void AutoLayoutCalculator::setLeft(double value, const LayoutValueType& valueType)
 	{
-		if(left.isSet())
+		if(beginX.isSet())
 		{
 			return;
 		}
 		
-		left = resolveValueX(value, valueType);
-		left.set();
+		beginX = resolveValueX(value, valueType);
+		beginX.set();
 		
-		if(right.isSet())
+		if(endX.isSet())
 		{
-			width = right - left;
+			width = endX - beginX;
 			width.set();
-			centerX = left + (width/2);
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else if(width.isSet())
 		{
-			right = left + width;
-			right.set();
-			centerX = left + (width/2);
+			endX = beginX + width;
+			endX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else if(centerX.isSet())
 		{
-			width = 2*(centerX-left);
+			width = 2*(centerX-beginX);
 			width.set();
-			right = left + width;
-			right.set();
+			endX = beginX + width;
+			endX.set();
 		}
 		else
 		{
-			right = left + width;
-			centerX = left + (width/2);
+			endX = beginX + width;
+			centerX = beginX + (width/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -74,39 +74,39 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setTop(double value, const LayoutValueType& valueType)
 	{
-		if(top.isSet())
+		if(beginY.isSet())
 		{
 			return;
 		}
 
-		top = resolveValueY(value, valueType);
-		top.set();
+		beginY = resolveValueY(value, valueType);
+		beginY.set();
 
-		if(bottom.isSet())
+		if(endY.isSet())
 		{
-			height = bottom - top;
+			height = endY - beginY;
 			height.set();
-			centerY = top + (height/2);
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else if(height.isSet())
 		{
-			bottom = top + height;
-			bottom.set();
-			centerY = top + (height/2);
+			endY = beginY + height;
+			endY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else if(centerY.isSet())
 		{
-			height = 2*(centerY-top);
+			height = 2*(centerY-beginY);
 			height.set();
-			bottom = top + height;
-			bottom.set();
+			endY = beginY + height;
+			endY.set();
 		}
 		else
 		{
-			bottom = top + height;
-			centerY = top + (height/2);
+			endY = beginY + height;
+			centerY = beginY + (height/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -123,39 +123,39 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setRight(double value, const LayoutValueType& valueType)
 	{
-		if(right.isSet())
+		if(endX.isSet())
 		{
 			return;
 		}
 
-		right = resolveValueX(value, valueType);
-		right.set();
+		endX = containerFrame.width-resolveValueX(value, valueType);
+		endX.set();
 
-		if(left.isSet())
+		if(beginX.isSet())
 		{
-			width = right - left;
+			width = endX - beginX;
 			width.set();
-			centerX = left + (width/2);
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else if(width.isSet())
 		{
-			left = right - width;
-			left.set();
-			centerX = left + (width/2);
+			beginX = endX - width;
+			beginX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else if(centerX.isSet())
 		{
-			width = 2*(right-centerX);
+			width = 2*(endX-centerX);
 			width.set();
-			left = right - width;
-			left.set();
+			beginX = endX - width;
+			beginX.set();
 		}
 		else
 		{
-			left = right - width;
-			centerX = left + (width/2);
+			beginX = endX - width;
+			centerX = beginX + (width/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -172,39 +172,39 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setBottom(double value, const LayoutValueType& valueType)
 	{
-		if(bottom.isSet())
+		if(endY.isSet())
 		{
 			return;
 		}
 
-		bottom = resolveValueY(value, valueType);
-		bottom.set();
+		endY = containerFrame.height-resolveValueY(value, valueType);
+		endY.set();
 
-		if(top.isSet())
+		if(beginY.isSet())
 		{
-			height = bottom - top;
+			height = endY - beginY;
 			height.set();
-			centerY = top + (height/2);
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else if(height.isSet())
 		{
-			top = bottom - height;
-			top.set();
-			centerY = top + (height/2);
+			beginY = endY - height;
+			beginY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else if(centerY.isSet())
 		{
-			height = 2*(bottom-centerY);
+			height = 2*(endY-centerY);
 			height.set();
-			top = bottom - height;
-			top.set();
+			beginY = endY - height;
+			beginY.set();
 		}
 		else
 		{
-			top = bottom - height;
-			centerY = top + (height/2);
+			beginY = endY - height;
+			centerY = beginY + (height/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -229,31 +229,31 @@ namespace fgl
 		centerX = resolveValueX(value, valueType);
 		centerX.set();
 
-		if(left.isSet())
+		if(beginX.isSet())
 		{
-			right = centerX + (centerX-left);
-			right.set();
-			width = right - left;
+			endX = centerX + (centerX-beginX);
+			endX.set();
+			width = endX - beginX;
 			width.set();
 		}
-		else if(right.isSet())
+		else if(endX.isSet())
 		{
-			left = centerX - (right-centerX);
-			left.set();
-			width = right - left;
+			beginX = centerX - (endX-centerX);
+			beginX.set();
+			width = endX - beginX;
 			width.set();
 		}
 		else if(width.isSet())
 		{
-			left = centerX - (width/2);
-			left.set();
-			right = left + width;
-			right.set();
+			beginX = centerX - (width/2);
+			beginX.set();
+			endX = beginX + width;
+			endX.set();
 		}
 		else
 		{
-			left = centerX - (width/2);
-			right = left + width;
+			beginX = centerX - (width/2);
+			endX = beginX + width;
 		}
 		if(aspectRatio.isSet())
 		{
@@ -278,31 +278,31 @@ namespace fgl
 		centerY = resolveValueY(value, valueType);
 		centerY.set();
 
-		if(top.isSet())
+		if(beginY.isSet())
 		{
-			bottom = centerY + (centerY-top);
-			bottom.set();
-			height = bottom - top;
+			endY = centerY + (centerY-beginY);
+			endY.set();
+			height = endY - beginY;
 			height.set();
 		}
-		else if(bottom.isSet())
+		else if(endY.isSet())
 		{
-			top = centerY - (bottom-centerY);
-			top.set();
-			height = bottom - top;
+			beginY = centerY - (endY-centerY);
+			beginY.set();
+			height = endY - beginY;
 			height.set();
 		}
 		else if(height.isSet())
 		{
-			top = centerY - (height/2);
-			top.set();
-			bottom = top + height;
-			bottom.set();
+			beginY = centerY - (height/2);
+			beginY.set();
+			endY = beginY + height;
+			endY.set();
 		}
 		else
 		{
-			top = centerY - (height/2);
-			bottom = top + height;
+			beginY = centerY - (height/2);
+			endY = beginY + height;
 		}
 		if(aspectRatio.isSet())
 		{
@@ -327,31 +327,31 @@ namespace fgl
 		width = resolveValueX(value, valueType);
 		width.set();
 		
-		if(left.isSet())
+		if(beginX.isSet())
 		{
-			right = left + width;
-			right.set();
-			centerX = left + (width/2);
+			endX = beginX + width;
+			endX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(right.isSet())
+		else if(endX.isSet())
 		{
-			left = right - width;
-			left.set();
-			centerX = left + (width/2);
+			beginX = endX - width;
+			beginX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else if(centerX.isSet())
 		{
-			left = centerX - (width/2);
-			left.set();
-			right = left + width;
-			right.set();
+			beginX = centerX - (width/2);
+			beginX.set();
+			endX = beginX + width;
+			endX.set();
 		}
 		else
 		{
-			right = left + width;
-			centerX = left + (width/2);
+			endX = beginX + width;
+			centerX = beginX + (width/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -376,31 +376,31 @@ namespace fgl
 		height = resolveValueX(value, valueType);
 		height.set();
 
-		if(top.isSet())
+		if(beginY.isSet())
 		{
-			bottom = top + height;
-			bottom.set();
-			centerY = top + (height/2);
+			endY = beginY + height;
+			endY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(bottom.isSet())
+		else if(endY.isSet())
 		{
-			top = bottom - height;
-			top.set();
-			centerY = top + (height/2);
+			beginY = endY - height;
+			beginY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else if(centerY.isSet())
 		{
-			top = centerY - (height/2);
-			top.set();
-			bottom = top + height;
-			bottom.set();
+			beginY = centerY - (height/2);
+			beginY.set();
+			endY = beginY + height;
+			endY.set();
 		}
 		else
 		{
-			bottom = top + height;
-			centerY = top + (height/2);
+			endY = beginY + height;
+			centerY = beginY + (height/2);
 		}
 		if(aspectRatio.isSet())
 		{
@@ -485,24 +485,24 @@ namespace fgl
 			height = width/aspectRatio;
 		}
 		height.set();
-		if(top.isSet())
+		if(beginY.isSet())
 		{
-			bottom = top + height;
-			bottom.set();
-			centerY = top + (height/2);
+			endY = beginY + height;
+			endY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(bottom.isSet())
+		else if(endY.isSet())
 		{
-			top = bottom - height;
-			top.set();
-			centerY = top + (height/2);
+			beginY = endY - height;
+			beginY.set();
+			centerY = beginY + (height/2);
 			centerY.set();
 		}
 		else
 		{
-			bottom = top + height;
-			centerY = top + (height/2);
+			endY = beginY + height;
+			centerY = beginY + (height/2);
 		}
 	}
 	
@@ -517,24 +517,24 @@ namespace fgl
 			width = height*aspectRatio;
 		}
 		width.set();
-		if(left.isSet())
+		if(beginX.isSet())
 		{
-			right = left + width;
-			right.set();
-			centerX = left + (width/2);
+			endX = beginX + width;
+			endX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(right.isSet())
+		else if(endX.isSet())
 		{
-			left = right - width;
-			left.set();
-			centerX = left + (width/2);
+			beginX = endX - width;
+			beginX.set();
+			centerX = beginX + (width/2);
 			centerX.set();
 		}
 		else
 		{
-			right = left + width;
-			centerX = left + (width/2);
+			endX = beginX + width;
+			centerX = beginX + (width/2);
 		}
 	}
 	

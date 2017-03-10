@@ -57,10 +57,10 @@ namespace fgl
 		
 		RectangleD containerFrame;
 		
-		LayoutValue left;
-		LayoutValue top;
-		LayoutValue right;
-		LayoutValue bottom;
+		LayoutValue beginX;
+		LayoutValue beginY;
+		LayoutValue endX;
+		LayoutValue endY;
 		
 		LayoutValue centerX;
 		LayoutValue centerY;
