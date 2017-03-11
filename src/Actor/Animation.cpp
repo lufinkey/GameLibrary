@@ -4,47 +4,29 @@
 
 namespace fgl
 {
-	Animation::AnimationFrame::AnimationFrame()
+	Animation::Frame::Frame(const String& file, TextureImage* img)
+		: file(file),
+		rows(1),
+		cols(1),
+		x(0),
+		y(0),
+		img(img)
 	{
-		file = "";
-		rows = 1;
-		cols = 1;
-		x = 0;
-		y = 0;
-		img = nullptr;
+		//
 	}
 
-	Animation::AnimationFrame::AnimationFrame(const Animation::AnimationFrame&animationFrame)
+	Animation::Frame::Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img)
+		: file(file),
+		rows(rows),
+		cols(cols),
+		x(col),
+		y(row),
+		img(img)
 	{
-		file = animationFrame.file;
-		rows = animationFrame.rows;
-		cols = animationFrame.cols;
-		x = animationFrame.x;
-		y = animationFrame.y;
-		img = animationFrame.img;
+		//
 	}
 
-	Animation::AnimationFrame::AnimationFrame(const String&filepath, TextureImage*tximg)
-	{
-		file = filepath;
-		rows = 1;
-		cols = 1;
-		x = 0;
-		y = 0;
-		img = tximg;
-	}
-
-	Animation::AnimationFrame::AnimationFrame(const String&filepath, unsigned int rnum, unsigned int cnum, unsigned int r, unsigned int c, TextureImage*tximg)
-	{
-		file = filepath;
-		rows = rnum;
-		cols = cnum;
-		x = c;
-		y = r;
-		img = tximg;
-	}
-
-	RectangleU Animation::AnimationFrame::getSourceRect() const
+	RectangleU Animation::Frame::getSourceRect() const
 	{
 		if(img == nullptr)
 		{
@@ -87,17 +69,17 @@ namespace fgl
 		mirroredVertical = false;
 	}
 
-	Animation::Animation(float fps, AssetManager*assetManager, const String&file) : Animation(fps)
+	Animation::Animation(float fps, AssetManager* assetManager, const String& file) : Animation(fps)
 	{
 		addFrame(assetManager, file);
 	}
 
-	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager*assetManager, const String&file) : Animation(fps)
+	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file) : Animation(fps)
 	{
 		addFrames(assetManager, file, rows, cols);
 	}
 
-	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager*assetManager, const String&file, const ArrayList<Vector2u>& sequence) : Animation(fps)
+	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file, const ArrayList<Vector2u>& sequence) : Animation(fps)
 	{
 		addFrames(assetManager, file, rows, cols, sequence);
 	}
@@ -107,11 +89,11 @@ namespace fgl
 		//
 	}
 	
-	void Animation::reloadFrames(AssetManager*assetManager)
+	void Animation::reloadFrames(AssetManager* assetManager)
 	{
 		for(size_t i=0; i<frames.size(); i++)
 		{
-			AnimationFrame& frame = frames.get(i);
+			Frame& frame = frames.get(i);
 			if(assetManager == nullptr)
 			{
 				frame.img = nullptr;
@@ -151,7 +133,7 @@ namespace fgl
 
 	unsigned int Animation::getFrameWidth(size_t frameNum) const
 	{
-		const AnimationFrame& animFrame = frames.get(frameNum);
+		const Frame& animFrame = frames.get(frameNum);
 		TextureImage* img = animFrame.img;
 		if(img == nullptr)
 		{
@@ -166,7 +148,7 @@ namespace fgl
 
 	unsigned int Animation::getFrameHeight(size_t frameNum) const
 	{
-		const AnimationFrame& animFrame = frames.get(frameNum);
+		const Frame& animFrame = frames.get(frameNum);
 		TextureImage* img = animFrame.img;
 		if(img == nullptr)
 		{
@@ -189,7 +171,7 @@ namespace fgl
 				img = assetManager->getTexture(file);
 			}
 			
-			frames.add(AnimationFrame(file, img));
+			frames.add(Frame(file, img));
 		}
 	}
 
@@ -211,7 +193,7 @@ namespace fgl
 			{
 				for(unsigned int y=0; y<rows; y++)
 				{
-					frames.add(AnimationFrame(file, rows, cols, y, x, img));
+					frames.add(Frame(file, rows, cols, y, x, img));
 				}
 			}
 		}
@@ -241,7 +223,7 @@ namespace fgl
 				}
 				else
 				{
-					frames.add(AnimationFrame(file, rows, cols, point.y, point.x, img));
+					frames.add(Frame(file, rows, cols, point.y, point.x, img));
 				}
 			}
 		}
@@ -316,7 +298,7 @@ namespace fgl
 	
 	RectangleD Animation::getRect(size_t frameNum) const
 	{
-		const AnimationFrame& animFrame = frames.get(frameNum);
+		const Frame& animFrame = frames.get(frameNum);
 		TextureImage* img = animFrame.img;
 		if(img == nullptr)
 		{
@@ -332,6 +314,11 @@ namespace fgl
 			double top = -(height/2);
 			return RectangleD(left, top, width, height);
 		}
+	}
+
+	const ArrayList<Animation::Frame>& Animation::getFrames() const
+	{
+		return frames;
 	}
 
 	void Animation::drawFrame(Graphics& graphics, size_t frameNum) const
@@ -360,7 +347,7 @@ namespace fgl
 	
 	void Animation::drawFrame(Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const
 	{
-		const AnimationFrame& animFrame = frames.get(frameNum);
+		const Frame& animFrame = frames.get(frameNum);
 		
 		RectangleU srcRect = animFrame.getSourceRect();
 		

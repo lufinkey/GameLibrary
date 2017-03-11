@@ -56,7 +56,7 @@ namespace fgl
 			\param file the path to the image file to use for the frames
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row; rows and columns start from 0
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
-		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager*assetManager, const String& file, const ArrayList<Vector2u>& sequence);
+		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file, const ArrayList<Vector2u>& sequence);
 		/*! virtual destructor
 			\note this does not unload the images loaded during construction. You must manually unload the contents of the assetManager used.*/
 		~Animation();
@@ -79,7 +79,7 @@ namespace fgl
 		
 		/*! Loads and re-stores the images for each frame of the Animation.
 			\param assetManager the AssetManager to load the images from. If null, the images for each frame are set to null.*/
-		void reloadFrames(AssetManager*assetManager);
+		void reloadFrames(AssetManager* assetManager);
 		
 		
 		/*! Removes all frames stored for the Animation.*/
@@ -115,21 +115,21 @@ namespace fgl
 		/*! Adds a single frame.
 			\param assetManager the AssetManager to load the TextureImage for the frame
 			\param file the path to the image file to use*/
-		void addFrame(AssetManager*assetManager, const String&file);
+		void addFrame(AssetManager* assetManager, const String& file);
 		/*! Adds frames.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.*/
-		void addFrames(AssetManager*assetManager, const String&file, unsigned int rows, unsigned int cols);
+		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols);
 		/*! Adds frames.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row*/
-		void addFrames(AssetManager*assetManager, const String&file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>&sequence);
+		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
 		
 		
 		/*! Gets the total amount of frames stored in the Animation.
@@ -162,8 +162,8 @@ namespace fgl
 			\returns the bounding box of the Animation*/
 		RectangleD getRect(size_t frameNum) const;
 		
-	private:
-		class AnimationFrame
+		//! Represents a single frame of animation
+		class Frame
 		{
 		public:
 			String file;
@@ -173,15 +173,18 @@ namespace fgl
 			unsigned int y;
 			TextureImage* img;
 
-			AnimationFrame();
-			AnimationFrame(const AnimationFrame&);
-			AnimationFrame(const String&file, TextureImage*img=nullptr);
-			AnimationFrame(const String&file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage*img=nullptr);
+			Frame(const String& file, TextureImage* img=nullptr);
+			Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img=nullptr);
 			
 			RectangleU getSourceRect() const;
 		};
 
-		ArrayList<AnimationFrame> frames;
+		/*! Gives all the frames of the animation.
+			\returns an ArrayList of AnimationFrame objects */
+		const ArrayList<Frame>& getFrames() const;
+
+	private:
+		ArrayList<Frame> frames;
 
 		float fps;
 
