@@ -40,27 +40,13 @@ namespace fgl
 		}
 	}
 
-	Animation::Animation(const Animation& animation)
-	{
-		frames = animation.frames;
-		fps = animation.fps;
-		mirroredHorizontal = animation.mirroredHorizontal;
-		mirroredVertical = animation.mirroredVertical;
-	}
-	
-	Animation& Animation::operator=(const Animation& animation)
-	{
-		frames = animation.frames;
-		fps = animation.fps;
-		mirroredHorizontal = animation.mirroredHorizontal;
-		mirroredVertical = animation.mirroredVertical;
-
-		return *this;
-	}
-
 	Animation::Animation(float fps_arg)
 	{
-		if(fps_arg < 0.0f)
+		if(fps_arg == 0.0f)
+		{
+			throw IllegalArgumentException("fps", "cannot be 0");
+		}
+		else if(fps_arg < 0.0f)
 		{
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
@@ -246,13 +232,17 @@ namespace fgl
 		return true;
 	}
 	
-	void Animation::setFPS(float framerate)
+	void Animation::setFPS(float fps_arg)
 	{
-		if(framerate < 0.0f)
+		if(fps_arg == 0.0f)
+		{
+			throw IllegalArgumentException("fps", "cannot be 0");
+		}
+		else if(fps_arg < 0.0f)
 		{
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
-		fps = framerate;
+		fps = fps_arg;
 	}
 	
 	float Animation::getFPS() const

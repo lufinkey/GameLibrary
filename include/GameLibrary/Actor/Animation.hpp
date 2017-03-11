@@ -26,9 +26,7 @@ namespace fgl
 			/*! frames do not iterate as time progresses*/
 			STOPPED
 		} Direction;
-		
-		/*! copy constructor*/
-		Animation(const Animation&);
+
 		/*! Constructs an Animation with a specified frame rate.
 			\param fps the frame rate in frames per second
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
@@ -60,8 +58,6 @@ namespace fgl
 		/*! virtual destructor
 			\note this does not unload the images loaded during construction. You must manually unload the contents of the assetManager used.*/
 		~Animation();
-		/*! assignment operator*/
-		Animation& operator=(const Animation&);
 		
 		
 		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
