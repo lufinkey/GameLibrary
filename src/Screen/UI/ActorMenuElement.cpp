@@ -241,7 +241,6 @@ namespace fgl
 	void ActorMenuElement::layoutChildElements()
 	{
 		ScreenElement::layoutChildElements();
-		RectangleD frame = getFrame();
 		ScreenElement* parentElement = getParentElement();
 		if(parentElement!=nullptr)
 		{
