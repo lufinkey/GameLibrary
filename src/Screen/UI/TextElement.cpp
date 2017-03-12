@@ -141,6 +141,16 @@ namespace fgl
 	{
 		return textAlignment;
 	}
+
+	void TextElement::setVerticalAlignment(VerticalAlignment verticalAlignment_arg)
+	{
+		verticalAlignment = verticalAlignment_arg;
+	}
+
+	VerticalAlignment TextElement::getVerticalAlignment() const
+	{
+		return verticalAlignment;
+	}
 	
 	void TextElement::setTextColor(const fgl::Color& textColor_arg)
 	{
