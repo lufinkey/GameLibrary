@@ -12,7 +12,7 @@ namespace fgl
 {
 #if defined(TARGETPLATFORM_MAC)
 	
-	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists, const String& defaultExtension)
 	{
 		if(fileExists)
 		{
@@ -23,6 +23,11 @@ namespace fgl
 			if(startingDir.length() > 0)
 			{
 				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			}
+			if(defaultExtension.length() > 0)
+			{
+				panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
+				panel.allowsOtherFileTypes = YES;
 			}
 			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
 			NSInteger clicked = [panel runModal];
@@ -38,6 +43,11 @@ namespace fgl
 			if(startingDir.length() > 0)
 			{
 				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			}
+			if(defaultExtension.length() > 0)
+			{
+				panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
+				panel.allowsOtherFileTypes = YES;
 			}
 			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
 			NSInteger clicked = [panel runModal];
@@ -72,7 +82,7 @@ namespace fgl
 	
 #elif defined(TARGETPLATFORM_IOS)
 	
-	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists, const String& defaultExtension)
 	{
 		//TODO implement ios file picker
 		return "";

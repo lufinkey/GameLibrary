@@ -232,7 +232,7 @@ namespace fgl
 	}
 	
 	#if !defined(TARGETPLATFORM_MAC) && !defined(TARGETPLATFORM_IOS)
-	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists, const String& defaultExtension)
 	{
 		#if defined(TARGETPLATFORM_WINDOWS)
 			std::basic_string<TCHAR> default_dir;
@@ -254,6 +254,12 @@ namespace fgl
 			ofn.nMaxFile = MAX_PATH;
 			ofn.lpstrInitialDir = default_dir.c_str();
 			ofn.lpstrTitle = dialog_title.c_str();
+			std::basic_string<TCHAR> default_extension;
+			if(defaultExtension.length() > 0)
+			{
+				default_extension = defaultExtension.toStandardString<TCHAR>();
+				ofn.lpstrDefExt = default_extension.c_str();
+			}
 			ofn.Flags = OFN_PATHMUSTEXIST;
 			if(startingDir.length()!=0)
 			{
@@ -262,11 +268,20 @@ namespace fgl
 			if(fileExists)
 			{
 				ofn.Flags |= OFN_FILEMUSTEXIST;
+				BOOL result = GetOpenFileName(&ofn);
+				if(result)
+				{
+					return (String)ofn.lpstrFile;
+				}
 			}
-			BOOL result = GetOpenFileName(&ofn);
-			if(result)
+			else
 			{
-				return (String)ofn.lpstrFile;
+				ofn.Flags |= OFN_OVERWRITEPROMPT;
+				BOOL result = GetSaveFileName(&ofn);
+				if(result)
+				{
+					return (String)ofn.lpstrFile;
+				}
 			}
 			return "";
 		#elif defined(TARGETPLATFORM_LINUX)
