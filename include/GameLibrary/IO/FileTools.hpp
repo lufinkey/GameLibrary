@@ -87,7 +87,7 @@ namespace fgl
 			\param startingDir the path to open the file picker window to; default value is the user home directory
 			\param fileExists specifies whether the file must exist or not
 			\returns a String representing the selected path, or an empty String if the operation was cancelled*/
-		static String openFilePicker(const String& title="Open", const String& startingDir="", bool fileExits=true, const String& defaultExtension="");
+		static String openFilePicker(const String& title="Open", const String& startingDir="", bool fileExists=true, const String& defaultExtension="");
 		
 		
 		/*! Opens up the native file chooser to select a folder.
