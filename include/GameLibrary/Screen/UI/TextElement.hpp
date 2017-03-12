@@ -6,12 +6,19 @@
 
 namespace fgl
 {
-	typedef enum
+	typedef enum : Uint8
 	{
 		TEXTALIGN_LEFT,
 		TEXTALIGN_CENTER,
 		TEXTALIGN_RIGHT
 	} TextAlignment;
+
+	typedef enum : Uint8
+	{
+		VERTICALALIGN_TOP,
+		VERTICALALIGN_CENTER,
+		VERTICALALIGN_BOTTOM
+	} VerticalAlignment;
 
 	class TextElement : public ScreenElement
 	{
@@ -26,6 +33,9 @@ namespace fgl
 
 		void setTextAlignment(TextAlignment textAlignment);
 		TextAlignment getTextAlignment() const;
+
+		void setVerticalAlignment(VerticalAlignment verticalAlignment);
+		VerticalAlignment getVerticalAlignment() const;
 		
 		void setTextColor(const Color& textColor);
 		const Color& getTextColor() const;
@@ -49,6 +59,7 @@ namespace fgl
 
 		String text;
 		TextAlignment textAlignment;
+		VerticalAlignment verticalAlignment;
 		Color textColor;
 		Font* font;
 		unsigned int fontSize;

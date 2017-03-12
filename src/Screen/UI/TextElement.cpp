@@ -11,6 +11,7 @@ namespace fgl
 	TextElement::TextElement(const RectangleD& frame)
 		: ScreenElement(frame),
 		textAlignment(TEXTALIGN_LEFT),
+		verticalAlignment(VERTICALALIGN_TOP),
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
 		fontSize(18)
@@ -28,6 +29,25 @@ namespace fgl
 		RectangleD frame = getFrame();
 		graphics.clip(frame);
 		double y = frame.y;
+		double fullHeight = 0;
+		for(auto& line : lines)
+		{
+			fullHeight+=line.size.y;
+		}
+		switch(verticalAlignment)
+		{
+			case VERTICALALIGN_TOP:
+			y = frame.y;
+			break;
+
+			case VERTICALALIGN_CENTER:
+			y = frame.y+(frame.height/2)-(fullHeight/2);
+			break;
+
+			case VERTICALALIGN_BOTTOM:
+			y = frame.y+frame.height-fullHeight;
+			break;
+		}
 		switch(textAlignment)
 		{
 			case TEXTALIGN_LEFT:
