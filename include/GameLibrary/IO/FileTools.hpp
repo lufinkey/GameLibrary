@@ -85,12 +85,12 @@ namespace fgl
 		/*! Opens up the native file chooser to select a file.
 			\param startingDir the path to open the file picker window to; default value is the user home directory
 			\returns a String representing the selected path, or an empty String, if the operation was cancelled*/
-		static String openFilePicker(const String& title="Open", const String& startingDir=FileTools::getUserHomeDirectory());
+		static String openFilePicker(const String& title="Open", const String& startingDir="", bool fileExits=true);
 		
 		
 		/*! Opens up the native file chooser to select a folder.
 			\param startingDir the path to open the file picker window to; default value is the user home directory
 			\returns a String representing the selected path, or an empty String, if the operation was cancelled*/
-		static String openFolderPicker(const String& title="Open", const String& startingDir=FileTools::getUserHomeDirectory());
+		static String openFolderPicker(const String& title="Open", const String& startingDir="");
 	};
 }

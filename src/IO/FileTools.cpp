@@ -232,39 +232,43 @@ namespace fgl
 	}
 	
 	#if !defined(TARGETPLATFORM_MAC) && !defined(TARGETPLATFORM_IOS)
-	String FileTools::openFilePicker(const String&title, const String&startingDir)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
 	{
 		#if defined(TARGETPLATFORM_WINDOWS)
-			//OSVERSIONINFO vi;
-			//memset(&vi, 0, sizeof(vi));
-			//vi.dwOSVersionInfoSize = sizeof(vi);
-			//if(vi.dwMajorVersion >= 6)
-			//Vista or greater
-			//{
-
-			//}
-			//else
-			//XP or lower
+			std::basic_string<TCHAR> default_dir;
+			if(startingDir.length()==0)
 			{
-				std::basic_string<TCHAR> default_dir = startingDir.template toStandardString<TCHAR>();
-				std::basic_string<TCHAR> dialog_title = title.toStandardString<TCHAR>();
-				TCHAR filenameBuffer[MAX_PATH];
-				filenameBuffer[0] = '\0';
-				OPENFILENAME ofn;
-				ZeroMemory(&ofn, sizeof(ofn));
-				ofn.lStructSize = sizeof(ofn);
-				ofn.lpstrFile = filenameBuffer;
-				ofn.nMaxFile = MAX_PATH;
-				ofn.lpstrInitialDir = default_dir.c_str();
-				ofn.lpstrTitle = dialog_title.c_str();
-				ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-				BOOL result = GetOpenFileName(&ofn);
-				if(result)
-				{
-					return (String)ofn.lpstrFile;
-				}
-				return "";
+				default_dir = getUserHomeDirectory().template toStandardString<TCHAR>();
 			}
+			else
+			{
+				default_dir = startingDir.template toStandardString<TCHAR>();
+			}
+			std::basic_string<TCHAR> dialog_title = title.toStandardString<TCHAR>();
+			TCHAR filenameBuffer[MAX_PATH];
+			filenameBuffer[0] = '\0';
+			OPENFILENAME ofn;
+			ZeroMemory(&ofn, sizeof(ofn));
+			ofn.lStructSize = sizeof(ofn);
+			ofn.lpstrFile = filenameBuffer;
+			ofn.nMaxFile = MAX_PATH;
+			ofn.lpstrInitialDir = default_dir.c_str();
+			ofn.lpstrTitle = dialog_title.c_str();
+			ofn.Flags = OFN_PATHMUSTEXIST;
+			if(startingDir.length()!=0)
+			{
+				ofn.Flags |= OFN_NOCHANGEDIR;
+			}
+			if(fileExists)
+			{
+				ofn.Flags |= OFN_FILEMUSTEXIST;
+			}
+			BOOL result = GetOpenFileName(&ofn);
+			if(result)
+			{
+				return (String)ofn.lpstrFile;
+			}
+			return "";
 		#elif defined(TARGETPLATFORM_LINUX)
 			//TODO implement linux file picker
 			return "";
@@ -296,13 +300,21 @@ namespace fgl
 	{
 		#if defined(TARGETPLATFORM_WINDOWS)
 			std::basic_string<TCHAR> dialog_title = title.template toStandardString<TCHAR>();
-			std::basic_string<TCHAR> default_dir = startingDir.template toStandardString<TCHAR>();
+			std::basic_string<TCHAR> default_dir;
+			if(startingDir.length()==0)
+			{
+				default_dir = getUserHomeDirectory().template toStandardString<TCHAR>();
+			}
+			else
+			{
+				default_dir = startingDir.template toStandardString<TCHAR>();
+			}
 			BROWSEINFO bi;
 			ZeroMemory(&bi, sizeof(bi));
 			TCHAR folderdisplaynameBuffer[MAX_PATH];
 			bi.pszDisplayName = folderdisplaynameBuffer;
 			bi.lpszTitle = dialog_title.c_str();
-			bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+			bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
 			bi.lpfn = FileTools_openFolderPicker_BrowseCallbackProc;
 			bi.lParam = (LPARAM)default_dir.c_str();
 			LPITEMIDLIST pidl = SHBrowseForFolder(&bi);

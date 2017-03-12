@@ -12,30 +12,54 @@ namespace fgl
 {
 #if defined(TARGETPLATFORM_MAC)
 	
-	String FileTools::openFilePicker(const String&title, const String&startingDir)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
 	{
-		NSOpenPanel *panel = [NSOpenPanel openPanel];
-		[panel setCanChooseFiles:YES];
-		[panel setCanChooseDirectories:NO];
-		[panel setAllowsMultipleSelection:NO];
-		[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
-		[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
-		NSInteger clicked = [panel runModal];
-		if(clicked == NSFileHandlingPanelOKButton)
+		if(fileExists)
 		{
-			NSURL* url = [panel URL];
-			return [[url path] UTF8String];
+			NSOpenPanel* panel = [NSOpenPanel openPanel];
+			[panel setCanChooseFiles:YES];
+			[panel setCanChooseDirectories:NO];
+			[panel setAllowsMultipleSelection:NO];
+			if(startingDir.length() > 0)
+			{
+				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			}
+			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
+			NSInteger clicked = [panel runModal];
+			if(clicked == NSFileHandlingPanelOKButton)
+			{
+				NSURL* url = [panel URL];
+				return [[url path] UTF8String];
+			}
+		}
+		else
+		{
+			NSSavePanel* panel = [NSSavePanel savePanel];
+			if(startingDir.length() > 0)
+			{
+				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			}
+			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
+			NSInteger clicked = [panel runModal];
+			if(clicked == NSFileHandlingPanelOKButton)
+			{
+				NSURL* url = [panel URL];
+				return [[url path] UTF8String];
+			}
 		}
 		return "";
 	}
 	
-	String FileTools::openFolderPicker(const String&title, const String&startingDir)
+	String FileTools::openFolderPicker(const String& title, const String& startingDir)
 	{
 		NSOpenPanel *panel = [NSOpenPanel openPanel];
 		[panel setCanChooseFiles:NO];
 		[panel setCanChooseDirectories:YES];
 		[panel setAllowsMultipleSelection:NO];
-		[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+		if(startingDir.length() > 0)
+		{
+			[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+		}
 		[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
 		NSInteger clicked = [panel runModal];
 		if(clicked == NSFileHandlingPanelOKButton)
@@ -48,13 +72,13 @@ namespace fgl
 	
 #elif defined(TARGETPLATFORM_IOS)
 	
-	String FileTools::openFilePicker(const String&title, const String&startingDir)
+	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists)
 	{
 		//TODO implement ios file picker
 		return "";
 	}
 	
-	String FileTools::openFolderPicker(const String&title, const String&startingDir)
+	String FileTools::openFolderPicker(const String& title, const String& startingDir)
 	{
 		//TODO implement ios folder picker
 		return "";
