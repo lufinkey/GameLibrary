@@ -300,8 +300,8 @@ namespace fgl
 		AutoLayoutManager* layoutMgr = new AutoLayoutManager();
 		layoutMgr->setRule(LAYOUTRULE_LEFT, bounds.left, LAYOUTVALUE_RATIO);
 		layoutMgr->setRule(LAYOUTRULE_TOP, bounds.top, LAYOUTVALUE_RATIO);
-		layoutMgr->setRule(LAYOUTRULE_RIGHT, bounds.right, LAYOUTVALUE_RATIO);
-		layoutMgr->setRule(LAYOUTRULE_BOTTOM, bounds.bottom, LAYOUTVALUE_RATIO);
+		layoutMgr->setRule(LAYOUTRULE_RIGHT, 1.0-bounds.right, LAYOUTVALUE_RATIO);
+		layoutMgr->setRule(LAYOUTRULE_BOTTOM, 1.0-bounds.bottom, LAYOUTVALUE_RATIO);
 		layoutMgr->setOffsetByContainer(true);
 		actorLayoutMgrs.add(layoutMgr);
 		actor->scaleToFit(layoutMgr->calculateFrame(actor->getFrame(), getFrame()));
