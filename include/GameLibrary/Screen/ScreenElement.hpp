@@ -122,6 +122,14 @@ namespace fgl
 		/*! Gets the border color of this element.
 			\returns the border color */
 		const Color& getBorderColor() const;
+
+
+		/*! Sets the transparency level of the element
+			\param alpha a value between 0 and 1, with 1 being fully visible and 0 being fully invisible */
+		void setAlpha(float alpha);
+		/*! Gets the transparency level of the element
+			\returns a value between 0 and 1, with 1 being fully visible and 0 being fully invisible */
+		float getAlpha() const;
 		
 		
 		/*! Sets this element's visibility. If an element is set to not be visible, it will not be drawn, and neither will its children.
@@ -230,6 +238,7 @@ namespace fgl
 		Color backgroundColor;
 		float borderWidth;
 		Color borderColor;
+		float alpha;
 
 		bool visible;
 		bool clipsToFrame;

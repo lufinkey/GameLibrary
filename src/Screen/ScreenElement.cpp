@@ -68,6 +68,7 @@ namespace fgl
 		backgroundColor(Color::TRANSPARENT),
 		borderWidth(0),
 		borderColor(Color::BLACK),
+		alpha(1.0),
 		visible(true),
 		clipsToFrame(false)
 	{
@@ -152,6 +153,7 @@ namespace fgl
 			{
 				graphics.clip(frame);
 			}
+			graphics.compositeAlpha(alpha);
 			drawBackground(appData, graphics);
 			drawMain(appData, graphics);
 			drawBorder(appData, graphics);
@@ -349,6 +351,16 @@ namespace fgl
 	const Color& ScreenElement::getBorderColor() const
 	{
 		return borderColor;
+	}
+
+	void ScreenElement::setAlpha(float alpha_arg)
+	{
+		alpha = alpha_arg;
+	}
+
+	float ScreenElement::getAlpha() const
+	{
+		return alpha;
 	}
 	
 	void ScreenElement::setVisible(bool toggle)
