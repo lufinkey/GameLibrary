@@ -19,7 +19,9 @@ namespace fgl
 		: ScreenElement(frame),
 		image(image),
 		displayMode(displayMode),
-		srcrect(DEFAULT_SRC_RECT)
+		srcrect(DEFAULT_SRC_RECT),
+		mirrorHorizontally(false),
+		mirrorVertically(false)
 	{
 		//
 	}
@@ -40,10 +42,20 @@ namespace fgl
 			{
 				RectangleD frame = getFrame();
 				graphics.clip(frame);
+				if(mirrorHorizontally)
+				{
+					drawFrame.x = drawFrame.x + drawFrame.width;
+					drawFrame.width = -drawFrame.width;
+				}
+				if(mirrorVertically)
+				{
+					drawFrame.y = drawFrame.y + drawFrame.height;
+					drawFrame.height = -drawFrame.height;
+				}
 				if(displayMode==DISPLAY_REPEAT)
 				{
-					unsigned int imageTimesX = (unsigned int)Math::ceil(frame.width/drawFrame.width);
-					unsigned int imageTimesY = (unsigned int)Math::ceil(frame.height/drawFrame.height);
+					unsigned int imageTimesX = (unsigned int)Math::ceil(Math::abs(frame.width/drawFrame.width));
+					unsigned int imageTimesY = (unsigned int)Math::ceil(Math::abs(frame.height/drawFrame.height));
 					for(unsigned int y=0; y<imageTimesY; y++)
 					{
 						for(unsigned int x=0; x<imageTimesX; x++)
@@ -101,6 +113,26 @@ namespace fgl
 		{
 			return srcrect;
 		}
+	}
+
+	void ImageElement::setHorizontalMirroringEnabled(bool toggle)
+	{
+		mirrorHorizontally = toggle;
+	}
+
+	bool ImageElement::isHorizontalMirroringEnabled() const
+	{
+		return mirrorHorizontally;
+	}
+
+	void ImageElement::setVerticalMirroringEnabled(bool toggle)
+	{
+		mirrorVertically = toggle;
+	}
+
+	bool ImageElement::isVerticalMirroringEnabled() const
+	{
+		return mirrorVertically;
 	}
 
 	RectangleD ImageElement::getImageDrawFrame() const

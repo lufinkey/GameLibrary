@@ -62,6 +62,20 @@ namespace fgl
 		RectangleU getImageSourceRect() const;
 
 
+		/*! Enables/disables horizontal image mirroring.
+			\param toggle true to enable horizontal mirroring, and false to disable it */
+		void setHorizontalMirroringEnabled(bool toggle);
+		/*! Tells if horizontal image mirroring is enabled
+			\returns true if enabled, or false if disabled */
+		bool isHorizontalMirroringEnabled() const;
+		/*! Enables/disables vertical image mirroring.
+			\param toggle true to enable horizontal mirroring, and false to disable it */
+		void setVerticalMirroringEnabled(bool toggle);
+		/*! Tells if vertical image mirroring is enabled
+			\returns true if enabled, or false if disabled */
+		bool isVerticalMirroringEnabled() const;
+
+
 		/*! Gets the frame where the image will be drawn.
 			If the display mode is set to DISPLAY_REPEAT, this will give the frame where the first image is drawn.
 			\returns a rectangle representing the area where the image is drawn. */
@@ -78,5 +92,7 @@ namespace fgl
 		TextureImage* image;
 		DisplayMode displayMode;
 		RectangleU srcrect;
+		bool mirrorHorizontally;
+		bool mirrorVertically;
 	};
 }
