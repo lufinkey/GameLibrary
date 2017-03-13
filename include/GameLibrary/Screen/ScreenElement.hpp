@@ -49,6 +49,9 @@ namespace fgl
 		/*! Gets the actual frame (bounding box) of the element inside of its parent.
 			\returns a RectangleD object representing the element's bounding box within its parent*/
 		RectangleD getFrame() const;
+		/*! Moves the frame to have it's center coordinates at the given point.
+			\param center the center coordinates to set */
+		void setCenter(const Vector2d& center);
 		/*! Gets the center coordinates of the frame.
 			\returns a Vector2d point*/
 		Vector2d getCenter() const;

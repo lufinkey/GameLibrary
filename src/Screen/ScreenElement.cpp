@@ -185,6 +185,14 @@ namespace fgl
 		return frame;
 	}
 	
+	void ScreenElement::setCenter(const Vector2d& center)
+	{
+		RectangleD frame = getFrame();
+		frame.x = center.x-(frame.width/2);
+		frame.y = center.y-(frame.height/2);
+		setFrame(frame);
+	}
+	
 	Vector2d ScreenElement::getCenter() const
 	{
 		RectangleD frame = getFrame();
