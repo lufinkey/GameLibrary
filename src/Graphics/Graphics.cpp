@@ -531,7 +531,7 @@ namespace fgl
 		
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
-		for(unsigned int i = 0; i < glyphs.size(); i++)
+		for(size_t i = 0; i < glyphs.size(); i++)
 		{
 			RenderedGlyphContainer::RenderedGlyph& glyph = glyphs.get(i);
 			double mult = (double)fontSize/(double)glyph.size;
