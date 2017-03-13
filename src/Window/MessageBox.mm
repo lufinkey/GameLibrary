@@ -4,89 +4,163 @@
 #include <GameLibrary/Window/MessageBox.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
+#include "../Application/EventManager.hpp"
 #include "SDL.h"
 
+
+
 #if defined(TARGETPLATFORM_IOS)
-	#import <UIKit/UIKit.h>
-#endif
+
+#include "../PlatformSpecific/iOS/SystemVersionMacros.h"
+#include "../PlatformSpecific/iOS/iOSUtils.h"
+
+
+@interface FGLMessageBoxHandler : NSObject <UIAlertViewDelegate>
+@property (nonatomic) NSInteger result;
+@end
+
+@implementation FGLMessageBoxHandler
+@synthesize result = _result;
+-(id)init
+{
+	if(self = [super init])
+	{
+		_result = (NSInteger)-1;
+	}
+	return self;
+}
+- (void)alertView:(UIAlertView*)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	_result = buttonIndex;
+}
+- (void)alertView:(UIAlertView*)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	_result = buttonIndex;
+}
+@end
+
 
 namespace fgl
 {
-	#if defined(TARGETPLATFORM_IOS)
-	unsigned int MessageBox::show(Window*parent, const String&title, const String&message)
+	unsigned int MessageBox::show(Window* parent, const String& title, const String& message)
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithUTF8String:(const char*)title]
-														message:[NSString stringWithUTF8String:(const char*)message]
-														delegate:nil
-														cancelButtonTitle:@"OK"
-														otherButtonTitles:nil];
-		[alert show];
-		EventManager::update(false);
-		while(alert.visible)
+		NSString* titleStr = nil;
+		if(title.length() > 0)
 		{
-			Thread::sleep(16);
+			titleStr = (NSString*)title;
+		}
+		NSString* messageStr = nil;
+		if(message.length() > 0)
+		{
+			messageStr = (NSString*)message;
+		}
+		
+		if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
+															message:messageStr
+															delegate:nil
+															cancelButtonTitle:@"OK"
+															otherButtonTitles:nil];
+			[alert show];
 			EventManager::update(false);
+			while(alert.visible)
+			{
+				Thread::sleep(16);
+				EventManager::update(false);
+			}
+			return 0;
 		}
-		#if !__has_feature(objc_arc)
-			[alert release];
-		#endif
-		return 0;
-	}
-	
-	@interface MessageBoxDelegate : NSObject <UIAlertViewDelegate>
-	{
-		NSInteger result;
-	}
-	@property (nonatomic) NSInteger result;
-	@end
-	
-	@implementation MessageBoxDelegate
-	@synthesize result;
-	-(id)init
-	{
-		if(self = [super init])
+		else
 		{
-			result = (NSInteger)-1;
+			UIViewController* rootVC = Window_getRootViewController(parent);
+			if(rootVC==nil)
+			{
+				return -1;
+			}
+			
+			UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleStr message:messageStr preferredStyle:UIAlertControllerStyleAlert];
+			[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+			[rootVC presentViewController:alert animated:YES completion:nil];
+			
+			EventManager::update(false);
+			while(alert.presentingViewController != nil)
+			{
+				Thread::sleep(16);
+				EventManager::update(false);
+			}
+			return 0;
 		}
-		return self;
 	}
-	- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
-	{
-		result = buttonIndex;
-	}
-	- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-	{
-		result = buttonIndex;
-	}
-	@end
 	
 	unsigned int MessageBox::show(Window*parent, const String&title, const String&message, const ArrayList<String>&options)
 	{
-		MessageBoxDelegate*messageDelegate = [[MessageBoxDelegate alloc] init];
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithUTF8String:(const char*)title]
-														message:[NSString stringWithUTF8String:(const char*)message]
-														delegate:messageDelegate
-														cancelButtonTitle:nil
-														otherButtonTitles:nil];
-		for(int i=0; i<numOptions; i++)
+		NSString* titleStr = nil;
+		if(title.length() > 0)
 		{
-			[alert addButtonWithTitle:[NSString stringWithUTF8String:options[i]]];
+			titleStr = (NSString*)title;
 		}
-		[alert show];
-		EventManager::update(false);
-		while(alert.visible)
+		NSString* messageStr = nil;
+		if(message.length() > 0)
 		{
-			Thread::sleep(16);
+			messageStr = (NSString*)message;
+		}
+		
+		if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
+		{
+			FGLMessageBoxHandler* messageHandler = [[FGLMessageBoxHandler alloc] init];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
+															message:messageStr
+														   delegate:messageHandler
+												  cancelButtonTitle:nil
+												  otherButtonTitles:nil];
+			
+			for(size_t i=0; i<options.size(); i++)
+			{
+				[alert addButtonWithTitle:(NSString*)options[i]];
+			}
+			[alert show];
+			
 			EventManager::update(false);
+			while(alert.visible)
+			{
+				Thread::sleep(16);
+				EventManager::update(false);
+			}
+			NSInteger result = messageHandler.result;
+			return (unsigned int)result;
 		}
-		NSInteger result = [messageDelegate result];
-		#if !__has_feature(objc_arc)
-			[alert release];
-			[messageDelegate release];
-		#endif
-		return (unsigned int)result;
+		else
+		{
+			UIViewController* rootVC = Window_getRootViewController(parent);
+			if(rootVC==nil)
+			{
+				return -1;
+			}
+			
+			UIAlertController* alert = [UIAlertController alertControllerWithTitle:(NSString*)title message:(NSString*)message preferredStyle:UIAlertControllerStyleAlert];
+			
+			__block unsigned int selectedIndex = -1;
+			for(size_t i=0; i<options.size(); i++)
+			{
+				[alert addAction:[UIAlertAction actionWithTitle:(NSString*)options[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+					selectedIndex = (unsigned int)i;
+				}]];
+			}
+			
+			[rootVC presentViewController:alert animated:YES completion:nil];
+			
+			EventManager::update(false);
+			while(alert.presentingViewController != nil)
+			{
+				Thread::sleep(16);
+				EventManager::update(false);
+			}
+			
+			return selectedIndex;
+		}
 	}
-	#endif
 }
 
+#endif
 #endif

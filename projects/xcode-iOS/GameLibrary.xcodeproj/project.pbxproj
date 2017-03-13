@@ -98,6 +98,7 @@
 		F17D96E61E6DB59C003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96E51E6DB59C003F4D85 /* AssetManager.cpp */; };
 		F17D96E81E6DB5A1003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96E71E6DB5A1003F4D85 /* Viewport.cpp */; };
 		F199D4B91E76FA76008627BE /* CheckboxElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F199D4B81E76FA76008627BE /* CheckboxElement.cpp */; };
+		F199D4BF1E77014C008627BE /* iOSUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = F199D4BE1E77014C008627BE /* iOSUtils.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -353,6 +354,9 @@
 		F17D96E71E6DB5A1003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		F199D4B11E76FA5F008627BE /* CheckboxElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CheckboxElement.hpp; sourceTree = "<group>"; };
 		F199D4B81E76FA76008627BE /* CheckboxElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckboxElement.cpp; sourceTree = "<group>"; };
+		F199D4BC1E76FEB2008627BE /* SystemVersionMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemVersionMacros.h; sourceTree = "<group>"; };
+		F199D4BD1E77014C008627BE /* iOSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSUtils.h; sourceTree = "<group>"; };
+		F199D4BE1E77014C008627BE /* iOSUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iOSUtils.mm; sourceTree = "<group>"; };
 		F1C39D521E3920A4008A5EF6 /* Vector3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector3.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -726,6 +730,7 @@
 				A039DAE81CCDE89E00B0B5DA /* Input */,
 				A039DAEC1CCDE89E00B0B5DA /* IO */,
 				A039DAF01CCDE89E00B0B5DA /* Network */,
+				F199D4BA1E76FEB2008627BE /* PlatformSpecific */,
 				A039DAF21CCDE89E00B0B5DA /* Screen */,
 				A039DB041CCDE89E00B0B5DA /* Utilities */,
 				A039DB171CCDE89E00B0B5DA /* Window */,
@@ -1038,6 +1043,24 @@
 			path = SDL_gfx;
 			sourceTree = "<group>";
 		};
+		F199D4BA1E76FEB2008627BE /* PlatformSpecific */ = {
+			isa = PBXGroup;
+			children = (
+				F199D4BB1E76FEB2008627BE /* iOS */,
+			);
+			path = PlatformSpecific;
+			sourceTree = "<group>";
+		};
+		F199D4BB1E76FEB2008627BE /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				F199D4BC1E76FEB2008627BE /* SystemVersionMacros.h */,
+				F199D4BD1E77014C008627BE /* iOSUtils.h */,
+				F199D4BE1E77014C008627BE /* iOSUtils.mm */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1191,6 +1214,7 @@
 				A039DB511CCDE89E00B0B5DA /* ActorMenuElement.cpp in Sources */,
 				F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */,
 				A039DB4D1CCDE89E00B0B5DA /* FadeColorTransition.cpp in Sources */,
+				F199D4BF1E77014C008627BE /* iOSUtils.mm in Sources */,
 				A039DB4C1CCDE89E00B0B5DA /* ScreenManager.cpp in Sources */,
 				A039DB351CCDE89E00B0B5DA /* BadAnyCastException.cpp in Sources */,
 				F15F59E31E71A90400FAFD86 /* ButtonElement.cpp in Sources */,
