@@ -104,6 +104,7 @@
 		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 		F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */; };
 		F17D96CA1E6DB4C4003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */; };
+		F199D4AC1E76F4CE008627BE /* CheckboxElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -432,6 +433,8 @@
 		F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
+		F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CheckboxElement.hpp; sourceTree = "<group>"; };
+		F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckboxElement.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -691,6 +694,7 @@
 				F15A1E721E5498C7008D83E5 /* ActorMenuElement.hpp */,
 				F15A1E731E5498C7008D83E5 /* AnimationElement.hpp */,
 				F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */,
+				F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
 				F15F59D61E719BFF00FAFD86 /* TextElement.hpp */,
@@ -956,6 +960,7 @@
 				F15A1EE91E5498D1008D83E5 /* ActorMenuElement.cpp */,
 				F15A1EEA1E5498D1008D83E5 /* AnimationElement.cpp */,
 				F15F5A7B1E71E2DB00FAFD86 /* ButtonElement.cpp */,
+				F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */,
 				F15A1EEB1E5498D1008D83E5 /* ImageElement.cpp */,
 				F15A1EEC1E5498D1008D83E5 /* MenuScreen.cpp */,
 				F15F59D81E719C1200FAFD86 /* TextElement.cpp */,
@@ -1344,6 +1349,7 @@
 				F15A1F571E5498D1008D83E5 /* TimeInterval.cpp in Sources */,
 				F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */,
 				F15A1F351E5498D1008D83E5 /* Console.cpp in Sources */,
+				F199D4AC1E76F4CE008627BE /* CheckboxElement.cpp in Sources */,
 				F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */,
 				F15A1F5A1E5498D1008D83E5 /* MessageBox.mm in Sources */,
 				F15A1F4A1E5498D1008D83E5 /* Font.cpp in Sources */,
