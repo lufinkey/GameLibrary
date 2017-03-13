@@ -37,6 +37,7 @@ namespace fgl
 		: TouchElement(frame),
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
+		fontSize(24),
 		cursorIndex(0),
 		textInputListener(this)
 	{
@@ -64,6 +65,7 @@ namespace fgl
 		RectangleD frame = getFrame();
 		if(font!=nullptr)
 		{
+			font->setSize(fontSize);
 			Vector2u textSize = font->measureString(text);
 			double textY = frame.y + ((frame.height + (double)textSize.y)/2);
 			double textX = frame.x + 5;
@@ -159,6 +161,16 @@ namespace fgl
 	Font* TextInputElement::getFont() const
 	{
 		return font;
+	}
+
+	void TextInputElement::setFontSize(unsigned int fontSize_arg)
+	{
+		fontSize = fontSize_arg;
+	}
+
+	unsigned int TextInputElement::getFontSize() const
+	{
+		return fontSize;
 	}
 	
 	void TextInputElement::setCursorIndex(size_t index)

@@ -32,6 +32,8 @@ namespace fgl
 		
 		void setFont(Font* font);
 		Font* getFont() const;
+		void setFontSize(unsigned int fontSize);
+		unsigned int getFontSize() const;
 		
 		void setCursorIndex(size_t cursorIndex);
 		size_t getCursorIndex() const;
@@ -56,6 +58,7 @@ namespace fgl
 		String text;
 		Color textColor;
 		Font* font;
+		unsigned int fontSize;
 		size_t cursorIndex;
 		
 		TextInputListener textInputListener;
