@@ -39,6 +39,7 @@ namespace fgl
 		font(Graphics::getDefaultFont()),
 		fontSize(24),
 		cursorIndex(0),
+		resignsOnOutsideTouch(false),
 		textInputListener(this)
 	{
 		setBackgroundColor(Color::WHITE);
@@ -186,6 +187,16 @@ namespace fgl
 	{
 		return cursorIndex;
 	}
+
+	void TextInputElement::setResigningOnOutsideTouchEnabled(bool toggle)
+	{
+		resignsOnOutsideTouch = toggle;
+	}
+
+	bool TextInputElement::isResigningOnOutsideTouchEnabled() const
+	{
+		return resignsOnOutsideTouch;
+	}
 	
 	void TextInputElement::onTouchUpInside(const TouchEvent& evt)
 	{
@@ -193,6 +204,25 @@ namespace fgl
 		if(!isTextInputResponder())
 		{
 			becomeTextInputResponder();
+		}
+	}
+
+	bool TextInputElement::handleTouchEvent(const TouchEvent& touchEvent)
+	{
+		bool retVal = TouchElement::handleTouchEvent(touchEvent);
+		if(resignsOnOutsideTouch && !retVal && isTextInputResponder())
+		{
+			resignTextInputResponder();
+		}
+		return retVal;
+	}
+
+	void TextInputElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
+	{
+		TouchElement::otherElementHandledTouchEvent(touchEvent);
+		if(resignsOnOutsideTouch && isTextInputResponder())
+		{
+			resignTextInputResponder();
 		}
 	}
 }

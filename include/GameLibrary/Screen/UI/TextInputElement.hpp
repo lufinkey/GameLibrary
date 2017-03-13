@@ -26,6 +26,8 @@ namespace fgl
 		virtual void becomeTextInputResponder();
 		virtual void resignTextInputResponder();
 		bool isTextInputResponder() const;
+		void setResigningOnOutsideTouchEnabled(bool toggle);
+		bool isResigningOnOutsideTouchEnabled() const;
 		
 		void setText(const String& text);
 		const String& getText() const;
@@ -40,6 +42,9 @@ namespace fgl
 		
 	protected:
 		virtual void onTouchUpInside(const TouchEvent& evt) override;
+
+		virtual bool handleTouchEvent(const TouchEvent& touchEvent) override;
+		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent) override;
 		
 	private:
 		class TextInputListener : public KeyboardEventListener
@@ -60,6 +65,7 @@ namespace fgl
 		Font* font;
 		unsigned int fontSize;
 		size_t cursorIndex;
+		bool resignsOnOutsideTouch;
 		
 		TextInputListener textInputListener;
 	};
