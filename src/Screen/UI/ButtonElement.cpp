@@ -17,7 +17,8 @@ namespace fgl
 		: TouchElement(frame),
 		handler(handler),
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
-		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height)))
+		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
+		buttonState(BUTTONSTATE_NORMAL)
 	{
 		titles[BUTTONSTATE_NORMAL] = title;
 		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
