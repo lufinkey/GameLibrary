@@ -520,7 +520,7 @@ namespace fgl
 		unsigned int renderedFontSize = font->getSize();
 		if(window->getViewport()==nullptr || !window->getViewport()->maintainResolution)
 		{
-			renderedFontSize = (unsigned int)Math::abs(scaling.y*font->getSize());
+			renderedFontSize = (unsigned int)Math::abs(scaling.y*(double)font->getSize());
 		}
 		ArrayList<RenderedGlyphContainer::RenderedGlyph> glyphs = font->getRenderedGlyphs((Font::GlyphString)text,renderer, renderedFontSize, font->getStyle());
 		Vector2u dimensions = font->measureString(text);

@@ -103,7 +103,7 @@ namespace fgl
 		size = 0;
 		style = STYLE_PLAIN;
 		fontdata = nullptr;
-		antialiasing = false;
+		antialiasing = true;
 	}
 
 	Font::Font(const Font&font)
@@ -194,7 +194,6 @@ namespace fgl
 
 		size = defaultsize;
 		style = Font::STYLE_PLAIN;
-		antialiasing = false;
 		glyphs.clear();
 		fontdata = std::shared_ptr<Data>(fontDataPacket);
 		if(fontsizes != nullptr)
@@ -235,14 +234,7 @@ namespace fgl
 			ArrayList<RenderedGlyphContainer::RenderedGlyph> renderedGlyphs;
 			try
 			{
-				if(size>36)
-				{
-					renderedGlyphs = container->getRenderedGlyphs(getFontPtr(size),renderer,size,style,text,antialiasing);
-				}
-				else
-				{
-					renderedGlyphs = container->getRenderedGlyphs(getFontPtr(36),renderer,36,style,text,antialiasing);
-				}
+				renderedGlyphs = container->getRenderedGlyphs(getFontPtr(size),renderer,size,style,text,antialiasing);
 			}
 			catch(const RenderGlyphException&e)
 			{
