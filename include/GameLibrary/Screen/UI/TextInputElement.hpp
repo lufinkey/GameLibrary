@@ -11,6 +11,8 @@ namespace fgl
 	class TextInputElement : public TouchElement
 	{
 	public:
+		/*! \copydoc fgl::ScreenElement::ScreenElement()*/
+		TextInputElement();
 		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit TextInputElement(const RectangleD&frame);
 		/*! virtual destructor*/

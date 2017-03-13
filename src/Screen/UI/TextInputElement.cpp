@@ -27,8 +27,13 @@ namespace fgl
 			element->handleBackspace();
 		}
 	}
+
+	TextInputElement::TextInputElement() : TextInputElement(RectangleD(0, 0, 0, 0))
+	{
+		//
+	}
 	
-	TextInputElement::TextInputElement(const RectangleD&frame)
+	TextInputElement::TextInputElement(const RectangleD& frame)
 		: TouchElement(frame),
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
