@@ -105,6 +105,63 @@ namespace fgl
 		return round(arg*mult)/mult;
 	}
 
+	float Math::roundToMultiple(float arg, float multiple)
+	{
+		float numTimes = arg/multiple;
+		bool neg = (numTimes < 0);
+		numTimes = floor(abs(numTimes));
+		if(fmod(arg, multiple) > (multiple / 2))
+		{
+			numTimes+=1;
+		}
+		if(neg)
+		{
+			return -abs(multiple*numTimes);
+		}
+		else
+		{
+			return abs(multiple*numTimes);
+		}
+	}
+
+	double Math::roundToMultiple(double arg, double multiple)
+	{
+		double numTimes = arg/multiple;
+		bool neg = (numTimes < 0);
+		numTimes = floor(abs(numTimes));
+		if(fmod(arg, multiple) >(multiple / 2))
+		{
+			numTimes+=1;
+		}
+		if(neg)
+		{
+			return -abs(multiple*numTimes);
+		}
+		else
+		{
+			return abs(multiple*numTimes);
+		}
+	}
+
+	long double Math::roundToMultiple(long double arg, long double multiple)
+	{
+		long double numTimes = arg/multiple;
+		bool neg = (numTimes < 0);
+		numTimes = floor(abs(numTimes));
+		if(fmod(arg, multiple) >(multiple / 2))
+		{
+			numTimes+=1;
+		}
+		if(neg)
+		{
+			return -abs(multiple*numTimes);
+		}
+		else
+		{
+			return abs(multiple*numTimes);
+		}
+	}
+
 	long double Math::round(long double arg){ return std::round(arg); }
 	float Math::fmod(float left, float right){ return std::fmod(left, right); }
 	double Math::fmod(double left, double right){ return std::fmod(left, right); }

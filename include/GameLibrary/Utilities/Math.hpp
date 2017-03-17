@@ -66,6 +66,9 @@ namespace fgl
 		static float round(float arg, unsigned int precision);
 		static double round(double arg, unsigned int precision);
 		static long double round(long double arg, unsigned int precision);
+		static float roundToMultiple(float arg, float multiple);
+		static double roundToMultiple(double arg, double multiple);
+		static long double roundToMultiple(long double arg, long double multiple);
 		static float fmod(float left, float right);
 		static double fmod(double left, double right);
 		static long double fmod(long double left, long double right);
