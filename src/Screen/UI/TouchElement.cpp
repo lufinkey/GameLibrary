@@ -139,7 +139,7 @@ namespace fgl
 
 	bool TouchElement::handleTouchEvent(const TouchEvent& touchEvent)
 	{
-		if(!touchEnabled)
+		if(!touchEnabled || !isVisible())
 		{
 			cancelTouch(touchEvent);
 			return false;
