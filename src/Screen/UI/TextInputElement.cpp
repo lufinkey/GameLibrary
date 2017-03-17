@@ -8,7 +8,6 @@
 namespace fgl
 {
 	TextInputElement* TextInputElement_input_responder = nullptr;
-	std::mutex TextInputElement_responder_mutex;
 	
 	TextInputElement::TextInputListener::TextInputListener(TextInputElement* element) : element(element)
 	{
@@ -35,16 +34,24 @@ namespace fgl
 	
 	TextInputElement::TextInputElement(const RectangleD& frame)
 		: TouchElement(frame),
-		textColor(Color::BLACK),
-		font(Graphics::getDefaultFont()),
-		fontSize(24),
+		textElement(new TextElement()),
 		cursorIndex(0),
+		editable(true),
 		resignsOnOutsideTouch(false),
 		textInputListener(this)
 	{
 		setBackgroundColor(Color::WHITE);
 		setBorderWidth(1.0f);
 		setBorderColor(Color::BLACK);
+		
+		textElement->setTextAlignment(TEXTALIGN_LEFT);
+		textElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);
+		textElement->setLayoutRule(LAYOUTRULE_TOP, 0);
+		textElement->setLayoutRule(LAYOUTRULE_LEFT, 5);
+		textElement->setLayoutRule(LAYOUTRULE_RIGHT, 0);
+		textElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
+		
+		addChildElement(textElement);
 	}
 	
 	TextInputElement::~TextInputElement()
@@ -53,6 +60,7 @@ namespace fgl
 		{
 			resignTextInputResponder();
 		}
+		delete textElement;
 	}
 	
 	void TextInputElement::update(ApplicationData appData)
@@ -60,43 +68,29 @@ namespace fgl
 		TouchElement::update(appData);
 	}
 	
-	void TextInputElement::drawMain(ApplicationData appData, Graphics graphics) const
+	bool TextInputElement::becomeTextInputResponder()
 	{
-		TouchElement::drawMain(appData, graphics);
-		RectangleD frame = getFrame();
-		if(font!=nullptr)
+		if(!editable)
 		{
-			font->setSize(fontSize);
-			Vector2u textSize = font->measureString(text);
-			double textY = frame.y + ((frame.height + (double)textSize.y)/2);
-			double textX = frame.x + 5;
-			graphics.clip(frame);
-			graphics.setColor(textColor);
-			graphics.setFont(font);
-			graphics.drawString(text, textX, textY);
+			return false;
 		}
-	}
-	
-	void TextInputElement::becomeTextInputResponder()
-	{
 		if(TextInputElement_input_responder != nullptr)
 		{
 			if(TextInputElement_input_responder == this)
 			{
-				return;
+				return true;
 			}
 			TextInputElement_input_responder->resignTextInputResponder();
+			TextInputElement_input_responder = nullptr;
 		}
-		TextInputElement_responder_mutex.lock();
 		TextInputElement_input_responder = this;
 		Keyboard::addEventListener(&textInputListener);
 		Keyboard::startTextInput();
-		TextInputElement_responder_mutex.unlock();
+		return true;
 	}
 	
 	void TextInputElement::resignTextInputResponder()
 	{
-		TextInputElement_responder_mutex.lock();
 		if(TextInputElement_input_responder == nullptr)
 		{
 			return;
@@ -108,7 +102,6 @@ namespace fgl
 		TextInputElement_input_responder = nullptr;
 		Keyboard::removeEventListener(&textInputListener);
 		Keyboard::endTextInput();
-		TextInputElement_responder_mutex.unlock();
 	}
 	
 	bool TextInputElement::isTextInputResponder() const
@@ -126,8 +119,10 @@ namespace fgl
 		{
 			return;
 		}
+		String text = textElement->getText();
 		text += inputted_text;
 		cursorIndex += inputted_text.length();
+		textElement->setText(text);
 	}
 	
 	void TextInputElement::handleBackspace()
@@ -138,45 +133,47 @@ namespace fgl
 		}
 		if(cursorIndex!=0)
 		{
+			String text = textElement->getText();
 			text = text.substring(0,cursorIndex-1) + text.substring(cursorIndex,text.length());
 			cursorIndex -= 1;
+			textElement->setText(text);
 		}
 	}
 	
-	void TextInputElement::setText(const String& txt)
+	void TextInputElement::setText(const String& text)
 	{
-		text = txt;
+		textElement->setText(text);
 		cursorIndex = text.length();
 	}
 	
 	const String& TextInputElement::getText() const
 	{
-		return text;
+		return textElement->getText();
 	}
 	
-	void TextInputElement::setFont(Font* fnt)
+	void TextInputElement::setFont(Font* font)
 	{
-		font = fnt;
+		textElement->setFont(font);
 	}
 	
 	Font* TextInputElement::getFont() const
 	{
-		return font;
+		return textElement->getFont();
 	}
 
-	void TextInputElement::setFontSize(unsigned int fontSize_arg)
+	void TextInputElement::setFontSize(unsigned int fontSize)
 	{
-		fontSize = fontSize_arg;
+		textElement->setFontSize(fontSize);
 	}
 
 	unsigned int TextInputElement::getFontSize() const
 	{
-		return fontSize;
+		return textElement->getFontSize();
 	}
 	
 	void TextInputElement::setCursorIndex(size_t index)
 	{
-		if(index > text.length())
+		if(index > textElement->getText().length())
 		{
 			throw OutOfBoundsException((String)"cursorIndex is out of bounds at index " + index);
 		}
@@ -198,10 +195,29 @@ namespace fgl
 		return resignsOnOutsideTouch;
 	}
 	
+	void TextInputElement::setEditable(bool editable_arg)
+	{
+		editable = editable_arg;
+		if(!editable && isTextInputResponder())
+		{
+			resignTextInputResponder();
+		}
+	}
+	
+	bool TextInputElement::isEditable() const
+	{
+		return editable;
+	}
+	
+	TextElement* TextInputElement::getTextElement() const
+	{
+		return textElement;
+	}
+	
 	void TextInputElement::onTouchUpInside(const TouchEvent& evt)
 	{
 		TouchElement::onTouchUpInside(evt);
-		if(!isTextInputResponder())
+		if(!isTextInputResponder() && editable)
 		{
 			becomeTextInputResponder();
 		}
@@ -210,7 +226,7 @@ namespace fgl
 	bool TextInputElement::handleTouchEvent(const TouchEvent& touchEvent)
 	{
 		bool retVal = TouchElement::handleTouchEvent(touchEvent);
-		if(resignsOnOutsideTouch && !retVal && isTextInputResponder())
+		if(resignsOnOutsideTouch && !retVal && touchEvent.getEventType()==TouchEvent::EVENTTYPE_TOUCHDOWN && isTextInputResponder())
 		{
 			resignTextInputResponder();
 		}
@@ -220,7 +236,7 @@ namespace fgl
 	void TextInputElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
 	{
 		TouchElement::otherElementHandledTouchEvent(touchEvent);
-		if(resignsOnOutsideTouch && isTextInputResponder())
+		if(resignsOnOutsideTouch && touchEvent.getEventType()==TouchEvent::EVENTTYPE_TOUCHDOWN && isTextInputResponder())
 		{
 			resignTextInputResponder();
 		}
