@@ -20,13 +20,13 @@ namespace fgl
 		
 		ButtonElement();
 		ButtonElement(const RectangleD& frame);
-		ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& handler);
+		ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler);
 		virtual ~ButtonElement();
 		
 		virtual void layoutChildElements() override;
 		
-		void setHandler(const std::function<void()>& handler);
-		const std::function<void()>& getHandler() const;
+		void setTapHandler(const std::function<void()>& tapHandler);
+		const std::function<void()>& getTapHandler() const;
 		
 		ButtonState getButtonState() const;
 		
@@ -54,7 +54,7 @@ namespace fgl
 	private:
 		void setButtonState(ButtonState buttonState);
 		
-		std::function<void()> handler;
+		std::function<void()> tapHandler;
 		
 		ImageElement* imageElement;
 		TextElement* titleElement;

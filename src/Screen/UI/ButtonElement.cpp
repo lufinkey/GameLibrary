@@ -13,9 +13,9 @@ namespace fgl
 		//
 	}
 	
-	ButtonElement::ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& handler)
+	ButtonElement::ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler)
 		: TouchElement(frame),
-		handler(handler),
+		tapHandler(tapHandler),
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
 		buttonState(BUTTONSTATE_NORMAL)
@@ -73,14 +73,14 @@ namespace fgl
 		}
 	}
 	
-	void ButtonElement::setHandler(const std::function<void()>& handler_arg)
+	void ButtonElement::setTapHandler(const std::function<void()>& tapHandler_arg)
 	{
-		handler = handler_arg;
+		tapHandler = tapHandler_arg;
 	}
 	
-	const std::function<void()>& ButtonElement::getHandler() const
+	const std::function<void()>& ButtonElement::getTapHandler() const
 	{
-		return handler;
+		return tapHandler;
 	}
 	
 	void ButtonElement::setButtonState(ButtonState buttonState_arg)
@@ -199,9 +199,9 @@ namespace fgl
 	{
 		//TODO do BUTTONSTATE_HOVERED if still hovered
 		setButtonState(BUTTONSTATE_NORMAL);
-		if(handler)
+		if(tapHandler)
 		{
-			handler();
+			tapHandler();
 		}
 	}
 	
