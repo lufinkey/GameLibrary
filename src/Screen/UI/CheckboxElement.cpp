@@ -37,22 +37,22 @@ namespace fgl
 		return toggle;
 	}
 	
-	void CheckboxElement::setHandler(const std::function<void(bool)>& handler_arg)
+	void CheckboxElement::setToggleHandler(const std::function<void(bool)>& toggleHandler_arg)
 	{
-		handler = handler_arg;
+		toggleHandler = toggleHandler_arg;
 	}
 	
-	const std::function<void(bool)>& CheckboxElement::getHandler() const
+	const std::function<void(bool)>& CheckboxElement::getToggleHandler() const
 	{
-		return handler;
+		return toggleHandler;
 	}
 	
 	void CheckboxElement::onTouchUpInside(const fgl::ScreenElement::TouchEvent& touchEvent)
 	{
 		setToggle(!toggle);
-		if(handler)
+		if(toggleHandler)
 		{
-			handler(toggle);
+			toggleHandler(toggle);
 		}
 	}
 }

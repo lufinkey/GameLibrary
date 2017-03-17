@@ -17,14 +17,14 @@ namespace fgl
 		void setToggle(bool toggle);
 		bool getToggle() const;
 		
-		void setHandler(const std::function<void(bool)>& handler);
-		const std::function<void(bool)>& getHandler() const;
+		void setToggleHandler(const std::function<void(bool)>& toggleHandler);
+		const std::function<void(bool)>& getToggleHandler() const;
 		
 	protected:
 		virtual void onTouchUpInside(const TouchEvent& touchEvent) override;
 		
 	private:
-		std::function<void(bool)> handler;
+		std::function<void(bool)> toggleHandler;
 		bool toggle;
 	};
 }
