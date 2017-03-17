@@ -64,16 +64,16 @@ namespace fgl
 
 		/*! Enables/disables horizontal image mirroring.
 			\param toggle true to enable horizontal mirroring, and false to disable it */
-		void setHorizontalMirroringEnabled(bool toggle);
+		void setHorizontalImageMirroringEnabled(bool toggle);
 		/*! Tells if horizontal image mirroring is enabled
 			\returns true if enabled, or false if disabled */
-		bool isHorizontalMirroringEnabled() const;
+		bool isHorizontalImageMirroringEnabled() const;
 		/*! Enables/disables vertical image mirroring.
 			\param toggle true to enable horizontal mirroring, and false to disable it */
-		void setVerticalMirroringEnabled(bool toggle);
+		void setVerticalImageMirroringEnabled(bool toggle);
 		/*! Tells if vertical image mirroring is enabled
 			\returns true if enabled, or false if disabled */
-		bool isVerticalMirroringEnabled() const;
+		bool isVerticalImageMirroringEnabled() const;
 
 
 		/*! Gets the frame where the image will be drawn.
@@ -92,7 +92,7 @@ namespace fgl
 		TextureImage* image;
 		DisplayMode displayMode;
 		RectangleU srcrect;
-		bool mirrorHorizontally;
-		bool mirrorVertically;
+		bool mirrorImageHorizontally;
+		bool mirrorImageVertically;
 	};
 }
