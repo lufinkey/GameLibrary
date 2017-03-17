@@ -185,6 +185,22 @@ namespace fgl
 		return frame;
 	}
 	
+	RectangleD ScreenElement::getBorderPaddedFrame() const
+	{
+		Vector2d center = getCenter();
+		double width = frame.width-(double)(borderWidth*2);
+		if(width < 0)
+		{
+			width = 0;
+		}
+		double height = frame.height-(double)(borderWidth*2);
+		if(height < 0)
+		{
+			height = 0;
+		}
+		return RectangleD(center.x-(width/2), center.y-(height/2), width, height);
+	}
+	
 	void ScreenElement::setCenter(const Vector2d& center)
 	{
 		RectangleD frame = getFrame();
