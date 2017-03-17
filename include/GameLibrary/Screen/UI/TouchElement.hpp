@@ -22,13 +22,13 @@ namespace fgl
 		virtual void onMouseEnter(unsigned int mouseIndex);
 		virtual void onMouseLeave(unsigned int mouseIndex);
 		
-		virtual void onTouchCancel(const TouchEvent& touchEvent);
-		
 		virtual void onTouchDown(const TouchEvent& touchEvent);
-		virtual void onTouchUpInside(const TouchEvent& touchEvent);
-		virtual void onTouchUpOutside(const TouchEvent& touchEvent);
 		
 		virtual bool onTouchMove(const TouchEvent& evt);
+		
+		virtual void onTouchUpInside(const TouchEvent& touchEvent);
+		virtual void onTouchUpOutside(const TouchEvent& touchEvent);
+		virtual void onTouchCancel(const TouchEvent& touchEvent);
 		
 		virtual bool handleTouchEvent(const TouchEvent& touchEvent) override;
 		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent) override;

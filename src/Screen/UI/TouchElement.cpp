@@ -55,11 +55,11 @@ namespace fgl
 	
 	void TouchElement::onMouseEnter(unsigned int mouseIndex) {}
 	void TouchElement::onMouseLeave(unsigned int mouseIndex) {}
-	void TouchElement::onTouchCancel(const TouchEvent& evt) {}
 	void TouchElement::onTouchDown(const TouchEvent& evt) {}
+	bool TouchElement::onTouchMove(const TouchEvent& evt) { return true; }
 	void TouchElement::onTouchUpInside(const TouchEvent& evt) {}
 	void TouchElement::onTouchUpOutside(const TouchEvent& evt) {}
-	bool TouchElement::onTouchMove(const TouchEvent& evt) { return true; }
+	void TouchElement::onTouchCancel(const TouchEvent& evt) {}
 	
 	void TouchElement::setTouchEnabled(bool toggle)
 	{
