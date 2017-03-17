@@ -139,7 +139,7 @@ namespace fgl
 	template<typename U, typename std::enable_if<(std::is_arithmetic<U>::value && !std::is_same<U, bool>::value), std::nullptr_t>::type>
 	void Number::Derived<T>::impl_subtract(Number::Base* base)
 	{
-		value += base->to<T>();
+		value -= base->to<T>();
 	}
 	
 	template<typename T>
