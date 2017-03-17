@@ -34,8 +34,8 @@ namespace fgl
 		void setTextAlignment(TextAlignment textAlignment);
 		TextAlignment getTextAlignment() const;
 
-		void setVerticalAlignment(VerticalAlignment verticalAlignment);
-		VerticalAlignment getVerticalAlignment() const;
+		void setVerticalTextAlignment(VerticalAlignment verticalTextAlignment);
+		VerticalAlignment getVerticalTextAlignment() const;
 		
 		void setTextColor(const Color& textColor);
 		const Color& getTextColor() const;
@@ -59,7 +59,7 @@ namespace fgl
 
 		String text;
 		TextAlignment textAlignment;
-		VerticalAlignment verticalAlignment;
+		VerticalAlignment verticalTextAlignment;
 		Color textColor;
 		Font* font;
 		unsigned int fontSize;

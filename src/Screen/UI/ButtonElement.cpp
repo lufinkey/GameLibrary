@@ -27,7 +27,7 @@ namespace fgl
 		titleElement->setText(title);
 		titleElement->setTextColor(Color::BLACK);
 		titleElement->setTextAlignment(TEXTALIGN_CENTER);
-		titleElement->setVerticalAlignment(VERTICALALIGN_CENTER);
+		titleElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);
 		
 		addChildElement(titleElement);
 		addChildElement(imageElement);

@@ -11,7 +11,7 @@ namespace fgl
 	TextElement::TextElement(const RectangleD& frame)
 		: ScreenElement(frame),
 		textAlignment(TEXTALIGN_LEFT),
-		verticalAlignment(VERTICALALIGN_TOP),
+		verticalTextAlignment(VERTICALALIGN_TOP),
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
 		fontSize(18)
@@ -34,7 +34,7 @@ namespace fgl
 		{
 			fullHeight+=line.size.y;
 		}
-		switch(verticalAlignment)
+		switch(verticalTextAlignment)
 		{
 			case VERTICALALIGN_TOP:
 			y = frame.y;
@@ -142,14 +142,14 @@ namespace fgl
 		return textAlignment;
 	}
 
-	void TextElement::setVerticalAlignment(VerticalAlignment verticalAlignment_arg)
+	void TextElement::setVerticalTextAlignment(VerticalAlignment verticalTextAlignment_arg)
 	{
-		verticalAlignment = verticalAlignment_arg;
+		verticalTextAlignment = verticalTextAlignment_arg;
 	}
 
-	VerticalAlignment TextElement::getVerticalAlignment() const
+	VerticalAlignment TextElement::getVerticalTextAlignment() const
 	{
-		return verticalAlignment;
+		return verticalTextAlignment;
 	}
 	
 	void TextElement::setTextColor(const fgl::Color& textColor_arg)
