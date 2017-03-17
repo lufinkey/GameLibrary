@@ -517,14 +517,15 @@ namespace fgl
 	
 	void Graphics::drawString(const WideString& text, double x1, double y1)
 	{
-		unsigned int renderedFontSize = font->getSize();
+		unsigned int fontSize = font->getSize();
+		unsigned int renderedFontSize = fontSize;
 		if(window->getViewport()==nullptr || !window->getViewport()->maintainResolution)
 		{
-			renderedFontSize = (unsigned int)Math::abs(scaling.y*(double)font->getSize());
+			renderedFontSize = (unsigned int)Math::abs(scaling.y*(double)fontSize);
 		}
 		ArrayList<RenderedGlyphContainer::RenderedGlyph> glyphs = font->getRenderedGlyphs((Font::GlyphString)text,renderer, renderedFontSize, font->getStyle());
 		Vector2u dimensions = font->measureString(text);
-		unsigned int fontSize = font->getSize();
+		font->setSize(renderedFontSize);
 		Color compColor = color.composite(tintColor);
 
 		beginDraw();
@@ -534,7 +535,6 @@ namespace fgl
 		for(size_t i = 0; i < glyphs.size(); i++)
 		{
 			RenderedGlyphContainer::RenderedGlyph& glyph = glyphs.get(i);
-			double mult = (double)fontSize/(double)glyph.size;
 			SDL_Texture*texture = (SDL_Texture*)glyph.texture;
 			Vector2u glyphDimensions = font->measureString((Font::GlyphString)text.charAt(i));
 			unsigned int format = 0;
@@ -542,16 +542,15 @@ namespace fgl
 			int w = 0;
 			int h = 0;
 			SDL_QueryTexture(texture, &format, &access, &w, &h);
-			double realWidth = (double)w*mult;
-			double realHeight = (double)h*mult;
+			double realWidth = (double)w*scaling.x;
 			
 			Vector2d pnt = transform.transform(Vector2d(x1 + x_offset, y1_top));
 			
 			SDL_Rect rect;
 			rect.x = (int)pnt.x;
 			rect.y = (int)pnt.y;
-			rect.w = (int)(realWidth*scaling.x);
-			rect.h = (int)(realHeight*scaling.y);
+			rect.w = (int)realWidth*scaling.x;
+			rect.h = h;
 			
 			SDL_Point center;
 			center.x = 0;
@@ -569,6 +568,8 @@ namespace fgl
 		}
 
 		endDraw();
+
+		font->setSize(fontSize);
 	}
 	
 	void Graphics::drawString(const WideString&text, const Vector2d& point)

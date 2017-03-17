@@ -74,6 +74,18 @@ namespace fgl
 		return fontsizeptr;
 	}
 
+	int Font::getAscent(unsigned int size)
+	{
+		void* fontptr = getFontPtr(size);
+		return TTF_FontAscent((TTF_Font*)fontptr);
+	}
+
+	int Font::getDescent(unsigned int size)
+	{
+		void* fontptr = getFontPtr(size);
+		return TTF_FontDescent((TTF_Font*)fontptr);
+	}
+
 	void Font::clearFontSizes()
 	{
 		if(fontsizes.get()!=nullptr)
@@ -236,10 +248,10 @@ namespace fgl
 			{
 				renderedGlyphs = container->getRenderedGlyphs(getFontPtr(size),renderer,size,style,text,antialiasing);
 			}
-			catch(const RenderGlyphException&e)
+			catch(const RenderGlyphException& e)
 			{
 				mlock.unlock();
-				throw RenderGlyphException(e);
+				throw;
 			}
 			mlock.unlock();
 			return renderedGlyphs;

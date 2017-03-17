@@ -40,10 +40,10 @@ namespace fgl
 			{
 				glyphTextures.add(getGlyph(txt.charAt(i), fontptr, renderer, size, fontstyle, antialiasing));
 			}
-			catch(const RenderGlyphException&e)
+			catch(const RenderGlyphException& e)
 			{
 				mlock.unlock();
-				throw RenderGlyphException(e);
+				throw;
 			}
 		}
 		mlock.unlock();
@@ -90,7 +90,7 @@ namespace fgl
 		for(size_t i=0; i<total; i++)
 		{
 			const RenderedGlyph& renderedGlyph = renderedGlyphs.get(i);
-			if(renderedGlyph.size >= size && renderedGlyph.fontstyle == fontstyle && renderedGlyph.antialias==antialiasing)
+			if(renderedGlyph.size == size && renderedGlyph.fontstyle == fontstyle && renderedGlyph.antialias==antialiasing)
 			{
 				return renderedGlyph;
 			}

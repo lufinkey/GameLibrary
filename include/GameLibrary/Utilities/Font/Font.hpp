@@ -99,6 +99,8 @@ namespace fgl
 		
 		void* loadFontSize(unsigned int size);
 		void* getFontPtr(unsigned int size);
+		int getAscent(unsigned int size);
+		int getDescent(unsigned int size);
 		void clearFontSizes();
 		RenderedGlyphContainer* getRenderedGlyphContainer(void*renderer);
 		ArrayList<RenderedGlyphContainer::RenderedGlyph> getRenderedGlyphs(const GlyphString&text, void*renderer, unsigned int size, int style);
