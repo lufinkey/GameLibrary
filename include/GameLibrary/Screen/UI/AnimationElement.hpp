@@ -42,7 +42,7 @@ namespace fgl
 		void setAnimationDirection(const Animation::Direction& direction);
 		/*! Sets the current frame of animation.
 			\param frameIndex the index of the frame*/
-		void setAnimationFrame(size_t frameIndex);
+		void setAnimationFrameIndex(size_t frameIndex);
 		
 		/*! Gets the current Animation being displayed.
 			\returns an Animation pointer, or null if no animation is being displayed*/
@@ -52,7 +52,7 @@ namespace fgl
 		const Animation::Direction& getAnimationDirection() const;
 		/*! Returns the index of the current frame of animation.
 			\returns an unsigned integer representing the current frame index*/
-		size_t getAnimationFrame() const;
+		size_t getAnimationFrameIndex() const;
 
 		/*! Gets the image element being used to display the animation.
 			\returns a pointer to an ImageElement instance */

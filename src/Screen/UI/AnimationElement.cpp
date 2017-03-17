@@ -59,7 +59,7 @@ namespace fgl
 		animationPlayer.setDirection(direction);
 	}
 	
-	void AnimationElement::setAnimationFrame(size_t frameIndex)
+	void AnimationElement::setAnimationFrameIndex(size_t frameIndex)
 	{
 		animationPlayer.setFrameIndex(frameIndex);
 		updateAnimationImage();
@@ -75,7 +75,7 @@ namespace fgl
 		return animationPlayer.getDirection();
 	}
 	
-	size_t AnimationElement::getAnimationFrame() const
+	size_t AnimationElement::getAnimationFrameIndex() const
 	{
 		return animationPlayer.getFrameIndex();
 	}
