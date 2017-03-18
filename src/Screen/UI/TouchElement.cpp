@@ -32,7 +32,7 @@ namespace fgl
 			RectangleD frame = getFrame();
 			position.x -= frame.x;
 			position.y -= frame.y;
-			if(isPointInsideFrame(position))
+			if(isPointInside(position))
 			{
 				size_t index = enteredMouses.indexOf(i);
 				if(index==-1)
@@ -128,7 +128,7 @@ namespace fgl
 		}
 	}
 
-	bool TouchElement::isPointInsideFrame(const Vector2d& point) const
+	bool TouchElement::isPointInside(const Vector2d& point) const
 	{
 		RectangleD frame = getFrame();
 		frame.x = 0;
@@ -147,7 +147,7 @@ namespace fgl
 		switch(touchEvent.getEventType())
 		{
 			case TouchEvent::EVENTTYPE_TOUCHDOWN:
-			if(isPointInsideFrame(touchEvent.getPosition()))
+			if(isPointInside(touchEvent.getPosition()))
 			{
 				addTouch(touchEvent);
 				onTouchDown(touchEvent);
@@ -169,7 +169,7 @@ namespace fgl
 					bool shouldContinueTracking = onTouchMove(touchEvent);
 					if(shouldContinueTracking)
 					{
-						touchData.inside = isPointInsideFrame(touchEvent.getPosition());
+						touchData.inside = isPointInside(touchEvent.getPosition());
 						return true;
 					}
 					else
@@ -189,7 +189,7 @@ namespace fgl
 				}
 				else
 				{
-					bool inside = isPointInsideFrame(touchEvent.getPosition());
+					bool inside = isPointInside(touchEvent.getPosition());
 					removeTouch(touchEvent.getTouchID(), touchEvent.isMouseEvent());
 					if(inside)
 					{
