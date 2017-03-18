@@ -526,12 +526,15 @@ namespace fgl
 		ArrayList<RenderedGlyphContainer::RenderedGlyph> glyphs = font->getRenderedGlyphs((Font::GlyphString)text,renderer, renderedFontSize, font->getStyle());
 		Vector2u dimensions = font->measureString(text);
 		font->setSize(renderedFontSize);
+		Vector2u realDimensions = font->measureString(text);
 		Color compColor = color.composite(tintColor);
 
 		beginDraw();
 		
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
+		double scaleRatio = scaling.x/scaling.y;
+		double dimensionRatio = (double)dimensions.x/(double)realDimensions.x;
 		for(size_t i = 0; i < glyphs.size(); i++)
 		{
 			RenderedGlyphContainer::RenderedGlyph& glyph = glyphs.get(i);
@@ -542,14 +545,14 @@ namespace fgl
 			int w = 0;
 			int h = 0;
 			SDL_QueryTexture(texture, &format, &access, &w, &h);
-			double realWidth = (double)w*scaling.x;
+			double realWidth = (double)w*scaleRatio;
 			
 			Vector2d pnt = transform.transform(Vector2d(x1 + x_offset, y1_top));
 			
 			SDL_Rect rect;
 			rect.x = (int)pnt.x;
 			rect.y = (int)pnt.y;
-			rect.w = (int)realWidth*scaling.x;
+			rect.w = (int)realWidth;
 			rect.h = h;
 			
 			SDL_Point center;
@@ -564,7 +567,7 @@ namespace fgl
 			SDL_SetTextureColorMod(texture, 255,255,255);
 			SDL_SetTextureAlphaMod(texture, 255);
 			
-			x_offset += glyphDimensions.x;
+			x_offset += (double)glyphDimensions.x*dimensionRatio;
 		}
 
 		endDraw();
@@ -588,6 +591,12 @@ namespace fgl
 			RectangleD dstRect;
 			double degrees = 0;
 
+			double widthOffset = 0;
+			if(width >= 2.0)
+			{
+				widthOffset = width/2;
+			}
+
 			if(x1==x2 || y1==y2)
 			{
 				if(x1 > x2)
@@ -605,7 +614,7 @@ namespace fgl
 
 				if(x1 == x2)
 				{
-					dstRect.x = x1;
+					dstRect.x = x1-widthOffset;
 					dstRect.y = y1;
 					dstRect.width = width;
 					dstRect.height = y2-y1;
@@ -613,7 +622,7 @@ namespace fgl
 				else if(y1 == y2)
 				{
 					dstRect.x = x1;
-					dstRect.y = y1;
+					dstRect.y = y1-widthOffset;
 					dstRect.width = x2-x1;
 					dstRect.height = width;
 				}
@@ -633,7 +642,7 @@ namespace fgl
 				double dist = Math::distance(x1, y1, x2, y2);
 
 				dstRect.x = x1;
-				dstRect.y = y1;
+				dstRect.y = y1-widthOffset;
 				dstRect.width = dist;
 				dstRect.height = width;
 			}
@@ -672,9 +681,9 @@ namespace fgl
 		return lineWidth;
 	}
 	
-	void Graphics::drawLine(double x1, double y1, double x2, double y2)
+	void Graphics::drawLine(double x1, double y1, double x2, double y2, double thickness)
 	{
-		double lineWidth = getTransformedLineWidth(x1, x2, y1, y2);
+		double lineWidth = getTransformedLineWidth(x1, x2, y1, y2)*thickness;
 		Vector2d pnt1 = transform.transform(Vector2d(x1, y1));
 		Vector2d pnt2 = transform.transform(Vector2d(x2, y2));
 		
@@ -685,9 +694,9 @@ namespace fgl
 		endDraw();
 	}
 	
-	void Graphics::drawLine(const Vector2d& point1, const Vector2d& point2)
+	void Graphics::drawLine(const Vector2d& point1, const Vector2d& point2, double thickness)
 	{
-		drawLine(point1.x, point1.y, point2.x, point2.y);
+		drawLine(point1.x, point1.y, point2.x, point2.y, thickness);
 	}
 
 	void Graphics::drawRect(double x, double y, double width, double height)

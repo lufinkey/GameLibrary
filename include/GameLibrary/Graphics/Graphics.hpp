@@ -137,56 +137,56 @@ namespace fgl
 		virtual const RectangleD& getClipRect();
 		
 		
-		/*! Draws a string to the Window.
-		\param text the string of text to draw
+		/*! Renders a string to the Window.
+			\param text the string of text to draw
 			\param x the x coordinate of the bottom left of the string
 			\param y the y coordinate of the bottom left of the string*/
 		void drawString(const String &text, double x, double y);
-		/*! Draws a string to the Window.
+		/*! Renders a string to the Window.
 			\param text the string of text to draw
 			\param point the coordinates of the bottom left of the string*/
 		void drawString(const String& text, const Vector2d& point);
-		/*! Draws a string to the Window.
+		/*! Renders a string to the Window.
 			\param text the string of text to draw
 			\param x the x coordinate of the bottom left of the string
 			\param y the y coordinate of the bottom left of the string*/
 		void drawString(const WideString& text, double x, double y);
-		/*! Draws a string to the Window.
+		/*! Renders a string to the Window.
 			\param text the string of text to draw
 			\param point the coordinates of the bottom left of the string*/
 		void drawString(const WideString& text, const Vector2d& point);
 		
 		
-		/*! Draws a line to the Window.
+		/*! Renders a line to the Window.
 			\param x1 the x coordinate of the starting point of the line
 			\param y1 the y coordinate of the starting point of the line
 			\param x2 the x coordinate of the ending point of the line
 			\param y2 the y coordinate of the ending point of the line*/
-		void drawLine(double x1,double y1,double x2,double y2);
-		/*! Draws a line to the Window.
+		void drawLine(double x1,double y1,double x2,double y2, double thickness=1.0);
+		/*! Renders a line to the Window.
 			\param point1 the coordinates of the starting point of the line
 			\param point2 the coordinates of the ending point of the line*/
-		void drawLine(const Vector2d& point1, const Vector2d& point2);
+		void drawLine(const Vector2d& point1, const Vector2d& point2, double thickness=1.0);
 		
 		
-		/*! Draws a rectangle outline to the Window.
+		/*! Renders a rectangle outline to the Window.
 			\param x the x coordinate of the rectangle
 			\param y the y coordinate of the rectangle
 			\param width the width of the rectangle
 			\param height the height of the rectangle*/
 		void drawRect(double x,double y,double width,double height);
-		/*! Draws a rectangle outline to the Window.
+		/*! Renders a rectangle outline to the Window.
 			\param rect the rectangle to draw*/
 		void drawRect(const RectangleD& rect);
 		
 		
-		/*! Draws a filled rectangle to the Window.
+		/*! Renders a filled rectangle to the Window.
 			\param x the x coordinate of the rectangle
 			\param y the y coordinate of the rectangle
 			\param width the width of the rectangle
 			\param height the height of the rectangle*/
 		void fillRect(double x,double y,double width,double height);
-		/*! Draws a filled rectangle to the Window.
+		/*! Renders a filled rectangle to the Window.
 			\param rect the rectangle to draw*/
 		void fillRect(const RectangleD& rect);
 		
@@ -197,33 +197,33 @@ namespace fgl
 		//void fillOval(double x1,double y1,double w,double h);
 		//void fillOval(const RectangleD& rect);
 		
-		/*! Draws a polygon outline to the Window
+		/*! Renders a polygon outline to the Window
 			\param polygon the polygon to draw */
 		void drawPolygon(const PolygonD& polygon);
-		/*! Draws a filled polygon to the Window
+		/*! Renders a filled polygon to the Window
 			\param polygon the polygon to draw */
 		void fillPolygon(const PolygonD& polygon);
 		
 		
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param x the x coordinate of the TextureImage
 			\param y the y coordinate of the TextureImage*/
 		void drawImage(TextureImage*img, double x, double y);
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param point the (x,y) coordinate to draw the TextureImage*/
 		void drawImage(TextureImage*img, const Vector2d& point);
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param x the x coordinate of the TextureImage
 			\param y the y coordinate of the TextureImage*/
 		void drawImage(TextureImage*img, double x, double y, double width, double height);
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param rect the destination rectangle to draw the TextureImage*/
 		void drawImage(TextureImage*img, const RectangleD& rect);
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param dx1 the x coordinate of the top left of the destination rectangle to draw the TextureImage
 			\param dy1 the y coordinate of the top left of the destination rectangle to draw the TextureImage
@@ -234,7 +234,7 @@ namespace fgl
 			\param sx2 the x coordinate of the bottom right of the source rectangle inside the TextureImage
 			\param sy2 the y coordinate of the bottom right of the source rectangle inside the TextureImage*/
 		void drawImage(TextureImage*img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2);
-		/*! Draws a TextureImage to the Window.
+		/*! Renders a TextureImage to the Window.
 			\param img the TextureImage to draw
 			\param dst the destination rectangle to draw the TextureImage
 			\param src the source rectangle inside the TextureImage*/
