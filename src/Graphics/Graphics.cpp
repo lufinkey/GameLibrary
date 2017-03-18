@@ -647,9 +647,13 @@ namespace fgl
 				dstRect.height = width;
 			}
 
-			SDL_Point center;
-			center.x = 0;
-			center.y = 0;
+			SDL_Point origin;
+			origin.x = 0;
+			origin.y = 0;
+			if(degrees != 0)
+			{
+				origin.y = (int)widthOffset;
+			}
 
 			Uint8 r = 0;
 			Uint8 g = 0;
@@ -657,7 +661,27 @@ namespace fgl
 			Uint8 a = 0;
 			SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
 
-			drawImageRaw(pixel, dstRect.x, dstRect.y, dstRect.x+dstRect.width, dstRect.y+dstRect.height, 0, 0, 1, 1, degrees, Color(r, g, b, a));
+			SDL_Texture* texture = (SDL_Texture*)pixel->texture;
+
+			SDL_Rect intDstRect;
+			intDstRect.x = (int)dstRect.x;
+			intDstRect.y = (int)dstRect.y;
+			intDstRect.w = (int)((dstRect.x+dstRect.width) - (double)intDstRect.x);
+			intDstRect.h = (int)((dstRect.y+dstRect.height) - (double)intDstRect.y);
+
+			SDL_Rect srcRect;
+			srcRect.x = 0;
+			srcRect.y = 0;
+			srcRect.w = 1;
+			srcRect.h = 1;
+
+			SDL_SetTextureColorMod(texture, r, g, b);
+			SDL_SetTextureAlphaMod(texture, a);
+
+			SDL_RenderCopyEx((SDL_Renderer*)renderer, texture, &srcRect, &intDstRect, degrees, &origin, SDL_FLIP_NONE);
+
+			SDL_SetTextureColorMod(texture, 255, 255, 255);
+			SDL_SetTextureAlphaMod(texture, 255);
 		}
 	}
 
