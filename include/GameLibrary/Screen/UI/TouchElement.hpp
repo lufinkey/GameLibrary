@@ -17,8 +17,6 @@ namespace fgl
 		
 		void setTouchEnabled(bool toggle);
 		bool isTouchEnabled() const;
-
-		virtual bool isPointInside(const Vector2d& point) const;
 		
 	protected:
 		virtual void onMouseEnter(unsigned int mouseIndex);
@@ -34,6 +32,8 @@ namespace fgl
 		
 		virtual bool handleTouchEvent(const TouchEvent& touchEvent) override;
 		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent) override;
+
+		virtual bool isPointInside(const Vector2d& point) const;
 		
 	private:
 		size_t getTouchIndex(unsigned int touchID, bool mouse) const;
