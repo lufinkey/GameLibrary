@@ -736,8 +736,8 @@ namespace fgl
 		double fullheight = height*scaling.y;
 
 		Vector2d topleft = transform.transform(Vector2d(x, y));
-		Vector2d topright = transform.transform(Vector2d(right-1.0, y));
-		Vector2d bottomleft = transform.transform(Vector2d(x, bottom-1.0));
+		Vector2d topright = transform.transform(Vector2d(right, y));
+		Vector2d bottomleft = transform.transform(Vector2d(x, bottom));
 
 		beginDraw();
 
@@ -749,9 +749,9 @@ namespace fgl
 		Color color(r, g, b, a);
 
 		drawImageRaw(pixel, topleft.x, topleft.y, topleft.x+fullwidth, topleft.y+scaling.y, 0, 0, 1, 1, rotation, color);
-		drawImageRaw(pixel, topright.x, topright.y, topright.x+scaling.x, topright.y+fullheight, 0, 0, 1, 1, rotation, color);
+		drawImageRaw(pixel, topright.x, topright.y, topright.x-scaling.x, topright.y+fullheight, 0, 0, 1, 1, -rotation, color);
 		drawImageRaw(pixel, topleft.x, topleft.y, topleft.x+scaling.x, topleft.y+fullheight, 0, 0, 1, 1, rotation, color);
-		drawImageRaw(pixel, bottomleft.x, bottomleft.y, bottomleft.x+fullwidth, bottomleft.y+scaling.y, 0, 0, 1, 1, rotation, color);
+		drawImageRaw(pixel, bottomleft.x, bottomleft.y, bottomleft.x+fullwidth, bottomleft.y-scaling.y, 0, 0, 1, 1, -rotation, color);
 		
 		endDraw();
 	}
@@ -914,6 +914,7 @@ namespace fgl
 		if(flipHort)
 		{
 			center.x = dstrect.w;
+			rotation = -rotation;
 		}
 		else
 		{
@@ -922,6 +923,7 @@ namespace fgl
 		if(flipVert)
 		{
 			center.y = dstrect.h;
+			rotation = -rotation;
 		}
 		else
 		{
