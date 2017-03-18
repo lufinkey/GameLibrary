@@ -42,7 +42,7 @@ namespace fgl
 		/*! Rotates the graphics by the given amount at the given origin.
 			\param degrees the amount, in degrees, to rotate the Graphics
 			\param center the origin of the rotation*/
-		virtual void rotate(double degrees, const Vector2d&center);
+		virtual void rotate(double degrees, const Vector2d& center);
 		
 
 		/*! Scales the graphics by the given amount.
@@ -260,6 +260,8 @@ namespace fgl
 		void drawLineRaw(double x1, double y1, double x2, double y2, double width);
 		//! Gets the line width based on the transform
 		double getTransformedLineWidth(double x1, double y1, double x2, double y2) const;
+		//! Draws an SDL_Texture without calling beginDraw or endDraw or transforming coordinates
+		void drawTextureRaw(void* texture, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod);
 		//! Draws an image without calling beginDraw or endDraw or transforming coordinates
 		void drawImageRaw(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod);
 

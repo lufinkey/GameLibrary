@@ -529,11 +529,14 @@ namespace fgl
 		Vector2u realDimensions = font->measureString(text);
 		Color compColor = color.composite(tintColor);
 
+		bool negWidth = (scaling.x < 0);
+		bool negHeight = (scaling.y < 0);
+
 		beginDraw();
 		
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
-		double scaleRatio = scaling.x/scaling.y;
+		double scaleRatio = Math::abs(scaling.x/scaling.y);
 		double dimensionRatio = (double)dimensions.x/(double)realDimensions.x;
 		for(size_t i = 0; i < glyphs.size(); i++)
 		{
@@ -546,26 +549,20 @@ namespace fgl
 			int h = 0;
 			SDL_QueryTexture(texture, &format, &access, &w, &h);
 			double realWidth = (double)w*scaleRatio;
+			double realHeight = (double)h;
+
+			if(negWidth)
+			{
+				realWidth = -realWidth;
+			}
+			if(negHeight)
+			{
+				realHeight = -realHeight;
+			}
 			
 			Vector2d pnt = transform.transform(Vector2d(x1 + x_offset, y1_top));
-			
-			SDL_Rect rect;
-			rect.x = (int)pnt.x;
-			rect.y = (int)pnt.y;
-			rect.w = (int)realWidth;
-			rect.h = h;
-			
-			SDL_Point center;
-			center.x = 0;
-			center.y = 0;
-			
-			SDL_SetTextureColorMod(texture, compColor.r, compColor.g, compColor.b);
-			SDL_SetTextureAlphaMod(texture, (byte)(compColor.a * alpha));
-			
-			SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)glyph.texture, nullptr, &rect, rotation, &center, SDL_FLIP_NONE);
-			
-			SDL_SetTextureColorMod(texture, 255,255,255);
-			SDL_SetTextureAlphaMod(texture, 255);
+
+			drawTextureRaw(glyph.texture, pnt.x, pnt.y, pnt.x+realWidth, pnt.y+realHeight, 0, 0, (unsigned int)w, (unsigned int)h, rotation, compColor);
 			
 			x_offset += (double)glyphDimensions.x*dimensionRatio;
 		}
@@ -872,16 +869,8 @@ namespace fgl
 		}
 	}
 
-	void Graphics::drawImageRaw(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod)
+	void Graphics::drawTextureRaw(void* texture, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod)
 	{
-		SDL_Texture*texture = (SDL_Texture*)img->texture;
-		unsigned int texWidth = img->width;
-		unsigned int texHeight = img->height;
-		if(texWidth==0 || texHeight==0)
-		{
-			return;
-		}
-
 		bool flipHort = false;
 		bool flipVert = false;
 		SDL_RendererFlip flip = SDL_FLIP_NONE;
@@ -936,13 +925,22 @@ namespace fgl
 		srcrect.w = (int)(sx2 - sx1);
 		srcrect.h = (int)(sy2 - sy1);
 
-		SDL_SetTextureColorMod(texture, colormod.r, colormod.g, colormod.b);
-		SDL_SetTextureAlphaMod(texture, colormod.a);
+		SDL_SetTextureColorMod((SDL_Texture*)texture, colormod.r, colormod.g, colormod.b);
+		SDL_SetTextureAlphaMod((SDL_Texture*)texture, colormod.a);
 
-		SDL_RenderCopyEx((SDL_Renderer*)renderer, texture, &srcrect, &dstrect, rotation, &center, flip);
+		SDL_RenderCopyEx((SDL_Renderer*)renderer, (SDL_Texture*)texture, &srcrect, &dstrect, rotation, &center, flip);
 
-		SDL_SetTextureColorMod(texture, 255, 255, 255);
-		SDL_SetTextureAlphaMod(texture, 255);
+		SDL_SetTextureColorMod((SDL_Texture*)texture, 255, 255, 255);
+		SDL_SetTextureAlphaMod((SDL_Texture*)texture, 255);
+	}
+
+	void Graphics::drawImageRaw(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2, double rotation, const Color& colormod)
+	{
+		void* texture = img->texture;
+		if(texture!=nullptr)
+		{
+			drawTextureRaw(texture, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, rotation, colormod);
+		}
 	}
 	
 	void Graphics::drawImage(TextureImage*img, double x, double y)
