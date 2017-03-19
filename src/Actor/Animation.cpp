@@ -117,33 +117,19 @@ namespace fgl
 		return mirroredVertical;
 	}
 
-	unsigned int Animation::getFrameWidth(size_t frameNum) const
+	Vector2u Animation::getFrameSize(size_t frameNum) const
 	{
 		const Frame& animFrame = frames.get(frameNum);
 		TextureImage* img = animFrame.img;
 		if(img == nullptr)
 		{
-			return 0;
+			return Vector2u(0,0);
 		}
 		else
 		{
 			unsigned int imgwidth = img->getWidth();
-			return (imgwidth/animFrame.cols);
-		}
-	}
-
-	unsigned int Animation::getFrameHeight(size_t frameNum) const
-	{
-		const Frame& animFrame = frames.get(frameNum);
-		TextureImage* img = animFrame.img;
-		if(img == nullptr)
-		{
-			return 0;
-		}
-		else
-		{
 			unsigned int imgheight = img->getHeight();
-			return (imgheight/animFrame.rows);
+			return Vector2u(imgwidth/animFrame.cols, imgheight/animFrame.rows);
 		}
 	}
 

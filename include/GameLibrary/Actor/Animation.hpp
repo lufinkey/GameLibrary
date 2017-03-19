@@ -98,14 +98,10 @@ namespace fgl
 		bool isMirroredVertical() const;
 		
 		
-		/*! Gets the width of the specified frame. No relation to Animation::getFrame().
-			\param frameNum the index of the frame
-			\returns the width of the specified frame*/
-		unsigned int getFrameWidth(size_t frameNum) const;
-		/*! Gets the height of the specified frame. No relation to Animation::getFrame().
+		/*! Gets the size of the specified frame
 			\param frameNum the index of the frame
 			\returns the height of the specified frame*/
-		unsigned int getFrameHeight(size_t frameNum) const;
+		Vector2u getFrameSize(size_t frameNum) const;
 		
 		
 		/*! Adds a single frame.
