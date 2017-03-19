@@ -45,6 +45,7 @@ namespace fgl
 				SDL_DestroyTexture((SDL_Texture*)texture);
 				texture = nullptr;
 			}
+			SDL_SetTextureBlendMode(newTexture, SDL_BLENDMODE_BLEND);
 			texture = (void*)newTexture;
 			width = w;
 			height = h;
