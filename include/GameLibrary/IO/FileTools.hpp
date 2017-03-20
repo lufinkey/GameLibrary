@@ -69,6 +69,10 @@ namespace fgl
 			\param path the path to check
 			\returns true if the path is absolute, or false if the path is relative or is not a valid path */
 		static bool isPathAbsolute(const String& path);
+		/*! Expands a relative path to an absolute path
+			\param path a path to expand to an absolute path
+			\returns an absolute path, or an empty string if the path could not be expanded */
+		static String getFullPath(const String& path);
 		/*! Combines two path strings into a single path.
 			\param first the first half of the path
 			\param second the second half of the path

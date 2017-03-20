@@ -183,6 +183,25 @@ namespace fgl
 			return path.startsWith("/");
 		#endif
 	}
+
+	String FileTools::getFullPath(const String& path)
+	{
+		#if defined(TARGETPLATFORM_WINDOWS)
+			char fullPath[MAX_PATH];
+			if(GetFullPathNameA((const char*)path, MAX_PATH, fullPath, nullptr) != 0)
+			{
+				return fullPath;
+			}
+			return "";
+		#else
+			char fullPath[PATH_MAX];
+			if(realpath((const char*)path, fullPath) != nullptr)
+			{
+				return fullPath;
+			}
+			return "";
+		#endif
+	}
 	
 	String FileTools::combinePathStrings(const String&first, const String&second)
 	{
