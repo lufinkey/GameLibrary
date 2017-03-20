@@ -184,7 +184,7 @@ namespace fgl
 		#endif
 	}
 
-	String FileTools::getFullPath(const String& path)
+	String FileTools::getAbsolutePath(const String& path)
 	{
 		#if defined(TARGETPLATFORM_WINDOWS)
 			char fullPath[MAX_PATH];

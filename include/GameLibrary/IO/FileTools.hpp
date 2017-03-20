@@ -72,7 +72,7 @@ namespace fgl
 		/*! Expands a relative path to an absolute path
 			\param path a path to expand to an absolute path
 			\returns an absolute path, or an empty string if the path could not be expanded */
-		static String getFullPath(const String& path);
+		static String getAbsolutePath(const String& path);
 		/*! Combines two path strings into a single path.
 			\param first the first half of the path
 			\param second the second half of the path
