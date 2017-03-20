@@ -167,6 +167,7 @@ namespace fgl
 		childScreen = nullptr;
 		drawingOverlayTransition = false;
 		isshown = false;
+		drawsParent = false;
 
 		TransitionData_clear(overlayData);
 
@@ -290,7 +291,7 @@ namespace fgl
 	
 	void Screen::drawElements(ApplicationData appData, Graphics graphics) const
 	{
-		if(childScreen == nullptr || overlayData.action != TRANSITION_NONE)
+		if(childScreen==nullptr || childScreen->drawsParent || overlayData.action != TRANSITION_NONE)
 		{
 			if(element != nullptr)
 			{
@@ -603,6 +604,16 @@ namespace fgl
 			return true;
 		}
 		return false;
+	}
+	
+	void Screen::setParentScreenDrawingEnabled(bool enabled)
+	{
+		drawsParent = enabled;
+	}
+	
+	bool Screen::isParentScreenDrawingEnabled() const
+	{
+		return drawsParent;
 	}
 	
 	Window* Screen::getWindow() const

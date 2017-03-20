@@ -126,6 +126,14 @@ namespace fgl
 		bool isDismissing() const;
 		
 		
+		/*! Enables/disables drawing of the presenting Screen behind this Screen
+			\param enabled true to enable drawing the parent Screen, or false to disable drawing the parent Screen */
+		void setParentScreenDrawingEnabled(bool enabled);
+		/*! Tells whether drawing of the presenting Screen behind this Screen is enabled
+			\returns true if parent drawing is enabled, or false if it is disabled */
+		bool isParentScreenDrawingEnabled() const;
+		
+		
 		/*! Gets the Window of the root Screen of this Screen stack
 			\returns a Window pointer, or null if this Screen is not on a Screen stack owned by a Window */
 		Window* getWindow() const;
@@ -194,6 +202,8 @@ namespace fgl
 		ScreenManager* screenManager;
 		
 		bool isshown;
+		bool drawsParent;
+		
 		// Used to tell if the Screen is drawing an overlay. This value is only set within the draw function.
 		mutable bool drawingOverlayTransition;
 		
