@@ -1,7 +1,8 @@
 
 #include <GameLibrary/Graphics/PixelIterator.hpp>
-#include <GameLibrary/Utilities/Math.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
+#include <GameLibrary/Utilities/String.hpp>
 
 namespace fgl
 {
