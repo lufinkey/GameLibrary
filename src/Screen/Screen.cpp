@@ -447,57 +447,7 @@ namespace fgl
 	{
 		if(childScreen == nullptr)
 		{
-			if(parentScreen==nullptr)
-			{
-				throw ScreenNavigationException("Cannot dismiss a Screen that is not presenting another Screen, or being presented on another Screen");
-			}
-			else
-			{
-				Screen* topScreen = getTopScreen();
-				Screen* ownerScreen = parentScreen;
-				bool visible = topScreen->isOnTop();
-				TransitionData_begin(ownerScreen->overlayData, ownerScreen, this, TRANSITION_HIDE, transition, duration, completion);
-				ownerScreen->childScreen = nullptr;
-				setWindow(nullptr);
-				parentScreen = nullptr;
-				//parentElement = nullptr;
-				
-				if(transition == nullptr || duration==0)
-				{
-					if(visible)
-					{
-						topScreen->onWillDisappear(transition);
-						ownerScreen->onWillAppear(transition);
-						
-						TransitionData_clear(ownerScreen->overlayData);
-						
-						topScreen->onDidDisappear(transition);
-						ownerScreen->onDidAppear(transition);
-						
-						if(completion)
-						{
-							completion();
-						}
-					}
-					else
-					{
-						TransitionData_clear(ownerScreen->overlayData);
-						
-						if(completion != nullptr)
-						{
-							completion();
-						}
-					}
-				}
-				else
-				{
-					if(visible)
-					{
-						topScreen->onWillDisappear(transition);
-						ownerScreen->onWillAppear(transition);
-					}
-				}
-			}
+			throw ScreenNavigationException("No Screen is being presented that can be dismissed");
 		}
 		else if(overlayData.action==TRANSITION_HIDE)
 		{
