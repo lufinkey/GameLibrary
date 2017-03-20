@@ -81,12 +81,15 @@ namespace fgl
 				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),
 				4.) already held within a ScreenManager,
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void present(Screen*screen, const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
-		/*! Dismisses the child Screen that is presented on top of this Screen, or if no Screen is presented on top of this Screen, this Screen is dismissed from its parent Screen.
+		void presentChildScreen(Screen* screen, const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		/*! Dismisses the child Screen that is presented on top of this Screen
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition */
-		void dismiss(const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void dismissChildScreen(const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		/*! Dismisses the child Screen that is presented on top of this Screen
+			\param completion a callback to call when the Screen finishes the transition */
+		void dismissChildScreen(const std::function<void()>& completion);
 		
 		
 		/*! Gets the root ScreenElement.

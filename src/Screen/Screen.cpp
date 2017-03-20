@@ -356,7 +356,7 @@ namespace fgl
 		return framesize;
 	}
 	
-	void Screen::present(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	void Screen::presentChildScreen(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(!isshown)
 		{
@@ -443,7 +443,7 @@ namespace fgl
 		}
 	}
 	
-	void Screen::dismiss(const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	void Screen::dismissChildScreen(const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
 	{
 		if(childScreen == nullptr)
 		{
@@ -503,6 +503,11 @@ namespace fgl
 				}
 			}
 		}
+	}
+	
+	void Screen::dismissChildScreen(const std::function<void()>& completion)
+	{
+		dismissChildScreen(defaultPresentTransition, Transition::defaultDuration, completion);
 	}
 	
 	ScreenElement* Screen::getElement() const
