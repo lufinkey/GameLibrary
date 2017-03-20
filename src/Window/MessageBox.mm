@@ -5,7 +5,7 @@
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
 #include "../Application/EventManager.hpp"
-#include "SDL.h"
+#include <SDL.h>
 
 
 
@@ -93,7 +93,7 @@ namespace fgl
 		}
 	}
 	
-	unsigned int MessageBox::show(Window*parent, const String&title, const String&message, const ArrayList<String>&options)
+	unsigned int MessageBox::show(Window* parent, const String& title, const String& message, const ArrayList<String>& options)
 	{
 		NSString* titleStr = nil;
 		if(title.length() > 0)
