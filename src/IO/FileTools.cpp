@@ -202,6 +202,145 @@ namespace fgl
 			return "";
 		#endif
 	}
+
+	String FileTools::getRelativePath(const String& directory, const String& path)
+	{
+		String fullDirectory = getAbsolutePath(directory);
+		if(fullDirectory.length()==0)
+		{
+			return "";
+		}
+		String fullPath = getAbsolutePath(path);
+		if(fullPath.length()==0)
+		{
+			return "";
+		}
+		
+		#ifdef TARGETPLATFORM_WINDOWS
+		{
+			char dirDriveNameStr[_MAX_DRIVE];
+			dirDriveNameStr[0]='\0';
+			_splitpath(fullDirectory.getData(), dirDriveNameStr, nullptr, nullptr, nullptr);
+			char pathDriveNameStr[_MAX_DRIVE];
+			pathDriveNameStr[0]='\0';
+			_splitpath(fullPath.getData(), pathDriveNameStr, nullptr, nullptr, nullptr);
+			if(!String::streq(dirDriveNameStr, pathDriveNameStr))
+			{
+				//If the drive letters are not the same, no relative path can be made
+				return "";
+			}
+		}
+		#endif
+
+		size_t lastComponentStart = 0;
+		for(size_t i=0; i<fullDirectory.length(); i++)
+		{
+			if(i < fullPath.length())
+			{
+				char cD = fullDirectory[i];
+				char cP = fullPath[i];
+				if(cD == cP)
+				{
+					#ifdef TARGETPLATFORM_WINDOWS
+					if(cD=='/' || cD=='\\')
+					#else
+					if(cD=='/')
+					#endif
+					{
+						lastComponentStart = i+1;
+					}
+				}
+				else
+				{
+					//paths differ at some point in the directory path
+					size_t upDirCount = 1;
+					while(i < fullDirectory.length())
+					{
+						char c = fullDirectory[i];
+						#ifdef TARGETPLATFORM_WINDOWS
+						if(c=='/' || c=='\\')
+						#else
+						if(c=='/')
+						#endif
+						{
+							if(i!=(fullDirectory.length()-1))
+							{
+								upDirCount++;
+							}
+						}
+						i++;
+					}
+					String upDirStr;
+					for(size_t i=0; i<upDirCount; i++)
+					{
+						upDirStr += "../";
+					}
+					upDirStr += fullPath.substring(lastComponentStart, fullPath.length());
+					return upDirStr;
+				}
+			}
+			else
+			{
+				//paths differ at some point in the directory path
+				size_t upDirCount = 1;
+				while(i < fullDirectory.length())
+				{
+					char c = fullDirectory[i];
+					#ifdef TARGETPLATFORM_WINDOWS
+					if(c=='/' || c=='\\')
+					#else
+					if(c=='/')
+					#endif
+					{
+						if(i!=(fullDirectory.length()-1))
+						{
+							upDirCount++;
+						}
+					}
+					i++;
+				}
+				String upDirStr;
+				for(size_t i=0; i<upDirCount; i++)
+				{
+					upDirStr += "../";
+				}
+				upDirStr += fullPath.substring(lastComponentStart, fullPath.length());
+				return upDirStr;
+			}
+		}
+
+		if(fullPath.length()==fullDirectory.length())
+		{
+			return ".";
+		}
+		else if(lastComponentStart==fullDirectory.length())
+		{
+			return fullPath.substring(fullDirectory.length(), fullPath.length());
+		}
+		else
+		{
+			char c = fullPath[fullDirectory.length()];
+			#ifdef TARGETPLATFORM_WINDOWS
+			if(c=='/' || c=='\\')
+			#else
+			if(c=='/')
+			#endif
+			{
+				if(fullPath.length()==(fullDirectory.length()+1))
+				{
+					return ".";
+				}
+				else
+				{
+					return fullPath.substring(fullDirectory.length()+1, fullPath.length());
+				}
+			}
+			else
+			{
+				return "../"+fullPath.substring(lastComponentStart, fullPath.length());
+			}
+		}
+	}
 	
 	String FileTools::combinePathStrings(const String&first, const String&second)
 	{

@@ -73,6 +73,11 @@ namespace fgl
 			\param path a path to expand to an absolute path
 			\returns an absolute path, or an empty string if the path could not be expanded */
 		static String getAbsolutePath(const String& path);
+		/*! Gets a path relative to a given directory, from a given path
+			\param directory the directory that the output path will be relative to
+			\param path the path to compress to a relative path
+			\returns a relative path, or an empty string if a relative path could not be made */
+		static String getRelativePath(const String& directory, const String& path);
 		/*! Combines two path strings into a single path.
 			\param first the first half of the path
 			\param second the second half of the path
