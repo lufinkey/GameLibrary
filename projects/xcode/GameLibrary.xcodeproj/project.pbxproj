@@ -107,6 +107,7 @@
 		F199D4AC1E76F4CE008627BE /* CheckboxElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */; };
 		F1A1FAB91E8031EF00D55FFC /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = F1A1FAB81E8031EF00D55FFC /* GameLibrary.mm */; };
 		F1A1FB0A1E8041A300D55FFC /* Thread.mm in Sources */ = {isa = PBXBuildFile; fileRef = F1A1FB091E8041A300D55FFC /* Thread.mm */; };
+		F1A1FB2A1E805A1A00D55FFC /* SegmentedSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A1FB281E805A1A00D55FFC /* SegmentedSelectorElement.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -439,6 +440,8 @@
 		F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckboxElement.cpp; sourceTree = "<group>"; };
 		F1A1FAB81E8031EF00D55FFC /* GameLibrary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLibrary.mm; sourceTree = "<group>"; };
 		F1A1FB091E8041A300D55FFC /* Thread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Thread.mm; sourceTree = "<group>"; };
+		F1A1FB1E1E8059CE00D55FFC /* SegmentedSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SegmentedSelectorElement.hpp; sourceTree = "<group>"; };
+		F1A1FB281E805A1A00D55FFC /* SegmentedSelectorElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SegmentedSelectorElement.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -701,6 +704,7 @@
 				F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
+				F1A1FB1E1E8059CE00D55FFC /* SegmentedSelectorElement.hpp */,
 				F15F59D61E719BFF00FAFD86 /* TextElement.hpp */,
 				F15A1E761E5498C7008D83E5 /* TextInputElement.hpp */,
 				F15A1E771E5498C7008D83E5 /* TouchElement.hpp */,
@@ -968,6 +972,7 @@
 				F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */,
 				F15A1EEB1E5498D1008D83E5 /* ImageElement.cpp */,
 				F15A1EEC1E5498D1008D83E5 /* MenuScreen.cpp */,
+				F1A1FB281E805A1A00D55FFC /* SegmentedSelectorElement.cpp */,
 				F15F59D81E719C1200FAFD86 /* TextElement.cpp */,
 				F15A1EED1E5498D1008D83E5 /* TextInputElement.cpp */,
 				F15A1EEE1E5498D1008D83E5 /* TouchElement.cpp */,
@@ -1379,6 +1384,7 @@
 				F15F5A7C1E71E2DB00FAFD86 /* ButtonElement.cpp in Sources */,
 				F15A1F4F1E5498D1008D83E5 /* Thread.cpp in Sources */,
 				F15A1F401E5498D1008D83E5 /* PopoverTransition.cpp in Sources */,
+				F1A1FB2A1E805A1A00D55FFC /* SegmentedSelectorElement.cpp in Sources */,
 				F15A1F2A1E5498D1008D83E5 /* IllegalNumberOperationException.cpp in Sources */,
 				F15A1F261E5498D1008D83E5 /* BadNumberCastException.cpp in Sources */,
 				F15A1F441E5498D1008D83E5 /* ImageElement.cpp in Sources */,
