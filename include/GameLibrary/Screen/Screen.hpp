@@ -22,7 +22,7 @@ namespace fgl
 		Screen();
 		/*! Constructs a Screen to be the root Screen of a Window. Only one screen in any Screen stack should be delegated as the root Screen.
 			\param window the Window that the Screen will be contained within*/
-		explicit Screen(Window*window);
+		explicit Screen(Window* window);
 		/*! virtual destructor*/
 		virtual ~Screen();
 		
@@ -124,6 +124,11 @@ namespace fgl
 		/*! Tells whether this Screen is in the process of dismissing a presented Screen.
 			\returns true if a transition to dismiss a presented Screen is occurring, or false if otherwise*/
 		bool isDismissing() const;
+		
+		
+		/*! Gets the Window of the root Screen of this Screen stack
+			\returns a Window pointer, or null if this Screen is not on a Screen stack owned by a Window */
+		Window* getWindow() const;
 		
 	protected:
 		/*! Updates the properties of the Screen. This function is called from within the update function, and should not manually be called.

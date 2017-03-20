@@ -604,6 +604,11 @@ namespace fgl
 		}
 		return false;
 	}
+	
+	Window* Screen::getWindow() const
+	{
+		return window;
+	}
 
 #define MOUSEBUTTONS_COUNT 4
 	
