@@ -55,8 +55,8 @@ namespace fgl
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row; rows and columns start from 0
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file, const ArrayList<Vector2u>& sequence);
-		/*! virtual destructor
-			\note this does not unload the images loaded during construction. You must manually unload the contents of the assetManager used.*/
+		/*! destructor
+			\note this does not unload the images loaded during construction or when adding frames. You must manually unload the contents of the assetManager used.*/
 		~Animation();
 		
 		
