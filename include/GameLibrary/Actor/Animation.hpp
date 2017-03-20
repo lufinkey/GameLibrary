@@ -60,6 +60,16 @@ namespace fgl
 		~Animation();
 		
 		
+		/*! Checks equality of the Animation with another Animation
+			\param animation the animation to compare
+			\return true if equal, false if not equal */
+		bool operator==(const Animation& animation) const;
+		/*! Checks non-equality of the Animation with another Animation
+			\param animation the animation to compare
+			\return true if not equal, false if equal */
+		bool operator!=(const Animation& animation) const;
+		
+		
 		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
 			\param graphics the graphics object used to draw the Animation
 			\param frameNum the frame number to draw */
@@ -167,6 +177,9 @@ namespace fgl
 
 			Frame(const String& file, TextureImage* img=nullptr);
 			Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img=nullptr);
+			
+			bool operator==(const Frame& frame) const;
+			bool operator!=(const Frame& frame) const;
 			
 			RectangleU getSourceRect() const;
 		};

@@ -25,6 +25,20 @@ namespace fgl
 	{
 		//
 	}
+	
+	bool Animation::Frame::operator==(const fgl::Animation::Frame& frame) const
+	{
+		if(file==frame.file && rows==frame.rows && cols==frame.cols && x==frame.x && y==frame.y && img==frame.img)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	bool Animation::Frame::operator!=(const fgl::Animation::Frame& frame) const
+	{
+		return !operator==(frame);
+	}
 
 	RectangleU Animation::Frame::getSourceRect() const
 	{
@@ -73,6 +87,31 @@ namespace fgl
 	Animation::~Animation()
 	{
 		//
+	}
+	
+	bool Animation::operator==(const fgl::Animation& animation) const
+	{
+		if(frames.size() != animation.frames.size())
+		{
+			return false;
+		}
+		for(size_t i=0; i<frames.size(); i++)
+		{
+			if(frames[i]!=animation.frames[i])
+			{
+				return false;
+			}
+		}
+		if(fps!=animation.fps || mirroredHorizontal!=animation.mirroredHorizontal || mirroredHorizontal!=animation.mirroredVertical)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	bool Animation::operator!=(const fgl::Animation& animation) const
+	{
+		return !operator==(animation);
 	}
 	
 	void Animation::reloadFrames(AssetManager* assetManager)
