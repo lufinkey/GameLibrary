@@ -196,8 +196,6 @@ namespace fgl
 		
 		/*! default constructor*/
 		Color();
-		/*! copy constructor*/
-		Color(const Color&);
 		/*! Constructs a Color object from an RGBA32 constant
 			\param rgba an RGBA 32 bit constant constant*/
 		Color(const fgl::Color::RGBA32&rgba);
@@ -209,8 +207,6 @@ namespace fgl
 		Color(byte r, byte g, byte b, byte a=255);
 		
 		
-		/*! assignment operator*/
-		Color&operator=(const Color&);
 		/*! assignment operator*/
 		Color&operator=(const fgl::Color::RGBA32&rgba);
 		/*! equality operator*/

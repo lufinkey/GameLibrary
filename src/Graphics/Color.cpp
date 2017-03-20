@@ -5,19 +5,15 @@
 namespace fgl
 {
 	Color::Color()
+		: r(255), g(255), b(255), a(255)
 	{
-		r = 255;
-		g = 255;
-		b = 255;
-		a = 255;
+		//
 	}
 	
-	Color::Color(byte R, byte G, byte B, byte A)
+	Color::Color(byte r, byte g, byte b, byte a)
+		: r(r), g(g), b(b), a(a)
 	{
-		r = R;
-		g = G;
-		b = B;
-		a = A;
+		//
 	}
 	
 	Color::Color(const fgl::Color::RGBA32& rgba)
@@ -27,23 +23,6 @@ namespace fgl
 		g = rgbaArray[2];
 		b = rgbaArray[1];
 		a = rgbaArray[0];
-	}
-	
-	Color::Color(const Color&color)
-	{
-		r = color.r;
-		g = color.g;
-		b = color.b;
-		a = color.a;
-	}
-	
-	Color& Color::operator=(const Color&color)
-	{
-		r = color.r;
-		g = color.g;
-		b = color.b;
-		a = color.a;
-		return *this;
 	}
 
 	Color& Color::operator=(const fgl::Color::RGBA32& rgba)
