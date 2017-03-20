@@ -105,6 +105,8 @@
 		F17D96C81E6DB4C0003F4D85 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C71E6DB4C0003F4D85 /* Viewport.cpp */; };
 		F17D96CA1E6DB4C4003F4D85 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */; };
 		F199D4AC1E76F4CE008627BE /* CheckboxElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */; };
+		F1A1FAB91E8031EF00D55FFC /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = F1A1FAB81E8031EF00D55FFC /* GameLibrary.mm */; };
+		F1A1FB0A1E8041A300D55FFC /* Thread.mm in Sources */ = {isa = PBXBuildFile; fileRef = F1A1FB091E8041A300D55FFC /* Thread.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -435,6 +437,8 @@
 		F17D96C91E6DB4C4003F4D85 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CheckboxElement.hpp; sourceTree = "<group>"; };
 		F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckboxElement.cpp; sourceTree = "<group>"; };
+		F1A1FAB81E8031EF00D55FFC /* GameLibrary.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLibrary.mm; sourceTree = "<group>"; };
+		F1A1FB091E8041A300D55FFC /* Thread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Thread.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -790,6 +794,7 @@
 				F15A1EF01E5498D1008D83E5 /* Utilities */,
 				F15A1F041E5498D1008D83E5 /* Window */,
 				F15A1ECC1E5498D1008D83E5 /* GameLibrary.cpp */,
+				F1A1FAB81E8031EF00D55FFC /* GameLibrary.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -981,6 +986,7 @@
 				F15A1EF61E5498D1008D83E5 /* Number.cpp */,
 				F15A1EF71E5498D1008D83E5 /* Plist.cpp */,
 				F15A1EF81E5498D1008D83E5 /* Thread.cpp */,
+				F1A1FB091E8041A300D55FFC /* Thread.mm */,
 				F15A1F031E5498D1008D83E5 /* Tools.cpp */,
 			);
 			path = Utilities;
@@ -1398,6 +1404,7 @@
 				F15A1F391E5498D1008D83E5 /* AutoLayoutCalculator.cpp in Sources */,
 				F15A1F221E5498D1008D83E5 /* OutOfBoundsException.cpp in Sources */,
 				F15A1F361E5498D1008D83E5 /* FileTools.cpp in Sources */,
+				F1A1FB0A1E8041A300D55FFC /* Thread.mm in Sources */,
 				F15A1F531E5498D1008D83E5 /* time64.c in Sources */,
 				F15A1F461E5498D1008D83E5 /* TextInputElement.cpp in Sources */,
 				F15A1F421E5498D1008D83E5 /* ActorMenuElement.cpp in Sources */,
@@ -1414,6 +1421,7 @@
 				F15A1F4C1E5498D1008D83E5 /* Math.cpp in Sources */,
 				F15A1F151E5498D1008D83E5 /* Sound.cpp in Sources */,
 				F15A1F161E5498D1008D83E5 /* BadCastException.cpp in Sources */,
+				F1A1FAB91E8031EF00D55FFC /* GameLibrary.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

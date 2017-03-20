@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <functional>
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 

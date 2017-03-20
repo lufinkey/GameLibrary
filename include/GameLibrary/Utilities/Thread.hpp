@@ -42,6 +42,11 @@ namespace fgl
 		/*! Tells if the current thread is the main thread
 			\returns true if the current thread is the main thread */
 		static bool isMainThread();
+		
+		/*! Runs a given function inside of an autorelease pool.
+			\note this function only has an effect on macOS and iOS targets, but the function will be run regardless of the target
+			\param func the function to run inside of an autorelease pool */
+		static void runInAutoreleasePool(const std::function<void()>& func);
 
 		/*! Calls all main thread callbacks (if calling thread is main thread) */
 		static void update();

@@ -14,47 +14,54 @@ namespace fgl
 	
 	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists, const String& defaultExtension)
 	{
-		if(fileExists)
+		@autoreleasepool
 		{
-			NSOpenPanel* panel = [NSOpenPanel openPanel];
-			[panel setCanChooseFiles:YES];
-			[panel setCanChooseDirectories:NO];
-			[panel setAllowsMultipleSelection:NO];
-			if(startingDir.length() > 0)
+			if(fileExists)
 			{
-				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+				NSOpenGLContext* glContext = [NSOpenGLContext currentContext];
+				NSOpenPanel* panel = [NSOpenPanel openPanel];
+				[panel setCanChooseFiles:YES];
+				[panel setCanChooseDirectories:NO];
+				[panel setAllowsMultipleSelection:NO];
+				if(startingDir.length() > 0)
+				{
+					[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+				}
+				if(defaultExtension.length() > 0)
+				{
+					panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
+					panel.allowsOtherFileTypes = YES;
+				}
+				[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
+				NSInteger clicked = [panel runModal];
+				[glContext makeCurrentContext];
+				if(clicked == NSFileHandlingPanelOKButton)
+				{
+					NSURL* url = [panel URL];
+					return [[url path] UTF8String];
+				}
 			}
-			if(defaultExtension.length() > 0)
+			else
 			{
-				panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
-				panel.allowsOtherFileTypes = YES;
-			}
-			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
-			NSInteger clicked = [panel runModal];
-			if(clicked == NSFileHandlingPanelOKButton)
-			{
-				NSURL* url = [panel URL];
-				return [[url path] UTF8String];
-			}
-		}
-		else
-		{
-			NSSavePanel* panel = [NSSavePanel savePanel];
-			if(startingDir.length() > 0)
-			{
-				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
-			}
-			if(defaultExtension.length() > 0)
-			{
-				panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
-				panel.allowsOtherFileTypes = YES;
-			}
-			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
-			NSInteger clicked = [panel runModal];
-			if(clicked == NSFileHandlingPanelOKButton)
-			{
-				NSURL* url = [panel URL];
-				return [[url path] UTF8String];
+				NSOpenGLContext* glContext = [NSOpenGLContext currentContext];
+				NSSavePanel* panel = [NSSavePanel savePanel];
+				if(startingDir.length() > 0)
+				{
+					[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+				}
+				if(defaultExtension.length() > 0)
+				{
+					panel.allowedFileTypes = @[[NSString stringWithUTF8String:(const char*)defaultExtension]];
+					panel.allowsOtherFileTypes = YES;
+				}
+				[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
+				NSInteger clicked = [panel runModal];
+				[glContext makeCurrentContext];
+				if(clicked == NSFileHandlingPanelOKButton)
+				{
+					NSURL* url = [panel URL];
+					return [[url path] UTF8String];
+				}
 			}
 		}
 		return "";
@@ -62,22 +69,27 @@ namespace fgl
 	
 	String FileTools::openFolderPicker(const String& title, const String& startingDir)
 	{
-		NSOpenPanel *panel = [NSOpenPanel openPanel];
-		[panel setCanChooseFiles:NO];
-		[panel setCanChooseDirectories:YES];
-		[panel setAllowsMultipleSelection:NO];
-		if(startingDir.length() > 0)
+		@autoreleasepool
 		{
-			[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			NSOpenGLContext* glContext = [NSOpenGLContext currentContext];
+			NSOpenPanel *panel = [NSOpenPanel openPanel];
+			[panel setCanChooseFiles:NO];
+			[panel setCanChooseDirectories:YES];
+			[panel setAllowsMultipleSelection:NO];
+			if(startingDir.length() > 0)
+			{
+				[panel setDirectoryURL:[NSURL fileURLWithPath:[NSString stringWithUTF8String:(const char*)startingDir] isDirectory:YES]];
+			}
+			[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
+			NSInteger clicked = [panel runModal];
+			if(clicked == NSFileHandlingPanelOKButton)
+			{
+				NSURL* url = [panel URL];
+				return [[url path] UTF8String];
+			}
+			[glContext makeCurrentContext];
+			return "";
 		}
-		[panel setTitle:[NSString stringWithUTF8String:(const char*)title]];
-		NSInteger clicked = [panel runModal];
-		if(clicked == NSFileHandlingPanelOKButton)
-		{
-			NSURL* url = [panel URL];
-			return [[url path] UTF8String];
-		}
-		return "";
 	}
 	
 #elif defined(TARGETPLATFORM_IOS)

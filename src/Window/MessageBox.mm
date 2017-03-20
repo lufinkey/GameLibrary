@@ -44,120 +44,126 @@ namespace fgl
 {
 	unsigned int MessageBox::show(Window* parent, const String& title, const String& message)
 	{
-		NSString* titleStr = nil;
-		if(title.length() > 0)
+		@autoreleasepool
 		{
-			titleStr = (NSString*)title;
-		}
-		NSString* messageStr = nil;
-		if(message.length() > 0)
-		{
-			messageStr = (NSString*)message;
-		}
-		
-		if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
-		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
-															message:messageStr
-															delegate:nil
-															cancelButtonTitle:@"OK"
-															otherButtonTitles:nil];
-			[alert show];
-			EventManager::update(false);
-			while(alert.visible)
+			NSString* titleStr = nil;
+			if(title.length() > 0)
 			{
-				Thread::sleep(16);
-				EventManager::update(false);
+				titleStr = (NSString*)title;
 			}
-			return 0;
-		}
-		else
-		{
-			UIViewController* rootVC = Window_getRootViewController(parent);
-			if(rootVC==nil)
+			NSString* messageStr = nil;
+			if(message.length() > 0)
 			{
-				return -1;
+				messageStr = (NSString*)message;
 			}
 			
-			UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleStr message:messageStr preferredStyle:UIAlertControllerStyleAlert];
-			[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-			[rootVC presentViewController:alert animated:YES completion:nil];
-			
-			EventManager::update(false);
-			while(alert.presentingViewController != nil)
+			if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
 			{
-				Thread::sleep(16);
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
+																message:messageStr
+																delegate:nil
+																cancelButtonTitle:@"OK"
+																otherButtonTitles:nil];
+				[alert show];
 				EventManager::update(false);
+				while(alert.visible)
+				{
+					Thread::sleep(16);
+					EventManager::update(false);
+				}
+				return 0;
 			}
-			return 0;
+			else
+			{
+				UIViewController* rootVC = Window_getRootViewController(parent);
+				if(rootVC==nil)
+				{
+					return -1;
+				}
+				
+				UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleStr message:messageStr preferredStyle:UIAlertControllerStyleAlert];
+				[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+				[rootVC presentViewController:alert animated:YES completion:nil];
+				
+				EventManager::update(false);
+				while(alert.presentingViewController != nil)
+				{
+					Thread::sleep(16);
+					EventManager::update(false);
+				}
+				return 0;
+			}
 		}
 	}
 	
 	unsigned int MessageBox::show(Window* parent, const String& title, const String& message, const ArrayList<String>& options)
 	{
-		NSString* titleStr = nil;
-		if(title.length() > 0)
+		@autoreleasepool
 		{
-			titleStr = (NSString*)title;
-		}
-		NSString* messageStr = nil;
-		if(message.length() > 0)
-		{
-			messageStr = (NSString*)message;
-		}
-		
-		if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
-		{
-			FGLMessageBoxHandler* messageHandler = [[FGLMessageBoxHandler alloc] init];
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
-															message:messageStr
-														   delegate:messageHandler
-												  cancelButtonTitle:nil
-												  otherButtonTitles:nil];
-			
-			for(size_t i=0; i<options.size(); i++)
+			NSString* titleStr = nil;
+			if(title.length() > 0)
 			{
-				[alert addButtonWithTitle:(NSString*)options[i]];
+				titleStr = (NSString*)title;
 			}
-			[alert show];
-			
-			EventManager::update(false);
-			while(alert.visible)
+			NSString* messageStr = nil;
+			if(message.length() > 0)
 			{
-				Thread::sleep(16);
+				messageStr = (NSString*)message;
+			}
+			
+			if(SYSTEM_VERSION_LESS_THAN(@"8.0"))
+			{
+				FGLMessageBoxHandler* messageHandler = [[FGLMessageBoxHandler alloc] init];
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:titleStr
+																message:messageStr
+															   delegate:messageHandler
+													  cancelButtonTitle:nil
+													  otherButtonTitles:nil];
+				
+				for(size_t i=0; i<options.size(); i++)
+				{
+					[alert addButtonWithTitle:(NSString*)options[i]];
+				}
+				[alert show];
+				
 				EventManager::update(false);
+				while(alert.visible)
+				{
+					Thread::sleep(16);
+					EventManager::update(false);
+				}
+				NSInteger result = messageHandler.result;
+				return (unsigned int)result;
 			}
-			NSInteger result = messageHandler.result;
-			return (unsigned int)result;
-		}
-		else
-		{
-			UIViewController* rootVC = Window_getRootViewController(parent);
-			if(rootVC==nil)
+			else
 			{
-				return -1;
-			}
-			
-			UIAlertController* alert = [UIAlertController alertControllerWithTitle:(NSString*)title message:(NSString*)message preferredStyle:UIAlertControllerStyleAlert];
-			
-			__block unsigned int selectedIndex = -1;
-			for(size_t i=0; i<options.size(); i++)
-			{
-				[alert addAction:[UIAlertAction actionWithTitle:(NSString*)options[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
-					selectedIndex = (unsigned int)i;
-				}]];
-			}
-			
-			[rootVC presentViewController:alert animated:YES completion:nil];
-			
-			EventManager::update(false);
-			while(alert.presentingViewController != nil)
-			{
-				Thread::sleep(16);
+				UIViewController* rootVC = Window_getRootViewController(parent);
+				if(rootVC==nil)
+				{
+					return -1;
+				}
+				
+				UIAlertController* alert = [UIAlertController alertControllerWithTitle:(NSString*)title message:(NSString*)message preferredStyle:UIAlertControllerStyleAlert];
+				
+				__block unsigned int selectedIndex = -1;
+				for(size_t i=0; i<options.size(); i++)
+				{
+					[alert addAction:[UIAlertAction actionWithTitle:(NSString*)options[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+						selectedIndex = (unsigned int)i;
+					}]];
+				}
+				
+				[rootVC presentViewController:alert animated:YES completion:nil];
+				
 				EventManager::update(false);
+				while(alert.presentingViewController != nil)
+				{
+					Thread::sleep(16);
+					EventManager::update(false);
+				}
+				
+				return selectedIndex;
 			}
-			
-			return selectedIndex;
 		}
 	}
 }

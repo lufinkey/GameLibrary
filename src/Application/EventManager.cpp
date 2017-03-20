@@ -95,157 +95,159 @@ namespace fgl
 
 		EventManager_quitRequest = false;
 		
-		//event polling
-		SDL_Event event;
-		while(SDL_PollEvent(&event))
-		{
-			bool skip = false;
+		Thread::runInAutoreleasePool([&]{
+			//event polling
+			SDL_Event event;
+			while(SDL_PollEvent(&event))
+			{
+				bool skip = false;
+				if(resizingWindow != nullptr)
+				{
+					if(event.type==SDL_WINDOWEVENT && event.window.event==SDL_WINDOWEVENT_RESIZED)
+					{
+						if(resizingWindow->viewport != nullptr && resizingWindow->viewport->matchesWindow())
+						{
+							resizingWindow->viewport->setSize((double)event.window.data1, (double)event.window.data2);
+						}
+						resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, event.window.data1, event.window.data2, true);
+						skip = true;
+					}
+					else
+					{
+						resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, data1, data2, false);
+					}
+					resizingWindow = nullptr;
+				}
+				
+				if(!skip && !EventManager_quitRequest)
+				{
+					switch(event.type)
+					{
+						case SDL_MOUSEMOTION:
+						{
+							Window*window = EventManager::getWindowFromID(event.motion.windowID);
+							//TODO add support for multiple mouse indexes
+							Mouse::handleMouseMovement(window, 0, Vector2d((double)event.motion.x, (double)event.motion.y), Vector2d((double)event.motion.xrel, (double)event.motion.yrel));
+						}
+						break;
+						
+						case SDL_MOUSEBUTTONDOWN:
+						case SDL_MOUSEBUTTONUP:
+						{
+							Window*window = EventManager::getWindowFromID(event.button.windowID);
+							Mouse::Button button = Mouse_SDL_to_MouseButton(event.button.button);
+							if(event.button.state == SDL_PRESSED)
+							{
+								//TODO add support for multiple mouse indexes
+								Mouse::handleButtonPress(window, 0, button, Vector2d((double)event.button.x, (double)event.button.y));
+							}
+							else if(event.button.state == SDL_RELEASED)
+							{
+								//TODO add support for multiple mouse indexes
+								Mouse::handleButtonRelease(window, 0, button, Vector2d((double)event.button.x, (double)event.button.y));
+							}
+						}
+						break;
+						
+						case SDL_FINGERMOTION:
+						case SDL_FINGERUP:
+						case SDL_FINGERDOWN:
+						{
+							Window*window = EventManager_windows.get(0);
+							Vector2u winSize = window->getSize();
+							Vector2d fingerpos = Vector2d(((double)event.tfinger.x)*((double)winSize.x), ((double)event.tfinger.y)*((double)winSize.y));
+							if(event.tfinger.type==SDL_FINGERDOWN)
+							{
+								Multitouch::handleTouchDown(window, (long long)event.tfinger.fingerId, fingerpos);
+							}
+							else if(event.tfinger.type == SDL_FINGERUP)
+							{
+								Multitouch::handleTouchUp(window, (long long)event.tfinger.fingerId, fingerpos);
+							}
+							else if(event.tfinger.type == SDL_FINGERMOTION)
+							{
+								Vector2d diffingerpos = Vector2d(((double)event.tfinger.dx)*((double)winSize.x), ((double)event.tfinger.dy)*((double)winSize.y));
+								Multitouch::handleTouchMove(window, (long long)event.tfinger.fingerId, fingerpos, diffingerpos);
+							}
+						}
+						break;
+						
+						case SDL_KEYDOWN:
+						case SDL_KEYUP:
+						{
+							if(event.key.state==SDL_PRESSED)
+							{
+								Keyboard::handleKeyPress(Keyboard_SDLK_to_Key(event.key.keysym.sym));
+							}
+							else if(event.key.state == SDL_RELEASED)
+							{
+								Keyboard::handleKeyRelease(Keyboard_SDLK_to_Key(event.key.keysym.sym));
+							}
+						}
+						break;
+						
+						case SDL_TEXTINPUT:
+						{
+							Keyboard::handleTextInput(event.text.text);
+						}
+						break;
+						
+						case SDL_TEXTEDITING:
+						{
+							//
+						}
+						break;
+						
+						case SDL_WINDOWEVENT:
+						{
+							Window* window = EventManager::getWindowFromID(event.window.windowID);
+							if(window != nullptr)
+							{
+								if(event.window.event == SDL_WINDOWEVENT_CLOSE)
+								{
+									bool closeWin = true;
+									window->callListenerEvent(event.window.event, event.window.data1, event.window.data2, false, &closeWin);
+									if(closeWin)
+									{
+										window->destroy();
+									}
+								}
+								else if(event.window.event!=SDL_WINDOWEVENT_SIZE_CHANGED)
+								{
+									window->callListenerEvent(event.window.event, event.window.data1, event.window.data2, false);
+								}
+								else
+								{
+									resizingWindow = window;
+								}
+							}
+						}
+						break;
+						
+						case SDL_QUIT:
+						EventManager_quitRequest = true;
+						break;
+						
+						//TODO add event types here
+					}
+				}
+				skip = false;
+			}
+			
 			if(resizingWindow != nullptr)
 			{
-				if(event.type==SDL_WINDOWEVENT && event.window.event==SDL_WINDOWEVENT_RESIZED)
-				{
-					if(resizingWindow->viewport != nullptr && resizingWindow->viewport->matchesWindow())
-					{
-						resizingWindow->viewport->setSize((double)event.window.data1, (double)event.window.data2);
-					}
-					resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, event.window.data1, event.window.data2, true);
-					skip = true;
-				}
-				else
-				{
-					resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, data1, data2, false);
-				}
+				resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, data1, data2, false);
 				resizingWindow = nullptr;
 			}
 			
-			if(!skip && !EventManager_quitRequest)
+			if(updateInputs)
 			{
-				switch(event.type)
-				{
-					case SDL_MOUSEMOTION:
-					{
-						Window*window = EventManager::getWindowFromID(event.motion.windowID);
-						//TODO add support for multiple mouse indexes
-						Mouse::handleMouseMovement(window, 0, Vector2d((double)event.motion.x, (double)event.motion.y), Vector2d((double)event.motion.xrel, (double)event.motion.yrel));
-					}
-					break;
-					
-					case SDL_MOUSEBUTTONDOWN:
-					case SDL_MOUSEBUTTONUP:
-					{
-						Window*window = EventManager::getWindowFromID(event.button.windowID);
-						Mouse::Button button = Mouse_SDL_to_MouseButton(event.button.button);
-						if(event.button.state == SDL_PRESSED)
-						{
-							//TODO add support for multiple mouse indexes
-							Mouse::handleButtonPress(window, 0, button, Vector2d((double)event.button.x, (double)event.button.y));
-						}
-						else if(event.button.state == SDL_RELEASED)
-						{
-							//TODO add support for multiple mouse indexes
-							Mouse::handleButtonRelease(window, 0, button, Vector2d((double)event.button.x, (double)event.button.y));
-						}
-					}
-					break;
-					
-					case SDL_FINGERMOTION:
-					case SDL_FINGERUP:
-					case SDL_FINGERDOWN:
-					{
-						Window*window = EventManager_windows.get(0);
-						Vector2u winSize = window->getSize();
-						Vector2d fingerpos = Vector2d(((double)event.tfinger.x)*((double)winSize.x), ((double)event.tfinger.y)*((double)winSize.y));
-						if(event.tfinger.type==SDL_FINGERDOWN)
-						{
-							Multitouch::handleTouchDown(window, (long long)event.tfinger.fingerId, fingerpos);
-						}
-						else if(event.tfinger.type == SDL_FINGERUP)
-						{
-							Multitouch::handleTouchUp(window, (long long)event.tfinger.fingerId, fingerpos);
-						}
-						else if(event.tfinger.type == SDL_FINGERMOTION)
-						{
-							Vector2d diffingerpos = Vector2d(((double)event.tfinger.dx)*((double)winSize.x), ((double)event.tfinger.dy)*((double)winSize.y));
-							Multitouch::handleTouchMove(window, (long long)event.tfinger.fingerId, fingerpos, diffingerpos);
-						}
-					}
-					break;
-					
-					case SDL_KEYDOWN:
-					case SDL_KEYUP:
-					{
-						if(event.key.state==SDL_PRESSED)
-						{
-							Keyboard::handleKeyPress(Keyboard_SDLK_to_Key(event.key.keysym.sym));
-						}
-						else if(event.key.state == SDL_RELEASED)
-						{
-							Keyboard::handleKeyRelease(Keyboard_SDLK_to_Key(event.key.keysym.sym));
-						}
-					}
-					break;
-					
-					case SDL_TEXTINPUT:
-					{
-						Keyboard::handleTextInput(event.text.text);
-					}
-					break;
-					
-					case SDL_TEXTEDITING:
-					{
-						//
-					}
-					break;
-					
-					case SDL_WINDOWEVENT:
-					{
-						Window* window = EventManager::getWindowFromID(event.window.windowID);
-						if(window != nullptr)
-						{
-							if(event.window.event == SDL_WINDOWEVENT_CLOSE)
-							{
-								bool closeWin = true;
-								window->callListenerEvent(event.window.event, event.window.data1, event.window.data2, false, &closeWin);
-								if(closeWin)
-								{
-									window->destroy();
-								}
-							}
-							else if(event.window.event!=SDL_WINDOWEVENT_SIZE_CHANGED)
-							{
-								window->callListenerEvent(event.window.event, event.window.data1, event.window.data2, false);
-							}
-							else
-							{
-								resizingWindow = window;
-							}
-						}
-					}
-					break;
-					
-					case SDL_QUIT:
-					EventManager_quitRequest = true;
-					break;
-					
-					//TODO add event types here
-				}
+				Keyboard::update();
+				Mouse::update();
+				Multitouch::update();
 			}
-			skip = false;
-		}
-		
-		if(resizingWindow != nullptr)
-		{
-			resizingWindow->callListenerEvent(SDL_WINDOWEVENT_RESIZED, data1, data2, false);
-			resizingWindow = nullptr;
-		}
-		
-		if(updateInputs)
-		{
-			Keyboard::update();
-			Mouse::update();
-			Multitouch::update();
-		}
-		Thread::update();
+			Thread::update();
+		});
 	}
 	
 	Keyboard::Key Keyboard_SDLK_to_Key(int code)

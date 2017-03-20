@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Utilities/Thread.hpp>
+#include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Types.hpp>
 #include <condition_variable>
 #include <iostream>
@@ -220,6 +221,13 @@ namespace fgl
 		}
 		return false;
 	}
+	
+	#if !defined(TARGETPLATFORM_MAC) && !defined(TARGETPLATFORM_IOS)
+	void Thread::runInAutoreleasePool(const std::function<void()>& func)
+	{
+		func();
+	}
+	#endif
 	
 	void Thread::update()
 	{

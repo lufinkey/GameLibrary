@@ -6,6 +6,10 @@
 #include <GameLibrary/Exception/Utilities/BadNumberCastException.hpp>
 #include "String.hpp"
 
+#ifdef check
+#undef check
+#endif
+
 namespace fgl
 {
 	class Number
