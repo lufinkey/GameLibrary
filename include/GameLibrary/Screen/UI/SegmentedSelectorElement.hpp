@@ -23,6 +23,15 @@ namespace fgl
 		
 		void setSelectionHandler(const std::function<void(size_t index)>& handler);
 		const std::function<void(size_t)>& getSelectionHandler() const;
+
+		void setColor(const Color& color);
+		const Color& getColor() const;
+
+		void setFont(Font* font);
+		Font* getFont() const;
+
+		void setFontSize(unsigned int fontSize);
+		unsigned int getFontSize() const;
 		
 	private:
 		ArrayList<String> items;
@@ -30,5 +39,9 @@ namespace fgl
 		std::function<void(size_t)> selectionHandler;
 		
 		ArrayList<ButtonElement*> itemElements;
+
+		Color color;
+		Font* font;
+		unsigned int fontSize;
 	};
 }
