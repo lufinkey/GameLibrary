@@ -19,16 +19,10 @@ namespace fgl
 	{
 		double zoom = startZoom + ((double)progress * (endZoom - startZoom));
 
-		Vector2d e2size = screen2->getSize();
-		Vector2d e2center = Vector2d(e2size.x/2, e2size.y/2);
-
-		double xOffset = (e2size.x - (e2size.x * zoom)) / (double)(2 * zoom);
-		double yOffset = (e2size.y - (e2size.y * zoom)) / (double)(2 * zoom);
+		Vector2d e1size = screen1->getSize();
 
 		screen1->draw(appData, graphics);
-
-		graphics.translate(xOffset+(e2center.x*zoom), yOffset+(e2center.y*zoom));
-		graphics.scale(zoom, zoom);
+		graphics.scale(zoom, zoom, e1size.x/2, e1size.y/2);
 		graphics.setAlpha((float)progress);
 
 		screen2->draw(appData, graphics);
