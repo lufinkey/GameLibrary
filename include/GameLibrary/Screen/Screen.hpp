@@ -16,7 +16,7 @@ namespace fgl
 		friend class ScreenManager;
 	public:
 		/*! The default Transition to use for presenting or dismissing Screen objects*/
-		static const Transition* const defaultPresentTransition;
+		static const Transition* const defaultPresentationTransition;
 		
 		/*! default constructor*/
 		Screen();
@@ -70,24 +70,51 @@ namespace fgl
 		virtual void onDidDisappear(const Transition* transition);
 		
 		
+		/*! Gives the default transition to use when being presented by another Screen
+			\returns a Transition pointer, or null to use no transition */
+		virtual const Transition* getDefaultPresentationTransition() const;
+		/*! Gives the default length of time to take when presenting this Screen on another Screen
+			\returns a length of time, in milliseconds, that the presentation will last */
+		virtual long long getDefaultPresentationDuration() const;
+		/*! Gives the default transition to use when being dismissed from another Screen.
+			\note this transition is played backwards, to allow for using the same transition for presenting and dismissing
+			\returns a Transition pointer, or null to use no transition */
+		virtual const Transition* getDefaultDismissalTransition() const;
+		/*! Gives the default length of time to take when dismissing this Screen from another Screen
+			\returns a length of time, in milliseconds, that the dismissal will last */
+		virtual long long getDefaultDismissalDuration() const;
+		
+		
 		/*! Presents another Screen on top of this Screen. Only one child Screen can be presented to a Screen at a time, but the top level Screen can always present another Screen.
 			\param screen the Screen to present
-			\param transition a Transition to use to present the Screen
+			\param transition a Transition to use to present the Screen, or null to present the Screen without a transition
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition
-			\throws fgl::IllegalArgumentException if the Screen being presented is:
-				1.) null
-				2.) already presented on another Screen,
-				3.) a root Screen \see fgl::Screen::Screen(fgl::Window*),
-				4.) already held within a ScreenManager,
+			\throws fgl::IllegalArgumentException if:
+				1.) the Screen being presented is null
+				2.) the Screen being presented is already presented on another Screen,
+				3.) the Screen being presented is a root Screen \see fgl::Screen::Screen(fgl::Window*),
+				4.) the Screen being presented is already held within a ScreenManager,
+				5.) duration is negative
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void presentChildScreen(Screen* screen, const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& completion=nullptr);
+		/*! Presents another Screen on top of this Screen. Only one child Screen can be presented to a Screen at a time, but the top level Screen can always present another Screen. This function uses the presented Screen's getDefaultPresentationTransition function for the transition, and getDefaultPresentationDuration for the duration.
+			\param screen the Screen to present
+			\param completion a callback to call when the Screen finishes the transition
+			\throws fgl::IllegalArgumentException if:
+				1.) the Screen being presented is null
+				2.) the Screen being presented is already presented on another Screen,
+				3.) the Screen being presented is a root Screen \see fgl::Screen::Screen(fgl::Window*),
+				4.) the Screen being presented is already held within a ScreenManager,
+				5.) duration is negative
+			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
+		void presentChildScreen(Screen* screen, const std::function<void()>& completion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition */
-		void dismissChildScreen(const Transition* transition=defaultPresentTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
-		/*! Dismisses the child Screen that is presented on top of this Screen
+		void dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& completion=nullptr);
+		/*! Dismisses the child Screen that is presented on top of this Screen. This function uses the presented Screen's getDefaultDismissalTransition function for the transition, and getDefaultDismissalDuration for the duration
 			\param completion a callback to call when the Screen finishes the transition */
 		void dismissChildScreen(const std::function<void()>& completion);
 		
@@ -176,12 +203,12 @@ namespace fgl
 			long long startTime;
 			const Transition*transition;
 			double progress;
-			unsigned long long duration;
+			long long duration;
 			std::function<void()> completion;
 		} TransitionData;
 		
 		static void TransitionData_clear(TransitionData& data);
-		static void TransitionData_begin(TransitionData& data, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, unsigned long long duration, const std::function<void()>& completion=nullptr);
+		static void TransitionData_begin(TransitionData& data, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, long long duration, const std::function<void()>& completion=nullptr);
 		/*Makes sure the TransitionData is initialized, if it requires it.*/
 		static void TransitionData_checkInitialization(ApplicationData& appData, TransitionData& data);
 		/*Applies any new progress to the transition.

@@ -8,7 +8,7 @@
 
 namespace fgl
 {
-	const Transition* const Screen::defaultPresentTransition = new PopoverTransition(PopoverTransition::POPOVER_UP);
+	const Transition* const Screen::defaultPresentationTransition = new PopoverTransition(PopoverTransition::POPOVER_UP);
 	
 	void Screen::updateFrame(Window* window)
 	{
@@ -80,7 +80,7 @@ namespace fgl
 		data.completion = nullptr;
 	}
 	
-	void Screen::TransitionData_begin(TransitionData& data, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
+	void Screen::TransitionData_begin(TransitionData& data, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, long long duration, const std::function<void()>& completion)
 	{
 		data.screen = screen;
 		data.transitionScreen = transitionScreen;
@@ -357,7 +357,27 @@ namespace fgl
 		return framesize;
 	}
 	
-	void Screen::presentChildScreen(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	const Transition* Screen::getDefaultPresentationTransition() const
+	{
+		return defaultPresentationTransition;
+	}
+	
+	long long Screen::getDefaultPresentationDuration() const
+	{
+		return Transition::defaultDuration;
+	}
+	
+	const Transition* Screen::getDefaultDismissalTransition() const
+	{
+		return defaultPresentationTransition;
+	}
+	
+	long long Screen::getDefaultDismissalDuration() const
+	{
+		return Transition::defaultDuration;
+	}
+	
+	void Screen::presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& completion)
 	{
 		if(!isshown)
 		{
@@ -371,7 +391,7 @@ namespace fgl
 		
 		if(screen == nullptr)
 		{
-			throw IllegalArgumentException("screen", "null");
+			throw IllegalArgumentException("screen", "cannot be null");
 		}
 		else if(screen->parentScreen != nullptr)
 		{
@@ -396,6 +416,10 @@ namespace fgl
 				throw ScreenNavigationException("Cannot present Screen on top of a screen that is currently presenting or dismissing");
 			//}
 			//childScreen->present(screen, transition, duration);
+		}
+		else if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be negative");
 		}
 		else
 		{
@@ -444,7 +468,16 @@ namespace fgl
 		}
 	}
 	
-	void Screen::dismissChildScreen(const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
+	void Screen::presentChildScreen(Screen* screen, const std::function<void()>& completion)
+	{
+		if(screen == nullptr)
+		{
+			throw IllegalArgumentException("screen", "cannot be null");
+		}
+		presentChildScreen(screen, screen->getDefaultPresentationTransition(), screen->getDefaultDismissalDuration(), completion);
+	}
+	
+	void Screen::dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& completion)
 	{
 		if(childScreen == nullptr)
 		{
@@ -457,6 +490,10 @@ namespace fgl
 		else if(overlayData.action==TRANSITION_SHOW)
 		{
 			throw ScreenNavigationException("Cannot dismiss a Screen that is in the transition of presenting");
+		}
+		else if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be negative");
 		}
 		else
 		{
@@ -508,7 +545,11 @@ namespace fgl
 	
 	void Screen::dismissChildScreen(const std::function<void()>& completion)
 	{
-		dismissChildScreen(defaultPresentTransition, Transition::defaultDuration, completion);
+		if(childScreen == nullptr)
+		{
+			throw ScreenNavigationException("No Screen is being presented that can be dismissed");
+		}
+		dismissChildScreen(childScreen->getDefaultDismissalTransition(), childScreen->getDefaultDismissalDuration(), completion);
 	}
 	
 	ScreenElement* Screen::getElement() const

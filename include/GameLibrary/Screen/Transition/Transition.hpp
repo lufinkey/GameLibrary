@@ -13,7 +13,7 @@ namespace fgl
 	{
 	public:
 		/*! The default transition duration, in milliseconds (250 milliseconds)*/
-		static const unsigned long long defaultDuration = 250ULL;
+		static const long long defaultDuration = 250ULL;
 		
 		/*! default constructor*/
 		Transition(){}
