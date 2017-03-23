@@ -9,6 +9,7 @@ namespace fgl
 	PopupScreen::PopupScreen(ScreenElement* popupElement, bool autoDeleteElement)
 		: popupElement(popupElement), autoDeletePopupElement(autoDeleteElement)
 	{
+		setParentScreenUpdatingEnabled(true);
 		setParentScreenDrawingEnabled(true);
 
 		getElement()->setBackgroundColor(fgl::Color(0, 0, 0, 128));
