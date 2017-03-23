@@ -88,6 +88,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\CheckboxElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ImageElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\MenuScreen.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\PopupScreen.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\SegmentedSelectorElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\TextInputElement.hpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="..\..\src\Screen\UI\CheckboxElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\ImageElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\MenuScreen.cpp" />
+    <ClCompile Include="..\..\src\Screen\UI\PopupScreen.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\SegmentedSelectorElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\TextElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\TextInputElement.cpp" />

@@ -64,6 +64,7 @@
 #include "Screen/UI/CheckboxElement.hpp"
 #include "Screen/UI/ImageElement.hpp"
 #include "Screen/UI/MenuScreen.hpp"
+#include "Screen/UI/PopupScreen.hpp"
 #include "Screen/UI/SegmentedSelectorElement.hpp"
 #include "Screen/UI/TextElement.hpp"
 #include "Screen/UI/TextInputElement.hpp"

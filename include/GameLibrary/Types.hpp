@@ -73,11 +73,18 @@ namespace fgl
 	class ScreenElement;
 		//UI
 		class ActorMenuElement;
+		class AnimationElement;
+		class ButtonElement;
+		class CheckboxElement;
 		class ImageElement;
-		class ZoomPanElement;
+		class SegmentedSelectorElement;
+		class TextElement;
 		class TextInputElement;
+		class TouchElement;
+		class ZoomPanElement;
 	class Screen;
 		class MenuScreen;
+		class PopupScreen;
 		class ScreenManager;
 	
 	//Utilities

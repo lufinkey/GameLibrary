@@ -501,6 +501,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\SegmentedSelectorElement.hpp">
       <Filter>include\GameLibrary\Screen\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\PopupScreen.hpp">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -759,6 +762,9 @@
       <Filter>src\Screen\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Screen\UI\SegmentedSelectorElement.cpp">
+      <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Screen\UI\PopupScreen.cpp">
       <Filter>src\Screen\UI</Filter>
     </ClCompile>
   </ItemGroup>
