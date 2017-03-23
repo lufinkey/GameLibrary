@@ -168,6 +168,7 @@ namespace fgl
 		drawingOverlayTransition = false;
 		isshown = false;
 		drawsParent = false;
+		updatesParent = false;
 
 		TransitionData_clear(overlayData);
 
@@ -256,12 +257,8 @@ namespace fgl
 		TransitionData_callVirtualFunctions(overlayData, overlay_onDidDisappearCaller, overlay_onDidAppearCaller);
 		
 		updateFrame(window);
-		
-		if(updateCaller != nullptr)
-		{
-			updateCaller->update(appData);
-		}
-		else
+
+		if(updateCaller==nullptr || updateCaller->updatesParent)
 		{
 			if(element == nullptr)
 			{
@@ -277,6 +274,11 @@ namespace fgl
 				updateElementMouse(appData);
 			}
 			element->update(appData);
+		}
+		
+		if(updateCaller != nullptr)
+		{
+			updateCaller->update(appData);
 		}
 		
 		TransitionData_checkInitialization(appData, overlayData);
@@ -655,6 +657,16 @@ namespace fgl
 	bool Screen::isParentScreenDrawingEnabled() const
 	{
 		return drawsParent;
+	}
+
+	void Screen::setParentScreenUpdatingEnabled(bool enabled)
+	{
+		updatesParent = enabled;
+	}
+
+	bool Screen::isParentScreenUpdatingEnabled() const
+	{
+		return updatesParent;
 	}
 	
 	Window* Screen::getWindow() const

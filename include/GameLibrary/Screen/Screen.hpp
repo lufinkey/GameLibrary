@@ -159,6 +159,12 @@ namespace fgl
 		/*! Tells whether drawing of the presenting Screen behind this Screen is enabled
 			\returns true if parent drawing is enabled, or false if it is disabled */
 		bool isParentScreenDrawingEnabled() const;
+		/*! Enables/disables updating of the presenting Screen behind this Screen
+			\param enabled true to enable updating the parent Screen, or false to disable updating the parent Screen */
+		void setParentScreenUpdatingEnabled(bool enabled);
+		/*! Tells whether updating of the presenting Screen behind this Screen is enabled
+			\returns true if parent updating is enabled, or false if it is disabled */
+		bool isParentScreenUpdatingEnabled() const;
 		
 		
 		/*! Gets the Window of the root Screen of this Screen stack
@@ -230,6 +236,7 @@ namespace fgl
 		
 		bool isshown;
 		bool drawsParent;
+		bool updatesParent;
 		
 		// Used to tell if the Screen is drawing an overlay. This value is only set within the draw function.
 		mutable bool drawingOverlayTransition;
