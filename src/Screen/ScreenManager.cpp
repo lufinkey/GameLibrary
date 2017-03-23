@@ -120,10 +120,8 @@ namespace fgl
 		}
 		
 		Screen* updateCaller = nullptr;
-		Screen* pushpop_onDidDisappearCaller = nullptr;
-		Screen* pushpop_onDidAppearCaller = nullptr;
 
-		TransitionData_checkFinished(appData, pushpopData, &pushpop_onDidDisappearCaller, &pushpop_onDidAppearCaller);
+		auto transitionFinishHandler = TransitionData_checkFinished(appData, pushpopData);
 
 		if(childScreen==nullptr)
 		{
@@ -131,7 +129,11 @@ namespace fgl
 			{
 				updateCaller = screens.get(screens.size()-1);
 			}
-			TransitionData_callVirtualFunctions(pushpopData, pushpop_onDidDisappearCaller, pushpop_onDidAppearCaller);
+		}
+
+		if(transitionFinishHandler)
+		{
+			transitionFinishHandler();
 		}
 
 		if(updateCaller != nullptr)

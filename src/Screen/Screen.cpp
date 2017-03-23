@@ -119,44 +119,45 @@ namespace fgl
 		return finishedAction;
 	}
 	
-	void Screen::TransitionData_checkFinished(ApplicationData& appData, Screen::TransitionData& data, Screen** onDidDisappearCaller, Screen** onDidAppearCaller)
+	std::function<void()> Screen::TransitionData_checkFinished(ApplicationData& appData, Screen::TransitionData& data)
 	{
 		//apply any progress to the presenting transition
+		const Transition* transition = data.transition;
+		std::function<void()> completion = data.completion;
 		byte finishedAction = TransitionData_applyProgress(appData, data);
+		Screen* onDidDisappearCaller = nullptr;
+		Screen* onDidAppearCaller = nullptr;
 		if(finishedAction == TRANSITION_HIDE)
 		{
-			*onDidDisappearCaller = data.transitionScreen;
-			*onDidAppearCaller = data.screen;
+			onDidDisappearCaller = data.transitionScreen;
+			onDidAppearCaller = data.screen;
 			TransitionData_clear(data);
 		}
 		else if(finishedAction == TRANSITION_SHOW)
 		{
-			*onDidDisappearCaller = data.screen;
-			*onDidAppearCaller = data.transitionScreen;
+			onDidDisappearCaller = data.screen;
+			onDidAppearCaller = data.transitionScreen;
 			TransitionData_clear(data);
 		}
-	}
-	
-	void Screen::TransitionData_callVirtualFunctions(TransitionData& data, Screen* onDidDisappearCaller, Screen* onDidAppearCaller)
-	{
-		if(onDidDisappearCaller!=nullptr || onDidAppearCaller!=nullptr)
+
+		if(finishedAction==TRANSITION_HIDE || finishedAction==TRANSITION_SHOW)
 		{
-			const Transition* transition = data.transition;
-			std::function<void()> completion = data.completion;
-			TransitionData_clear(data);
-			if(onDidDisappearCaller!=nullptr && !onDidDisappearCaller->isOnTop())
-			{
-				onDidDisappearCaller->getTopScreen()->onDidDisappear(transition);
-			}
-			if(onDidAppearCaller!=nullptr && onDidAppearCaller->isOnTop())
-			{
-				onDidAppearCaller->getTopScreen()->onDidAppear(transition);
-			}
-			if(completion)
-			{
-				completion();
-			}
+			return [=]{
+				if(onDidDisappearCaller!=nullptr && !onDidDisappearCaller->isOnTop())
+				{
+					onDidDisappearCaller->getTopScreen()->onDidDisappear(transition);
+				}
+				if(onDidAppearCaller!=nullptr && onDidAppearCaller->isOnTop())
+				{
+					onDidAppearCaller->getTopScreen()->onDidAppear(transition);
+				}
+				if(completion)
+				{
+					completion();
+				}
+			};
 		}
+		return nullptr;
 	}
 	
 	Screen::Screen(Window* window_arg)
@@ -242,10 +243,8 @@ namespace fgl
 		}
 
 		Screen* updateCaller = nullptr;
-		Screen* overlay_onDidDisappearCaller = nullptr;
-		Screen* overlay_onDidAppearCaller = nullptr;
 		
-		TransitionData_checkFinished(appData, overlayData, &overlay_onDidDisappearCaller, &overlay_onDidAppearCaller);
+		auto transitionFinishHandler = TransitionData_checkFinished(appData, overlayData);
 		
 		if(childScreen!=nullptr)
 		{
@@ -254,7 +253,10 @@ namespace fgl
 		
 		updateFrame(window);
 		
-		TransitionData_callVirtualFunctions(overlayData, overlay_onDidDisappearCaller, overlay_onDidAppearCaller);
+		if(transitionFinishHandler)
+		{
+			transitionFinishHandler();
+		}
 		
 		updateFrame(window);
 
@@ -379,7 +381,7 @@ namespace fgl
 		return Transition::defaultDuration;
 	}
 	
-	void Screen::presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& completion)
+	void Screen::presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
 	{
 		if(!isshown)
 		{
@@ -427,8 +429,9 @@ namespace fgl
 		{
 			Screen* topScreen = screen->getTopScreen();
 			bool visible = isOnTop();
-			TransitionData_begin(overlayData, this, screen, TRANSITION_SHOW, transition, duration, completion);
+			TransitionData_begin(overlayData, this, screen, TRANSITION_SHOW, transition, duration, oncompletion);
 			childScreen = screen;
+			childScreenDismissCallback = ondismissal;
 			childScreen->setWindow(window);
 			childScreen->parentScreen = this;
 			//childScreen->parentElement = this;
@@ -444,18 +447,18 @@ namespace fgl
 					onDidDisappear(transition);
 					topScreen->onDidAppear(transition);
 					
-					if(completion)
+					if(oncompletion)
 					{
-						completion();
+						oncompletion();
 					}
 				}
 				else
 				{
 					TransitionData_clear(overlayData);
 					
-					if(completion)
+					if(oncompletion)
 					{
-						completion();
+						oncompletion();
 					}
 				}
 			}
@@ -470,16 +473,16 @@ namespace fgl
 		}
 	}
 	
-	void Screen::presentChildScreen(Screen* screen, const std::function<void()>& completion)
+	void Screen::presentChildScreen(Screen* screen, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
 	{
 		if(screen == nullptr)
 		{
 			throw IllegalArgumentException("screen", "cannot be null");
 		}
-		presentChildScreen(screen, screen->getDefaultPresentationTransition(), screen->getDefaultDismissalDuration(), completion);
+		presentChildScreen(screen, screen->getDefaultPresentationTransition(), screen->getDefaultDismissalDuration(), oncompletion, ondismissal);
 	}
 	
-	void Screen::dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& completion)
+	void Screen::dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
 		if(childScreen == nullptr)
 		{
@@ -499,9 +502,22 @@ namespace fgl
 		}
 		else
 		{
+			std::function<void()> completionHandler([=]{
+				auto dismissHandler = childScreenDismissCallback;
+				childScreenDismissCallback = nullptr;
+				if(oncompletion)
+				{
+					oncompletion();
+				}
+				if(dismissHandler)
+				{
+					dismissHandler();
+				}
+			});
+
 			Screen* topScreen = childScreen->getTopScreen();
 			bool visible = topScreen->isOnTop();
-			TransitionData_begin(overlayData, this, childScreen, TRANSITION_HIDE, transition, duration, completion);
+			TransitionData_begin(overlayData, this, childScreen, TRANSITION_HIDE, transition, duration, completionHandler);
 			childScreen->setWindow(nullptr);
 			childScreen->parentScreen = nullptr;
 			//childScreen->parentElement = nullptr;
@@ -519,18 +535,18 @@ namespace fgl
 					topScreen->onDidDisappear(transition);
 					onDidAppear(transition);
 					
-					if(completion)
+					if(completionHandler)
 					{
-						completion();
+						completionHandler();
 					}
 				}
 				else
 				{
 					TransitionData_clear(overlayData);
 					
-					if(completion)
+					if(completionHandler)
 					{
-						completion();
+						completionHandler();
 					}
 				}
 			}

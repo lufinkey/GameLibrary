@@ -89,7 +89,8 @@ namespace fgl
 			\param screen the Screen to present
 			\param transition a Transition to use to present the Screen, or null to present the Screen without a transition
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
+			\param ondismissal a callback to call when the Screen is dismissed after the transition finishes
 			\throws fgl::IllegalArgumentException if:
 				1.) the Screen being presented is null
 				2.) the Screen being presented is already presented on another Screen,
@@ -97,10 +98,11 @@ namespace fgl
 				4.) the Screen being presented is already held within a ScreenManager,
 				5.) duration is negative
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& completion=nullptr);
+		void presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion=nullptr, const std::function<void()>& ondismissal=nullptr);
 		/*! Presents another Screen on top of this Screen. Only one child Screen can be presented to a Screen at a time, but the top level Screen can always present another Screen. This function uses the presented Screen's getDefaultPresentationTransition function for the transition, and getDefaultPresentationDuration for the duration.
 			\param screen the Screen to present
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
+			\param ondismissal a callback to call when the Screen is dismissed after the transition finishes
 			\throws fgl::IllegalArgumentException if:
 				1.) the Screen being presented is null
 				2.) the Screen being presented is already presented on another Screen,
@@ -108,15 +110,15 @@ namespace fgl
 				4.) the Screen being presented is already held within a ScreenManager,
 				5.) duration is negative
 			\throws fgl::ScreenNavigationException if a Screen is already in the process of being presented on this Screen*/
-		void presentChildScreen(Screen* screen, const std::function<void()>& completion=nullptr);
+		void presentChildScreen(Screen* screen, const std::function<void()>& oncompletion=nullptr, const std::function<void()>& ondismissal=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen
 			\param transition a Transition to use to dismiss the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition */
-		void dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& completion=nullptr);
+			\param oncompletion a callback to call when the Screen finishes the transition */
+		void dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion=nullptr);
 		/*! Dismisses the child Screen that is presented on top of this Screen. This function uses the presented Screen's getDefaultDismissalTransition function for the transition, and getDefaultDismissalDuration for the duration
-			\param completion a callback to call when the Screen finishes the transition */
-		void dismissChildScreen(const std::function<void()>& completion);
+			\param oncompletion a callback to call when the Screen finishes the transition */
+		void dismissChildScreen(const std::function<void()>& oncompletion=nullptr);
 		
 		
 		/*! Gets the root ScreenElement.
@@ -221,8 +223,7 @@ namespace fgl
 		If the transition finishes, a constant representing the finished transition is returned. Otherwise, 0 is returned.*/
 		static byte TransitionData_applyProgress(ApplicationData& appData, TransitionData& data);
 		/*Checks if the transition is finished by calling TransitionData_applyProgress, and stores the objects that need calling if so.*/
-		static void TransitionData_checkFinished(ApplicationData& appData, TransitionData& data, Screen** onDidDisappearCaller, Screen** onDidAppearCaller);
-		static void TransitionData_callVirtualFunctions(TransitionData& data, Screen* onDidDisappearCaller, Screen* onDidAppearCaller);
+		static std::function<void()> TransitionData_checkFinished(ApplicationData& appData, TransitionData& data);
 		
 		Window* window;
 		Vector2d framesize;
@@ -232,6 +233,7 @@ namespace fgl
 		ScreenElement* element;
 		Screen* parentScreen;
 		Screen* childScreen;
+		std::function<void()> childScreenDismissCallback;
 		ScreenManager* screenManager;
 		
 		bool isshown;
