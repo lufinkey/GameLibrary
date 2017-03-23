@@ -1,5 +1,8 @@
 
-#import "iOSUtils.h"
+#include "iOSUtils.h"
+
+#ifdef TARGETPLATFORM_IOS
+
 #include <GameLibrary/Window/Window.hpp>
 #include "SDL_syswm.h"
 
@@ -28,3 +31,5 @@ namespace fgl
 		return appWindow.rootViewController;
 	}
 }
+
+#endif

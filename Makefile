@@ -14,6 +14,7 @@ SRC_FILES =\
 	src/GameLibrary.cpp\
 	src/Actor/Actor.cpp\
 	src/Actor/Animation.cpp\
+	src/Actor/AnimationPlayer.cpp\
 	src/Actor/SpriteActor.cpp\
 	src/Actor/TextActor.cpp\
 	src/Actor/WireframeActor.cpp\
@@ -56,6 +57,7 @@ SRC_FILES =\
 	src/IO/FileTools.cpp\
 	src/IO/FileTools.mm\
 	src/Network/NetworkProtocol.cpp\
+	src/PlatformSpecific/iOS/iOSUtils.mm\
 	src/Screen/AutoLayoutCalculator.cpp\
 	src/Screen/AutoLayoutManager.cpp\
 	src/Screen/Screen.cpp\
@@ -67,8 +69,13 @@ SRC_FILES =\
 	src/Screen/Transition/SlideTransition.cpp\
 	src/Screen/UI/ActorMenuElement.cpp\
 	src/Screen/UI/AnimationElement.cpp\
+	src/Screen/UI/ButtonElement.cpp\
+	src/Screen/UI/CheckboxElement.cpp\
 	src/Screen/UI/ImageElement.cpp\
 	src/Screen/UI/MenuScreen.cpp\
+	src/Screen/UI/PopupScreen.cpp\
+	src/Screen/UI/SegmentedSelectorElement.cpp\
+	src/Screen/UI/TextElement.cpp\
 	src/Screen/UI/TextInputElement.cpp\
 	src/Screen/UI/TouchElement.cpp\
 	src/Screen/UI/ZoomPanElement.cpp\
@@ -77,6 +84,7 @@ SRC_FILES =\
 	src/Utilities/Number.cpp\
 	src/Utilities/Plist.cpp\
 	src/Utilities/Thread.cpp\
+	src/Utilities/Thread.mm\
 	src/Utilities/Tools.cpp\
 	src/Utilities/Font/Font.cpp\
 	src/Utilities/Font/RenderedGlyphContainer.cpp\

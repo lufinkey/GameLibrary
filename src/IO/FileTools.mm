@@ -1,6 +1,4 @@
 
-#ifdef __OBJC__
-
 #include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 
@@ -108,5 +106,3 @@ namespace fgl
 	
 #endif
 }
-
-#endif

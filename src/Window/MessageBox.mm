@@ -1,6 +1,4 @@
 
-#ifdef __OBJC__
-
 #include <GameLibrary/Window/MessageBox.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Thread.hpp>
@@ -168,5 +166,4 @@ namespace fgl
 	}
 }
 
-#endif
 #endif
