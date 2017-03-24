@@ -110,7 +110,7 @@ namespace fgl
 		
 		/*! Gets the size of the specified frame
 			\param frameNum the index of the frame
-			\returns the height of the specified frame*/
+			\returns the size of the specified frame*/
 		Vector2u getFrameSize(size_t frameNum) const;
 		
 		
