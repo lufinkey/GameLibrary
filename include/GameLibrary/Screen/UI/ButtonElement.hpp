@@ -15,7 +15,8 @@ namespace fgl
 		{
 			BUTTONSTATE_NORMAL,
 			BUTTONSTATE_HOVERED,
-			BUTTONSTATE_PRESSED
+			BUTTONSTATE_PRESSED,
+			BUTTONSTATE_DISABLED
 		} ButtonState;
 		
 		ButtonElement();
@@ -29,6 +30,9 @@ namespace fgl
 		const std::function<void()>& getTapHandler() const;
 		
 		ButtonState getButtonState() const;
+
+		void setEnabled(bool enabled);
+		bool isEnabled() const;
 		
 		void setTitle(const String& title, ButtonState state);
 		const String& getTitle(ButtonState state) const;
@@ -72,5 +76,7 @@ namespace fgl
 		BasicDictionary<ButtonState, TextureImage*> images;
 		BasicDictionary<ButtonState, TextureImage*> backgroundImages;
 		BasicDictionary<ButtonState, Color> backgroundColors;
+
+		bool enabled;
 	};
 }

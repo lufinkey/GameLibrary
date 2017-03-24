@@ -19,7 +19,8 @@ namespace fgl
 		backgroundElement(new ImageElement(RectangleD(0,0, frame.width, frame.height))),
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
-		buttonState(BUTTONSTATE_NORMAL)
+		buttonState(BUTTONSTATE_NORMAL),
+		enabled(true)
 	{
 		titles[BUTTONSTATE_NORMAL] = title;
 		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
@@ -107,6 +108,25 @@ namespace fgl
 	ButtonElement::ButtonState ButtonElement::getButtonState() const
 	{
 		return buttonState;
+	}
+
+	void ButtonElement::setEnabled(bool enabled_arg)
+	{
+		if(enabled_arg && !enabled)
+		{
+			enabled = true;
+			setButtonState(BUTTONSTATE_NORMAL);
+		}
+		else if(!enabled_arg && enabled)
+		{
+			enabled = false;
+			setButtonState(BUTTONSTATE_DISABLED);
+		}
+	}
+
+	bool ButtonElement::isEnabled() const
+	{
+		return enabled;
 	}
 	
 	void ButtonElement::setTitle(const String& title, ButtonState state)
@@ -228,36 +248,54 @@ namespace fgl
 	
 	void ButtonElement::onMouseEnter(unsigned int mouseIndex)
 	{
-		//TODO should do something here related to BUTTONSTATE_HOVERED
+		if(enabled)
+		{
+			//TODO should do something here related to BUTTONSTATE_HOVERED
+		}
 	}
 	
 	void ButtonElement::onMouseLeave(unsigned int mouseIndex)
 	{
-		//TODO should do something here related to BUTTONSTATE_HOVERED
+		if(enabled)
+		{
+			//TODO should do something here related to BUTTONSTATE_HOVERED
+		}
 	}
 	
 	void ButtonElement::onTouchDown(const TouchEvent& touchEvent)
 	{
-		setButtonState(BUTTONSTATE_PRESSED);
+		if(enabled)
+		{
+			setButtonState(BUTTONSTATE_PRESSED);
+		}
 	}
 	
 	void ButtonElement::onTouchUpInside(const TouchEvent& touchEvent)
 	{
-		//TODO do BUTTONSTATE_HOVERED if still hovered
-		setButtonState(BUTTONSTATE_NORMAL);
-		if(tapHandler)
+		if(enabled)
 		{
-			tapHandler();
+			//TODO do BUTTONSTATE_HOVERED if still hovered
+			setButtonState(BUTTONSTATE_NORMAL);
+			if(tapHandler)
+			{
+				tapHandler();
+			}
 		}
 	}
 	
 	void ButtonElement::onTouchUpOutside(const TouchEvent& touchEvent)
 	{
-		setButtonState(BUTTONSTATE_NORMAL);
+		if(enabled)
+		{
+			setButtonState(BUTTONSTATE_NORMAL);
+		}
 	}
 	
 	void ButtonElement::onTouchCancel(const TouchEvent& touchEvent)
 	{
-		setButtonState(BUTTONSTATE_NORMAL);
+		if(enabled)
+		{
+			setButtonState(BUTTONSTATE_NORMAL);
+		}
 	}
 }
