@@ -37,4 +37,9 @@ namespace fgl
 	{
 		return defaultPresentationTransition;
 	}
+	
+	ScreenElement* PopupScreen::getPopupElement() const
+	{
+		return popupElement;
+	}
 }

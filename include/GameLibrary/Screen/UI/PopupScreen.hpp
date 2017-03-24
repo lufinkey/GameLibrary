@@ -15,6 +15,8 @@ namespace fgl
 
 		virtual const Transition* getDefaultPresentationTransition() const override;
 		virtual const Transition* getDefaultDismissalTransition() const override;
+		
+		ScreenElement* getPopupElement() const;
 
 	private:
 		ScreenElement* popupElement;
