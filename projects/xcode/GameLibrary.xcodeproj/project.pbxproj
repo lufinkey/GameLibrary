@@ -94,6 +94,8 @@
 		F15A1F791E549ADD008D83E5 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F701E549ADD008D83E5 /* SDL2_gfxPrimitives.c */; };
 		F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F721E549ADD008D83E5 /* SDL2_imageFilter.c */; };
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
+		F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */; };
+		F15F11F21E8553ED007CA0D2 /* PopupScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F11F11E8553ED007CA0D2 /* PopupScreen.cpp */; };
 		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
 		F15F59D91E719C1200FAFD86 /* TextElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F59D81E719C1200FAFD86 /* TextElement.cpp */; };
 		F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */; };
@@ -426,6 +428,8 @@
 		F15A1FE31E54A39A008D83E5 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../../external/SDL/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
 		F15A1FEF1E54A3B7008D83E5 /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = ../../external/SDL/SDL_mixer/Xcode/SDL_mixer.xcodeproj; sourceTree = "<group>"; };
 		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
+		F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PopupScreen.hpp; sourceTree = "<group>"; };
+		F15F11F11E8553ED007CA0D2 /* PopupScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PopupScreen.cpp; sourceTree = "<group>"; };
 		F15F59D61E719BFF00FAFD86 /* TextElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextElement.hpp; sourceTree = "<group>"; };
 		F15F59D81E719C1200FAFD86 /* TextElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextElement.cpp; sourceTree = "<group>"; };
 		F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
@@ -704,6 +708,7 @@
 				F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
+				F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */,
 				F1A1FB1E1E8059CE00D55FFC /* SegmentedSelectorElement.hpp */,
 				F15F59D61E719BFF00FAFD86 /* TextElement.hpp */,
 				F15A1E761E5498C7008D83E5 /* TextInputElement.hpp */,
@@ -972,6 +977,7 @@
 				F199D4AB1E76F4CE008627BE /* CheckboxElement.cpp */,
 				F15A1EEB1E5498D1008D83E5 /* ImageElement.cpp */,
 				F15A1EEC1E5498D1008D83E5 /* MenuScreen.cpp */,
+				F15F11F11E8553ED007CA0D2 /* PopupScreen.cpp */,
 				F1A1FB281E805A1A00D55FFC /* SegmentedSelectorElement.cpp */,
 				F15F59D81E719C1200FAFD86 /* TextElement.cpp */,
 				F15A1EED1E5498D1008D83E5 /* TextInputElement.cpp */,
@@ -1160,6 +1166,7 @@
 				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
 				F15F5A7A1E71E2BD00FAFD86 /* ButtonElement.hpp in Headers */,
 				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
+				F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */,
 				F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */,
 				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
@@ -1388,6 +1395,7 @@
 				F15A1F2A1E5498D1008D83E5 /* IllegalNumberOperationException.cpp in Sources */,
 				F15A1F261E5498D1008D83E5 /* BadNumberCastException.cpp in Sources */,
 				F15A1F441E5498D1008D83E5 /* ImageElement.cpp in Sources */,
+				F15F11F21E8553ED007CA0D2 /* PopupScreen.cpp in Sources */,
 				F15A1F231E5498D1008D83E5 /* ScreenNavigationException.cpp in Sources */,
 				F15A1F511E5498D1008D83E5 /* posixtime.cpp in Sources */,
 				F15A1F761E549ADD008D83E5 /* SDL2_framerate.c in Sources */,

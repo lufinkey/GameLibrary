@@ -89,6 +89,7 @@
 		F15BC3891E4378B7001910A4 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3821E4378B7001910A4 /* SDL2_gfxPrimitives.c */; };
 		F15BC38A1E4378B7001910A4 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3841E4378B7001910A4 /* SDL2_imageFilter.c */; };
 		F15BC38B1E4378B7001910A4 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */; };
+		F15F11F81E855415007CA0D2 /* PopupScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F11F71E855415007CA0D2 /* PopupScreen.cpp */; };
 		F15F32251E2573C100710AC8 /* Plist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32241E2573C100710AC8 /* Plist.cpp */; };
 		F15F32271E2573C600710AC8 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F32261E2573C600710AC8 /* Tools.cpp */; };
 		F15F59C81E718D0D00FAFD86 /* TextElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15F59C71E718D0D00FAFD86 /* TextElement.cpp */; };
@@ -337,6 +338,8 @@
 		F15BC3851E4378B7001910A4 /* SDL2_imageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_imageFilter.h; sourceTree = "<group>"; };
 		F15BC3861E4378B7001910A4 /* SDL2_rotozoom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDL2_rotozoom.c; sourceTree = "<group>"; };
 		F15BC3871E4378B7001910A4 /* SDL2_rotozoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2_rotozoom.h; sourceTree = "<group>"; };
+		F15F11F71E855415007CA0D2 /* PopupScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PopupScreen.cpp; sourceTree = "<group>"; };
+		F15F11FF1E855429007CA0D2 /* PopupScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PopupScreen.hpp; sourceTree = "<group>"; };
 		F15F32221E25730900710AC8 /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
 		F15F32231E25739E00710AC8 /* Line.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Line.hpp; sourceTree = "<group>"; };
 		F15F32241E2573C100710AC8 /* Plist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plist.cpp; sourceTree = "<group>"; };
@@ -604,6 +607,7 @@
 				F199D4B11E76FA5F008627BE /* CheckboxElement.hpp */,
 				A039DA141CCDE80800B0B5DA /* ImageElement.hpp */,
 				A039DA151CCDE80800B0B5DA /* MenuScreen.hpp */,
+				F15F11FF1E855429007CA0D2 /* PopupScreen.hpp */,
 				F16AFE951E82C02000370909 /* SegmentedSelectorElement.hpp */,
 				F15F59C01E718CFE00FAFD86 /* TextElement.hpp */,
 				A039DA161CCDE80800B0B5DA /* TextInputElement.hpp */,
@@ -917,6 +921,7 @@
 				F199D4B81E76FA76008627BE /* CheckboxElement.cpp */,
 				A039DAFF1CCDE89E00B0B5DA /* ImageElement.cpp */,
 				A039DB001CCDE89E00B0B5DA /* MenuScreen.cpp */,
+				F15F11F71E855415007CA0D2 /* PopupScreen.cpp */,
 				F16AFE8D1E82C00400370909 /* SegmentedSelectorElement.cpp */,
 				F15F59C71E718D0D00FAFD86 /* TextElement.cpp */,
 				A039DB011CCDE89E00B0B5DA /* TextInputElement.cpp */,
@@ -1196,6 +1201,7 @@
 				A039DB611CCDE89E00B0B5DA /* TimeInterval.cpp in Sources */,
 				A039DB541CCDE89E00B0B5DA /* TextInputElement.cpp in Sources */,
 				A039DB521CCDE89E00B0B5DA /* ImageElement.cpp in Sources */,
+				F15F11F81E855415007CA0D2 /* PopupScreen.cpp in Sources */,
 				A039DB551CCDE89E00B0B5DA /* TouchElement.cpp in Sources */,
 				A039DB3E1CCDE89E00B0B5DA /* Image.cpp in Sources */,
 				A039DB561CCDE89E00B0B5DA /* ZoomPanElement.cpp in Sources */,
