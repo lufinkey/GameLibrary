@@ -42,6 +42,9 @@ namespace fgl
 		void setBackgroundImage(TextureImage* image, ButtonState state);
 		TextureImage* getBackgroundImage(ButtonState state) const;
 		
+		void setBackgroundColor(const Color& color, ButtonState state);
+		const Color& getBackgroundColor(ButtonState state) const;
+		
 		TextElement* getTitleElement() const;
 		ImageElement* getImageElement() const;
 		
@@ -59,7 +62,7 @@ namespace fgl
 		
 		std::function<void()> tapHandler;
 		
-		ImageElement* backgroundImageElement;
+		ImageElement* backgroundElement;
 		ImageElement* imageElement;
 		TextElement* titleElement;
 		
@@ -68,5 +71,6 @@ namespace fgl
 		BasicDictionary<ButtonState, Color> titleColors;
 		BasicDictionary<ButtonState, TextureImage*> images;
 		BasicDictionary<ButtonState, TextureImage*> backgroundImages;
+		BasicDictionary<ButtonState, Color> backgroundColors;
 	};
 }

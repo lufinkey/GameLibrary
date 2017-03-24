@@ -16,7 +16,7 @@ namespace fgl
 	ButtonElement::ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler)
 		: TouchElement(frame),
 		tapHandler(tapHandler),
-		backgroundImageElement(new ImageElement(RectangleD(0,0, frame.width, frame.height))),
+		backgroundElement(new ImageElement(RectangleD(0,0, frame.width, frame.height))),
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
 		buttonState(BUTTONSTATE_NORMAL)
@@ -25,25 +25,26 @@ namespace fgl
 		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
 		images[BUTTONSTATE_NORMAL] = nullptr;
 		backgroundImages[BUTTONSTATE_NORMAL] = nullptr;
+		backgroundColors[BUTTONSTATE_NORMAL] = Color::TRANSPARENT;
 		
-		backgroundImageElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
-		backgroundImageElement->setLayoutRule(LAYOUTRULE_TOP, 0);
-		backgroundImageElement->setLayoutRule(LAYOUTRULE_RIGHT, 0);
-		backgroundImageElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
+		backgroundElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
+		backgroundElement->setLayoutRule(LAYOUTRULE_TOP, 0);
+		backgroundElement->setLayoutRule(LAYOUTRULE_RIGHT, 0);
+		backgroundElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
 
 		titleElement->setText(title);
 		titleElement->setTextColor(Color::BLACK);
 		titleElement->setTextAlignment(TEXTALIGN_CENTER);
 		titleElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);
 		
-		addChildElement(backgroundImageElement);
+		addChildElement(backgroundElement);
 		addChildElement(titleElement);
 		addChildElement(imageElement);
 	}
 	
 	ButtonElement::~ButtonElement()
 	{
-		delete backgroundImageElement;
+		delete backgroundElement;
 		delete imageElement;
 		delete titleElement;
 	}
@@ -98,6 +99,8 @@ namespace fgl
 		imageElement->setImage(getImage(buttonState));
 		titleElement->setText(getTitle(buttonState));
 		titleElement->setTextColor(getTitleColor(buttonState));
+		backgroundElement->setImage(getBackgroundImage(buttonState));
+		backgroundElement->setBackgroundColor(getBackgroundColor(buttonState));
 		layoutChildElements();
 	}
 	
@@ -163,15 +166,7 @@ namespace fgl
 	{
 		try
 		{
-			TextureImage* image = images.get(state);
-			if(image==nullptr)
-			{
-				return images.get(BUTTONSTATE_NORMAL);
-			}
-			else
-			{
-				return image;
-			}
+			return images.get(state);
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
@@ -184,7 +179,7 @@ namespace fgl
 		backgroundImages[state] = image;
 		if(state==buttonState)
 		{
-			backgroundImageElement->setImage(image);
+			backgroundElement->setImage(image);
 		}
 	}
 
@@ -192,19 +187,32 @@ namespace fgl
 	{
 		try
 		{
-			TextureImage* image = backgroundImages.get(state);
-			if(image==nullptr)
-			{
-				return backgroundImages.get(BUTTONSTATE_NORMAL);
-			}
-			else
-			{
-				return image;
-			}
+			return backgroundImages.get(state);
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
 			return backgroundImages.get(BUTTONSTATE_NORMAL);
+		}
+	}
+	
+	void ButtonElement::setBackgroundColor(const Color& color, ButtonState state)
+	{
+		backgroundColors[state] = color;
+		if(state==buttonState)
+		{
+			backgroundElement->setBackgroundColor(color);
+		}
+	}
+	
+	const Color& ButtonElement::getBackgroundColor(ButtonState state) const
+	{
+		try
+		{
+			return backgroundColors.get(state);
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return backgroundColors.get(BUTTONSTATE_NORMAL);
 		}
 	}
 	

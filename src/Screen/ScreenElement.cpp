@@ -137,6 +137,7 @@ namespace fgl
 	
 	void ScreenElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
+		graphics.translate(frame.x, frame.y);
 		ArrayList<ScreenElement*> children = childElements;
 		for(auto element : children)
 		{
@@ -156,9 +157,8 @@ namespace fgl
 			graphics.compositeAlpha(alpha);
 			drawBackground(appData, graphics);
 			drawMain(appData, graphics);
-			drawBorder(appData, graphics);
-			graphics.translate(frame.x, frame.y);
 			drawElements(appData, graphics);
+			drawBorder(appData, graphics);
 		}
 	}
 	

@@ -53,7 +53,7 @@ namespace fgl
 	void ZoomPanElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
 		RectangleD frame = getFrame();
-		graphics.clip(RectangleD(0,0,frame.width,frame.height));
+		graphics.clip(RectangleD(frame.x,frame.y,frame.width,frame.height));
 		graphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
 		graphics.scale(zoomScale, zoomScale);
 		ScreenElement::drawElements(appData, graphics);

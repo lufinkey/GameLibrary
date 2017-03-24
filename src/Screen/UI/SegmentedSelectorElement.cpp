@@ -52,11 +52,11 @@ namespace fgl
 			itemElement->setTitleColor(Color::BLACK, ButtonElement::BUTTONSTATE_NORMAL);
 			if(itemIndex==selectedItemIndex)
 			{
-				itemElement->setBackgroundColor(color);
+				itemElement->setBackgroundColor(color, ButtonElement::BUTTONSTATE_NORMAL);
 			}
 			else
 			{
-				itemElement->setBackgroundColor(Color::WHITE);
+				itemElement->setBackgroundColor(Color::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
 			}
 			itemElement->setTapHandler([=]{
 				setSelectedItemIndex(itemIndex);
@@ -92,12 +92,12 @@ namespace fgl
 	{
 		if(selectedItemIndex < items.size())
 		{
-			itemElements[selectedItemIndex]->setBackgroundColor(Color::WHITE);
+			itemElements[selectedItemIndex]->setBackgroundColor(Color::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
 		}
 		selectedItemIndex = index;
 		if(selectedItemIndex < items.size())
 		{
-			itemElements[selectedItemIndex]->setBackgroundColor(color);
+			itemElements[selectedItemIndex]->setBackgroundColor(color, ButtonElement::BUTTONSTATE_NORMAL);
 		}
 	}
 	
@@ -125,7 +125,7 @@ namespace fgl
 			itemElement->setBorderColor(color);
 			if(itemIndex==selectedItemIndex)
 			{
-				itemElement->setBackgroundColor(color);
+				itemElement->setBackgroundColor(color, ButtonElement::BUTTONSTATE_NORMAL);
 			}
 			itemIndex++;
 		}
