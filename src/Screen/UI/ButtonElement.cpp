@@ -16,6 +16,7 @@ namespace fgl
 	ButtonElement::ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler)
 		: TouchElement(frame),
 		tapHandler(tapHandler),
+		backgroundImageElement(new ImageElement(RectangleD(0,0, frame.width, frame.height))),
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
 		buttonState(BUTTONSTATE_NORMAL)
@@ -23,18 +24,26 @@ namespace fgl
 		titles[BUTTONSTATE_NORMAL] = title;
 		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
 		images[BUTTONSTATE_NORMAL] = nullptr;
+		backgroundImages[BUTTONSTATE_NORMAL] = nullptr;
 		
+		backgroundImageElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
+		backgroundImageElement->setLayoutRule(LAYOUTRULE_TOP, 0);
+		backgroundImageElement->setLayoutRule(LAYOUTRULE_RIGHT, 0);
+		backgroundImageElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
+
 		titleElement->setText(title);
 		titleElement->setTextColor(Color::BLACK);
 		titleElement->setTextAlignment(TEXTALIGN_CENTER);
 		titleElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);
 		
+		addChildElement(backgroundImageElement);
 		addChildElement(titleElement);
 		addChildElement(imageElement);
 	}
 	
 	ButtonElement::~ButtonElement()
 	{
+		delete backgroundImageElement;
 		delete imageElement;
 		delete titleElement;
 	}
@@ -167,6 +176,35 @@ namespace fgl
 		catch(const DictionaryKeyNotFoundException&)
 		{
 			return images.get(BUTTONSTATE_NORMAL);
+		}
+	}
+
+	void ButtonElement::setBackgroundImage(TextureImage* image, ButtonState state)
+	{
+		backgroundImages[state] = image;
+		if(state==buttonState)
+		{
+			backgroundImageElement->setImage(image);
+		}
+	}
+
+	TextureImage* ButtonElement::getBackgroundImage(ButtonState state) const
+	{
+		try
+		{
+			TextureImage* image = backgroundImages.get(state);
+			if(image==nullptr)
+			{
+				return backgroundImages.get(BUTTONSTATE_NORMAL);
+			}
+			else
+			{
+				return image;
+			}
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return backgroundImages.get(BUTTONSTATE_NORMAL);
 		}
 	}
 	
