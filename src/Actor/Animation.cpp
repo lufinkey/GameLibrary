@@ -263,7 +263,7 @@ namespace fgl
 			if(point.x >= cols || point.y >= rows)
 			{
 				//TODO replace with more specific exception type
-				throw IllegalArgumentException("sequence", (String)"frame at index "+i+" is outside the bound of the given rows/cols");
+				throw IllegalArgumentException("sequence", (String)"frame at index "+i+" is outside the bounds of the given rows/cols");
 			}
 		}
 
