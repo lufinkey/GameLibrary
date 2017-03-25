@@ -54,6 +54,11 @@ namespace fgl
 		}
 	}
 
+	Animation::Animation() : Animation(1.0f)
+	{
+		//
+	}
+
 	Animation::Animation(float fps_arg)
 	{
 		if(fps_arg == 0.0f)

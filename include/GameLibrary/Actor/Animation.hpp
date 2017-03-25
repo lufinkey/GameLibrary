@@ -47,6 +47,8 @@ namespace fgl
 			RectangleU getSourceRect() const;
 		};
 
+		/*! Constructs an Animation with a frame rate of 1 fps. */
+		Animation();
 		/*! Constructs an Animation with a specified frame rate.
 			\param fps the frame rate in frames per second
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
