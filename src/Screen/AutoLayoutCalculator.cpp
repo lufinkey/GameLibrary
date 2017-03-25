@@ -373,7 +373,7 @@ namespace fgl
 			return;
 		}
 
-		height = resolveValueX(value, valueType);
+		height = resolveValueY(value, valueType);
 		height.set();
 
 		if(beginY.isSet())
