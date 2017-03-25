@@ -159,6 +159,20 @@ namespace fgl
 		}
 		return nullptr;
 	}
+
+	void Screen::handleFirstShowing()
+	{
+		if(!isshown)
+		{
+			isshown = true;
+			element->layoutChildElements();
+			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
+			{
+				onWillAppear(nullptr);
+				onDidAppear(nullptr);
+			}
+		}
+	}
 	
 	Screen::Screen(Window* window_arg)
 	{
@@ -232,15 +246,7 @@ namespace fgl
 	
 	void Screen::update(ApplicationData appData)
 	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
+		handleFirstShowing();
 
 		Screen* updateCaller = nullptr;
 		
@@ -383,15 +389,7 @@ namespace fgl
 	
 	void Screen::presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
 	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
+		handleFirstShowing();
 		
 		if(screen == nullptr)
 		{

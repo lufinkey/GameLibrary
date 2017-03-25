@@ -224,6 +224,8 @@ namespace fgl
 		static byte TransitionData_applyProgress(ApplicationData& appData, TransitionData& data);
 		/*Checks if the transition is finished by calling TransitionData_applyProgress, and stores the objects that need calling if so.*/
 		static std::function<void()> TransitionData_checkFinished(ApplicationData& appData, TransitionData& data);
+
+		void handleFirstShowing();
 		
 		Window* window;
 		Vector2d framesize;
