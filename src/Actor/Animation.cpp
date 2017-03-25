@@ -224,9 +224,9 @@ namespace fgl
 
 		TextureImage* img = assetManager->getTexture(file);
 
-		for(unsigned int x=0; x<cols; x++)
+		for(unsigned int y=0; y<rows; y++)
 		{
-			for(unsigned int y=0; y<rows; y++)
+			for(unsigned int x=0; x<cols; x++)
 			{
 				frames.add(Frame(file, rows, cols, y, x, img));
 			}
