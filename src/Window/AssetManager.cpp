@@ -407,4 +407,12 @@ namespace fgl
 		unloadTextures();
 		unloadFonts();
 	}
+
+	void AssetManager::moveAssetsFrom(AssetManager& assetManager)
+	{
+		textures.addAll(assetManager.textures);
+		assetManager.textures.clear();
+		fonts.addAll(assetManager.fonts);
+		assetManager.fonts.clear();
+	}
 }

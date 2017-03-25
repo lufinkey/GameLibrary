@@ -120,6 +120,11 @@ namespace fgl
 		virtual size_t reload(bool safely=true);
 		/*! Unloads and deallocates all stored assets. This does not include assets stored in dependent asset managers */
 		virtual void unload();
+
+
+		/*! Moves all assets from the given asset manager to the calling asset manager.
+			\param assetManager the asset manager to take the assets from */
+		void moveAssetsFrom(AssetManager& assetManager);
 		
 	private:
 		Window* window;
