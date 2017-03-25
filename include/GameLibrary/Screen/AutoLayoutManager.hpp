@@ -17,7 +17,8 @@ namespace fgl
 		LAYOUTRULE_CENTER_Y,
 		LAYOUTRULE_WIDTH,
 		LAYOUTRULE_HEIGHT,
-		LAYOUTRULE_ASPECTRATIO // width/height
+		//! width/height
+		LAYOUTRULE_ASPECTRATIO
 	};
 	String LayoutRuleType_toString(const LayoutRuleType& layoutRuleType);
 	LayoutRuleType LayoutRuleType_fromString(const String& layoutRuleType, bool*valid);
