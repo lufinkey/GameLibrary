@@ -27,6 +27,26 @@ namespace fgl
 			STOPPED
 		} Direction;
 
+		//! Represents a single frame of animation
+		class Frame
+		{
+		public:
+			String file;
+			unsigned int rows;
+			unsigned int cols;
+			unsigned int x;
+			unsigned int y;
+			TextureImage* img;
+
+			Frame(const String& file, TextureImage* img=nullptr);
+			Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img=nullptr);
+
+			bool operator==(const Frame& frame) const;
+			bool operator!=(const Frame& frame) const;
+
+			RectangleU getSourceRect() const;
+		};
+
 		/*! Constructs an Animation with a specified frame rate.
 			\param fps the frame rate in frames per second
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
@@ -114,24 +134,28 @@ namespace fgl
 		Vector2u getFrameSize(size_t frameNum) const;
 		
 		
-		/*! Adds a single frame.
+		/*! Adds a single frame of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frame
 			\param file the path to the image file to use*/
 		void addFrame(AssetManager* assetManager, const String& file);
-		/*! Adds frames.
+		/*! Adds frames of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.*/
 		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols);
-		/*! Adds frames.
+		/*! Adds frames of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row*/
 		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
+		/*! Adds frames of animation */
+		void addFrames(const ArrayList<Frame>& frames);
+		/*! Removes all frames. */
+		void removeAllFrames();
 		
 		
 		/*! Gets the total amount of frames stored in the Animation.
@@ -163,26 +187,6 @@ namespace fgl
 			\param frameNum the frame index
 			\returns the bounding box of the Animation*/
 		RectangleD getRect(size_t frameNum) const;
-		
-		//! Represents a single frame of animation
-		class Frame
-		{
-		public:
-			String file;
-			unsigned int rows;
-			unsigned int cols;
-			unsigned int x;
-			unsigned int y;
-			TextureImage* img;
-
-			Frame(const String& file, TextureImage* img=nullptr);
-			Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img=nullptr);
-			
-			bool operator==(const Frame& frame) const;
-			bool operator!=(const Frame& frame) const;
-			
-			RectangleU getSourceRect() const;
-		};
 
 		/*! Gives all the frames of the animation.
 			\returns an ArrayList of AnimationFrame objects */

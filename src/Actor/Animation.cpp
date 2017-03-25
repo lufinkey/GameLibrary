@@ -25,7 +25,7 @@ namespace fgl
 	{
 		//
 	}
-	
+
 	bool Animation::Frame::operator==(const fgl::Animation::Frame& frame) const
 	{
 		if(file==frame.file && rows==frame.rows && cols==frame.cols && x==frame.x && y==frame.y && img==frame.img)
@@ -34,7 +34,7 @@ namespace fgl
 		}
 		return false;
 	}
-	
+
 	bool Animation::Frame::operator!=(const fgl::Animation::Frame& frame) const
 	{
 		return !operator==(frame);
@@ -44,7 +44,7 @@ namespace fgl
 	{
 		if(img == nullptr)
 		{
-			return RectangleU(0,0,0,0);
+			return RectangleU(0, 0, 0, 0);
 		}
 		else
 		{
@@ -88,7 +88,7 @@ namespace fgl
 	{
 		//
 	}
-	
+
 	bool Animation::operator==(const fgl::Animation& animation) const
 	{
 		if(frames.size() != animation.frames.size())
@@ -108,12 +108,12 @@ namespace fgl
 		}
 		return true;
 	}
-	
+
 	bool Animation::operator!=(const fgl::Animation& animation) const
 	{
 		return !operator==(animation);
 	}
-	
+
 	void Animation::reloadFrames(AssetManager* assetManager)
 	{
 		for(size_t i=0; i<frames.size(); i++)
@@ -162,7 +162,7 @@ namespace fgl
 		TextureImage* img = animFrame.img;
 		if(img == nullptr)
 		{
-			return Vector2u(0,0);
+			return Vector2u(0, 0);
 		}
 		else
 		{
@@ -181,7 +181,7 @@ namespace fgl
 			{
 				img = assetManager->getTexture(file);
 			}
-			
+
 			frames.add(Frame(file, img));
 		}
 	}
@@ -238,6 +238,16 @@ namespace fgl
 				}
 			}
 		}
+	}
+
+	void Animation::addFrames(const ArrayList<Frame>& frames_arg)
+	{
+		frames.addAll(frames_arg);
+	}
+
+	void Animation::removeAllFrames()
+	{
+		frames.clear();
 	}
 	
 	size_t Animation::getTotalFrames() const
