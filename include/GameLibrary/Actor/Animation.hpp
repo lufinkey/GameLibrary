@@ -139,21 +139,21 @@ namespace fgl
 		/*! Adds a single frame of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frame
 			\param file the path to the image file to use*/
-		void addFrame(AssetManager* assetManager, const String& file);
+		bool addFrame(AssetManager* assetManager, const String& file, String* error=nullptr);
 		/*! Adds frames of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.*/
-		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols);
+		bool addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, String* error=nullptr);
 		/*! Adds frames of animation.
 			\param assetManager the AssetManager to load the TextureImage for the frames
 			\param file the path to the image file to use
 			\param rows the number of rows to divide the image into
 			\param cols the number of columns to divide the image into
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row*/
-		void addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
+		bool addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence, String* error=nullptr);
 		/*! Adds frames of animation */
 		void addFrames(const ArrayList<Frame>& frames);
 		/*! Removes all frames. */

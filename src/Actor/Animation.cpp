@@ -177,72 +177,108 @@ namespace fgl
 		}
 	}
 
-	void Animation::addFrame(AssetManager* assetManager, const String& file)
+	bool Animation::addFrame(AssetManager* assetManager, const String& file, String* error)
 	{
-		if(file.length()>0)
+		if(assetManager==nullptr)
 		{
-			TextureImage* img = nullptr;
-			if(assetManager != nullptr && assetManager->loadTexture(file))
-			{
-				img = assetManager->getTexture(file);
-			}
-
-			frames.add(Frame(file, img));
+			throw IllegalArgumentException("assetManager", "cannot be null");
 		}
+		else if(file.length()==0)
+		{
+			throw IllegalArgumentException("file", "cannot be an empty string");
+		}
+
+		if(!assetManager->loadTexture(file, error))
+		{
+			return false;
+		}
+
+		TextureImage* img = assetManager->getTexture(file);
+		frames.add(Frame(file, img));
+		return true;
 	}
 
-	void Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols)
+	bool Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, String* error)
 	{
-		unsigned int total = rows*cols;
-		if(total>0 && file.length()>0)
+		if(assetManager==nullptr)
 		{
-			TextureImage* img = nullptr;
-			if(assetManager != nullptr)
-			{
-				if(assetManager->loadTexture(file))
-				{
-					img = assetManager->getTexture(file);
-				}
-			}
+			throw IllegalArgumentException("assetManager", "cannot be null");
+		}
+		else if(file.length()==0)
+		{
+			throw IllegalArgumentException("file", "cannot be an empty string");
+		}
+		else if(rows==0)
+		{
+			throw IllegalArgumentException("rows", "must be greater than 0");
+		}
+		else if(cols==0)
+		{
+			throw IllegalArgumentException("cols", "must be greater than 0");
+		}
 
-			for(unsigned int x=0; x<cols; x++)
+		if(!assetManager->loadTexture(file, error))
+		{
+			return false;
+		}
+
+		TextureImage* img = assetManager->getTexture(file);
+
+		for(unsigned int x=0; x<cols; x++)
+		{
+			for(unsigned int y=0; y<rows; y++)
 			{
-				for(unsigned int y=0; y<rows; y++)
-				{
-					frames.add(Frame(file, rows, cols, y, x, img));
-				}
+				frames.add(Frame(file, rows, cols, y, x, img));
 			}
 		}
+		return true;
 	}
 
-	void Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence)
+	bool Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence, String* error)
 	{
-		unsigned int total = rows*cols;
-		if(total > 0 && file.length()>0)
+		if(assetManager==nullptr)
 		{
-			TextureImage* img = nullptr;
-			if(assetManager != nullptr)
-			{
-				if(assetManager->loadTexture(file))
-				{
-					img = assetManager->getTexture(file);
-				}
-			}
+			throw IllegalArgumentException("assetManager", "cannot be null");
+		}
+		else if(file.length()==0)
+		{
+			throw IllegalArgumentException("file", "cannot be an empty string");
+		}
+		else if(rows==0)
+		{
+			throw IllegalArgumentException("rows", "must be greater than 0");
+		}
+		else if(cols==0)
+		{
+			throw IllegalArgumentException("cols", "must be greater than 0");
+		}
+		else if(sequence.size()==0)
+		{
+			return true;
+		}
 
-			for(size_t i=0; i<sequence.size(); i++)
+		for(size_t i=0; i<sequence.size(); i++)
+		{
+			auto& point = sequence[i];
+			if(point.x >= cols || point.y >= rows)
 			{
-				const Vector2u& point = sequence.get(i);
-				if(point.x >= cols || point.y >= rows)
-				{
-					//TODO replace with more specific exception type
-					throw Exception("Animation frame (x,y) cannot be outside of the specified rows/cols");
-				}
-				else
-				{
-					frames.add(Frame(file, rows, cols, point.y, point.x, img));
-				}
+				//TODO replace with more specific exception type
+				throw IllegalArgumentException("sequence", (String)"frame at index "+i+" is outside the bound of the given rows/cols");
 			}
 		}
+
+		if(!assetManager->loadTexture(file, error))
+		{
+			return false;
+		}
+
+		TextureImage* img = assetManager->getTexture(file);
+
+		for(auto& point : sequence)
+		{
+			frames.add(Frame(file, rows, cols, point.y, point.x, img));
+		}
+		return true;
 	}
 
 	void Animation::addFrames(const ArrayList<Frame>& frames_arg)
