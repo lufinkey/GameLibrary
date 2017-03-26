@@ -291,6 +291,10 @@ namespace fgl
 			{
 				long long actualEndFrameTime = apptime.getMilliseconds();
 				long long totalFrameTime = (long long)(actualEndFrameTime - startFrameTime);
+				if(totalFrameTime > sleeptime)
+				{
+					totalFrameTime = sleeptime;
+				}
 				framespeedMult = (double)(((long double)totalFrameTime)/((long double)1000));
 			}
 		}
