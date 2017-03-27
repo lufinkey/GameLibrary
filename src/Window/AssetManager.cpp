@@ -62,7 +62,7 @@ namespace fgl
 		return *window;
 	}
 
-	FILE* AssetManager::openFile(const String& path, const char* mode) const
+	FILE* AssetManager::openFile(const String& path, const char* mode, String* resolvedPath) const
 	{
 		if(FileTools::isPathAbsolute(path))
 		{
@@ -82,6 +82,14 @@ namespace fgl
 					{
 						break;
 					}
+				}
+			}
+			
+			if(file!=nullptr)
+			{
+				if(resolvedPath!=nullptr)
+				{
+					*resolvedPath = fullpath;
 				}
 			}
 			return file;
