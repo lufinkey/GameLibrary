@@ -66,18 +66,26 @@ namespace fgl
 	{
 		if(FileTools::isPathAbsolute(path))
 		{
-			return fopen(path, mode);
+			FILE* file = std::fopen(path, mode);
+			if(file!=nullptr)
+			{
+				if(resolvedPath!=nullptr)
+				{
+					*resolvedPath = path;
+				}
+			}
+			return file;
 		}
 		else
 		{
 			String fullpath = FileTools::combinePathStrings(rootdir, path);
-			FILE* file = fopen(fullpath, mode);
+			FILE* file = std::fopen(fullpath, mode);
 			if(file==nullptr)
 			{
 				for(auto& secondaryRoot : secondaryRoots)
 				{
 					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-					file = fopen(fullpath, mode);
+					file = std::fopen(fullpath, mode);
 					if(file!=nullptr)
 					{
 						break;
