@@ -21,6 +21,72 @@
 
 namespace fgl
 {
+	Number extractNumber(const Dictionary& dict, const Dictionary::Key& key, const Number& defaultValue)
+	{
+		try
+		{
+			const Any& value = dict.get(key);
+			if(value.is<Number>())
+			{
+				return value.as<Number>();
+			}
+			else if(value.is<fgl::Int64>())
+			{
+				return value.as<fgl::Int64>();
+			}
+			else if(value.is<fgl::Int32>())
+			{
+				return value.as<fgl::Int32>();
+			}
+			else if(value.is<fgl::Int16>())
+			{
+				return value.as<fgl::Int16>();
+			}
+			else if(value.is<fgl::Int8>())
+			{
+				return value.as<fgl::Int8>();
+			}
+			else if(value.is<long double>())
+			{
+				return value.as<long double>();
+			}
+			else if(value.is<double>())
+			{
+				return value.as<double>();
+			}
+			else if(value.is<float>())
+			{
+				return value.as<float>();
+			}
+			else if(value.is<fgl::Uint64>())
+			{
+				return value.as<fgl::Uint64>();
+			}
+			else if(value.is<fgl::Uint32>())
+			{
+				return value.as<fgl::Uint32>();
+			}
+			else if(value.is<fgl::Uint16>())
+			{
+				return value.as<fgl::Uint16>();
+			}
+			else if(value.is<fgl::Uint8>())
+			{
+				return value.as<fgl::Int8>();
+			}
+			else if(value.is<bool>())
+			{
+				return value.as<bool>();
+			}
+			return defaultValue;
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return defaultValue;
+		}
+	}
+
+	
 	void Plist_base64Decode(const char* encodedData, std::vector<char>& data);
 	void Plist_base64Encode(std::string& dataEncoded, const Data& data);
 	

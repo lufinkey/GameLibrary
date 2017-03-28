@@ -33,4 +33,6 @@ namespace fgl
 		
 		static bool saveToFile(const Dictionary& src, const String& path, String* error=nullptr);
 	};
+	
+	Number extractNumber(const Dictionary& dict, const Dictionary::Key& key, const Number& defaultValue);
 }
