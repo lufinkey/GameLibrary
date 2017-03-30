@@ -106,7 +106,7 @@ namespace fgl
 			static constexpr bool value = false;
 		};
 		
-		template<typename T, bool CHAR_TYPE = is_char_type<T>::value>
+		template<typename T, bool CHAR_TYPE = !is_char_type<T>::value>
 		struct is_not_char_type
 		{
 			static constexpr bool value = false;
