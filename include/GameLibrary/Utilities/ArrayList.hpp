@@ -590,6 +590,40 @@ namespace fgl
 			return ArrayList<T>(std::vector<T>(objects.rbegin(), objects.rend()));
 		}
 		
+		void forEach(const std::function<void(T&)>& func)
+		{
+			for(auto& obj : objects)
+			{
+				func(obj);
+			}
+		}
+		
+		void forEach(const std::function<void(const T&)>& func) const
+		{
+			for(auto& obj : objects)
+			{
+				func(obj);
+			}
+		}
+		
+		#ifdef __OBJC__
+		void forEach(void(^func)(T&))
+		{
+			for(auto& obj : objects)
+			{
+				func(obj);
+			}
+		}
+		
+		void forEach(void(^func)(const T&)) const
+		{
+			for(auto& obj : objects)
+			{
+				func(obj);
+			}
+		}
+		#endif
+		
 		String toString() const
 		{
 			String str = "[ ";
