@@ -9,6 +9,10 @@
 #include <vector>
 #include <functional>
 
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif
+
 #ifdef _ARRAYLIST_STANDALONE
 #include <stdexcept>
 #else
@@ -444,7 +448,7 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		size_t indexWhere(bool(^func)(const T&)) const
+		size_t indexWhere(BOOL(^func)(const T&)) const
 		{
 			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
 			{
@@ -483,7 +487,7 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		size_t lastIndexWhere(bool(^func)(const T&)) const
+		size_t lastIndexWhere(BOOL(^func)(const T&)) const
 		{
 			for(size_t i=(objects.size()-1); i!=-1; i--)
 			{
@@ -519,7 +523,7 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		ArrayList<T> filter(bool(^func)(const T&)) const
+		ArrayList<T> filter(BOOL(^func)(const T&)) const
 		{
 			ArrayList<T> newList;
 			size_t length = objects.size();
@@ -547,7 +551,7 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		void sort(bool(^func)(const T&,const T&))
+		void sort(BOOL(^func)(const T&,const T&))
 		{
 			if(objects.size()<=1)
 			{

@@ -9,6 +9,10 @@
 #include "String.hpp"
 #include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp>
 
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif
+
 namespace fgl
 {
 	template<typename KEY_TYPE, typename VALUE_TYPE>
@@ -100,7 +104,7 @@ namespace fgl
 		
 		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(const std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const;
 		#ifdef __OBJC__
-		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(bool(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const;
+		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(BOOL(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const;
 		#endif
 		
 		String toString() const;
