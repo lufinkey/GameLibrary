@@ -99,6 +99,9 @@ namespace fgl
 		bool isEmpty() const;
 		
 		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(const std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const;
+		#ifdef __OBJC__
+		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(bool(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const;
+		#endif
 		
 		String toString() const;
 		

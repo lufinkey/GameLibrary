@@ -443,6 +443,20 @@ namespace fgl
 			return ArrayList<T>::NOT_FOUND;
 		}
 		
+		#ifdef __OBJC__
+		size_t indexWhere(bool(^func)(const T&)) const
+		{
+			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
+			{
+				if(func(objects[i]))
+				{
+					return i;
+				}
+			}
+			return ArrayList<T>::NOT_FOUND;
+		}
+		#endif
+		
 		size_t lastIndexOf(const T& obj) const
 		{
 			for(size_t i=(objects.size()-1); i!=-1; i--)
@@ -468,6 +482,20 @@ namespace fgl
 			return ArrayList<T>::NOT_FOUND;
 		}
 		
+		#ifdef __OBJC__
+		size_t lastIndexWhere(bool(^func)(const T&)) const
+		{
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				if(func(objects[i]))
+				{
+					return i;
+				}
+			}
+			return ArrayList<T>::NOT_FOUND;
+		}
+		#endif
+		
 		bool contains(const T& obj) const
 		{
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
@@ -490,6 +518,25 @@ namespace fgl
 			return newList;
 		}
 		
+		#ifdef __OBJC__
+		ArrayList<T> filter(bool(^func)(const T&)) const
+		{
+			ArrayList<T> newList;
+			size_t length = objects.size();
+			newList.reserve(length);
+			for(size_t i=0; i<length; i++)
+			{
+				const T& obj = objects[i];
+				if(func(obj))
+				{
+					newList.add(obj);
+				}
+			}
+			newList.shrinkToFit();
+			return newList;
+		}
+		#endif
+		
 		void sort(const std::function<bool(const T&,const T&)>& func)
 		{
 			if(objects.size()<=1)
@@ -498,6 +545,19 @@ namespace fgl
 			}
 			std::stable_sort(objects.begin(), objects.end(), func);
 		}
+		
+		#ifdef __OBJC__
+		void sort(bool(^func)(const T&,const T&))
+		{
+			if(objects.size()<=1)
+			{
+				return;
+			}
+			std::stable_sort(objects.begin(), objects.end(), [&](const T& obj1, const T& obj2) -> bool {
+				return func(obj1, obj2);
+			});
+		}
+		#endif
 		
 		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
 		{
