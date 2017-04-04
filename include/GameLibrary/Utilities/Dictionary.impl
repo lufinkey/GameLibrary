@@ -420,6 +420,44 @@ namespace fgl
 	#endif
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, VALUE_TYPE& value)>& func)
+	{
+		for(auto& pair : contents)
+		{
+			func(pair.first, pair.second);
+		}
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const
+	{
+		for(auto& pair : contents)
+		{
+			func(pair.first, pair.second);
+		}
+	}
+
+	#ifdef __OBJC__
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, VALUE_TYPE& value))
+	{
+		for(auto& pair : contents)
+		{
+			func(pair.first, pair.second);
+		}
+	}
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const
+	{
+		for(auto& pair : contents)
+		{
+			func(pair.first, pair.second);
+		}
+	}
+	#endif
+
+	template<typename KEY_TYPE, typename VALUE_TYPE>
 	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const
 	{
 		String str = (String)"BasicDictionary<" + typeid(KEY_TYPE).name() + "," + typeid(VALUE_TYPE).name() + ">( ";

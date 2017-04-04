@@ -107,6 +107,13 @@ namespace fgl
 		BasicDictionary<KEY_TYPE, VALUE_TYPE> filter(BOOL(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const;
 		#endif
 		
+		void forEach(const std::function<void(const KEY_TYPE& key, VALUE_TYPE& value)>& func);
+		void forEach(const std::function<void(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const;
+		#ifdef __OBJC__
+		void forEach(void(^func)(const KEY_TYPE& key, VALUE_TYPE& value));
+		void forEach(void(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const;
+		#endif
+		
 		String toString() const;
 		
 	private:
