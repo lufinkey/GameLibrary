@@ -223,6 +223,8 @@ namespace fgl
 			return overlapRect;
 		}
 	
+		/*! expands this rectangle to contain the given rectangle, as well as itself
+			\param rect the rectangle to combine with */
 		void combine(const Rectangle<T>& rect)
 		{
 			T rect_left = rect.x;
@@ -310,6 +312,34 @@ namespace fgl
 			height = container.height;
 			x = container.x + ((container.width - width)/2);
 			y = container.y + ((container.height - height)/2);
+		}
+		
+		/*! Gives the top left corner of this rectangle
+			\returns a Vector2 representing the point of the top left corner of this rectangle */
+		Vector2<T> getTopLeft() const
+		{
+			return Vector2<T>(x, y);
+		}
+		
+		/*! Gives the top right corner of this rectangle
+			\returns a Vector2 representing the point of the top right corner of this rectangle */
+		Vector2<T> getTopRight() const
+		{
+			return Vector2<T>(x+width, y);
+		}
+		
+		/*! Gives the bottom left corner of this rectangle
+			\returns a Vector2 representing the point of the bottom left corner of this rectangle */
+		Vector2<T> getBottomLeft() const
+		{
+			return Vector2<T>(x, y+height);
+		}
+		
+		/*! Gives the bottom right corner of this rectangle
+			\returns a Vector2 representing the point of the bottom right corner of this rectangle */
+		Vector2<T> getBottomRight() const
+		{
+			return Vector2<T>(x+width, y+height);
 		}
 		
 		/*void scale(double scaleX, double scaleY, const T&originX, const T& originY)
