@@ -12,9 +12,8 @@ namespace fgl
 		: animation(animation_arg),
 		direction(direction_arg),
 		frameIndex(0),
-		prevFrameTime(0),
-		prevUpdateTime(0),
-		firstUpdate(true)
+		lastFrameTime(0),
+		animationChanged(false)
 	{
 		if(direction == Animation::NO_CHANGE)
 		{
@@ -22,6 +21,7 @@ namespace fgl
 		}
 		if(animation!=nullptr)
 		{
+			animationChanged = true;
 			if(direction==Animation::BACKWARD)
 			{
 				frameIndex = animation->getTotalFrames() - 1;
@@ -31,77 +31,83 @@ namespace fgl
 	
 	void AnimationPlayer::update(const ApplicationData& appData, const std::function<void(AnimationEvent)>& eventHandler)
 	{
-		prevUpdateTime = appData.getTime().getMilliseconds();
-		if(firstUpdate)
-		{
-			if(animation!=nullptr)
-			{
-				prevFrameTime = prevUpdateTime;
-			}
-			firstUpdate = false;
-		}
+		long long currentTimeMillis = appData.getTime().getMilliseconds();
 		
+		//handle animation
 		bool frameChanged = false;
-		bool animationFinished = false;
-		
-		//update animation loop
-		if(direction == Animation::STOPPED)
+		do
 		{
-			prevFrameTime = prevUpdateTime;
-		}
-		else if(animation!=nullptr)
-		{
-			float fps = animation->getFPS();
-			if(fps!=0)
+			frameChanged = false;
+			if(animationChanged)
 			{
-				long long waitTime = (long long)(1000.0f/fps);
-				long long finishTime = prevFrameTime + waitTime;
-				if(finishTime <= prevUpdateTime)
+				lastFrameTime = currentTimeMillis;
+				animationChanged = false;
+			}
+			if(animation!=nullptr && animation->getTotalFrames() > 0)
+			{
+				long double fps = (long double)animation->getFPS();
+				long long frameTime = (long long)(1000.0L/fps);
+				if(frameTime==0)
 				{
-					prevFrameTime = prevUpdateTime;
-					if(direction == Animation::FORWARD)
+					frameTime = 1;
+				}
+				long long nextFrameTime = lastFrameTime + frameTime;
+				if(nextFrameTime<=currentTimeMillis)
+				{
+					lastFrameTime = nextFrameTime;
+					if(direction!=Animation::STOPPED)
 					{
-						frameIndex++;
-						size_t totalFrames = animation->getTotalFrames();
-						if(frameIndex >= totalFrames)
-						{
-							frameIndex = 0;
-							animationFinished = true;
-						}
 						frameChanged = true;
-					}
-					else if(direction == Animation::BACKWARD)
-					{
-						if(frameIndex == 0)
+						if(direction==Animation::FORWARD)
 						{
-							size_t totalFrames = animation->getTotalFrames();
-							if(totalFrames > 0)
+							frameIndex++;
+							if(frameIndex >= animation->getTotalFrames())
 							{
-								frameIndex = totalFrames-1;
+								frameIndex = 0;
+								if(eventHandler)
+								{
+									eventHandler(ANIMATIONEVENT_FINISHED);
+									if(!animationChanged)
+									{
+										eventHandler(ANIMATIONEVENT_FRAMECHANGED);
+									}
+								}
 							}
-							animationFinished = true;
+							else
+							{
+								if(eventHandler)
+								{
+									eventHandler(ANIMATIONEVENT_FRAMECHANGED);
+								}
+							}
 						}
-						else
+						else if(direction==Animation::BACKWARD)
 						{
 							frameIndex--;
+							if(frameIndex == -1)
+							{
+								frameIndex = animation->getTotalFrames()-1;
+								if(eventHandler)
+								{
+									eventHandler(ANIMATIONEVENT_FINISHED);
+									if(!animationChanged)
+									{
+										eventHandler(ANIMATIONEVENT_FRAMECHANGED);
+									}
+								}
+							}
+							else
+							{
+								if(eventHandler)
+								{
+									eventHandler(ANIMATIONEVENT_FRAMECHANGED);
+								}
+							}
 						}
-						frameChanged = true;
 					}
 				}
 			}
-		}
-		
-		if(eventHandler)
-		{
-			if(frameChanged)
-			{
-				eventHandler(ANIMATIONEVENT_FRAMECHANGED);
-			}
-			if(animationFinished)
-			{
-				eventHandler(ANIMATIONEVENT_FINISHED);
-			}
-		}
+		} while(animationChanged || frameChanged);
 	}
 	
 	void AnimationPlayer::draw(Graphics& graphics) const
@@ -126,7 +132,8 @@ namespace fgl
 		if(animation==nullptr)
 		{
 			frameIndex = 0;
-			prevFrameTime = prevUpdateTime;
+			lastFrameTime = 0;
+			animationChanged = true;
 			direction = direction_arg;
 		}
 		else
@@ -137,7 +144,8 @@ namespace fgl
 				case Animation::STOPPED:
 				{
 					frameIndex = 0;
-					prevFrameTime = prevUpdateTime;
+					lastFrameTime = 0;
+					animationChanged = true;
 					direction = direction_arg;
 				}
 				break;
@@ -153,7 +161,8 @@ namespace fgl
 					{
 						frameIndex = 0;
 					}
-					prevFrameTime = prevUpdateTime;
+					lastFrameTime = 0;
+					animationChanged = true;
 					direction = direction_arg;
 				}
 				break;

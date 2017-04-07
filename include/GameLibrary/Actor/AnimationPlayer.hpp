@@ -58,8 +58,7 @@ namespace fgl
 		Animation* animation;
 		Animation::Direction direction;
 		size_t frameIndex;
-		long long prevFrameTime;
-		long long prevUpdateTime;
-		bool firstUpdate;
+		long long lastFrameTime;
+		bool animationChanged;
 	};
 }
