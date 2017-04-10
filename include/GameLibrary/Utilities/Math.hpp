@@ -3,6 +3,8 @@
 
 namespace fgl
 {
+	//TODO turn some of these functions into template functions
+	
 	class Math
 	{
 	public:
@@ -102,6 +104,9 @@ namespace fgl
 		static float radtodeg(float rad);
 		static double radtodeg(double rad);
 		static long double radtodeg(long double rad);
+		static float normalizeDegrees(float degrees);
+		static double normalizeDegrees(double degrees);
+		static long double normalizeDegrees(long double degrees);
 
 		//Random
 		static double random();

@@ -196,6 +196,57 @@ namespace fgl
 	float Math::radtodeg(float rad) { return (float)(rad * 180.0f / (float)PI); };
 	double Math::radtodeg(double rad){ return (double)(rad * 180.0 / (double)PI); };
 	long double Math::radtodeg(long double rad) { return (long double)(rad * 180.0L / (long double)PI); };
+	
+	float Math::normalizeDegrees(float degrees)
+	{
+		if(degrees >= 0)
+		{
+			return fmod(degrees, 360);
+		}
+		else
+		{
+			degrees = fmod(degrees, 360);
+			if(degrees < 0)
+			{
+				return degrees + 360;
+			}
+			return degrees;
+		}
+	}
+	
+	double Math::normalizeDegrees(double degrees)
+	{
+		if(degrees >= 0)
+		{
+			return fmod(degrees, 360);
+		}
+		else
+		{
+			degrees = fmod(degrees, 360);
+			if(degrees < 0)
+			{
+				return degrees + 360;
+			}
+			return degrees;
+		}
+	}
+	
+	long double normalizeDegrees(long double degrees)
+	{
+		if(degrees >= 0)
+		{
+			return fmod(degrees, 360);
+		}
+		else
+		{
+			degrees = fmod(degrees, 360);
+			if(degrees < 0)
+			{
+				return degrees + 360;
+			}
+			return degrees;
+		}
+	}
 
 	//Random
 	double Math::random() { return ((double)std::rand())/((double)(RAND_MAX)); }
