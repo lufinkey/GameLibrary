@@ -245,7 +245,7 @@ namespace fgl
 		void reset(const Color&clearColor = Color::WHITE);
 		
 		/*! Constructs a Graphics object to draw to a given Window*/
-		explicit Graphics(Window&window);
+		explicit Graphics(Window& window);
 		
 		/*! Called internally to begin a drawing operation.
 		To create a custom drawing operation, beginDraw() should be called before the operation, and endDraw() should be called when the operation finishes.*/
@@ -254,6 +254,10 @@ namespace fgl
 		/*! Called internally to end a drawing operation.
 		To create a custom drawing operation, beginDraw() should be called before the operation, and endDraw() should be called when the operation finishes.*/
 		void endDraw();
+
+		/*! Returns the renderer pointer used to draw to the window
+			\returns a void pointer that must be cast to an SDL_Renderer pointer */
+		void* getRenderer() const;
 		
 	private:
 		//! Draws a line without calling beginDraw or endDraw or transforming coordinates

@@ -334,6 +334,11 @@ namespace fgl
 		SDL_RenderSetClipRect((SDL_Renderer*)renderer, nullptr);
 	}
 
+	void* Graphics::getRenderer() const
+	{
+		return renderer;
+	}
+
 	Font* Graphics::getDefaultFont()
 	{
 		if(defaultFont == nullptr)
