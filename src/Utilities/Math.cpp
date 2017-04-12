@@ -25,7 +25,7 @@ namespace fgl
 	long double Math::acos(long double arg){ return std::acos(arg); }
 	float Math::atan(float arg) { return std::atan(arg); }
 	double Math::atan(double arg){ return std::atan(arg); }
-	long double Math::atan(long double x){ return std::atan(x); }
+	long double Math::atan(long double arg){ return std::atan(arg); }
 	float Math::atan2(float y, float x) { return std::atan2(y, x); }
 	double Math::atan2(double y, double x){ return std::atan2(y, x); }
 	long double Math::atan2(long double y, long double x){ return std::atan2(y, x); }
