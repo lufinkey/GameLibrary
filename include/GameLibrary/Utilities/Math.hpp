@@ -29,9 +29,9 @@ namespace fgl
 		static float atan(float arg);
 		static double atan(double arg);
 		static long double atan(long double arg);
-		static float atan2(float x, float y);
-		static double atan2(double x, double y);
-		static long double atan2(long double x, long double y);
+		static float atan2(float y, float x);
+		static double atan2(double y, double x);
+		static long double atan2(long double y, long double x);
 		static float distance(float x1, float y1, float x2, float y2);
 		static double distance(double x1, double y1, double x2, double y2);
 		static long double distance(long double x1, long double y1, long double x2, long double y2);
