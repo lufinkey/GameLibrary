@@ -261,11 +261,7 @@ namespace fgl
 		
 		void addAll(const ArrayList<T>& array)
 		{
-			objects.reserve(objects.size()+array.objects.size());
-			for(size_t array_size=array.objects.size(), i=0; i<array_size; i++)
-			{
-				objects.push_back(array.objects[i]);
-			}
+			objects.insert(objects.end(), array.objects.begin(), array.objects.end());
 		}
 		
 		void addAll(ArrayList<T>&& array)
@@ -288,36 +284,7 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
-			size_t array_size = array.objects.size();
-			if(array_size > 0)
-			{
-				size_t fromIndex = index;
-				if(fromIndex == size)
-				{
-					objects.reserve(size+array_size);
-					for(size_t i=0; i<array_size; i++)
-					{
-						objects.push_back(array.objects[i]);
-					}
-				}
-				else
-				{
-					size_t toIndex = index + array.objects.size();
-					objects.resize(size+array_size);
-					while (toIndex < size)
-					{
-						objects[toIndex] = objects[fromIndex];
-						fromIndex++;
-						toIndex++;
-					}
-					size_t counter = index;
-					for(size_t i=0; i<array_size; i++)
-					{
-						objects[counter] = array.objects[i];
-						counter++;
-					}
-				}
-			}
+			objects.insert(objects.begin()+index, array.objects.begin(), array.objects.end());
 		}
 		
 		void addAll(size_t index, ArrayList<T>&& array)
