@@ -43,6 +43,18 @@ namespace fgl
 			//
 		}
 		
+		ArrayList(const ArrayList<T>& array)
+			: objects(array.objects)
+		{
+			//
+		}
+		
+		ArrayList(ArrayList<T>&& array)
+			: objects(array.objects)
+		{
+			//
+		}
+		
 		template<size_t SIZE>
 		ArrayList(const std::array<T, SIZE>& arr)
 			: objects(arr.begin(), arr.end())
@@ -141,6 +153,24 @@ namespace fgl
 		const_reverse_iterator crend() const
 		{
 			return objects.crend();
+		}
+		
+		ArrayList<T>& operator=(const ArrayList<T>& array)
+		{
+			objects = array.objects;
+			return *this;
+		}
+		
+		ArrayList<T>& operator=(ArrayList<T>&& array)
+		{
+			objects = array.objects;
+			return *this;
+		}
+		
+		ArrayList<T>& operator=(std::initializer_list<T> list)
+		{
+			objects = list;
+			return *this;
 		}
 		
 		T& operator[] (size_t index)
