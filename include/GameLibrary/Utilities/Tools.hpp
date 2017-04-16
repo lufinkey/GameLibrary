@@ -46,4 +46,11 @@ namespace fgl
 	{
 		return std::shared_ptr<T>(value);
 	}
+
+#define define_shared(TYPENAME) \
+	typedef std::shared_ptr<TYPENAME> $##TYPENAME; \
+	template<typename...Args> \
+	$##TYPENAME new_$##TYPENAME(Args&&... args) { \
+		return std::make_shared<TYPENAME>(std::forward<Args>(args)...); \
+	}
 }
