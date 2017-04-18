@@ -37,6 +37,13 @@ namespace fgl
 		}
 	};
 
+	Application* MainApplication = nullptr;
+
+	Application* Application::getMainApplication()
+	{
+		return MainApplication;
+	}
+
 	Application::Application()
 	{
 		window = nullptr;
@@ -126,6 +133,10 @@ namespace fgl
 			return EXITCODE_ALREADYRUNNING;
 		}
 
+		if(MainApplication == nullptr)
+		{
+			MainApplication = this;
+		}
 		app_running = true;
 
 		apptime.reset();
@@ -146,6 +157,11 @@ namespace fgl
 
 		app_running = false;
 		app_closing = false;
+
+		if(MainApplication == this)
+		{
+			MainApplication = nullptr;
+		}
 		return exitcode;
 	}
 

@@ -49,6 +49,8 @@ namespace fgl
 			/*! Exit code used when the Application is not running inside of the main thread.*/
 			EXITCODE_NOTMAINTHREAD = -3,
 		};
+
+		static Application* getMainApplication();
 		
 		/*! default constructor*/
 		Application();
