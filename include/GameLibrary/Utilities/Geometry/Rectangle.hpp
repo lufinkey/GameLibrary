@@ -341,6 +341,30 @@ namespace fgl
 		{
 			return Vector2<T>(x+width, y+height);
 		}
+
+		/*! Gives the left x coordinate of the rectangle */
+		T getLeft() const
+		{
+			return x;
+		}
+
+		/*! Gives the top y coordinate of the rectangle */
+		T getTop() const
+		{
+			return y;
+		}
+
+		/*! Gives the right x coordinate of the rectangle */
+		T getRight() const
+		{
+			return x+width;
+		}
+
+		/*! Gives the bottom y coordinate of the rectangle */
+		T getBottom() const
+		{
+			return y+height;
+		}
 		
 		/*void scale(double scaleX, double scaleY, const T&originX, const T& originY)
 		{
