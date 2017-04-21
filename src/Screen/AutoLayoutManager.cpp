@@ -39,53 +39,58 @@ namespace fgl
 		return "";
 	}
 	
-	LayoutRuleType LayoutRuleType_fromString(const String& layoutRuleType, bool*valid)
+	bool LayoutRuleType_fromString(const String& string, LayoutRuleType* ruleType)
 	{
-		if(valid!=nullptr)
+		if(ruleType==nullptr)
 		{
-			*valid = true;
+			throw IllegalArgumentException("ruleType", "cannot be null");
 		}
-		if(layoutRuleType.equals("LAYOUTRULE_LEFT"))
+		if(string.equals("LAYOUTRULE_LEFT"))
 		{
-			return LAYOUTRULE_LEFT;
+			*ruleType = LAYOUTRULE_LEFT;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_TOP"))
+		else if(string.equals("LAYOUTRULE_TOP"))
 		{
-			return LAYOUTRULE_TOP;
+			*ruleType = LAYOUTRULE_TOP;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_RIGHT"))
+		else if(string.equals("LAYOUTRULE_RIGHT"))
 		{
-			return LAYOUTRULE_RIGHT;
+			*ruleType = LAYOUTRULE_RIGHT;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_BOTTOM"))
+		else if(string.equals("LAYOUTRULE_BOTTOM"))
 		{
-			return LAYOUTRULE_BOTTOM;
+			*ruleType = LAYOUTRULE_BOTTOM;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_CENTER_X"))
+		else if(string.equals("LAYOUTRULE_CENTER_X"))
 		{
-			return LAYOUTRULE_CENTER_X;
+			*ruleType = LAYOUTRULE_CENTER_X;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_CENTER_Y"))
+		else if(string.equals("LAYOUTRULE_CENTER_Y"))
 		{
-			return LAYOUTRULE_CENTER_Y;
+			*ruleType = LAYOUTRULE_CENTER_Y;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_WIDTH"))
+		else if(string.equals("LAYOUTRULE_WIDTH"))
 		{
-			return LAYOUTRULE_WIDTH;
+			*ruleType = LAYOUTRULE_WIDTH;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_HEIGHT"))
+		else if(string.equals("LAYOUTRULE_HEIGHT"))
 		{
-			return LAYOUTRULE_HEIGHT;
+			*ruleType = LAYOUTRULE_HEIGHT;
+			return true;
 		}
-		else if(layoutRuleType.equals("LAYOUTRULE_ASPECTRATIO"))
+		else if(string.equals("LAYOUTRULE_ASPECTRATIO"))
 		{
-			return LAYOUTRULE_ASPECTRATIO;
+			*ruleType = LAYOUTRULE_ASPECTRATIO;
+			return true;
 		}
-		if(valid!=nullptr)
-		{
-			*valid = false;
-		}
-		return LAYOUTRULE_LEFT;
+		return false;
 	}
 	
 	String LayoutValueType_toString(const LayoutValueType& layoutValueType)
@@ -101,25 +106,23 @@ namespace fgl
 		return "";
 	}
 	
-	LayoutValueType LayoutValueType_fromString(const String& layoutValueType, bool*valid)
+	bool LayoutValueType_fromString(const String& string, LayoutValueType* valueType)
 	{
-		if(valid!=nullptr)
+		if(valueType==nullptr)
 		{
-			*valid = true;
+			throw IllegalArgumentException("valueType", "cannot be null");
 		}
-		if(layoutValueType.equals("LAYOUTVALUE_PIXEL"))
+		if(string.equals("LAYOUTVALUE_PIXEL"))
 		{
-			return LAYOUTVALUE_PIXEL;
+			*valueType = LAYOUTVALUE_PIXEL;
+			return true;
 		}
-		else if(layoutValueType.equals("LAYOUTVALUE_RATIO"))
+		else if(string.equals("LAYOUTVALUE_RATIO"))
 		{
-			return LAYOUTVALUE_RATIO;
+			*valueType = LAYOUTVALUE_RATIO;
+			return true;
 		}
-		if(valid!=nullptr)
-		{
-			*valid = false;
-		}
-		return LAYOUTVALUE_PIXEL;
+		return false;
 	}
 	
 	AutoLayoutManager::AutoLayoutManager() : containerOffset(false)
@@ -164,9 +167,8 @@ namespace fgl
 		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
 		{
 			const std::pair<String, Any> pair = contents.get(i);
-			bool valid = false;
-			LayoutRuleType ruleType = LayoutRuleType_fromString(pair.first, &valid);
-			if(valid)
+			LayoutRuleType ruleType;
+			if(LayoutRuleType_fromString(pair.first, &ruleType))
 			{
 				if(pair.second.is<Dictionary>())
 				{
@@ -180,12 +182,7 @@ namespace fgl
 						if(!valueType_any.isEmpty() && valueType_any.is<String>())
 						{
 							String valueType_str = valueType_any.as<String>();
-							bool validValue = false;
-							valueType = LayoutValueType_fromString(valueType_str, &validValue);
-							if(!validValue)
-							{
-								valueType = LAYOUTVALUE_PIXEL;
-							}
+							LayoutValueType_fromString(valueType_str, &valueType);
 						}
 						setRule(ruleType, value, valueType);
 					}

@@ -332,6 +332,12 @@ namespace fgl
 		autoLayoutFrame();
 	}
 	
+	void ScreenElement::setLayoutRules(const Dictionary& rules)
+	{
+		autoLayoutMgr.setRules(rules);
+		autoLayoutFrame();
+	}
+	
 	bool ScreenElement::hasLayoutRules() const
 	{
 		return autoLayoutMgr.hasRules();

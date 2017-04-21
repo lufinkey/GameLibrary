@@ -98,6 +98,17 @@ namespace fgl
 			\param value the value of the rule given, in the specified units
 			\param valueType the units of the value parameter \see fgl::LayoutValueType*/
 		void setLayoutRule(const LayoutRuleType& ruleType, double value, const LayoutValueType& valueType=LAYOUTVALUE_PIXEL);
+		/*! Clears all layout rules and sets them from a given dictionary of layout rules
+			\param rules a dictionary of layout rules
+			\example
+				 <key>LAYOUTRULE_LEFT</key>
+				 <dict>
+					<key>value</key>
+					<real>0.4</real>
+					<key>valueType</key>
+					<string>LAYOUTVALUE_RATIO</string>
+				 </dict>*/
+		void setLayoutRules(const Dictionary& rules);
 		/*! Tells whether any layout rules have been set for this element.
 			\returns true if this element has set layout rules, or false if otherwise*/
 		bool hasLayoutRules() const;

@@ -21,7 +21,7 @@ namespace fgl
 		LAYOUTRULE_ASPECTRATIO
 	};
 	String LayoutRuleType_toString(const LayoutRuleType& layoutRuleType);
-	LayoutRuleType LayoutRuleType_fromString(const String& layoutRuleType, bool*valid);
+	bool LayoutRuleType_fromString(const String& string, LayoutRuleType* ruleType);
 	
 	enum LayoutValueType
 	{
@@ -29,7 +29,7 @@ namespace fgl
 		LAYOUTVALUE_RATIO
 	};
 	String LayoutValueType_toString(const LayoutValueType& layoutValueType);
-	LayoutValueType LayoutValueType_fromString(const String& layoutValueType, bool*valid);
+	bool LayoutValueType_fromString(const String& string, LayoutValueType* valueType);
 	
 	struct LayoutRule
 	{
