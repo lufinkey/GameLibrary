@@ -71,6 +71,11 @@ namespace fgl
 		return touchEnabled;
 	}
 	
+	const ArrayList<unsigned int> TouchElement::getHoveredMouseIndexes() const
+	{
+		return enteredMouses;
+	}
+	
 	
 	size_t TouchElement::getTouchIndex(unsigned int touchID, bool mouse) const
 	{

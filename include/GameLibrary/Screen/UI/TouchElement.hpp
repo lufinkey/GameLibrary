@@ -18,6 +18,8 @@ namespace fgl
 		void setTouchEnabled(bool toggle);
 		bool isTouchEnabled() const;
 		
+		const ArrayList<unsigned int> getHoveredMouseIndexes() const;
+		
 	protected:
 		virtual void onMouseEnter(unsigned int mouseIndex);
 		virtual void onMouseLeave(unsigned int mouseIndex);

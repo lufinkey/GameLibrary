@@ -250,7 +250,10 @@ namespace fgl
 	{
 		if(enabled)
 		{
-			//TODO should do something here related to BUTTONSTATE_HOVERED
+			if(buttonState!=BUTTONSTATE_PRESSED && getHoveredMouseIndexes().size() > 0)
+			{
+				setButtonState(BUTTONSTATE_HOVERED);
+			}
 		}
 	}
 	
@@ -258,7 +261,10 @@ namespace fgl
 	{
 		if(enabled)
 		{
-			//TODO should do something here related to BUTTONSTATE_HOVERED
+			if(buttonState==BUTTONSTATE_HOVERED && getHoveredMouseIndexes().size()==0)
+			{
+				setButtonState(BUTTONSTATE_NORMAL);
+			}
 		}
 	}
 	
@@ -274,8 +280,14 @@ namespace fgl
 	{
 		if(enabled)
 		{
-			//TODO do BUTTONSTATE_HOVERED if still hovered
-			setButtonState(BUTTONSTATE_NORMAL);
+			if(getHoveredMouseIndexes().size() > 0)
+			{
+				setButtonState(BUTTONSTATE_HOVERED);
+			}
+			else
+			{
+				setButtonState(BUTTONSTATE_NORMAL);
+			}
 			if(tapHandler)
 			{
 				tapHandler();
@@ -287,7 +299,14 @@ namespace fgl
 	{
 		if(enabled)
 		{
-			setButtonState(BUTTONSTATE_NORMAL);
+			if(getHoveredMouseIndexes().size() > 0)
+			{
+				setButtonState(BUTTONSTATE_HOVERED);
+			}
+			else
+			{
+				setButtonState(BUTTONSTATE_NORMAL);
+			}
 		}
 	}
 	
@@ -295,7 +314,14 @@ namespace fgl
 	{
 		if(enabled)
 		{
-			setButtonState(BUTTONSTATE_NORMAL);
+			if(getHoveredMouseIndexes().size() > 0)
+			{
+				setButtonState(BUTTONSTATE_HOVERED);
+			}
+			else
+			{
+				setButtonState(BUTTONSTATE_NORMAL);
+			}
 		}
 	}
 }
