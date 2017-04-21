@@ -1,6 +1,7 @@
 
 #include <GameLibrary/Graphics/Color.hpp>
 #include <GameLibrary/Utilities/Math.hpp>
+#include <GameLibrary/Utilities/Plist.hpp>
 
 namespace fgl
 {
@@ -14,6 +15,14 @@ namespace fgl
 		: r(r), g(g), b(b), a(a)
 	{
 		//
+	}
+	
+	Color::Color(const Dictionary& colorValues) : Color()
+	{
+		r = extractNumber(colorValues, "r", 255);
+		g = extractNumber(colorValues, "g", 255);
+		b = extractNumber(colorValues, "b", 255);
+		a = extractNumber(colorValues, "a", 255);
 	}
 	
 	Color::Color(const fgl::Color::RGBA32& rgba)

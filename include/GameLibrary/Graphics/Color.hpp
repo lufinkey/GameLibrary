@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Types.hpp>
+#include <GameLibrary/Utilities/Dictionary.hpp>
 
 namespace fgl
 {
@@ -205,6 +206,16 @@ namespace fgl
 			\param b the blue value
 			\param a the alpha value*/
 		Color(byte r, byte g, byte b, byte a=255);
+		/*! Constructs a Color object with a given Dictionary of r,g,b,a values
+			\param colorValues a Dictionary of r,g,b,a values for this color
+			\example
+				<key>r</key>
+				<integer>0</integer>
+				<key>g</key>
+				<integer>0</integer>
+				<key>b</key>
+				<integer>0</integer> */
+		Color(const Dictionary& colorValues);
 		
 		
 		/*! assignment operator*/
