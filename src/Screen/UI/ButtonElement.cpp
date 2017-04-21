@@ -27,6 +27,7 @@ namespace fgl
 		images[BUTTONSTATE_NORMAL] = nullptr;
 		backgroundImages[BUTTONSTATE_NORMAL] = nullptr;
 		backgroundColors[BUTTONSTATE_NORMAL] = Color::TRANSPARENT;
+		tintColors[BUTTONSTATE_NORMAL] = Color::WHITE;
 		
 		backgroundElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
 		backgroundElement->setLayoutRule(LAYOUTRULE_TOP, 0);
@@ -82,6 +83,16 @@ namespace fgl
 			imageElement->setFrame(RectangleD(0,0,frame.width,0));
 			titleElement->setFrame(RectangleD(0,0,frame.width,frame.height));
 		}
+	}
+	
+	void ButtonElement::draw(ApplicationData appData, Graphics graphics) const
+	{
+		auto tintColor = getTintColor(buttonState);
+		if(tintColor!=Color::WHITE)
+		{
+			graphics.compositeTintColor(tintColor);
+		}
+		TouchElement::draw(appData, graphics);
 	}
 	
 	void ButtonElement::setTapHandler(const std::function<void()>& tapHandler_arg)
@@ -169,6 +180,23 @@ namespace fgl
 		catch(const DictionaryKeyNotFoundException&)
 		{
 			return titleColors.get(BUTTONSTATE_NORMAL);
+		}
+	}
+	
+	void ButtonElement::setTintColor(const fgl::Color& tintColor, ButtonState state)
+	{
+		tintColors[state] = tintColor;
+	}
+	
+	const Color& ButtonElement::getTintColor(ButtonState state) const
+	{
+		try
+		{
+			return tintColors.get(state);
+		}
+		catch(const DictionaryKeyNotFoundException&)
+		{
+			return tintColors.get(BUTTONSTATE_NORMAL);
 		}
 	}
 	

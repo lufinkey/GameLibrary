@@ -25,6 +25,7 @@ namespace fgl
 		virtual ~ButtonElement();
 		
 		virtual void layoutChildElements() override;
+		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		void setTapHandler(const std::function<void()>& tapHandler);
 		const std::function<void()>& getTapHandler() const;
@@ -39,6 +40,9 @@ namespace fgl
 		
 		void setTitleColor(const Color& titleColor, ButtonState state);
 		const Color& getTitleColor(ButtonState state) const;
+		
+		void setTintColor(const Color& tintColor, ButtonState state);
+		const Color& getTintColor(ButtonState state) const;
 		
 		void setImage(TextureImage* image, ButtonState state);
 		TextureImage* getImage(ButtonState state) const;
@@ -76,6 +80,7 @@ namespace fgl
 		BasicDictionary<ButtonState, TextureImage*> images;
 		BasicDictionary<ButtonState, TextureImage*> backgroundImages;
 		BasicDictionary<ButtonState, Color> backgroundColors;
+		BasicDictionary<ButtonState, Color> tintColors;
 
 		bool enabled;
 	};
