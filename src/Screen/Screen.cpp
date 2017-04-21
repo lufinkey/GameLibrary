@@ -226,6 +226,7 @@ namespace fgl
 	
 	void Screen::onWillAppear(const Transition* transition)
 	{
+		updateFrame(window);
 		//Open for implementation
 	}
 	
