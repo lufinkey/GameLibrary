@@ -38,7 +38,7 @@ namespace fgl
 			\param path the path to the image file
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromFile(const String& path, String*error=nullptr);
+		bool loadFromPath(const String& path, String*error=nullptr);
 		/*! Saves the image data to a file. File type is automatically deduced from the file extension. This function currently only supports BMP and PNG.
 			\param path the path to save the file
 			\param error an optional String pointer to store the error message if the function fails

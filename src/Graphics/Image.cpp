@@ -175,7 +175,7 @@ namespace fgl
 		return false;
 	}
 	
-	bool Image::loadFromFile(const String& path, String* error)
+	bool Image::loadFromPath(const String& path, String* error)
 	{
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
