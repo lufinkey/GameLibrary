@@ -110,7 +110,7 @@ namespace fgl
 	
 	bool Data::loadFromPath(const String& path, String* error)
 	{
-		FILE*file = std::fopen(path, "r");
+		FILE* file = std::fopen(path, "r");
 		if (file == nullptr)
 		{
 			//TODO add switch for errno
@@ -120,6 +120,18 @@ namespace fgl
 			}
 			return false;
 		}
+		bool success = loadFromFile(file, error);
+		std::fclose(file);
+		return success;
+	}
+	
+	bool Data::loadFromFile(FILE* file, String* error)
+	{
+		if(file == nullptr)
+		{
+			throw fgl::IllegalArgumentException("file", "cannot be null");
+		}
+		long originalPos = std::ftell(file);
 		std::fseek(file, 0, SEEK_END);
 		size_t fileSize = (size_t)std::ftell(file);
 		std::fseek(file, 0, SEEK_SET);
@@ -132,7 +144,7 @@ namespace fgl
 			data = (byte*)std::realloc(data, fileSize);
 		}
 		std::fread((void*)data, 1, fileSize, file);
-		std::fclose(file);
+		std::fseek(file, originalPos, SEEK_SET);
 		length = (size_t)fileSize;
 		return true;
 	}

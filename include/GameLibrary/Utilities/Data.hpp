@@ -26,6 +26,7 @@ namespace fgl
 		Data& operator=(Data&&);
 		
 		bool loadFromPath(const String& path, String* error=nullptr);
+		bool loadFromFile(FILE* file, String* error=nullptr);
 		bool saveToPath(const String& path, String* error=nullptr) const;
 		
 		String toString() const;
