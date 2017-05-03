@@ -162,7 +162,7 @@ namespace fgl
 		return *this;
 	}
 
-	bool Font::loadFromFile(const String&path, unsigned int defaultsize, String*error)
+	bool Font::loadFromPath(const String&path, unsigned int defaultsize, String*error)
 	{
 		mlock.lock();
 		Data* fontDataPacket = new Data();

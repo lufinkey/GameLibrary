@@ -232,7 +232,7 @@ namespace fgl
 		{
 			defaultFont = new Font();
 			String error;
-			bool success = defaultFont->loadFromFile(defaultFontPath, 24, &error);
+			bool success = defaultFont->loadFromPath(defaultFontPath, 24, &error);
 			if(!success)
 			{
 				Console::writeLine("\""+defaultFontPath+"\": "+error);
@@ -345,7 +345,7 @@ namespace fgl
 		{
 			defaultFont = new Font();
 			String error;
-			bool success = defaultFont->loadFromFile(defaultFontPath, 24, &error);
+			bool success = defaultFont->loadFromPath(defaultFontPath, 24, &error);
 			if(!success)
 			{
 				Console::writeLine(error);

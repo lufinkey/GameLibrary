@@ -47,7 +47,7 @@ namespace fgl
 			\param size the glyph size of the font
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromFile(const String& path, unsigned int size=24, String* error=nullptr);
+		bool loadFromPath(const String& path, unsigned int size=24, String* error=nullptr);
 		
 		
 		/*! Estimates the display size of a given string of text.
