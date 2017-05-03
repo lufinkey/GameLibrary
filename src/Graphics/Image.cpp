@@ -153,9 +153,9 @@ namespace fgl
 		return true;
 	}
 
-	bool Image::loadFromPointer(const void* pointer, size_t size, String* error)
+	bool Image::loadFromPointer(const void* pointer, size_t length, String* error)
 	{
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)size), 1);
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)length), 1);
 		if(surface != nullptr)
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))
@@ -196,8 +196,30 @@ namespace fgl
 		}
 		return false;
 	}
+	
+	bool Image::loadFromFile(FILE* file, String* error)
+	{
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromFP(file, SDL_FALSE), 1);
+		if(surface != nullptr)
+		{
+			if(Image_loadFromSDLSurface(surface, pixels, error))
+			{
+				width = (unsigned int)surface->w;
+				height = (unsigned int)surface->h;
+				SDL_FreeSurface(surface);
+				return true;
+			}
+			SDL_FreeSurface(surface);
+			return false;
+		}
+		if(error!=nullptr)
+		{
+			*error = IMG_GetError();
+		}
+		return false;
+	}
 
-	bool Image::saveToFile(const String& path, String*error) const
+	bool Image::saveToFile(const String& path, String* error) const
 	{
 		size_t dotIndex = path.lastIndexOf('.');
 		if(dotIndex == String::NOT_FOUND)
@@ -273,7 +295,7 @@ namespace fgl
 		return false;
 	}
 	
-	void Image::setPixel(unsigned int index, const Color&color)
+	void Image::setPixel(unsigned int index, const Color& color)
 	{
 		try
 		{
@@ -285,7 +307,7 @@ namespace fgl
 		}
 	}
 	
-	void Image::setPixel(unsigned int x, unsigned int y, const Color&color)
+	void Image::setPixel(unsigned int x, unsigned int y, const Color& color)
 	{
 		try
 		{
@@ -326,7 +348,7 @@ namespace fgl
 		return pixels;
 	}
 
-	void Image::recolor(const ArrayList<std::pair<Color, Color> >& colorSwaps)
+	void Image::recolor(const ArrayList<std::pair<Color, Color>>& colorSwaps)
 	{
 		size_t total = pixels.size();
 		size_t totalSwaps = colorSwaps.size();
@@ -345,7 +367,7 @@ namespace fgl
 		}
 	}
 	
-	void Image::applyCompositeMask(const Image&mask)
+	void Image::applyCompositeMask(const Image& mask)
 	{
 		if(width == 0 || height == 0 || mask.width==0 || mask.height==0)
 		{

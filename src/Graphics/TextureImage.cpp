@@ -250,9 +250,9 @@ namespace fgl
 		return texture;
 	}
 
-	bool TextureImage::loadFromPointer(const void* pointer, size_t size, Graphics& graphics, String* error)
+	bool TextureImage::loadFromPointer(const void* pointer, size_t length, Graphics& graphics, String* error)
 	{
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)size), 1);
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)length), 1);
 		if(surface != nullptr)
 		{
 			unsigned int w = (unsigned int)surface->w;
@@ -305,8 +305,36 @@ namespace fgl
 		}
 		return false;
 	}
+	
+	bool TextureImage::loadFromFile(FILE* file, Graphics& graphics, String* error)
+	{
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromFP(file, SDL_FALSE), 1);
+		if(surface != nullptr)
+		{
+			unsigned int w = (unsigned int)surface->w;
+			unsigned int h = (unsigned int)surface->h;
+			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
+			if(newTexture!=nullptr)
+			{
+				width = w;
+				height = h;
+				if(texture != nullptr)
+				{
+					SDL_DestroyTexture((SDL_Texture*)texture);
+				}
+				texture = newTexture;
+				return true;
+			}
+			return false;
+		}
+		if(error!=nullptr)
+		{
+			*error = IMG_GetError();
+		}
+		return false;
+	}
 
-	bool TextureImage::loadFromImage(const Image& image, Graphics&graphics, String*error)
+	bool TextureImage::loadFromImage(const Image& image, Graphics& graphics, String*error)
 	{
 		const ArrayList<Color>& image_pixels = image.getPixels();
 		if(image_pixels.size()>0)

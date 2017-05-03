@@ -31,32 +31,38 @@ namespace fgl
 		
 		/*! Loads the image data from a pointer
 			\param pointer the memory address of the image data
-			\param size the size of the image data, in bytes
-			\param error an optional String pointer to store the error message if the function fails */
-		bool loadFromPointer(const void* pointer, size_t size, String* error=nullptr);
+			\param length the length of the image data, in bytes
+			\param error an optional String pointer to store the error message if the function fails
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromPointer(const void* pointer, size_t length, String* error=nullptr);
 		/*! Loads the image data from a file path.
 			\param path the path to the image file
 			\param error an optional String pointer to store the error message if the function fails
-			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromPath(const String& path, String*error=nullptr);
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromPath(const String& path, String* error=nullptr);
+		/*! Loads the image data from a FILE pointer.
+			\param file the FILE pointer to load from
+			\param error an optional String pointer to store the error message if the function fails
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromFile(FILE* file, String* error=nullptr);
 		/*! Saves the image data to a file. File type is automatically deduced from the file extension. This function currently only supports BMP and PNG.
 			\param path the path to save the file
 			\param error an optional String pointer to store the error message if the function fails
-			\return true if the load succeeds, or false if an error is encountered*/
-		bool saveToFile(const String& path, String*error=nullptr) const;
+			\return true if the load succeeds, or false if an error occurs */
+		bool saveToFile(const String& path, String* error=nullptr) const;
 		
 		
 		/*! Sets the color of the pixel at the given index.
 			\throws ImageOutOfBoundsException if the index is outside the bounds of the image
 			\param index the index of the pixel
 			\param color the color to set the pixel*/
-		void setPixel(unsigned int index, const Color&color);
+		void setPixel(unsigned int index, const Color& color);
 		/*! Sets the color of the pixel at the given coordinates.
 			\throws ImageOutOfBoundsException if the coordinates are outside the bounds of the image
 			\param x the x coordinate of the pixel
 			\param y the y coordinate of the pixel
 			\param color the color to set the pixel*/
-		void setPixel(unsigned int x, unsigned int y, const Color&color);
+		void setPixel(unsigned int x, unsigned int y, const Color& color);
 		/*! Gets the value of a pixel at the given index.
 			\throws ImageOutOfBoundsException if the index is outside the bounds of the image
 			\param index the index of the pixel
@@ -75,9 +81,9 @@ namespace fgl
 		
 		/*! Replaces specified pixels in the image.
 			\param colorSwaps an ArrayList containing pairs of Color values, the first in the pair being the original pixel Color, and the second being the replacement*/
-		void recolor(const ArrayList<std::pair<Color,Color> >& colorSwaps);
+		void recolor(const ArrayList<std::pair<Color,Color>>& colorSwaps);
 		/*! Applies a composite mask to the image. \see fgl::Color::composite(const Color&)const*/
-		void applyCompositeMask(const Image&mask);
+		void applyCompositeMask(const Image& mask);
 		
 		
 		/*! Gets the total size of the image (width * height).

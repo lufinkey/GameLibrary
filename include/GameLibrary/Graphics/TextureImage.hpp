@@ -39,22 +39,28 @@ namespace fgl
 		
 		/*! Loads the image data from a pointer and writes it to the video card memory.
 			\param pointer the memory address of the image data
-			\param size the size of the image data, in bytes
+			\param length the length of the image data, in bytes
 			\param graphics the graphics object to create the texture on the video card memory
 			\param error an optional String pointer to store the error message if the function fails
-			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromPointer(const void* pointer, size_t size, Graphics& graphics, String* error=nullptr);
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromPointer(const void* pointer, size_t length, Graphics& graphics, String* error=nullptr);
 		/*! Loads the image data from a file path and writes it to the video card memory.
 			\param path the path to the image file
 			\param graphics the graphics object to create the texture on the video card memory
 			\param error an optional String pointer to store the error message if the function fails
-			\returns true if the load succeeds, or false if an error is encountered*/
+			\returns true if the load succeeds, or false if an error occurs */
 		bool loadFromPath(const String& path, Graphics& graphics, String* error=nullptr);
+		/*! Loads the image data from a FILE pointer and writes it to the video card memory.
+			\param file the FILE pointer to load from
+			\param graphics the graphics object to create the texture on the video card memory
+			\param error an optional String pointer to store the error message if the function fails
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromFile(FILE* file, Graphics& graphics, String* error=nullptr);
 		/*! Loads the image data from an Image object and writes it to the video card memory.
 			\param image the Image to load from
 			\param graphics the graphics object to create the texture on the video card memory
 			\param error an optional String pointer to store the error message if the function fails
-			\returns true if the load succeeds, or false if an error is encountered*/
+			\returns true if the load succeeds, or false if an error occurs */
 		bool loadFromImage(const Image& image, Graphics& graphics, String* error=nullptr);
 		//Image copyToImage() const;
 		
