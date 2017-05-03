@@ -278,7 +278,7 @@ namespace fgl
 		return false;
 	}
 	
-	bool TextureImage::loadFromFile(const String& path, Graphics& graphics, String* error)
+	bool TextureImage::loadFromPath(const String& path, Graphics& graphics, String* error)
 	{
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
@@ -306,7 +306,7 @@ namespace fgl
 		return false;
 	}
 
-	bool TextureImage::loadFromImage(const Image&image, Graphics&graphics, String*error)
+	bool TextureImage::loadFromImage(const Image& image, Graphics&graphics, String*error)
 	{
 		const ArrayList<Color>& image_pixels = image.getPixels();
 		if(image_pixels.size()>0)

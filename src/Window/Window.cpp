@@ -274,7 +274,7 @@ namespace fgl
 			}
 		}
 
-		assetManager = new AssetManager(*this);
+		assetManager = new AssetManager(this);
 
 		EventManager::addWindow(this);
 	}

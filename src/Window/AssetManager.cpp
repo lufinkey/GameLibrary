@@ -10,11 +10,15 @@
 
 namespace fgl
 {
-	AssetManager::AssetManager(Window& win, const String& root, const ArrayList<String>& secondaryRootList)
+	AssetManager::AssetManager(Window* window, const String& root, const ArrayList<String>& secondaryRoots)
+		: window(window),
+		rootdir(root),
+		secondaryRoots(secondaryRoots)
 	{
-		window = &win;
-		rootdir = root;
-		secondaryRoots = secondaryRootList;
+		if(window==nullptr)
+		{
+			throw fgl::IllegalArgumentException("window", "cannot be null");
+		}
 	}
 
 	AssetManager::~AssetManager()
@@ -52,14 +56,9 @@ namespace fgl
 		}
 	}
 	
-	Window& AssetManager::getWindow()
+	Window* AssetManager::getWindow() const
 	{
-		return *window;
-	}
-
-	const Window& AssetManager::getWindow() const
-	{
-		return *window;
+		return window;
 	}
 
 	FILE* AssetManager::openFile(const String& path, const char* mode, String* resolvedPath) const
@@ -126,18 +125,18 @@ namespace fgl
 		bool success = false;
 		if(FileTools::isPathAbsolute(path))
 		{
-			success = texture->loadFromFile(path, *window->getGraphics(), error);
+			success = texture->loadFromPath(path, *window->getGraphics(), error);
 		}
 		else
 		{
 			String fullpath = FileTools::combinePathStrings(rootdir, path);
-			success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
+			success = texture->loadFromPath(fullpath, *window->getGraphics(), error);
 			if(!success)
 			{
 				for(auto& secondaryRoot : secondaryRoots)
 				{
 					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-					success = texture->loadFromFile(fullpath, *window->getGraphics(), error);
+					success = texture->loadFromPath(fullpath, *window->getGraphics(), error);
 					if(success)
 					{
 						break;

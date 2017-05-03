@@ -17,8 +17,8 @@ namespace fgl
 		/*! Constructs an AssetManager for the specified Window, in the specified root folder and secondary root folders.
 			\param window the Window that the assets will be used for
 			\param root the root folder to load assets
-			\param secondaryRoots alternate root folders to search if an asset cannot be loaded inside the main root folder*/
-		explicit AssetManager(Window& window, const String& root="", const ArrayList<String>& secondaryRoots=ArrayList<String>());
+			\param secondaryRoots alternate root folders to search if an asset cannot be loaded inside the main root folder */
+		explicit AssetManager(Window* window, const String& root="", const ArrayList<String>& secondaryRoots={});
 		/*! virtual destructor*/
 		virtual ~AssetManager();
 		
@@ -37,17 +37,15 @@ namespace fgl
 		/*! Gets an ArrayList<String> of the secondary directories to load from if the primary directory fails.
 			\returns a const ArrayList<String> reference*/
 		const ArrayList<String>& getSecondaryRoots() const;
-		/*! Removes one of the secondary load directories. \see fgl::AssetManager::addSecondaryRoot(const String&)
+		/*! Removes one of the secondary load directories.
+			\see fgl::AssetManager::addSecondaryRoot(const String&)
 			\param root the directory to remove from the list of secondary directories*/
 		void removeSecondaryRoot(const String& root);
 		
 		
 		/*! Gets the Window that assets are being loaded for.
 			\returns a Window reference*/
-		Window& getWindow();
-		/*! Gets the Window that assets are being loaded for.
-			\returns a const Window reference*/
-		const Window& getWindow() const;
+		Window* getWindow() const;
 
 
 		/*! Opens a FILE pointer.
