@@ -39,7 +39,7 @@ namespace fgl
 
 	void* Font::loadFontSize(unsigned int size)
 	{
-		Data& fontDataPacket = *fontdata.get();
+		Data& fontDataPacket = *fontData.get();
 		SDL_RWops* ops = SDL_RWFromConstMem(fontDataPacket.getData(), (int)fontDataPacket.size());
 		if(ops == nullptr)
 		{
@@ -55,7 +55,7 @@ namespace fgl
 
 	void* Font::getFontPtr(unsigned int size)
 	{
-		FontSizeList& sizeList = *fontsizes.get();
+		FontSizeList& sizeList = *fontSizes.get();
 		size_t total = sizeList.size();
 		for(size_t i=0; i<total; i++)
 		{
@@ -88,9 +88,9 @@ namespace fgl
 
 	void Font::clearFontSizes()
 	{
-		if(fontsizes.get()!=nullptr)
+		if(fontSizes.get()!=nullptr)
 		{
-			FontSizeList& sizeList = *fontsizes.get();
+			FontSizeList& sizeList = *fontSizes.get();
 			for(unsigned int i=0; i<sizeList.size(); i++)
 			{
 				std::pair<unsigned int, void*>& fontSize = sizeList.get(i);
@@ -112,9 +112,9 @@ namespace fgl
 			}
 		}
 
-		size = 0;
+		size = 24;
 		style = STYLE_PLAIN;
-		fontdata = nullptr;
+		fontData = nullptr;
 		antialiasing = true;
 	}
 
@@ -124,8 +124,8 @@ namespace fgl
 		size = font.size;
 		style = font.style;
 		antialiasing = font.antialiasing;
-		fontdata = font.fontdata;
-		fontsizes = font.fontsizes;
+		fontData = font.fontData;
+		fontSizes = font.fontSizes;
 		font.mlock.unlock();
 	}
 
@@ -154,15 +154,15 @@ namespace fgl
 		size = font.size;
 		style = font.style;
 		antialiasing = font.antialiasing;
-		fontdata = font.fontdata;
-		fontsizes = font.fontsizes;
+		fontData = font.fontData;
+		fontSizes = font.fontSizes;
 		font.mlock.unlock();
 		mlock.unlock();
 		
 		return *this;
 	}
 
-	bool Font::loadFromPath(const String&path, unsigned int defaultsize, String*error)
+	bool Font::loadFromPath(const String& path, String*error)
 	{
 		mlock.lock();
 		Data* fontDataPacket = new Data();
@@ -185,7 +185,7 @@ namespace fgl
 			return false;
 		}
 
-		TTF_Font* loadedfont = TTF_OpenFontRW(ops,0,defaultsize);
+		TTF_Font* loadedfont = TTF_OpenFontRW(ops,0,(int)size);
 		if(loadedfont == nullptr)
 		{
 			if(error!=nullptr)
@@ -203,19 +203,16 @@ namespace fgl
 			mlock.unlock();
 			return false;
 		}
-
-		size = defaultsize;
-		style = Font::STYLE_PLAIN;
 		glyphs.clear();
-		fontdata = std::shared_ptr<Data>(fontDataPacket);
-		if(fontsizes != nullptr)
+		fontData = std::shared_ptr<Data>(fontDataPacket);
+		if(fontSizes != nullptr)
 		{
 			clearFontSizes();
-			fontsizes = nullptr;
+			fontSizes = nullptr;
 		}
 		FontSizeList* sizeList = new FontSizeList();
-		fontsizes = std::shared_ptr<FontSizeList>(sizeList);
-		sizeList->add(std::pair<unsigned int, void*>(defaultsize, (void*)loadedfont));
+		fontSizes = std::shared_ptr<FontSizeList>(sizeList);
+		sizeList->add(std::pair<unsigned int, void*>(size, (void*)loadedfont));
 		mlock.unlock();
 		return true;
 	}
@@ -239,7 +236,7 @@ namespace fgl
 
 	ArrayList<RenderedGlyphContainer::RenderedGlyph> Font::getRenderedGlyphs(const GlyphString& text, void* renderer, unsigned int size, int style)
 	{
-		if(fontdata!=nullptr)
+		if(fontData!=nullptr)
 		{
 			mlock.lock();
 			RenderedGlyphContainer* container = getRenderedGlyphContainer(renderer);
@@ -272,7 +269,7 @@ namespace fgl
 	Vector2u Font::measureString(const GlyphString& text)
 	{
 		mlock.lock();
-		if(fontdata == nullptr || fontsizes == nullptr)
+		if(fontData == nullptr || fontSizes == nullptr)
 		{
 			mlock.unlock();
 			return Vector2u(0,0);

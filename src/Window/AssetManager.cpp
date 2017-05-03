@@ -234,18 +234,18 @@ namespace fgl
 		bool success = false;
 		if(FileTools::isPathAbsolute(path))
 		{
-			success = font->loadFromPath(path, 24, error);
+			success = font->loadFromPath(path, error);
 		}
 		else
 		{
 			String fullpath = FileTools::combinePathStrings(rootdir, path);
-			success = font->loadFromPath(fullpath, 24, error);
+			success = font->loadFromPath(fullpath, error);
 			if(!success)
 			{
 				for(auto& secondaryRoot : secondaryRoots)
 				{
 					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-					success = font->loadFromPath(fullpath, 24, error);
+					success = font->loadFromPath(fullpath, error);
 					if(success)
 					{
 						break;

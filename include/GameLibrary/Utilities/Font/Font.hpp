@@ -44,10 +44,9 @@ namespace fgl
 		
 		/*! Loads a Font from a given file path.
 			\param path the file path of the font file
-			\param size the glyph size of the font
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if the load succeeds, or false if an error is encountered*/
-		bool loadFromPath(const String& path, unsigned int size=24, String* error=nullptr);
+		bool loadFromPath(const String& path, String* error=nullptr);
 		
 		
 		/*! Estimates the display size of a given string of text.
@@ -87,8 +86,8 @@ namespace fgl
 	private:
 		typedef ArrayList<std::pair<unsigned int, void*> > FontSizeList;
 		
-		std::shared_ptr<FontSizeList> fontsizes;
-		std::shared_ptr<Data> fontdata;
+		std::shared_ptr<FontSizeList> fontSizes;
+		std::shared_ptr<Data> fontData;
 		ArrayList<std::pair<RenderedGlyphContainer*, void*> > glyphs;
 		
 		unsigned int size;
