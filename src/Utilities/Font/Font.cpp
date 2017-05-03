@@ -166,7 +166,7 @@ namespace fgl
 	{
 		mlock.lock();
 		Data* fontDataPacket = new Data();
-		if(!fontDataPacket->loadFromFile(path, error))
+		if(!fontDataPacket->loadFromPath(path, error))
 		{
 			delete fontDataPacket;
 			mlock.unlock();

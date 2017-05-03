@@ -108,7 +108,7 @@ namespace fgl
 		return *this;
 	}
 	
-	bool Data::loadFromFile(const String& path, String* error)
+	bool Data::loadFromPath(const String& path, String* error)
 	{
 		FILE*file = std::fopen(path, "r");
 		if (file == nullptr)
@@ -137,7 +137,7 @@ namespace fgl
 		return true;
 	}
 	
-	bool Data::saveToFile(const String& path, String* error) const
+	bool Data::saveToPath(const String& path, String* error) const
 	{
 		FILE*file = std::fopen(path, "w");
 		if(file==NULL)
