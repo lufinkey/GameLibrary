@@ -164,15 +164,36 @@ namespace fgl
 
 	bool Font::loadFromPath(const String& path, String*error)
 	{
+		FILE* file = std::fopen(path, "r");
+		if (file == nullptr)
+		{
+			//TODO add switch for errno
+			if(error!=nullptr)
+			{
+				*error = "Unable to load data from file";
+			}
+			return false;
+		}
+		bool success = loadFromFile(file, error);
+		std::fclose(file);
+		return success;
+	}
+	
+	bool Font::loadFromFile(FILE* file, String* error)
+	{
+		if(file==nullptr)
+		{
+			throw fgl::IllegalArgumentException("file", "cannot be null");
+		}
 		mlock.lock();
 		Data* fontDataPacket = new Data();
-		if(!fontDataPacket->loadFromPath(path, error))
+		if(!fontDataPacket->loadFromFile(file, error))
 		{
 			delete fontDataPacket;
 			mlock.unlock();
 			return false;
 		}
-
+		
 		SDL_RWops* ops = SDL_RWFromConstMem(fontDataPacket->getData(), (int)fontDataPacket->size());
 		if(ops == nullptr)
 		{
@@ -184,7 +205,7 @@ namespace fgl
 			mlock.unlock();
 			return false;
 		}
-
+		
 		TTF_Font* loadedfont = TTF_OpenFontRW(ops,0,(int)size);
 		if(loadedfont == nullptr)
 		{
@@ -210,9 +231,8 @@ namespace fgl
 			clearFontSizes();
 			fontSizes = nullptr;
 		}
-		FontSizeList* sizeList = new FontSizeList();
-		fontSizes = std::shared_ptr<FontSizeList>(sizeList);
-		sizeList->add(std::pair<unsigned int, void*>(size, (void*)loadedfont));
+		fontSizes = std::shared_ptr<FontSizeList>(new FontSizeList());
+		fontSizes->add(std::pair<unsigned int, void*>(size, (void*)loadedfont));
 		mlock.unlock();
 		return true;
 	}

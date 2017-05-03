@@ -45,8 +45,13 @@ namespace fgl
 		/*! Loads a Font from a given file path.
 			\param path the file path of the font file
 			\param error an optional String pointer to store the error message if the function fails
-			\returns true if the load succeeds, or false if an error is encountered*/
+			\returns true if the load succeeds, or false if an error occurs */
 		bool loadFromPath(const String& path, String* error=nullptr);
+		/*! Loads the Font from a FILE pointer.
+			\param file the FILE pointer to load from
+			\param error an optional String pointer to store the error message if the function fails
+			\returns true if the load succeeds, or false if an error occurs */
+		bool loadFromFile(FILE* file, String* error=nullptr);
 		
 		
 		/*! Estimates the display size of a given string of text.
