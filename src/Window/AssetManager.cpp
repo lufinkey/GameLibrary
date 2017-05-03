@@ -105,45 +105,24 @@ namespace fgl
 
 	bool AssetManager::loadTexture(const String& path, String* error)
 	{
-		for(auto& texturePair : textures)
+		if(getTexture(path)!=nullptr)
 		{
-			if(texturePair.first.equals(path))
-			{
-				return true;
-			}
+			return true;
 		}
-
-		for(auto assetManager : assetManagers)
+		
+		FILE* file = openFile(path, "rb");
+		if(file==nullptr)
 		{
-			if(assetManager->getTexture(path)!=nullptr)
+			if(error!=nullptr)
 			{
-				return true;
+				*error = "Unable to load file";
 			}
+			return false;
 		}
-
+		
 		TextureImage* texture = new TextureImage();
-		bool success = false;
-		if(FileTools::isPathAbsolute(path))
-		{
-			success = texture->loadFromPath(path, *window->getGraphics(), error);
-		}
-		else
-		{
-			String fullpath = FileTools::combinePathStrings(rootdir, path);
-			success = texture->loadFromPath(fullpath, *window->getGraphics(), error);
-			if(!success)
-			{
-				for(auto& secondaryRoot : secondaryRoots)
-				{
-					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-					success = texture->loadFromPath(fullpath, *window->getGraphics(), error);
-					if(success)
-					{
-						break;
-					}
-				}
-			}
-		}
+		bool success = texture->loadFromFile(file, *window->getGraphics(), error);
+		std::fclose(file);
 		if(success)
 		{
 			if(error!=nullptr)
@@ -214,45 +193,24 @@ namespace fgl
 
 	bool AssetManager::loadFont(const String& path, String* error)
 	{
-		for(auto& fontPair : fonts)
+		if(getFont(path)!=nullptr)
 		{
-			if(fontPair.first.equals(path))
-			{
-				return true;
-			}
+			return true;
 		}
-
-		for(auto assetManager : assetManagers)
+		
+		FILE* file = openFile(path, "rb");
+		if(file==nullptr)
 		{
-			if(assetManager->getFont(path)!=nullptr)
+			if(error!=nullptr)
 			{
-				return true;
+				*error = "Unable to load file";
 			}
+			return false;
 		}
 
 		Font* font = new Font();
-		bool success = false;
-		if(FileTools::isPathAbsolute(path))
-		{
-			success = font->loadFromPath(path, error);
-		}
-		else
-		{
-			String fullpath = FileTools::combinePathStrings(rootdir, path);
-			success = font->loadFromPath(fullpath, error);
-			if(!success)
-			{
-				for(auto& secondaryRoot : secondaryRoots)
-				{
-					fullpath = FileTools::combinePathStrings(secondaryRoot, path);
-					success = font->loadFromPath(fullpath, error);
-					if(success)
-					{
-						break;
-					}
-				}
-			}
-		}
+		bool success = font->loadFromFile(file, error);
+		std::fclose(file);
 		if(success)
 		{
 			if(error!=nullptr)
