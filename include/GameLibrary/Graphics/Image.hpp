@@ -49,7 +49,7 @@ namespace fgl
 			\param path the path to save the file
 			\param error an optional String pointer to store the error message if the function fails
 			\return true if the load succeeds, or false if an error occurs */
-		bool saveToFile(const String& path, String* error=nullptr) const;
+		bool saveToPath(const String& path, String* error=nullptr) const;
 		
 		
 		/*! Sets the color of the pixel at the given index.

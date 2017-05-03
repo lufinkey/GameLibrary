@@ -219,7 +219,7 @@ namespace fgl
 		return false;
 	}
 
-	bool Image::saveToFile(const String& path, String* error) const
+	bool Image::saveToPath(const String& path, String* error) const
 	{
 		size_t dotIndex = path.lastIndexOf('.');
 		if(dotIndex == String::NOT_FOUND)
