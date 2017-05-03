@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 
@@ -89,6 +90,17 @@ namespace fgl
 			\param path the path to retrieve the directory name for
 			\returns the directory component of the path */
 		static String getDirectoryComponent(const String& path);
+		
+		
+		/*! Opens a FILE pointer from a given file path
+			\param path the path to the file
+			\param mode C string containing the file access mode. \see std::fopen
+			\param error a pointer to store an error string, if an error occurs
+			\returns a valid FILE pointer if the file was successfully loaded, or false if an error occurred */
+		static FILE* openFile(const String& path, const char* mode, String* error=nullptr);
+		/*! Closes an open FILE pointer
+			\param file the open FILE pointer */
+		static void closeFile(FILE* file);
 		
 		
 		/*! Opens up the native file chooser to select a file.

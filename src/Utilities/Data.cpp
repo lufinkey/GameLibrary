@@ -2,9 +2,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <GameLibrary/Utilities/Data.hpp>
+#include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <GameLibrary/Exception/Utilities/DataOutOfBoundsException.hpp>
-#include <cstdio>
 #include <cstdlib>
 
 namespace fgl
@@ -69,7 +69,7 @@ namespace fgl
 		length = size;
 	}
 	
-	Data::Data(const void*data_arg, size_t size)
+	Data::Data(const void* data_arg, size_t size)
 	{
 		if(data_arg == nullptr)
 		{
@@ -110,18 +110,13 @@ namespace fgl
 	
 	bool Data::loadFromPath(const String& path, String* error)
 	{
-		FILE* file = std::fopen(path, "r");
-		if (file == nullptr)
+		FILE* file = fgl::FileTools::openFile(path, "rb", error);
+		if(file==nullptr)
 		{
-			//TODO add switch for errno
-			if(error!=nullptr)
-			{
-				*error = "Unable to load data from file";
-			}
 			return false;
 		}
 		bool success = loadFromFile(file, error);
-		std::fclose(file);
+		fgl::FileTools::closeFile(file);
 		return success;
 	}
 	

@@ -5,6 +5,7 @@
 
 #include <GameLibrary/Utilities/Plist.hpp>
 #include <GameLibrary/Types.hpp>
+#include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <GameLibrary/Exception/NumberFormatException.hpp>
@@ -155,18 +156,13 @@ namespace fgl
 		}
 		
 		//load the file into memory
-		FILE* file = std::fopen(path, "rb");
-		if(file == nullptr)
+		FILE* file = fgl::FileTools::openFile(path, "rb", error);
+		if(file==nullptr)
 		{
-			//TODO add switch for errno
-			if(error!=nullptr)
-			{
-				*error = "Unable to load plist from file";
-			}
 			return false;
 		}
 		bool success = loadFromFile(dst, file, error);
-		std::fclose(file);
+		fgl::FileTools::closeFile(file);
 		return success;
 	}
 	

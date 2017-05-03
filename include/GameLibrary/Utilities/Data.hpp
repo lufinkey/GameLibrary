@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include <GameLibrary/Types.hpp>
 #include "String.hpp"
 

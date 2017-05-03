@@ -389,6 +389,29 @@ namespace fgl
 		#endif
 	}
 	
+	FILE* FileTools::openFile(const String& path, const char* mode, String* error)
+	{
+		FILE* file = std::fopen(path, mode);
+		if(file == nullptr)
+		{
+			//TODO add switch for errno
+			if(error!=nullptr)
+			{
+				*error = "Unable to load data from file";
+			}
+		}
+		return file;
+	}
+	
+	void FileTools::closeFile(FILE* file)
+	{
+		if(file==nullptr)
+		{
+			throw fgl::IllegalArgumentException("file", "cannot be null");
+		}
+		std::fclose(file);
+	}
+	
 	#if !defined(TARGETPLATFORM_MAC) && !defined(TARGETPLATFORM_IOS)
 	String FileTools::openFilePicker(const String& title, const String& startingDir, bool fileExists, const String& defaultExtension)
 	{

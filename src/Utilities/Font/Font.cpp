@@ -1,6 +1,7 @@
 
 #include <GameLibrary/Utilities/Font/Font.hpp>
 #include <GameLibrary/Utilities/Data.hpp>
+#include <GameLibrary/IO/FileTools.hpp>
 #include <GameLibrary/Exception/InitializeLibraryException.hpp>
 #include <GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp>
 #include <SDL_ttf.h>
@@ -162,20 +163,15 @@ namespace fgl
 		return *this;
 	}
 
-	bool Font::loadFromPath(const String& path, String*error)
+	bool Font::loadFromPath(const String& path, String* error)
 	{
-		FILE* file = std::fopen(path, "r");
-		if (file == nullptr)
+		FILE* file = fgl::FileTools::openFile(path, "rb", error);
+		if(file==nullptr)
 		{
-			//TODO add switch for errno
-			if(error!=nullptr)
-			{
-				*error = "Unable to load data from file";
-			}
 			return false;
 		}
 		bool success = loadFromFile(file, error);
-		std::fclose(file);
+		fgl::FileTools::closeFile(file);
 		return success;
 	}
 	
