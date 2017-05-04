@@ -354,7 +354,8 @@ namespace fgl
 				fontPaths.add(fontPair.first);
 			}
 
-			unload();
+			unloadTextures();
+			unloadFonts();
 
 			size_t successCounter = 0;
 			for(auto& texturePath : texturePaths)
