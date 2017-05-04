@@ -120,6 +120,11 @@ namespace fgl
 			\returns a list of Screen pointers that were popped from the list
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
 		ArrayList<Screen*> popToRoot(const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+
+
+		/*! Get an array of the screens within this screen manager
+			\returns a const reference to an array of Screen pointers */
+		const ArrayList<Screen*>& getScreens() const;
 		
 	protected:
 		/*! Draws all contained Screen pointers. This function is automatically called from within ScreenManager::draw.

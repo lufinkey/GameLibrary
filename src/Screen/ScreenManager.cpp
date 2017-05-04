@@ -564,4 +564,9 @@ namespace fgl
 			return popTo(screens.get(0), transition, duration, completion);
 		}
 	}
+
+	const ArrayList<Screen*>& ScreenManager::getScreens() const
+	{
+		return screens;
+	}
 }
