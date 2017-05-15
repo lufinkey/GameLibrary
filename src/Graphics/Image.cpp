@@ -199,7 +199,13 @@ namespace fgl
 	
 	bool Image::loadFromFile(FILE* file, String* error)
 	{
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromFP(file, SDL_FALSE), 1);
+		Data imgData;
+		if(!imgData.loadFromFile(file, error))
+		{
+			return false;
+		}
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(imgData.getData(), (int)imgData.size()), 1);
+		imgData.clear();
 		if(surface != nullptr)
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))
