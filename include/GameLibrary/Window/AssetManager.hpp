@@ -76,6 +76,36 @@ namespace fgl
 			\param path a path to identify the TextureImage
 			\param texture the TextureImage pointer to add*/
 		void addTexture(const String& path, TextureImage* texture);
+
+
+		/*! Loads and stores a TextureImage from the given path and masks it with a specified Image.
+			\param path the path to load the TextureImage from, relative to the AssetManager root
+			\param imageMask the Image to use to mask the TextureImage
+			\param error a pointer to store an error string, if an error occurs
+			\returns true if the TextureImage was successfully loaded or was already stored in the AssetManager, and false if an error occured*/
+		bool loadMaskedTexture(const fgl::String& path, const fgl::Image* imageMask, fgl::String* error = nullptr);
+
+
+		/*! Loads and stores an Image from the given path.
+			\param path the path to load the Image from, relative to the AssetManager root
+			\param error a pointer to store an error string, if an error occurs
+			\returns true if the Image was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
+		bool loadImage(const fgl::String& path, fgl::String* error=nullptr);
+		/*! Unloads and deallocates a stored Image. If an Image with the given path is not stored, the function returns.
+			\param path the path that the Image was loaded from, or the path given in AssetManager::addImage*/
+		void unloadImage(const fgl::String& path);
+		/*! Unloads and deallocates all stored Image objects.*/
+		void unloadImages();
+		/*! Gets a stored Image.
+			\param path the path that the Image was loaded from, or the path given in AssetManager::addImage
+			\returns an Image pointer, or null if there is no Image is stored with that path.*/
+		fgl::Image* getImage(const fgl::String& path) const;
+		/*! Adds an Image to be stored and managed. Once added, the Image's memory is handled by AssetManager, and will be deallocated if the Image is unloaded.
+		If an Image is already stored with the given path, that Image is deallocated and replaced with the new one.
+			\throws fgl::IllegalArgumentException if the Image is null
+			\param path a path to identify the Image
+			\param texture the Image pointer to add*/
+		void addImage(const fgl::String& path, fgl::Image* image);
 		
 		
 		/*! Loads and stores a Font from the given path.
@@ -129,8 +159,11 @@ namespace fgl
 	private:
 		Window* window;
 		
-		ArrayList<std::pair<String,TextureImage*> > textures;
-		ArrayList<std::pair<String,Font*> > fonts;
+		ArrayList<std::pair<String,TextureImage*>> textures;
+		ArrayList<std::pair<String,Font*>> fonts;
+		ArrayList<std::pair<String,Image*>> images;
+
+		ArrayList<std::pair<TextureImage*,const Image*>> maskedTextures;
 		
 		String rootdir;
 		ArrayList<String> secondaryRoots;
