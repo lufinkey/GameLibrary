@@ -101,11 +101,17 @@ namespace fgl
 		Vector2u getSize() const;
 		void setSize(const Vector2u&);
 
+		Vector2u getMinimumSize() const;
+		void setMinimumSize(const Vector2u&);
+
+		Vector2u getMaximumSize() const;
+		void setMaximumSize(const Vector2u&);
+
 		String getTitle() const;
 		void setTitle(const String&);
 
 		Color getBackgroundColor() const;
-		void setBackgroundColor(const Color&color);
+		void setBackgroundColor(const Color& color);
 
 		void setIcon(Image*);
 

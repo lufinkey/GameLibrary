@@ -435,7 +435,7 @@ namespace fgl
 		return Vector2i(0,0);
 	}
 	
-	void Window::setPosition(const Vector2i&pos)
+	void Window::setPosition(const Vector2i& pos)
 	{
 		if(windowdata!=nullptr)
 		{
@@ -457,7 +457,7 @@ namespace fgl
 		return Vector2u(0, 0);
 	}
 	
-	void Window::setSize(const Vector2u&size)
+	void Window::setSize(const Vector2u& size)
 	{
 		if(windowdata != nullptr)
 		{
@@ -471,6 +471,46 @@ namespace fgl
 			{
 				viewport->setSize((double)size.x, (double)size.y);
 			}
+		}
+	}
+
+	Vector2u Window::getMinimumSize() const
+	{
+		if(windowdata != nullptr)
+		{
+			int minW = 0;
+			int minH = 0;
+			SDL_GetWindowMinimumSize((SDL_Window*)windowdata, &minW, &minH);
+			return Vector2u((unsigned int)minW, (unsigned int)minH);
+		}
+		return Vector2u(0, 0);
+	}
+
+	void Window::setMinimumSize(const Vector2u& minSize)
+	{
+		if(windowdata != nullptr)
+		{
+			SDL_SetWindowMinimumSize((SDL_Window*)windowdata, (int)minSize.x, (int)minSize.y);
+		}
+	}
+
+	Vector2u Window::getMaximumSize() const
+	{
+		if(windowdata != nullptr)
+		{
+			int maxW = 0;
+			int maxH = 0;
+			SDL_GetWindowMaximumSize((SDL_Window*)windowdata, &maxW, &maxH);
+			return Vector2u((unsigned int)maxW, (unsigned int)maxH);
+		}
+		return Vector2u(0, 0);
+	}
+
+	void Window::setMaximumSize(const Vector2u& minSize)
+	{
+		if(windowdata != nullptr)
+		{
+			SDL_SetWindowMaximumSize((SDL_Window*)windowdata, (int)minSize.x, (int)minSize.y);
 		}
 	}
 	
