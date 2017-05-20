@@ -390,7 +390,7 @@ namespace fgl
 			return nullptr;
 		}
 
-		Image*img = new Image();
+		auto img = new Image();
 		int winWidth = 0;
 		int winHeight = 0;
 		SDL_GetWindowSize((SDL_Window*)windowdata, &winWidth, &winHeight);
@@ -459,7 +459,6 @@ namespace fgl
 	
 	void Window::setSize(const Vector2u&size)
 	{
-#if defined(TARGETPLATFORMTYPE_DESKTOP)
 		if(windowdata != nullptr)
 		{
 			if((SDL_GetWindowFlags((SDL_Window*)windowdata) & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
@@ -473,7 +472,6 @@ namespace fgl
 				viewport->setSize((double)size.x, (double)size.y);
 			}
 		}
-#endif
 	}
 	
 	String Window::getTitle() const
