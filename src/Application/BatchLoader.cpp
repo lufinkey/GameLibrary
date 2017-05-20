@@ -134,7 +134,7 @@ namespace fgl
 						throw IllegalStateException("AssetManager cannot be null while loading a texture");
 					}
 					String error;
-					bool success = assetManager->loadTexture(info.path, &error);
+					bool success = assetManager->loadTexture(info.path, &error) != nullptr;
 					loadcurrent += info.value;
 					if(success)
 					{

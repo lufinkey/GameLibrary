@@ -103,11 +103,11 @@ namespace fgl
 		}
 	}
 
-	bool AssetManager::loadTexture(const String& path, String* error)
+	TextureImage* AssetManager::loadTexture(const String& path, String* error)
 	{
-		if(getTexture(path)!=nullptr)
+		if(auto texture = getTexture(path))
 		{
-			return true;
+			return texture;
 		}
 		
 		FILE* file = openFile(path, "rb");
@@ -117,7 +117,7 @@ namespace fgl
 			{
 				*error = "Unable to load file";
 			}
-			return false;
+			return nullptr;
 		}
 		
 		TextureImage* texture = new TextureImage();
@@ -130,12 +130,12 @@ namespace fgl
 				error->clear();
 			}
 			textures.add(std::pair<String,TextureImage*>(path, texture));
-			return true;
+			return texture;
 		}
 		else
 		{
 			delete texture;
-			return false;
+			return nullptr;
 		}
 	}
 
@@ -207,11 +207,11 @@ namespace fgl
 		textures.add(std::pair<String, TextureImage*>(path, texture));
 	}
 
-	bool AssetManager::loadMaskedTexture(const fgl::String& path, const fgl::Image* imageMask, fgl::String* error)
+	TextureImage* AssetManager::loadMaskedTexture(const fgl::String& path, const fgl::Image* imageMask, fgl::String* error)
 	{
-		if(getTexture(path)!=nullptr)
+		if(auto texture = getTexture(path))
 		{
-			return true;
+			return texture;
 		}
 
 		FILE* file = openFile(path, "rb");
@@ -221,7 +221,7 @@ namespace fgl
 			{
 				*error = "Unable to load file";
 			}
-			return false;
+			return nullptr;
 		}
 
 		//load the image first
@@ -230,7 +230,7 @@ namespace fgl
 		std::fclose(file);
 		if(!success)
 		{
-			return false;
+			return nullptr;
 		}
 		//mask the image with the image mask
 		if(imageMask!=nullptr)
@@ -243,7 +243,7 @@ namespace fgl
 		if(!success)
 		{
 			delete texture;
-			return false;
+			return nullptr;
 		}
 		textures.add(std::pair<String, TextureImage*>(path, texture));
 
@@ -259,14 +259,14 @@ namespace fgl
 		{
 			maskedTextures.add(std::pair<TextureImage*, const Image*>(texture, imageMask));
 		}
-		return true;
+		return texture;
 	}
 
-	bool AssetManager::loadImage(const fgl::String& path, fgl::String* error)
+	Image* AssetManager::loadImage(const fgl::String& path, fgl::String* error)
 	{
-		if(getImage(path)!=nullptr)
+		if(auto image = getImage(path))
 		{
-			return true;
+			return image;
 		}
 
 		FILE* file = openFile(path, "rb");
@@ -276,7 +276,7 @@ namespace fgl
 			{
 				*error = "Unable to load file";
 			}
-			return false;
+			return nullptr;
 		}
 
 		fgl::Image* image = new fgl::Image();
@@ -289,12 +289,12 @@ namespace fgl
 				error->clear();
 			}
 			images.add(std::pair<fgl::String, fgl::Image*>(path, image));
-			return true;
+			return image;
 		}
 		else
 		{
 			delete image;
-			return false;
+			return nullptr;
 		}
 	}
 
@@ -358,11 +358,11 @@ namespace fgl
 		images.add(std::pair<fgl::String, fgl::Image*>(path, image));
 	}
 
-	bool AssetManager::loadFont(const String& path, String* error)
+	Font* AssetManager::loadFont(const String& path, String* error)
 	{
-		if(getFont(path)!=nullptr)
+		if(auto font = getFont(path))
 		{
-			return true;
+			return font;
 		}
 		
 		FILE* file = openFile(path, "rb");
@@ -372,7 +372,7 @@ namespace fgl
 			{
 				*error = "Unable to load file";
 			}
-			return false;
+			return nullptr;
 		}
 
 		Font* font = new Font();
@@ -385,12 +385,12 @@ namespace fgl
 				error->clear();
 			}
 			fonts.add(std::pair<String,Font*>(path, font));
-			return true;
+			return font;
 		}
 		else
 		{
 			delete font;
-			return false;
+			return nullptr;
 		}
 	}
 

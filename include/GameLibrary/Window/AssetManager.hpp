@@ -59,8 +59,8 @@ namespace fgl
 		/*! Loads and stores a TextureImage from the given path.
 			\param path the path to load the TextureImage, relative to the AssetManager root
 			\param error a pointer to store an error string, if an error occurs
-			\returns true if the TextureImage was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
-		bool loadTexture(const String& path, String* error=nullptr);
+			\returns a TextureImage pointer if one was successfully loaded or was already stored in the AssetManager, or null if an error occurred*/
+		TextureImage* loadTexture(const String& path, String* error=nullptr);
 		/*! Unloads and deallocates a stored TextureImage. If a TextureImage with the given path is not stored, the function returns.
 			\param path the path that the TextureImage was loaded from, or the path given in AssetManager::addTexture*/
 		void unloadTexture(const String& path);
@@ -82,15 +82,15 @@ namespace fgl
 			\param path the path to load the TextureImage from, relative to the AssetManager root
 			\param imageMask the Image to use to mask the TextureImage
 			\param error a pointer to store an error string, if an error occurs
-			\returns true if the TextureImage was successfully loaded or was already stored in the AssetManager, and false if an error occured*/
-		bool loadMaskedTexture(const fgl::String& path, const fgl::Image* imageMask, fgl::String* error = nullptr);
+			\returns a TextureImage pointer if one was successfully loaded or was already stored in the AssetManager, or null if an error occured*/
+		TextureImage* loadMaskedTexture(const fgl::String& path, const fgl::Image* imageMask, fgl::String* error = nullptr);
 
 
 		/*! Loads and stores an Image from the given path.
 			\param path the path to load the Image from, relative to the AssetManager root
 			\param error a pointer to store an error string, if an error occurs
-			\returns true if the Image was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
-		bool loadImage(const fgl::String& path, fgl::String* error=nullptr);
+			\returns an Image pointer if one was successfully loaded or was already stored in the AssetManager, or null if an error occurred*/
+		Image* loadImage(const fgl::String& path, fgl::String* error=nullptr);
 		/*! Unloads and deallocates a stored Image. If an Image with the given path is not stored, the function returns.
 			\param path the path that the Image was loaded from, or the path given in AssetManager::addImage*/
 		void unloadImage(const fgl::String& path);
@@ -99,7 +99,7 @@ namespace fgl
 		/*! Gets a stored Image.
 			\param path the path that the Image was loaded from, or the path given in AssetManager::addImage
 			\returns an Image pointer, or null if there is no Image is stored with that path.*/
-		fgl::Image* getImage(const fgl::String& path) const;
+		Image* getImage(const fgl::String& path) const;
 		/*! Adds an Image to be stored and managed. Once added, the Image's memory is handled by AssetManager, and will be deallocated if the Image is unloaded.
 		If an Image is already stored with the given path, that Image is deallocated and replaced with the new one.
 			\throws fgl::IllegalArgumentException if the Image is null
@@ -111,8 +111,8 @@ namespace fgl
 		/*! Loads and stores a Font from the given path.
 			\param path the path to load the Font, relative to the AssetManager root
 			\param error a pointer to store an error string, if an error occurs
-			\returns true if the Font was successfully loaded, or was already stored in the AssetManager, and false if an error occurred*/
-		bool loadFont(const String& path, String* error=nullptr);
+			\returns a Font pointer if one was successfully loaded or was already stored in the AssetManager, or null if an error occurred*/
+		Font* loadFont(const String& path, String* error=nullptr);
 		/*! Unloads and deallocates a stored Font. If a Font with the given path is not stored, the function returns.
 			\param path the path that the Font was loaded from, or the path given in AssetManager::addTexture*/
 		void unloadFont(const String& path);
