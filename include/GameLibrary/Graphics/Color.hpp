@@ -199,7 +199,7 @@ namespace fgl
 		Color();
 		/*! Constructs a Color object from an RGBA32 constant
 			\param rgba an RGBA 32 bit constant constant*/
-		Color(const fgl::Color::RGBA32&rgba);
+		Color(const fgl::Color::RGBA32& rgba);
 		/*! Constructs a Color object with an rgba value
 			\param r the red value
 			\param g the green value
@@ -215,7 +215,7 @@ namespace fgl
 				<integer>0</integer>
 				<key>b</key>
 				<integer>0</integer> */
-		Color(const Dictionary& colorValues);
+		explicit Color(const Dictionary& colorValues);
 		
 		
 		/*! assignment operator*/
