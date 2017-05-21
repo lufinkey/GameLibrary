@@ -53,7 +53,7 @@ namespace fgl
 			\param mode C string containing the file access mode. \see std::fopen
 			\param resolvedPath the actual path of the opened file (the given path pre-pended with the asset manager root or secondary root)
 			\returns a FILE pointer that must be closed using fclose, or NULL if the file could not be loaded */
-		FILE* openFile(const String& path, const char* mode, String* resolvedPath=nullptr) const;
+		virtual FILE* openFile(const String& path, const char* mode, String* resolvedPath=nullptr) const;
 		
 		
 		/*! Loads and stores a TextureImage from the given path.
