@@ -7,6 +7,7 @@
 #include <GameLibrary/Exception/Graphics/TextureImageUpdateException.hpp>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "../SDL_ext/SDL_RWops_ext.hpp"
 
 namespace fgl
 {
@@ -308,13 +309,7 @@ namespace fgl
 	
 	bool TextureImage::loadFromFile(FILE* file, Graphics& graphics, String* error)
 	{
-		Data imgData;
-		if(!imgData.loadFromFile(file, error))
-		{
-			return false;
-		}
-		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(imgData.getData(), (int)imgData.size()), 1);
-		imgData.clear();
+		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromFILE(file, SDL_FALSE), 1);
 		if(surface != nullptr)
 		{
 			unsigned int w = (unsigned int)surface->w;

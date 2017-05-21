@@ -127,6 +127,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.hpp" />
     <ClInclude Include="..\..\src\Application\EventManager.hpp" />
     <ClInclude Include="..\..\src\Exception\ExceptionMacros.hpp" />
+    <ClInclude Include="..\..\src\SDL_ext\SDL_RWops_ext.hpp" />
     <ClInclude Include="..\..\src\Utilities\Time\posixtime.h" />
     <ClInclude Include="..\..\src\Utilities\Time\time64\time64.h" />
     <ClInclude Include="..\..\src\Utilities\Time\time64\time64_config.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\..\src\Screen\UI\TextInputElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\TouchElement.cpp" />
     <ClCompile Include="..\..\src\Screen\UI\ZoomPanElement.cpp" />
+    <ClCompile Include="..\..\src\SDL_ext\SDL_RWops_ext.cpp" />
     <ClCompile Include="..\..\src\Utilities\Data.cpp" />
     <ClCompile Include="..\..\src\Utilities\Font\Font.cpp" />
     <ClCompile Include="..\..\src\Utilities\Font\RenderedGlyphContainer.cpp" />

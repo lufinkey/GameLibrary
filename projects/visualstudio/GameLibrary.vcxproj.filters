@@ -160,6 +160,9 @@
     <Filter Include="external\SDL\SDL_gfx">
       <UniqueIdentifier>{fcf560be-cdb6-44a5-8be0-ae901ef33f3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\SDL_ext">
+      <UniqueIdentifier>{c5239764-606d-49c2-a7fe-c9c7cf857c06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameLibrary\Actor\Actor.hpp">
@@ -504,6 +507,9 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\PopupScreen.hpp">
       <Filter>include\GameLibrary\Screen\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\SDL_ext\SDL_RWops_ext.hpp">
+      <Filter>src\SDL_ext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Actor\Actor.cpp">
@@ -766,6 +772,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Screen\UI\PopupScreen.cpp">
       <Filter>src\Screen\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SDL_ext\SDL_RWops_ext.cpp">
+      <Filter>src\SDL_ext</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
