@@ -137,13 +137,13 @@ namespace fgl
 		
 		/*! Gets the top level Screen in this Screen's presentation stack.
 			\returns a Screen pointer*/
-		Screen* getTopScreen();
+		Screen* getTopScreen() const;
 		/*! Gets the bottom level Screen in this Screen's presentation stack.
 			\returns a Screen pointer*/
-		Screen* getBottomScreen();
+		Screen* getBottomScreen() const;
 		/*! Gets the root level Screen of this entire Screen heirarchy, which includes ScreenManager containers.
 			\returns a Screen pointer*/
-		Screen* getRootScreen();
+		Screen* getRootScreen() const;
 		/*! Tells whether the Screen is visible in the Screen heirarchy, or if another Screen is covering it. If the bottom Screen is not the root Screen of a Window, this will always return false.
 			\returns true if the Screen is visible in the Screen heirarchy, or false if otherwise*/
 		bool isOnTop();

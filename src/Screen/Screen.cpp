@@ -589,25 +589,25 @@ namespace fgl
 		return childScreen;
 	}
 	
-	Screen* Screen::getTopScreen()
+	Screen* Screen::getTopScreen() const
 	{
 		if(childScreen == nullptr)
 		{
-			return this;
+			return (Screen*)this;
 		}
 		return childScreen->getTopScreen();
 	}
 	
-	Screen* Screen::getBottomScreen()
+	Screen* Screen::getBottomScreen() const
 	{
 		if(parentScreen == nullptr)
 		{
-			return this;
+			return (Screen*)this;
 		}
 		return parentScreen->getBottomScreen();
 	}
 	
-	Screen* Screen::getRootScreen()
+	Screen* Screen::getRootScreen() const
 	{
 		Screen* bottomScreen = getBottomScreen();
 		if(bottomScreen->screenManager == nullptr)
