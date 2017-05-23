@@ -71,8 +71,6 @@ namespace fgl
 		for(unsigned int i=0; i<screens.size(); i++)
 		{
 			Screen* screen = screens.get(i);
-			screen->screenManager = nullptr;
-			//screen->parentElement = nullptr;
 		}
 		screens.clear();
 	}
