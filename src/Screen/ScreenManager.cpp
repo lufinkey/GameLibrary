@@ -32,8 +32,12 @@ namespace fgl
 					screens.get(i)->setWindow(win);
 				}
 				window = win; //ScreenElement::setWindow(win);
-				childScreen->setWindow(win);
+				if(childScreen!=nullptr)
+				{
+					childScreen->setWindow(win);
+				}
 			}
+			updateFrame(win);
 		}
 	}
 	
@@ -68,11 +72,7 @@ namespace fgl
 	
 	ScreenManager::~ScreenManager()
 	{
-		for(unsigned int i=0; i<screens.size(); i++)
-		{
-			Screen* screen = screens.get(i);
-		}
-		screens.clear();
+		//
 	}
 	
 	void ScreenManager::onWillAppear(const Transition* transition)
