@@ -130,8 +130,7 @@ namespace fgl
 			}
 			else
 			{
-				assetManager->loadTexture(frame.file);
-				frame.img = assetManager->getTexture(frame.file);
+				frame.img = assetManager->loadTexture(frame.file);
 			}
 		}
 	}
@@ -188,12 +187,11 @@ namespace fgl
 			throw IllegalArgumentException("file", "cannot be an empty string");
 		}
 
-		if(!assetManager->loadTexture(file, error))
+		auto img = assetManager->loadTexture(file);
+		if(img == nullptr)
 		{
 			return false;
 		}
-
-		TextureImage* img = assetManager->getTexture(file);
 		frames.add(Frame(file, img));
 		return true;
 	}
@@ -217,12 +215,11 @@ namespace fgl
 			throw IllegalArgumentException("cols", "must be greater than 0");
 		}
 
-		if(!assetManager->loadTexture(file, error))
+		auto img = assetManager->loadTexture(file, error);
+		if(img == nullptr)
 		{
 			return false;
 		}
-
-		TextureImage* img = assetManager->getTexture(file);
 
 		for(unsigned int y=0; y<rows; y++)
 		{
@@ -267,12 +264,11 @@ namespace fgl
 			}
 		}
 
-		if(!assetManager->loadTexture(file, error))
+		auto img = assetManager->loadTexture(file, error);
+		if(img == nullptr)
 		{
 			return false;
 		}
-
-		TextureImage* img = assetManager->getTexture(file);
 
 		for(auto& point : sequence)
 		{
