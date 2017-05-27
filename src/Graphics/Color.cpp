@@ -6,23 +6,24 @@
 namespace fgl
 {
 	Color::Color()
-		: r(255), g(255), b(255), a(255)
+		: a(255), b(255), g(255), r(255)
 	{
 		//
 	}
 	
 	Color::Color(byte r, byte g, byte b, byte a)
-		: r(r), g(g), b(b), a(a)
+		: a(a), b(b), g(g), r(r)
 	{
 		//
 	}
 	
-	Color::Color(const Dictionary& colorValues) : Color()
+	Color::Color(const Dictionary& colorValues)
+		: a(extractNumber(colorValues, "a", 255)),
+		b(extractNumber(colorValues, "b", 255)),
+		g(extractNumber(colorValues, "g", 255)),
+		r(extractNumber(colorValues, "r", 255))
 	{
-		r = extractNumber(colorValues, "r", 255);
-		g = extractNumber(colorValues, "g", 255);
-		b = extractNumber(colorValues, "b", 255);
-		a = extractNumber(colorValues, "a", 255);
+		//
 	}
 	
 	Color::Color(const fgl::Color::RGBA32& rgba)
