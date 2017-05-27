@@ -462,6 +462,7 @@ namespace fgl
 			{
 				if(transitionData.screen==this)
 				{
+					shouldDrawElements = false;
 					DrawOperation op;
 					op.zLayer = transitionData.zLayer;
 					op.func = [&]{
