@@ -39,20 +39,6 @@ namespace fgl
 		ScreenManager& operator=(const ScreenManager&) = delete;
 		
 		
-		/*! \copydoc fgl::Screen::update(fgl::ApplicationData)*/
-		virtual void update(ApplicationData appData) override;
-		
-		
-		/*! \copydoc fgl::Screen::onWillAppear(const fgl::Transition*transition)*/
-		virtual void onWillAppear(const Transition*transition) override;
-		/*! \copydoc fgl::Screen::onDidAppear(const fgl::Transition*transition)*/
-		virtual void onDidAppear(const Transition*transition) override;
-		/*! \copydoc fgl::Screen::onWillDisappear(const fgl::Transition*transition)*/
-		virtual void onWillDisappear(const Transition*transition) override;
-		/*! \copydoc fgl::Screen::onDidDisappear(const fgl::Transition*transition)*/
-		virtual void onDidDisappear(const Transition*transition) override;
-		
-		
 		/*! Sets the container's Screen list.
 		If the top screen on the list is the same as the top screen in the container, then no transition is performed.
 		If the top screen on the list is a screen that already exists within the container, a pop animation is performed.
@@ -68,7 +54,7 @@ namespace fgl
 				4.) contains a Screen that is already inside another Screen container\n
 				5.) contains a Screen that already belongs to another Window\n
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
-		void set(const ArrayList<Screen*>& screens, const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void setScreens(const ArrayList<Screen*>& screens, const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 		/*! Pushes a Screen to the container's list of Screen pointers.
 			\param screen a Screen pointer to push
 			\param transition a Transition to use to push the Screen
@@ -81,7 +67,7 @@ namespace fgl
 				4.) already belongs to another Window\n
 			\throws fgl::ScreenNavigationException if:\n
 				1.) this container is already in the process of pushing, popping, or setting items on the list*/
-		void push(Screen*screen, const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void pushScreen(Screen* screen, const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 		/*! Pushes a list of Screen pointers onto the container's list of Screen pointers.
 			\param screens a list of Screen pointers to push
 			\param transition a Transition to use to push the list
@@ -94,7 +80,7 @@ namespace fgl
 				4.) contains a Screen that is already inside a Screen container\n
 				5.) contains a Screen that already belongs to another Window\n
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
-		void push(const ArrayList<Screen*>& screens, const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		void pushScreens(const ArrayList<Screen*>& screens, const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 		/*! Pops the top Screen off of the container's list of Screen pointers.
 			\param transition a Transition to use to pop the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
@@ -103,7 +89,7 @@ namespace fgl
 			\throws fgl::ScreenNavigationException if:\n
 				1.) this container is already in the process of pushing, popping, or setting items on the list
 				2.) this container only contains 1 Screen*/
-		Screen* pop(const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		Screen* popScreen(const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 		/*! Pops Screen pointers off of the container's list to index of the given Screen pointer.
 			\param screen the screen to pop the list to; This Screen will become the new top Screen
 			\param transition a Transition to use to pop the Screen pointers
@@ -112,33 +98,21 @@ namespace fgl
 			\returns a list of Screen pointers that were popped from the list
 			\throws fgl::IllegalArgumentException if the given Screen is not contained within this Screen container
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
-		ArrayList<Screen*> popTo(Screen*screen, const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		ArrayList<Screen*> popToScreen(Screen* screen, const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 		/*! Pops Screen objects off of the container's list to the first Screen in the list.
 			\param transition a Transition to use to pop the Screen pointers
 			\param duration a length of time, in milliseconds, that the transition will last
 			\param completion a callback to call when the Screen finishes the transition
 			\returns a list of Screen pointers that were popped from the list
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
-		ArrayList<Screen*> popToRoot(const Transition*transition=defaultPushTransition, unsigned long long duration=Transition::defaultDuration, const std::function<void()>& completion=nullptr);
+		ArrayList<Screen*> popToFirstScreen(const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
 
 
 		/*! Get an array of the screens within this screen manager
 			\returns a const reference to an array of Screen pointers */
 		const ArrayList<Screen*>& getScreens() const;
 		
-	protected:
-		/*! Draws all contained Screen pointers. This function is automatically called from within ScreenManager::draw.
-			\param appData specifies information about the Application drawing the contained Screen pointers, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
-			\param graphics the Graphics object used to draw the contained Screen pointers*/
-		virtual void drawScreens(ApplicationData appData, Graphics graphics) const;
-		/*! \copydoc fgl::Screen::drawElements(fgl::ApplicationData,fgl::Graphics)*/
-		virtual void drawElements(ApplicationData appData, Graphics graphics) const override;
-		
 	private:
-		TransitionData pushpopData;
-
 		ArrayList<Screen*> screens;
-
-		virtual void setWindow(Window*window) override;
 	};
 }

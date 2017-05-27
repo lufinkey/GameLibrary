@@ -7,40 +7,7 @@
 namespace fgl
 {
 	const Transition* const ScreenManager::defaultPushTransition = new SlideTransition(SlideTransition::SLIDE_LEFT);
-	
-	void ScreenManager::setWindow(Window* win)
-	{
-		if(window!=win)
-		{
-			if(window!=nullptr)
-			{
-				if(childScreen!=nullptr)
-				{
-					childScreen->setWindow(nullptr);
-				}
-				for(unsigned int i=0; i<screens.size(); i++)
-				{
-					screens.get(i)->setWindow(nullptr);
-				}
-				window = nullptr; //ScreenElement::setWindow(nullptr);
-			}
-			if(win != nullptr)
-			{
-				updateFrame(win);
-				for(unsigned int i=0; i<screens.size(); i++)
-				{
-					screens.get(i)->setWindow(win);
-				}
-				window = win; //ScreenElement::setWindow(win);
-				if(childScreen!=nullptr)
-				{
-					childScreen->setWindow(win);
-				}
-			}
-			updateFrame(win);
-		}
-	}
-	
+
 	ScreenManager::ScreenManager(Window* window, Screen* rootScreen) : Screen(window)
 	{
 		if(rootScreen == nullptr)
@@ -59,10 +26,9 @@ namespace fgl
 		{
 			throw IllegalArgumentException("rootScreen", "already belongs to another Window");
 		}
-		TransitionData_clear(pushpopData);
-		rootScreen->setWindow(window);
 		rootScreen->screenManager = this;
 		screens.add(rootScreen);
+		addChildScreen(rootScreen, 0.4);
 	}
 	
 	ScreenManager::ScreenManager(Screen* rootScreen) : ScreenManager(nullptr, rootScreen)
@@ -75,156 +41,51 @@ namespace fgl
 		//
 	}
 	
-	void ScreenManager::onWillAppear(const Transition* transition)
+	void ScreenManager::setScreens(const ArrayList<Screen*>& newScreens, const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		Screen::onWillAppear(transition);
-		if(pushpopData.action==TRANSITION_NONE)
-		{
-			screens.get(screens.size()-1)->onWillAppear(transition);
-		}
-	}
-	
-	void ScreenManager::onDidAppear(const Transition* transition)
-	{
-		Screen::onDidAppear(transition);
-		if(pushpopData.action==TRANSITION_NONE)
-		{
-			screens.get(screens.size()-1)->onDidAppear(transition);
-		}
-	}
-	
-	void ScreenManager::onWillDisappear(const Transition* transition)
-	{
-		Screen::onWillDisappear(transition);
-		screens.get(screens.size()-1)->onWillDisappear(transition);
-	}
-	
-	void ScreenManager::onDidDisappear(const Transition* transition)
-	{
-		Screen::onDidDisappear(transition);
-		screens.get(screens.size()-1)->onDidDisappear(transition);
-	}
-	
-	void ScreenManager::update(ApplicationData appData)
-	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
+		handleFirstShowing();
 		
-		Screen* updateCaller = nullptr;
-
-		auto transitionFinishHandler = TransitionData_checkFinished(appData, pushpopData);
-
-		if(childScreen==nullptr)
+		if(duration < 0)
 		{
-			if(pushpopData.action==TRANSITION_NONE)
-			{
-				updateCaller = screens.get(screens.size()-1);
-			}
+			throw IllegalArgumentException("duration", "cannot be a negative value");
 		}
-
-		if(transitionFinishHandler)
-		{
-			transitionFinishHandler();
-		}
-
-		if(updateCaller != nullptr)
-		{
-			updateCaller->update(appData);
-		}
-		
-		Screen::update(appData);
-
-		TransitionData_checkInitialization(appData, pushpopData);
-	}
-	
-	void ScreenManager::drawScreens(ApplicationData appData, Graphics graphics) const
-	{
-		if(childScreen==nullptr || overlayData.action!=TRANSITION_NONE)
-		{
-			if(pushpopData.action == TRANSITION_NONE)
-			{
-				screens.get(screens.size()-1)->draw(appData, graphics);
-			}
-			else
-			{
-				double progress = pushpopData.progress;
-
-				if(pushpopData.action == TRANSITION_HIDE)
-				{
-					progress = 1 - progress;
-				}
-
-				pushpopData.transition->draw(appData, graphics, progress, pushpopData.screen, pushpopData.transitionScreen);
-			}
-		}
-	}
-	
-	void ScreenManager::drawElements(ApplicationData appData, Graphics graphics) const
-	{
-		drawScreens(appData, graphics);
-		Screen::drawElements(appData, graphics);
-	}
-	
-	void ScreenManager::set(const ArrayList<Screen*>& newScreens, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
-	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
-		
-		if(pushpopData.action != TRANSITION_NONE)
+		else if(isTransitionAnimating("pushpop"))
 		{
 			throw ScreenNavigationException("Cannot set a ScreenManager's screens while the ScreenManager is performing a transition");
 		}
 		else if(newScreens.size()==0)
 		{
-			throw IllegalArgumentException("screens", "empty list");
+			throw IllegalArgumentException("screens", "cannot be an empty list");
 		}
 		else
 		{
-			for(unsigned int i=0; i<newScreens.size(); i++)
+			for(size_t i=0; i<newScreens.size(); i++)
 			{
-				Screen* screen = newScreens.get(i);
+				auto& screen = newScreens.get(i);
 				if(screen == nullptr)
 				{
-					throw IllegalArgumentException("screens", "list contains null");
+					throw IllegalArgumentException("screens", (String)"contains null Screen at index "+i);
 				}
 				else if(screen->screenManager != nullptr && screen->screenManager!=this)
 				{
-					throw IllegalArgumentException("screens", "list contains Screen that is already part of another ScreenManager");
+					throw IllegalArgumentException("screens", (String)"contains Screen that is already part of another ScreenManager at index "+i);
 				}
-				else if(screen->parentScreen != nullptr)
+				else if(screen->parentScreen != nullptr && (screen->parentScreen!=this || (screen->parentScreen==this && screen->screenManager!=this)))
 				{
-					throw IllegalArgumentException("screens", "list contains Screen that is already presented on another Screen");
+					throw IllegalArgumentException("screens", (String)"contains Screen that is already a child of another Screen at index "+i);
 				}
-				/*else if(screen->parentElement != nullptr && (screen->parentElement!=this || screen->screenManager!=this))
-				{
-					throw IllegalArgumentException("screens", "list contains Screen that is already added to a ScreenElement");
-				}*/
 				else if(screen->window != nullptr && screen->screenManager!=this)
 				{
-					throw IllegalArgumentException("screens", "list contains Screen that belongs to another Window");
+					throw IllegalArgumentException("screens", (String)"contains Screen that belongs to another Window at index "+i);
 				}
 				else
 				{
-					for(unsigned int j=(i+1); j<newScreens.size(); j++)
+					for(size_t j=(i+1); j<newScreens.size(); j++)
 					{
 						Screen* screen2 = newScreens.get(j);
 						if(screen == screen2)
 						{
-							throw IllegalArgumentException("screens", "list contains duplicates");
+							throw IllegalArgumentException("screens", (String)"contains duplicate Screens at index "+i+" and index "+j);
 						}
 					}
 				}
@@ -232,169 +93,129 @@ namespace fgl
 
 			Screen* lastNewScreen = newScreens.get(newScreens.size()-1);
 			Screen* currentScreen = screens.get(screens.size() - 1);
+
+			Screen* topOldScreen = currentScreen->getTopScreenInHeirarchy();
+			Screen* topNewScreen = lastNewScreen->getTopScreenInHeirarchy();
+			bool visible = isOnTop();
+
+			//set new screens
+			for(auto& screen : screens)
+			{
+				screen->screenManager = nullptr;
+				removeChildScreen(screen);
+			}
+			screens = newScreens;
+			for(auto& screen : screens)
+			{
+				screen->screenManager = this;
+				addChildScreen(screen, 0.4, false);
+			}
+			setChildScreenVisible(screens[screens.size()-1], true);
+
 			if(lastNewScreen == currentScreen)
 			{
-				for(unsigned int i=0; i<screens.size(); i++)
+				//no transition needed if the top screens are the same
+				if(oncompletion)
 				{
-					Screen* screen = screens.get(i);
-					screen->screenManager = nullptr;
-					//screen->parentElement = nullptr;
-					screen->setWindow(nullptr);
-				}
-				screens = newScreens;
-				for(unsigned int i=0; i<screens.size(); i++)
-				{
-					Screen* screen = screens.get(i);
-					screen->screenManager = this;
-					//screen->parentElement = this;
-					screen->setWindow(window);
-				}
-
-				if(completion)
-				{
-					completion();
+					oncompletion();
 				}
 			}
 			else
 			{
-				Screen* topOldScreen = currentScreen->getTopScreen();
-				Screen* topNewScreen = lastNewScreen->getTopScreen();
-				bool ontop = isOnTop();
+				//transition between the screens
+
+				if(visible)
+				{
+					topOldScreen->onWillDisappear(transition);
+					topNewScreen->onWillAppear(transition);
+				}
+
 				if(screens.contains(lastNewScreen))
 				{
 					//pop animation
-					TransitionData_begin(pushpopData, lastNewScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion);
+					addTransition("pushpop", 0.4, lastNewScreen, currentScreen, TRANSITION_HIDE, transition, duration, [=]{
+						if(visible)
+						{
+							topOldScreen->onDidDisappear(transition);
+							topNewScreen->onDidAppear(transition);
+						}
+						if(oncompletion)
+						{
+							oncompletion();
+						}
+					});
 				}
 				else
 				{
 					//push animation
-					TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion);
-				}
-				for(unsigned int i=0; i<screens.size(); i++)
-				{
-					Screen*screen = screens.get(i);
-					screen->screenManager = nullptr;
-					//screen->parentElement = nullptr;
-					screen->setWindow(nullptr);
-				}
-				screens = newScreens;
-				for(unsigned int i=0; i<screens.size(); i++)
-				{
-					Screen*screen = screens.get(i);
-					screen->screenManager = this;
-					//screen->parentElement = this;
-					screen->setWindow(window);
-				}
-
-				if(transition == nullptr || duration == 0)
-				{
-					if(ontop)
-					{
-						topOldScreen->onWillDisappear(transition);
-						topNewScreen->onWillAppear(transition);
-
-						TransitionData_clear(pushpopData);
-
-						topOldScreen->onDidDisappear(transition);
-						topNewScreen->onDidAppear(transition);
-
-						if(completion)
+					addTransition("pushpop", 0.4, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, [=]{
+						if(visible)
 						{
-							completion();
+							topOldScreen->onDidDisappear(transition);
+							topNewScreen->onDidAppear(transition);
 						}
-					}
-					else
-					{
-						TransitionData_clear(overlayData);
-
-						if(completion)
+						if(oncompletion)
 						{
-							completion();
+							oncompletion();
 						}
-					}
-				}
-				else
-				{
-					if(ontop)
-					{
-						topOldScreen->onWillDisappear(transition);
-						topNewScreen->onWillAppear(transition);
-					}
+					});
 				}
 			}
 		}
 	}
 	
-	void ScreenManager::push(Screen* screen, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
+	void ScreenManager::pushScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
-		
-		ArrayList<Screen*> screens(1);
-		screens.set(0, screen);
-		push(screens, transition, duration, completion);
+		handleFirstShowing();
+
+		pushScreens({screen}, transition, duration, oncompletion);
 	}
 	
-	void ScreenManager::push(const ArrayList<Screen*>& newScreens, const Transition* transition, unsigned long long duration, const std::function<void()>& completion)
+	void ScreenManager::pushScreens(const ArrayList<Screen*>& newScreens, const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(!isshown)
-		{
-			isshown = true;
-			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
-			{
-				onWillAppear(nullptr);
-				onDidAppear(nullptr);
-			}
-		}
+		handleFirstShowing();
 
-		if(pushpopData.action != TRANSITION_NONE)
+		if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be a negative value");
+		}
+		else if(isTransitionAnimating("pushpop"))
 		{
 			throw ScreenNavigationException("Cannot push Screens on a ScreenManager while the ScreenManager is performing a transition");
 		}
 		else if(newScreens.size()==0)
 		{
-			throw IllegalArgumentException("screens", "empty list");
+			throw IllegalArgumentException("screens", "cannot be an empty list");
 		}
 		else
 		{
-			for(unsigned int i=0; i<newScreens.size(); i++)
+			for(size_t i=0; i<newScreens.size(); i++)
 			{
 				Screen* screen = newScreens.get(i);
 				if(screen == nullptr)
 				{
-					throw IllegalArgumentException("screens", "list contains null");
+					throw IllegalArgumentException("screens", (String)"contains null Screen at index "+i);
 				}
 				else if(screen->screenManager != nullptr)
 				{
-					throw IllegalArgumentException("screens", "list contains Screen that is already a part of a ScreenManager");
+					throw IllegalArgumentException("screens", (String)"contains Screen that is already part of another ScreenManager at index "+i);
 				}
 				else if(screen->parentScreen != nullptr)
 				{
-					throw IllegalArgumentException("screen", "list contains Screen that is already presented on another Screen");
+					throw IllegalArgumentException("screens", (String)"contains Screen that is already a child of another Screen at index "+i);
 				}
-				/*else if(screen->parentElement != nullptr)
-				{
-					throw IllegalArgumentException("screen", "list contains Screen that is already added to a ScreenElement");
-				}*/
 				else if(screen->window != nullptr)
 				{
-					throw IllegalArgumentException("screen", "list contains Screen that already belongs to another Window");
+					throw IllegalArgumentException("screens", (String)"contains Screen that belongs to another Window at index "+i);
 				}
 				else
 				{
-					for(unsigned int j=(i+1); j<newScreens.size(); j++)
+					for(size_t j=(i+1); j<newScreens.size(); j++)
 					{
 						Screen* screen2 = newScreens.get(j);
 						if(screen == screen2)
 						{
-							throw IllegalArgumentException("screens", "list contains duplicates");
+							throw IllegalArgumentException("screens", (String)"contains duplicate Screens at index "+i+" and index "+j);
 						}
 					}
 				}
@@ -403,60 +224,43 @@ namespace fgl
 			Screen* lastNewScreen = newScreens.get(newScreens.size()-1);
 			Screen* currentScreen = screens.get(screens.size() - 1);
 			
-			Screen* topOldScreen = currentScreen->getTopScreen();
-			Screen* topNewScreen = lastNewScreen->getTopScreen();
-			
-			bool ontop = isOnTop();
-			TransitionData_begin(pushpopData, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, completion);
-			for(unsigned int i=0; i<newScreens.size(); i++)
+			Screen* topOldScreen = currentScreen->getTopScreenInHeirarchy();
+			Screen* topNewScreen = lastNewScreen->getTopScreenInHeirarchy();
+			bool visible = isOnTop();
+
+			setChildScreenVisible(screens[screens.size()-1], false);
+			screens.addAll(newScreens);
+			for(auto& screen : newScreens)
 			{
-				Screen* screen = newScreens.get(i);
 				screen->screenManager = this;
-				//screen->parentElement = this;
-				screen->setWindow(window);
-				screens.add(screen);
+				addChildScreen(screen, 0.4, false);
 			}
-			if(transition == nullptr || duration == 0)
+			setChildScreenVisible(screens[screens.size()-1], true);
+			
+			if(visible)
 			{
-				if(ontop)
+				topOldScreen->onWillDisappear(transition);
+				topNewScreen->onWillAppear(transition);
+			}
+
+			addTransition("pushpop", 0.4, currentScreen, lastNewScreen, TRANSITION_SHOW, transition, duration, [=]{
+				if(visible)
 				{
-					topOldScreen->onWillDisappear(transition);
-					topNewScreen->onWillAppear(transition);
-
-					TransitionData_clear(pushpopData);
-
 					topOldScreen->onDidDisappear(transition);
 					topNewScreen->onDidAppear(transition);
+				}
 
-					if(completion)
-					{
-						completion();
-					}
-				}
-				else
+				if(oncompletion)
 				{
-					TransitionData_clear(overlayData);
-
-					if(completion)
-					{
-						completion();
-					}
+					oncompletion();
 				}
-			}
-			else
-			{
-				if(ontop)
-				{
-					topOldScreen->onWillDisappear(transition);
-					topNewScreen->onWillAppear(transition);
-				}
-			}
+			});
 		}
 	}
 	
-	Screen* ScreenManager::pop(const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	Screen* ScreenManager::popScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(pushpopData.action != TRANSITION_NONE)
+		if(isTransitionAnimating("pushpop"))
 		{
 			throw ScreenNavigationException("Cannot pop a Screen on a ScreenManager while the ScreenManager is performing a transition");
 		}
@@ -464,15 +268,16 @@ namespace fgl
 		{
 			throw ScreenNavigationException("Cannot pop any more Screens from ScreenManager; A ScreenManager must have atleast 1 Screen");
 		}
-		else
-		{
-			return popTo(screens.get(screens.size()-2), transition, duration, completion).get(0);
-		}
+		return popToScreen(screens.get(screens.size()-2), transition, duration, oncompletion).get(0);
 	}
 	
-	ArrayList<Screen*> ScreenManager::popTo(Screen*screen, const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	ArrayList<Screen*> ScreenManager::popToScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(pushpopData.action != TRANSITION_NONE)
+		if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be a negative value");
+		}
+		else if(isTransitionAnimating("pushpop"))
 		{
 			throw ScreenNavigationException("Cannot pop a Screen on a ScreenManager while the ScreenManager is performing a transition");
 		}
@@ -494,72 +299,52 @@ namespace fgl
 			ArrayList<Screen*> popped;
 			for(size_t i=(index+1); i<screens.size(); i++)
 			{
-				Screen* screen = screens.get(i);
-				//screen->parentElement = nullptr;
-				screen->screenManager = nullptr;
-				screen->setWindow(nullptr);
-				popped.add(screen);
+				Screen* poppedScreen = screens[i];
+				poppedScreen->screenManager = nullptr;
+				removeChildScreen(poppedScreen);
+				popped.add(poppedScreen);
 			}
-			while(screens.size()>(index + 1))
+			while(screens.size() > (index + 1))
 			{
 				screens.remove(screens.size()-1);
 			}
+			setChildScreenVisible(screens[screens.size()-1], true);
 
-			Screen* topOldScreen = currentScreen->getTopScreen();
-			Screen* topNewScreen = newScreen->getTopScreen();
+			Screen* topOldScreen = currentScreen->getTopScreenInHeirarchy();
+			Screen* topNewScreen = newScreen->getTopScreenInHeirarchy();
+			bool visible = isOnTop();
 
-			bool ontop = isOnTop();
-			TransitionData_begin(pushpopData, newScreen, currentScreen, TRANSITION_HIDE, transition, duration, completion);
-
-			if(transition == nullptr || duration == 0)
+			if(visible)
 			{
-				if(ontop)
+				topOldScreen->onWillDisappear(transition);
+				topNewScreen->onWillAppear(transition);
+			}
+
+			addTransition("pushpop", 0.4, newScreen, currentScreen, TRANSITION_HIDE, transition, duration, [=]{
+				if(visible)
 				{
-					topOldScreen->onWillDisappear(transition);
-					topNewScreen->onWillAppear(transition);
-
-					TransitionData_clear(pushpopData);
-
 					topOldScreen->onDidDisappear(transition);
 					topNewScreen->onDidAppear(transition);
-
-					if(completion)
-					{
-						completion();
-					}
 				}
-				else
+				if(oncompletion)
 				{
-					TransitionData_clear(overlayData);
-
-					if(completion)
-					{
-						completion();
-					}
+					oncompletion();
 				}
-			}
-			else
-			{
-				if(ontop)
-				{
-					topOldScreen->onWillDisappear(transition);
-					topNewScreen->onWillAppear(transition);
-				}
-			}
+			});
 
 			return popped;
 		}
 	}
 	
-	ArrayList<Screen*> ScreenManager::popToRoot(const Transition*transition, unsigned long long duration, const std::function<void()>& completion)
+	ArrayList<Screen*> ScreenManager::popToFirstScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(pushpopData.action != TRANSITION_NONE)
+		if(isTransitionAnimating("pushpop"))
 		{
 			throw ScreenNavigationException("Cannot pop a Screen on a ScreenManager while the ScreenManager is performing a transition");
 		}
 		else
 		{
-			return popTo(screens.get(0), transition, duration, completion);
+			return popToScreen(screens.get(0), transition, duration, oncompletion);
 		}
 	}
 

@@ -40,30 +40,22 @@ namespace fgl
 				onSizeChange(oldSize, size);
 			}
 		}
+		for(auto& container : childScreens)
+		{
+			container.screen->updateFrame(window);
+		}
 	}
 	
 	void Screen::setWindow(Window* win)
 	{
 		if(window!=win)
 		{
-			if(window!=nullptr)
-			{
-				if(childScreen!=nullptr)
-				{
-					childScreen->setWindow(nullptr);
-				}
-				window = nullptr; //ScreenElement::setWindow(nullptr);
-			}
-			if(win != nullptr)
-			{
-				updateFrame(win);
-				window = win; //ScreenElement::setWindow(win);
-				if(childScreen!=nullptr)
-				{
-					childScreen->setWindow(win);
-				}
-			}
+			window = win;
 			updateFrame(win);
+			for(auto& container : childScreens)
+			{
+				container.screen->setWindow(win);
+			}
 		}
 	}
 	
@@ -102,9 +94,8 @@ namespace fgl
 		}
 	}
 	
-	byte Screen::TransitionData_applyProgress(ApplicationData& appData, Screen::TransitionData&data)
+	bool Screen::TransitionData_applyProgress(ApplicationData& appData, Screen::TransitionData&data)
 	{
-		byte finishedAction = TRANSITION_NONE;
 		if(data.action != TRANSITION_NONE)
 		{
 			TransitionData_checkInitialization(appData, data);
@@ -113,44 +104,19 @@ namespace fgl
 			data.progress = (double)(((double)timeDif) / ((double)data.duration));
 			if(data.progress >= 1)
 			{
-				finishedAction = data.action;
+				return true;
 			}
 		}
-		return finishedAction;
+		return false;
 	}
 	
 	std::function<void()> Screen::TransitionData_checkFinished(ApplicationData& appData, Screen::TransitionData& data)
 	{
 		//apply any progress to the presenting transition
-		const Transition* transition = data.transition;
 		std::function<void()> completion = data.completion;
-		byte finishedAction = TransitionData_applyProgress(appData, data);
-		Screen* onDidDisappearCaller = nullptr;
-		Screen* onDidAppearCaller = nullptr;
-		if(finishedAction == TRANSITION_HIDE)
-		{
-			onDidDisappearCaller = data.transitionScreen;
-			onDidAppearCaller = data.screen;
-			TransitionData_clear(data);
-		}
-		else if(finishedAction == TRANSITION_SHOW)
-		{
-			onDidDisappearCaller = data.screen;
-			onDidAppearCaller = data.transitionScreen;
-			TransitionData_clear(data);
-		}
-
-		if(finishedAction==TRANSITION_HIDE || finishedAction==TRANSITION_SHOW)
+		if(TransitionData_applyProgress(appData, data))
 		{
 			return [=]{
-				if(onDidDisappearCaller!=nullptr && !onDidDisappearCaller->isOnTop())
-				{
-					onDidDisappearCaller->getTopScreen()->onDidDisappear(transition);
-				}
-				if(onDidAppearCaller!=nullptr && onDidAppearCaller->isOnTop())
-				{
-					onDidAppearCaller->getTopScreen()->onDidAppear(transition);
-				}
 				if(completion)
 				{
 					completion();
@@ -160,12 +126,125 @@ namespace fgl
 		return nullptr;
 	}
 
+	void Screen::addTransition(const String& name, float zLayer, Screen* screen, Screen* transitionScreen, TransitionAction action, const Transition* transition, long long duration, const std::function<void()>& completion)
+	{
+		if(isTransitionAnimating(name))
+		{
+			throw fgl::IllegalArgumentException("name", "transition is already animating");
+		}
+		for(auto& transitionData : transitions)
+		{
+			if(transitionData.screen==screen || transitionData.transitionScreen==screen)
+			{
+				throw fgl::IllegalArgumentException("screen", "is already transitioning");
+			}
+			else if(transitionData.screen==transitionScreen || transitionData.transitionScreen==transitionScreen)
+			{
+				throw fgl::IllegalArgumentException("transitionScreen", "is already transitioning");
+			}
+		}
+		if(transition==nullptr || duration==0)
+		{
+			if(completion)
+			{
+				completion();
+			}
+		}
+		else
+		{
+			TransitionData transitionData;
+			TransitionData_clear(transitionData);
+			transitionData.name = name;
+			transitionData.zLayer = zLayer;
+			TransitionData_begin(transitionData, screen, transitionScreen, action, transition, duration, completion);
+			transitions.add(transitionData);
+		}
+	}
+
+	bool Screen::isTransitionAnimating(const String& name) const
+	{
+		for(auto& transitionData : transitions)
+		{
+			if(transitionData.name==name)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void Screen::addChildScreen(Screen* screen, float zLayer, bool visible)
+	{
+		if(screen->parentScreen!=nullptr)
+		{
+			throw IllegalArgumentException("screen", "cannot add a child Screen that already has a parent Screen");
+		}
+		screen->parentScreen = this;
+		screen->setWindow(window);
+		size_t screenIndex = -1;
+		for(size_t i=0; i<childScreens.size(); i++)
+		{
+			auto& container = childScreens[i];
+			if(container.zLayer > zLayer)
+			{
+				screenIndex = i;
+				break;
+			}
+		}
+		if(screenIndex == -1)
+		{
+			screenIndex = childScreens.size();
+		}
+		ChildScreenContainer container;
+		container.screen = screen;
+		container.zLayer = zLayer;
+		container.visible = visible;
+		childScreens.add(container);
+	}
+
+	void Screen::removeChildScreen(Screen* screen)
+	{
+		if(screen->parentScreen!=this)
+		{
+			return;
+		}
+		screen->parentScreen = nullptr;
+		screen->setWindow(nullptr);
+		size_t screenIndex = childScreens.indexWhere([&](const ChildScreenContainer& container) -> bool {
+			if(container.screen == screen)
+			{
+				return true;
+			}
+			return false;
+		});
+		if(screenIndex!=-1)
+		{
+			childScreens.remove(screenIndex);
+		}
+	}
+
+	void Screen::setChildScreenVisible(Screen* screen, bool visible)
+	{
+		for(auto& container : childScreens)
+		{
+			if(container.screen == screen)
+			{
+				container.visible = visible;
+				return;
+			}
+		}
+		throw IllegalArgumentException("screen", "is not a child of this Screen");
+	}
+
 	void Screen::handleFirstShowing()
 	{
 		if(!isshown)
 		{
 			isshown = true;
-			element->layoutChildElements();
+			if(window!=nullptr)
+			{
+				updateFrame(window);
+			}
 			if(window != nullptr && parentScreen == nullptr && screenManager == nullptr)
 			{
 				onWillAppear(nullptr);
@@ -179,13 +258,11 @@ namespace fgl
 		element = new ScreenElement(RectangleD(0,0, framesize.x, framesize.y));
 		screenManager = nullptr;
 		parentScreen = nullptr;
-		childScreen = nullptr;
+
 		drawingOverlayTransition = false;
 		isshown = false;
 		drawsParent = false;
 		updatesParent = false;
-
-		TransitionData_clear(overlayData);
 
 		window = window_arg;
 		if(window != nullptr)
@@ -210,12 +287,6 @@ namespace fgl
 	
 	Screen::~Screen()
 	{
-		if(childScreen!=nullptr)
-		{
-			//childScreen->parentElement = nullptr;
-			childScreen->parentScreen = nullptr;
-			childScreen = nullptr;
-		}
 		delete element;
 	}
 	
@@ -226,22 +297,49 @@ namespace fgl
 	
 	void Screen::onWillAppear(const Transition* transition)
 	{
-		updateFrame(window);
+		for(auto& container : childScreens)
+		{
+			if(container.zLayer < 0.5)
+			{
+				container.screen->onWillAppear(transition);
+			}
+		}
 		//Open for implementation
 	}
 	
 	void Screen::onDidAppear(const Transition* transition)
 	{
+		for(auto& container : childScreens)
+		{
+			if(container.zLayer < 0.5)
+			{
+				container.screen->onDidAppear(transition);
+			}
+		}
 		//Open for implementation
 	}
 	
 	void Screen::onWillDisappear(const Transition* transition)
 	{
+		for(auto& container : childScreens)
+		{
+			if(container.zLayer < 0.5)
+			{
+				container.screen->onWillDisappear(transition);
+			}
+		}
 		//Open for implementation
 	}
 	
 	void Screen::onDidDisappear(const Transition* transition)
 	{
+		for(auto& container : childScreens)
+		{
+			if(container.zLayer < 0.5)
+			{
+				container.screen->onDidDisappear(transition);
+			}
+		}
 		//Open for implementation
 	}
 	
@@ -249,25 +347,33 @@ namespace fgl
 	{
 		handleFirstShowing();
 
+		ArrayList<std::function<void()>> transitionCompletions;
+		for(size_t i=(transitions.size()-1); i!=-1; i--)
+		{
+			auto& transitionData = transitions[i];
+			if(auto transitionFinish = TransitionData_checkFinished(appData, transitionData))
+			{
+				transitionCompletions.add(transitionFinish);
+				transitions.remove(i);
+			}
+		}
+		
+		//only update top child screen
 		Screen* updateCaller = nullptr;
-		
-		auto transitionFinishHandler = TransitionData_checkFinished(appData, overlayData);
-		
-		if(childScreen!=nullptr)
+		float updateCallerZLayer = 0;
+		if(childScreens.size() > 0)
 		{
-			updateCaller = childScreen;
+			auto& topContainer = childScreens[childScreens.size()-1];
+			updateCaller = topContainer.screen;
+			updateCallerZLayer = topContainer.zLayer;
 		}
 		
-		updateFrame(window);
-		
-		if(transitionFinishHandler)
+		for(auto& completion : transitionCompletions)
 		{
-			transitionFinishHandler();
+			completion();
 		}
-		
-		updateFrame(window);
 
-		if(updateCaller==nullptr || updateCaller->updatesParent)
+		if(updateCaller==nullptr || updateCaller->updatesParent || updateCallerZLayer < 0.5)
 		{
 			if(element == nullptr)
 			{
@@ -290,7 +396,10 @@ namespace fgl
 			updateCaller->update(appData);
 		}
 		
-		TransitionData_checkInitialization(appData, overlayData);
+		for(auto& transitionData : transitions)
+		{
+			TransitionData_checkInitialization(appData, transitionData);
+		}
 		
 		updateFrame(window);
 	}
@@ -300,61 +409,164 @@ namespace fgl
 		//Open for implementation
 	}
 	
-	void Screen::drawElements(ApplicationData appData, Graphics graphics) const
+	void Screen::drawElements(const ApplicationData& appData, Graphics graphics) const
 	{
-		if(childScreen==nullptr || childScreen->drawsParent || overlayData.action != TRANSITION_NONE)
+		if(element != nullptr)
 		{
-			if(element != nullptr)
-			{
-				element->draw(appData, graphics);
-			}
-			//ScreenElement::drawElements(appData, graphics);
-			onDraw(appData, graphics);
+			element->draw(appData, graphics);
 		}
+		onDraw(appData, graphics);
 	}
 	
-	void Screen::drawOverlay(ApplicationData appData, Graphics graphics) const
+	void Screen::drawTransition(const TransitionData* transitionData, const ApplicationData& appData, Graphics graphics) const
 	{
-		if(childScreen!=nullptr || overlayData.action!=TRANSITION_NONE)
+		double progress = transitionData->progress;
+
+		if(transitionData->action == TRANSITION_HIDE)
 		{
-			if(overlayData.action == TRANSITION_NONE)
-			{
-				Vector2d overlaySize = childScreen->getSize();
-				double xOff = (overlaySize.x - framesize.x)/2;
-				double yOff = (overlaySize.y - framesize.y)/2;
-				graphics.translate(xOff, yOff);
-				childScreen->draw(appData, graphics);
-			}
-			else
-			{
-				double progress = overlayData.progress;
-				
-				if(overlayData.action == TRANSITION_HIDE)
-				{
-					progress = 1 - progress;
-				}
-				
-				overlayData.transition->draw(appData, graphics, progress, overlayData.screen, overlayData.transitionScreen);
-			}
+			progress = 1 - progress;
 		}
+
+		transitionData->transition->draw(appData, graphics, progress, transitionData->screen, transitionData->transitionScreen);
+	}
+
+	void Screen::drawChildScreen(Screen* childScreen, const ApplicationData& appData, Graphics graphics) const
+	{
+		auto size = childScreen->getSize();
+		auto parentSize = getSize();
+		double xOff = (size.x - parentSize.x)/2;
+		double yOff = (size.y - parentSize.y)/2;
+		graphics.translate(xOff, yOff);
+		childScreen->draw(appData, graphics);
 	}
 	
 	void Screen::draw(ApplicationData appData, Graphics graphics) const
 	{
-		if(overlayData.action==TRANSITION_NONE)
-		{
-			drawElements(appData, graphics);
-			drawOverlay(appData, graphics);
-		}
-		else if(drawingOverlayTransition)
+		if(drawingOverlayTransition)
 		{
 			drawElements(appData, graphics);
 		}
 		else
 		{
-			drawingOverlayTransition = true;
-			drawOverlay(appData, graphics);
-			drawingOverlayTransition = false;
+			struct DrawOperation
+			{
+				float zLayer;
+				std::function<void()> func;
+			};
+			ArrayList<DrawOperation> drawOperations;
+			drawOperations.reserve(transitions.size()+childScreens.size());
+
+			bool shouldDrawElements = true;
+			//add transition drawing operations
+			for(auto& transitionData : transitions)
+			{
+				if(transitionData.screen==this)
+				{
+					DrawOperation op;
+					op.zLayer = transitionData.zLayer;
+					op.func = [&]{
+						drawingOverlayTransition = true;
+						drawTransition(&transitionData, appData, graphics);
+						drawingOverlayTransition = false;
+					};
+					drawOperations.add(op);
+				}
+				else
+				{
+					if(!transitionData.screen->drawsParent && !transitionData.transitionScreen->drawsParent)
+					{
+						shouldDrawElements = false;
+					}
+					DrawOperation op;
+					op.zLayer = transitionData.zLayer;
+					op.func = [&]{
+						drawTransition(&transitionData, appData, graphics);
+					};
+					drawOperations.add(op);
+				}
+			}
+			//add child screen drawing operations
+			for(auto& container : childScreens)
+			{
+				//don't draw this child screen if it isn't visible
+				if(!container.visible)
+				{
+					continue;
+				}
+				//don't draw this child screen if it is transitioning
+				bool transitioning = false;
+				for(auto& transitionData : transitions)
+				{
+					if(transitionData.screen==container.screen || transitionData.transitionScreen==container.screen)
+					{
+						transitioning = true;
+						break;
+					}
+				}
+				if(transitioning)
+				{
+					continue;
+				}
+
+				//find the index in drawOperations where this screen should be drawn
+				size_t opIndex = -1;
+				for(size_t i=0; i<drawOperations.size(); i++)
+				{
+					auto& cmpOp = drawOperations[i];
+					if(cmpOp.zLayer > container.zLayer)
+					{
+						opIndex = i;
+						break;
+					}
+				}
+				if(opIndex==-1)
+				{
+					opIndex = drawOperations.size();
+				}
+
+				if(!container.screen->drawsParent)
+				{
+					shouldDrawElements = false;
+				}
+
+				DrawOperation op;
+				op.zLayer = container.zLayer;
+				op.func = [&]{
+					drawChildScreen(container.screen, appData, graphics);
+				};
+				drawOperations.add(opIndex, op);
+			}
+			//add elements drawing operation
+			if(shouldDrawElements)
+			{
+				size_t opIndex = -1;
+				for(size_t i=0; i<drawOperations.size(); i++)
+				{
+					auto& cmpOp = drawOperations[i];
+					if(cmpOp.zLayer >= 0.5)
+					{
+						opIndex = i;
+						break;
+					}
+				}
+				if(opIndex==-1)
+				{
+					opIndex = drawOperations.size();
+				}
+
+				DrawOperation op;
+				op.zLayer = 0.5;
+				op.func = [&]{
+					drawElements(appData, graphics);
+				};
+				drawOperations.add(opIndex, op);
+			}
+
+			//perform drawing operations
+			for(auto& op : drawOperations)
+			{
+				op.func();
+			}
 		}
 	}
 	
@@ -363,8 +575,27 @@ namespace fgl
 		//Open for implementation
 	}
 	
-	const Vector2d& Screen::getSize() const
+	Vector2d Screen::getSize() const
 	{
+		if(window!=nullptr)
+		{
+			auto viewport = window->getViewport();
+			if(viewport!=nullptr)
+			{
+				if(viewport->matchesWindow())
+				{
+					return (fgl::Vector2d)window->getSize();
+				}
+				else
+				{
+					return viewport->getSize();
+				}
+			}
+			else
+			{
+				return (fgl::Vector2d)window->getSize();
+			}
+		}
 		return framesize;
 	}
 	
@@ -388,11 +619,15 @@ namespace fgl
 		return Transition::defaultDuration;
 	}
 	
-	void Screen::presentChildScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
+	void Screen::presentScreen(Screen* screen, const Transition* transition, long long duration, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
 	{
 		handleFirstShowing();
 		
-		if(screen == nullptr)
+		if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be a negative value");
+		}
+		else if(screen == nullptr)
 		{
 			throw IllegalArgumentException("screen", "cannot be null");
 		}
@@ -400,10 +635,6 @@ namespace fgl
 		{
 			throw IllegalArgumentException("screen", "already presenting on another Screen");
 		}
-		/*else if(screen->parentElement != nullptr)
-		{
-			throw IllegalArgumentException("screen", "already displaying on another ScreenElement");
-		}*/
 		else if(screen->screenManager != nullptr)
 		{
 			throw IllegalArgumentException("screen", "already displaying in a ScreenManager");
@@ -412,98 +643,90 @@ namespace fgl
 		{
 			throw IllegalArgumentException("screen", "already belongs to a Window");
 		}
-		else if(childScreen != nullptr)
+		else if(presentedScreen != nullptr)
 		{
-			//if(overlayData.action != TRANSITION_NONE)
-			//{
-				throw ScreenNavigationException("Cannot present Screen on top of a screen that is currently presenting or dismissing");
-			//}
-			//childScreen->present(screen, transition, duration);
+			throw ScreenNavigationException("Cannot present Screen on top of a screen that already has a presented screen");
 		}
-		else if(duration < 0)
+		else if(isTransitionAnimating("present") || isTransitionAnimating("dismiss"))
 		{
-			throw IllegalArgumentException("duration", "cannot be negative");
+			throw ScreenNavigationException("Cannot present Screen on top of a screen that is presenting or dismissing");
 		}
 		else
 		{
-			Screen* topScreen = screen->getTopScreen();
+			Screen* topScreen = screen->getTopScreenInHeirarchy();
 			bool visible = isOnTop();
-			TransitionData_begin(overlayData, this, screen, TRANSITION_SHOW, transition, duration, oncompletion);
-			childScreen = screen;
-			childScreenDismissCallback = ondismissal;
-			childScreen->setWindow(window);
-			childScreen->parentScreen = this;
-			//childScreen->parentElement = this;
-			if(transition == nullptr || duration==0)
+
+			presentedScreen = screen;
+			presentedScreenDismissCallback = ondismissal;
+			addChildScreen(screen, 1.0);
+
+			if(visible)
 			{
+				onWillDisappear(transition);
+				topScreen->onWillAppear(transition);
+			}
+			addTransition("present", 1.0, this, screen, TRANSITION_SHOW, transition, duration, [=]{
 				if(visible)
 				{
-					onWillDisappear(transition);
-					topScreen->onWillAppear(transition);
-					
-					TransitionData_clear(overlayData);
-					
 					onDidDisappear(transition);
 					topScreen->onDidAppear(transition);
-					
-					if(oncompletion)
-					{
-						oncompletion();
-					}
 				}
-				else
+				if(oncompletion)
 				{
-					TransitionData_clear(overlayData);
-					
-					if(oncompletion)
-					{
-						oncompletion();
-					}
+					oncompletion();
 				}
-			}
-			else
-			{
-				if(visible)
-				{
-					onWillDisappear(transition);
-					topScreen->onWillAppear(transition);
-				}
-			}
+			});
 		}
 	}
 	
-	void Screen::presentChildScreen(Screen* screen, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
+	void Screen::presentScreen(Screen* screen, const std::function<void()>& oncompletion, const std::function<void()>& ondismissal)
 	{
 		if(screen == nullptr)
 		{
 			throw IllegalArgumentException("screen", "cannot be null");
 		}
-		presentChildScreen(screen, screen->getDefaultPresentationTransition(), screen->getDefaultDismissalDuration(), oncompletion, ondismissal);
+		presentScreen(screen, screen->getDefaultPresentationTransition(), screen->getDefaultDismissalDuration(), oncompletion, ondismissal);
 	}
 	
-	void Screen::dismissChildScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion)
+	void Screen::dismissPresentedScreen(const Transition* transition, long long duration, const std::function<void()>& oncompletion)
 	{
-		if(childScreen == nullptr)
+		if(duration < 0)
+		{
+			throw IllegalArgumentException("duration", "cannot be a negative value");
+		}
+		else if(presentedScreen == nullptr)
 		{
 			throw ScreenNavigationException("No Screen is being presented that can be dismissed");
 		}
-		else if(overlayData.action==TRANSITION_HIDE)
+		else if(isTransitionAnimating("dismiss"))
 		{
 			throw ScreenNavigationException("Cannot dismiss a Screen that is already dismissing");
 		}
-		else if(overlayData.action==TRANSITION_SHOW)
+		else if(isTransitionAnimating("present"))
 		{
 			throw ScreenNavigationException("Cannot dismiss a Screen that is in the transition of presenting");
 		}
-		else if(duration < 0)
-		{
-			throw IllegalArgumentException("duration", "cannot be negative");
-		}
 		else
 		{
-			std::function<void()> completionHandler([=]{
-				auto dismissHandler = childScreenDismissCallback;
-				childScreenDismissCallback = nullptr;
+			Screen* topScreen = presentedScreen->getTopScreenInHeirarchy();
+			bool visible = topScreen->isOnTop();
+
+			if(visible)
+			{
+				topScreen->onWillDisappear(transition);
+				onWillAppear(transition);
+			}
+			auto dismissHandler = presentedScreenDismissCallback;
+			auto prevPresentedScreen = presentedScreen;
+			presentedScreenDismissCallback = nullptr;
+			presentedScreen = nullptr;
+			removeChildScreen(presentedScreen);
+			addTransition("dismiss", 1.0, this, prevPresentedScreen, TRANSITION_HIDE, transition, duration, [=] {
+				if(visible)
+				{
+					topScreen->onDidDisappear(transition);
+					onDidAppear(transition);
+				}
 				if(oncompletion)
 				{
 					oncompletion();
@@ -513,60 +736,16 @@ namespace fgl
 					dismissHandler();
 				}
 			});
-
-			Screen* topScreen = childScreen->getTopScreen();
-			bool visible = topScreen->isOnTop();
-			TransitionData_begin(overlayData, this, childScreen, TRANSITION_HIDE, transition, duration, completionHandler);
-			childScreen->setWindow(nullptr);
-			childScreen->parentScreen = nullptr;
-			//childScreen->parentElement = nullptr;
-			childScreen = nullptr;
-			
-			if(transition == nullptr || duration==0)
-			{
-				if(visible)
-				{
-					topScreen->onWillDisappear(transition);
-					onWillAppear(transition);
-					
-					TransitionData_clear(overlayData);
-					
-					topScreen->onDidDisappear(transition);
-					onDidAppear(transition);
-					
-					if(completionHandler)
-					{
-						completionHandler();
-					}
-				}
-				else
-				{
-					TransitionData_clear(overlayData);
-					
-					if(completionHandler)
-					{
-						completionHandler();
-					}
-				}
-			}
-			else
-			{
-				if(visible)
-				{
-					topScreen->onWillDisappear(transition);
-					onWillAppear(transition);
-				}
-			}
 		}
 	}
 	
-	void Screen::dismissChildScreen(const std::function<void()>& completion)
+	void Screen::dismissPresentedScreen(const std::function<void()>& completion)
 	{
-		if(childScreen == nullptr)
+		if(presentedScreen == nullptr)
 		{
 			throw ScreenNavigationException("No Screen is being presented that can be dismissed");
 		}
-		dismissChildScreen(childScreen->getDefaultDismissalTransition(), childScreen->getDefaultDismissalDuration(), completion);
+		dismissPresentedScreen(presentedScreen->getDefaultDismissalTransition(), presentedScreen->getDefaultDismissalDuration(), completion);
 	}
 	
 	ScreenElement* Screen::getElement() const
@@ -578,52 +757,77 @@ namespace fgl
 	{
 		return screenManager;
 	}
+
+	Screen* Screen::getPresentedScreen() const
+	{
+		return presentedScreen;
+	}
+
+	Screen* Screen::getPresentingScreen() const
+	{
+		if(parentScreen!=nullptr)
+		{
+			if(parentScreen->presentedScreen==this)
+			{
+				return parentScreen;
+			}
+		}
+		return nullptr;
+	}
 	
 	Screen* Screen::getParentScreen() const
 	{
 		return parentScreen;
 	}
 	
-	Screen* Screen::getChildScreen() const
+	ArrayList<Screen*> Screen::getChildScreens() const
 	{
-		return childScreen;
+		ArrayList<Screen*> children;
+		children.reserve(childScreens.size());
+		for(auto& container : childScreens)
+		{
+			children.add(container.screen);
+		}
+		return children;
 	}
 	
-	Screen* Screen::getTopScreen() const
+	Screen* Screen::getTopScreenInHeirarchy() const
 	{
-		if(childScreen == nullptr)
+		Screen* overlayedScreen = nullptr;
+		float lastZLayer = 0.5;
+		for(auto& container : childScreens)
+		{
+			if(container.zLayer >= lastZLayer)
+			{
+				overlayedScreen = container.screen;
+			}
+		}
+		if(overlayedScreen==nullptr)
 		{
 			return (Screen*)this;
 		}
-		return childScreen->getTopScreen();
+		return overlayedScreen->getTopScreenInHeirarchy();
 	}
 	
-	Screen* Screen::getBottomScreen() const
+	Screen* Screen::getBottomScreenInHeirarchy() const
 	{
 		if(parentScreen == nullptr)
 		{
 			return (Screen*)this;
 		}
-		return parentScreen->getBottomScreen();
-	}
-	
-	Screen* Screen::getRootScreen() const
-	{
-		Screen* bottomScreen = getBottomScreen();
-		if(bottomScreen->screenManager == nullptr)
-		{
-			return bottomScreen;
-		}
-		return bottomScreen->screenManager->getRootScreen();
+		return parentScreen->getBottomScreenInHeirarchy();
 	}
 	
 	bool Screen::isOnTop()
 	{
-		if(childScreen!=nullptr)
+		for(auto& container : childScreens)
 		{
-			return false;
+			if(container.zLayer >= 0.5)
+			{
+				return false;
+			}
 		}
-		else if(screenManager!=nullptr)
+		if(screenManager!=nullptr)
 		{
 			size_t index = screenManager->screens.indexOf(this);
 			if(index == ArrayList<Screen*>::NOT_FOUND)
@@ -648,20 +852,12 @@ namespace fgl
 	
 	bool Screen::isPresenting() const
 	{
-		if(overlayData.action == TRANSITION_SHOW)
-		{
-			return true;
-		}
-		return false;
+		return isTransitionAnimating("present");
 	}
 	
 	bool Screen::isDismissing() const
 	{
-		if(overlayData.action == TRANSITION_HIDE)
-		{
-			return true;
-		}
-		return false;
+		return isTransitionAnimating("dismiss");
 	}
 	
 	void Screen::setParentScreenDrawingEnabled(bool enabled)
