@@ -8,6 +8,7 @@
 /projects/visualstudio/*.sdf
 /projects/visualstudio/*.aps
 /projects/visualstudio/.vs
+/projects/visualstudio/*.log
 /projects/visualstudio/build
 /projects/visualstudio/bin
 /projects/visualstudio/lib

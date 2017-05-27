@@ -270,18 +270,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -357,6 +361,30 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\build_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.." -Config "$(Configuration)" -Platform "$(Platform)" -PlatformToolset "$(MinSupportedVCTargetsVersion)" -OutputDir "$(OutputPath)."</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building dependencies...</Message>
     </PreBuildEvent>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dependency_clean.log</Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">dependency_clean.log</Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">dependency_clean.log</Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dependency_clean.log</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
