@@ -239,14 +239,9 @@ namespace fgl
 		bool sendTouchEvent(const TouchEvent& touchEvent);
 		void sendHandledTouchEvent(const TouchEvent& touchEvent);
 
-		virtual void setWindow(Window*window);
 		void autoLayoutFrame();
 
-		Window* window;
-		
 		RectangleD frame;
-		
-		Screen* screen;
 		ScreenElement* parentElement;
 		ArrayList<ScreenElement*> childElements;
 		

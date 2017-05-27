@@ -34,9 +34,8 @@ namespace fgl
 			if(framesize.x!=size.x || framesize.y!=size.y)
 			{
 				Vector2d oldSize = framesize;
-				framesize = size; //setFrame(RectangleD(frame.x, frame.y, size.x, size.y));
-				ScreenElement* mainElement = getElement();
-				mainElement->setFrame(RectangleD(0,0,size.x,size.y));
+				framesize = size;
+				element->setFrame(RectangleD(0,0,size.x,size.y));
 				onSizeChange(oldSize, size);
 			}
 		}

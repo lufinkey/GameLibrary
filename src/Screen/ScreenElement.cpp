@@ -5,38 +5,6 @@
 
 namespace fgl
 {
-	void ScreenElement::setWindow(Window* win)
-	{
-		Window*oldWindow = window;
-
-		if(oldWindow!=win)
-		{
-			window = nullptr;
-
-			if(oldWindow!=nullptr)
-			{
-				for(size_t i=0; i<childElements.size(); i++)
-				{
-					childElements.get(i)->setWindow(nullptr);
-				}
-				
-				onRemoveFromWindow(oldWindow);
-			}
-			
-			window = win;
-			
-			if(win!=nullptr)
-			{
-				onAddToWindow(win);
-
-				for(size_t i=0; i<childElements.size(); i++)
-				{
-					childElements.get(i)->setWindow(win);
-				}
-			}
-		}
-	}
-	
 	void ScreenElement::onRemoveFromWindow(Window* window)
 	{
 		//
@@ -61,9 +29,7 @@ namespace fgl
 	}
 	
 	ScreenElement::ScreenElement(const RectangleD& frame)
-		: window(nullptr),
-		frame(frame),
-		screen(nullptr),
+		: frame(frame),
 		parentElement(nullptr),
 		backgroundColor(Color::TRANSPARENT),
 		borderWidth(0),
@@ -172,11 +138,12 @@ namespace fgl
 	{
 		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++)
 		{
-			ScreenElement* childElement = childElements.get(i);
+			ScreenElement* childElement = childElements[i];
 			if(childElement->hasLayoutRules())
 			{
 				childElement->autoLayoutFrame();
 			}
+			childElement->layoutChildElements();
 		}
 	}
 	

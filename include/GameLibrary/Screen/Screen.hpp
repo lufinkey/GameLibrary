@@ -50,8 +50,8 @@ namespace fgl
 		
 		
 		/*! Called when the Screen's size has changed, possibly due to frame resizing, or window resizing, or a mobile device orientation change.
-			\param oldSize the previous frame
-			\param newSize the new frame*/
+			\param oldSize the previous size
+			\param newSize the new size*/
 		virtual void onSizeChange(const Vector2d& oldSize, const Vector2d& newSize);
 		
 		
