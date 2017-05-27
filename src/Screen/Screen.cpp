@@ -258,6 +258,7 @@ namespace fgl
 		element = new ScreenElement(RectangleD(0,0, framesize.x, framesize.y));
 		screenManager = nullptr;
 		parentScreen = nullptr;
+		presentedScreen = nullptr;
 
 		drawingOverlayTransition = false;
 		isshown = false;
@@ -720,7 +721,7 @@ namespace fgl
 			auto prevPresentedScreen = presentedScreen;
 			presentedScreenDismissCallback = nullptr;
 			presentedScreen = nullptr;
-			removeChildScreen(presentedScreen);
+			removeChildScreen(prevPresentedScreen);
 			addTransition("dismiss", 1.0, this, prevPresentedScreen, TRANSITION_HIDE, transition, duration, [=] {
 				if(visible)
 				{
