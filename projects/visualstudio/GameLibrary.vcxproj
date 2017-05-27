@@ -366,24 +366,28 @@
     </CustomBuildStep>
     <CustomBuildStep>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dependency_clean.log</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Cleaning Dependencies</Message>
     </CustomBuildStep>
     <CustomBuildStep>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">dependency_clean.log</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Cleaning Dependencies</Message>
     </CustomBuildStep>
     <CustomBuildStep>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">dependency_clean.log</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Cleaning Dependencies</Message>
     </CustomBuildStep>
     <CustomBuildStep>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">powershell -NoProfile -ExecutionPolicy Unrestricted -File "$(ProjectDir)\clean_dependencies.ps1" -GameLibraryPath "$(ProjectDir)../.."</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dependency_clean.log</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Cleaning Dependencies</Message>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
