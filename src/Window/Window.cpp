@@ -456,6 +456,25 @@ namespace fgl
 		}
 		return Vector2u(0, 0);
 	}
+
+	Vector2d Window::getDrawSize() const
+	{
+		if(viewport!=nullptr)
+		{
+			if(viewport->matchesWindow())
+			{
+				return (Vector2d)getSize();
+			}
+			else
+			{
+				return viewport->getSize();
+			}
+		}
+		else
+		{
+			return (Vector2d)getSize();
+		}
+	}
 	
 	void Window::setSize(const Vector2u& size)
 	{

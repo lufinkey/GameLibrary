@@ -101,6 +101,8 @@ namespace fgl
 		Vector2u getSize() const;
 		void setSize(const Vector2u&);
 
+		Vector2d getDrawSize() const;
+
 		Vector2u getMinimumSize() const;
 		void setMinimumSize(const Vector2u&);
 
