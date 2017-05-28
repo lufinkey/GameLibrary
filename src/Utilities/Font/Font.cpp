@@ -274,15 +274,30 @@ namespace fgl
 	
 	Vector2u Font::measureString(const String& text)
 	{
-		return measureString((GlyphString)text);
+		return measureString((GlyphString)text, getSize());
+	}
+
+	Vector2u Font::measureString(const String& text, unsigned int fontSize)
+	{
+		return measureString((GlyphString)text, fontSize);
 	}
 	
 	Vector2u Font::measureString(const WideString& text)
 	{
-		return measureString((GlyphString)text);
+		return measureString((GlyphString)text, getSize());
+	}
+
+	Vector2u Font::measureString(const WideString& text, unsigned int fontSize)
+	{
+		return measureString((GlyphString)text, fontSize);
 	}
 
 	Vector2u Font::measureString(const GlyphString& text)
+	{
+		return measureString(text, getSize());
+	}
+
+	Vector2u Font::measureString(const GlyphString& text, unsigned int fontSize)
 	{
 		mlock.lock();
 		if(fontData == nullptr || fontSizes == nullptr)
@@ -290,7 +305,7 @@ namespace fgl
 			mlock.unlock();
 			return Vector2u(0,0);
 		}
-		TTF_Font* font = (TTF_Font*)getFontPtr(size);
+		TTF_Font* font = (TTF_Font*)getFontPtr(fontSize);
 		TTF_SetFontStyle(font, styleToTTFStyle(style));
 		int descent = TTF_FontDescent(font);
 		int totalWidth = 0;

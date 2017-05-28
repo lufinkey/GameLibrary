@@ -60,12 +60,27 @@ namespace fgl
 		Vector2u measureString(const String& text);
 		/*! Estimates the display size of a given string of text.
 			\param text a string of text to estimate
+			\param fontSize the font size to use when estimating
+			\returns a Vector2u representing the display width (x) and height (y) of the string*/
+		Vector2u measureString(const String& text, unsigned int fontSize);
+		/*! Estimates the display size of a given string of text.
+			\param text a string of text to estimate
 			\returns a Vector2u representing the display width (x) and height (y) of the string*/
 		Vector2u measureString(const WideString& text);
 		/*! Estimates the display size of a given string of text.
 			\param text a string of text to estimate
+			\param fontSize the font size to use when estimating
+			\returns a Vector2u representing the display width (x) and height (y) of the string*/
+		Vector2u measureString(const WideString& text, unsigned int fontSize);
+		/*! Estimates the display size of a given string of text.
+			\param text a string of text to estimate
 			\returns a Vector2u representing the display width (x) and height (y) of the string*/
 		Vector2u measureString(const GlyphString& text);
+		/*! Estimates the display size of a given string of text.
+			\param text a string of text to estimate
+			\param fontSize the font size to use when estimating
+			\returns a Vector2u representing the display width (x) and height (y) of the string*/
+		Vector2u measureString(const GlyphString& text, unsigned int fontSize);
 		
 		
 		/*! Sets a bitmask for the style (plain, bold, italic, etc.).

@@ -45,6 +45,13 @@ namespace fgl
 
 		void setFontSize(unsigned int fontSize);
 		unsigned int getFontSize() const;
+
+		void setFontSizeWidthAdjustmentEnabled(bool enabled);
+		bool isFontSizeWidthAdjustmentEnabled() const;
+		void setFontSizeHeightAdjustmentEnabled(bool enabled);
+		bool isFontSizeHeightAdjustmentEnabled() const;
+		unsigned int getAdjustedFontSize() const;
+		unsigned int getAdjustedFontSize(const Vector2d& frameSize) const;
 		
 		double measureTextHeight(double frameWidth) const;
 
@@ -55,7 +62,7 @@ namespace fgl
 			Vector2d size;
 		};
 
-		ArrayList<MeasuredLine> measureLines() const;
+		ArrayList<MeasuredLine> measureLines(unsigned int fontSize) const;
 
 		String text;
 		TextAlignment textAlignment;
@@ -63,5 +70,7 @@ namespace fgl
 		Color textColor;
 		Font* font;
 		unsigned int fontSize;
+		bool fontSizeWidthAdjustmentEnabled;
+		bool fontSizeHeightAdjustmentEnabled;
 	};
 }

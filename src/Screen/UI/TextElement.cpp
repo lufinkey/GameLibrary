@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Screen/UI/TextElement.hpp>
+#include <limits>
 
 namespace fgl
 {
@@ -14,14 +15,17 @@ namespace fgl
 		verticalTextAlignment(VERTICALALIGN_TOP),
 		textColor(Color::BLACK),
 		font(Graphics::getDefaultFont()),
-		fontSize(18)
+		fontSize(18),
+		fontSizeWidthAdjustmentEnabled(false),
+		fontSizeHeightAdjustmentEnabled(false)
 	{
 		//
 	}
 
 	void TextElement::drawMain(ApplicationData appData, Graphics graphics) const
 	{
-		ArrayList<MeasuredLine> lines = measureLines();
+		auto fontSize = getAdjustedFontSize();
+		ArrayList<MeasuredLine> lines = measureLines(fontSize);
 		double lineHeight = (double)fontSize;
 		font->setSize(fontSize);
 		graphics.setFont(font);
@@ -82,13 +86,12 @@ namespace fgl
 		}
 	}
 
-	ArrayList<TextElement::MeasuredLine> TextElement::measureLines() const
+	ArrayList<TextElement::MeasuredLine> TextElement::measureLines(unsigned int fontSize) const
 	{
 		if(font==nullptr)
 		{
 			return {};
 		}
-		font->setSize(fontSize);
 		WideString wideText = text.toBasicString<wchar_t>();
 		ArrayList<MeasuredLine> lines;
 		size_t lastLineStart = 0;
@@ -102,7 +105,7 @@ namespace fgl
 				{
 					MeasuredLine measuredLine;
 					measuredLine.text = wideText.substring(lastLineStart, i);
-					measuredLine.size = (Vector2d)font->measureString(measuredLine.text);
+					measuredLine.size = (Vector2d)font->measureString(measuredLine.text, fontSize);
 					lines.add(measuredLine);
 					lastLineStart = i+1;
 				}
@@ -116,7 +119,7 @@ namespace fgl
 		{
 			MeasuredLine measuredLine;
 			measuredLine.text = wideText.substring(lastLineStart, wideText.length());
-			measuredLine.size = (Vector2d)font->measureString(measuredLine.text);
+			measuredLine.size = (Vector2d)font->measureString(measuredLine.text, fontSize);
 			lines.add(measuredLine);
 		}
 		return lines;
@@ -181,11 +184,77 @@ namespace fgl
 	{
 		return fontSize;
 	}
+
+	void TextElement::setFontSizeWidthAdjustmentEnabled(bool enabled)
+	{
+		fontSizeWidthAdjustmentEnabled = enabled;
+	}
+
+	bool TextElement::isFontSizeWidthAdjustmentEnabled() const
+	{
+		return fontSizeWidthAdjustmentEnabled;
+	}
+
+	void TextElement::setFontSizeHeightAdjustmentEnabled(bool enabled)
+	{
+		fontSizeHeightAdjustmentEnabled = enabled;
+	}
+
+	bool TextElement::isFontSizeHeightAdjustmentEnabled() const
+	{
+		return fontSizeHeightAdjustmentEnabled;
+	}
+
+	unsigned int TextElement::getAdjustedFontSize() const
+	{
+		auto frame = getFrame();
+		return getAdjustedFontSize(Vector2d(frame.width, frame.height));
+	}
+
+	unsigned int TextElement::getAdjustedFontSize(const Vector2d& frameSize) const
+	{
+		if(fontSizeWidthAdjustmentEnabled || fontSizeHeightAdjustmentEnabled)
+		{
+			auto measuredLines = measureLines(fontSize);
+			double longestLine = 0;
+			double totalHeight = 0;
+			for(auto& line : measuredLines)
+			{
+				if(line.size.x > longestLine)
+				{
+					longestLine = line.size.x;
+				}
+				totalHeight += line.size.y;
+			}
+			if(totalHeight>0 && longestLine>0)
+			{
+				double widthAdjustment = 1.0;
+				if(fontSizeWidthAdjustmentEnabled)
+				{
+					if(longestLine > frameSize.x)
+					{
+						widthAdjustment = frameSize.x/longestLine;
+					}
+				}
+				double heightAdjustment = 1.0;
+				if(fontSizeHeightAdjustmentEnabled)
+				{
+					if(totalHeight > frameSize.y)
+					{
+						heightAdjustment = frameSize.y/totalHeight;
+					}
+				}
+				double adjustment = Math::min(widthAdjustment, heightAdjustment);
+				return (unsigned int)(adjustment*(double)fontSize);
+			}
+		}
+		return fontSize;
+	}
 	
 	double TextElement::measureTextHeight(double frameWidth) const
 	{
 		double textHeight = 0;
-		ArrayList<MeasuredLine> lines = measureLines();
+		ArrayList<MeasuredLine> lines = measureLines(getAdjustedFontSize(Vector2d(frameWidth, std::numeric_limits<double>::max())));
 		for(auto& line : lines)
 		{
 			textHeight += line.size.y;
