@@ -79,7 +79,7 @@ namespace fgl
 		{
 			//
 		}
-		
+
 		explicit ArrayList(size_t size)
 		{
 			objects.resize(size);
@@ -392,6 +392,122 @@ namespace fgl
 				#endif
 			}
 			objects.erase(objects.begin()+startIndex, objects.begin()+endIndex);
+		}
+
+		size_t removeEqual(const T& cmp)
+		{
+			size_t removeCount = 0;
+			size_t firstRemoveIndex = -1;
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				if(objects[i]==cmp)
+				{
+					removeCount++;
+					if(firstRemoveIndex==-1)
+					{
+						firstRemoveIndex = i;
+					}
+				}
+				else
+				{
+					if(firstRemoveIndex!=-1)
+					{
+						objects.erase(objects.begin()+i, objects.begin()+firstRemoveIndex+1);
+						firstRemoveIndex = -1;
+					}
+				}
+			}
+			if(firstRemoveIndex!=-1)
+			{
+				objects.erase(objects.begin(), objects.begin()+firstRemoveIndex+1);
+			}
+			return removeCount;
+		}
+
+		bool removeFirstEqual(const T& cmp)
+		{
+			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
+			{
+				const T& obj = objects[i];
+				if(obj==cmp)
+				{
+					objects.erase(objects.begin()+i);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		bool removeLastEqual(const T& cmp)
+		{
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				const T& obj = objects[i];
+				if(obj==cmp)
+				{
+					objects.erase(objects.begin()+i);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		size_t removeWhere(const std::function<bool(const T&)>& func)
+		{
+			size_t removeCount = 0;
+			size_t firstRemoveIndex = -1;
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				if(func(objects[i]))
+				{
+					removeCount++;
+					if(firstRemoveIndex==-1)
+					{
+						firstRemoveIndex = i;
+					}
+				}
+				else
+				{
+					if(firstRemoveIndex!=-1)
+					{
+						objects.erase(objects.begin()+i, objects.begin()+firstRemoveIndex+1);
+						firstRemoveIndex = -1;
+					}
+				}
+			}
+			if(firstRemoveIndex!=-1)
+			{
+				objects.erase(objects.begin(), objects.begin()+firstRemoveIndex+1);
+			}
+			return removeCount;
+		}
+
+		bool removeFirstWhere(const std::function<bool(const T&)>& func)
+		{
+			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
+			{
+				const T& obj = objects[i];
+				if(func(obj))
+				{
+					objects.erase(objects.begin()+i);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		bool removeLastWhere(const std::function<bool(const T&)>& func)
+		{
+			for(size_t i=(objects.size()-1); i!=-1; i--)
+			{
+				const T& obj = objects[i];
+				if(func(obj))
+				{
+					objects.erase(objects.begin()+i);
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		void clear()
