@@ -412,7 +412,7 @@ namespace fgl
 				{
 					if(firstRemoveIndex!=-1)
 					{
-						objects.erase(objects.begin()+i, objects.begin()+firstRemoveIndex+1);
+						objects.erase(objects.begin()+i+1, objects.begin()+firstRemoveIndex+1);
 						firstRemoveIndex = -1;
 					}
 				}
@@ -470,7 +470,7 @@ namespace fgl
 				{
 					if(firstRemoveIndex!=-1)
 					{
-						objects.erase(objects.begin()+i, objects.begin()+firstRemoveIndex+1);
+						objects.erase(objects.begin()+i+1, objects.begin()+firstRemoveIndex+1);
 						firstRemoveIndex = -1;
 					}
 				}
