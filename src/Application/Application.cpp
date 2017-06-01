@@ -51,7 +51,7 @@ namespace fgl
 		app_closing = false;
 		exitcode = EXITCODE_SUCCESS;
 		fps = 30;
-		sleeptime = 33;
+		sleeptime = (unsigned long long)(1000/fps);
 
 		unsigned int flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_EVENTS;
 		if(!SDL_WasInit(flags))
