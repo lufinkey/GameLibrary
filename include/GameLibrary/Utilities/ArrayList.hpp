@@ -509,6 +509,21 @@ namespace fgl
 			}
 			return false;
 		}
+
+		void removeDuplicates()
+		{
+			for(size_t i=0; i<objects.size(); i++)
+			{
+				auto& obj = objects[i];
+				for(size_t j=(objects.size()-1); j!=i; j--)
+				{
+					if(obj==objects[j])
+					{
+						objects.erase(objects.begin()+j);
+					}
+				}
+			}
+		}
 		
 		void clear()
 		{
@@ -675,6 +690,13 @@ namespace fgl
 			});
 		}
 		#endif
+
+		ArrayList<T> unique() const
+		{
+			ArrayList<T> newList = *this;
+			newList.removeDuplicates();
+			return std::move(newList);
+		}
 		
 		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
 		{
