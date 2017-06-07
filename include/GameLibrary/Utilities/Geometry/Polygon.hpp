@@ -22,9 +22,9 @@ namespace fgl
 			\param xpoints an array of x coordinates
 			\param ypoints an array of y coordinates
 			\param numpoints the size of the xpoints and ypoints arrays*/
-		Polygon(const T* xpoints, const T* ypoints, unsigned int numpoints)
+		Polygon(const T* xpoints, const T* ypoints, size_t numpoints)
 		{
-			for (unsigned int i=0; i<numpoints; i++)
+			for (size_t i=0; i<numpoints; i++)
 			{
 				points.add(Vector2<T>(xpoints[i], ypoints[i]));
 			}
@@ -40,7 +40,7 @@ namespace fgl
 		/*! Constructs a Polygon from an array of coordinates.
 			\param points an array of points in the polygon
 			\param numpoints the size of the points array*/
-		Polygon(const Vector2<T>* points, unsigned int numpoints)
+		Polygon(const Vector2<T>* points, size_t numpoints)
 		{
 			for(unsigned int i=0; i<numpoints; i++)
 			{
@@ -84,7 +84,7 @@ namespace fgl
 			size_t i = 0;
 			size_t j = 0;
 			bool c = false;
-			for(i=0, j =(length-1); i<length; j=i,i++)
+			for(i=0, j=(length-1); i<length; j=i, i++)
 			{
 				if (((points[i].y > y) != (points[j].y > y)) &&
 					(x < (points[j].x - points[i].x) * (y - points[i].y) / (points[j].y - points[i].y) + points[i].x))
