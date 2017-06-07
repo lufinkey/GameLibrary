@@ -4,6 +4,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
 #include "Vector2.hpp"
+#include "Line.hpp"
 
 namespace fgl
 {
@@ -63,11 +64,36 @@ namespace fgl
 			points.add(point);
 		}
 		
-		/*! Gets a list of all of the points in the polygon.
+		/*! Gets an array of all of the points in the polygon.
 			\returns a const ArrayList reference of Vector2d objects*/
 		const ArrayList<Vector2<T>>& getPoints() const
 		{
 			return points;
+		}
+
+		/*! Gets an array of all of the edges in the polygon
+			\returns an ArrayList of Line objects */
+		ArrayList<Line<T>> getEdges() const
+		{
+			if(points.size()<2)
+			{
+				return {};
+			}
+			fgl::ArrayList<Line<T>> edges;
+			edges.reserve(points.size());
+			auto firstPoint = points[0];
+			auto lastPoint = firstPoint;
+			for(size_t points_size=points.size(), i=1; i<points_size; i++)
+			{
+				auto point = points[i];
+				edges.add(Line<T>(lastPoint, point));
+				lastPoint = point;
+			}
+			if(points.size()>=3)
+			{
+				edges.add(Line<T>(lastPoint, firstPoint));
+			}
+			return edges;
 		}
 		
 		/*! Tells whether a given point is within the polygon.
@@ -101,6 +127,44 @@ namespace fgl
 		bool contains(const Vector2<T>& point) const
 		{
 			return contains(point.x, point.y);
+		}
+
+		/*! Tells if a given polygon overlaps with this polygon
+			\param polygon the polygon to compare points and edges with
+			\returns true if the given polygon overlaps this polygon, or false if they do not overlap */
+		bool intersects(const Polygon<T>& polygon)
+		{
+			if(points.size()<=1)
+			{
+				return false;
+			}
+			if(polygon.points.size()<=1)
+			{
+				return false;
+			}
+			//check if any edges intersect
+			auto edges = getEdges();
+			auto polyEdges = polygon.getEdges();
+			for(auto& line : edges)
+			{
+				for(auto& polyLine : polyEdges)
+				{
+					if(line.segmentsIntersect(polyLine))
+					{
+						return true;
+					}
+				}
+			}
+			//check if any point from each polygon lies inside of the other polygon
+			if(polygon.contains(points[0]))
+			{
+				return true;
+			}
+			if(contains(polygon.points[0]))
+			{
+				return true;
+			}
+			return false;
 		}
 		
 		/*! Removes all points.*/
