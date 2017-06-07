@@ -80,55 +80,6 @@ namespace fgl
 		currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 		lastRowStartIndex = currentPixelIndex;
 	}
-	
-	PixelIterator::PixelIterator(const PixelIterator&iterator)
-	{
-		dimensions = iterator.dimensions;
-		srcRect = iterator.srcRect;
-		srcRectD = iterator.srcRectD;
-		srcRectRight = iterator.srcRectRight;
-		srcRectBottom = iterator.srcRectBottom;
-		dstRect = iterator.dstRect;
-		loopRect = iterator.loopRect;
-		loopRectRel = iterator.loopRectRel;
-		inverseTransform = iterator.inverseTransform;
-		usesTransform = iterator.usesTransform;
-		mirrorHorizontal = iterator.mirrorHorizontal;
-		mirrorVertical = iterator.mirrorVertical;
-		started = iterator.started;
-		currentPoint = iterator.currentPoint;
-		currentPixelIndex = iterator.currentPixelIndex;
-		lastRowStartIndex = iterator.lastRowStartIndex;
-		row = iterator.row;
-		incr = iterator.incr;
-		incrpxl = iterator.incrpxl;
-		ratio = iterator.ratio;
-	}
-	
-	PixelIterator& PixelIterator::operator=(const PixelIterator&iterator)
-	{
-		dimensions = iterator.dimensions;
-		srcRect = iterator.srcRect;
-		srcRectD = iterator.srcRectD;
-		srcRectRight = iterator.srcRectRight;
-		srcRectBottom = iterator.srcRectBottom;
-		dstRect = iterator.dstRect;
-		loopRect = iterator.loopRect;
-		loopRectRel = iterator.loopRectRel;
-		inverseTransform = iterator.inverseTransform;
-		usesTransform = iterator.usesTransform;
-		mirrorHorizontal = iterator.mirrorHorizontal;
-		mirrorVertical = iterator.mirrorVertical;
-		started = iterator.started;
-		currentPoint = iterator.currentPoint;
-		currentPixelIndex = iterator.currentPixelIndex;
-		lastRowStartIndex = iterator.lastRowStartIndex;
-		row = iterator.row;
-		incr = iterator.incr;
-		incrpxl = iterator.incrpxl;
-		ratio = iterator.ratio;
-		return *this;
-	}
 
 	Vector2d PixelIterator::calculatePixelPoint()
 	{
