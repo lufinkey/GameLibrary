@@ -55,48 +55,58 @@ namespace fgl
 			\returns true if the line segments intersect, false if they do not*/
 		bool segmentsIntersect(const Line<T>& line, Vector2<T>* intersection = nullptr) const
 		{
-			T s10_x = point2.x - point1.x;
-			T s10_y = point2.y - point1.y;
-			T s02_x = point1.x - line.point1.x;
-			T s02_y = point1.y - line.point1.y;
+			//line intersection code by Kristian Lindberg Vinther
+			//https://www.codeproject.com/Tips/862988/Find-the-Intersection-Point-of-Two-Line-Segments
 
-			T s_numer = (s10_x * s02_y) - (s10_y * s02_x);
-			if(s_numer < 0)
+			auto r = point2 - point1;
+			auto s = line.point2 - line.point1;
+			auto rxs = r.cross(s);
+			auto qpxr = (line.point1 - point1).cross(r);
+
+			// If r x s = 0 and (q - p) x r = 0, then the two lines are collinear.
+			if(rxs==0 && qpxr==0)
 			{
-				return false; //no intersection
+				// 1. If either  0 <= (q - p) * r <= r * r or 0 <= (p - q) * s <= * s
+				// then the two lines are overlapping,
+				/*if(considerOverlapAsIntersect)
+					if((0 <= (q - p) * r && (q - p) * r <= r * r) || (0 <= (p - q) * s && (p - q) * s <= s * s))
+						return true;*/
+
+				// 2. If neither 0 <= (q - p) * r <= r * r nor 0 <= (p - q) * s <= s * s
+				// then the two lines are collinear but disjoint.
+				// No need to implement this expression, as it follows from the expression above.
+				return false;
 			}
 
-			T s32_x = line.point2.x - line.point1.x;
-			T s32_y = line.point2.y - line.point1.y;
-			T t_numer = (s32_x * s02_y) - (s32_y * s02_x);
-			if(t_numer < 0)
+			// 3. If r x s = 0 and (q - p) x r != 0, then the two lines are parallel and non-intersecting.
+			if(rxs==0 && qpxr!=0)
 			{
-				return false; //no intersection
+				return false;
 			}
 
-			T denom = (s10_x * s32_y) - (s32_x * s10_y);
-			if(s_numer > denom || t_numer > denom)
-			{
-				return false; //no intersection
-			}
+			// t = (q - p) x s / (r x s)
+			auto t = (line.point1 - point1).cross(s) / rxs;
 
-			//intersection
-			if(intersection!=nullptr)
+			// u = (q - p) x r / (r x s)
+
+			auto u = (line.point1 - point1).cross(r) / rxs;
+
+			// 4. If r x s != 0 and 0 <= t <= 1 and 0 <= u <= 1
+			// the two line segments meet at the point p + t r = q + u s.
+			if(rxs!=0 && (0 <= t && t <= 1) && (0 <= u && u <= 1))
 			{
-				if(std::is_integral<T>())
+				// We can calculate the intersection point using either t or u.
+				if(intersection!=nullptr)
 				{
-					long double t = (long double)t_numer / (long double)denom;
-					intersection->x = point1.x + (T)(t * (long double)s10_x);
-					intersection->y = point1.y + (T)(t * (long double)s10_y);
+					*intersection = point1 + (r * t);
 				}
-				else
-				{
-					T t = t_numer/denom;
-					intersection->x = point1.x + (T)(t * s10_x);
-					intersection->y = point1.y + (T)(t * s10_y);
-				}
+
+				// An intersection was found.
+				return true;
 			}
-			return true;
+
+			// 5. Otherwise, the two line segments are not parallel but do not intersect.
+			return false;
 		}
 
 		String toString() const
