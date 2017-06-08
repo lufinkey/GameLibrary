@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Utilities/Stringifier.hpp>
 #include "Vector2.hpp"
+#include "Line.hpp"
 #include "Polygon.hpp"
 
 namespace fgl
@@ -140,6 +141,23 @@ namespace fgl
 		Vector2<T> getCenter() const
 		{
 			return Vector2<T>(x+(width/2), y+(height/2));
+		}
+
+		/*! Gets an array of the 4 edges in the rectangle
+			\returns an ArrayList of Line objects */
+		ArrayList<Line<T>> getEdges() const
+		{
+			ArrayList<Line<T>> edges;
+			edges.reserve(4);
+
+			T right = x+width;
+			T bottom = y+height;
+
+			edges.add(Line<T>(x, y, right, y));
+			edges.add(Line<T>(right, y, right, bottom));
+			edges.add(Line<T>(x, bottom, right, bottom));
+			edges.add(Line<T>(x, y, x, bottom));
+			return edges;
 		}
 		
 		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle
