@@ -29,6 +29,11 @@ namespace fgl
 			//
 		}
 
+		T cross(const Vector2<T>& vect)
+		{
+			return (x*vect.y) - (y*vect.x);
+		}
+
 		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
 		Vector2<T> operator-() const
 		{
