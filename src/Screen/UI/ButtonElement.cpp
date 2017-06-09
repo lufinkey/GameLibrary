@@ -108,12 +108,17 @@ namespace fgl
 	void ButtonElement::setButtonState(ButtonState buttonState_arg)
 	{
 		buttonState = buttonState_arg;
+		updateStateProperties();
+		layoutChildElements();
+	}
+
+	void ButtonElement::updateStateProperties()
+	{
 		imageElement->setImage(getImage(buttonState));
 		titleElement->setText(getTitle(buttonState));
 		titleElement->setTextColor(getTitleColor(buttonState));
 		backgroundElement->setImage(getBackgroundImage(buttonState));
 		backgroundElement->setBackgroundColor(getBackgroundColor(buttonState));
-		layoutChildElements();
 	}
 	
 	ButtonElement::ButtonState ButtonElement::getButtonState() const
@@ -143,11 +148,7 @@ namespace fgl
 	void ButtonElement::setTitle(const String& title, ButtonState state)
 	{
 		titles[state] = title;
-		if(state==buttonState && title!=titleElement->getText())
-		{
-			titleElement->setText(title);
-			layoutChildElements();
-		}
+		updateStateProperties();
 	}
 	
 	const String& ButtonElement::getTitle(ButtonState state) const
@@ -165,10 +166,7 @@ namespace fgl
 	void ButtonElement::setTitleColor(const fgl::Color& titleColor, ButtonState state)
 	{
 		titleColors[state] = titleColor;
-		if(state==buttonState)
-		{
-			titleElement->setTextColor(titleColor);
-		}
+		updateStateProperties();
 	}
 	
 	const Color& ButtonElement::getTitleColor(ButtonState state) const
@@ -186,6 +184,7 @@ namespace fgl
 	void ButtonElement::setTintColor(const fgl::Color& tintColor, ButtonState state)
 	{
 		tintColors[state] = tintColor;
+		updateStateProperties();
 	}
 	
 	const Color& ButtonElement::getTintColor(ButtonState state) const
@@ -203,11 +202,7 @@ namespace fgl
 	void ButtonElement::setImage(TextureImage* image, ButtonState state)
 	{
 		images[state] = image;
-		if(state==buttonState)
-		{
-			imageElement->setImage(image);
-			layoutChildElements();
-		}
+		updateStateProperties();
 	}
 	
 	TextureImage* ButtonElement::getImage(ButtonState state) const
@@ -225,10 +220,7 @@ namespace fgl
 	void ButtonElement::setBackgroundImage(TextureImage* image, ButtonState state)
 	{
 		backgroundImages[state] = image;
-		if(state==buttonState)
-		{
-			backgroundElement->setImage(image);
-		}
+		updateStateProperties();
 	}
 
 	TextureImage* ButtonElement::getBackgroundImage(ButtonState state) const
@@ -246,10 +238,7 @@ namespace fgl
 	void ButtonElement::setBackgroundColor(const Color& color, ButtonState state)
 	{
 		backgroundColors[state] = color;
-		if(state==buttonState)
-		{
-			backgroundElement->setBackgroundColor(color);
-		}
+		updateStateProperties();
 	}
 	
 	const Color& ButtonElement::getBackgroundColor(ButtonState state) const
@@ -329,6 +318,7 @@ namespace fgl
 		{
 			if(getHoveredMouseIndexes().size() > 0)
 			{
+
 				setButtonState(BUTTONSTATE_HOVERED);
 			}
 			else

@@ -67,6 +67,7 @@ namespace fgl
 		
 	private:
 		void setButtonState(ButtonState buttonState);
+		void updateStateProperties();
 		
 		std::function<void()> tapHandler;
 		
