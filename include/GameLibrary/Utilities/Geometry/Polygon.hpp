@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
 #include "Vector2.hpp"
 #include "Line.hpp"
@@ -94,6 +95,26 @@ namespace fgl
 				edges.add(Line<T>(lastPoint, firstPoint));
 			}
 			return edges;
+		}
+
+		/*! Calculates the area of this polygon
+			\returns the area of the polygon */
+		T getArea() const
+		{
+			T area = 0;
+
+			size_t point_count = points.size();
+			size_t j = point_count-1;
+
+			for(size_t i=0; i<point_count; i++)
+			{
+				auto lastPoint = points[j];
+				auto point = points[i];
+				area += (lastPoint.x + point.x) * (lastPoint.y - point.y);
+				j = i;
+			}
+
+			return fgl::Math::abs(area / 2);
 		}
 		
 		/*! Tells whether a given point is within the polygon.
