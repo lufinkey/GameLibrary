@@ -17,6 +17,7 @@
 #include <stdexcept>
 #else
 #include <GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.hpp>
+#include <GameLibrary/Exception/IllegalStateException.hpp>
 #include "Stringifier.hpp"
 
 namespace fgl
@@ -523,6 +524,21 @@ namespace fgl
 					}
 				}
 			}
+		}
+
+		T pop()
+		{
+			if(objects.size()==0)
+			{
+				#ifndef _ARRAYLIST_STANDALONE
+					throw IllegalStateException("cannot call \"pop\" when ArrayList is empty");
+				#else
+					throw std::logic_error("cannot call \"pop\" when ArrayList is empty");
+				#endif
+			}
+			T t = objects[objects.size()-1];
+			objects.erase(objects.begin()+(objects.size()-1));
+			return t;
 		}
 		
 		void clear()
