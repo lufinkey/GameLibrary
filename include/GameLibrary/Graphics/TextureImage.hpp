@@ -4,6 +4,7 @@
 #include <vector>
 #include "Image.hpp"
 #include "Graphics.hpp"
+#include <GameLibrary/Utilities/Geometry/Polygon.hpp>
 
 namespace fgl
 {
@@ -90,7 +91,11 @@ namespace fgl
 		unsigned int getHeight() const;
 		/*! Gets the dimensions of the texture.
 			\returns a Vector2u with the width (x) and height (y) of the texture, in pixels*/
-		fgl::Vector2u getDimensions() const;
+		Vector2u getDimensions() const;
+
+		/*! Traces a polygon outline for the texture
+			\returns a PolygonD representing the outline of the texture */
+		PolygonD traceOutline() const;
 		
 	private:
 		void* texture;

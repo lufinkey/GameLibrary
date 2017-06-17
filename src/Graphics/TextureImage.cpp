@@ -451,8 +451,64 @@ namespace fgl
 		return height;
 	}
 
-	fgl::Vector2u TextureImage::getDimensions() const
+	Vector2u TextureImage::getDimensions() const
 	{
-		return fgl::Vector2u(width, height);
+		return Vector2u(width, height);
+	}
+
+	PolygonD TextureImage::traceOutline() const
+	{
+		//NOTE: credit to gameEditor for polygon image tracing code
+		PolygonD outline;
+		size_t line = 0;
+		size_t leftCount = 0;
+		for(unsigned int y=0; y<height; y++)
+		{
+			// since it's going to be a convex hull,
+			// scanning a left and right edge should suffice
+			double left = -1, right = -1;
+
+			for(unsigned int x=0; x<width; x++)
+			{
+				if(pixels[line+x])
+				{
+					left = (double)x;
+					break;
+				}
+			}
+
+			for(unsigned int x=(width-1); x!=-1; x--)
+			{
+				if(pixels[line+x])
+				{
+					right = (double)x;
+					break;
+				}
+			}
+
+			// This is tricky. The array should look like:
+			// (l1, l2, l3, l4, r4, r3, r2, r1)
+			// where 'l' is a left node, 'r' is a right node
+			// the indices correspond to y coordinates
+
+			// leftCount as an index is the position of the first r element
+			// (or where the r should be inserted)
+			if(left >= 0)
+			{
+				// (l1, l2, l3, l4, _l5_, r4, r3, r2, r1)
+				outline.addPoint(leftCount, Vector2d(left, (double)y));
+				// leftCounts points at r4
+				leftCount++;
+			}
+
+			if(right >= 0)
+			{
+				// (l1, l2, l3, l4, l5, _r5_, r4, r3, r2, r1)
+				outline.addPoint(leftCount, Vector2d(right, (double)y));
+			}
+
+			line += (size_t)width;
+		}
+		return outline;
 	}
 }
