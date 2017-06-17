@@ -80,6 +80,11 @@ namespace fgl
 			points.remove(index);
 		}
 
+		const Vector2<T>& getPoint(size_t index) const
+		{
+			return points[index];
+		}
+
 		/*! Gets the number of points in the polygon.
 			\returns a size_t value representing the total number of vertices in the polygon */
 		size_t getPointCount() const
