@@ -143,6 +143,59 @@ namespace fgl
 
 			return fgl::Math::abs(area / 2);
 		}
+
+		Polygon<T> makeConvex() const
+		{
+			static const double SIN_OF_MIN_ANGLE = Math::sin(Math::degtorad(5.0));
+			if(points.size() < 2)
+			{
+				return *this;
+			}
+			Polygon<T> convex;
+			convex.addPoint(points[0]);
+			convex.addPoint(points[1]);
+			auto last = points[1];
+			auto lastIn = points[1]-points[0];
+			for(size_t i=2; i<points.size(); i++)
+			{
+				auto current = points[i];
+				auto currentIn = current-last;
+				auto cross = lastIn.cross(currentIn);
+				bool convexAngle = false;
+				if(cross <= -SIN_OF_MIN_ANGLE)
+				{
+					convexAngle = true;
+				}
+				if(!convexAngle)
+				{
+					// last is not part of the convex hull
+					while(!convexAngle)
+					{
+						convex.points.remove(convex.points.size()-1);
+						size_t cl = convex.points.size();
+						currentIn = current-convex.points[cl-1];
+						if(cl >= 2)
+						{
+							lastIn = convex.points[cl-1]-convex.points[cl-2];
+							cross = lastIn.cross(currentIn);
+							if(cross <= -SIN_OF_MIN_ANGLE)
+							{
+								convexAngle = true;
+							}
+						}
+						else
+						{
+							convexAngle = true;
+						}
+
+					}
+				}
+				convex.addPoint(current);
+				lastIn = currentIn;
+				last = current;
+			}
+			return convex;
+		}
 		
 		/*! Tells whether a given point is within the polygon.
 			\param x the x coordinate of the point to check
