@@ -458,19 +458,45 @@ namespace fgl
 
 	PolygonD TextureImage::traceOutline() const
 	{
+		return traceOutline(RectangleU(0, 0, width, height));
+	}
+
+	PolygonD TextureImage::traceOutline(const RectangleU& sourceRect) const
+	{
+		unsigned int leftBarrier = sourceRect.x;
+		unsigned int rightBarrier = sourceRect.x+sourceRect.width;
+		unsigned int topBarrier = sourceRect.y;
+		unsigned int bottomBarrier = sourceRect.y + sourceRect.height;
+		if(leftBarrier > width)
+		{
+			throw ImageOutOfBoundsException(leftBarrier, sourceRect.y, width, height);
+		}
+		else if(rightBarrier > width)
+		{
+			throw ImageOutOfBoundsException(rightBarrier, sourceRect.y, width, height);
+		}
+		else if(topBarrier > height)
+		{
+			throw ImageOutOfBoundsException(sourceRect.x, topBarrier, width, height);
+		}
+		else if(bottomBarrier > height)
+		{
+			throw ImageOutOfBoundsException(sourceRect.x, bottomBarrier, width, height);
+		}
+
 		//NOTE: credit to gameEditor for polygon image tracing code
 		PolygonD outline;
-		size_t line = 0;
+		size_t line = (width*topBarrier);
 		size_t leftCount = 0;
-		for(unsigned int y=0; y<height; y++)
+		for(unsigned int y=0; y<sourceRect.height; y++)
 		{
 			// since it's going to be a convex hull,
 			// scanning a left and right edge should suffice
 			double left = -1, right = -1;
 
-			for(unsigned int x=0; x<width; x++)
+			for(unsigned int x=0; x<sourceRect.width; x++)
 			{
-				if(pixels[line+x])
+				if(pixels[line+leftBarrier+x])
 				{
 					left = (double)x;
 					break;
@@ -479,7 +505,7 @@ namespace fgl
 
 			for(unsigned int x=(width-1); x!=-1; x--)
 			{
-				if(pixels[line+x])
+				if(pixels[line+leftBarrier+x])
 				{
 					right = (double)x + 1;
 					break;

@@ -93,9 +93,12 @@ namespace fgl
 			\returns a Vector2u with the width (x) and height (y) of the texture, in pixels*/
 		Vector2u getDimensions() const;
 
-		/*! Traces a polygon outline for the texture
+		/*! Traces a polygon outline from the texture
 			\returns a PolygonD representing the outline of the texture */
 		PolygonD traceOutline() const;
+		/*! Traces a polygon outline from the given area of the texture
+			\returns a PolygonD representing the outline of the given area of the texture */
+		PolygonD traceOutline(const RectangleU& sourceRect) const;
 		
 	private:
 		void* texture;
