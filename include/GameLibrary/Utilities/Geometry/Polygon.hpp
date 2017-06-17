@@ -50,7 +50,7 @@ namespace fgl
 			}
 		}
 		
-		/*! Adds a point to the set of points in the polygon.
+		/*! Adds a point to the array of points in the polygon.
 			\param x the x coordinate of the point
 			\param y the y coordinate of the point*/
 		void addPoint(const T& x, const T& y)
@@ -58,11 +58,33 @@ namespace fgl
 			points.add(Vector2<T>(x,y));
 		}
 		
-		/*! Adds a point to the set of points in the polygon.
+		/*! Adds a point to the array of points in the polygon.
 			\param point the coordinates of the point*/
 		void addPoint(const Vector2<T>& point)
 		{
 			points.add(point);
+		}
+
+		/*! Inserts a point to a given index in the array of points in the polygon.
+			\param index the index to insert the point at
+			\param point the coordinates of the point*/
+		void addPoint(size_t index, const Vector2<T>& point)
+		{
+			points.add(index, point);
+		}
+
+		/*! Removes a point from a given index in the array of points in the polygon.
+			\param index the index of the point*/
+		void removePoint(size_t index)
+		{
+			points.remove(index);
+		}
+
+		/*! Gets the number of points in the polygon.
+			\returns a size_t value representing the total number of vertices in the polygon */
+		size_t getPointCount() const
+		{
+			return points.size();
 		}
 		
 		/*! Gets an array of all of the points in the polygon.
