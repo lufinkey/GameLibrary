@@ -124,6 +124,45 @@ namespace fgl
 			return edges;
 		}
 
+		/*! Calculates the centroid of the polygon, or the average of all of the points in the shape
+			\returns a Vector2 that represents the average of all of the points in the polygon */
+		Vector2<T> getCentroid() const
+		{
+			if(points.size()==0)
+			{
+				return Vector2<T>(0, 0);
+			}
+			Vector2<T> total;
+			for(auto& point : points)
+			{
+				total += point;
+			}
+			return total / (T)points.size();
+		}
+
+
+		/*! Checks if the edges progress clockwise, meaning the right side of each edge is the interior of the polygon
+			\returns true if the edges progress clockwise, or false if the edges progress counter-clockwise */
+		bool isClockwise() const
+		{
+			if(points.size()<=1)
+			{
+				return true;
+			}
+			T total = 0;
+			auto& last = points[0];
+			for(size_t i=1; i<points.size(); i++)
+			{
+				auto& current = points[i];
+				total += (current.x - last.x) * (current.y + last.y);
+			}
+			if(total < 0)
+			{
+				return false;
+			}
+			return true;
+		}
+
 		/*! Calculates the area of this polygon
 			\returns the area of the polygon */
 		T getArea() const
