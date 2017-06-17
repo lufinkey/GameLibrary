@@ -481,7 +481,7 @@ namespace fgl
 			{
 				if(pixels[line+x])
 				{
-					right = (double)x;
+					right = (double)x + 1;
 					break;
 				}
 			}
@@ -509,6 +509,7 @@ namespace fgl
 
 			line += (size_t)width;
 		}
+		outline.removeRedundancies();
 		return outline;
 	}
 }

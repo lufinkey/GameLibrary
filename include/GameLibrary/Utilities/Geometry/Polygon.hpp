@@ -247,6 +247,131 @@ namespace fgl
 			}
 			return convex;
 		}
+
+		/*! Simplifies the polygon to the given number of points
+			\param numPoints the maximum number of points that the polygon should contain at the end of this process */
+		void simplify(size_t numPoints)
+		{
+			if(numPoints==0)
+			{
+				points.clear();
+				return;
+			}
+			else if(numPoints==1)
+			{
+				if(points.size() > 0)
+				{
+					auto centroid = getCentroid();
+					points.clear();
+					points.add(centroid);
+				}
+				return;
+			}
+			while(points.size() > numPoints)
+			{
+				if(points.size() > 3)
+				{
+					//remove the middle point of the triangle with the smallest area
+					T lowestArea = 0;
+					size_t lowestAreaIndex = -1;
+					for(size_t i=0; i<points.size(); i++)
+					{
+						size_t prevIndex = i-1;
+						if(i==0)
+						{
+							prevIndex = points.size()-1;
+						}
+						size_t nextIndex = i+1;
+						if(i == (points.size()-1))
+						{
+							nextIndex = 0;
+						}
+						auto prev = points[prevIndex];
+						auto curr = points[i];
+						auto next = points[nextIndex];
+						Polygon<T> triangle = {prev, curr, next};
+						auto area = triangle.getArea();
+						if(area < lowestArea || lowestAreaIndex==-1)
+						{
+							lowestArea = area;
+							lowestAreaIndex = i;
+						}
+					}
+					points.remove(lowestAreaIndex);
+				}
+				else
+				{
+					//remove the point not included in the longest edge
+					T longestEdge = 0;
+					size_t longestEdgeIndex = -1;
+					for(size_t i=0; i<points.size(); i++)
+					{
+						size_t prevIndex = i-1;
+						if(i==0)
+						{
+							prevIndex = points.size()-1;
+						}
+						auto curr = points[i];
+						auto prev = points[prevIndex];
+						auto A = curr.x - prev.x;
+						auto B = curr.y - prev.y;
+						auto edge = (A*A) + (B*B);
+						if(edge > longestEdge || longestEdgeIndex==-1)
+						{
+							longestEdge = edge;
+							longestEdgeIndex = i;
+						}
+					}
+
+					ArrayList<size_t> indexes;
+					indexes.reserve(points.size());
+					for(size_t i=0; i<points.size(); i++)
+					{
+						indexes.add(i);
+					}
+					indexes.removeFirstEqual(longestEdgeIndex);
+					size_t prevLongestEdgeIndex = longestEdgeIndex-1;
+					if(longestEdgeIndex==0)
+					{
+						prevLongestEdgeIndex = points.size()-1;
+					}
+					indexes.removeFirstEqual(prevLongestEdgeIndex);
+
+					size_t indexToRemove = indexes[0];
+					points.remove(indexToRemove);
+				}
+			}
+		}
+
+		/*! Removes all redundant points in the Polygon, meaning points that don't create an angle */
+		void removeRedundancies(T threshold = 0)
+		{
+			threshold = Math::abs(threshold);
+			for(size_t i=(points.size()-1); i!=-1 && points.size() > 3; i--)
+			{
+				size_t prevIndex = i-1;
+				if(i==0)
+				{
+					prevIndex = points.size()-1;
+				}
+				size_t nextIndex = i+1;
+				if(i == (points.size()-1))
+				{
+					nextIndex = 0;
+				}
+				auto prev = points[prevIndex];
+				auto curr = points[i];
+				auto next = points[nextIndex];
+				auto v1 = curr - prev;
+				auto v2 = next - curr;
+				auto cross = Math::abs(v1.cross(v2));
+				auto dot = v1.dot(v2);
+				if(cross <= threshold && dot > 0)
+				{
+					points.remove(i);
+				}
+			}
+		}
 		
 		/*! Tells whether a given point is within the polygon.
 			\param x the x coordinate of the point to check
