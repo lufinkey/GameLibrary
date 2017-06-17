@@ -26,7 +26,8 @@ namespace fgl
 			\param numpoints the size of the xpoints and ypoints arrays*/
 		Polygon(const T* xpoints, const T* ypoints, size_t numpoints)
 		{
-			for (size_t i=0; i<numpoints; i++)
+			points.reserve(numpoints);
+			for(size_t i=0; i<numpoints; i++)
 			{
 				points.add(Vector2<T>(xpoints[i], ypoints[i]));
 			}
@@ -35,8 +36,17 @@ namespace fgl
 		/*! Constructs a Polygon from an ArrayList of coordinates.
 			\param points a list of points in the polygon*/
 		explicit Polygon(const ArrayList<Vector2<T>>& points)
+			: points(points)
 		{
-			Polygon<T>::points = points;
+			//
+		}
+
+		/*! Constructs a Polygon from an initializer_list of Vector2 objects
+			\param points an initializer_list of points in the polygon */
+		Polygon(std::initializer_list<Vector2<T>> points)
+			: points(points)
+		{
+			//
 		}
 		
 		/*! Constructs a Polygon from an array of coordinates.
