@@ -144,6 +144,8 @@ namespace fgl
 			return fgl::Math::abs(area / 2);
 		}
 
+		/*! Creates a convex polygon using the points from this polygon
+			\returns a convex polygon */
 		Polygon<T> makeConvex() const
 		{
 			static const double SIN_OF_MIN_ANGLE = Math::sin(Math::degtorad(5.0));
