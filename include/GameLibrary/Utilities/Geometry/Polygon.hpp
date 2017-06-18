@@ -198,9 +198,14 @@ namespace fgl
 		Polygon<T> makeConvex() const
 		{
 			static const double SIN_OF_MIN_ANGLE = Math::sin(Math::degtorad(5.0));
-			if(points.size() < 2)
+			if(points.size() <= 3)
 			{
 				return *this;
+			}
+			auto points = this->points;
+			if(isClockwise())
+			{
+				points = points.reversed();
 			}
 			Polygon<T> convex;
 			convex.addPoint(points[0]);
@@ -220,7 +225,7 @@ namespace fgl
 				if(!convexAngle)
 				{
 					// last is not part of the convex hull
-					while(!convexAngle)
+					while(!convexAngle && convex.points.size() > 3)
 					{
 						convex.points.remove(convex.points.size()-1);
 						size_t cl = convex.points.size();
