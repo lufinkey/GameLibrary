@@ -648,6 +648,18 @@ namespace fgl
 		{
 			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
 		}
+
+		bool containsWhere(const std::function<bool(const T&)>& func) const
+		{
+			return indexWhere(func) != ArrayList<T>::NOT_FOUND;
+		}
+
+		#ifdef __OBJC__
+		bool containsWhere(BOOL(^func)(const T&)) const
+		{
+			return indexWhere(func) != ArrayList<T>::NOT_FOUND;
+		}
+		#endif
 		
 		ArrayList<T> filter(const std::function<bool(const T&)>& func) const
 		{
