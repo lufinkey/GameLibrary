@@ -276,9 +276,7 @@ namespace fgl
 				this->close(0);
 			}
 			
-			TimeInterval currentapptime = apptime;
-			currentapptime.stop();
-			ApplicationData appdata(this,window,window->getAssetManager(),currentapptime,window->getViewportTransform(), framespeedMult);
+			ApplicationData appdata(this, window, window->getAssetManager(), apptime, window->getViewportTransform(), framespeedMult);
 			if(!app_closing)
 			{
 				update(appdata);

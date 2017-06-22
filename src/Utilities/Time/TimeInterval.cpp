@@ -17,24 +17,27 @@ namespace fgl
 	}
 
 	TimeInterval::TimeInterval()
+		: milliseconds(0),
+		lastmillis(0),
+		running(false)
 	{
-		lastmillis = 0;
-		milliseconds = 0;
-		running = false;
+		//
 	}
 
-	TimeInterval::TimeInterval(const TimeInterval&time)
+	TimeInterval::TimeInterval(const TimeInterval& time)
+		: milliseconds(time.getMilliseconds()),
+		lastmillis(time.lastmillis),
+		running(false)
 	{
-		lastmillis = time.lastmillis;
-		milliseconds = time.milliseconds;
-		running = time.running;
+		//
 	}
 
 	TimeInterval::TimeInterval(long long millis)
+		: milliseconds(0),
+		lastmillis(0),
+		running(false)
 	{
-		lastmillis = 0;
-		milliseconds = millis;
-		running = false;
+		//
 	}
 
 	TimeInterval::~TimeInterval()
@@ -42,12 +45,10 @@ namespace fgl
 		//
 	}
 
-	TimeInterval& TimeInterval::operator=(const TimeInterval&time)
+	TimeInterval& TimeInterval::operator=(const TimeInterval& time)
 	{
-		lastmillis = time.lastmillis;
-		milliseconds = time.milliseconds;
-		running = time.running;
-
+		lastmillis = TimeInterval_getCurrentMilliseconds();
+		milliseconds = time.getMilliseconds();
 		return *this;
 	}
 	
