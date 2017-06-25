@@ -166,8 +166,12 @@ namespace fgl
 
 	long long TimeInterval::getMilliseconds() const
 	{
-		long long currentmillis = TimeInterval_getCurrentMilliseconds();
-		return milliseconds + (currentmillis - lastmillis);
+		if(running)
+		{
+			long long currentmillis = TimeInterval_getCurrentMilliseconds();
+			return milliseconds + (currentmillis - lastmillis);
+		}
+		return milliseconds;
 	}
 	
 	String TimeInterval::toString() const
