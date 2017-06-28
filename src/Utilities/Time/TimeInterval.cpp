@@ -1,19 +1,18 @@
 
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
-#include "posixtime.h"
-#include <time.h>
-
-#ifndef _WIN32
-	#include <sys/time.h>
-#endif
+#include <chrono>
 
 namespace fgl
 {
+	using Clock = std::chrono::high_resolution_clock;
+	using TimePoint = Clock::time_point;
+	TimePoint TimeInterval_startTime = Clock::now();
+
 	long long TimeInterval_getCurrentMilliseconds()
 	{
-		struct timeval64 tv;
-		gettimeofday64(&tv, nullptr);
-		return (long long)(((long long)tv.tv_sec*1000) + ((long long)tv.tv_usec/1000));
+		auto now = Clock::now();
+		auto millis = now - TimeInterval_startTime;
+		return (long long)std::chrono::duration_cast<std::chrono::milliseconds>(millis).count();
 	}
 
 	TimeInterval::TimeInterval()

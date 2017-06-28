@@ -128,10 +128,6 @@
     <ClInclude Include="..\..\src\Application\EventManager.hpp" />
     <ClInclude Include="..\..\src\Exception\ExceptionMacros.hpp" />
     <ClInclude Include="..\..\src\SDL_ext\SDL_RWops_ext.hpp" />
-    <ClInclude Include="..\..\src\Utilities\Time\posixtime.h" />
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64.h" />
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_config.h" />
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_limits.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp" />
@@ -214,8 +210,6 @@
     <ClCompile Include="..\..\src\Utilities\Plist.cpp" />
     <ClCompile Include="..\..\src\Utilities\Thread.cpp" />
     <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Time\posixtime.cpp" />
-    <ClCompile Include="..\..\src\Utilities\Time\time64\time64.c" />
     <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp" />
     <ClCompile Include="..\..\src\Utilities\Tools.cpp" />
     <ClCompile Include="..\..\src\Window\AssetManager.cpp" />

@@ -5,8 +5,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Math.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
-#include "posixtime.h"
-#include "time64/time64.h"
+#include <chrono>
 #include <ctime>
 
 #ifndef TARGETPLATFORM_WINDOWS
@@ -32,24 +31,22 @@ namespace fgl
 	
 	int DateTime::getLocalUTCOffset()
 	{
-		struct timeval64 tv;
-		gettimeofday64(&tv, nullptr);
-		Time64_T now = (Time64_T)tv.tv_sec;
-		struct tm lcl = *localtime64(&now);
-		struct tm gmt = *gmtime64(&now);
+		time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		struct tm lcl = *localtime(&now);
+		struct tm gmt = *gmtime(&now);
 		
-		Time64_T lcl_total = mktime64(&lcl);
-		Time64_T gmt_total = mktime64(&gmt);
-		return (int)(((Int64)lcl_total - (Int64)gmt_total)/60);
+		time_t lcl_total = mktime(&lcl);
+		time_t gmt_total = mktime(&gmt);
+		return (int)((lcl_total - gmt_total)/60);
 	}
 	
 	DateTime::DateTime()
 	{
-		struct timeval64 tv;
-		gettimeofday64(&tv, nullptr);
-		Time64_T now = (Time64_T)tv.tv_sec;
-		struct tm lcl = *localtime64(&now);
-		usec = (int)tv.tv_usec;
+		auto chrono_now = std::chrono::system_clock::now();
+		auto us = std::chrono::time_point_cast<std::chrono::microseconds>(chrono_now) - std::chrono::time_point_cast<std::chrono::seconds>(chrono_now);
+		time_t now = std::chrono::system_clock::to_time_t(chrono_now);
+		struct tm lcl = *localtime(&now);
+		usec = (int)std::chrono::duration_cast<std::chrono::microseconds>(us).count();
 		utc_offset = DateTime::getLocalUTCOffset();
 		sec = lcl.tm_sec;
 		min = lcl.tm_min;
@@ -177,7 +174,7 @@ namespace fgl
 		{
 			extendCount += 255;
 			char* buffer = new char[format.length()+extendCount];
-			size_t bytes = strftime(buffer, format.length()+255, format, &tmTime);
+			bytes = strftime(buffer, format.length()+255, format, &tmTime);
 			if(bytes>0)
 			{
 				buffer[bytes] = '\0';

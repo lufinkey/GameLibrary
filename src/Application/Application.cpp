@@ -122,7 +122,7 @@ namespace fgl
 
 	int Application::run(const WindowSettings&windowSettings, int orientations)
 	{
-		std::srand((unsigned int)DateTime().getMicrosecond());
+		std::srand((unsigned int)(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())));
 
 		if(!Thread::isMainThread())
 		{

@@ -130,9 +130,6 @@
     <Filter Include="src\Utilities\Geometry">
       <UniqueIdentifier>{d94ac91d-df90-4d86-b501-44280799dd73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Utilities\Time\time64">
-      <UniqueIdentifier>{50e958c3-4a8f-407b-866e-247339abdc16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{ffdd04d7-e750-43dc-8830-f61ea3947409}</UniqueIdentifier>
     </Filter>
@@ -383,18 +380,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Application\EventManager.hpp">
       <Filter>src\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\Time\posixtime.h">
-      <Filter>src\Utilities\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64.h">
-      <Filter>src\Utilities\Time\time64</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_config.h">
-      <Filter>src\Utilities\Time\time64</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\Time\time64\time64_limits.h">
-      <Filter>src\Utilities\Time\time64</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\GameLibrary.hpp">
       <Filter>include\GameLibrary</Filter>
@@ -686,14 +671,8 @@
     <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp">
       <Filter>src\Utilities\Time</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Time\posixtime.cpp">
-      <Filter>src\Utilities\Time</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp">
       <Filter>src\Utilities\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Time\time64\time64.c">
-      <Filter>src\Utilities\Time\time64</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Window\MessageBox.cpp">
       <Filter>src\Window</Filter>
