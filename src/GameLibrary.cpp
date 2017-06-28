@@ -18,10 +18,11 @@ int GameLibrary_autorelease_main(int argc, char* argv[]);
 int main(int argc, char *argv[])
 {
 	#if defined(TARGETPLATFORM_MAC) || defined(TARGETPLATFORM_IOS)
-		return GameLibrary_main(argc, argv);
-	#else
 		return GameLibrary_autorelease_main(argc, argv);
+	#else
+		return GameLibrary_main(argc, argv);
 	#endif
 }
 
 #endif
+
