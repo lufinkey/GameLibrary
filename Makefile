@@ -89,9 +89,7 @@ SRC_FILES =\
 	src/Utilities/Font/Font.cpp\
 	src/Utilities/Font/RenderedGlyphContainer.cpp\
 	src/Utilities/Time/DateTime.cpp\
-	src/Utilities/Time/posixtime.cpp\
 	src/Utilities/Time/TimeInterval.cpp\
-	src/Utilities/Time/time64/time64.c\
 	src/Window/AssetManager.cpp\
 	src/Window/MessageBox.cpp\
 	src/Window/MessageBox.mm\
