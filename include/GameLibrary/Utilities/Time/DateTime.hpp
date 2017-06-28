@@ -13,8 +13,6 @@ namespace fgl
 		
 		/* Constructs a DateTime object with the current date and time */
 		DateTime();
-		/* DateTime copy constructor */
-		DateTime(const DateTime&);
 		/* Constructs local DateTime from GMT time_t */
 		DateTime(const time_t&);
 		

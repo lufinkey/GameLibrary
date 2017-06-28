@@ -61,22 +61,6 @@ namespace fgl
 		yday = lcl.tm_yday + 1;
 	}
 	
-	DateTime::DateTime(const DateTime& datetime)
-		: utc_offset(datetime.utc_offset),
-		usec(datetime.usec),
-		sec(datetime.sec),
-		min(datetime.min),
-		hour(datetime.hour),
-		mday(datetime.mday),
-		mon(datetime.mon),
-		year(datetime.year),
-		wday(datetime.wday),
-		yday(datetime.yday)
-
-	{
-		//
-	}
-	
 	DateTime::DateTime(const time_t& timeval)
 	{
 		assign(timeval);
