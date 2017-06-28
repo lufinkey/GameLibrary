@@ -316,7 +316,7 @@ namespace fgl
 			int h = 0;
 			glyph_char str[2];
 			str[0] = text.charAt(i);
-			str[1] = NULL;
+			str[1] = (glyph_char)NULL;
 			if(TTF_SizeUNICODE(font, str, &w, &h) < 0)
 			{
 				mlock.unlock();
