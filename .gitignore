@@ -23,3 +23,9 @@
 /projects/xcode*/*.xcworkspace/xcuserdata
 /projects/xcode*/Build
 /projects/xcode*/DerivedData
+
+#Code::Blocks
+/projects/codeblocks/*.layout
+/projects/codeblocks/*.depend
+/projects/codeblocks/obj
+/projects/codeblocks/bin
