@@ -12,18 +12,10 @@
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-Wnoc++98-compat-pedantic" />
-					<Add directory="../../../include" />
 				</Compiler>
 				<Linker>
-					<Add option="-lSDL2" />
-					<Add option="-lSDL2_image" />
-					<Add option="-lSDL2_mixer" />
-					<Add option="-lSDL2_ttf" />
-					<Add option="-lSDL2_gfx" />
-					<Add option="-lpthread" />
 					<Add library="../bin/Debug/libGameLibrary.a" />
 				</Linker>
 			</Target>
@@ -34,24 +26,25 @@
 				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-std=c++11" />
-					<Add directory="../../../include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-lSDL2" />
-					<Add option="-lSDL2_image" />
-					<Add option="-lSDL2_mixer" />
-					<Add option="-lSDL2_ttf" />
-					<Add option="-lSDL2_gfx" />
-					<Add option="-lpthread" />
 					<Add library="../bin/Release/libGameLibrary.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Weverything" />
+			<Add option="-std=c++11" />
+			<Add directory="../../../include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lSDL2" />
+			<Add option="-lSDL2_image" />
+			<Add option="-lSDL2_mixer" />
+			<Add option="-lSDL2_ttf" />
+			<Add option="-lSDL2_gfx" />
+			<Add option="-lpthread" />
+		</Linker>
 		<Unit filename="../../../test/Game.cpp" />
 		<Unit filename="../../../test/Game.hpp" />
 		<Unit filename="../../../test/main.cpp" />

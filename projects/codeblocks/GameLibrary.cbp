@@ -14,16 +14,7 @@
 				<Option compiler="clang" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add directory="../../include" />
-					<Add directory="../../external/SDL/SDL/include" />
-					<Add directory="../../external/SDL/SDL_image" />
-					<Add directory="../../external/SDL/SDL_ttf" />
-					<Add directory="../../external/SDL/SDL_mixer" />
-					<Add directory="../../external/SDL/SDL_gfx" />
-					<Add directory="../../external/base64/include" />
-					<Add directory="../../external/pugixml/src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -35,21 +26,23 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-std=c++11" />
-					<Add directory="../../include" />
-					<Add directory="../../external/SDL/SDL/include" />
-					<Add directory="../../external/SDL/SDL_image" />
-					<Add directory="../../external/SDL/SDL_ttf" />
-					<Add directory="../../external/SDL/SDL_mixer" />
-					<Add directory="../../external/SDL/SDL_gfx" />
-					<Add directory="../../external/base64/include" />
-					<Add directory="../../external/pugixml/src" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add directory="../../include" />
+			<Add directory="../../external/SDL/SDL/include" />
+			<Add directory="../../external/SDL/SDL_image" />
+			<Add directory="../../external/SDL/SDL_ttf" />
+			<Add directory="../../external/SDL/SDL_mixer" />
+			<Add directory="../../external/SDL/SDL_gfx" />
+			<Add directory="../../external/base64/include" />
+			<Add directory="../../external/pugixml/src" />
+		</Compiler>
 		<Unit filename="../../external/pugixml/src/pugiconfig.hpp" />
 		<Unit filename="../../external/pugixml/src/pugixml.cpp" />
 		<Unit filename="../../external/pugixml/src/pugixml.hpp" />
