@@ -219,7 +219,7 @@ namespace fgl
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void drawTransition(const TransitionData* transitionData, const ApplicationData& appData, Graphics graphics) const;
 		/*! Draws a child Screen
-			\param screen the child screen to draw
+			\param childScreen the child screen to draw
 			\param appData specifies information about the Application drawing the Screen, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the Screen*/
 		virtual void drawChildScreen(Screen* childScreen, const ApplicationData& appData, Graphics graphics) const;
@@ -242,11 +242,11 @@ namespace fgl
 
 
 		/*! Adds a child screen to draw on top of this screen
-			\param childScreen the child screen to add
+			\param screen the child screen to add
 			\param zLayer priority value to use in ordering the child screen drawing operations. A higher value means the childScreen will be closer to the top of the stack. Anything below 0.5 will be drawn underneath this Screen's elements*/
 		void addChildScreen(Screen* screen, float zLayer, bool visible=true);
 		/*! Removes a child screen from the child screen stack
-			\param childScreen the child screen to remove*/
+			\param screen the child screen to remove*/
 		void removeChildScreen(Screen* screen);
 		/*! Sets a child screen visible or invisible
 			\param screen the child screen to change the visibility for

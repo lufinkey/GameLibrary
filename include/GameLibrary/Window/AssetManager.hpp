@@ -104,7 +104,7 @@ namespace fgl
 		If an Image is already stored with the given path, that Image is deallocated and replaced with the new one.
 			\throws fgl::IllegalArgumentException if the Image is null
 			\param path a path to identify the Image
-			\param texture the Image pointer to add*/
+			\param image the Image pointer to add*/
 		void addImage(const fgl::String& path, fgl::Image* image);
 		
 		

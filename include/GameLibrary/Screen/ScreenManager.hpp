@@ -46,7 +46,7 @@ namespace fgl
 			\param screens a list of Screen pointers to set
 			\param transition a Transition to use to set the new list
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\throws fgl::IllegalArgumentException if the given list of Screen pointers is:\n
 				1.) is empty\n
 				2.) contains a null Screen\n
@@ -59,7 +59,7 @@ namespace fgl
 			\param screen a Screen pointer to push
 			\param transition a Transition to use to push the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\throws fgl::IllegalArgumentException if the given Screen:\n
 				1.) is null\n
 				2.) is already presented on another Screen\n
@@ -72,7 +72,7 @@ namespace fgl
 			\param screens a list of Screen pointers to push
 			\param transition a Transition to use to push the list
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\throws fgl::IllegalArgumentException if the given list of Screen pointers is:\n
 				1.) is empty\n
 				2.) contains a null Screen\n
@@ -84,7 +84,7 @@ namespace fgl
 		/*! Pops the top Screen off of the container's list of Screen pointers.
 			\param transition a Transition to use to pop the Screen
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\returns the Screen pointer that was popped from the list
 			\throws fgl::ScreenNavigationException if:\n
 				1.) this container is already in the process of pushing, popping, or setting items on the list
@@ -94,7 +94,7 @@ namespace fgl
 			\param screen the screen to pop the list to; This Screen will become the new top Screen
 			\param transition a Transition to use to pop the Screen pointers
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\returns a list of Screen pointers that were popped from the list
 			\throws fgl::IllegalArgumentException if the given Screen is not contained within this Screen container
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
@@ -102,7 +102,7 @@ namespace fgl
 		/*! Pops Screen objects off of the container's list to the first Screen in the list.
 			\param transition a Transition to use to pop the Screen pointers
 			\param duration a length of time, in milliseconds, that the transition will last
-			\param completion a callback to call when the Screen finishes the transition
+			\param oncompletion a callback to call when the Screen finishes the transition
 			\returns a list of Screen pointers that were popped from the list
 			\throws fgl::ScreenNavigationException if this container is already in the process of pushing, popping, or setting items on the list*/
 		ArrayList<Screen*> popToFirstScreen(const Transition* transition=defaultPushTransition, long long duration=Transition::defaultDuration, const std::function<void()>& oncompletion=nullptr);
