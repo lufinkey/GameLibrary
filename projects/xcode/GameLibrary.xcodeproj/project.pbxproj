@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0E135FE1F05DE6000023E22 /* SDL_RWops_ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0E135FC1F05DE4100023E22 /* SDL_RWops_ext.cpp */; };
 		F144648D1E6725E40088EAA3 /* libSDL2_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A1FEC1E54A39A008D83E5 /* libSDL2_image.a */; };
 		F144648E1E6725E40088EAA3 /* libSDL2_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A1FF81E54A3B7008D83E5 /* libSDL2_mixer.a */; };
 		F144648F1E6725E40088EAA3 /* libSDL2_ttf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15A20041E54A3C3008D83E5 /* libSDL2_ttf.a */; };
@@ -82,8 +83,6 @@
 		F15A1F4E1E5498D1008D83E5 /* Plist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EF71E5498D1008D83E5 /* Plist.cpp */; };
 		F15A1F4F1E5498D1008D83E5 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EF81E5498D1008D83E5 /* Thread.cpp */; };
 		F15A1F501E5498D1008D83E5 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EFA1E5498D1008D83E5 /* DateTime.cpp */; };
-		F15A1F511E5498D1008D83E5 /* posixtime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EFB1E5498D1008D83E5 /* posixtime.cpp */; };
-		F15A1F531E5498D1008D83E5 /* time64.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1EFE1E5498D1008D83E5 /* time64.c */; };
 		F15A1F571E5498D1008D83E5 /* TimeInterval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F021E5498D1008D83E5 /* TimeInterval.cpp */; };
 		F15A1F581E5498D1008D83E5 /* Tools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F031E5498D1008D83E5 /* Tools.cpp */; };
 		F15A1F591E5498D1008D83E5 /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F051E5498D1008D83E5 /* MessageBox.cpp */; };
@@ -235,6 +234,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A0E135FC1F05DE4100023E22 /* SDL_RWops_ext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_RWops_ext.cpp; sourceTree = "<group>"; };
+		A0E135FD1F05DE4100023E22 /* SDL_RWops_ext.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SDL_RWops_ext.hpp; sourceTree = "<group>"; };
 		F14464E51E672ED40088EAA3 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FreeType.framework; sourceTree = "<group>"; };
 		F14464EE1E6730160088EAA3 /* webp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = webp.framework; sourceTree = "<group>"; };
 		F15A1E1D1E549860008D83E5 /* libGameLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGameLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,12 +401,6 @@
 		F15A1EF71E5498D1008D83E5 /* Plist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plist.cpp; sourceTree = "<group>"; };
 		F15A1EF81E5498D1008D83E5 /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
 		F15A1EFA1E5498D1008D83E5 /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
-		F15A1EFB1E5498D1008D83E5 /* posixtime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posixtime.cpp; sourceTree = "<group>"; };
-		F15A1EFC1E5498D1008D83E5 /* posixtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = posixtime.h; sourceTree = "<group>"; };
-		F15A1EFE1E5498D1008D83E5 /* time64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = time64.c; sourceTree = "<group>"; };
-		F15A1EFF1E5498D1008D83E5 /* time64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64.h; sourceTree = "<group>"; };
-		F15A1F001E5498D1008D83E5 /* time64_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64_config.h; sourceTree = "<group>"; };
-		F15A1F011E5498D1008D83E5 /* time64_limits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64_limits.h; sourceTree = "<group>"; };
 		F15A1F021E5498D1008D83E5 /* TimeInterval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeInterval.cpp; sourceTree = "<group>"; };
 		F15A1F031E5498D1008D83E5 /* Tools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tools.cpp; sourceTree = "<group>"; };
 		F15A1F051E5498D1008D83E5 /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; };
@@ -465,6 +460,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A0E135FB1F05DE4100023E22 /* SDL_ext */ = {
+			isa = PBXGroup;
+			children = (
+				A0E135FC1F05DE4100023E22 /* SDL_RWops_ext.cpp */,
+				A0E135FD1F05DE4100023E22 /* SDL_RWops_ext.hpp */,
+			);
+			path = SDL_ext;
+			sourceTree = "<group>";
+		};
 		F14464E41E672ED40088EAA3 /* EmbeddedFrameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +804,7 @@
 				F15A1ED71E5498D1008D83E5 /* IO */,
 				F15A1EDB1E5498D1008D83E5 /* Network */,
 				F15A1EDD1E5498D1008D83E5 /* Screen */,
+				A0E135FB1F05DE4100023E22 /* SDL_ext */,
 				F15A1EF01E5498D1008D83E5 /* Utilities */,
 				F15A1F041E5498D1008D83E5 /* Window */,
 				F15A1ECC1E5498D1008D83E5 /* GameLibrary.cpp */,
@@ -1015,24 +1020,10 @@
 		F15A1EF91E5498D1008D83E5 /* Time */ = {
 			isa = PBXGroup;
 			children = (
-				F15A1EFD1E5498D1008D83E5 /* time64 */,
 				F15A1EFA1E5498D1008D83E5 /* DateTime.cpp */,
-				F15A1EFB1E5498D1008D83E5 /* posixtime.cpp */,
-				F15A1EFC1E5498D1008D83E5 /* posixtime.h */,
 				F15A1F021E5498D1008D83E5 /* TimeInterval.cpp */,
 			);
 			path = Time;
-			sourceTree = "<group>";
-		};
-		F15A1EFD1E5498D1008D83E5 /* time64 */ = {
-			isa = PBXGroup;
-			children = (
-				F15A1EFE1E5498D1008D83E5 /* time64.c */,
-				F15A1EFF1E5498D1008D83E5 /* time64.h */,
-				F15A1F001E5498D1008D83E5 /* time64_config.h */,
-				F15A1F011E5498D1008D83E5 /* time64_limits.h */,
-			);
-			path = time64;
 			sourceTree = "<group>";
 		};
 		F15A1F041E5498D1008D83E5 /* Window */ = {
@@ -1372,6 +1363,7 @@
 				F15A1F5A1E5498D1008D83E5 /* MessageBox.mm in Sources */,
 				F15A1F4A1E5498D1008D83E5 /* Font.cpp in Sources */,
 				F15A1F501E5498D1008D83E5 /* DateTime.cpp in Sources */,
+				A0E135FE1F05DE6000023E22 /* SDL_RWops_ext.cpp in Sources */,
 				F15A1F251E5498D1008D83E5 /* BadAnyCastException.cpp in Sources */,
 				F15A1F111E5498D1008D83E5 /* BatchLoader.cpp in Sources */,
 				F15A1F1A1E5498D1008D83E5 /* TextureImageCreateException.cpp in Sources */,
@@ -1397,7 +1389,6 @@
 				F15A1F441E5498D1008D83E5 /* ImageElement.cpp in Sources */,
 				F15F11F21E8553ED007CA0D2 /* PopupScreen.cpp in Sources */,
 				F15A1F231E5498D1008D83E5 /* ScreenNavigationException.cpp in Sources */,
-				F15A1F511E5498D1008D83E5 /* posixtime.cpp in Sources */,
 				F15A1F761E549ADD008D83E5 /* SDL2_framerate.c in Sources */,
 				F15A1F3D1E5498D1008D83E5 /* ScreenManager.cpp in Sources */,
 				F15A1F371E5498D1008D83E5 /* FileTools.mm in Sources */,
@@ -1419,7 +1410,6 @@
 				F15A1F221E5498D1008D83E5 /* OutOfBoundsException.cpp in Sources */,
 				F15A1F361E5498D1008D83E5 /* FileTools.cpp in Sources */,
 				F1A1FB0A1E8041A300D55FFC /* Thread.mm in Sources */,
-				F15A1F531E5498D1008D83E5 /* time64.c in Sources */,
 				F15A1F461E5498D1008D83E5 /* TextInputElement.cpp in Sources */,
 				F15A1F421E5498D1008D83E5 /* ActorMenuElement.cpp in Sources */,
 				F15A1F201E5498D1008D83E5 /* NotImplementedException.cpp in Sources */,
