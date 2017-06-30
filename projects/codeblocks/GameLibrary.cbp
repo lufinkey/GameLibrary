@@ -33,7 +33,7 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
+			<Add option="-std=c++14" />
 			<Add directory="../../include" />
 			<Add directory="../../external/SDL/SDL/include" />
 			<Add directory="../../external/SDL/SDL_image" />
