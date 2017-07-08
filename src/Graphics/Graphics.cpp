@@ -10,6 +10,7 @@
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
+#include <stdio.h>
 
 #define WIN32_LEAN_AND_MEAN
 #if defined(TARGETPLATFORM_WINDOWS)
@@ -33,38 +34,57 @@ namespace fgl
 		return fontPath;
 #elif defined(TARGETPLATFORM_MAC) || defined(TARGETPLATFORM_IOS_SIMULATOR)
 		return "/Library/Fonts/Arial.ttf";
+#elif defined(TARGETPLATFORM_LINUX)
+		//run popen to get output of fc-match
+		String output;
+		char buffer[128];
+		FILE* cmd = popen("fc-match --format=%{file}", "r");
+		if(cmd==nullptr)
+		{
+			return "fonts/arial.ttf";
+		}
+		while(fgets(buffer, 128, cmd))
+		{
+			output += buffer;
+		}
+		pclose(cmd);
+		if(output.length()==0)
+		{
+			return "fonts/arial.ttf";
+		}
+		return output;
 #else
 		return "fonts/arial.ttf";
 #endif
 	}
-	
+
 	Font* Graphics::defaultFont = nullptr;
 	String Graphics::defaultFontPath = Graphics_getDefaultFontPath();
-	
+
 	void Graphics::reset(const Color&clearColor)
 	{
 		setColor(Color::BLACK);
 		setTintColor(Color::WHITE);
 		setAlpha(1.0f);
-		
+
 		setFont(defaultFont);
-		
+
 		transform.reset();
 		rotation = 0;
 		scaling.x = 1;
 		scaling.y = 1;
-		
+
 		clipoffset.x = 0;
 		clipoffset.y = 0;
-		
+
 		SDL_RenderSetViewport((SDL_Renderer*)renderer, nullptr);
-		
+
 		if(window->viewport != nullptr && window->viewport->matchWindow)
 		{
 			const Vector2u& winSz = window->getSize();
 			window->viewport->setSize((double)winSz.x, (double)winSz.y);
 		}
-		
+
 		if(window->viewport != nullptr && window->viewport->maintainResolution)
 		{
 			if((renderTarget_width!=(unsigned int)window->viewport->size.x) || (renderTarget_height!=(unsigned int)window->viewport->size.y))
@@ -103,17 +123,17 @@ namespace fgl
 				SDL_DestroyTexture((SDL_Texture*)renderTarget);
 			}
 		}
-		
+
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, clearColor.r,clearColor.g,clearColor.b,clearColor.a);
 		SDL_RenderClear((SDL_Renderer*)renderer);
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, 0,0,0,255);
-		
+
 		double zoom = 1;
 		if(window->viewport!=nullptr)
 		{
 			zoom = window->viewport->zoom;
 		}
-		
+
 		if(window->viewport!=nullptr && window->viewport->maintainResolution && renderTarget!=nullptr)
 		{
 			setClipRect(0, 0, renderTarget_width, renderTarget_height);
@@ -131,12 +151,12 @@ namespace fgl
 			{
 				window->viewport->setSize((double)winSz.x, (double)winSz.y);
 			}
-			
+
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
-			
+
 			double difX = (winSize.x - (winSize.x*zoom))/(2*zoom);
 			double difY = (winSize.y - (winSize.y*zoom))/(2*zoom);
-			
+
 			scale(zoom,zoom);
 			translate(difY, difX);
 		}
@@ -147,7 +167,7 @@ namespace fgl
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
 			Vector2d viewSize = window->viewport->getSize();
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
-			
+
 			double ratX = winSize.x /viewSize.x;
 			double ratY = winSize.y /viewSize.y;
 			if(ratX<ratY)
@@ -158,16 +178,16 @@ namespace fgl
 			{
 				multScale = ratY;
 			}
-			
+
 			double fixedWidth = viewSize.x*multScale;
 			double fixedHeight = viewSize.y*multScale;
-			
+
 			double difX = ((winSize.x - (winSize.x*zoom))+(winSize.x - fixedWidth))/(2*zoom*multScale);
 			double difY = ((winSize.y - (winSize.y*zoom))+(winSize.y - fixedHeight))/(2*zoom*multScale);
-			
+
 			double letterBoxW = (winSize.x - fixedWidth)/2;
 			double letterBoxH = (winSize.y - fixedHeight)/2;
-			
+
 			setColor(Color::BLACK);
 			if(letterBoxW>0)
 			{
@@ -194,7 +214,7 @@ namespace fgl
 			Vector2d winSize = Vector2d((double)winSz.x, (double)winSz.y);
 			Vector2d viewSize = window->viewport->getSize();
 			setClipRect(0, 0, (double)winSz.x, (double)winSz.y);
-			
+
 			double ratX = winSize.x /viewSize.x;
 			double ratY = winSize.y /viewSize.y;
 
@@ -205,7 +225,7 @@ namespace fgl
 			translate(difX,difY);
 		}
 	}
-	
+
 	Graphics::Graphics(Window& win)
 	{
 		if(win.windowdata == nullptr)
@@ -223,11 +243,11 @@ namespace fgl
 			//TODO replace with more specific exception type
 			throw Exception(SDL_GetError());
 		}
-		
+
 		color = Color::BLACK;
 		tintColor = Color::WHITE;
 		alpha = 1.0f;
-		
+
 		if(defaultFont == nullptr)
 		{
 			defaultFont = new Font();
@@ -240,29 +260,29 @@ namespace fgl
 			defaultFont->setAntialiasing(true);
 		}
 		font = defaultFont;
-		
+
 		if(win.viewport == nullptr || win.viewport->matchWindow)
 		{
 			const Vector2u& winSize = win.getSize();
 			cliprect = RectangleD(0, 0, (double)winSize.x, (double)winSize.y);
 		}
 		clipoffset = Vector2d(0,0);
-		
+
 		transform = TransformD();
 		rotation = 0;
 		scaling.x = 1;
 		scaling.y = 1;
-		
+
 		derived = false;
-		
+
 		pixel = new TextureImage();
 		pixel->create(1,1,*this);
 		Color pixelColor = Color::WHITE;
 		pixel->update(&pixelColor);
-		
+
 		reset();
 	}
-	
+
 	Graphics::Graphics(const Graphics&g)
 		: window(g.window),
 		renderer(g.renderer),
@@ -283,7 +303,7 @@ namespace fgl
 	{
 		//
 	}
-	
+
 	Graphics::~Graphics()
 	{
 		if(!derived)
@@ -305,19 +325,19 @@ namespace fgl
 		double clipTop = (clipoffset.y + cliprect.y);
 		double clipRight = clipLeft + cliprect.width;
 		double clipBottom = clipTop + cliprect.height;
-		
+
 		SDL_Rect clip;
 		clip.x = (int)clipLeft;
 		clip.y = (int)clipTop;
 		clip.w = (int)(clipRight - (double)clip.x);
 		clip.h = (int)(clipBottom - (double)clip.y);
-		
+
 		Color colorComp = color.composite(tintColor);
 		byte newAlpha = (byte)(colorComp.a * alpha);
-		
+
 		SDL_RenderSetClipRect((SDL_Renderer*)renderer, &clip);
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, colorComp.r, colorComp.g, colorComp.b, newAlpha);
-		
+
 		//SDL_GLContext context = SDL_RendererGetGLContext((SDL_Renderer*)renderer);
 		//SDL_GL_MakeCurrent((SDL_Window*)window->windowdata, context);
 		//glPushMatrix();
@@ -329,7 +349,7 @@ namespace fgl
 		//SDL_GLContext context = SDL_RendererGetGLContext((SDL_Renderer*)renderer);
 		//SDL_GL_MakeCurrent((SDL_Window*)window->windowdata, context);
 		//glPopMatrix();
-		
+
 		SDL_SetRenderDrawColor((SDL_Renderer*)renderer, 0,0,0,255);
 		SDL_RenderSetClipRect((SDL_Renderer*)renderer, nullptr);
 	}
@@ -354,12 +374,12 @@ namespace fgl
 		}
 		return defaultFont;
 	}
-	
+
 	void Graphics::setDefaultFontPath(const String&path)
 	{
 		defaultFontPath = path;
 	}
-	
+
 	void Graphics::rotate(double degrees)
 	{
 		transform.rotate(degrees);
@@ -376,19 +396,19 @@ namespace fgl
 	{
 		rotate(degrees, center.x, center.y);
 	}
-	
+
 	void Graphics::scale(double scaleX, double scaleY)
 	{
 		transform.scale(scaleX,scaleY);
 		scaling.x *= scaleX;
 		scaling.y *= scaleY;
 	}
-	
+
 	void Graphics::scale(const Vector2d& factors)
 	{
 		scale(factors.x, factors.y);
 	}
-	
+
 	void Graphics::scale(double scaleX, double scaleY, double originX, double originY)
 	{
 		transform.scale(scaleX,scaleY, originX, originY);
@@ -400,7 +420,7 @@ namespace fgl
 	{
 		scale(factors.x, factors.y, origin.x, origin.y);
 	}
-		
+
 	void Graphics::translate(double x, double y)
 	{
 		transform.translate(x, y);
@@ -410,12 +430,12 @@ namespace fgl
 	{
 		translate(delta.x, delta.y);
 	}
-	
+
 	TransformD Graphics::getTransform() const
 	{
 		return transform;
 	}
-	
+
 	void Graphics::setAlpha(float a)
 	{
 		if(alpha > 1.0f)
@@ -446,7 +466,7 @@ namespace fgl
 	{
 		return alpha;
 	}
-	
+
 	void Graphics::setColor(const Color& c)
 	{
 		color = c;
@@ -461,7 +481,7 @@ namespace fgl
 	{
 		return color;
 	}
-	
+
 	void Graphics::setTintColor(const Color& c)
 	{
 		tintColor = c;
@@ -491,12 +511,12 @@ namespace fgl
 	{
 		setClipRect(RectangleD(x,y,width,height));
 	}
-	
+
 	void Graphics::setClipRect(const RectangleD&cr)
 	{
 		cliprect = cr;
 	}
-	
+
 	void Graphics::clip(const RectangleD& cr)
 	{
 		RectangleD trueCR = transform.transform(cr);
@@ -504,22 +524,22 @@ namespace fgl
 		trueCR.y -= clipoffset.y;
 		cliprect = cliprect.getIntersect(trueCR);
 	}
-	
+
 	const RectangleD& Graphics::getClipRect()
 	{
 		return cliprect;
 	}
-	
+
 	void Graphics::drawString(const String& text, double x1, double y1)
 	{
 		drawString((WideString)text, x1, y1);
 	}
-	
+
 	void Graphics::drawString(const String&text, const Vector2d& point)
 	{
 		drawString((WideString)text, point.x, point.y);
 	}
-	
+
 	void Graphics::drawString(const WideString& text, double x1, double y1)
 	{
 		unsigned int fontSize = font->getSize();
@@ -538,7 +558,7 @@ namespace fgl
 		bool negHeight = (scaling.y < 0);
 
 		beginDraw();
-		
+
 		double y1_top = y1 - (double)dimensions.y;
 		double x_offset = 0;
 		double scaleRatio = Math::abs(scaling.x/scaling.y);
@@ -564,11 +584,11 @@ namespace fgl
 			{
 				realHeight = -realHeight;
 			}
-			
+
 			Vector2d pnt = transform.transform(Vector2d(x1 + x_offset, y1_top));
 
 			drawTextureRaw(glyph.texture, pnt.x, pnt.y, pnt.x+realWidth, pnt.y+realHeight, 0, 0, (unsigned int)w, (unsigned int)h, rotation, compColor);
-			
+
 			x_offset += (double)glyphDimensions.x*dimensionRatio;
 		}
 
@@ -576,7 +596,7 @@ namespace fgl
 
 		font->setSize(fontSize);
 	}
-	
+
 	void Graphics::drawString(const WideString&text, const Vector2d& point)
 	{
 		drawString(text, point.x, point.y);
@@ -706,20 +726,20 @@ namespace fgl
 		}
 		return lineWidth;
 	}
-	
+
 	void Graphics::drawLine(double x1, double y1, double x2, double y2, double thickness)
 	{
 		double lineWidth = getTransformedLineWidth(x1, x2, y1, y2)*thickness;
 		Vector2d pnt1 = transform.transform(Vector2d(x1, y1));
 		Vector2d pnt2 = transform.transform(Vector2d(x2, y2));
-		
+
 		beginDraw();
 
 		drawLineRaw(pnt1.x, pnt1.y, pnt2.x, pnt2.y, lineWidth);
-		
+
 		endDraw();
 	}
-	
+
 	void Graphics::drawLine(const Vector2d& point1, const Vector2d& point2, double thickness)
 	{
 		drawLine(point1.x, point1.y, point2.x, point2.y, thickness);
@@ -754,7 +774,7 @@ namespace fgl
 		drawImageRaw(pixel, topright.x, topright.y, topright.x-scaling.x, topright.y+fullheight, 0, 0, 1, 1, -rotation, color);
 		drawImageRaw(pixel, topleft.x, topleft.y, topleft.x+scaling.x, topleft.y+fullheight, 0, 0, 1, 1, rotation, color);
 		drawImageRaw(pixel, bottomleft.x, bottomleft.y, bottomleft.x+fullwidth, bottomleft.y-scaling.y, 0, 0, 1, 1, -rotation, color);
-		
+
 		endDraw();
 	}
 
@@ -766,7 +786,7 @@ namespace fgl
 	void Graphics::fillRect(double x, double y, double width, double height)
 	{
 		Vector2d pnt = transform.transform(Vector2d(x, y));
-		
+
 		beginDraw();
 
 		Uint8 r = 0;
@@ -776,7 +796,7 @@ namespace fgl
 		SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
 
 		drawImageRaw(pixel, pnt.x, pnt.y, pnt.x+(width*scaling.x), pnt.y+(height*scaling.y), 0, 0, 1, 1, rotation, Color(r, g, b, a));
-		
+
 		endDraw();
 	}
 
@@ -804,7 +824,7 @@ namespace fgl
 	{
 		fillOval(rect.x, rect.y, rect.width, rect.height);
 	}*/
-	
+
 	void Graphics::drawPolygon(const PolygonD& polygon)
 	{
 		if(polygon.getPoints().size() > 0)
@@ -814,7 +834,7 @@ namespace fgl
 			const ArrayList<Vector2d>& points = transformedPolygon.getPoints();
 
 			beginDraw();
-			
+
 			if(points.size() == 1)
 			{
 				const Vector2d& point = points.get(0);
@@ -842,11 +862,11 @@ namespace fgl
 					}
 				}
 			}
-			
+
 			endDraw();
 		}
 	}
-	
+
 	void Graphics::fillPolygon(const PolygonD& polygon)
 	{
 		if(polygon.getPoints().size() > 0)
@@ -860,16 +880,16 @@ namespace fgl
 				polygonX[i] = (Sint16)points[i].x;
 				polygonY[i] = (Sint16)points[i].y;
 			}
-			
+
 			beginDraw();
-			
+
 			Uint8 r = 0;
 			Uint8 g = 0;
 			Uint8 b = 0;
 			Uint8 a = 0;
 			SDL_GetRenderDrawColor((SDL_Renderer*)renderer, &r, &g, &b, &a);
 			filledPolygonRGBA((SDL_Renderer*)renderer, polygonX, polygonY, (int)points.size(), r, g, b, a);
-			
+
 			endDraw();
 		}
 	}
@@ -947,7 +967,7 @@ namespace fgl
 			drawTextureRaw(texture, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, rotation, colormod);
 		}
 	}
-	
+
 	void Graphics::drawImage(TextureImage*img, double x, double y)
 	{
 		if(img==nullptr)
@@ -979,7 +999,7 @@ namespace fgl
 		//SDL_Texture*texture = (SDL_Texture*)img->texture;
 		unsigned int texWidth = img->width;
 		unsigned int texHeight = img->height;
-		
+
 		double dx1 = x;
 		double dy1 = y;
 		double dx2 = x+width;
@@ -991,7 +1011,7 @@ namespace fgl
 	{
 		drawImage(img, rect.x, rect.y, rect.width, rect.height);
 	}
-	
+
 	void Graphics::drawImage(TextureImage* img, double dx1, double dy1, double dx2, double dy2, unsigned int sx1, unsigned int sy1, unsigned int sx2, unsigned int sy2)
 	{
 		if(img==nullptr)
@@ -1006,7 +1026,7 @@ namespace fgl
 
 			double realDx2 = pnt1.x + ((dx2-dx1)*scaling.x);
 			double realDy2 = pnt1.y + ((dy2-dy1)*scaling.y);
-			
+
 			RectangleD dstrectBox = RectangleD(pnt1.x, pnt1.y, realDx2-pnt1.x, realDy2-pnt1.y);
 			if(rotation!=0)
 			{
@@ -1031,7 +1051,7 @@ namespace fgl
 			{
 				return;
 			}
-			
+
 			beginDraw();
 
 			drawImageRaw(img, pnt1.x, pnt1.y, realDx2, realDy2, sx1, sy1, sx2, sy2, rotation, Color(tintColor.r, tintColor.g, tintColor.b, (byte)(tintColor.a * alpha)));
