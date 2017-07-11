@@ -73,12 +73,11 @@
 		A039DB5B1CCDE89E00B0B5DA /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0A1CCDE89E00B0B5DA /* Math.cpp */; };
 		A039DB5D1CCDE89E00B0B5DA /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */; };
 		A039DB5E1CCDE89E00B0B5DA /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0E1CCDE89E00B0B5DA /* DateTime.cpp */; };
-		A039DB5F1CCDE89E00B0B5DA /* posixtime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB0F1CCDE89E00B0B5DA /* posixtime.cpp */; };
-		A039DB601CCDE89E00B0B5DA /* time64.c in Sources */ = {isa = PBXBuildFile; fileRef = A039DB121CCDE89E00B0B5DA /* time64.c */; };
 		A039DB611CCDE89E00B0B5DA /* TimeInterval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB161CCDE89E00B0B5DA /* TimeInterval.cpp */; };
 		A039DB621CCDE89E00B0B5DA /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB181CCDE89E00B0B5DA /* MessageBox.cpp */; };
 		A039DB631CCDE89E00B0B5DA /* MessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = A039DB191CCDE89E00B0B5DA /* MessageBox.mm */; };
 		A039DB651CCDE89E00B0B5DA /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A039DB1B1CCDE89E00B0B5DA /* Window.cpp */; };
+		A05336591F155E1C00042E3F /* SDL_RWops_ext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05336571F155E1C00042E3F /* SDL_RWops_ext.cpp */; };
 		A05D79A91CD4660300456C8E /* NotImplementedException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79A81CD4660300456C8E /* NotImplementedException.cpp */; };
 		A05D79AB1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A05D79AA1CD4661E00456C8E /* DictionaryKeyNotFoundException.cpp */; };
 		F14465141E675F920088EAA3 /* libSDL2_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F14962471E2415CF00C37F22 /* libSDL2_image.a */; };
@@ -309,16 +308,12 @@
 		A039DB0A1CCDE89E00B0B5DA /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math.cpp; sourceTree = "<group>"; };
 		A039DB0C1CCDE89E00B0B5DA /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
 		A039DB0E1CCDE89E00B0B5DA /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
-		A039DB0F1CCDE89E00B0B5DA /* posixtime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posixtime.cpp; sourceTree = "<group>"; };
-		A039DB101CCDE89E00B0B5DA /* posixtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = posixtime.h; sourceTree = "<group>"; };
-		A039DB121CCDE89E00B0B5DA /* time64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = time64.c; sourceTree = "<group>"; };
-		A039DB131CCDE89E00B0B5DA /* time64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64.h; sourceTree = "<group>"; };
-		A039DB141CCDE89E00B0B5DA /* time64_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64_config.h; sourceTree = "<group>"; };
-		A039DB151CCDE89E00B0B5DA /* time64_limits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = time64_limits.h; sourceTree = "<group>"; };
 		A039DB161CCDE89E00B0B5DA /* TimeInterval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeInterval.cpp; sourceTree = "<group>"; };
 		A039DB181CCDE89E00B0B5DA /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; };
 		A039DB191CCDE89E00B0B5DA /* MessageBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageBox.mm; sourceTree = "<group>"; };
 		A039DB1B1CCDE89E00B0B5DA /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		A05336571F155E1C00042E3F /* SDL_RWops_ext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDL_RWops_ext.cpp; sourceTree = "<group>"; };
+		A05336581F155E1C00042E3F /* SDL_RWops_ext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SDL_RWops_ext.hpp; sourceTree = "<group>"; };
 		A05D79A51CD465AE00456C8E /* Dictionary.impl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dictionary.impl; sourceTree = "<group>"; };
 		A05D79A61CD465D400456C8E /* NotImplementedException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NotImplementedException.hpp; sourceTree = "<group>"; };
 		A05D79A71CD465E300456C8E /* DictionaryKeyNotFoundException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DictionaryKeyNotFoundException.hpp; sourceTree = "<group>"; };
@@ -744,6 +739,7 @@
 				A039DAF01CCDE89E00B0B5DA /* Network */,
 				F199D4BA1E76FEB2008627BE /* PlatformSpecific */,
 				A039DAF21CCDE89E00B0B5DA /* Screen */,
+				A05336561F155E1C00042E3F /* SDL_ext */,
 				A039DB041CCDE89E00B0B5DA /* Utilities */,
 				A039DB171CCDE89E00B0B5DA /* Window */,
 				A039DAE11CCDE89E00B0B5DA /* GameLibrary.cpp */,
@@ -959,24 +955,10 @@
 		A039DB0D1CCDE89E00B0B5DA /* Time */ = {
 			isa = PBXGroup;
 			children = (
-				A039DB111CCDE89E00B0B5DA /* time64 */,
 				A039DB0E1CCDE89E00B0B5DA /* DateTime.cpp */,
-				A039DB101CCDE89E00B0B5DA /* posixtime.h */,
-				A039DB0F1CCDE89E00B0B5DA /* posixtime.cpp */,
 				A039DB161CCDE89E00B0B5DA /* TimeInterval.cpp */,
 			);
 			path = Time;
-			sourceTree = "<group>";
-		};
-		A039DB111CCDE89E00B0B5DA /* time64 */ = {
-			isa = PBXGroup;
-			children = (
-				A039DB121CCDE89E00B0B5DA /* time64.c */,
-				A039DB131CCDE89E00B0B5DA /* time64.h */,
-				A039DB141CCDE89E00B0B5DA /* time64_config.h */,
-				A039DB151CCDE89E00B0B5DA /* time64_limits.h */,
-			);
-			path = time64;
 			sourceTree = "<group>";
 		};
 		A039DB171CCDE89E00B0B5DA /* Window */ = {
@@ -989,6 +971,15 @@
 				A039DB1B1CCDE89E00B0B5DA /* Window.cpp */,
 			);
 			path = Window;
+			sourceTree = "<group>";
+		};
+		A05336561F155E1C00042E3F /* SDL_ext */ = {
+			isa = PBXGroup;
+			children = (
+				A05336571F155E1C00042E3F /* SDL_RWops_ext.cpp */,
+				A05336581F155E1C00042E3F /* SDL_RWops_ext.hpp */,
+			);
+			path = SDL_ext;
 			sourceTree = "<group>";
 		};
 		F14962311E2413EA00C37F22 /* dependencies */ = {
@@ -1208,6 +1199,7 @@
 				F1A1FB101E8042CE00D55FFC /* Thread.mm in Sources */,
 				A039DB1D1CCDE89E00B0B5DA /* Animation.cpp in Sources */,
 				A039DB5E1CCDE89E00B0B5DA /* DateTime.cpp in Sources */,
+				A05336591F155E1C00042E3F /* SDL_RWops_ext.cpp in Sources */,
 				A039DB211CCDE89E00B0B5DA /* Application.cpp in Sources */,
 				F16DB59B1E708DC600AB31DE /* AnimationPlayer.cpp in Sources */,
 				A039DB3D1CCDE89E00B0B5DA /* Graphics.cpp in Sources */,
@@ -1240,7 +1232,6 @@
 				A039DB3B1CCDE89E00B0B5DA /* GameLibrary.cpp in Sources */,
 				A039DB3C1CCDE89E00B0B5DA /* Color.cpp in Sources */,
 				F15BC3881E4378B7001910A4 /* SDL2_framerate.c in Sources */,
-				A039DB5F1CCDE89E00B0B5DA /* posixtime.cpp in Sources */,
 				A039DB301CCDE89E00B0B5DA /* InitializeLibraryException.cpp in Sources */,
 				A039DB2D1CCDE89E00B0B5DA /* UnsupportedImageFormatException.cpp in Sources */,
 				A039DB621CCDE89E00B0B5DA /* MessageBox.cpp in Sources */,
@@ -1249,7 +1240,6 @@
 				A039DB1E1CCDE89E00B0B5DA /* SpriteActor.cpp in Sources */,
 				A0298F861CCF492C00886B06 /* pugixml.cpp in Sources */,
 				A039DB4A1CCDE89E00B0B5DA /* Screen.cpp in Sources */,
-				A039DB601CCDE89E00B0B5DA /* time64.c in Sources */,
 				A039DB461CCDE89E00B0B5DA /* FileTools.mm in Sources */,
 				A039DB311CCDE89E00B0B5DA /* NumberFormatException.cpp in Sources */,
 				A039DB471CCDE89E00B0B5DA /* NetworkProtocol.cpp in Sources */,

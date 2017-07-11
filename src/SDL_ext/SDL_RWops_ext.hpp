@@ -1,7 +1,9 @@
 
 #pragma once
 
-#define HAVE_STDIO_H
+#ifndef HAVE_STDIO_H
+    #define HAVE_STDIO_H
+#endif
 #include <SDL.h>
 #include <cstdio>
 
