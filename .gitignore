@@ -34,7 +34,7 @@
 /projects/codeblocks/test/obj
 /projects/codeblocks/test/bin
 
-#Codelite
+#CodeLite
 /projects/codelite/.*
 /projects/codelite/Debug
 /projects/codelite/Release
