@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="GameLibrary" Version="10.0.0" InternalType="Library">
+  <VirtualDirectory Name="external">
+    <VirtualDirectory Name="pugixml">
+      <VirtualDirectory Name="src">
+        <File Name="../../external/pugixml/src/pugiconfig.hpp"/>
+        <File Name="../../external/pugixml/src/pugixml.hpp"/>
+        <File Name="../../external/pugixml/src/pugixml.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00010001N0005Debug000000000000]]>
+    </Plugin>
+  </Plugins>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="PlatformSpecific">
+      <VirtualDirectory Name="iOS">
+        <File Name="../../src/PlatformSpecific/iOS/SystemVersionMacros.h"/>
+        <File Name="../../src/PlatformSpecific/iOS/iOSUtils.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Utilities">
+      <VirtualDirectory Name="Font">
+        <File Name="../../src/Utilities/Font/RenderedGlyphContainer.cpp"/>
+        <File Name="../../src/Utilities/Font/Font.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Time">
+        <File Name="../../src/Utilities/Time/TimeInterval.cpp"/>
+        <File Name="../../src/Utilities/Time/DateTime.cpp"/>
+      </VirtualDirectory>
+      <File Name="../../src/Utilities/Tools.cpp"/>
+      <File Name="../../src/Utilities/Plist.cpp"/>
+      <File Name="../../src/Utilities/Math.cpp"/>
+      <File Name="../../src/Utilities/Thread.cpp"/>
+      <File Name="../../src/Utilities/Data.cpp"/>
+      <File Name="../../src/Utilities/Number.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Screen">
+      <VirtualDirectory Name="UI">
+        <File Name="../../src/Screen/UI/PopupScreen.cpp"/>
+        <File Name="../../src/Screen/UI/SegmentedSelectorElement.cpp"/>
+        <File Name="../../src/Screen/UI/ActorMenuElement.cpp"/>
+        <File Name="../../src/Screen/UI/MenuScreen.cpp"/>
+        <File Name="../../src/Screen/UI/TouchElement.cpp"/>
+        <File Name="../../src/Screen/UI/TextInputElement.cpp"/>
+        <File Name="../../src/Screen/UI/AnimationElement.cpp"/>
+        <File Name="../../src/Screen/UI/ZoomPanElement.cpp"/>
+        <File Name="../../src/Screen/UI/ImageElement.cpp"/>
+        <File Name="../../src/Screen/UI/TextElement.cpp"/>
+        <File Name="../../src/Screen/UI/CheckboxElement.cpp"/>
+        <File Name="../../src/Screen/UI/ButtonElement.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Transition">
+        <File Name="../../src/Screen/Transition/FadeColorTransition.cpp"/>
+        <File Name="../../src/Screen/Transition/SlideTransition.cpp"/>
+        <File Name="../../src/Screen/Transition/FadeZoomTransition.cpp"/>
+        <File Name="../../src/Screen/Transition/PopoverTransition.cpp"/>
+      </VirtualDirectory>
+      <File Name="../../src/Screen/ScreenManager.cpp"/>
+      <File Name="../../src/Screen/AutoLayoutManager.cpp"/>
+      <File Name="../../src/Screen/ScreenElement.cpp"/>
+      <File Name="../../src/Screen/Screen.cpp"/>
+      <File Name="../../src/Screen/AutoLayoutCalculator.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Exception">
+      <VirtualDirectory Name="Utilities">
+        <VirtualDirectory Name="Font">
+          <File Name="../../src/Exception/Utilities/Font/RenderGlyphException.cpp"/>
+        </VirtualDirectory>
+        <File Name="../../src/Exception/Utilities/StringOutOfBoundsException.cpp"/>
+        <File Name="../../src/Exception/Utilities/IllegalNumberOperationException.cpp"/>
+        <File Name="../../src/Exception/Utilities/BadAnyCastException.cpp"/>
+        <File Name="../../src/Exception/Utilities/DictionaryKeyNotFoundException.cpp"/>
+        <File Name="../../src/Exception/Utilities/BadNumberCastException.cpp"/>
+        <File Name="../../src/Exception/Utilities/DataOutOfBoundsException.cpp"/>
+        <File Name="../../src/Exception/Utilities/ArrayListOutOfBoundsException.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Graphics">
+        <File Name="../../src/Exception/Graphics/UnsupportedImageFormatException.cpp"/>
+        <File Name="../../src/Exception/Graphics/ImageOutOfBoundsException.cpp"/>
+        <File Name="../../src/Exception/Graphics/TextureImageUpdateException.cpp"/>
+        <File Name="../../src/Exception/Graphics/TextureImageCreateException.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Screen">
+        <File Name="../../src/Exception/Screen/ScreenNavigationException.cpp"/>
+      </VirtualDirectory>
+      <File Name="../../src/Exception/ExceptionMacros.hpp"/>
+      <File Name="../../src/Exception/NumberFormatException.cpp"/>
+      <File Name="../../src/Exception/InitializeLibraryException.cpp"/>
+      <File Name="../../src/Exception/IllegalArgumentException.cpp"/>
+      <File Name="../../src/Exception/IllegalStateException.cpp"/>
+      <File Name="../../src/Exception/OutOfBoundsException.cpp"/>
+      <File Name="../../src/Exception/NotImplementedException.cpp"/>
+      <File Name="../../src/Exception/BadCastException.cpp"/>
+      <File Name="../../src/Exception/Exception.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="IO">
+      <File Name="../../src/IO/Console.cpp"/>
+      <File Name="../../src/IO/FileTools.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Actor">
+      <File Name="../../src/Actor/SpriteActor.cpp"/>
+      <File Name="../../src/Actor/Animation.cpp"/>
+      <File Name="../../src/Actor/AnimationPlayer.cpp"/>
+      <File Name="../../src/Actor/TextActor.cpp"/>
+      <File Name="../../src/Actor/Actor.cpp"/>
+      <File Name="../../src/Actor/WireframeActor.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Window">
+      <File Name="../../src/Window/AssetManager.cpp"/>
+      <File Name="../../src/Window/MessageBox.cpp"/>
+      <File Name="../../src/Window/Viewport.cpp"/>
+      <File Name="../../src/Window/Window.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Graphics">
+      <File Name="../../src/Graphics/Image.cpp"/>
+      <File Name="../../src/Graphics/Graphics.cpp"/>
+      <File Name="../../src/Graphics/Color.cpp"/>
+      <File Name="../../src/Graphics/PixelIterator.cpp"/>
+      <File Name="../../src/Graphics/TextureImage.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Input">
+      <File Name="../../src/Input/Multitouch.cpp"/>
+      <File Name="../../src/Input/Keyboard.cpp"/>
+      <File Name="../../src/Input/Mouse.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Network">
+      <File Name="../../src/Network/NetworkProtocol.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Application">
+      <File Name="../../src/Application/Application.cpp"/>
+      <File Name="../../src/Application/BatchLoader.cpp"/>
+      <File Name="../../src/Application/EventManager.cpp"/>
+      <File Name="../../src/Application/ApplicationData.cpp"/>
+      <File Name="../../src/Application/EventManager.hpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Audio">
+      <File Name="../../src/Audio/Music.cpp"/>
+      <File Name="../../src/Audio/Sound.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="SDL_ext">
+      <File Name="../../src/SDL_ext/SDL_RWops_ext.cpp"/>
+      <File Name="../../src/SDL_ext/SDL_RWops_ext.hpp"/>
+    </VirtualDirectory>
+    <File Name="../../src/GameLibrary.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="include">
+    <VirtualDirectory Name="GameLibrary">
+      <VirtualDirectory Name="Utilities">
+        <VirtualDirectory Name="Geometry">
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Transform.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/ValueEase.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Polygon.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Line.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Circle.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Vector3.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Rectangle.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Geometry/Vector2.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Font">
+          <File Name="../../include/GameLibrary/Utilities/Font/Font.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Font/RenderedGlyphContainer.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Time">
+          <File Name="../../include/GameLibrary/Utilities/Time/TimeInterval.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Time/DateTime.hpp"/>
+        </VirtualDirectory>
+        <File Name="../../include/GameLibrary/Utilities/Stringifier.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Plist.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Dictionary.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Any.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Math.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/PlatformChecks.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Thread.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Tools.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Number.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/BasicString.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/String.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Data.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/ArrayList.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Screen">
+        <VirtualDirectory Name="UI">
+          <File Name="../../include/GameLibrary/Screen/UI/PopupScreen.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/AnimationElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/ZoomPanElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/TextElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/MenuScreen.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/ButtonElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/SegmentedSelectorElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/TouchElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/ImageElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/ActorMenuElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/TextInputElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/CheckboxElement.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Transition">
+          <File Name="../../include/GameLibrary/Screen/Transition/PopoverTransition.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/Transition/SlideTransition.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/Transition/FadeZoomTransition.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/Transition/Transition.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/Transition/FadeColorTransition.hpp"/>
+        </VirtualDirectory>
+        <File Name="../../include/GameLibrary/Screen/AutoLayoutCalculator.hpp"/>
+        <File Name="../../include/GameLibrary/Screen/ScreenElement.hpp"/>
+        <File Name="../../include/GameLibrary/Screen/ScreenManager.hpp"/>
+        <File Name="../../include/GameLibrary/Screen/AutoLayoutManager.hpp"/>
+        <File Name="../../include/GameLibrary/Screen/Screen.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Exception">
+        <VirtualDirectory Name="Utilities">
+          <VirtualDirectory Name="Font">
+            <File Name="../../include/GameLibrary/Exception/Utilities/Font/RenderGlyphException.hpp"/>
+          </VirtualDirectory>
+          <File Name="../../include/GameLibrary/Exception/Utilities/BadNumberCastException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/DataOutOfBoundsException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/IllegalNumberOperationException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/StringOutOfBoundsException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/BadAnyCastException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Graphics">
+          <File Name="../../include/GameLibrary/Exception/Graphics/ImageOutOfBoundsException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Graphics/TextureImageCreateException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Graphics/UnsupportedImageFormatException.hpp"/>
+          <File Name="../../include/GameLibrary/Exception/Graphics/TextureImageUpdateException.hpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Screen">
+          <File Name="../../include/GameLibrary/Exception/Screen/ScreenNavigationException.hpp"/>
+        </VirtualDirectory>
+        <File Name="../../include/GameLibrary/Exception/OutOfBoundsException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/Exception.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/IllegalArgumentException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/BadCastException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/InitializeLibraryException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/NumberFormatException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/IllegalStateException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/NotImplementedException.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="IO">
+        <File Name="../../include/GameLibrary/IO/Console.hpp"/>
+        <File Name="../../include/GameLibrary/IO/FileTools.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Actor">
+        <File Name="../../include/GameLibrary/Actor/WireframeActor.hpp"/>
+        <File Name="../../include/GameLibrary/Actor/AnimationPlayer.hpp"/>
+        <File Name="../../include/GameLibrary/Actor/Actor.hpp"/>
+        <File Name="../../include/GameLibrary/Actor/TextActor.hpp"/>
+        <File Name="../../include/GameLibrary/Actor/Animation.hpp"/>
+        <File Name="../../include/GameLibrary/Actor/SpriteActor.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Window">
+        <File Name="../../include/GameLibrary/Window/Window.hpp"/>
+        <File Name="../../include/GameLibrary/Window/AssetManager.hpp"/>
+        <File Name="../../include/GameLibrary/Window/MessageBox.hpp"/>
+        <File Name="../../include/GameLibrary/Window/Viewport.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Graphics">
+        <File Name="../../include/GameLibrary/Graphics/PixelIterator.hpp"/>
+        <File Name="../../include/GameLibrary/Graphics/Graphics.hpp"/>
+        <File Name="../../include/GameLibrary/Graphics/Color.hpp"/>
+        <File Name="../../include/GameLibrary/Graphics/Image.hpp"/>
+        <File Name="../../include/GameLibrary/Graphics/TextureImage.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Input">
+        <File Name="../../include/GameLibrary/Input/Multitouch.hpp"/>
+        <File Name="../../include/GameLibrary/Input/Keyboard.hpp"/>
+        <File Name="../../include/GameLibrary/Input/Mouse.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Network">
+        <File Name="../../include/GameLibrary/Network/NetworkProtocol.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Application">
+        <File Name="../../include/GameLibrary/Application/BatchLoader.hpp"/>
+        <File Name="../../include/GameLibrary/Application/ApplicationData.hpp"/>
+        <File Name="../../include/GameLibrary/Application/Application.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Audio">
+        <File Name="../../include/GameLibrary/Audio/Sound.hpp"/>
+        <File Name="../../include/GameLibrary/Audio/Music.hpp"/>
+      </VirtualDirectory>
+      <File Name="../../include/GameLibrary/GameLibrary.hpp"/>
+      <File Name="../../include/GameLibrary/Types.hpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Description/>
+  <Dependencies/>
+  <Settings Type="Static Library">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang( tags/RELEASE_380/final )" DebuggerType="LLDB Debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-std=c++14" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="../../include"/>
+        <IncludePath Value="../../external/pugixml/src"/>
+        <IncludePath Value="../../external/base64/include"/>
+        <IncludePath Value="../../external/SDL/SDL/include"/>
+        <IncludePath Value="../../external/SDL/SDL_image"/>
+        <IncludePath Value="../../external/SDL/SDL_mixer"/>
+        <IncludePath Value="../../external/SDL/SDL_ttf"/>
+        <IncludePath Value="../../external/SDL/SDL_gfx"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/lib$(ProjectName).a" IntermediateDirectory="./Debug" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName/>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang( tags/RELEASE_380/final )" DebuggerType="LLDB Debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-std=c++14" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="../../include"/>
+        <IncludePath Value="../../external/pugixml/src"/>
+        <IncludePath Value="../../external/base64/include"/>
+        <IncludePath Value="../../external/SDL/SDL/include"/>
+        <IncludePath Value="../../external/SDL/SDL_image"/>
+        <IncludePath Value="../../external/SDL/SDL_mixer"/>
+        <IncludePath Value="../../external/SDL/SDL_ttf"/>
+        <IncludePath Value="../../external/SDL/SDL_gfx"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/lib$(ProjectName).a" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName/>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

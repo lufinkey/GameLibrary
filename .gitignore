@@ -34,3 +34,17 @@
 /projects/codeblocks/test/obj
 /projects/codeblocks/test/bin
 
+#Codelite
+/projects/codelite/.*
+/projects/codelite/Debug
+/projects/codelite/Release
+/projects/codelite/Makefile
+/projects/codelite/*.txt
+/projects/codelite/*.mk
+/projects/codelite/test/.*
+/projects/codelite/test/Debug
+/projects/codelite/test/Release
+/projects/codelite/test/Makefile
+/projects/codelite/test/*.txt
+/projects/codelite/test/*.mk
+
