@@ -264,8 +264,6 @@ namespace fgl
 		
 		apptime.start();
 		
-		double framespeedMult = (double)(((long double)sleeptime)/((long double)1000));
-		
 		while(app_running && !app_closing)
 		{
 			long long startFrameTime = apptime.getMilliseconds();
@@ -276,6 +274,7 @@ namespace fgl
 				this->close(0);
 			}
 			
+			double framespeedMult = (double)(((long double)sleeptime)/((long double)1000));
 			ApplicationData appdata(this, window, window->getAssetManager(), apptime, window->getViewportTransform(), framespeedMult);
 			if(!app_closing)
 			{
@@ -300,16 +299,6 @@ namespace fgl
 					unsigned long long adjustedSleepTime = sleeptime - totalFrameTime;
 					Thread::sleep(adjustedSleepTime);
 				}
-			}
-			if(!app_closing)
-			{
-				long long actualEndFrameTime = apptime.getMilliseconds();
-				long long totalFrameTime = (long long)(actualEndFrameTime - startFrameTime);
-				if(totalFrameTime > sleeptime)
-				{
-					totalFrameTime = sleeptime;
-				}
-				framespeedMult = (double)(((long double)totalFrameTime)/((long double)1000));
 			}
 		}
 
