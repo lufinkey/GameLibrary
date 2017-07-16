@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <type_traits>
+#include <cmath>
+
 namespace fgl
 {
 	//TODO turn some of these functions into template functions
@@ -11,103 +14,191 @@ namespace fgl
 		static const long double PI;
 
 		//Trig
-		static float sin(float radians);
-		static double sin(double radians);
-		static long double sin(long double radians);
-		static float cos(float radians);
-		static double cos(double radians);
-		static long double cos(long double radians);
-		static float tan(float radians);
-		static double tan(double radians);
-		static long double tan(long double radians);
-		static float asin(float arg);
-		static double asin(double arg);
-		static long double asin(long double arg);
-		static float acos(float arg);
-		static double acos(double arg);
-		static long double acos(long double arg);
-		static float atan(float arg);
-		static double atan(double arg);
-		static long double atan(long double arg);
-		static float atan2(float y, float x);
-		static double atan2(double y, double x);
-		static long double atan2(long double y, long double x);
-		static float distance(float x1, float y1, float x2, float y2);
-		static double distance(double x1, double y1, double x2, double y2);
-		static long double distance(long double x1, long double y1, long double x2, long double y2);
-
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T sin(T radians)
+		{
+			return std::sin(radians);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T cos(T radians)
+		{
+			return std::cos(radians);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T tan(T radians)
+		{
+			return std::tan(radians);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T asin(T arg)
+		{
+			return std::asin(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T acos(T arg)
+		{
+			return std::acos(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T atan(T arg)
+		{
+			return std::atan(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T atan2(T y, T x)
+		{
+			return std::atan2(y, x);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T distance(T x1, T y1, T x2, T y2)
+		{
+			T a = x2-x1;
+			T b = y2-y1;
+			return std::sqrt((a*a)+(b*b));
+		}
+		
+		
+		
 		//Logarithmic
-		static float log(float arg); //natural log
-		static double log(double arg); //natural log
-		static long double log(long double arg); //natural log
-		static float log(float base, float arg);
-		static double log(double base, double arg);
-		static long double log(long double base, long double arg);
-		static float log10(float arg);
-		static double log10(double arg);
-		static long double log10(long double arg);
-
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T log(T arg) //natural log
+		{
+			return std::log(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T log(T base, T arg)
+		{
+			return std::log(arg) / std::log(base);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T log10(T arg)
+		{
+			return std::log10(arg);
+		}
+		
+		
+		
 		//Power
-		static float pow(float base, float exponent);
-		static double pow(double base, double exponent);
-		static long double pow(long double base, long double exponent);
-		static float sqrt(float arg);
-		static double sqrt(double arg);
-		static long double sqrt(long double arg);
-
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T pow(T base, T exponent)
+		{
+			return std::pow(base, exponent);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T sqrt(T arg)
+		{
+			return std::sqrt(arg);
+		}
+		
+		
+		
 		//Rounding and remainders
-		static float ceil(float arg);
-		static double ceil(double arg);
-		static long double ceil(long double arg);
-		static float floor(float arg);
-		static double floor(double arg);
-		static long double floor(long double arg);
-		static float round(float arg);
-		static double round(double arg);
-		static long double round(long double arg);
-		static float round(float arg, unsigned int precision);
-		static double round(double arg, unsigned int precision);
-		static long double round(long double arg, unsigned int precision);
-		static float roundToMultiple(float arg, float multiple);
-		static double roundToMultiple(double arg, double multiple);
-		static long double roundToMultiple(long double arg, long double multiple);
-		static float fmod(float left, float right);
-		static double fmod(double left, double right);
-		static long double fmod(long double left, long double right);
-
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T ceil(T arg)
+		{
+			return std::ceil(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T floor(T arg)
+		{
+			return std::floor(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T round(T arg)
+		{
+			return std::round(arg);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T round(T arg, unsigned short precision)
+		{
+			if(precision==0)
+			{
+				return round(arg);
+			}
+			T mult = pow(T(10), (T)precision);
+			return round(arg*mult)/mult;
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T roundToMultiple(T arg, T multiple)
+		{
+			T numTimes = arg/multiple;
+			bool neg = (numTimes < T(0));
+			numTimes = floor(abs(numTimes));
+			if(fmod(arg, multiple) > (multiple / T(2)))
+			{
+				numTimes += T(1);
+			}
+			if(neg)
+			{
+				return -abs(multiple*numTimes);
+			}
+			else
+			{
+				return abs(multiple*numTimes);
+			}
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T fmod(T left, T right)
+		{
+			return std::fmod(left, right);
+		}
+		
+		
+		
 		//Absolute Value
-		static float abs(float arg);
-		static double abs(double arg);
-		static long double abs(long double arg);
-		static int abs(int arg);
-		static long abs(long arg);
-		static long long abs(long long arg);
+		template<typename T, typename std::enable_if<std::is_signed<T>::value, std::nullptr_t>::type = nullptr>
+		static T abs(T arg)
+		{
+			return std::abs(arg);
+		}
+		
+		
 		
 		//Min and Max
-		static float min(float a, float b);
-		static double min(double a, double b);
-		static long double min(long double a, long double b);
-		static int min(int a, int b);
-		static long min(long a, long b);
-		static long long min(long long a, long long b);
-		static float max(float a, float b);
-		static double max(double a, double b);
-		static long double max(long double a, long double b);
-		static int max(int a, int b);
-		static long max(long a, long b);
-		static long long max(long long a, long long b);
-
+		template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+		static T min(T a, T b)
+		{
+			return (a<b) ? a : b;
+		}
+		template<typename T, typename std::enable_if<std::is_arithmetic<T>::value, std::nullptr_t>::type = nullptr>
+		static T max(T a, T b)
+		{
+			return (a>b) ? a : b;
+		}
+		
+		
+		
 		//Angle Conversions
-		static float degtorad(float deg);
-		static double degtorad(double deg);
-		static long double degtorad(long double deg);
-		static float radtodeg(float rad);
-		static double radtodeg(double rad);
-		static long double radtodeg(long double rad);
-		static float normalizeDegrees(float degrees);
-		static double normalizeDegrees(double degrees);
-		static long double normalizeDegrees(long double degrees);
-
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T degtorad(T deg)
+		{
+			return ((T)PI) * deg / T(180);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T radtodeg(T rad)
+		{
+			return rad * T(180) / ((T)PI);
+		}
+		template<typename T, typename std::enable_if<std::is_floating_point<T>::value, std::nullptr_t>::type = nullptr>
+		static T normalizeDegrees(T degrees)
+		{
+			if(degrees >= T(0))
+			{
+				return fmod(degrees, T(360));
+			}
+			else
+			{
+				degrees = fmod(degrees, T(360));
+				if(degrees < T(0))
+				{
+					return degrees + T(360);
+				}
+				return degrees;
+			}
+		}
+		
+		
+		
 		//Random
 		static double random();
 	};
