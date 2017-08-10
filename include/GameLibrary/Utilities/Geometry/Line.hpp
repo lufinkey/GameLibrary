@@ -43,7 +43,6 @@ namespace fgl
 		
 		/*! Calculates the center of the line.
 			\returns the point in the center of the line endpoints*/
-		template<typename T>
 		Vector2<T> getCenter() const
 		{
 			return Vector2<T>((point1.x+point2.x)/2, (point1.y+point2.y)/2);
