@@ -28,13 +28,12 @@ namespace fgl
 		class IllegalArgumentException;
 			class NumberFormatException;
 		class IllegalNumberOperationException;
+		class IllegalReturnValueException;
 		class IllegalStateException;
 		class InitializeLibraryException;
 		class NotImplementedException;
 		class OutOfBoundsException;
 			class ArrayListOutOfBoundsException;
-			class BitListOutOfBoundsException;
-			class BitSetOutOfBoundsException;
 			class DataOutOfBoundsException;
 			class DictionaryKeyNotFoundException;
 			class ImageOutOfBoundsException;
@@ -102,8 +101,6 @@ namespace fgl
 	class BasicString;
 	class Data;
 	class Math;
-	template<typename T1, typename T2>
-	class Pair;
 	class Plist;
 	class Number;
 	class Thread;

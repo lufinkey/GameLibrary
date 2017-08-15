@@ -5,8 +5,8 @@
 
 namespace fgl
 {
-	/*! Thrown to indicate that a function has been invoked at an illegal or inappropriate time*/
-	class IllegalStateException : public Exception
+	/*! Thrown to indicate a function has returned an illegal or inappropriate value */
+	class IllegalReturnValueException : public Exception
 	{
 	public:
 		using Exception::Exception;

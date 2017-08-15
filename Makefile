@@ -27,6 +27,7 @@ SRC_FILES =\
 	src/Exception/Exception.cpp\
 	src/Exception/BadCastException.cpp\
 	src/Exception/IllegalArgumentException.cpp\
+	src/Exception/IllegalReturnValueException.cpp\
 	src/Exception/IllegalStateException.cpp\
 	src/Exception/InitializeLibraryException.cpp\
 	src/Exception/NotImplementedException.cpp\

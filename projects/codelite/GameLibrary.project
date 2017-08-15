@@ -95,6 +95,7 @@
       <File Name="../../src/Exception/NotImplementedException.cpp"/>
       <File Name="../../src/Exception/BadCastException.cpp"/>
       <File Name="../../src/Exception/Exception.cpp"/>
+      <File Name="../../src/Exception/IllegalReturnValueException.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="IO">
       <File Name="../../src/IO/Console.cpp"/>
@@ -239,6 +240,7 @@
         <File Name="../../include/GameLibrary/Exception/NumberFormatException.hpp"/>
         <File Name="../../include/GameLibrary/Exception/IllegalStateException.hpp"/>
         <File Name="../../include/GameLibrary/Exception/NotImplementedException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/IllegalReturnValueException.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="IO">
         <File Name="../../include/GameLibrary/IO/Console.hpp"/>

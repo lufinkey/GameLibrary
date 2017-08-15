@@ -17,6 +17,7 @@
 #include "Exception/Exception.hpp"
 #include "Exception/BadCastException.hpp"
 #include "Exception/IllegalArgumentException.hpp"
+#include "Exception/IllegalReturnValueException.hpp"
 #include "Exception/IllegalStateException.hpp"
 #include "Exception/NotImplementedException.hpp"
 #include "Exception/NumberFormatException.hpp"
