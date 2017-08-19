@@ -4,7 +4,7 @@
 
 namespace fgl
 {
-	ImageOutOfBoundsException::ImageOutOfBoundsException(unsigned int ptx, unsigned int pty, unsigned int w, unsigned int h)
+	ImageOutOfBoundsException::ImageOutOfBoundsException(size_t ptx, size_t pty, size_t w, size_t h)
 		: OutOfBoundsException((String)"(" + ptx + ", " + pty + ") is out of bounds in Image with a size of (" + w + ", " + h + ")"),
 		index((w*pty)+ptx),
 		x(ptx),
@@ -16,8 +16,8 @@ namespace fgl
 		//
 	}
 
-	ImageOutOfBoundsException::ImageOutOfBoundsException(unsigned int i, unsigned int w, unsigned int h)
-		: OutOfBoundsException((String)"(" + (i%w) + ", " + ((int)(i / w)) + ") is out of bounds in Image with a size of (" + w + ", " + h + ")"),
+	ImageOutOfBoundsException::ImageOutOfBoundsException(size_t i, size_t w, size_t h)
+		: OutOfBoundsException((String)"(" + (i%w) + ", " + (i/w) + ") is out of bounds in Image with a size of (" + w + ", " + h + ")"),
 		index(i),
 		x(index%w),
 		y(i/w),

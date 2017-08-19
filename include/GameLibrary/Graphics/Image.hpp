@@ -24,7 +24,7 @@ namespace fgl
 			\param width the width of the image, in pixels
 			\param height the height of the image, in pixels
 			\param color the color to fill the image*/
-		void create(unsigned int width, unsigned int height, const Color&color = Color::TRANSPARENT);
+		void create(size_t width, size_t height, const Color&color = Color::TRANSPARENT);
 		/*! Clears the current image and sets the size to (0,0)*/
 		void clear();
 		
@@ -56,24 +56,24 @@ namespace fgl
 			\throws ImageOutOfBoundsException if the index is outside the bounds of the image
 			\param index the index of the pixel
 			\param color the color to set the pixel*/
-		void setPixel(unsigned int index, const Color& color);
+		void setPixel(size_t index, const Color& color);
 		/*! Sets the color of the pixel at the given coordinates.
 			\throws ImageOutOfBoundsException if the coordinates are outside the bounds of the image
 			\param x the x coordinate of the pixel
 			\param y the y coordinate of the pixel
 			\param color the color to set the pixel*/
-		void setPixel(unsigned int x, unsigned int y, const Color& color);
+		void setPixel(size_t x, size_t y, const Color& color);
 		/*! Gets the value of a pixel at the given index.
 			\throws ImageOutOfBoundsException if the index is outside the bounds of the image
 			\param index the index of the pixel
 			\returns a const Color reference representing the value of the pixel*/
-		const Color& getPixel(unsigned int index) const;
+		const Color& getPixel(size_t index) const;
 		/*! Gets the value of a pixel at the given index.
 			\throws ImageOutOfBoundsException if the coordinates are outside the bounds of the image
 			\param x the x coordinate of the pixel
 			\param y the y coordinate of the pixel
 			\returns a const Color reference representing the value of the pixel*/
-		const Color& getPixel(unsigned int x, unsigned int y) const;
+		const Color& getPixel(size_t x, size_t y) const;
 		/*! Gets a container of all the pixels in the image.
 			\returns a const ArrayList<Color> reference storing all the pixels in the image*/
 		const ArrayList<Color>& getPixels() const;
@@ -86,22 +86,22 @@ namespace fgl
 		void applyCompositeMask(const Image& mask);
 		
 		
-		/*! Gets the total size of the image (width * height).
+		/*! Gets the total length of the image data (width * height).
 			\returns an unsigned integer representing the total number of pixels in the image*/
-		unsigned int getSize() const;
+		size_t getLength() const;
 		/*! Gets the width of the image.
 			\returns an unsigned integer representing the width of the image, in pixels*/
-		unsigned int getWidth() const;
+		size_t getWidth() const;
 		/*! Gets the height of the image.
 			\returns an unsigned integer representing the height of the image, in pixels*/
-		unsigned int getHeight() const;
+		size_t getHeight() const;
 		/*! Gets the dimensions of the image.
 			\returns a Vector2u with the width (x) and height (y) of the image, in pixels*/
 		fgl::Vector2u getDimensions() const;
 		
 	private:
 		ArrayList<Color> pixels;
-		unsigned int width;
-		unsigned int height;
+		size_t width;
+		size_t height;
 	};
 }

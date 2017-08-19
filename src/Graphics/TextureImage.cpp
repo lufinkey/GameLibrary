@@ -32,10 +32,11 @@ namespace fgl
 		}
 	}
 	
-	void TextureImage::create(unsigned int w, unsigned int h, Graphics&graphics)
+	void TextureImage::create(size_t w, size_t h, Graphics&graphics)
 	{
 		if(w>0 && h>0)
 		{
+			//TODO check for integer overflow
 			SDL_Texture* newTexture = SDL_CreateTexture((SDL_Renderer*)graphics.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
 			if(newTexture == nullptr)
 			{
@@ -50,9 +51,10 @@ namespace fgl
 			texture = (void*)newTexture;
 			width = w;
 			height = h;
-			unsigned int total = w*h;
+			//TODO check for integer overflow
+			size_t total = w*h;
 			pixels.resize(total);
-			for(unsigned int i=0; i<total; i++)
+			for(size_t i=0; i<total; i++)
 			{
 				pixels[i] = false;
 			}
@@ -132,9 +134,10 @@ namespace fgl
 		}
 		surface = convertedSurface;
 
-		unsigned int w = (unsigned int)surface->w;
-		unsigned int h = (unsigned int)surface->h;
-		unsigned int totalSize = w*h;
+		//TODO check for integer overflow
+		size_t w = (size_t)surface->w;
+		size_t h = (size_t)surface->h;
+		size_t totalSize = w*h;
 		
 		SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)w, (int)h);
 		if(texture == nullptr)
@@ -180,13 +183,13 @@ namespace fgl
 
 		unsigned int pitchDif = ((unsigned int)surface->pitch - (w*bpp));
 
-		unsigned int counter = 0;
+		size_t counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
 
-		unsigned int i=0;
-		for(unsigned int ycnt=0; ycnt<h; ycnt++)
+		size_t i=0;
+		for(size_t ycnt=0; ycnt<h; ycnt++)
 		{
-			for(unsigned int xcnt = 0; xcnt < w; xcnt++)
+			for(size_t xcnt = 0; xcnt < w; xcnt++)
 			{
 				Color px;
 				switch(bpp)
@@ -207,7 +210,7 @@ namespace fgl
 
 					case 3:
 					{
-						int color = *((int*)&surfacePixels[counter]);
+						Uint32 color = *((Uint32*)&surfacePixels[counter]);
 						px.r = (byte)((color & rmask) >> rshift);
 						px.g = (byte)((color & gmask) >> gshift);
 						px.b = (byte)((color & bmask) >> bshift);
@@ -217,7 +220,7 @@ namespace fgl
 
 					case 4:
 					{
-						int color = *((int*)&surfacePixels[counter]);
+						Uint32 color = *((Uint32*)&surfacePixels[counter]);
 						px.r = (byte)((color & rmask) >> rshift);
 						px.g = (byte)((color & gmask) >> gshift);
 						px.b = (byte)((color & bmask) >> bshift);
@@ -235,9 +238,9 @@ namespace fgl
 					pixels[i] = false;
 				}
 				i++;
-				counter += bpp;
+				counter += (size_t)bpp;
 			}
-			counter += pitchDif;
+			counter += (size_t)pitchDif;
 		}
 
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
@@ -253,11 +256,12 @@ namespace fgl
 
 	bool TextureImage::loadFromPointer(const void* pointer, size_t length, Graphics& graphics, String* error)
 	{
+		//TODO check for integer overflow
 		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)length), 1);
 		if(surface != nullptr)
 		{
-			unsigned int w = (unsigned int)surface->w;
-			unsigned int h = (unsigned int)surface->h;
+			size_t w = (size_t)surface->w;
+			size_t h = (size_t)surface->h;
 			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
 			if(newTexture!=nullptr)
 			{
@@ -284,8 +288,8 @@ namespace fgl
 		SDL_Surface* surface = IMG_Load(path);
 		if(surface != nullptr)
 		{
-			unsigned int w = (unsigned int)surface->w;
-			unsigned int h = (unsigned int)surface->h;
+			size_t w = (size_t)surface->w;
+			size_t h = (size_t)surface->h;
 			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
 			if(newTexture!=nullptr)
 			{
@@ -312,8 +316,8 @@ namespace fgl
 		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromFILE(file, SDL_FALSE), 1);
 		if(surface != nullptr)
 		{
-			unsigned int w = (unsigned int)surface->w;
-			unsigned int h = (unsigned int)surface->h;
+			size_t w = (size_t)surface->w;
+			size_t h = (size_t)surface->h;
 			SDL_Texture* newTexture = TextureImage_loadFromSDLSurface(surface, pixels, (SDL_Renderer*)graphics.renderer, error, true);
 			if(newTexture!=nullptr)
 			{
@@ -340,6 +344,7 @@ namespace fgl
 		const ArrayList<Color>& image_pixels = image.getPixels();
 		if(image_pixels.size()>0)
 		{
+			//TODO check for integer overflow
 			SDL_Texture* newTexture = SDL_CreateTexture((SDL_Renderer*)graphics.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, (int)image.getWidth(), (int)image.getHeight());
 			if(newTexture == nullptr)
 			{
@@ -354,10 +359,11 @@ namespace fgl
 				SDL_DestroyTexture((SDL_Texture*)texture);
 				texture = nullptr;
 			}
-			unsigned int w = image.getWidth();
-			unsigned int h = image.getHeight();
-			unsigned int totalsize = w*h;
-			void*pixelptr;
+			//TODO check for integer overflow
+			size_t w = image.getWidth();
+			size_t h = image.getHeight();
+			size_t totalsize = w*h;
+			void* pixelptr;
 			int pitch;
 			if(SDL_LockTexture(newTexture, nullptr, &pixelptr, &pitch) < 0)
 			{
@@ -374,10 +380,10 @@ namespace fgl
 			pixels.resize(totalsize);
 			pixels.shrink_to_fit();
 
-			int*texture_pixels = (int*)pixelptr;
-			for(unsigned int i=0; i<totalsize; i++)
+			fgl::Uint32* texture_pixels = (Uint32*)pixelptr;
+			for(size_t i=0; i<totalsize; i++)
 			{
-				const Color&px = image_pixels[i];
+				const Color& px = image_pixels[i];
 				if(px.a>0)
 				{
 					pixels[i] = true;
@@ -413,7 +419,7 @@ namespace fgl
 		return false;
 	}
 
-	bool TextureImage::checkPixel(unsigned int index) const
+	bool TextureImage::checkPixel(size_t index) const
 	{
 		if(index < pixels.size())
 		{
@@ -422,7 +428,7 @@ namespace fgl
 		throw ImageOutOfBoundsException(index,width,height);
 	}
 
-	bool TextureImage::checkPixel(unsigned int x, unsigned int y) const
+	bool TextureImage::checkPixel(size_t x, size_t y) const
 	{
 		if(x < width && y < height)
 		{
@@ -436,17 +442,17 @@ namespace fgl
 		return pixels;
 	}
 
-	unsigned int TextureImage::getSize() const
+	size_t TextureImage::getLength() const
 	{
-		return (unsigned int)pixels.size();
+		return pixels.size();
 	}
 
-	unsigned int TextureImage::getWidth() const
+	size_t TextureImage::getWidth() const
 	{
 		return width;
 	}
 
-	unsigned int TextureImage::getHeight() const
+	size_t TextureImage::getHeight() const
 	{
 		return height;
 	}
@@ -463,38 +469,38 @@ namespace fgl
 
 	PolygonD TextureImage::traceOutline(const RectangleU& sourceRect) const
 	{
-		unsigned int leftBarrier = sourceRect.x;
-		unsigned int rightBarrier = sourceRect.x+sourceRect.width;
-		unsigned int topBarrier = sourceRect.y;
-		unsigned int bottomBarrier = sourceRect.y + sourceRect.height;
+		auto leftBarrier = sourceRect.x;
+		auto rightBarrier = sourceRect.x+sourceRect.width;
+		auto topBarrier = sourceRect.y;
+		auto bottomBarrier = sourceRect.y + sourceRect.height;
 		if(leftBarrier > width)
 		{
-			throw ImageOutOfBoundsException(leftBarrier, sourceRect.y, width, height);
+			throw ImageOutOfBoundsException((size_t)leftBarrier, (size_t)sourceRect.y, (size_t)width, (size_t)height);
 		}
 		else if(rightBarrier > width)
 		{
-			throw ImageOutOfBoundsException(rightBarrier, sourceRect.y, width, height);
+			throw ImageOutOfBoundsException((size_t)rightBarrier, (size_t)sourceRect.y, (size_t)width, (size_t)height);
 		}
 		else if(topBarrier > height)
 		{
-			throw ImageOutOfBoundsException(sourceRect.x, topBarrier, width, height);
+			throw ImageOutOfBoundsException((size_t)sourceRect.x, (size_t)topBarrier, (size_t)width, (size_t)height);
 		}
 		else if(bottomBarrier > height)
 		{
-			throw ImageOutOfBoundsException(sourceRect.x, bottomBarrier, width, height);
+			throw ImageOutOfBoundsException((size_t)sourceRect.x, (size_t)bottomBarrier, (size_t)width, (size_t)height);
 		}
 
 		//NOTE: credit to gameEditor for polygon image tracing code
 		PolygonD outline;
 		size_t line = (width*topBarrier);
 		size_t leftCount = 0;
-		for(unsigned int y=0; y<sourceRect.height; y++)
+		for(size_t y=0; y<sourceRect.height; y++)
 		{
 			// since it's going to be a convex hull,
 			// scanning a left and right edge should suffice
 			double left = -1, right = -1;
 
-			for(unsigned int x=0; x<sourceRect.width; x++)
+			for(size_t x=0; x<sourceRect.width; x++)
 			{
 				if(pixels[line+leftBarrier+x])
 				{
@@ -503,7 +509,7 @@ namespace fgl
 				}
 			}
 
-			for(unsigned int x=(width-1); x!=-1; x--)
+			for(size_t x=(width-1); x!=-1; x--)
 			{
 				if(pixels[line+leftBarrier+x])
 				{

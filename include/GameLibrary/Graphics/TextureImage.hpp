@@ -26,13 +26,13 @@ namespace fgl
 			\param width the width of the image, in pixels
 			\param height the height of the image, in pixels
 			\param graphics the graphics object to create the texture on the video card memory*/
-		void create(unsigned int width, unsigned int height, Graphics& graphics);
+		void create(size_t width, size_t height, Graphics& graphics);
 		/*! Updates the texture using an array of pixels.
-			\param pixels an array of pixels to write to the texture. The size of this buffer should be the image width*height*4 bytes
+			\param pixels an array of pixels to write to the texture. The size of this buffer should be the image width*height*4 bytes in length
 			\note updating a texture is a slow operation, and requires writing to the video card memory*/
 		void update(const Color* pixels);
 		/*! Updates the texture using an array of pixels.
-			\param pixels an array of pixels to write to the texture. The size of this buffer should be region.width*region.height*4 bytes
+			\param pixels an array of pixels to write to the texture. The size of this buffer should be region.width*region.height*4 bytes in length
 			\note updating a texture is a slow operation, and requires writing to the video card memory*/
 		void update(const Color* pixels, const RectangleU& region);
 		/*! Clears all data from the texture and resets the width and height to 0.*/
@@ -69,26 +69,26 @@ namespace fgl
 		/*! Checks a bit array to see if the pixel at the given index is fully transparent or not.
 			\param index the index of the pixel
 			\returns true if the pixel is visible, and false if the pixel is fully transparent*/
-		bool checkPixel(unsigned int index) const;
+		bool checkPixel(size_t index) const;
 		/*! Checks a bit array to see if the pixel at the given coordinate is fully transparent or not.
 			\param x the x coordinate of the pixel
 			\param y the y coordinate of the pixel
 			\returns true if the pixel is visible, and false if the pixel is fully transparent*/
-		bool checkPixel(unsigned int x, unsigned int y) const;
+		bool checkPixel(size_t x, size_t y) const;
 		/*! Gets a bit vector storing each pixel's transparency state, true for visible and false for transparent.
 			\returns a const std::vector<bool> reference containing all the pixel visibility states*/
 		const std::vector<bool>& getPixelBools() const;
 		
 		
-		/*! Gets the total size of the texture (width * height).
+		/*! Gets the total length of the texture (width * height).
 			\returns an unsigned integer representing the total number of pixels in the texture*/
-		unsigned int getSize() const;
+		size_t getLength() const;
 		/*! Gets the width of the texture.
 			\returns an unsigned integer representing the width of the texture, in pixels*/
-		unsigned int getWidth() const;
+		size_t getWidth() const;
 		/*! Gets the height of the texture.
 			\returns an unsigned integer representing the height of the texture, in pixels*/
-		unsigned int getHeight() const;
+		size_t getHeight() const;
 		/*! Gets the dimensions of the texture.
 			\returns a Vector2u with the width (x) and height (y) of the texture, in pixels*/
 		Vector2u getDimensions() const;
@@ -103,7 +103,7 @@ namespace fgl
 	private:
 		void* texture;
 		std::vector<bool> pixels;
-		unsigned int width;
-		unsigned int height;
+		size_t width;
+		size_t height;
 	};
 }

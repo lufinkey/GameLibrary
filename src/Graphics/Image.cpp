@@ -36,9 +36,10 @@ namespace fgl
 		return *this;
 	}
 	
-	void Image::create(unsigned int w, unsigned int h, const Color&color)
+	void Image::create(size_t w, size_t h, const Color& color)
 	{
-		unsigned int total = w*h;
+		//TODO check for integer overflow
+		size_t total = w*h;
 		if(width == 0 || height == 0)
 		{
 			width = 0;
@@ -50,7 +51,7 @@ namespace fgl
 			height = h;
 		}
 		pixels.resize(total);
-		for(unsigned int i = 0; i < total; i++)
+		for(size_t i = 0; i < total; i++)
 		{
 			pixels[i] = color;
 		}
@@ -89,20 +90,21 @@ namespace fgl
 		unsigned int amask = (unsigned int)surface->format->Amask;
 		unsigned int ashift = (unsigned int)surface->format->Ashift;
 
-		unsigned int width = (unsigned int)surface->w;
-		unsigned int height = (unsigned int)surface->h;
-		unsigned int total = width*height;
+		//TODO check for integer overflow
+		size_t width = (size_t)surface->w;
+		size_t height = (size_t)surface->h;
+		size_t total = width*height;
 		pixels.resize(total);
 
 		unsigned int pitchDif = ((unsigned int)surface->pitch - (width*bpp));
 
-		unsigned int counter = 0;
+		size_t counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
 
-		unsigned int i=0;
-		for(unsigned int ycnt=0; ycnt<height; ycnt++)
+		size_t i=0;
+		for(size_t ycnt=0; ycnt<height; ycnt++)
 		{
-			for(unsigned int xcnt = 0; xcnt < width; xcnt++)
+			for(size_t xcnt = 0; xcnt < width; xcnt++)
 			{
 				switch(bpp)
 				{
@@ -122,7 +124,7 @@ namespace fgl
 
 					case 3:
 					{
-						int color = *((int*)&surfacePixels[counter]);
+						Uint32 color = *((Uint32*)&surfacePixels[counter]);
 						pixels[i].r = (byte)((color & rmask) >> rshift);
 						pixels[i].g = (byte)((color & gmask) >> gshift);
 						pixels[i].b = (byte)((color & bmask) >> bshift);
@@ -132,7 +134,7 @@ namespace fgl
 
 					case 4:
 					{
-						int color = *((int*)&surfacePixels[counter]);
+						Uint32 color = *((Uint32*)&surfacePixels[counter]);
 						pixels[i].r = (byte)((color & rmask) >> rshift);
 						pixels[i].g = (byte)((color & gmask) >> gshift);
 						pixels[i].b = (byte)((color & bmask) >> bshift);
@@ -141,9 +143,9 @@ namespace fgl
 					break;
 				}
 				i++;
-				counter += bpp;
+				counter += (size_t)bpp;
 			}
-			counter += pitchDif;
+			counter += (size_t)pitchDif;
 		}
 
 		if(mustlock != 0)
@@ -156,13 +158,14 @@ namespace fgl
 
 	bool Image::loadFromPointer(const void* pointer, size_t length, String* error)
 	{
+		//TODO check for integer overflow
 		SDL_Surface* surface = IMG_Load_RW(SDL_RWFromConstMem(pointer, (int)length), 1);
 		if(surface != nullptr)
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))
 			{
-				width = (unsigned int)surface->w;
-				height = (unsigned int)surface->h;
+				width = (size_t)surface->w;
+				height = (size_t)surface->h;
 				SDL_FreeSurface(surface);
 				return true;
 			}
@@ -183,8 +186,8 @@ namespace fgl
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))
 			{
-				width = (unsigned int)surface->w;
-				height = (unsigned int)surface->h;
+				width = (size_t)surface->w;
+				height = (size_t)surface->h;
 				SDL_FreeSurface(surface);
 				return true;
 			}
@@ -205,8 +208,8 @@ namespace fgl
 		{
 			if(Image_loadFromSDLSurface(surface, pixels, error))
 			{
-				width = (unsigned int)surface->w;
-				height = (unsigned int)surface->h;
+				width = (size_t)surface->w;
+				height = (size_t)surface->h;
 				SDL_FreeSurface(surface);
 				return true;
 			}
@@ -238,6 +241,7 @@ namespace fgl
 			{
 				if(format.equals("png"))
 				{
+					//TODO check for integer overflow
 					SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)width, (int)height, 32, width*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 					if(surface == nullptr)
 					{
@@ -296,7 +300,7 @@ namespace fgl
 		return false;
 	}
 	
-	void Image::setPixel(unsigned int index, const Color& color)
+	void Image::setPixel(size_t index, const Color& color)
 	{
 		try
 		{
@@ -308,7 +312,7 @@ namespace fgl
 		}
 	}
 	
-	void Image::setPixel(unsigned int x, unsigned int y, const Color& color)
+	void Image::setPixel(size_t x, size_t y, const Color& color)
 	{
 		try
 		{
@@ -320,7 +324,7 @@ namespace fgl
 		}
 	}
 
-	const Color& Image::getPixel(unsigned int index) const
+	const Color& Image::getPixel(size_t index) const
 	{
 		try
 		{
@@ -332,7 +336,7 @@ namespace fgl
 		}
 	}
 
-	const Color& Image::getPixel(unsigned int x, unsigned int y) const
+	const Color& Image::getPixel(size_t x, size_t y) const
 	{
 		try
 		{
@@ -415,17 +419,17 @@ namespace fgl
 		}
 	}
 
-	unsigned int Image::getSize() const
+	size_t Image::getLength() const
 	{
-		return (unsigned int)pixels.size();
+		return (size_t)pixels.size();
 	}
 	
-	unsigned int Image::getWidth() const
+	size_t Image::getWidth() const
 	{
 		return width;
 	}
 
-	unsigned int Image::getHeight() const
+	size_t Image::getHeight() const
 	{
 		return height;
 	}
