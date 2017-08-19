@@ -56,6 +56,35 @@ namespace fgl
 			pixels[i] = color;
 		}
 	}
+	
+	void Image::resize(size_t newWidth, size_t newHeight, const Color& color)
+	{
+		ArrayList<Color> newPixels;
+		//TODO check for integer overflow
+		size_t total = newWidth*newHeight;
+		newPixels.resize(total);
+		
+		size_t i=0;
+		for(size_t y=0; y<newHeight; y++)
+		{
+			for(size_t x=0; x<newWidth; x++)
+			{
+				if(x < width && y < height)
+				{
+					newPixels[i] = pixels[(width*y)+x];
+				}
+				else
+				{
+					newPixels[i] = color;
+				}
+				i++;
+			}
+		}
+		
+		pixels = newPixels;
+		width = newWidth;
+		height = newHeight;
+	}
 
 	void Image::clear()
 	{
