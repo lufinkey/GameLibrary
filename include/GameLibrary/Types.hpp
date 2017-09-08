@@ -1,6 +1,12 @@
 
 #pragma once
 
+#include <cstddef>
+
+#ifndef ARRAYLIST_DEFAULT_PREALLOC_COUNT
+#define ARRAYLIST_DEFAULT_PREALLOC_COUNT 0
+#endif
+
 namespace fgl
 {
 	//Actor
@@ -93,7 +99,7 @@ namespace fgl
 		class DateTime;
 		class TimeInterval;
 	class Any;
-	template<typename T>
+	template<typename T, size_t PREALLOC_COUNT=ARRAYLIST_DEFAULT_PREALLOC_COUNT>
 	class ArrayList;
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	class BasicDictionary;

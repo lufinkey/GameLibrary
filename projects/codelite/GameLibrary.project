@@ -181,6 +181,9 @@
         <File Name="../../include/GameLibrary/Utilities/String.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Data.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/ArrayList.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/BasicString.impl"/>
+        <File Name="../../include/GameLibrary/Utilities/Dictionary.impl"/>
+        <File Name="../../include/GameLibrary/Utilities/Number.impl"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">

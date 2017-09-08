@@ -14,8 +14,15 @@
 #endif
 
 #ifdef _ARRAYLIST_STANDALONE
+#ifndef ARRAYLIST_DEFAULT_PREALLOC_COUNT
+#define ARRAYLIST_DEFAULT_PREALLOC_COUNT 0
+#endif
+#endif
+
+#ifdef _ARRAYLIST_STANDALONE
 #include <stdexcept>
 #else
+#include <GameLibrary/Types.hpp>
 #include <GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.hpp>
 #include <GameLibrary/Exception/IllegalStateException.hpp>
 #include "Stringifier.hpp"
@@ -24,11 +31,32 @@ namespace fgl
 {
 #endif
 	//Mostly just a wrapper around std::vector
-	template <typename T>
+	#ifdef _ARRAYLIST_STANDALONE
+	template <typename T, size_t PREALLOC_COUNT = ARRAYLIST_DEFAULT_PREALLOC_COUNT>
+	#else
+	template <typename T, size_t PREALLOC_COUNT>
+	#endif
 	class ArrayList
 	{
 	private:
 		std::vector<T> objects;
+		
+		void updatePreallocation(size_t objects_size)
+		{
+			if(PREALLOC_COUNT > 0)
+			{
+				size_t numBlocks = objects_size / PREALLOC_COUNT;
+				if((objects_size % PREALLOC_COUNT) != 0)
+				{
+					numBlocks++;
+				}
+				objects.reserve(numBlocks*PREALLOC_COUNT);
+			}
+			else
+			{
+				objects.reserve(objects_size);
+			}
+		}
 		
 	public:
 		static constexpr size_t NOT_FOUND = (size_t)-1;
@@ -44,13 +72,15 @@ namespace fgl
 			//
 		}
 		
-		ArrayList(const ArrayList<T>& array)
+		template<size_t _PREALLOC_COUNT>
+		ArrayList(const ArrayList<T, _PREALLOC_COUNT>& array)
 			: objects(array.objects)
 		{
 			//
 		}
 		
-		ArrayList(ArrayList<T>&& array)
+		template<size_t _PREALLOC_COUNT>
+		ArrayList(ArrayList<T, _PREALLOC_COUNT>&& array)
 			: objects(array.objects)
 		{
 			//
@@ -156,19 +186,21 @@ namespace fgl
 			return objects.crend();
 		}
 		
-		ArrayList<T>& operator=(const ArrayList<T>& array)
+		template<size_t _PREALLOC_COUNT>
+		ArrayList<T, PREALLOC_COUNT>& operator=(const ArrayList<T, _PREALLOC_COUNT>& array)
 		{
 			objects = array.objects;
 			return *this;
 		}
 		
-		ArrayList<T>& operator=(ArrayList<T>&& array)
+		template<size_t _PREALLOC_COUNT>
+		ArrayList<T, PREALLOC_COUNT>& operator=(ArrayList<T, _PREALLOC_COUNT>&& array)
 		{
 			objects = array.objects;
 			return *this;
 		}
 		
-		ArrayList<T>& operator=(std::initializer_list<T> list)
+		ArrayList<T, PREALLOC_COUNT>& operator=(std::initializer_list<T> list)
 		{
 			objects = list;
 			return *this;
@@ -256,11 +288,13 @@ namespace fgl
 		
 		void add(const T& obj)
 		{
+			updatePreallocation(objects.size()+1);
 			objects.push_back(obj);
 		}
 		
 		void add(T&& obj)
 		{
+			updatePreallocation(objects.size()+1);
 			objects.push_back(obj);
 		}
 		
@@ -274,6 +308,7 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
+			updatePreallocation(objects.size()+1);
 			objects.insert(objects.begin()+index, obj);
 		}
 		
@@ -287,27 +322,31 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
+			updatePreallocation(objects.size()+1);
 			objects.insert(objects.begin()+index, obj);
 		}
 		
-		void addAll(const ArrayList<T>& array)
+		template<size_t _PREALLOC_COUNT>
+		void addAll(const ArrayList<T, _PREALLOC_COUNT>& array)
 		{
+			updatePreallocation(objects.size()+array.objects.size());
 			objects.insert(objects.end(), array.objects.begin(), array.objects.end());
 		}
 		
-		void addAll(ArrayList<T>&& array)
+		template<size_t _PREALLOC_COUNT>
+		void addAll(ArrayList<T, _PREALLOC_COUNT>&& array)
 		{
-			objects.reserve(objects.size()+array.objects.size());
+			updatePreallocation(objects.size()+array.objects.size());
 			for(size_t array_size=array.objects.size(), i=0; i<array_size; i++)
 			{
 				objects.push_back(std::move(array.objects[i]));
 			}
 		}
 		
-		void addAll(size_t index, const ArrayList<T>& array)
+		template<size_t _PREALLOC_COUNT>
+		void addAll(size_t index, const ArrayList<T, _PREALLOC_COUNT>& array)
 		{
-			size_t size = objects.size();
-			if(index > size)
+			if(index > objects.size())
 			{
 				#ifndef _ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
@@ -315,10 +354,12 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
+			updatePreallocation(objects.size()+array.objects.size());
 			objects.insert(objects.begin()+index, array.objects.begin(), array.objects.end());
 		}
 		
-		void addAll(size_t index, ArrayList<T>&& array)
+		template<size_t _PREALLOC_COUNT>
+		void addAll(size_t index, ArrayList<T, _PREALLOC_COUNT>&& array)
 		{
 			size_t size = objects.size();
 			if(index > size)
@@ -330,6 +371,7 @@ namespace fgl
 				#endif
 			}
 			size_t array_size = array.objects.size();
+			updatePreallocation(size+array_size);
 			if(array_size > 0)
 			{
 				size_t fromIndex = index;
@@ -550,7 +592,7 @@ namespace fgl
 		{
 			return objects.size();
 		}
-
+		
 		void resize(size_t size)
 		{
 			objects.resize(size);
@@ -576,7 +618,7 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		
 		size_t indexWhere(const std::function<bool(const T&)>& func) const
@@ -588,7 +630,7 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		
 		#ifdef __OBJC__
@@ -601,7 +643,7 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		#endif
 		
@@ -615,7 +657,7 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		
 		size_t lastIndexWhere(const std::function<bool(const T&)>& func) const
@@ -627,7 +669,7 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		
 		#ifdef __OBJC__
@@ -640,30 +682,30 @@ namespace fgl
 					return i;
 				}
 			}
-			return ArrayList<T>::NOT_FOUND;
+			return ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		#endif
 		
 		bool contains(const T& obj) const
 		{
-			return indexOf(obj) != ArrayList<T>::NOT_FOUND;
+			return indexOf(obj) != ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 
 		bool containsWhere(const std::function<bool(const T&)>& func) const
 		{
-			return indexWhere(func) != ArrayList<T>::NOT_FOUND;
+			return indexWhere(func) != ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 
 		#ifdef __OBJC__
 		bool containsWhere(BOOL(^func)(const T&)) const
 		{
-			return indexWhere(func) != ArrayList<T>::NOT_FOUND;
+			return indexWhere(func) != ArrayList<T, PREALLOC_COUNT>::NOT_FOUND;
 		}
 		#endif
 		
-		ArrayList<T> filter(const std::function<bool(const T&)>& func) const
+		ArrayList<T, PREALLOC_COUNT> filter(const std::function<bool(const T&)>& func) const
 		{
-			ArrayList<T> newList;
+			ArrayList<T, PREALLOC_COUNT> newList;
 			size_t length = objects.size();
 			newList.reserve(length);
 			for(size_t i=0; i<length; i++)
@@ -679,9 +721,9 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		ArrayList<T> filter(BOOL(^func)(const T&)) const
+		ArrayList<T, PREALLOC_COUNT> filter(BOOL(^func)(const T&)) const
 		{
-			ArrayList<T> newList;
+			ArrayList<T, PREALLOC_COUNT> newList;
 			size_t length = objects.size();
 			newList.reserve(length);
 			for(size_t i=0; i<length; i++)
@@ -718,15 +760,15 @@ namespace fgl
 			});
 		}
 		#endif
-
-		ArrayList<T> unique() const
+		
+		ArrayList<T, PREALLOC_COUNT> unique() const
 		{
-			ArrayList<T> newList = *this;
+			ArrayList<T, PREALLOC_COUNT> newList = *this;
 			newList.removeDuplicates();
 			return std::move(newList);
 		}
 		
-		ArrayList<T> subArray(size_t startIndex, size_t endIndex) const
+		ArrayList<T, PREALLOC_COUNT> subArray(size_t startIndex, size_t endIndex) const
 		{
 			if(startIndex > objects.size())
 			{
@@ -744,17 +786,17 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
-			return ArrayList<T>(std::vector<T>(objects.begin()+startIndex, objects.begin()+endIndex));
+			return ArrayList<T, PREALLOC_COUNT>(std::vector<T>(objects.begin()+startIndex, objects.begin()+endIndex));
 		}
 		
-		ArrayList<T> subArray(size_t startIndex) const
+		ArrayList<T, PREALLOC_COUNT> subArray(size_t startIndex) const
 		{
 			return subArray(startIndex, objects.size());
 		}
 		
-		ArrayList<T> reversed() const
+		ArrayList<T, PREALLOC_COUNT> reversed() const
 		{
-			return ArrayList<T>(std::vector<T>(objects.rbegin(), objects.rend()));
+			return ArrayList<T, PREALLOC_COUNT>(std::vector<T>(objects.rbegin(), objects.rend()));
 		}
 		
 		void forEach(const std::function<void(T&)>& func)

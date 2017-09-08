@@ -9,6 +9,8 @@
 #include <type_traits>
 #ifdef _STRING_STANDALONE
 #include <vector>
+#else
+#include <GameLibrary/Types.hpp>
 #endif
 
 #ifdef __OBJC__
@@ -19,10 +21,6 @@
 namespace fgl
 {
 #endif
-	#ifndef _STRING_STANDALONE
-	template<typename T>
-	class ArrayList;
-	#endif
 	template<typename CHAR_TYPE>
 	class BasicString;
 	
@@ -620,13 +618,13 @@ namespace fgl
 		BasicString<CHAR_TYPE> substring(size_t startIndex) const;
 		
 		#ifndef _STRING_STANDALONE
-		ArrayList<BasicString<CHAR_TYPE> > split(const CHAR_TYPE& delim) const;
-		ArrayList<BasicString<CHAR_TYPE> > split(const CHAR_TYPE* delim) const;
-		ArrayList<BasicString<CHAR_TYPE> > split(const BasicString<CHAR_TYPE>& delim) const;
+		ArrayList<BasicString<CHAR_TYPE>> split(const CHAR_TYPE& delim) const;
+		ArrayList<BasicString<CHAR_TYPE>> split(const CHAR_TYPE* delim) const;
+		ArrayList<BasicString<CHAR_TYPE>> split(const BasicString<CHAR_TYPE>& delim) const;
 		#else
-		std::vector<BasicString<CHAR_TYPE> > split(const CHAR_TYPE& delim) const;
-		std::vector<BasicString<CHAR_TYPE> > split(const CHAR_TYPE* delim) const;
-		std::vector<BasicString<CHAR_TYPE> > split(const BasicString<CHAR_TYPE>& delim) const;
+		std::vector<BasicString<CHAR_TYPE>> split(const CHAR_TYPE& delim) const;
+		std::vector<BasicString<CHAR_TYPE>> split(const CHAR_TYPE* delim) const;
+		std::vector<BasicString<CHAR_TYPE>> split(const BasicString<CHAR_TYPE>& delim) const;
 		#endif
 		
 		template<typename _CHAR_TYPE=CHAR_TYPE,
