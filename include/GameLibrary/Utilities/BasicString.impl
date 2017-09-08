@@ -9,7 +9,7 @@
 #include <sstream>
 #include <vector>
 
-#ifndef _STRING_STANDALONE
+#ifndef STRING_STANDALONE
 
 #include <GameLibrary/Exception/NumberFormatException.hpp>
 #include <GameLibrary/Exception/Utilities/StringOutOfBoundsException.hpp>
@@ -1151,7 +1151,7 @@ namespace fgl
 		{
 			return characters[index];
 		}
-		#ifndef _STRING_STANDALONE
+		#ifndef STRING_STANDALONE
 			throw StringOutOfBoundsException(index, size);
 		#else
 			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1165,7 +1165,7 @@ namespace fgl
 		{
 			return characters[index];
 		}
-		#ifndef _STRING_STANDALONE
+		#ifndef STRING_STANDALONE
 			throw StringOutOfBoundsException(index, size);
 		#else
 			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1179,7 +1179,7 @@ namespace fgl
 		{
 			return characters[index];
 		}
-		#ifndef _STRING_STANDALONE
+		#ifndef STRING_STANDALONE
 			throw StringOutOfBoundsException(index, size);
 		#else
 			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1193,7 +1193,7 @@ namespace fgl
 		{
 			return characters[index];
 		}
-		#ifndef _STRING_STANDALONE
+		#ifndef STRING_STANDALONE
 			throw StringOutOfBoundsException(index, size);
 		#else
 			throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1211,7 +1211,7 @@ namespace fgl
 	{
 		if(startIndex>size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1232,7 +1232,7 @@ namespace fgl
 	{
 		if(startIndex>size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1274,7 +1274,7 @@ namespace fgl
 	{
 		if(startIndex>size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1321,7 +1321,7 @@ namespace fgl
 		}
 		else if(startIndex>=size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1352,7 +1352,7 @@ namespace fgl
 		}
 		else if(startIndex>=size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1410,7 +1410,7 @@ namespace fgl
 		}
 		else if(startIndex>=size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1628,7 +1628,7 @@ namespace fgl
 	{
 		if(startIndex>=size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1636,7 +1636,7 @@ namespace fgl
 		}
 		else if(endIndex>size && !(endIndex<startIndex && endIndex==(size_t)-1))
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(endIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1717,7 +1717,7 @@ namespace fgl
 	{
 		if(startIndex>=size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1725,7 +1725,7 @@ namespace fgl
 		}
 		else if(endIndex>size && !(endIndex<startIndex && endIndex==(size_t)-1))
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(endIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1805,7 +1805,7 @@ namespace fgl
 	{
 		if(startIndex > size)
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(startIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1813,7 +1813,7 @@ namespace fgl
 		}
 		else if(endIndex > size && !(endIndex<startIndex && endIndex==(size_t)-1))
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw StringOutOfBoundsException(endIndex, size);
 			#else
 				throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in BasicString<" + typeid(CHAR_TYPE).name() + "> with a length of " + std::to_string(size));
@@ -1865,7 +1865,7 @@ namespace fgl
 		return substring(startIndex, size);
 	}
 	
-	#ifndef _STRING_STANDALONE
+	#ifndef STRING_STANDALONE
 	
 	template<typename CHAR_TYPE>
 	ArrayList<BasicString<CHAR_TYPE> > BasicString<CHAR_TYPE>::split(const CHAR_TYPE& delim) const
@@ -2181,7 +2181,7 @@ namespace fgl
 		NUM_TYPE numVal = 0;
 		if(!(convert >> numVal))
 		{
-			#ifndef _STRING_STANDALONE
+			#ifndef STRING_STANDALONE
 				throw NumberFormatException(typeid(NUM_TYPE).name(), "BasicString does not represent an arithmetic value");
 			#else
 				throw std::logic_error("BasicString does not represent an arithmetic value");
@@ -3504,7 +3504,7 @@ namespace fgl
 		return (right.compare(left, BasicString<CHAR_TYPE>::strlen(left)) <= 0);
 	}
 	
-#ifndef _STRING_STANDALONE
+#ifndef STRING_STANDALONE
 }
 #endif
 

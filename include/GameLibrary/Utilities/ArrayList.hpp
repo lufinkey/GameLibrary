@@ -13,13 +13,13 @@
 	#import <Foundation/Foundation.h>
 #endif
 
-#ifdef _ARRAYLIST_STANDALONE
+#ifdef ARRAYLIST_STANDALONE
 #ifndef ARRAYLIST_DEFAULT_PREALLOC_COUNT
 #define ARRAYLIST_DEFAULT_PREALLOC_COUNT 0
 #endif
 #endif
 
-#ifdef _ARRAYLIST_STANDALONE
+#ifdef ARRAYLIST_STANDALONE
 #include <stdexcept>
 #else
 #include <GameLibrary/Types.hpp>
@@ -31,7 +31,7 @@ namespace fgl
 {
 #endif
 	//Mostly just a wrapper around std::vector
-	#ifdef _ARRAYLIST_STANDALONE
+	#ifdef ARRAYLIST_STANDALONE
 	template <typename T, size_t PREALLOC_COUNT = ARRAYLIST_DEFAULT_PREALLOC_COUNT>
 	#else
 	template <typename T, size_t PREALLOC_COUNT>
@@ -210,7 +210,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -223,7 +223,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -236,7 +236,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -249,7 +249,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -277,7 +277,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -302,7 +302,7 @@ namespace fgl
 		{
 			if(index > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -316,7 +316,7 @@ namespace fgl
 		{
 			if(index > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -348,7 +348,7 @@ namespace fgl
 		{
 			if(index > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -364,7 +364,7 @@ namespace fgl
 			size_t size = objects.size();
 			if(index > size)
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -407,7 +407,7 @@ namespace fgl
 		{
 			if(index >= objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -420,7 +420,7 @@ namespace fgl
 		{
 			if(startIndex > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(startIndex, objects.size());
 				#else
 					throw std::out_of_range("startIndex " + std::to_string(startIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -428,7 +428,7 @@ namespace fgl
 			}
 			if(endIndex > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(endIndex, objects.size());
 				#else
 					throw std::out_of_range("endIndex " + std::to_string(endIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -572,7 +572,7 @@ namespace fgl
 		{
 			if(objects.size()==0)
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw IllegalStateException("cannot call \"pop\" when ArrayList is empty");
 				#else
 					throw std::logic_error("cannot call \"pop\" when ArrayList is empty");
@@ -777,7 +777,7 @@ namespace fgl
 		{
 			if(startIndex > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(startIndex, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(startIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -785,7 +785,7 @@ namespace fgl
 			}
 			else if(endIndex > objects.size())
 			{
-				#ifndef _ARRAYLIST_STANDALONE
+				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(endIndex, objects.size());
 				#else
 					throw std::out_of_range("index " + std::to_string(endIndex) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
@@ -872,7 +872,7 @@ namespace fgl
 		typedef std::nullptr_t null_type;
 	};
 	
-#ifndef _ARRAYLIST_STANDALONE
+#ifndef ARRAYLIST_STANDALONE
 }
 #endif
 

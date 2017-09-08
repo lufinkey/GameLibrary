@@ -7,7 +7,7 @@
 #include <locale>
 #include <regex>
 #include <type_traits>
-#ifdef _STRING_STANDALONE
+#ifdef STRING_STANDALONE
 #include <vector>
 #else
 #include <GameLibrary/Types.hpp>
@@ -17,7 +17,7 @@
 	#import <Foundation/Foundation.h>
 #endif
 
-#ifndef _STRING_STANDALONE
+#ifndef STRING_STANDALONE
 namespace fgl
 {
 #endif
@@ -617,7 +617,7 @@ namespace fgl
 		BasicString<CHAR_TYPE> substring(size_t startIndex, size_t endIndex) const;
 		BasicString<CHAR_TYPE> substring(size_t startIndex) const;
 		
-		#ifndef _STRING_STANDALONE
+		#ifndef STRING_STANDALONE
 		ArrayList<BasicString<CHAR_TYPE>> split(const CHAR_TYPE& delim) const;
 		ArrayList<BasicString<CHAR_TYPE>> split(const CHAR_TYPE* delim) const;
 		ArrayList<BasicString<CHAR_TYPE>> split(const BasicString<CHAR_TYPE>& delim) const;
@@ -813,6 +813,6 @@ namespace fgl
 	typedef BasicString<std::string::value_type> String;
 	typedef BasicString<std::wstring::value_type> WideString;
 
-#ifndef _STRING_STANDALONE
+#ifndef STRING_STANDALONE
 }
 #endif
