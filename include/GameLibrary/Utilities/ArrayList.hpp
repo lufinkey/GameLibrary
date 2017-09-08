@@ -593,6 +593,11 @@ namespace fgl
 			return objects.size();
 		}
 		
+		size_t capacity() const
+		{
+			return objects.capacity();
+		}
+		
 		void resize(size_t size)
 		{
 			objects.resize(size);
