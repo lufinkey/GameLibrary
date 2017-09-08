@@ -329,17 +329,17 @@ namespace fgl
 		template<size_t _PREALLOC_COUNT>
 		void addAll(const ArrayList<T, _PREALLOC_COUNT>& array)
 		{
-			updatePreallocation(objects.size()+array.objects.size());
-			objects.insert(objects.end(), array.objects.begin(), array.objects.end());
+			updatePreallocation(objects.size()+array.size());
+			objects.insert(objects.end(), array.begin(), array.end());
 		}
 		
 		template<size_t _PREALLOC_COUNT>
 		void addAll(ArrayList<T, _PREALLOC_COUNT>&& array)
 		{
-			updatePreallocation(objects.size()+array.objects.size());
-			for(size_t array_size=array.objects.size(), i=0; i<array_size; i++)
+			updatePreallocation(objects.size()+array.ize());
+			for(size_t array_size=array.size(), i=0; i<array_size; i++)
 			{
-				objects.push_back(std::move(array.objects[i]));
+				objects.push_back(std::move(array[i]));
 			}
 		}
 		
@@ -354,8 +354,8 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
-			updatePreallocation(objects.size()+array.objects.size());
-			objects.insert(objects.begin()+index, array.objects.begin(), array.objects.end());
+			updatePreallocation(objects.size()+array.size());
+			objects.insert(objects.begin()+index, array.begin(), array.end());
 		}
 		
 		template<size_t _PREALLOC_COUNT>
@@ -370,7 +370,7 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
-			size_t array_size = array.objects.size();
+			size_t array_size = array.size();
 			updatePreallocation(size+array_size);
 			if(array_size > 0)
 			{
@@ -380,12 +380,12 @@ namespace fgl
 					objects.reserve(size+array_size);
 					for(size_t i=0; i<array_size; i++)
 					{
-						objects.push_back(std::move(array.objects[i]));
+						objects.push_back(std::move(array[i]));
 					}
 				}
 				else
 				{
-					size_t toIndex = index + array.objects.size();
+					size_t toIndex = index + array_size;
 					objects.resize(size+array_size);
 					while (toIndex < size)
 					{
@@ -396,7 +396,7 @@ namespace fgl
 					size_t counter = index;
 					for(size_t i=0; i<array_size; i++)
 					{
-						objects[counter] = std::move(array.objects[i]);
+						objects[counter] = std::move(array[i]);
 						counter++;
 					}
 				}
