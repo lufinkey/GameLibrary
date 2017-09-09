@@ -43,14 +43,15 @@ namespace fgl
 		
 		void updatePreallocation(size_t objects_size)
 		{
-			if(PREALLOC_COUNT > 0)
+			size_t prealloc_count = PREALLOC_COUNT;
+			if(prealloc_count > 0)
 			{
-				size_t numBlocks = objects_size / PREALLOC_COUNT;
-				if((objects_size % PREALLOC_COUNT) != 0)
+				size_t numBlocks = objects_size / prealloc_count;
+				if((objects_size % prealloc_count) != 0)
 				{
 					numBlocks++;
 				}
-				objects.reserve(numBlocks*PREALLOC_COUNT);
+				objects.reserve(numBlocks*prealloc_count);
 			}
 			else
 			{
