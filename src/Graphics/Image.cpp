@@ -261,7 +261,7 @@ namespace fgl
 		}
 		else
 		{
-			String format = path.substring(dotIndex + 1, path.length());
+			String format = path.substring(dotIndex + 1, path.length()).toLowerCase();
 			if(format.indexOf('/')!=String::NOT_FOUND || format.indexOf('\\')!=String::NOT_FOUND)
 			{
 				throw UnsupportedImageFormatException("");
