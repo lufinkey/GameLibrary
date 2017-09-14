@@ -11,7 +11,7 @@ namespace fgl
 		//
 	}
 	
-	Color::Color(byte r, byte g, byte b, byte a)
+	Color::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 		: a(a), b(b), g(g), r(r)
 	{
 		//
@@ -26,18 +26,18 @@ namespace fgl
 		//
 	}
 	
-	Color::Color(const fgl::Color::RGBA32& rgba)
+	Color::Color(Uint32 rgba)
 	{
-		byte*rgbaArray = (byte*)(&rgba);
+		Uint8* rgbaArray = (Uint8*)(&rgba);
 		r = rgbaArray[3];
 		g = rgbaArray[2];
 		b = rgbaArray[1];
 		a = rgbaArray[0];
 	}
 
-	Color& Color::operator=(const fgl::Color::RGBA32& rgba)
+	Color& Color::operator=(Uint32 rgba)
 	{
-		byte*rgbaArray = (byte*)(&rgba);
+		Uint8* rgbaArray = (Uint8*)(&rgba);
 		r = rgbaArray[3];
 		g = rgbaArray[2];
 		b = rgbaArray[1];
@@ -58,7 +58,7 @@ namespace fgl
 	Uint32 Color::getRGBA() const
 	{
 		Uint32 rgba = 0;
-		byte*arr = (byte*)(&rgba);
+		Uint8* arr = (Uint8*)(&rgba);
 		arr[3] = r;
 		arr[2] = g;
 		arr[1] = b;
@@ -69,7 +69,7 @@ namespace fgl
 	Uint32 Color::getARGB() const
 	{
 		Uint32 argb = 0;
-		byte*arr = (byte*)(&argb);
+		Uint8* arr = (Uint8*)(&argb);
 		arr[3] = a;
 		arr[2] = r;
 		arr[1] = g;
@@ -80,7 +80,7 @@ namespace fgl
 	Uint32 Color::getABGR() const
 	{
 		Uint32 abgr = 0;
-		byte*arr = (byte*)(&abgr);
+		Uint8* arr = (Uint8*)(&abgr);
 		arr[3] = a;
 		arr[2] = b;
 		arr[1] = g;
@@ -91,7 +91,7 @@ namespace fgl
 	Uint32 Color::getBGRA() const
 	{
 		Uint32 abgr = 0;
-		byte*arr = (byte*)(&abgr);
+		Uint8* arr = (Uint8*)(&abgr);
 		arr[3] = b;
 		arr[2] = g;
 		arr[1] = r;
@@ -108,20 +108,20 @@ namespace fgl
 		return false;
 	}
 
-	byte Color_compositeByte(byte orig, byte comp)
+	Uint8 Color_compositeByte(Uint8 orig, Uint8 comp)
 	{
 		/*double x = (double)orig;
 		double n = (double)comp;
-		return (byte)((-n / 255) * (n - x - 255));*/
-		return (byte)(orig*((double)comp/255));
+		return (Uint8)((-n / 255) * (n - x - 255));*/
+		return (Uint8)(orig*((double)comp/255));
 	}
 
-	Color Color::composite(const Color&comp) const
+	Color Color::composite(const Color& comp) const
 	{
-		byte cr = Color_compositeByte(r,comp.r);
-		byte cg = Color_compositeByte(g,comp.g);
-		byte cb = Color_compositeByte(b,comp.b);
-		byte ca = Color_compositeByte(a,comp.a);
+		Uint8 cr = Color_compositeByte(r,comp.r);
+		Uint8 cg = Color_compositeByte(g,comp.g);
+		Uint8 cb = Color_compositeByte(b,comp.b);
+		Uint8 ca = Color_compositeByte(a,comp.a);
 		return Color(cr,cg,cb,ca);
 	}
 
@@ -137,12 +137,12 @@ namespace fgl
 	Color Color::random(bool alpha)
 	{
 		Color color;
-		color.r = (byte)(Math::random()*255);
-		color.g = (byte)(Math::random()*255);
-		color.b = (byte)(Math::random()*255);
+		color.r = (Uint8)(Math::random()*255);
+		color.g = (Uint8)(Math::random()*255);
+		color.b = (Uint8)(Math::random()*255);
 		if(alpha)
 		{
-			color.a = (byte)(Math::random()*255);
+			color.a = (Uint8)(Math::random()*255);
 		}
 		return color;
 	}

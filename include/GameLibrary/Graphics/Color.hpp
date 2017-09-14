@@ -6,7 +6,7 @@
 
 namespace fgl
 {
-	#define RGBA(r,g,b,a) (a | (b<<8) | (g<<16) | (r<<24))
+	#define RGBA(r,g,b,a) (a##U | (b<<8) | (g<<16) | (r<<24))
 	#define RGBX(r,g,b) RGBA(r,g,b,255)
 	
 	/*! Contains an RGBA color value*/
@@ -14,7 +14,7 @@ namespace fgl
 	{
 	public:
 		/*! 32 bit RGBA constants*/
-		typedef enum
+		typedef enum : Uint32
 		{
 			BLACK = RGBX(0, 0, 0),
 			BLUE = RGBX(0, 0, 255),
@@ -187,25 +187,25 @@ namespace fgl
 		} RGBA32;
 		
 		/*! alpha value. default value is 255*/
-		byte a;
+		Uint8 a;
 		/*! blue value. default value is 255*/
-		byte b;
+		Uint8 b;
 		/*! green value. default value is 255*/
-		byte g;
+		Uint8 g;
 		/*! red value. default value is 255*/
-		byte r;
+		Uint8 r;
 		
 		/*! default constructor*/
 		Color();
 		/*! Constructs a Color object from an RGBA32 constant
 			\param rgba an RGBA 32 bit constant constant*/
-		Color(const fgl::Color::RGBA32& rgba);
+		Color(Uint32 rgba);
 		/*! Constructs a Color object with an rgba value
 			\param r the red value
 			\param g the green value
 			\param b the blue value
 			\param a the alpha value*/
-		Color(byte r, byte g, byte b, byte a=255);
+		Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a=255);
 		/*! Constructs a Color object with a given Dictionary of r,g,b,a values
 			\param colorValues a Dictionary of r,g,b,a values for this color
 			\example
@@ -219,7 +219,7 @@ namespace fgl
 		
 		
 		/*! assignment operator*/
-		Color&operator=(const fgl::Color::RGBA32&rgba);
+		Color&operator=(Uint32 rgba);
 		/*! equality operator*/
 		bool operator==(const Color&) const;
 		/*! inequality operator*/
@@ -228,27 +228,27 @@ namespace fgl
 		
 		/*! Creates a 32 bit RGBA integer
 			\returns an unsigned 32 bit integer*/
-		fgl::Uint32 getRGBA() const;
+		Uint32 getRGBA() const;
 		/*! Creates a 32 bit ARGB integer
 			\returns an unsigned 32 bit integer*/
-		fgl::Uint32 getARGB() const;
+		Uint32 getARGB() const;
 		/*! Creates a 32 bit ABGR integer
 			\returns an unsigned 32 bit integer*/
-		fgl::Uint32 getABGR() const;
+		Uint32 getABGR() const;
 		/*! Creates a 32 bit BGRA integer
 			\returns an unsigned 32 bit integer*/
-		fgl::Uint32 getBGRA() const;
+		Uint32 getBGRA() const;
 		
 		
 		/*! Compares another Color to check equality.
 			\param color the color to compare
 			\returns true if the Color objects are equal, and false if they are not equal*/
-		bool equals(const Color&color) const;
+		bool equals(const Color& color) const;
 		
 		/*! Creates a Color object by compositing a Color on top of the current Color. this->r *= (color.r/255);
 			\param comp the Color to composite on top of the current Color
 			\returns a Color object with the given color composited on top of it.*/
-		Color composite(const Color&comp) const;
+		Color composite(const Color& comp) const;
 
 		/*! Inverts the color to its negative
 			\returns a negative Color*/
