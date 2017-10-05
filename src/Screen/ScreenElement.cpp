@@ -115,7 +115,7 @@ namespace fgl
 	{
 		if(visible)
 		{
-			RectangleD frame = getFrame();
+			auto frame = getFrame();
 			if(clipsToFrame)
 			{
 				graphics.clip(frame);

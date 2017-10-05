@@ -35,6 +35,11 @@ namespace fgl
 		virtual bool handleTouchEvent(const TouchEvent& touchEvent) override;
 		/*! \copydoc fgl::ScreenElement::otherElementHandledTouchEvent(const fgl::ScreenElement::TouchEvent&)*/
 		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent) override;
+		
+		/*! \copydoc fgl::ScreenElement::getChildrenApplicationData(fgl::ApplicationData)*/
+		virtual ApplicationData getChildrenApplicationData(ApplicationData appData) const override;
+		/*! \copydoc fgl::ScreenElement::getChildrenGraphics(fgl::Graphics)*/
+		virtual Graphics getChildrenGraphics(Graphics graphics) const override;
 
 	private:
 		Vector2d contentOffset;

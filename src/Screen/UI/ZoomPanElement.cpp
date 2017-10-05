@@ -19,7 +19,7 @@ namespace fgl
 		zoomScale(1),
 		lastScrollbarFocusMillis(0)
 	{
-		//
+		setClippedToFrame(true);
 	}
 	
 	void ZoomPanElement::setContentOffset(const Vector2d& offset)
@@ -70,13 +70,7 @@ namespace fgl
 	
 	void ZoomPanElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
-		auto elementGraphics = graphics;
-		auto frame = getFrame();
-		elementGraphics.clip(RectangleD(frame.x,frame.y,frame.width,frame.height));
-		elementGraphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
-		elementGraphics.scale(zoomScale, zoomScale);
-		ScreenElement::drawElements(appData, elementGraphics);
-		
+		ScreenElement::drawElements(appData, graphics);
 		drawScrollbars(appData, graphics);
 	}
 	
@@ -140,5 +134,21 @@ namespace fgl
 	void ZoomPanElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
 	{
 		//
+	}
+	
+	ApplicationData ZoomPanElement::getChildrenApplicationData(ApplicationData appData) const
+	{
+		appData = ScreenElement::getChildrenApplicationData(appData);
+		appData.getTransform().translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
+		appData.getTransform().scale(zoomScale, zoomScale);
+		return appData;
+	}
+	
+	Graphics ZoomPanElement::getChildrenGraphics(Graphics graphics) const
+	{
+		auto newGraphics = ScreenElement::getChildrenGraphics(graphics);
+		newGraphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
+		newGraphics.scale(zoomScale, zoomScale);
+		return newGraphics;
 	}
 }
