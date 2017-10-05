@@ -384,6 +384,12 @@ namespace fgl
 			return y+height;
 		}
 		
+		/*! Gives the size (width and height) of the Rectangle */
+		Vector2<T> getSize() const
+		{
+			return Vector2<T>(width, height);
+		}
+		
 		/*void scale(double scaleX, double scaleY, const T&originX, const T& originY)
 		{
 			Transform<T> transform;
