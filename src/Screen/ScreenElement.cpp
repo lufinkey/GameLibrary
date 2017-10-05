@@ -452,6 +452,24 @@ namespace fgl
 			element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
 		}
 	}
+	
+	fgl::String ScreenElement::TouchEvent::EventType_toString(EventType eventType)
+	{
+		switch(eventType)
+		{
+			case EVENTTYPE_TOUCHDOWN:
+				return "EVENTTYPE_TOUCHDOWN";
+				
+			case EVENTTYPE_TOUCHMOVE:
+				return "EVENTTYPE_TOUCHMOVE";
+				
+			case EVENTTYPE_TOUCHUP:
+				return "EVENTTYPE_TOUCHUP";
+				
+			case EVENTTYPE_TOUCHCANCEL:
+				return "EVENTTYPE_TOUCHCANCEL";
+		}
+	}
 
 	ScreenElement::TouchEvent::TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse)
 		: eventType(eventType),
@@ -493,5 +511,10 @@ namespace fgl
 	bool ScreenElement::TouchEvent::isMouseEvent() const
 	{
 		return mouse;
+	}
+	
+	fgl::String ScreenElement::TouchEvent::toString() const
+	{
+		return "ScreenElement::TouchEvent(eventType: "+EventType_toString(eventType)+", touchID: "+touchID+", position: "+position.toString()+", mouse: "+mouse+")";
 	}
 }

@@ -178,6 +178,8 @@ namespace fgl
 				EVENTTYPE_TOUCHMOVE,
 				EVENTTYPE_TOUCHCANCEL
 			} EventType;
+			
+			static fgl::String EventType_toString(EventType eventType);
 
 			TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse);
 
@@ -188,6 +190,8 @@ namespace fgl
 			const ApplicationData& getApplicationData() const;
 			const Vector2d& getPosition() const;
 			bool isMouseEvent() const;
+			
+			fgl::String toString() const;
 
 		private:
 			EventType eventType;
