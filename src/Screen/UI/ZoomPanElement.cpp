@@ -9,7 +9,7 @@ namespace fgl
 	}
 	
 	ZoomPanElement::ZoomPanElement(const RectangleD& frame)
-		: ScreenElement(frame),
+		: TouchElement(frame),
 		contentOffset(0,0),
 		contentSize(0,0),
 		zoomScale(1)
@@ -65,10 +65,38 @@ namespace fgl
 	
 	void ZoomPanElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
-		RectangleD frame = getFrame();
-		graphics.clip(RectangleD(frame.x,frame.y,frame.width,frame.height));
-		graphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
-		graphics.scale(zoomScale, zoomScale);
-		ScreenElement::drawElements(appData, graphics);
+		auto elementGraphics = graphics;
+		auto frame = getFrame();
+		elementGraphics.clip(RectangleD(frame.x,frame.y,frame.width,frame.height));
+		elementGraphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
+		elementGraphics.scale(zoomScale, zoomScale);
+		ScreenElement::drawElements(appData, elementGraphics);
+		
+		drawScrollbars(appData, graphics);
+	}
+	
+	void ZoomPanElement::drawScrollbars(ApplicationData appData, Graphics graphics) const
+	{
+		auto frame = getFrame();
+		auto frameSize = frame.getSize();
+		auto realSize = frameSize / zoomScale;
+		fgl::Vector2d sizePortion;
+		fgl::Vector2d offsetPortion;
+		if(contentSize.x != 0 && contentSize.y != 0)
+		{
+			sizePortion = realSize / contentSize;
+			offsetPortion = -contentOffset/contentSize;
+		}
+		
+		graphics.translate(frame.getTopLeft());
+		graphics.setColor(fgl::Color(0,0,0,160));
+		if(sizePortion.x > 0 && sizePortion.x < 1.0)
+		{
+			graphics.fillRect(fgl::RectangleD(offsetPortion.x*frameSize.x, 1, sizePortion.x*frameSize.x, 10));
+		}
+		if(sizePortion.y > 0 && sizePortion.y < 1.0)
+		{
+			graphics.fillRect(fgl::RectangleD(1, offsetPortion.y*frameSize.y, 10, sizePortion.y*frameSize.y));
+		}
 	}
 }

@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <GameLibrary/Screen/ScreenElement.hpp>
+#include "TouchElement.hpp"
 
 namespace fgl
 {
-	class ZoomPanElement : public ScreenElement
+	class ZoomPanElement : public TouchElement
 	{
 	public:
 		ZoomPanElement();
@@ -28,6 +28,8 @@ namespace fgl
 	protected:
 		/*! \copydoc fgl::ScreenElement::drawElements(fgl::ApplicationData,fgl::Graphics)const*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const override;
+		
+		virtual void drawScrollbars(ApplicationData appData, Graphics graphics) const;
 
 	private:
 		Vector2d contentOffset;
