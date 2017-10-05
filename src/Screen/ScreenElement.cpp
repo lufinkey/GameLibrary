@@ -102,11 +102,12 @@ namespace fgl
 	
 	void ScreenElement::drawElements(ApplicationData appData, Graphics graphics) const
 	{
-		graphics.translate(frame.x, frame.y);
+		appData = getChildrenApplicationData(appData);
+		auto childGraphics = getChildrenGraphics(graphics);
 		ArrayList<ScreenElement*> children = childElements;
 		for(auto element : children)
 		{
-			element->draw(appData, graphics);
+			element->draw(appData, childGraphics);
 		}
 	}
 	
@@ -132,6 +133,13 @@ namespace fgl
 		auto frame = getFrame();
 		appData.getTransform().translate(frame.x, frame.y);
 		return appData;
+	}
+	
+	Graphics ScreenElement::getChildrenGraphics(Graphics graphics) const
+	{
+		auto frame = getFrame();
+		graphics.translate(frame.x, frame.y);
+		return graphics;
 	}
 	
 	void ScreenElement::setFrame(const RectangleD& frame_arg)

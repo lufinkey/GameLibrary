@@ -229,6 +229,10 @@ namespace fgl
 			\param appData the ApplicationData object to change
 			\returns the modified ApplicationData */
 		virtual ApplicationData getChildrenApplicationData(ApplicationData appData) const;
+		/*! Called to apply any necessary changes to the Graphics before it's passed to the child elements
+			\param graphics the Graphics object to change
+			\returns the modified Graphics */
+		virtual Graphics getChildrenGraphics(Graphics graphics) const;
 		
 		
 		/*! Called when this element is removed from an element that is stored in a Screen, which is presented on, or is itself, a root screen.
