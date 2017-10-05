@@ -9,16 +9,19 @@ namespace fgl
 	{
 	public:
 		ZoomPanElement();
-		explicit ZoomPanElement(const RectangleD&frame);
+		explicit ZoomPanElement(const RectangleD& frame);
 		
-		void setContentOffset(const Vector2d&offset);
+		void setContentOffset(const Vector2d& offset);
 		const Vector2d& getContentOffset() const;
+		
+		void setContentSize(const Vector2d& size);
+		const Vector2d& getContentSize() const;
 		
 		void setZoomScale(double zoomScale);
 		double getZoomScale() const;
 		
-		void zoomOnPoint(const Vector2d&point, double zoomScale);
-		void zoomOnPointInFrame(const Vector2d&point, double zoomScale);
+		void zoomOnPoint(const Vector2d& point, double zoomScale);
+		void zoomOnPointInFrame(const Vector2d& point, double zoomScale);
 
 		//TODO implement private touch event handling functions, and pass transformed appData to child elements
 		
@@ -28,6 +31,7 @@ namespace fgl
 
 	private:
 		Vector2d contentOffset;
+		Vector2d contentSize;
 		double zoomScale;
 	};
 }

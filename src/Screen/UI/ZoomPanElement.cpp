@@ -8,13 +8,16 @@ namespace fgl
 		//
 	}
 	
-	ZoomPanElement::ZoomPanElement(const RectangleD&frame) : ScreenElement(frame),
-		contentOffset(0,0), zoomScale(1)
+	ZoomPanElement::ZoomPanElement(const RectangleD& frame)
+		: ScreenElement(frame),
+		contentOffset(0,0),
+		contentSize(0,0),
+		zoomScale(1)
 	{
 		//
 	}
 	
-	void ZoomPanElement::setContentOffset(const Vector2d&offset)
+	void ZoomPanElement::setContentOffset(const Vector2d& offset)
 	{
 		contentOffset = offset;
 	}
@@ -22,6 +25,16 @@ namespace fgl
 	const Vector2d& ZoomPanElement::getContentOffset() const
 	{
 		return contentOffset;
+	}
+	
+	void ZoomPanElement::setContentSize(const Vector2d& size)
+	{
+		contentSize = size;
+	}
+	
+	const Vector2d& ZoomPanElement::getContentSize() const
+	{
+		return contentSize;
 	}
 	
 	void ZoomPanElement::setZoomScale(double zoom)
