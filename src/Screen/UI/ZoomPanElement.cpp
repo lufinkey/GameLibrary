@@ -1,18 +1,23 @@
 
 #include <GameLibrary/Screen/UI/ZoomPanElement.hpp>
+#include <GameLibrary/IO/Console.hpp>
 
 namespace fgl
 {
+	#define SCROLLBAR_VISIBLE_TIME 1800
+	#define SCROLLBAR_FADE_TIME 1200
+	
 	ZoomPanElement::ZoomPanElement() : ZoomPanElement(RectangleD(0,0,0,0))
 	{
 		//
 	}
 	
 	ZoomPanElement::ZoomPanElement(const RectangleD& frame)
-		: TouchElement(frame),
+		: ScreenElement(frame),
 		contentOffset(0,0),
 		contentSize(0,0),
-		zoomScale(1)
+		zoomScale(1),
+		lastScrollbarFocusMillis(0)
 	{
 		//
 	}
@@ -88,8 +93,20 @@ namespace fgl
 			offsetPortion = -contentOffset/contentSize;
 		}
 		
+		double visibility = 0;
+		auto currentTimeMillis = appData.getTime().getMilliseconds();
+		auto timeSinceLastFocus = currentTimeMillis - lastScrollbarFocusMillis;
+		if(timeSinceLastFocus < SCROLLBAR_VISIBLE_TIME)
+		{
+			visibility = 0.7;
+		}
+		else if(timeSinceLastFocus < (SCROLLBAR_VISIBLE_TIME+SCROLLBAR_FADE_TIME))
+		{
+			visibility = 0.7 - (((double)(timeSinceLastFocus - SCROLLBAR_VISIBLE_TIME) / (double)SCROLLBAR_FADE_TIME)*0.7);
+		}
+		
 		graphics.translate(frame.getTopLeft());
-		graphics.setColor(fgl::Color(0,0,0,160));
+		graphics.setColor(fgl::Color(0,0,0,(fgl::Uint8)(255.0*visibility)));
 		if(sizePortion.x > 0 && sizePortion.x < 1.0)
 		{
 			graphics.fillRect(fgl::RectangleD(offsetPortion.x*frameSize.x, 1, sizePortion.x*frameSize.x, 10));
@@ -98,5 +115,30 @@ namespace fgl
 		{
 			graphics.fillRect(fgl::RectangleD(1, offsetPortion.y*frameSize.y, 10, sizePortion.y*frameSize.y));
 		}
+	}
+	
+	bool ZoomPanElement::handleTouchEvent(const TouchEvent& touchEvent)
+	{
+		switch(touchEvent.getEventType())
+		{
+			case TouchEvent::EVENTTYPE_TOUCHDOWN:
+			break;
+			
+			case TouchEvent::EVENTTYPE_TOUCHMOVE:
+			lastScrollbarFocusMillis = touchEvent.getApplicationData().getTime().getMilliseconds();
+			break;
+			
+			case TouchEvent::EVENTTYPE_TOUCHUP:
+			break;
+			
+			case TouchEvent::EVENTTYPE_TOUCHCANCEL:
+			break;
+		}
+		return false;
+	}
+	
+	void ZoomPanElement::otherElementHandledTouchEvent(const TouchEvent& touchEvent)
+	{
+		//
 	}
 }
