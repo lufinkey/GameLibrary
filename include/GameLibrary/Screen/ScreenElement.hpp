@@ -170,6 +170,7 @@ namespace fgl
 		//! Represents a touch event on a ScreenElement
 		class TouchEvent
 		{
+			friend class Screen;
 		public:
 			typedef enum
 			{
@@ -180,24 +181,25 @@ namespace fgl
 			} EventType;
 			
 			static fgl::String EventType_toString(EventType eventType);
-
-			TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse);
-
-			TouchEvent relativeTo(const Vector2d& point) const;
+			
+			TouchEvent withAppData(const ApplicationData& appData) const;
 
 			const EventType& getEventType() const;
 			unsigned int getTouchID() const;
 			const ApplicationData& getApplicationData() const;
-			const Vector2d& getPosition() const;
+			Vector2d getPosition() const;
 			bool isMouseEvent() const;
 			
 			fgl::String toString() const;
 
 		private:
+			TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& realPosition, bool isMouse);
+			
 			EventType eventType;
 			unsigned int touchID;
 			ApplicationData appData;
-			Vector2d position;
+			Vector2d realPosition;
+			TransformD inverseTransform;
 			bool mouse;
 		};
 		
@@ -221,6 +223,12 @@ namespace fgl
 			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData
 			\param graphics the Graphics object used to draw the element*/
 		virtual void drawElements(ApplicationData appData, Graphics graphics) const;
+		
+		
+		/*! Called to apply any necessary changes to the ApplicationData before it's passed to the child elements
+			\param appData the ApplicationData object to change
+			\returns the modified ApplicationData */
+		virtual ApplicationData getChildrenApplicationData(ApplicationData appData) const;
 		
 		
 		/*! Called when this element is removed from an element that is stored in a Screen, which is presented on, or is itself, a root screen.

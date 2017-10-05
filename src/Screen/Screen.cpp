@@ -928,7 +928,6 @@ namespace fgl
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
-		TransformD mouseTransform = appData.getTransform().getInverse();
 		
 		ArrayList<unsigned int> mouseIndexes;
 		unsigned int mouseCount = Mouse::getTotalMouseInstances(window);
@@ -960,7 +959,7 @@ namespace fgl
 			{
 				MouseTouchData touchData;
 				touchData.touchID = mouseIndex;
-				touchData.pos = mouseTransform.transform(Mouse::getPosition(window, mouseIndex));
+				touchData.pos = Mouse::getPosition(window, mouseIndex);
 				//TODO add mouse connect handler
 				element->sendTouchEvent(ScreenElement::TouchEvent(ScreenElement::TouchEvent::EVENTTYPE_TOUCHMOVE, touchData.touchID, appData, touchData.pos, true));
 				for(size_t j=0; j<MOUSEBUTTONS_COUNT; j++)
@@ -978,7 +977,7 @@ namespace fgl
 			else
 			{
 				touchData_ptr = &currentTouches[touch_index];
-				Vector2d mousepos = mouseTransform.transform(Mouse::getPosition(window, touchData_ptr->touchID));
+				Vector2d mousepos = Mouse::getPosition(window, touchData_ptr->touchID);
 				if(mousepos!=touchData_ptr->pos)
 				{
 					//mouse moved
@@ -1013,7 +1012,6 @@ namespace fgl
 	{
 		Window* window = appData.getWindow();
 		ScreenElement* element = getElement();
-		TransformD touchTransform = appData.getTransform().getInverse();
 
 		ArrayList<unsigned int> touchIDs = Multitouch::getTouchIDs(window);
 
@@ -1038,7 +1036,7 @@ namespace fgl
 			{
 				MouseTouchData touchData;
 				touchData.touchID = touchID;
-				touchData.pos = touchTransform.transform(Multitouch::getPosition(window, touchID));
+				touchData.pos = Multitouch::getPosition(window, touchID);
 				for(size_t j=0; j<MOUSEBUTTONS_COUNT; j++)
 				{
 					touchData.state[j] = false;
@@ -1050,7 +1048,7 @@ namespace fgl
 			else
 			{
 				MouseTouchData& touchData = currentTouches[touch_index];
-				Vector2d touchpos = touchTransform.transform(Multitouch::getPosition(window, touchData.touchID));
+				Vector2d touchpos = Multitouch::getPosition(window, touchData.touchID);
 				if(touchpos!=touchData.pos)
 				{
 					//touch moved

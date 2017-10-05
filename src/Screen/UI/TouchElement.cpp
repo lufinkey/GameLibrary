@@ -21,17 +21,14 @@ namespace fgl
 		{
 			for(size_t i=(touches.size()-1); i!=-1; i--)
 			{
-				const TouchEvent& touchData = touches[i].lastEvent;
-				cancelTouch(TouchEvent(touchData.getEventType(), touchData.getTouchID(), appData, touchData.getPosition(), touchData.isMouseEvent()));
+				auto& touchEvent = touches[i].lastEvent;
+				cancelTouch(touchEvent.withAppData(appData));
 			}
 		}
 		unsigned int mouseCount = Mouse::getTotalMouseInstances(appData.getWindow());
 		for(unsigned int i=0; i<mouseCount; i++)
 		{
 			Vector2d position = appData.getTransform().getInverse().transform(Mouse::getPosition(appData.getWindow(), i));
-			RectangleD frame = getFrame();
-			position.x -= frame.x;
-			position.y -= frame.y;
 			if(isPointInside(position))
 			{
 				size_t index = enteredMouses.indexOf(i);
@@ -135,10 +132,7 @@ namespace fgl
 
 	bool TouchElement::isPointInside(const Vector2d& point) const
 	{
-		RectangleD frame = getFrame();
-		frame.x = 0;
-		frame.y = 0;
-		return frame.contains(point);
+		return getFrame().contains(point);
 	}
 
 

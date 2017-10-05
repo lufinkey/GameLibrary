@@ -48,13 +48,12 @@ namespace fgl
 	
 	void ScreenElement::update(ApplicationData appData)
 	{
-		RectangleD frame = getFrame();
-		appData.getTransform().translate(frame.x, frame.y);
 		updateElements(appData);
 	}
 	
 	void ScreenElement::updateElements(ApplicationData appData)
 	{
+		appData = getChildrenApplicationData(appData);
 		ArrayList<ScreenElement*> children = childElements;
 		for(size_t i=0; i<children.size(); i++)
 		{
@@ -126,6 +125,13 @@ namespace fgl
 			drawElements(appData, graphics);
 			drawBorder(appData, graphics);
 		}
+	}
+	
+	ApplicationData ScreenElement::getChildrenApplicationData(ApplicationData appData) const
+	{
+		auto frame = getFrame();
+		appData.getTransform().translate(frame.x, frame.y);
+		return appData;
 	}
 	
 	void ScreenElement::setFrame(const RectangleD& frame_arg)
@@ -408,30 +414,30 @@ namespace fgl
 	{
 		if(handleTouchEvent(touchEvent))
 		{
+			auto childEvent = touchEvent.withAppData(getChildrenApplicationData(touchEvent.getApplicationData()));
 			ArrayList<ScreenElement*> elements = childElements;
 			for(size_t i=(elements.size()-1); i!=-1; i--)
 			{
 				ScreenElement* element = elements[i];
-				RectangleD frame = element->getFrame();
-				element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
+				element->sendHandledTouchEvent(childEvent);
 			}
 			return true;
 		}
 		else
 		{
+			auto childEvent = touchEvent.withAppData(getChildrenApplicationData(touchEvent.getApplicationData()));
 			bool handled = false;
 			ArrayList<ScreenElement*> elements = childElements;
 			for(size_t i=(elements.size()-1); i!=-1; i--)
 			{
 				ScreenElement* element = elements[i];
-				RectangleD frame = element->getFrame();
 				if(handled)
 				{
-					element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
+					element->sendHandledTouchEvent(childEvent);
 				}
 				else
 				{
-					if(element->sendTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y))))
+					if(element->sendTouchEvent(childEvent))
 					{
 						handled = true;
 					}
@@ -444,12 +450,12 @@ namespace fgl
 	void ScreenElement::sendHandledTouchEvent(const TouchEvent& touchEvent)
 	{
 		otherElementHandledTouchEvent(touchEvent);
+		auto childEvent = touchEvent.withAppData(getChildrenApplicationData(touchEvent.getApplicationData()));
 		ArrayList<ScreenElement*> elements = childElements;
 		for(size_t i=(elements.size()-1); i!=-1; i--)
 		{
 			ScreenElement* element = elements[i];
-			RectangleD frame = element->getFrame();
-			element->sendHandledTouchEvent(touchEvent.relativeTo(Vector2d(frame.x, frame.y)));
+			element->sendHandledTouchEvent(childEvent);
 		}
 	}
 	
@@ -471,21 +477,20 @@ namespace fgl
 		}
 	}
 
-	ScreenElement::TouchEvent::TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& position, bool isMouse)
+	ScreenElement::TouchEvent::TouchEvent(const EventType& eventType, unsigned int touchID, ApplicationData appData, const Vector2d& realPosition, bool isMouse)
 		: eventType(eventType),
 		touchID(touchID),
 		appData(appData),
-		position(position),
+		realPosition(realPosition),
+		inverseTransform(appData.getTransform().getInverse()),
 		mouse(isMouse)
 	{
 		//
 	}
 
-	ScreenElement::TouchEvent ScreenElement::TouchEvent::relativeTo(const Vector2d& point) const
+	ScreenElement::TouchEvent ScreenElement::TouchEvent::withAppData(const ApplicationData& newAppData) const
 	{
-		ApplicationData newAppData = appData;
-		newAppData.getTransform().translate(point);
-		return TouchEvent(eventType, touchID, newAppData, position-point, mouse);
+		return TouchEvent(eventType, touchID, newAppData, realPosition, mouse);
 	}
 
 	const ScreenElement::TouchEvent::EventType& ScreenElement::TouchEvent::getEventType() const
@@ -503,9 +508,9 @@ namespace fgl
 		return appData;
 	}
 
-	const Vector2d& ScreenElement::TouchEvent::getPosition() const
+	Vector2d ScreenElement::TouchEvent::getPosition() const
 	{
-		return position;
+		return inverseTransform.transform(realPosition);
 	}
 
 	bool ScreenElement::TouchEvent::isMouseEvent() const
@@ -515,6 +520,6 @@ namespace fgl
 	
 	fgl::String ScreenElement::TouchEvent::toString() const
 	{
-		return "ScreenElement::TouchEvent(eventType: "+EventType_toString(eventType)+", touchID: "+touchID+", position: "+position.toString()+", mouse: "+mouse+")";
+		return "ScreenElement::TouchEvent(eventType: "+EventType_toString(eventType)+", touchID: "+touchID+", position: "+getPosition().toString()+", mouse: "+mouse+")";
 	}
 }
