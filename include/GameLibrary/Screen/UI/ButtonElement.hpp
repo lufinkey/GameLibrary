@@ -36,22 +36,28 @@ namespace fgl
 		bool isEnabled() const;
 		
 		void setTitle(const String& title, ButtonState state);
-		const String& getTitle(ButtonState state) const;
+		void setTitle(std::nullptr_t, ButtonState state);
+		String getTitle(ButtonState state) const;
 		
 		void setTitleColor(const Color& titleColor, ButtonState state);
-		const Color& getTitleColor(ButtonState state) const;
+		void setTitleColor(std::nullptr_t, ButtonState state);
+		Color getTitleColor(ButtonState state) const;
 		
 		void setTintColor(const Color& tintColor, ButtonState state);
-		const Color& getTintColor(ButtonState state) const;
+		void setTintColor(std::nullptr_t, ButtonState state);
+		Color getTintColor(ButtonState state) const;
 		
 		void setImage(TextureImage* image, ButtonState state);
+		void setImage(std::nullptr_t, ButtonState state);
 		TextureImage* getImage(ButtonState state) const;
 
 		void setBackgroundImage(TextureImage* image, ButtonState state);
+		void setBackgroundImage(std::nullptr_t, ButtonState state);
 		TextureImage* getBackgroundImage(ButtonState state) const;
 		
 		void setBackgroundColor(const Color& color, ButtonState state);
-		const Color& getBackgroundColor(ButtonState state) const;
+		void setBackgroundColor(std::nullptr_t, ButtonState state);
+		Color getBackgroundColor(ButtonState state) const;
 		
 		TextElement* getTitleElement() const;
 		ImageElement* getImageElement() const;

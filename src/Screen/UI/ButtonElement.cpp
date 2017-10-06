@@ -151,7 +151,13 @@ namespace fgl
 		updateStateProperties();
 	}
 	
-	const String& ButtonElement::getTitle(ButtonState state) const
+	void ButtonElement::setTitle(std::nullptr_t, ButtonState state)
+	{
+		titles.remove(state);
+		updateStateProperties();
+	}
+	
+	String ButtonElement::getTitle(ButtonState state) const
 	{
 		try
 		{
@@ -159,7 +165,14 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return titles.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return titles.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return "";
+			}
 		}
 	}
 	
@@ -169,7 +182,13 @@ namespace fgl
 		updateStateProperties();
 	}
 	
-	const Color& ButtonElement::getTitleColor(ButtonState state) const
+	void ButtonElement::setTitleColor(std::nullptr_t, ButtonState state)
+	{
+		titleColors.remove(state);
+		updateStateProperties();
+	}
+	
+	Color ButtonElement::getTitleColor(ButtonState state) const
 	{
 		try
 		{
@@ -177,7 +196,14 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return titleColors.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return titleColors.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return Color::TRANSPARENT;
+			}
 		}
 	}
 	
@@ -187,7 +213,13 @@ namespace fgl
 		updateStateProperties();
 	}
 	
-	const Color& ButtonElement::getTintColor(ButtonState state) const
+	void ButtonElement::setTintColor(std::nullptr_t, ButtonState state)
+	{
+		tintColors.remove(state);
+		updateStateProperties();
+	}
+	
+	Color ButtonElement::getTintColor(ButtonState state) const
 	{
 		try
 		{
@@ -195,13 +227,26 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return tintColors.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return tintColors.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return Color::TRANSPARENT;
+			}
 		}
 	}
 	
 	void ButtonElement::setImage(TextureImage* image, ButtonState state)
 	{
 		images[state] = image;
+		updateStateProperties();
+	}
+	
+	void ButtonElement::setImage(std::nullptr_t, ButtonState state)
+	{
+		images.remove(state);
 		updateStateProperties();
 	}
 	
@@ -213,13 +258,26 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return images.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return images.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return nullptr;
+			}
 		}
 	}
 
 	void ButtonElement::setBackgroundImage(TextureImage* image, ButtonState state)
 	{
 		backgroundImages[state] = image;
+		updateStateProperties();
+	}
+	
+	void ButtonElement::setBackgroundImage(std::nullptr_t, ButtonState state)
+	{
+		backgroundImages.remove(state);
 		updateStateProperties();
 	}
 
@@ -231,7 +289,14 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return backgroundImages.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return backgroundImages.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return nullptr;
+			}
 		}
 	}
 	
@@ -241,7 +306,13 @@ namespace fgl
 		updateStateProperties();
 	}
 	
-	const Color& ButtonElement::getBackgroundColor(ButtonState state) const
+	void ButtonElement::setBackgroundColor(std::nullptr_t, ButtonState state)
+	{
+		backgroundColors.remove(state);
+		updateStateProperties();
+	}
+	
+	Color ButtonElement::getBackgroundColor(ButtonState state) const
 	{
 		try
 		{
@@ -249,7 +320,14 @@ namespace fgl
 		}
 		catch(const DictionaryKeyNotFoundException&)
 		{
-			return backgroundColors.get(BUTTONSTATE_NORMAL);
+			try
+			{
+				return backgroundColors.get(BUTTONSTATE_NORMAL);
+			}
+			catch(const DictionaryKeyNotFoundException&)
+			{
+				return Color::TRANSPARENT;
+			}
 		}
 	}
 	
