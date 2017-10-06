@@ -26,7 +26,6 @@ namespace fgl
 	{
 		auto fontSize = getAdjustedFontSize();
 		ArrayList<MeasuredLine> lines = measureLines(fontSize);
-		double lineHeight = (double)fontSize;
 		font->setSize(fontSize);
 		graphics.setFont(font);
 		graphics.setColor(textColor);
@@ -36,8 +35,9 @@ namespace fgl
 		double fullHeight = 0;
 		for(auto& line : lines)
 		{
-			fullHeight+=line.size.y;
+			fullHeight += line.size.y;
 		}
+		printf("fullHeight: %f\n", fullHeight);
 		switch(verticalTextAlignment)
 		{
 			case VERTICALALIGN_TOP:
@@ -58,7 +58,7 @@ namespace fgl
 			for(auto& line : lines)
 			{
 				graphics.drawString(line.text, Vector2d(frame.x, y+line.size.y));
-				y += lineHeight;
+				y += line.size.y;
 			}
 			break;
 
@@ -68,7 +68,7 @@ namespace fgl
 				for(auto& line : lines)
 				{
 					graphics.drawString(line.text, Vector2d(centerX-(line.size.x/2), y+line.size.y));
-					y += lineHeight;
+					y += line.size.y;
 				}
 			}
 			break;
@@ -79,7 +79,7 @@ namespace fgl
 				for(auto& line : lines)
 				{
 					graphics.drawString(line.text, Vector2d(rightX-line.size.x, y+line.size.y));
-					y += lineHeight;
+					y += line.size.y;
 				}
 			}
 			break;
