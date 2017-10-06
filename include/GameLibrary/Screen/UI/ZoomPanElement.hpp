@@ -40,6 +40,10 @@ namespace fgl
 		virtual ApplicationData getChildrenApplicationData(ApplicationData appData) const override;
 		/*! \copydoc fgl::ScreenElement::getChildrenGraphics(fgl::Graphics)*/
 		virtual Graphics getChildrenGraphics(Graphics graphics) const override;
+		
+		/*! Gets the horizontal and vertical scrollbar frames
+			\returns a pair containing the horizontal and vertical scrollbar frames, respectively */
+		std::pair<RectangleD, RectangleD> getScrollbarFrames() const;
 
 	private:
 		Vector2d contentOffset;
@@ -47,5 +51,13 @@ namespace fgl
 		double zoomScale;
 		
 		long long lastScrollbarFocusMillis;
+		
+		unsigned int horizontalScrollbarTouchID;
+		Vector2d horizontalScrollbarTouchOffset;
+		bool horizontalScrollbarDragging;
+		
+		unsigned int verticalScrollbarTouchID;
+		Vector2d verticalScrollbarTouchOffset;
+		bool verticalScrollbarDragging;
 	};
 }
