@@ -150,13 +150,13 @@ namespace fgl
 				auto moveAmount = movePortion*contentSize.x;
 				auto viewWidth = frame.width * zoomScale;
 				contentOffset.x -= moveAmount;
-				if(contentOffset.x > 0)
+				if(contentOffset.x < 0)
 				{
 					contentOffset.x = 0;
 				}
-				else if(-(contentOffset.x-viewWidth) > contentSize.x)
+				else if((contentOffset.x+viewWidth) > contentSize.x)
 				{
-					contentOffset.x = -(contentSize.x-viewWidth);
+					contentOffset.x = contentSize.x-viewWidth;
 				}
 				return true;
 			}
@@ -171,9 +171,9 @@ namespace fgl
 				{
 					contentOffset.y = 0;
 				}
-				else if(-(contentOffset.y-viewHeight) > contentSize.y)
+				else if((contentOffset.y+viewHeight) > contentSize.y)
 				{
-					contentOffset.y = -(contentSize.y-viewHeight);
+					contentOffset.y = contentSize.y+viewHeight;
 				}
 				return true;
 			}
@@ -219,7 +219,7 @@ namespace fgl
 	ApplicationData ZoomPanElement::getChildrenApplicationData(ApplicationData appData) const
 	{
 		appData = ScreenElement::getChildrenApplicationData(appData);
-		appData.getTransform().translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
+		appData.getTransform().translate(-contentOffset.x*zoomScale, -contentOffset.y*zoomScale);
 		appData.getTransform().scale(zoomScale, zoomScale);
 		return appData;
 	}
@@ -227,7 +227,7 @@ namespace fgl
 	Graphics ZoomPanElement::getChildrenGraphics(Graphics graphics) const
 	{
 		auto newGraphics = ScreenElement::getChildrenGraphics(graphics);
-		newGraphics.translate(contentOffset.x*zoomScale, contentOffset.y*zoomScale);
+		newGraphics.translate(-contentOffset.x*zoomScale, -contentOffset.y*zoomScale);
 		newGraphics.scale(zoomScale, zoomScale);
 		return newGraphics;
 	}
@@ -248,7 +248,7 @@ namespace fgl
 		}
 		
 		sizePortion = realSize / contentSize;
-		offsetPortion = -contentOffset/contentSize;
+		offsetPortion = contentOffset/contentSize;
 		
 		return {
 			RectangleD(offsetPortion.x*frameSize.x, 1, sizePortion.x*frameSize.x, 10),
