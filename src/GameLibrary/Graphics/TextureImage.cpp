@@ -181,7 +181,7 @@ namespace fgl
 		pixels.resize(totalSize);
 		pixels.shrink_to_fit();
 
-		unsigned int pitchDif = ((unsigned int)surface->pitch - (w*bpp));
+		unsigned int pitchDif = ((unsigned int)surface->pitch - ((unsigned int)w*bpp));
 
 		size_t counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
@@ -459,12 +459,12 @@ namespace fgl
 
 	Vector2u TextureImage::getDimensions() const
 	{
-		return Vector2u(width, height);
+		return Vector2u((unsigned int)width, (unsigned int)height);
 	}
 
 	PolygonD TextureImage::traceOutline() const
 	{
-		return traceOutline(RectangleU(0, 0, width, height));
+		return traceOutline(RectangleU(0, 0, (unsigned int)width, (unsigned int)height));
 	}
 
 	PolygonD TextureImage::traceOutline(const RectangleU& sourceRect) const

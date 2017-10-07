@@ -125,7 +125,7 @@ namespace fgl
 		size_t total = width*height;
 		pixels.resize(total);
 
-		unsigned int pitchDif = ((unsigned int)surface->pitch - (width*bpp));
+		unsigned int pitchDif = ((unsigned int)surface->pitch - ((unsigned int)width*bpp));
 
 		size_t counter = 0;
 		byte*surfacePixels = (byte*)surface->pixels;
@@ -271,7 +271,7 @@ namespace fgl
 				if(format.equals("png"))
 				{
 					//TODO check for integer overflow
-					SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)width, (int)height, 32, width*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+					SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)width, (int)height, 32, (int)width*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 					if(surface == nullptr)
 					{
 						if(error!=nullptr)
@@ -296,7 +296,7 @@ namespace fgl
 				}
 				else if(format.equals("bmp"))
 				{
-					SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)width, (int)height, 32, width*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+					SDL_Surface* surface = SDL_CreateRGBSurfaceFrom((void*)pixels.getData(), (int)width, (int)height, 32, (int)width*4, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 					if(surface == nullptr)
 					{
 						if(error!=nullptr)
@@ -408,9 +408,9 @@ namespace fgl
 			return;
 		}
 		RectangleD dstRect = RectangleD(0,0,(double)width,(double)height);
-		PixelIterator pxlIter(Vector2u(width,height), RectangleU(0,0,width,height), dstRect, dstRect, 1, 1, false, false);
+		PixelIterator pxlIter(Vector2u((unsigned int)width,(unsigned int)height), RectangleU(0,0,(unsigned int)width,(unsigned int)height), dstRect, dstRect, 1, 1, false, false);
 		
-		PixelIterator mask_pxlIter(Vector2u(mask.width,mask.height), RectangleU(0,0,mask.width,mask.height), dstRect, dstRect, 1, 1, false, false);
+		PixelIterator mask_pxlIter(Vector2u((unsigned int)mask.width,(unsigned int)mask.height), RectangleU(0,0,(unsigned int)mask.width,(unsigned int)mask.height), dstRect, dstRect, 1, 1, false, false);
 		
 		std::vector<bool> masked(pixels.size());
 		size_t total = pixels.size();
@@ -465,6 +465,6 @@ namespace fgl
 
 	fgl::Vector2u Image::getDimensions() const
 	{
-		return fgl::Vector2u(width, height);
+		return fgl::Vector2u((unsigned int)width, (unsigned int)height);
 	}
 }

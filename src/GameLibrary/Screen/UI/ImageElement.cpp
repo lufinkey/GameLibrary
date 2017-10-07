@@ -107,7 +107,7 @@ namespace fgl
 		}
 		else if(srcrect.x==-1 && srcrect.y==-1 && srcrect.width==-1 && srcrect.height==-1)
 		{
-			return RectangleU(0,0,image->getWidth(),image->getHeight());
+			return RectangleU(0,0,(unsigned int)image->getWidth(),(unsigned int)image->getHeight());
 		}
 		else
 		{

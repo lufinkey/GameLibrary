@@ -48,8 +48,8 @@ namespace fgl
 		}
 		else
 		{
-			unsigned int width = (img->getWidth()/cols);
-			unsigned int height = (img->getHeight()/rows);
+			unsigned int width = ((unsigned int)img->getWidth()/cols);
+			unsigned int height = ((unsigned int)img->getHeight()/rows);
 			return RectangleU((x*width), (y*height), width, height);
 		}
 	}
@@ -170,8 +170,8 @@ namespace fgl
 		}
 		else
 		{
-			unsigned int imgwidth = img->getWidth();
-			unsigned int imgheight = img->getHeight();
+			unsigned int imgwidth = (unsigned int)img->getWidth();
+			unsigned int imgheight = (unsigned int)img->getHeight();
 			return Vector2u(imgwidth/animFrame.cols, imgheight/animFrame.rows);
 		}
 	}
@@ -368,8 +368,8 @@ namespace fgl
 		}
 		else
 		{
-			unsigned int imgwidth = img->getWidth();
-			unsigned int imgheight = img->getHeight();
+			unsigned int imgwidth = (unsigned int)img->getWidth();
+			unsigned int imgheight = (unsigned int)img->getHeight();
 			double width = ((double)imgwidth/(double)animFrame.cols);
 			double height = ((double)imgheight/(double)animFrame.rows);
 			double left = -(width/2);

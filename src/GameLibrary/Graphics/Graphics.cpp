@@ -975,8 +975,8 @@ namespace fgl
 			throw IllegalArgumentException("img", "cannot be null");
 		}
 		//SDL_Texture*texture = (SDL_Texture*)img->texture;
-		unsigned int texWidth = img->getWidth();
-		unsigned int texHeight = img->getHeight();
+		unsigned int texWidth = (unsigned int)img->getWidth();
+		unsigned int texHeight = (unsigned int)img->getHeight();
 
 		double dx1 = x;
 		double dy1 = y;
@@ -997,8 +997,8 @@ namespace fgl
 			throw IllegalArgumentException("img", "cannot be null");
 		}
 		//SDL_Texture*texture = (SDL_Texture*)img->texture;
-		unsigned int texWidth = img->width;
-		unsigned int texHeight = img->height;
+		unsigned int texWidth = (unsigned int)img->width;
+		unsigned int texHeight = (unsigned int)img->height;
 
 		double dx1 = x;
 		double dy1 = y;
@@ -1018,8 +1018,8 @@ namespace fgl
 		{
 			throw IllegalArgumentException("img", "cannot be null");
 		}
-		unsigned int texWidth = img->width;
-		unsigned int texHeight = img->height;
+		unsigned int texWidth = (unsigned int)img->width;
+		unsigned int texHeight = (unsigned int)img->height;
 		if(texWidth != 0 && texHeight != 0)
 		{
 			Vector2d pnt1 = transform.transform(Vector2d(dx1, dy1));

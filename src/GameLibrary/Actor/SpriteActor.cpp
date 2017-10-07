@@ -428,7 +428,7 @@ namespace fgl
 			PixelIterator*pxlIter = nullptr;
 			if(rotation == 0)
 			{
-				Vector2u dimensions(img->getWidth(), img->getHeight());
+				Vector2u dimensions((unsigned int)img->getWidth(), (unsigned int)img->getHeight());
 				pxlIter = new PixelIterator(dimensions, srcRect, frame, overlap, incr, incr, mirrorHorizontal, mirrorVertical);
 			}
 			else
@@ -437,7 +437,7 @@ namespace fgl
 				transform.translate(-(width/2), -(height/2));
 				double ratiox = ((double)srcRect.width)/width;
 				double ratioy = ((double)srcRect.height)/height;
-				Vector2u dimensions(img->getWidth(), img->getHeight());
+				Vector2u dimensions((unsigned int)img->getWidth(), (unsigned int)img->getHeight());
 				pxlIter = new PixelIterator(dimensions, srcRect, frame, overlap, incr, incr, transform, Vector2d(ratiox, ratioy), mirrorHorizontal, mirrorVertical);
 			}
 			PixelIterator& pxlIterRef = *pxlIter;
@@ -445,7 +445,7 @@ namespace fgl
 			PixelIterator*actor_pxlIter = nullptr;
 			if(actor->rotation == 0)
 			{
-				Vector2u dimensions(actor_img->getWidth(), actor_img->getHeight());
+				Vector2u dimensions((unsigned int)actor_img->getWidth(), (unsigned int)actor_img->getHeight());
 				actor_pxlIter = new PixelIterator(dimensions, actor_srcRect, actor_frame, actor_overlap, incr, incr, actor_mirrorHorizontal, actor_mirrorVertical);
 			}
 			else
@@ -454,7 +454,7 @@ namespace fgl
 				transform.translate(-(actor->width/2), -(actor->height/2));
 				double ratiox = ((double)actor_srcRect.width)/actor->width;
 				double ratioy = ((double)actor_srcRect.height)/actor->height;
-				Vector2u dimensions(actor_img->getWidth(), actor_img->getHeight());
+				Vector2u dimensions((unsigned int)actor_img->getWidth(), (unsigned int)actor_img->getHeight());
 				actor_pxlIter = new PixelIterator(dimensions, actor_srcRect, actor_frame, actor_overlap, incr, incr, transform, Vector2d(ratiox, ratioy), actor_mirrorHorizontal, actor_mirrorVertical);
 			}
 			PixelIterator& actor_pxlIterRef = *actor_pxlIter;
