@@ -12,12 +12,6 @@
     <File Name="../../../test/Game.cpp"/>
     <File Name="../../../test/main.cpp"/>
   </VirtualDirectory>
-  <Dependencies Name="Debug">
-    <Project Name="GameLibrary"/>
-  </Dependencies>
-  <Dependencies Name="Release">
-    <Project Name="GameLibrary"/>
-  </Dependencies>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -126,4 +120,10 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug">
+    <Project Name="GameLibrary"/>
+  </Dependencies>
+  <Dependencies Name="Release">
+    <Project Name="GameLibrary"/>
+  </Dependencies>
 </CodeLite_Project>

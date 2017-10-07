@@ -1,5 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="GameLibrary" Version="10.0.0" InternalType="Library">
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="GameLibrary">
+      <VirtualDirectory Name="Exception">
+        <VirtualDirectory Name="Utilities">
+          <VirtualDirectory Name="Font">
+            <File Name="../../src/GameLibrary/Exception/Utilities/Font/RenderGlyphException.cpp"/>
+          </VirtualDirectory>
+          <File Name="../../src/GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/ArrayListOutOfBoundsException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/IllegalNumberOperationException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/DataOutOfBoundsException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/StringOutOfBoundsException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/BadNumberCastException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Utilities/BadAnyCastException.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Screen">
+          <File Name="../../src/GameLibrary/Exception/Screen/ScreenNavigationException.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Graphics">
+          <File Name="../../src/GameLibrary/Exception/Graphics/TextureImageCreateException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Graphics/ImageOutOfBoundsException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Graphics/UnsupportedImageFormatException.cpp"/>
+          <File Name="../../src/GameLibrary/Exception/Graphics/TextureImageUpdateException.cpp"/>
+        </VirtualDirectory>
+        <File Name="../../src/GameLibrary/Exception/IllegalArgumentException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/NumberFormatException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/IllegalReturnValueException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/InitializeLibraryException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/Exception.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/OutOfBoundsException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/ExceptionMacros.hpp"/>
+        <File Name="../../src/GameLibrary/Exception/NotImplementedException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/BadCastException.cpp"/>
+        <File Name="../../src/GameLibrary/Exception/IllegalStateException.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="PlatformSpecific">
+        <VirtualDirectory Name="iOS">
+          <File Name="../../src/GameLibrary/PlatformSpecific/iOS/iOSUtils.h"/>
+          <File Name="../../src/GameLibrary/PlatformSpecific/iOS/SystemVersionMacros.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Utilities">
+        <VirtualDirectory Name="Font">
+          <File Name="../../src/GameLibrary/Utilities/Font/RenderedGlyphContainer.cpp"/>
+          <File Name="../../src/GameLibrary/Utilities/Font/Font.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Time">
+          <File Name="../../src/GameLibrary/Utilities/Time/DateTime.cpp"/>
+          <File Name="../../src/GameLibrary/Utilities/Time/TimeInterval.cpp"/>
+        </VirtualDirectory>
+        <File Name="../../src/GameLibrary/Utilities/Tools.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Plist.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Math.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Number.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Thread.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Screen">
+        <VirtualDirectory Name="UI">
+          <File Name="../../src/GameLibrary/Screen/UI/ActorMenuElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/ZoomPanElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/CheckboxElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/ImageElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/PopupScreen.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/TextElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/MenuScreen.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/TextInputElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/ButtonElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/SegmentedSelectorElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/AnimationElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/TouchElement.cpp"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="Transition">
+          <File Name="../../src/GameLibrary/Screen/Transition/FadeZoomTransition.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/Transition/FadeColorTransition.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/Transition/PopoverTransition.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/Transition/SlideTransition.cpp"/>
+        </VirtualDirectory>
+        <File Name="../../src/GameLibrary/Screen/AutoLayoutManager.cpp"/>
+        <File Name="../../src/GameLibrary/Screen/ScreenElement.cpp"/>
+        <File Name="../../src/GameLibrary/Screen/AutoLayoutCalculator.cpp"/>
+        <File Name="../../src/GameLibrary/Screen/Screen.cpp"/>
+        <File Name="../../src/GameLibrary/Screen/ScreenManager.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Input">
+        <File Name="../../src/GameLibrary/Input/Mouse.cpp"/>
+        <File Name="../../src/GameLibrary/Input/Keyboard.cpp"/>
+        <File Name="../../src/GameLibrary/Input/Multitouch.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Actor">
+        <File Name="../../src/GameLibrary/Actor/WireframeActor.cpp"/>
+        <File Name="../../src/GameLibrary/Actor/AnimationPlayer.cpp"/>
+        <File Name="../../src/GameLibrary/Actor/TextActor.cpp"/>
+        <File Name="../../src/GameLibrary/Actor/Actor.cpp"/>
+        <File Name="../../src/GameLibrary/Actor/Animation.cpp"/>
+        <File Name="../../src/GameLibrary/Actor/SpriteActor.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="IO">
+        <File Name="../../src/GameLibrary/IO/FileTools.cpp"/>
+        <File Name="../../src/GameLibrary/IO/Console.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Audio">
+        <File Name="../../src/GameLibrary/Audio/Music.cpp"/>
+        <File Name="../../src/GameLibrary/Audio/Sound.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Window">
+        <File Name="../../src/GameLibrary/Window/AssetManager.cpp"/>
+        <File Name="../../src/GameLibrary/Window/MessageBox.cpp"/>
+        <File Name="../../src/GameLibrary/Window/Window.cpp"/>
+        <File Name="../../src/GameLibrary/Window/Viewport.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Application">
+        <File Name="../../src/GameLibrary/Application/EventManager.hpp"/>
+        <File Name="../../src/GameLibrary/Application/EventManager.cpp"/>
+        <File Name="../../src/GameLibrary/Application/BatchLoader.cpp"/>
+        <File Name="../../src/GameLibrary/Application/ApplicationData.cpp"/>
+        <File Name="../../src/GameLibrary/Application/Application.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="SDL_ext">
+        <File Name="../../src/GameLibrary/SDL_ext/SDL_RWops_ext.hpp"/>
+        <File Name="../../src/GameLibrary/SDL_ext/SDL_RWops_ext.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Graphics">
+        <File Name="../../src/GameLibrary/Graphics/Image.cpp"/>
+        <File Name="../../src/GameLibrary/Graphics/PixelIterator.cpp"/>
+        <File Name="../../src/GameLibrary/Graphics/Graphics.cpp"/>
+        <File Name="../../src/GameLibrary/Graphics/TextureImage.cpp"/>
+        <File Name="../../src/GameLibrary/Graphics/Color.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Network">
+        <File Name="../../src/GameLibrary/Network/NetworkProtocol.cpp"/>
+      </VirtualDirectory>
+      <File Name="../../src/GameLibrary/GameLibrary.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -13,139 +148,6 @@
         <File Name="../../external/pugixml/src/pugixml.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
-  </VirtualDirectory>
-  <VirtualDirectory Name="src">
-    <VirtualDirectory Name="PlatformSpecific">
-      <VirtualDirectory Name="iOS">
-        <File Name="../../src/PlatformSpecific/iOS/SystemVersionMacros.h"/>
-        <File Name="../../src/PlatformSpecific/iOS/iOSUtils.h"/>
-      </VirtualDirectory>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Utilities">
-      <VirtualDirectory Name="Font">
-        <File Name="../../src/Utilities/Font/RenderedGlyphContainer.cpp"/>
-        <File Name="../../src/Utilities/Font/Font.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Time">
-        <File Name="../../src/Utilities/Time/TimeInterval.cpp"/>
-        <File Name="../../src/Utilities/Time/DateTime.cpp"/>
-      </VirtualDirectory>
-      <File Name="../../src/Utilities/Tools.cpp"/>
-      <File Name="../../src/Utilities/Plist.cpp"/>
-      <File Name="../../src/Utilities/Math.cpp"/>
-      <File Name="../../src/Utilities/Thread.cpp"/>
-      <File Name="../../src/Utilities/Data.cpp"/>
-      <File Name="../../src/Utilities/Number.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Screen">
-      <VirtualDirectory Name="UI">
-        <File Name="../../src/Screen/UI/PopupScreen.cpp"/>
-        <File Name="../../src/Screen/UI/SegmentedSelectorElement.cpp"/>
-        <File Name="../../src/Screen/UI/ActorMenuElement.cpp"/>
-        <File Name="../../src/Screen/UI/MenuScreen.cpp"/>
-        <File Name="../../src/Screen/UI/TouchElement.cpp"/>
-        <File Name="../../src/Screen/UI/TextInputElement.cpp"/>
-        <File Name="../../src/Screen/UI/AnimationElement.cpp"/>
-        <File Name="../../src/Screen/UI/ZoomPanElement.cpp"/>
-        <File Name="../../src/Screen/UI/ImageElement.cpp"/>
-        <File Name="../../src/Screen/UI/TextElement.cpp"/>
-        <File Name="../../src/Screen/UI/CheckboxElement.cpp"/>
-        <File Name="../../src/Screen/UI/ButtonElement.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Transition">
-        <File Name="../../src/Screen/Transition/FadeColorTransition.cpp"/>
-        <File Name="../../src/Screen/Transition/SlideTransition.cpp"/>
-        <File Name="../../src/Screen/Transition/FadeZoomTransition.cpp"/>
-        <File Name="../../src/Screen/Transition/PopoverTransition.cpp"/>
-      </VirtualDirectory>
-      <File Name="../../src/Screen/ScreenManager.cpp"/>
-      <File Name="../../src/Screen/AutoLayoutManager.cpp"/>
-      <File Name="../../src/Screen/ScreenElement.cpp"/>
-      <File Name="../../src/Screen/Screen.cpp"/>
-      <File Name="../../src/Screen/AutoLayoutCalculator.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Exception">
-      <VirtualDirectory Name="Utilities">
-        <VirtualDirectory Name="Font">
-          <File Name="../../src/Exception/Utilities/Font/RenderGlyphException.cpp"/>
-        </VirtualDirectory>
-        <File Name="../../src/Exception/Utilities/StringOutOfBoundsException.cpp"/>
-        <File Name="../../src/Exception/Utilities/IllegalNumberOperationException.cpp"/>
-        <File Name="../../src/Exception/Utilities/BadAnyCastException.cpp"/>
-        <File Name="../../src/Exception/Utilities/DictionaryKeyNotFoundException.cpp"/>
-        <File Name="../../src/Exception/Utilities/BadNumberCastException.cpp"/>
-        <File Name="../../src/Exception/Utilities/DataOutOfBoundsException.cpp"/>
-        <File Name="../../src/Exception/Utilities/ArrayListOutOfBoundsException.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Graphics">
-        <File Name="../../src/Exception/Graphics/UnsupportedImageFormatException.cpp"/>
-        <File Name="../../src/Exception/Graphics/ImageOutOfBoundsException.cpp"/>
-        <File Name="../../src/Exception/Graphics/TextureImageUpdateException.cpp"/>
-        <File Name="../../src/Exception/Graphics/TextureImageCreateException.cpp"/>
-      </VirtualDirectory>
-      <VirtualDirectory Name="Screen">
-        <File Name="../../src/Exception/Screen/ScreenNavigationException.cpp"/>
-      </VirtualDirectory>
-      <File Name="../../src/Exception/ExceptionMacros.hpp"/>
-      <File Name="../../src/Exception/NumberFormatException.cpp"/>
-      <File Name="../../src/Exception/InitializeLibraryException.cpp"/>
-      <File Name="../../src/Exception/IllegalArgumentException.cpp"/>
-      <File Name="../../src/Exception/IllegalStateException.cpp"/>
-      <File Name="../../src/Exception/OutOfBoundsException.cpp"/>
-      <File Name="../../src/Exception/NotImplementedException.cpp"/>
-      <File Name="../../src/Exception/BadCastException.cpp"/>
-      <File Name="../../src/Exception/Exception.cpp"/>
-      <File Name="../../src/Exception/IllegalReturnValueException.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="IO">
-      <File Name="../../src/IO/Console.cpp"/>
-      <File Name="../../src/IO/FileTools.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Actor">
-      <File Name="../../src/Actor/SpriteActor.cpp"/>
-      <File Name="../../src/Actor/Animation.cpp"/>
-      <File Name="../../src/Actor/AnimationPlayer.cpp"/>
-      <File Name="../../src/Actor/TextActor.cpp"/>
-      <File Name="../../src/Actor/Actor.cpp"/>
-      <File Name="../../src/Actor/WireframeActor.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Window">
-      <File Name="../../src/Window/AssetManager.cpp"/>
-      <File Name="../../src/Window/MessageBox.cpp"/>
-      <File Name="../../src/Window/Viewport.cpp"/>
-      <File Name="../../src/Window/Window.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Graphics">
-      <File Name="../../src/Graphics/Image.cpp"/>
-      <File Name="../../src/Graphics/Graphics.cpp"/>
-      <File Name="../../src/Graphics/Color.cpp"/>
-      <File Name="../../src/Graphics/PixelIterator.cpp"/>
-      <File Name="../../src/Graphics/TextureImage.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Input">
-      <File Name="../../src/Input/Multitouch.cpp"/>
-      <File Name="../../src/Input/Keyboard.cpp"/>
-      <File Name="../../src/Input/Mouse.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Network">
-      <File Name="../../src/Network/NetworkProtocol.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Application">
-      <File Name="../../src/Application/Application.cpp"/>
-      <File Name="../../src/Application/BatchLoader.cpp"/>
-      <File Name="../../src/Application/EventManager.cpp"/>
-      <File Name="../../src/Application/ApplicationData.cpp"/>
-      <File Name="../../src/Application/EventManager.hpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="Audio">
-      <File Name="../../src/Audio/Music.cpp"/>
-      <File Name="../../src/Audio/Sound.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="SDL_ext">
-      <File Name="../../src/SDL_ext/SDL_RWops_ext.cpp"/>
-      <File Name="../../src/SDL_ext/SDL_RWops_ext.hpp"/>
-    </VirtualDirectory>
-    <File Name="../../src/GameLibrary.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <VirtualDirectory Name="GameLibrary">

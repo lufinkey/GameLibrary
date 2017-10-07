@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="GameLibrary" Database="" Version="10.0.0">
-  <Project Name="GameLibrary" Path="GameLibrary.project" Active="No"/>
   <Project Name="test" Path="test/test.project" Active="Yes"/>
+  <Project Name="GameLibrary" Path="GameLibrary.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
-      <Project Name="GameLibrary" ConfigName="Debug"/>
       <Project Name="test" ConfigName="Debug"/>
+      <Project Name="GameLibrary" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
-      <Project Name="GameLibrary" ConfigName="Release"/>
       <Project Name="test" ConfigName="Release"/>
+      <Project Name="GameLibrary" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
