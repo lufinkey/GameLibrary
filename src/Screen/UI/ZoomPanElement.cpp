@@ -149,7 +149,7 @@ namespace fgl
 				auto movePortion = (newOffset.x - horizontalScrollbarTouchOffset.x)/frame.width;
 				auto moveAmount = movePortion*contentSize.x;
 				auto viewWidth = frame.width * zoomScale;
-				contentOffset.x -= moveAmount;
+				contentOffset.x += moveAmount;
 				if(contentOffset.x < 0)
 				{
 					contentOffset.x = 0;
@@ -166,14 +166,14 @@ namespace fgl
 				auto movePortion = (newOffset.y - verticalScrollbarTouchOffset.y)/frame.height;
 				auto moveAmount = movePortion*contentSize.x;
 				auto viewHeight = frame.height * zoomScale;
-				contentOffset.y -= moveAmount;
-				if(contentOffset.y > 0)
+				contentOffset.y += moveAmount;
+				if(contentOffset.y < 0)
 				{
 					contentOffset.y = 0;
 				}
 				else if((contentOffset.y+viewHeight) > contentSize.y)
 				{
-					contentOffset.y = contentSize.y+viewHeight;
+					contentOffset.y = contentSize.y-viewHeight;
 				}
 				return true;
 			}
