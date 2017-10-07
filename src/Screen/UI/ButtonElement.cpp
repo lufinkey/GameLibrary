@@ -240,7 +240,14 @@ namespace fgl
 	
 	void ButtonElement::setImage(TextureImage* image, ButtonState state)
 	{
-		images[state] = image;
+		if(image==nullptr)
+		{
+			images.remove(state);
+		}
+		else
+		{
+			images[state] = image;
+		}
 		updateStateProperties();
 	}
 	
@@ -271,7 +278,14 @@ namespace fgl
 
 	void ButtonElement::setBackgroundImage(TextureImage* image, ButtonState state)
 	{
-		backgroundImages[state] = image;
+		if(image==nullptr)
+		{
+			backgroundImages.remove(state);
+		}
+		else
+		{
+			backgroundImages[state] = image;
+		}
 		updateStateProperties();
 	}
 	
