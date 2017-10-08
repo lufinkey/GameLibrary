@@ -178,6 +178,16 @@ namespace fgl
 		updateButtonState();
 	}
 	
+	bool ButtonElement::isSelected() const
+	{
+		return selected;
+	}
+	
+	bool ButtonElement::isPressed() const
+	{
+		return pressed;
+	}
+	
 	void ButtonElement::setTitle(const String& title, ButtonState state)
 	{
 		titles[state] = title;

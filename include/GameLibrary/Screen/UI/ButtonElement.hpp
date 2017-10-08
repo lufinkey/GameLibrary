@@ -40,6 +40,8 @@ namespace fgl
 		void setSelected(bool selected);
 		bool isSelected() const;
 		
+		bool isPressed() const;
+		
 		void setTitle(const String& title, ButtonState state);
 		void setTitle(std::nullptr_t, ButtonState state);
 		String getTitle(ButtonState state) const;
