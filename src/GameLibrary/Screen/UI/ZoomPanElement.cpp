@@ -164,7 +164,7 @@ namespace fgl
 			{
 				auto newOffset = touchpos - scrollbarFrames.second.getCenter();
 				auto movePortion = (newOffset.y - verticalScrollbarTouchOffset.y)/frame.height;
-				auto moveAmount = movePortion*contentSize.x;
+				auto moveAmount = movePortion*contentSize.y;
 				auto viewHeight = frame.height * zoomScale;
 				contentOffset.y += moveAmount;
 				if(contentOffset.y < 0)
