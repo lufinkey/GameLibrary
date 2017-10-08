@@ -37,7 +37,6 @@ namespace fgl
 		{
 			fullHeight += line.size.y;
 		}
-		printf("fullHeight: %f\n", fullHeight);
 		switch(verticalTextAlignment)
 		{
 			case VERTICALALIGN_TOP:
