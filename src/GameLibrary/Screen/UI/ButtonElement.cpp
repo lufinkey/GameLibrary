@@ -20,7 +20,10 @@ namespace fgl
 		imageElement(new ImageElement(RectangleD(0,0,frame.width,0))),
 		titleElement(new TextElement(RectangleD(0,0,frame.width,frame.height))),
 		buttonState(BUTTONSTATE_NORMAL),
-		enabled(true)
+		enabled(true),
+		selected(false),
+		pressed(false),
+		pressedTouchID(-1)
 	{
 		titles[BUTTONSTATE_NORMAL] = title;
 		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
@@ -107,9 +110,36 @@ namespace fgl
 	
 	void ButtonElement::setButtonState(ButtonState buttonState_arg)
 	{
-		buttonState = buttonState_arg;
-		updateStateProperties();
-		layoutChildElements();
+		if(buttonState != buttonState_arg)
+		{
+			buttonState = buttonState_arg;
+			updateStateProperties();
+			layoutChildElements();
+		}
+	}
+	
+	void ButtonElement::updateButtonState()
+	{
+		if(!enabled)
+		{
+			setButtonState(BUTTONSTATE_DISABLED);
+		}
+		else if(pressed)
+		{
+			setButtonState(BUTTONSTATE_PRESSED);
+		}
+		else if(selected)
+		{
+			setButtonState(BUTTONSTATE_SELECTED);
+		}
+		else if(getHoveredMouseIndexes().size() > 0)
+		{
+			setButtonState(BUTTONSTATE_HOVERED);
+		}
+		else
+		{
+			setButtonState(BUTTONSTATE_NORMAL);
+		}
 	}
 
 	void ButtonElement::updateStateProperties()
@@ -128,21 +158,24 @@ namespace fgl
 
 	void ButtonElement::setEnabled(bool enabled_arg)
 	{
-		if(enabled_arg && !enabled)
+		enabled = enabled_arg;
+		if(!enabled)
 		{
-			enabled = true;
-			setButtonState(BUTTONSTATE_NORMAL);
+			pressed = false;
+			pressedTouchID = -1;
 		}
-		else if(!enabled_arg && enabled)
-		{
-			enabled = false;
-			setButtonState(BUTTONSTATE_DISABLED);
-		}
+		updateButtonState();
 	}
 
 	bool ButtonElement::isEnabled() const
 	{
 		return enabled;
+	}
+	
+	void ButtonElement::setSelected(bool selected_arg)
+	{
+		selected = selected_arg;
+		updateButtonState();
 	}
 	
 	void ButtonElement::setTitle(const String& title, ButtonState state)
@@ -159,21 +192,7 @@ namespace fgl
 	
 	String ButtonElement::getTitle(ButtonState state) const
 	{
-		try
-		{
-			return titles.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return titles.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return "";
-			}
-		}
+		return getProperty<String>(titles, state, "");
 	}
 	
 	void ButtonElement::setTitleColor(const fgl::Color& titleColor, ButtonState state)
@@ -190,21 +209,7 @@ namespace fgl
 	
 	Color ButtonElement::getTitleColor(ButtonState state) const
 	{
-		try
-		{
-			return titleColors.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return titleColors.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return Color::TRANSPARENT;
-			}
-		}
+		return getProperty<Color>(titleColors, state, Color::TRANSPARENT);
 	}
 	
 	void ButtonElement::setTintColor(const fgl::Color& tintColor, ButtonState state)
@@ -221,21 +226,7 @@ namespace fgl
 	
 	Color ButtonElement::getTintColor(ButtonState state) const
 	{
-		try
-		{
-			return tintColors.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return tintColors.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return Color::TRANSPARENT;
-			}
-		}
+		return getProperty<Color>(tintColors, state, Color::TRANSPARENT);
 	}
 	
 	void ButtonElement::setImage(TextureImage* image, ButtonState state)
@@ -259,21 +250,7 @@ namespace fgl
 	
 	TextureImage* ButtonElement::getImage(ButtonState state) const
 	{
-		try
-		{
-			return images.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return images.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return nullptr;
-			}
-		}
+		return getProperty<TextureImage*>(images, state, nullptr);
 	}
 
 	void ButtonElement::setBackgroundImage(TextureImage* image, ButtonState state)
@@ -297,21 +274,7 @@ namespace fgl
 
 	TextureImage* ButtonElement::getBackgroundImage(ButtonState state) const
 	{
-		try
-		{
-			return backgroundImages.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return backgroundImages.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return nullptr;
-			}
-		}
+		return getProperty<TextureImage*>(backgroundImages, state, nullptr);
 	}
 	
 	void ButtonElement::setBackgroundColor(const Color& color, ButtonState state)
@@ -328,21 +291,7 @@ namespace fgl
 	
 	Color ButtonElement::getBackgroundColor(ButtonState state) const
 	{
-		try
-		{
-			return backgroundColors.get(state);
-		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
-			try
-			{
-				return backgroundColors.get(BUTTONSTATE_NORMAL);
-			}
-			catch(const DictionaryKeyNotFoundException&)
-			{
-				return Color::TRANSPARENT;
-			}
-		}
+		return getProperty<Color>(backgroundColors, state, Color::TRANSPARENT);
 	}
 	
 	TextElement* ButtonElement::getTitleElement() const
@@ -357,46 +306,31 @@ namespace fgl
 	
 	void ButtonElement::onMouseEnter(unsigned int mouseIndex)
 	{
-		if(enabled)
-		{
-			if(buttonState!=BUTTONSTATE_PRESSED && getHoveredMouseIndexes().size() > 0)
-			{
-				setButtonState(BUTTONSTATE_HOVERED);
-			}
-		}
+		updateButtonState();
 	}
 	
 	void ButtonElement::onMouseLeave(unsigned int mouseIndex)
 	{
-		if(enabled)
-		{
-			if(buttonState==BUTTONSTATE_HOVERED && getHoveredMouseIndexes().size()==0)
-			{
-				setButtonState(BUTTONSTATE_NORMAL);
-			}
-		}
+		updateButtonState();
 	}
 	
 	void ButtonElement::onTouchDown(const TouchEvent& touchEvent)
 	{
-		if(enabled)
+		if(enabled && !pressed)
 		{
-			setButtonState(BUTTONSTATE_PRESSED);
+			pressed = true;
+			pressedTouchID = touchEvent.getTouchID();
+			updateButtonState();
 		}
 	}
 	
 	void ButtonElement::onTouchUpInside(const TouchEvent& touchEvent)
 	{
-		if(enabled)
+		if(enabled && pressed && pressedTouchID==touchEvent.getTouchID())
 		{
-			if(getHoveredMouseIndexes().size() > 0)
-			{
-				setButtonState(BUTTONSTATE_HOVERED);
-			}
-			else
-			{
-				setButtonState(BUTTONSTATE_NORMAL);
-			}
+			pressed = false;
+			pressedTouchID = -1;
+			updateButtonState();
 			if(tapHandler)
 			{
 				tapHandler();
@@ -406,32 +340,21 @@ namespace fgl
 	
 	void ButtonElement::onTouchUpOutside(const TouchEvent& touchEvent)
 	{
-		if(enabled)
+		if(enabled && pressed && pressedTouchID==touchEvent.getTouchID())
 		{
-			if(getHoveredMouseIndexes().size() > 0)
-			{
-
-				setButtonState(BUTTONSTATE_HOVERED);
-			}
-			else
-			{
-				setButtonState(BUTTONSTATE_NORMAL);
-			}
+			pressed = false;
+			pressedTouchID = -1;
+			updateButtonState();
 		}
 	}
 	
 	void ButtonElement::onTouchCancel(const TouchEvent& touchEvent)
 	{
-		if(enabled)
+		if(enabled && pressed && pressedTouchID==touchEvent.getTouchID())
 		{
-			if(getHoveredMouseIndexes().size() > 0)
-			{
-				setButtonState(BUTTONSTATE_HOVERED);
-			}
-			else
-			{
-				setButtonState(BUTTONSTATE_NORMAL);
-			}
+			pressed = false;
+			pressedTouchID = -1;
+			updateButtonState();
 		}
 	}
 }

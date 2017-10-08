@@ -6,6 +6,7 @@
 #include "ImageElement.hpp"
 #include "TextElement.hpp"
 
+class setButtonState;
 namespace fgl
 {
 	class ButtonElement : public TouchElement
@@ -16,7 +17,8 @@ namespace fgl
 			BUTTONSTATE_NORMAL,
 			BUTTONSTATE_HOVERED,
 			BUTTONSTATE_PRESSED,
-			BUTTONSTATE_DISABLED
+			BUTTONSTATE_SELECTED,
+			BUTTONSTATE_DISABLED,
 		} ButtonState;
 		
 		ButtonElement();
@@ -34,6 +36,9 @@ namespace fgl
 
 		void setEnabled(bool enabled);
 		bool isEnabled() const;
+		
+		void setSelected(bool selected);
+		bool isSelected() const;
 		
 		void setTitle(const String& title, ButtonState state);
 		void setTitle(std::nullptr_t, ButtonState state);
@@ -72,8 +77,42 @@ namespace fgl
 		virtual void onTouchCancel(const TouchEvent& touchEvent) override;
 		
 	private:
+		void updateButtonState();
 		void setButtonState(ButtonState buttonState);
 		void updateStateProperties();
+		
+		template<typename T>
+		const T& getProperty(const BasicDictionary<ButtonState, T>& dict, ButtonState state, const T& defaultValue) const
+		{
+			fgl::ArrayList<ButtonState> states;
+			if(selected)
+			{
+				if(state==BUTTONSTATE_DISABLED)
+				{
+					states = {state, BUTTONSTATE_NORMAL};
+				}
+				else
+				{
+					states = {state, BUTTONSTATE_SELECTED, BUTTONSTATE_NORMAL};
+				}
+			}
+			else
+			{
+				states = {state, BUTTONSTATE_NORMAL};
+			}
+			for(auto& state : states)
+			{
+				try
+				{
+					return dict.get(state);
+				}
+				catch(const DictionaryKeyNotFoundException&)
+				{
+					// do nothing
+				}
+			}
+			return defaultValue;
+		}
 		
 		std::function<void()> tapHandler;
 		
@@ -90,5 +129,8 @@ namespace fgl
 		BasicDictionary<ButtonState, Color> tintColors;
 
 		bool enabled;
+		bool selected;
+		bool pressed;
+		unsigned int pressedTouchID;
 	};
 }
