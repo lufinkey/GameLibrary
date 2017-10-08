@@ -258,5 +258,10 @@ namespace fgl
 			\param alpha true to randomize the alpha value, false to only randomize the RGB values
 			\returns a random Color value*/
 		static Color random(bool alpha=false);
+		
+		/*! Generates a greyscale Color value
+			\param amount a value between 0 and 1 that represents the amount of white in the image
+			\returns a greyscale Color value*/
+		static Color getGrayColor(double amount);
 	};
 }

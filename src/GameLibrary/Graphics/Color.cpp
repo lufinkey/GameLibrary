@@ -146,4 +146,17 @@ namespace fgl
 		}
 		return color;
 	}
+	
+	Color Color::getGrayColor(double amount)
+	{
+		if(amount > 1.0)
+		{
+			amount = 1.0;
+		}
+		else if(amount < 0.0)
+		{
+			amount = 0.0;
+		}
+		return Color((Uint8)(255.0*amount), (Uint8)(255.0*amount), (Uint8)(255.0*amount));
+	}
 }
