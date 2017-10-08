@@ -614,6 +614,15 @@ namespace fgl
 			objects.shrink_to_fit();
 		}
 		
+		ArrayList<T> mergedWith(const ArrayList<T>& arr) const
+		{
+			ArrayList<T> newArr;
+			newArr.resize(objects.size() + arr.size());
+			newArr.addAll(*this);
+			newArr.addAll(arr);
+			return newArr;
+		}
+		
 		size_t indexOf(const T& obj) const
 		{
 			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)
