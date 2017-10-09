@@ -24,6 +24,7 @@
 		A04AD3131F897F26009D9AD3 /* MessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FE4A1F897854001771AE /* MessageBox.mm */; };
 		A04AD3141F897F26009D9AD3 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FE4B1F897854001771AE /* Viewport.cpp */; };
 		A04AD3151F897F26009D9AD3 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FE4C1F897854001771AE /* Window.cpp */; };
+		A06573C71F8B363E00F5D6F7 /* GridSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A06573C61F8B363E00F5D6F7 /* GridSelectorElement.cpp */; };
 		A0D7FE4D1F897877001771AE /* GameLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FE071F897853001771AE /* GameLibrary.cpp */; };
 		A0D7FE4E1F897877001771AE /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FE081F897853001771AE /* GameLibrary.mm */; };
 		A0D7FE4F1F89788E001771AE /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FDDC1F897853001771AE /* Actor.cpp */; };
@@ -245,6 +246,8 @@
 		A05D79A51CD465AE00456C8E /* Dictionary.impl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dictionary.impl; sourceTree = "<group>"; };
 		A05D79A61CD465D400456C8E /* NotImplementedException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NotImplementedException.hpp; sourceTree = "<group>"; };
 		A05D79A71CD465E300456C8E /* DictionaryKeyNotFoundException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DictionaryKeyNotFoundException.hpp; sourceTree = "<group>"; };
+		A06573BF1F8B360E00F5D6F7 /* GridSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GridSelectorElement.hpp; sourceTree = "<group>"; };
+		A06573C61F8B363E00F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
 		A0D7FDDC1F897853001771AE /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		A0D7FDDD1F897853001771AE /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		A0D7FDDE1F897853001771AE /* AnimationPlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationPlayer.cpp; sourceTree = "<group>"; };
@@ -602,6 +605,7 @@
 				F16DB5981E7088E400AB31DE /* AnimationElement.hpp */,
 				F15F59EA1E71A91800FAFD86 /* ButtonElement.hpp */,
 				F199D4B11E76FA5F008627BE /* CheckboxElement.hpp */,
+				A06573BF1F8B360E00F5D6F7 /* GridSelectorElement.hpp */,
 				A039DA141CCDE80800B0B5DA /* ImageElement.hpp */,
 				A039DA151CCDE80800B0B5DA /* MenuScreen.hpp */,
 				F15F11FF1E855429007CA0D2 /* PopupScreen.hpp */,
@@ -944,6 +948,7 @@
 				A0D7FE2B1F897854001771AE /* AnimationElement.cpp */,
 				A0D7FE2C1F897854001771AE /* ButtonElement.cpp */,
 				A0D7FE2D1F897854001771AE /* CheckboxElement.cpp */,
+				A06573C61F8B363E00F5D6F7 /* GridSelectorElement.cpp */,
 				A0D7FE2E1F897854001771AE /* ImageElement.cpp */,
 				A0D7FE2F1F897854001771AE /* MenuScreen.cpp */,
 				A0D7FE301F897854001771AE /* PopupScreen.cpp */,
@@ -1246,6 +1251,7 @@
 				A0D7FE751F897E19001771AE /* TextureImage.cpp in Sources */,
 				A0D7FE6D1F897A47001771AE /* InitializeLibraryException.cpp in Sources */,
 				A0D7FE831F897E90001771AE /* FadeColorTransition.cpp in Sources */,
+				A06573C71F8B363E00F5D6F7 /* GridSelectorElement.cpp in Sources */,
 				A0D7FE6E1F897A47001771AE /* NotImplementedException.cpp in Sources */,
 				A0D7FE791F897E53001771AE /* Console.cpp in Sources */,
 				A0D7FE681F897A47001771AE /* BadCastException.cpp in Sources */,

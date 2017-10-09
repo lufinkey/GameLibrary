@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */; };
 		A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD221F896A3C001771AE /* GameLibrary.cpp */; };
 		A0D7FD691F896A49001771AE /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD231F896A3C001771AE /* GameLibrary.mm */; };
 		A0D7FD6A1F896A4F001771AE /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCF71F896A3C001771AE /* Actor.cpp */; };
@@ -107,7 +108,6 @@
 		F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */; };
 		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
 		F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */; };
-		F15F5A7A1E71E2BD00FAFD86 /* ButtonElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */; };
 		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
 		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 /* End PBXBuildFile section */
@@ -235,6 +235,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GridSelectorElement.hpp; sourceTree = "<group>"; };
+		A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
 		A0D7FCF71F896A3C001771AE /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		A0D7FCF81F896A3C001771AE /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		A0D7FCF91F896A3C001771AE /* AnimationPlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationPlayer.cpp; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 				A0D7FD461F896A3C001771AE /* AnimationElement.cpp */,
 				A0D7FD471F896A3C001771AE /* ButtonElement.cpp */,
 				A0D7FD481F896A3C001771AE /* CheckboxElement.cpp */,
+				A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */,
 				A0D7FD491F896A3C001771AE /* ImageElement.cpp */,
 				A0D7FD4A1F896A3C001771AE /* MenuScreen.cpp */,
 				A0D7FD4B1F896A3C001771AE /* PopupScreen.cpp */,
@@ -967,6 +970,7 @@
 				F15A1E731E5498C7008D83E5 /* AnimationElement.hpp */,
 				F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */,
 				F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */,
+				A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
 				F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */,
@@ -1174,7 +1178,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
-				F15F5A7A1E71E2BD00FAFD86 /* ButtonElement.hpp in Headers */,
 				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
 				F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */,
 				F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */,
@@ -1412,6 +1415,7 @@
 				A0D7FDC61F896BBC001771AE /* Number.cpp in Sources */,
 				A0D7FD7C1F896A9A001771AE /* ArrayListOutOfBoundsException.cpp in Sources */,
 				A0D7FDA31F896B1B001771AE /* ButtonElement.cpp in Sources */,
+				A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */,
 				A0D7FD721F896A54001771AE /* BatchLoader.cpp in Sources */,
 				A0D7FD7F1F896A9A001771AE /* DataOutOfBoundsException.cpp in Sources */,
 				A0D7FD781F896A70001771AE /* TextureImageUpdateException.cpp in Sources */,
