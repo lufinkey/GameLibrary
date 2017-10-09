@@ -86,6 +86,7 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\AnimationElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ButtonElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\CheckboxElement.hpp" />
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\GridSelectorElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\ImageElement.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\MenuScreen.hpp" />
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\PopupScreen.hpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\AnimationElement.cpp" />
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ButtonElement.cpp" />
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\CheckboxElement.cpp" />
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\GridSelectorElement.cpp" />
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ImageElement.cpp" />
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\MenuScreen.cpp" />
     <ClCompile Include="..\..\src\GameLibrary\Screen\UI\PopupScreen.cpp" />

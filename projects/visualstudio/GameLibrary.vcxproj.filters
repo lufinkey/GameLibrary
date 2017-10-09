@@ -498,6 +498,9 @@
     <ClInclude Include="..\..\src\GameLibrary\SDL_ext\SDL_RWops_ext.hpp">
       <Filter>src\GameLibrary\SDL_ext</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GameLibrary\Screen\UI\GridSelectorElement.hpp">
+      <Filter>include\GameLibrary\Screen\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\GameLibrary\Actor\Actor.cpp">
@@ -757,6 +760,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\GameLibrary\GameLibrary.cpp">
       <Filter>src\GameLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\GridSelectorElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
