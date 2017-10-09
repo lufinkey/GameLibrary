@@ -81,6 +81,7 @@ namespace fgl
 		class AnimationElement;
 		class ButtonElement;
 		class CheckboxElement;
+		class GridSelectorElement;
 		class ImageElement;
 		class SegmentedSelectorElement;
 		class TextElement;

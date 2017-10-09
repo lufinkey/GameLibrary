@@ -63,6 +63,7 @@
 #include "Screen/UI/AnimationElement.hpp"
 #include "Screen/UI/ButtonElement.hpp"
 #include "Screen/UI/CheckboxElement.hpp"
+#include "Screen/UI/GridSelectorElement.hpp"
 #include "Screen/UI/ImageElement.hpp"
 #include "Screen/UI/MenuScreen.hpp"
 #include "Screen/UI/PopupScreen.hpp"
