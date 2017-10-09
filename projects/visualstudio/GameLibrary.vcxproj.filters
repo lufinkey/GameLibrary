@@ -70,66 +70,6 @@
     <Filter Include="include\GameLibrary\Utilities\Geometry">
       <UniqueIdentifier>{be696bbf-2cf7-4585-a782-fc860146ba87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Actor">
-      <UniqueIdentifier>{24608bea-3b20-42db-b647-e0e7bbdfa1af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Window">
-      <UniqueIdentifier>{0c6c2423-3cad-4a45-85aa-15f24fd6a318}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Utilities">
-      <UniqueIdentifier>{04aa0be8-b973-47e6-95ef-3a923e223b13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Screen">
-      <UniqueIdentifier>{ceac6f8a-9d73-4352-a731-db876a70e087}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Application">
-      <UniqueIdentifier>{8f483378-1eff-4659-9b46-b37ee05ad52f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Audio">
-      <UniqueIdentifier>{fc4ef8cd-2b2f-4481-a30f-d123155bf6ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Exception">
-      <UniqueIdentifier>{05da47f3-9950-412b-9751-129380481e5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Graphics">
-      <UniqueIdentifier>{66b3a376-028f-4709-989b-4339e4acf3d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Input">
-      <UniqueIdentifier>{ffddc319-70fb-4d96-92aa-1522d4e2885f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\IO">
-      <UniqueIdentifier>{9a5dee54-e750-43a0-ad60-b3204f18a188}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Network">
-      <UniqueIdentifier>{410a13f9-fc8c-4d6d-9c9c-28d66b132a84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Exception\Graphics">
-      <UniqueIdentifier>{4f137984-b1f6-46f5-ba05-af17a1b0085a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Exception\Screen">
-      <UniqueIdentifier>{4b15f1ab-d8df-4435-8af9-35f1c7e1d6f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Exception\Utilities">
-      <UniqueIdentifier>{194609b1-8b9b-42f6-9fe6-232d2b1edfe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Exception\Utilities\Font">
-      <UniqueIdentifier>{217ee3a0-3686-4345-a145-d49fa4482440}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Screen\UI">
-      <UniqueIdentifier>{24ebfd46-5703-4e78-80b8-f5929e93f0e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Screen\Transition">
-      <UniqueIdentifier>{faa2b963-d03d-49c3-8d02-527c5b11a122}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Utilities\Time">
-      <UniqueIdentifier>{d575a303-7754-4cba-87fb-bc2804d53851}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Utilities\Font">
-      <UniqueIdentifier>{7cc97f01-4aeb-459d-b014-00956a498211}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Utilities\Geometry">
-      <UniqueIdentifier>{d94ac91d-df90-4d86-b501-44280799dd73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{ffdd04d7-e750-43dc-8830-f61ea3947409}</UniqueIdentifier>
     </Filter>
@@ -157,8 +97,71 @@
     <Filter Include="external\SDL\SDL_gfx">
       <UniqueIdentifier>{fcf560be-cdb6-44a5-8be0-ae901ef33f3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\SDL_ext">
+    <Filter Include="src\GameLibrary">
+      <UniqueIdentifier>{3cdd21b0-5dda-4a36-b5f2-3ba838c5cd3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Network">
+      <UniqueIdentifier>{410a13f9-fc8c-4d6d-9c9c-28d66b132a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Actor">
+      <UniqueIdentifier>{24608bea-3b20-42db-b647-e0e7bbdfa1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Application">
+      <UniqueIdentifier>{8f483378-1eff-4659-9b46-b37ee05ad52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Audio">
+      <UniqueIdentifier>{fc4ef8cd-2b2f-4481-a30f-d123155bf6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Exception">
+      <UniqueIdentifier>{05da47f3-9950-412b-9751-129380481e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Exception\Graphics">
+      <UniqueIdentifier>{4f137984-b1f6-46f5-ba05-af17a1b0085a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Exception\Screen">
+      <UniqueIdentifier>{4b15f1ab-d8df-4435-8af9-35f1c7e1d6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Exception\Utilities">
+      <UniqueIdentifier>{194609b1-8b9b-42f6-9fe6-232d2b1edfe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Exception\Utilities\Font">
+      <UniqueIdentifier>{217ee3a0-3686-4345-a145-d49fa4482440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Graphics">
+      <UniqueIdentifier>{66b3a376-028f-4709-989b-4339e4acf3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Input">
+      <UniqueIdentifier>{ffddc319-70fb-4d96-92aa-1522d4e2885f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\IO">
+      <UniqueIdentifier>{9a5dee54-e750-43a0-ad60-b3204f18a188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Screen">
+      <UniqueIdentifier>{ceac6f8a-9d73-4352-a731-db876a70e087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Screen\UI">
+      <UniqueIdentifier>{24ebfd46-5703-4e78-80b8-f5929e93f0e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Screen\Transition">
+      <UniqueIdentifier>{faa2b963-d03d-49c3-8d02-527c5b11a122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\SDL_ext">
       <UniqueIdentifier>{c5239764-606d-49c2-a7fe-c9c7cf857c06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Utilities">
+      <UniqueIdentifier>{04aa0be8-b973-47e6-95ef-3a923e223b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Utilities\Time">
+      <UniqueIdentifier>{d575a303-7754-4cba-87fb-bc2804d53851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Utilities\Font">
+      <UniqueIdentifier>{7cc97f01-4aeb-459d-b014-00956a498211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Utilities\Geometry">
+      <UniqueIdentifier>{d94ac91d-df90-4d86-b501-44280799dd73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLibrary\Window">
+      <UniqueIdentifier>{0c6c2423-3cad-4a45-85aa-15f24fd6a318}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -378,8 +381,8 @@
     <ClInclude Include="..\..\include\GameLibrary\Window\Window.hpp">
       <Filter>include\GameLibrary\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Application\EventManager.hpp">
-      <Filter>src\Application</Filter>
+    <ClInclude Include="..\..\src\GameLibrary\Application\EventManager.hpp">
+      <Filter>src\GameLibrary\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\GameLibrary.hpp">
       <Filter>include\GameLibrary</Filter>
@@ -387,8 +390,8 @@
     <ClInclude Include="..\..\include\GameLibrary\Types.hpp">
       <Filter>include\GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Exception\ExceptionMacros.hpp">
-      <Filter>src\Exception</Filter>
+    <ClInclude Include="..\..\src\GameLibrary\Exception\ExceptionMacros.hpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\GameLibrary\Screen\Screen.hpp">
       <Filter>include\GameLibrary\Screen</Filter>
@@ -492,226 +495,223 @@
     <ClInclude Include="..\..\include\GameLibrary\Screen\UI\PopupScreen.hpp">
       <Filter>include\GameLibrary\Screen\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\SDL_ext\SDL_RWops_ext.hpp">
-      <Filter>src\SDL_ext</Filter>
+    <ClInclude Include="..\..\src\GameLibrary\SDL_ext\SDL_RWops_ext.hpp">
+      <Filter>src\GameLibrary\SDL_ext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Actor\Actor.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\Actor.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Actor\Animation.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\Animation.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Actor\SpriteActor.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\SpriteActor.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Actor\TextActor.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\TextActor.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Actor\WireframeActor.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\WireframeActor.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Application\Application.cpp">
-      <Filter>src\Application</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Application\Application.cpp">
+      <Filter>src\GameLibrary\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Application\ApplicationData.cpp">
-      <Filter>src\Application</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Application\ApplicationData.cpp">
+      <Filter>src\GameLibrary\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Application\BatchLoader.cpp">
-      <Filter>src\Application</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Application\BatchLoader.cpp">
+      <Filter>src\GameLibrary\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Application\EventManager.cpp">
-      <Filter>src\Application</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Application\EventManager.cpp">
+      <Filter>src\GameLibrary\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Audio\Music.cpp">
-      <Filter>src\Audio</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Audio\Music.cpp">
+      <Filter>src\GameLibrary\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Audio\Sound.cpp">
-      <Filter>src\Audio</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Audio\Sound.cpp">
+      <Filter>src\GameLibrary\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\BadCastException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\BadCastException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Exception.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Exception.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\IllegalArgumentException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\IllegalArgumentException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\IllegalStateException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\IllegalStateException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\InitializeLibraryException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\InitializeLibraryException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\NumberFormatException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\NumberFormatException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\OutOfBoundsException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\OutOfBoundsException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Graphics\ImageOutOfBoundsException.cpp">
-      <Filter>src\Exception\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Graphics\ImageOutOfBoundsException.cpp">
+      <Filter>src\GameLibrary\Exception\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Graphics\TextureImageCreateException.cpp">
-      <Filter>src\Exception\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Graphics\TextureImageCreateException.cpp">
+      <Filter>src\GameLibrary\Exception\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Graphics\TextureImageUpdateException.cpp">
-      <Filter>src\Exception\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Graphics\TextureImageUpdateException.cpp">
+      <Filter>src\GameLibrary\Exception\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Graphics\UnsupportedImageFormatException.cpp">
-      <Filter>src\Exception\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Graphics\UnsupportedImageFormatException.cpp">
+      <Filter>src\GameLibrary\Exception\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Screen\ScreenNavigationException.cpp">
-      <Filter>src\Exception\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Screen\ScreenNavigationException.cpp">
+      <Filter>src\GameLibrary\Exception\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\ArrayListOutOfBoundsException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\ArrayListOutOfBoundsException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\BadAnyCastException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\BadAnyCastException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\IllegalNumberOperationException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\IllegalNumberOperationException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\StringOutOfBoundsException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\StringOutOfBoundsException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\Font\RenderGlyphException.cpp">
-      <Filter>src\Exception\Utilities\Font</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\Font\RenderGlyphException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Color.cpp">
-      <Filter>src\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Graphics\Color.cpp">
+      <Filter>src\GameLibrary\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Graphics.cpp">
-      <Filter>src\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Graphics\Graphics.cpp">
+      <Filter>src\GameLibrary\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\Image.cpp">
-      <Filter>src\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Graphics\Image.cpp">
+      <Filter>src\GameLibrary\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\PixelIterator.cpp">
-      <Filter>src\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Graphics\PixelIterator.cpp">
+      <Filter>src\GameLibrary\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Graphics\TextureImage.cpp">
-      <Filter>src\Graphics</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Graphics\TextureImage.cpp">
+      <Filter>src\GameLibrary\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Input\Keyboard.cpp">
-      <Filter>src\Input</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Input\Keyboard.cpp">
+      <Filter>src\GameLibrary\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Input\Mouse.cpp">
-      <Filter>src\Input</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Input\Mouse.cpp">
+      <Filter>src\GameLibrary\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Input\Multitouch.cpp">
-      <Filter>src\Input</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Input\Multitouch.cpp">
+      <Filter>src\GameLibrary\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\IO\Console.cpp">
-      <Filter>src\IO</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\IO\Console.cpp">
+      <Filter>src\GameLibrary\IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\IO\FileTools.cpp">
-      <Filter>src\IO</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\IO\FileTools.cpp">
+      <Filter>src\GameLibrary\IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Network\NetworkProtocol.cpp">
-      <Filter>src\Network</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Network\NetworkProtocol.cpp">
+      <Filter>src\GameLibrary\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\AutoLayoutCalculator.cpp">
-      <Filter>src\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\AutoLayoutCalculator.cpp">
+      <Filter>src\GameLibrary\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\AutoLayoutManager.cpp">
-      <Filter>src\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\AutoLayoutManager.cpp">
+      <Filter>src\GameLibrary\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\Screen.cpp">
-      <Filter>src\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\Screen.cpp">
+      <Filter>src\GameLibrary\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\ScreenManager.cpp">
-      <Filter>src\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\ScreenManager.cpp">
+      <Filter>src\GameLibrary\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\Transition\FadeColorTransition.cpp">
-      <Filter>src\Screen\Transition</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\Transition\FadeColorTransition.cpp">
+      <Filter>src\GameLibrary\Screen\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\Transition\FadeZoomTransition.cpp">
-      <Filter>src\Screen\Transition</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\Transition\FadeZoomTransition.cpp">
+      <Filter>src\GameLibrary\Screen\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\Transition\PopoverTransition.cpp">
-      <Filter>src\Screen\Transition</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\Transition\PopoverTransition.cpp">
+      <Filter>src\GameLibrary\Screen\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\Transition\SlideTransition.cpp">
-      <Filter>src\Screen\Transition</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\Transition\SlideTransition.cpp">
+      <Filter>src\GameLibrary\Screen\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\ActorMenuElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ActorMenuElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\ImageElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ImageElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\MenuScreen.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\MenuScreen.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\TextInputElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\TextInputElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\TouchElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\TouchElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\ZoomPanElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ZoomPanElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Math.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Math.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Thread.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Thread.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Font\Font.cpp">
-      <Filter>src\Utilities\Font</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Font\Font.cpp">
+      <Filter>src\GameLibrary\Utilities\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Font\RenderedGlyphContainer.cpp">
-      <Filter>src\Utilities\Font</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Font\RenderedGlyphContainer.cpp">
+      <Filter>src\GameLibrary\Utilities\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Time\DateTime.cpp">
-      <Filter>src\Utilities\Time</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Time\DateTime.cpp">
+      <Filter>src\GameLibrary\Utilities\Time</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Time\TimeInterval.cpp">
-      <Filter>src\Utilities\Time</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Time\TimeInterval.cpp">
+      <Filter>src\GameLibrary\Utilities\Time</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Window\MessageBox.cpp">
-      <Filter>src\Window</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Window\MessageBox.cpp">
+      <Filter>src\GameLibrary\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Window\Window.cpp">
-      <Filter>src\Window</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Window\Window.cpp">
+      <Filter>src\GameLibrary\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\ScreenElement.cpp">
-      <Filter>src\Screen</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\ScreenElement.cpp">
+      <Filter>src\GameLibrary\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\BadNumberCastException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\BadNumberCastException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\DataOutOfBoundsException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\DataOutOfBoundsException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Data.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Data.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLibrary.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Number.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Number.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\NotImplementedException.cpp">
+      <Filter>src\GameLibrary\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\NotImplementedException.cpp">
-      <Filter>src\Exception</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Plist.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Plist.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Exception\Utilities\DictionaryKeyNotFoundException.cpp">
+      <Filter>src\GameLibrary\Exception\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Exception\Utilities\DictionaryKeyNotFoundException.cpp">
-      <Filter>src\Exception\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\AnimationElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\AnimationElement.cpp">
-      <Filter>src\Screen\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\Tools.cpp">
-      <Filter>src\Utilities</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Utilities\Tools.cpp">
+      <Filter>src\GameLibrary\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\external\pugixml\src\pugixml.cpp">
       <Filter>external\pugixml\src</Filter>
@@ -728,32 +728,35 @@
     <ClCompile Include="..\..\external\SDL\SDL_gfx\SDL2_framerate.c">
       <Filter>external\SDL\SDL_gfx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Window\AssetManager.cpp">
-      <Filter>src\Window</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Window\AssetManager.cpp">
+      <Filter>src\GameLibrary\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Window\Viewport.cpp">
-      <Filter>src\Window</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Window\Viewport.cpp">
+      <Filter>src\GameLibrary\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Actor\AnimationPlayer.cpp">
-      <Filter>src\Actor</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Actor\AnimationPlayer.cpp">
+      <Filter>src\GameLibrary\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\TextElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\TextElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\ButtonElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\ButtonElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\CheckboxElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\CheckboxElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\SegmentedSelectorElement.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\SegmentedSelectorElement.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Screen\UI\PopupScreen.cpp">
-      <Filter>src\Screen\UI</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\Screen\UI\PopupScreen.cpp">
+      <Filter>src\GameLibrary\Screen\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\SDL_ext\SDL_RWops_ext.cpp">
-      <Filter>src\SDL_ext</Filter>
+    <ClCompile Include="..\..\src\GameLibrary\SDL_ext\SDL_RWops_ext.cpp">
+      <Filter>src\GameLibrary\SDL_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\GameLibrary\GameLibrary.cpp">
+      <Filter>src\GameLibrary</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
