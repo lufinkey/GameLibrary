@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="GameLibrary" Version="10.0.0" InternalType="Library">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="GameLibrary">
       <VirtualDirectory Name="Exception">
@@ -71,6 +76,7 @@
           <File Name="../../src/GameLibrary/Screen/UI/SegmentedSelectorElement.cpp"/>
           <File Name="../../src/GameLibrary/Screen/UI/AnimationElement.cpp"/>
           <File Name="../../src/GameLibrary/Screen/UI/TouchElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/GridSelectorElement.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="Transition">
           <File Name="../../src/GameLibrary/Screen/Transition/FadeZoomTransition.cpp"/>
@@ -135,11 +141,6 @@
       <File Name="../../src/GameLibrary/GameLibrary.cpp"/>
     </VirtualDirectory>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
-    </Plugin>
-  </Plugins>
   <VirtualDirectory Name="external">
     <VirtualDirectory Name="pugixml">
       <VirtualDirectory Name="src">
@@ -201,6 +202,7 @@
           <File Name="../../include/GameLibrary/Screen/UI/ActorMenuElement.hpp"/>
           <File Name="../../include/GameLibrary/Screen/UI/TextInputElement.hpp"/>
           <File Name="../../include/GameLibrary/Screen/UI/CheckboxElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/GridSelectorElement.hpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="Transition">
           <File Name="../../include/GameLibrary/Screen/Transition/PopoverTransition.hpp"/>
