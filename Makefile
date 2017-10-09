@@ -73,6 +73,7 @@ SRC_FILES =\
 	src/GameLibrary/Screen/UI/ButtonElement.cpp\
 	src/GameLibrary/Screen/UI/CheckboxElement.cpp\
 	src/GameLibrary/Screen/UI/ImageElement.cpp\
+	src/GameLibrary/Screen/UI/GridSelectorElement.cpp\
 	src/GameLibrary/Screen/UI/MenuScreen.cpp\
 	src/GameLibrary/Screen/UI/PopupScreen.cpp\
 	src/GameLibrary/Screen/UI/SegmentedSelectorElement.cpp\
