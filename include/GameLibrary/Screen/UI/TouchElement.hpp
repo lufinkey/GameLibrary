@@ -26,7 +26,7 @@ namespace fgl
 		
 		virtual void onTouchDown(const TouchEvent& touchEvent);
 		
-		virtual bool onTouchMove(const TouchEvent& evt);
+		virtual bool onTouchMove(const TouchEvent& touchEvent);
 		
 		virtual void onTouchUpInside(const TouchEvent& touchEvent);
 		virtual void onTouchUpOutside(const TouchEvent& touchEvent);
