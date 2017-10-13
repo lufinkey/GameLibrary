@@ -112,6 +112,11 @@ namespace fgl
 		}
 		return Color(255-r, 255-g, 255-b, a);
 	}
+	
+	Color Color::withAlpha(Uint8 alpha) const
+	{
+		return Color(r, g, b, alpha);
+	}
 
 	Color Color::random(bool alpha)
 	{

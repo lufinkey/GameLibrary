@@ -94,6 +94,11 @@ namespace fgl
 			\returns a negative Color*/
 		Color negative(bool alpha=false) const;
 		
+		/*! Gives the color, but with the given alpha
+			\param alpha the alpha byte
+			\returns a new Color object with the given alpha value */
+		Color withAlpha(Uint8 alpha) const;
+		
 		/*! Generates a random Color value.
 			\param alpha true to randomize the alpha value, false to only randomize the RGB values
 			\returns a random Color value*/
