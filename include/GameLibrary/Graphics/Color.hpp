@@ -96,8 +96,13 @@ namespace fgl
 		
 		/*! Gives the color, but with the given alpha
 			\param alpha the alpha byte
-			\returns a new Color object with the given alpha value */
+			\returns a Color object with the given alpha value */
 		Color withAlpha(Uint8 alpha) const;
+		
+		/*! Gives the color, but darkened by the given amount
+			\param amount a value between 0 (no color change) and 1 (completely black)
+			\returns a Color object darkened by the given amount */
+		Color darkened(double amount) const;
 		
 		/*! Generates a random Color value.
 			\param alpha true to randomize the alpha value, false to only randomize the RGB values

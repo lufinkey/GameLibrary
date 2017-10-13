@@ -117,6 +117,19 @@ namespace fgl
 	{
 		return Color(r, g, b, alpha);
 	}
+	
+	Color Color::darkened(double amount) const
+	{
+		if(amount < 0.0)
+		{
+			amount = 0.0;
+		}
+		else if(amount > 1.0)
+		{
+			amount = 1.0;
+		}
+		return composite(getGrayColor(1.0-amount));
+	}
 
 	Color Color::random(bool alpha)
 	{
