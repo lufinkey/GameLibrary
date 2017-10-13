@@ -119,7 +119,7 @@ namespace fgl
 		const AutoLayoutManager& getAutoLayoutManager() const;
 		
 		
-		/*! Sets the background color of this element. If the color is equal to Color::TRANSPARENT, the background will not be drawn.
+		/*! Sets the background color of this element. If the color is equal to Colors::TRANSPARENT, the background will not be drawn.
 			\param color a Color value*/
 		void setBackgroundColor(const Color& color);
 		/*! Gets the background of this element.
@@ -133,7 +133,7 @@ namespace fgl
 		/*! Gets the width of the border on this element.
 			\returns the border width, in pixels */
 		float getBorderWidth() const;
-		/*! Sets the border color of this element. If the color is equal to Color::TRANSPARENT, the background color will not be drawn.
+		/*! Sets the border color of this element. If the color is equal to Colors::TRANSPARENT, the background color will not be drawn.
 			\param borderColor the color to draw the border */
 		void setBorderColor(const Color& borderColor);
 		/*! Gets the border color of this element.

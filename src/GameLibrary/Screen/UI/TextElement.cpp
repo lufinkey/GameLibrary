@@ -13,7 +13,7 @@ namespace fgl
 		: ScreenElement(frame),
 		textAlignment(TEXTALIGN_LEFT),
 		verticalTextAlignment(VERTICALALIGN_TOP),
-		textColor(Color::BLACK),
+		textColor(Colors::BLACK),
 		font(Graphics::getDefaultFont()),
 		fontSize(18),
 		fontSizeWidthAdjustmentEnabled(false),

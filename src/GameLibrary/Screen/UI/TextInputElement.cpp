@@ -40,9 +40,9 @@ namespace fgl
 		resignsOnOutsideTouch(false),
 		textInputListener(this)
 	{
-		setBackgroundColor(Color::WHITE);
+		setBackgroundColor(Colors::WHITE);
 		setBorderWidth(1.0f);
-		setBorderColor(Color::BLACK);
+		setBorderColor(Colors::BLACK);
 		
 		textElement->setTextAlignment(TEXTALIGN_LEFT);
 		textElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);

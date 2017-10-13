@@ -31,9 +31,9 @@ namespace fgl
 	ScreenElement::ScreenElement(const RectangleD& frame)
 		: frame(frame),
 		parentElement(nullptr),
-		backgroundColor(Color::TRANSPARENT),
+		backgroundColor(Colors::TRANSPARENT),
 		borderWidth(0),
-		borderColor(Color::BLACK),
+		borderColor(Colors::BLACK),
 		alpha(1.0),
 		visible(true),
 		clipsToFrame(false)
@@ -64,7 +64,7 @@ namespace fgl
 	
 	void ScreenElement::drawBackground(ApplicationData appData, Graphics graphics) const
 	{
-		if(!backgroundColor.equals(Color::TRANSPARENT))
+		if(!backgroundColor.equals(Colors::TRANSPARENT))
 		{
 			RectangleD rect = getFrame();
 			graphics.setColor(backgroundColor);
@@ -74,7 +74,7 @@ namespace fgl
 
 	void ScreenElement::drawBorder(ApplicationData appData, Graphics graphics) const
 	{
-		if(borderWidth != 0 && !borderColor.equals(Color::TRANSPARENT))
+		if(borderWidth != 0 && !borderColor.equals(Colors::TRANSPARENT))
 		{
 			RectangleD frame = getFrame();
 			graphics.setColor(borderColor);

@@ -81,7 +81,7 @@ namespace fgl
 			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
 			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 			\returns the index of the added item*/
-		size_t addItem(const Vector2d& position, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Color::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
+		size_t addItem(const Vector2d& position, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Colors::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
 		/*! Creates and adds a TextActor that will be automatically resized by the AutoLayout.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param text a string to display
@@ -91,7 +91,7 @@ namespace fgl
 			\param fontStyle the style (plain, bold italic, etc.) of the font \see fgl::Font::Style
 			\param alignment the alignment of the text, relative the origin \see fgl::TextActor::TextAlignment
 		 	\returns the index of the added item*/
-		size_t addItem(const RectD& bounds, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Color::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
+		size_t addItem(const RectD& bounds, const String& text, Font* font=Graphics::getDefaultFont(), const Color& color=Colors::BLACK, unsigned int fontSize=18, int fontStyle=Font::STYLE_PLAIN, const TextActor::TextAlignment& alignment=TextActor::ALIGN_CENTER);
 		/*! Removes and deallocates a previously added Actor pointer.
 			\param index the index of the Actor. When an Actor is removed, the indexes of other Actors may change*/
 		void removeItem(size_t index);

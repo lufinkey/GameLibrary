@@ -13,7 +13,7 @@ namespace fgl
 	SegmentedSelectorElement::SegmentedSelectorElement(const RectangleD& frame)
 		: ScreenElement(frame),
 		selectedItemIndex(NO_SELECTION),
-		color(Color::GRAY),
+		color(Colors::GRAY),
 		font(Graphics::getDefaultFont()),
 		fontSize(16)
 	{
@@ -49,14 +49,14 @@ namespace fgl
 			itemElement->getTitleElement()->setFont(font);
 			itemElement->getTitleElement()->setFontSize(fontSize);
 			itemElement->setTitle(item, ButtonElement::BUTTONSTATE_NORMAL);
-			itemElement->setTitleColor(Color::BLACK, ButtonElement::BUTTONSTATE_NORMAL);
+			itemElement->setTitleColor(Colors::BLACK, ButtonElement::BUTTONSTATE_NORMAL);
 			if(itemIndex==selectedItemIndex)
 			{
 				itemElement->setBackgroundColor(color, ButtonElement::BUTTONSTATE_NORMAL);
 			}
 			else
 			{
-				itemElement->setBackgroundColor(Color::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
+				itemElement->setBackgroundColor(Colors::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
 			}
 			itemElement->setTapHandler([=]{
 				setSelectedItemIndex(itemIndex);
@@ -92,7 +92,7 @@ namespace fgl
 	{
 		if(selectedItemIndex < items.size())
 		{
-			itemElements[selectedItemIndex]->setBackgroundColor(Color::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
+			itemElements[selectedItemIndex]->setBackgroundColor(Colors::WHITE, ButtonElement::BUTTONSTATE_NORMAL);
 		}
 		selectedItemIndex = index;
 		if(selectedItemIndex < items.size())

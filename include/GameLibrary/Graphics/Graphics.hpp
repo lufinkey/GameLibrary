@@ -242,7 +242,7 @@ namespace fgl
 		
 	protected:
 		/*! Clears the Window render and resets all the properties of the Graphics*/
-		void reset(const Color&clearColor = Color::WHITE);
+		void reset(const Color&clearColor = Colors::WHITE);
 		
 		/*! Constructs a Graphics object to draw to a given Window*/
 		explicit Graphics(Window& window);

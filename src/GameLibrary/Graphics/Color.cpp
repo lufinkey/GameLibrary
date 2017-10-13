@@ -5,18 +5,6 @@
 
 namespace fgl
 {
-	Color::Color()
-		: a(255), b(255), g(255), r(255)
-	{
-		//
-	}
-	
-	Color::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-		: a(a), b(b), g(g), r(r)
-	{
-		//
-	}
-	
 	Color::Color(const Dictionary& colorValues)
 		: a(extractNumber(colorValues, "a", 255)),
 		b(extractNumber(colorValues, "b", 255)),
@@ -24,15 +12,6 @@ namespace fgl
 		r(extractNumber(colorValues, "r", 255))
 	{
 		//
-	}
-	
-	Color::Color(Uint32 rgba)
-	{
-		Uint8* rgbaArray = (Uint8*)(&rgba);
-		r = rgbaArray[3];
-		g = rgbaArray[2];
-		b = rgbaArray[1];
-		a = rgbaArray[0];
 	}
 
 	Color& Color::operator=(Uint32 rgba)

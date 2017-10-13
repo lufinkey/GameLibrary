@@ -18,7 +18,7 @@ namespace fgl
 		size(Vector2u(640, 480)),
 		title("Program"),
 		icon(nullptr),
-		backgroundColor(Color::WHITE),
+		backgroundColor(Colors::WHITE),
 		style(Window::STYLE_DEFAULT)
 	{
 		//
@@ -106,9 +106,9 @@ namespace fgl
 	{
 		#if defined(TARGETPLATFORMTYPE_MOBILE)
 			RectangleI displayBounds = getDisplayBounds(0);
-			return WindowSettings(Vector2i(0,0), Vector2u((unsigned int)displayBounds.width, (unsigned int)displayBounds.height), "", nullptr, Color::WHITE, Window::STYLE_BORDERLESS);
+			return WindowSettings(Vector2i(0,0), Vector2u((unsigned int)displayBounds.width, (unsigned int)displayBounds.height), "", nullptr, Colors::WHITE, Window::STYLE_BORDERLESS);
 		#else
-			return WindowSettings(Vector2i(Window::POSITION_UNDEFINED, Window::POSITION_UNDEFINED), Vector2u(640, 480), "", nullptr, Color::WHITE, Window::STYLE_RESIZABLE);
+			return WindowSettings(Vector2i(Window::POSITION_UNDEFINED, Window::POSITION_UNDEFINED), Vector2u(640, 480), "", nullptr, Colors::WHITE, Window::STYLE_RESIZABLE);
 		#endif
 	}
 	
@@ -119,7 +119,7 @@ namespace fgl
 		viewport(nullptr),
 		graphics(nullptr),
 		assetManager(nullptr),
-		backgroundColor(Color::WHITE),
+		backgroundColor(Colors::WHITE),
 		windowed_size(0,0)
 	{
 		//

@@ -4,7 +4,7 @@
 namespace fgl
 {
 	TextActor::TextActor()
-		: TextActor(0,0, "", Graphics::getDefaultFont(), Color::BLACK)
+		: TextActor(0,0, "", Graphics::getDefaultFont(), Colors::BLACK)
 	{
 		//
 	}

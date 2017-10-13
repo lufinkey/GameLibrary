@@ -26,11 +26,11 @@ namespace fgl
 		pressedTouchID(-1)
 	{
 		titles[BUTTONSTATE_NORMAL] = title;
-		titleColors[BUTTONSTATE_NORMAL] = Color::BLACK;
+		titleColors[BUTTONSTATE_NORMAL] = Colors::BLACK;
 		images[BUTTONSTATE_NORMAL] = nullptr;
 		backgroundImages[BUTTONSTATE_NORMAL] = nullptr;
-		backgroundColors[BUTTONSTATE_NORMAL] = Color::TRANSPARENT;
-		tintColors[BUTTONSTATE_NORMAL] = Color::WHITE;
+		backgroundColors[BUTTONSTATE_NORMAL] = Colors::TRANSPARENT;
+		tintColors[BUTTONSTATE_NORMAL] = Colors::WHITE;
 		
 		backgroundElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
 		backgroundElement->setLayoutRule(LAYOUTRULE_TOP, 0);
@@ -38,7 +38,7 @@ namespace fgl
 		backgroundElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
 
 		titleElement->setText(title);
-		titleElement->setTextColor(Color::BLACK);
+		titleElement->setTextColor(Colors::BLACK);
 		titleElement->setTextAlignment(TEXTALIGN_CENTER);
 		titleElement->setVerticalTextAlignment(VERTICALALIGN_CENTER);
 		
@@ -91,7 +91,7 @@ namespace fgl
 	void ButtonElement::draw(ApplicationData appData, Graphics graphics) const
 	{
 		auto tintColor = getTintColor(buttonState);
-		if(tintColor!=Color::WHITE)
+		if(tintColor!=Colors::WHITE)
 		{
 			graphics.compositeTintColor(tintColor);
 		}
@@ -219,7 +219,7 @@ namespace fgl
 	
 	Color ButtonElement::getTitleColor(ButtonState state) const
 	{
-		return getProperty<Color>(titleColors, state, Color::TRANSPARENT);
+		return getProperty<Color>(titleColors, state, Colors::TRANSPARENT);
 	}
 	
 	void ButtonElement::setTintColor(const fgl::Color& tintColor, ButtonState state)
@@ -236,7 +236,7 @@ namespace fgl
 	
 	Color ButtonElement::getTintColor(ButtonState state) const
 	{
-		return getProperty<Color>(tintColors, state, Color::TRANSPARENT);
+		return getProperty<Color>(tintColors, state, Colors::TRANSPARENT);
 	}
 	
 	void ButtonElement::setImage(TextureImage* image, ButtonState state)
@@ -301,7 +301,7 @@ namespace fgl
 	
 	Color ButtonElement::getBackgroundColor(ButtonState state) const
 	{
-		return getProperty<Color>(backgroundColors, state, Color::TRANSPARENT);
+		return getProperty<Color>(backgroundColors, state, Colors::TRANSPARENT);
 	}
 	
 	TextElement* ButtonElement::getTitleElement() const

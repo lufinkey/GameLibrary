@@ -63,8 +63,8 @@ namespace fgl
 
 	void Graphics::reset(const Color&clearColor)
 	{
-		setColor(Color::BLACK);
-		setTintColor(Color::WHITE);
+		setColor(Colors::BLACK);
+		setTintColor(Colors::WHITE);
 		setAlpha(1.0f);
 
 		setFont(defaultFont);
@@ -188,7 +188,7 @@ namespace fgl
 			double letterBoxW = (winSize.x - fixedWidth)/2;
 			double letterBoxH = (winSize.y - fixedHeight)/2;
 
-			setColor(Color::BLACK);
+			setColor(Colors::BLACK);
 			if(letterBoxW>0)
 			{
 				fillRect(0,0,letterBoxW,winSize.y);
@@ -244,8 +244,8 @@ namespace fgl
 			throw Exception(SDL_GetError());
 		}
 
-		color = Color::BLACK;
-		tintColor = Color::WHITE;
+		color = Colors::BLACK;
+		tintColor = Colors::WHITE;
 		alpha = 1.0f;
 
 		if(defaultFont == nullptr)
@@ -277,7 +277,7 @@ namespace fgl
 
 		pixel = new TextureImage();
 		pixel->create(1,1,*this);
-		Color pixelColor = Color::WHITE;
+		Color pixelColor = Colors::WHITE;
 		pixel->update(&pixelColor);
 
 		reset();

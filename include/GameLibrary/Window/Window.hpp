@@ -27,7 +27,7 @@ namespace fgl
 		
 	public:
 		WindowSettings();
-		WindowSettings(const Vector2i& position, const Vector2u& size, const String&title="", Image*icon=nullptr, const Color&backgroundColor=Color::WHITE, Uint32 style=0);
+		WindowSettings(const Vector2i& position, const Vector2u& size, const String&title="", Image*icon=nullptr, const Color&backgroundColor=Colors::WHITE, Uint32 style=0);
 		~WindowSettings();
 		
 		void setPosition(const Vector2i&);
@@ -86,7 +86,7 @@ namespace fgl
 		void create(const WindowSettings& settings = Window::getDefaultSettings());
 		
 		void refresh();
-		void clear(const Color& clearColor=Color::WHITE);
+		void clear(const Color& clearColor=Colors::WHITE);
 		void destroy();
 		
 		Image* capture();

@@ -244,7 +244,7 @@ namespace fgl
 		SDL_SetEventFilter(&ApplicationEventFilter, this);
 		
 		window->create(settings);
-		window->clear(Color::BLACK);
+		window->clear(Colors::BLACK);
 		window->getAssetManager()->setRootDirectory(resourceDirectory);
 		
 		return exitcode;

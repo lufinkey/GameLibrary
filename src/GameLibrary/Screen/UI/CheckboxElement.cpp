@@ -21,7 +21,7 @@ namespace fgl
 			RectangleD frame = getFrame();
 			double checkAxisX = frame.x+(frame.width*0.45);
 			double checkAxisY = frame.y+(3*frame.height/4);
-			graphics.setColor(Color::BLACK);
+			graphics.setColor(Colors::BLACK);
 			graphics.drawLine(checkAxisX-(frame.width*0.2), checkAxisY-(frame.height*0.2), checkAxisX, checkAxisY);
 			graphics.drawLine(checkAxisX, checkAxisY, checkAxisX+(frame.width*0.3), checkAxisY-(frame.height*0.5));
 		}

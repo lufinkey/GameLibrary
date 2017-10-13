@@ -24,12 +24,12 @@ namespace fgl
 			\param width the width of the image, in pixels
 			\param height the height of the image, in pixels
 			\param color the color to fill the image*/
-		void create(size_t width, size_t height, const Color&color = Color::TRANSPARENT);
+		void create(size_t width, size_t height, const Color&color = Colors::TRANSPARENT);
 		/*! Resizes the image and fills any newly created space with a given color*
 			\param width the width of the image, in pixels
 			\param height the height of the image, in pixels
 			\param color the color to fill the empty space with, if any */
-		void resize(size_t width, size_t height, const Color& color = Color::TRANSPARENT);
+		void resize(size_t width, size_t height, const Color& color = Colors::TRANSPARENT);
 		/*! Clears the current image and sets the size to (0,0)*/
 		void clear();
 		

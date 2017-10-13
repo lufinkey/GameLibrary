@@ -89,8 +89,8 @@ namespace fgl
 		mirroredVertical(false),
 		frame_visible(false),
 		mouseEventsEnabled(true),
-		color(Color::WHITE),
-		frame_color(Color::GREEN),
+		color(Colors::WHITE),
+		frame_color(Colors::GREEN),
 		rotation(0),
 		alpha(1),
 		scale(1)
