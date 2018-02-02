@@ -1876,17 +1876,11 @@ namespace fgl
 		{
 			if(characters[i]==delim)
 			{
-				if(lastStart<i)
-				{
-					elements.add(substring(lastStart, i));
-				}
+				elements.add(substring(lastStart, i));
 				lastStart = i+1;
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.add(substring(lastStart, size));
-		}
+		elements.add(substring(lastStart, size));
 		return elements;
 	}
 	
@@ -1918,18 +1912,13 @@ namespace fgl
 				}
 				if(match)
 				{
-					if(lastStart<i)
-					{
-						elements.add(substring(lastStart, i));
-					}
+					elements.add(substring(lastStart, i));
 					lastStart = i+delim_size;
+					i = lastStart-1;
 				}
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.add(substring(lastStart, size));
-		}
+		elements.add(substring(lastStart, size));
 		return elements;
 	}
 	
@@ -1960,18 +1949,13 @@ namespace fgl
 				}
 				if(match)
 				{
-					if(lastStart<i)
-					{
-						elements.add(substring(lastStart, i));
-					}
+					elements.add(substring(lastStart, i));
 					lastStart = i+delim.size;
+					i = lastStart-1;
 				}
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.add(substring(lastStart, size));
-		}
+		elements.add(substring(lastStart, size));
 		return elements;
 	}
 	
@@ -1986,17 +1970,11 @@ namespace fgl
 		{
 			if(characters[i]==delim)
 			{
-				if(lastStart<i)
-				{
-					elements.push_back(substring(lastStart, i));
-				}
+				elements.push_back(substring(lastStart, i));
 				lastStart = i+1;
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.push_back(substring(lastStart, size));
-		}
+		elements.push_back(substring(lastStart, size));
 		return elements;
 	}
 	
@@ -2028,18 +2006,13 @@ namespace fgl
 				}
 				if(match)
 				{
-					if(lastStart<i)
-					{
-						elements.push_back(substring(lastStart, i));
-					}
+					elements.push_back(substring(lastStart, i));
 					lastStart = i+delim_size;
+					i = lastStart-1;
 				}
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.push_back(substring(lastStart, size));
-		}
+		elements.push_back(substring(lastStart, size));
 		return elements;
 	}
 	
@@ -2070,18 +2043,13 @@ namespace fgl
 				}
 				if(match)
 				{
-					if(lastStart<i)
-					{
-						elements.push_back(substring(lastStart, i));
-					}
+					elements.push_back(substring(lastStart, i));
 					lastStart = i+delim.size;
+					i = lastStart-1;
 				}
 			}
 		}
-		if(lastStart<size)
-		{
-			elements.push_back(substring(lastStart, size));
-		}
+		elements.push_back(substring(lastStart, size));
 		return elements;
 	}
 	
