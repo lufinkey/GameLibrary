@@ -139,6 +139,21 @@
         <File Name="../../src/GameLibrary/Network/NetworkProtocol.cpp"/>
       </VirtualDirectory>
       <File Name="../../src/GameLibrary/GameLibrary.cpp"/>
+      <VirtualDirectory Name="Physics">
+        <VirtualDirectory Name="CollisionRects">
+          <File Name="../../src/GameLibrary/Physics/CollisionRects/BoxCollisionRect.cpp"/>
+          <File Name="../../src/GameLibrary/Physics/CollisionRects/CollisionRect.cpp"/>
+          <File Name="../../src/GameLibrary/Physics/CollisionRects/PixelCollisionRect.cpp"/>
+        </VirtualDirectory>
+        <File Name="../../src/GameLibrary/Physics/Collidable.cpp"/>
+        <File Name="../../src/GameLibrary/Physics/CollisionEvent.cpp"/>
+        <File Name="../../src/GameLibrary/Physics/CollisionManager.cpp"/>
+        <File Name="../../src/GameLibrary/Physics/CollisionPair.cpp"/>
+        <File Name="../../src/GameLibrary/Physics/ContactEvent.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Event">
+        <File Name="../../src/GameLibrary/Events/Event.cpp"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="external">
@@ -293,6 +308,21 @@
       </VirtualDirectory>
       <File Name="../../include/GameLibrary/GameLibrary.hpp"/>
       <File Name="../../include/GameLibrary/Types.hpp"/>
+      <VirtualDirectory Name="Physics">
+        <VirtualDirectory Name="CollisionRects">
+          <File Name="../../include/GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp"/>
+          <File Name="../../include/GameLibrary/Physics/CollisionRects/CollisionRect.hpp"/>
+          <File Name="../../include/GameLibrary/Physics/CollisionRects/PixelCollisionRect.hpp"/>
+        </VirtualDirectory>
+        <File Name="../../include/GameLibrary/Physics/CollisionEvent.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/CollisionManager.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/CollisionPair.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/ContactEvent.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/Collidable.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Event">
+        <File Name="../../include/GameLibrary/Events/Event.hpp"/>
+      </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
   <Description/>
