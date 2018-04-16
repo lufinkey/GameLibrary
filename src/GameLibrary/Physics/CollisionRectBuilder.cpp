@@ -9,22 +9,9 @@ namespace fgl
 	{
 		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
-		auto positionDiff = transformState.position - prevTransformState.position;
+		auto displacement = transformState.position - prevTransformState.position;
 		auto rect = RectangleD(transformState.position.x-origin.x, transformState.position.y-origin.y, size.x, size.y);
-		auto lastRect = rect;
-		lastRect.x -= positionDiff.x;
-		lastRect.y -= positionDiff.y;
-		size_t matchingRectIndex = prevRects.indexWhere([](CollisionRect* const & rect) -> bool {
-			if(rect->getTag()=="all")
-			{
-				return true;
-			}
-			return false;
-		});
-		if(matchingRectIndex!=-1)
-		{
-			lastRect = prevRects[matchingRectIndex]->getRect();
-		}
+		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
 		if(transformState.rotation!=0.0)
 		{
 			return {new BoxCollisionRect("all", rect, lastRect, transformState.rotation, origin, resolution)};
@@ -36,28 +23,39 @@ namespace fgl
 	{
 		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
-		auto positionDiff = transformState.position - prevTransformState.position;
+		auto displacement = transformState.position - prevTransformState.position;
 		auto img = animation->getImage(frameIndex);
 		auto srcRect = animation->getImageSourceRect(frameIndex);
 		auto rect = RectangleD(transformState.position.x-origin.x, transformState.position.y-origin.y, size.x, size.y);
-		auto lastRect = rect;
-		lastRect.x -= positionDiff.x;
-		lastRect.y -= positionDiff.y;
-		size_t matchingRectIndex = prevRects.indexWhere([](CollisionRect* const & rect) -> bool {
-			if(rect->getTag()=="all")
-			{
-				return true;
-			}
-			return false;
-		});
-		if(matchingRectIndex!=-1)
-		{
-			lastRect = prevRects[matchingRectIndex]->getRect();
-		}
+		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
 		if(transformState.rotation!=0.0)
 		{
 			return {new PixelCollisionRect("all", rect, lastRect, srcRect, transformState.rotation, origin, img, mirroredHorizontal, mirroredVertical)};
 		}
 		return {new PixelCollisionRect("all", rect, lastRect, srcRect, img, mirroredHorizontal, mirroredVertical)};
+	}
+	
+	size_t CollisionRectBuilder::findMatchingRectIndex(const ArrayList<CollisionRect*>& collisionRects, const String& tag)
+	{
+		return collisionRects.indexWhere([tag](CollisionRect* const & rect) -> bool {
+			if(rect->getTag()==tag)
+			{
+				return true;
+			}
+			return false;
+		});
+	}
+	
+	RectangleD CollisionRectBuilder::getMatchingRect(const ArrayList<CollisionRect*>& collisionRects, const String& tag, const RectangleD& currentRect, const Vector2d& displacement)
+	{
+		size_t matchingRectIndex = findMatchingRectIndex(collisionRects, tag);
+		if(matchingRectIndex==(size_t)-1)
+		{
+			auto rect = currentRect;
+			rect.x -= displacement.x;
+			rect.y -= displacement.y;
+			return rect;
+		}
+		return collisionRects[matchingRectIndex]->getRect();
 	}
 }
