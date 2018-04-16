@@ -72,7 +72,7 @@ namespace fgl
 	class Collidable;
 	class CollisionManager;
 	class CollisionPair;
-	class CollisionRectManager;
+	class CollisionRectBuilder;
 		//Event
 		class CollisionEvent;
 		class ContactEvent;

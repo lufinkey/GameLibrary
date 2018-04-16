@@ -56,7 +56,7 @@
 #include "Physics/CollisionEvent.hpp"
 #include "Physics/CollisionManager.hpp"
 #include "Physics/CollisionPair.hpp"
-#include "Physics/CollisionRectManager.hpp"
+#include "Physics/CollisionRectBuilder.hpp"
 #include "Physics/ContactEvent.hpp"
 #include "Physics/CollisionRects/CollisionRect.hpp"
 #include "Physics/CollisionRects/BoxCollisionRect.hpp"

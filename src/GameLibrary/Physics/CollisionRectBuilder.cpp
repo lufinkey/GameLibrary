@@ -1,39 +1,11 @@
 
-#include <GameLibrary/Physics/CollisionRectManager.hpp>
+#include <GameLibrary/Physics/CollisionRectBuilder.hpp>
 #include <GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp>
 #include <GameLibrary/Physics/CollisionRects/PixelCollisionRect.hpp>
 
 namespace fgl
 {
-	CollisionRectManager::CollisionRectManager()
-	{
-		//
-	}
-	
-	CollisionRectManager::~CollisionRectManager()
-	{
-		for(auto collisionRect : collisionRects)
-		{
-			delete collisionRect;
-		}
-	}
-	
-	const ArrayList<CollisionRect*>& CollisionRectManager::getCollisionRects() const
-	{
-		return collisionRects;
-	}
-	
-	void CollisionRectManager::updateRects(const std::function<ArrayList<CollisionRect*>()>& rectCreator)
-	{
-		auto previousRects = collisionRects;
-		collisionRects = rectCreator();
-		for(auto collisionRect : previousRects)
-		{
-			delete collisionRect;
-		}
-	}
-	
-	ArrayList<CollisionRect*> CollisionRectManager::createRectsFromFrame(Collidable* collidable, Vector2d size, Vector2d origin, Vector2d resolution)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Vector2d resolution)
 	{
 		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
@@ -42,7 +14,7 @@ namespace fgl
 		auto lastRect = rect;
 		lastRect.x -= positionDiff.x;
 		lastRect.y -= positionDiff.y;
-		size_t matchingRectIndex = collisionRects.indexWhere([](CollisionRect* const & rect) -> bool {
+		size_t matchingRectIndex = prevRects.indexWhere([](CollisionRect* const & rect) -> bool {
 			if(rect->getTag()=="all")
 			{
 				return true;
@@ -51,7 +23,7 @@ namespace fgl
 		});
 		if(matchingRectIndex!=-1)
 		{
-			lastRect = collisionRects[matchingRectIndex]->getRect();
+			lastRect = prevRects[matchingRectIndex]->getRect();
 		}
 		if(transformState.rotation!=0.0)
 		{
@@ -60,7 +32,7 @@ namespace fgl
 		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectManager::createRectsFromAnimation(Collidable* collidable, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
 		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
@@ -71,7 +43,7 @@ namespace fgl
 		auto lastRect = rect;
 		lastRect.x -= positionDiff.x;
 		lastRect.y -= positionDiff.y;
-		size_t matchingRectIndex = collisionRects.indexWhere([](CollisionRect* const & rect) -> bool {
+		size_t matchingRectIndex = prevRects.indexWhere([](CollisionRect* const & rect) -> bool {
 			if(rect->getTag()=="all")
 			{
 				return true;
@@ -80,7 +52,7 @@ namespace fgl
 		});
 		if(matchingRectIndex!=-1)
 		{
-			lastRect = collisionRects[matchingRectIndex]->getRect();
+			lastRect = prevRects[matchingRectIndex]->getRect();
 		}
 		if(transformState.rotation!=0.0)
 		{
