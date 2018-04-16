@@ -27,6 +27,8 @@ namespace fgl
 	public:
 		Collidable(const TransformState& initialState);
 		
+		virtual bool getFlag(const String& flag) const;
+		
 		virtual TransformState getTransformState() const = 0;
 		virtual void shift(const Vector2d& offset) = 0;
 
@@ -62,7 +64,7 @@ namespace fgl
 
 	private:
 		void updateVelocity(double frameSpeedMultiplier);
-
+		
 		TransformState previousTransformState;
 		Vector2d velocity;
 		Vector2d displacement;

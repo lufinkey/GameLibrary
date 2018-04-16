@@ -10,6 +10,15 @@ namespace fgl
 	{
 		//
 	}
+	
+	bool Collidable::getFlag(const String& flag) const
+	{
+		if(flag == "Collidable")
+		{
+			return true;
+		}
+		return false;
+	}
 
 	void Collidable::updateVelocity(double frameSpeedMultiplier)
 	{
