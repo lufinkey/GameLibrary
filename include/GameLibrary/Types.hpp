@@ -26,6 +26,9 @@ namespace fgl
 	class Music;
 	class Sound;
 	
+	//Event
+	class Event;
+	
 	//Exception
 	class Exception;
 		class BadCastException;

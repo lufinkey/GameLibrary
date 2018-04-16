@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <GameLibrary/Types.hpp>
+#include <GameLibrary/Utilities/String.hpp>
 
 namespace fgl
 {
