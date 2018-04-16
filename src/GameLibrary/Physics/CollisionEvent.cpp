@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Physics/CollisionEvent.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {

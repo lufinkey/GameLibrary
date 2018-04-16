@@ -4,6 +4,7 @@
 #include "CollisionRects/CollisionRect.hpp"
 #include "ContactEvent.hpp"
 #include "CollisionEvent.hpp"
+#include <GameLibrary/Application/ApplicationData.hpp>
 
 namespace fgl
 {

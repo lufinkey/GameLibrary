@@ -153,7 +153,7 @@
         <File Name="../../src/GameLibrary/Physics/CollisionRectManager.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
-        <File Name="../../src/GameLibrary/Events/Event.cpp"/>
+        <File Name="../../src/GameLibrary/Event/Event.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
@@ -323,7 +323,7 @@
         <File Name="../../include/GameLibrary/Physics/CollisionRectManager.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
-        <File Name="../../include/GameLibrary/Events/Event.hpp"/>
+        <File Name="../../include/GameLibrary/Event/Event.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>

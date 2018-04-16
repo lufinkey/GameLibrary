@@ -68,6 +68,19 @@ namespace fgl
 	//Network
 	class NetworkProtocol;
 	
+	//Physics
+	class Collidable;
+	class CollisionManager;
+	class CollisionPair;
+	class CollisionRectManager;
+		//Event
+		class CollisionEvent;
+		class ContactEvent;
+		//CollisionRects
+		class CollisionRect;
+			class BoxCollisionRect;
+			class PixelCollisionRect;
+	
 	//Screen
 		//Transition
 		class Transition;

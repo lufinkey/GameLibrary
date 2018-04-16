@@ -2,11 +2,11 @@
 #pragma once
 
 #include <memory>
-#include <GameLibrary/GameLibrary.hpp>
+#include <GameLibrary/Types.hpp>
 
 namespace fgl
 {
-	typedef fgl::Uint32 EventType;
+	typedef Uint32 EventType;
 	EventType registerEventType();
 	
 	class Event

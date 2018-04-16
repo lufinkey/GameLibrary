@@ -1,7 +1,7 @@
 
-#include <fightlib/base/Event.hpp>
+#include <GameLibrary/Event/Event.hpp>
 
-namespace fl
+namespace fgl
 {
 	Event::~Event()
 	{

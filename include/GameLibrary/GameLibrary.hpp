@@ -14,6 +14,8 @@
 #include "Audio/Music.hpp"
 #include "Audio/Sound.hpp"
 
+#include "Event/Event.hpp"
+
 #include "Exception/Exception.hpp"
 #include "Exception/BadCastException.hpp"
 #include "Exception/IllegalArgumentException.hpp"
@@ -49,6 +51,16 @@
 #include "IO/FileTools.hpp"
 
 #include "Network/NetworkProtocol.hpp"
+
+#include "Physics/Collidable.hpp"
+#include "Physics/CollisionEvent.hpp"
+#include "Physics/CollisionManager.hpp"
+#include "Physics/CollisionPair.hpp"
+#include "Physics/CollisionRectManager.hpp"
+#include "Physics/ContactEvent.hpp"
+#include "Physics/CollisionRects/CollisionRect.hpp"
+#include "Physics/CollisionRects/BoxCollisionRect.hpp"
+#include "Physics/CollisionRects/PixelCollisionRect.hpp"
 
 #include "Screen/AutoLayoutManager.hpp"
 #include "Screen/ScreenElement.hpp"

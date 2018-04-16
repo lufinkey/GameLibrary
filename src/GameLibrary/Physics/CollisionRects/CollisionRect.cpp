@@ -707,7 +707,7 @@ namespace fgl
 		return false;
 	}
 	
-	bool CollisionRect::checkPixelCollision(fl::CollisionRect* collisionRect1, fl::CollisionRect* collisionRect2)
+	bool CollisionRect::checkPixelCollision(CollisionRect* collisionRect1, CollisionRect* collisionRect2)
 	{
 		auto rect1 = collisionRect1->getRect();
 		auto rect2 = collisionRect2->getRect();
