@@ -21,6 +21,10 @@ namespace fgl
 	
 	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
+		if(animation == nullptr)
+		{
+			return {};
+		}
 		auto transformState = collidable->getTransformState();
 		auto prevTransformState = collidable->getPreviousTransformState();
 		auto displacement = transformState.position - prevTransformState.position;
