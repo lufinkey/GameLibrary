@@ -11,10 +11,10 @@ namespace fgl
 		//
 	}
 
-	void Collidable::update(ApplicationData appData)
+	void Collidable::updateVelocity(double frameSpeedMultiplier)
 	{
 		//offset for velocity
-		shift(velocity*appData.getFrameSpeedMultiplier());
+		shift(velocity*frameSpeedMultiplier);
 	}
 
 	double Collidable::getMass() const

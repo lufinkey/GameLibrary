@@ -47,6 +47,14 @@ namespace fgl
 
 	void CollisionManager::update(const ApplicationData& appData)
 	{
+		// update velocities
+		auto frameSpeedMultiplier = appData.getFrameSpeedMultiplier();
+		for(auto& collidable : collidables)
+		{
+			collidable->updateVelocity(frameSpeedMultiplier);
+		}
+		
+		// start collision calculations
 		for(auto& collidable : collidables)
 		{
 			collidable->onBeginCollisionUpdates();

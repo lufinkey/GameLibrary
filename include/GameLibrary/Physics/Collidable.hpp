@@ -30,8 +30,6 @@ namespace fgl
 		virtual TransformState getTransformState() = 0;
 		virtual void shift(const Vector2d& offset) = 0;
 
-		virtual void update(ApplicationData appData);
-
 		virtual double getMass() const;
 		virtual bool isStaticCollisionBody() const = 0;
 		virtual ArrayList<CollisionRect*> getCollisionRects() const = 0;
@@ -63,6 +61,8 @@ namespace fgl
 		virtual void onFinishCollisionUpdates();
 
 	private:
+		void updateVelocity(double frameSpeedMultiplier);
+
 		TransformState previousTransformState;
 		Vector2d velocity;
 		Vector2d displacement;
