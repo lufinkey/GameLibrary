@@ -10,6 +10,13 @@ namespace fgl
 {
 	struct TransformState
 	{
+		TransformState(Vector2d position, double rotation)
+			: position(position),
+			rotation(rotation)
+		{
+			//
+		}
+		
 		Vector2d position;
 		double rotation;
 	};
