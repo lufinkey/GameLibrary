@@ -33,7 +33,7 @@ namespace fgl
 		}
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectManager::createRectsFromFrame(Collidable* collidable, Vector2d size, Vector2d origin, Vector2d scale)
+	ArrayList<CollisionRect*> CollisionRectManager::createRectsFromFrame(Collidable* collidable, Vector2d size, Vector2d origin, Vector2d resolution)
 	{
 		auto previousPosition = collidable->getPreviousPosition();
 		auto transformState = collidable->getTransformState();
@@ -57,9 +57,9 @@ namespace fgl
 		}
 		if(rotation!=0.0)
 		{
-			return {new BoxCollisionRect("all", rect, lastRect, rotation, origin, scale)};
+			return {new BoxCollisionRect("all", rect, lastRect, rotation, origin, resolution)};
 		}
-		return {new BoxCollisionRect("all", rect, lastRect, scale)};
+		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
 	}
 	
 	ArrayList<CollisionRect*> CollisionRectManager::createRectsFromAnimation(Collidable* collidable, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)

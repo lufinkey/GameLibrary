@@ -13,7 +13,7 @@ namespace fgl
 		CollisionRectManager();
 		~CollisionRectManager();
 		
-		ArrayList<CollisionRect*> createRectsFromFrame(Collidable* collidable, Vector2d size, Vector2d origin, Vector2d scale=Vector2d(1.0,1.0));
+		ArrayList<CollisionRect*> createRectsFromFrame(Collidable* collidable, Vector2d size, Vector2d origin, Vector2d resolution=Vector2d(1.0,1.0));
 		ArrayList<CollisionRect*> createRectsFromAnimation(Collidable* collidable, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal=false, bool mirroredVertical=false);
 		void updateRects(const std::function<ArrayList<CollisionRect*>()>& rectCreator);
 		
