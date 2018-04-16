@@ -7,8 +7,8 @@ namespace fgl
 {
 	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Vector2d resolution)
 	{
-		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
+		auto prevTransformState = collidable->getPreviousTransformState();
 		auto displacement = transformState.position - prevTransformState.position;
 		auto rect = RectangleD(transformState.position.x-origin.x, transformState.position.y-origin.y, size.x, size.y);
 		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
@@ -21,8 +21,8 @@ namespace fgl
 	
 	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
-		auto prevTransformState = collidable->getPreviousTransformState();
 		auto transformState = collidable->getTransformState();
+		auto prevTransformState = collidable->getPreviousTransformState();
 		auto displacement = transformState.position - prevTransformState.position;
 		auto img = animation->getImage(frameIndex);
 		auto srcRect = animation->getImageSourceRect(frameIndex);
