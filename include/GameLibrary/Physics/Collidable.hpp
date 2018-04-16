@@ -7,16 +7,20 @@
 
 namespace fgl
 {
+	struct TransformState
+	{
+		Vector2d position;
+		double rotation;
+	};
+	
 	class Collidable
 	{
 		friend class CollisionManager;
-		friend class CollisionRectManager;
 	public:
 		Collidable(const Vector2d& position);
 		
-		virtual void setPosition(const Vector2d& position) = 0;
-		virtual Vector2d getPosition() = 0;
-		virtual void shiftPosition(const Vector2d& offset) = 0;
+		virtual TransformState getTransformState() = 0;
+		virtual void shift(const Vector2d& offset) = 0;
 
 		virtual void update(ApplicationData appData);
 

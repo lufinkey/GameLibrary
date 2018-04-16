@@ -134,7 +134,7 @@ namespace fgl
 									//decide how to shift the collidables
 									if(collidable1->isStaticCollisionBody())
 									{
-										collidable2->shiftPosition(shiftAmount);
+										collidable2->shift(shiftAmount);
 										for(auto& rect : rects2)
 										{
 											rect->shift(shiftAmount);
@@ -142,7 +142,7 @@ namespace fgl
 									}
 									else if(collidable2->isStaticCollisionBody())
 									{
-										collidable1->shiftPosition(-shiftAmount);
+										collidable1->shift(-shiftAmount);
 										for(auto& rect : rects1)
 										{
 											rect->shift(-shiftAmount);
@@ -299,7 +299,7 @@ namespace fgl
 
 										if(moveAmount1.x!=0 || moveAmount1.y!=0)
 										{
-											collidable1->shiftPosition(moveAmount1);
+											collidable1->shift(moveAmount1);
 											for(auto& rect : rects1)
 											{
 												rect->shift(moveAmount1);
@@ -307,7 +307,7 @@ namespace fgl
 										}
 										if(moveAmount2.x!=0 || moveAmount2.y!=0)
 										{
-											collidable2->shiftPosition(moveAmount2);
+											collidable2->shift(moveAmount2);
 											for(auto& rect : rects2)
 											{
 												rect->shift(moveAmount2);
@@ -627,9 +627,9 @@ namespace fgl
 		//set the previous positions of the collidables
 		for(auto& collidable : collidables)
 		{
-			auto position = collidable->getPosition();
-			collidable->displacement = (position - collidable->previousPosition);
-			collidable->previousPosition = position;
+			auto transformState = collidable->getTransformState();
+			collidable->displacement = (transformState.position - collidable->previousPosition);
+			collidable->previousPosition = transformState.position;
 		}
 
 		//tell updated collidables that their collision updates have finished

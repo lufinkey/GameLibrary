@@ -14,7 +14,7 @@ namespace fgl
 	void Collidable::update(ApplicationData appData)
 	{
 		//offset for velocity
-		shiftPosition(velocity*appData.getFrameSpeedMultiplier());
+		shift(velocity*appData.getFrameSpeedMultiplier());
 	}
 
 	double Collidable::getMass() const
