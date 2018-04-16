@@ -25,7 +25,7 @@ namespace fgl
 	{
 		friend class CollisionManager;
 	public:
-		Collidable(TransformState initialState);
+		Collidable(const TransformState& initialState);
 		
 		virtual TransformState getTransformState() = 0;
 		virtual void shift(const Vector2d& offset) = 0;

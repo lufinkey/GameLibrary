@@ -3,7 +3,7 @@
 
 namespace fgl
 {
-	Collidable::Collidable(TransformState initialState)
+	Collidable::Collidable(const TransformState& initialState)
 		: previousTransformState(initialState),
 		velocity(0, 0),
 		displacement(0, 0)
