@@ -25,7 +25,7 @@ namespace fgl
 	{
 		friend class CollisionManager;
 	public:
-		Collidable(const Vector2d& position);
+		Collidable(TransformState initialState);
 		
 		virtual TransformState getTransformState() = 0;
 		virtual void shift(const Vector2d& offset) = 0;
@@ -36,7 +36,7 @@ namespace fgl
 		virtual bool isStaticCollisionBody() const = 0;
 		virtual ArrayList<CollisionRect*> getCollisionRects() const = 0;
 
-		Vector2d getPreviousPosition() const;
+		TransformState getPreviousTransformState() const;
 
 		void setVelocity(const Vector2d& velocity);
 		Vector2d getVelocity() const;
@@ -63,7 +63,7 @@ namespace fgl
 		virtual void onFinishCollisionUpdates();
 
 	private:
-		Vector2d previousPosition;
+		TransformState previousTransformState;
 		Vector2d velocity;
 		Vector2d displacement;
 	};

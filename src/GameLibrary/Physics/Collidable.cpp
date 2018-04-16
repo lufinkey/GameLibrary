@@ -3,8 +3,8 @@
 
 namespace fgl
 {
-	Collidable::Collidable(const Vector2d& position)
-		: previousPosition(position),
+	Collidable::Collidable(TransformState initialState)
+		: previousTransformState(initialState),
 		velocity(0, 0),
 		displacement(0, 0)
 	{
@@ -22,9 +22,9 @@ namespace fgl
 		return 1.0;
 	}
 
-	Vector2d Collidable::getPreviousPosition() const
+	TransformState Collidable::getPreviousTransformState() const
 	{
-		return previousPosition;
+		return previousTransformState;
 	}
 
 	void Collidable::setVelocity(const Vector2d& velocity_arg)
