@@ -5,12 +5,12 @@
 
 namespace fgl
 {
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Vector2d resolution)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
 	{
 		return fromFrame(collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, resolution);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(TransformState state, TransformState prevState, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Vector2d resolution)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
 	{
 		auto displacement = state.position - prevState.position;
 		auto rect = RectangleD(state.position.x-origin.x, state.position.y-origin.y, size.x, size.y);
@@ -22,12 +22,12 @@ namespace fgl
 		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
 		return fromAnimation(collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, animation, frameIndex, mirroredHorizontal, mirroredVertical);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(TransformState state, TransformState prevState, const ArrayList<CollisionRect*>& prevRects, Vector2d size, Vector2d origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
 		if(animation == nullptr)
 		{
