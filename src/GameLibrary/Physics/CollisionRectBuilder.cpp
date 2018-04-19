@@ -22,6 +22,12 @@ namespace fgl
 		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
 	}
 	
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(const RectangleD& rect, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
+	{
+		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
+	}
+	
 	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
 		return fromAnimation(collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, animation, frameIndex, mirroredHorizontal, mirroredVertical);

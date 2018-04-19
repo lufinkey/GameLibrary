@@ -12,6 +12,7 @@ namespace fgl
 	public:
 		static ArrayList<CollisionRect*> fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution=Vector2d(1.0,1.0));
 		static ArrayList<CollisionRect*> fromFrame(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution=Vector2d(1.0,1.0));
+		static ArrayList<CollisionRect*> fromFrame(const RectangleD& rect, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution=Vector2d(1.0,1.0));
 		
 		static ArrayList<CollisionRect*> fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal=false, bool mirroredVertical=false);
 		static ArrayList<CollisionRect*> fromAnimation(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal=false, bool mirroredVertical=false);
