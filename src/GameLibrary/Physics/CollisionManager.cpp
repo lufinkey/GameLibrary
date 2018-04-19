@@ -8,14 +8,14 @@ namespace fgl
 		//
 	}
 
-	void CollisionManager::addCollidable(Collidable* entity)
+	void CollisionManager::addCollidable(Collidable* collidable)
 	{
-		collidables.add(entity);
+		collidables.add(collidable);
 	}
 
-	void CollisionManager::removeCollidable(Collidable* entity)
+	void CollisionManager::removeCollidable(Collidable* collidable)
 	{
-		size_t index = collidables.indexOf(entity);
+		size_t index = collidables.indexOf(collidable);
 		if(index!=(size_t)-1)
 		{
 			collidables.remove(index);

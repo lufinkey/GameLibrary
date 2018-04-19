@@ -11,8 +11,8 @@ namespace fgl
 	public:
 		CollisionManager();
 
-		void addCollidable(Collidable* entity);
-		void removeCollidable(Collidable* entity);
+		void addCollidable(Collidable* collidable);
+		void removeCollidable(Collidable* collidable);
 
 		void update(const ApplicationData& appData);
 
