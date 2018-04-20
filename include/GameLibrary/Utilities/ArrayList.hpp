@@ -337,7 +337,7 @@ namespace fgl
 		template<size_t _PREALLOC_COUNT>
 		void addAll(ArrayList<T, _PREALLOC_COUNT>&& array)
 		{
-			updatePreallocation(objects.size()+array.ize());
+			updatePreallocation(objects.size()+array.size());
 			for(size_t array_size=array.size(), i=0; i<array_size; i++)
 			{
 				objects.push_back(std::move(array[i]));
