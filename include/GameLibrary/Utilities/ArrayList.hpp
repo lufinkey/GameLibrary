@@ -756,17 +756,19 @@ namespace fgl
 		
 		void sort(const std::function<bool(const T&,const T&)>& func)
 		{
-			if(objects.size()<=1)
+			if(objects.size() <= 1)
 			{
 				return;
 			}
-			std::stable_sort(objects.begin(), objects.end(), func);
+			std::stable_sort(objects.begin(), objects.end(), [&](const T& a, const T& b) -> bool {
+				return func(a, b);
+			});
 		}
 		
 		#ifdef __OBJC__
 		void sort(BOOL(^func)(const T&,const T&))
 		{
-			if(objects.size()<=1)
+			if(objects.size() <= 1)
 			{
 				return;
 			}
