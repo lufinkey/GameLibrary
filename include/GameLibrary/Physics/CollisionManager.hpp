@@ -15,13 +15,14 @@ namespace fgl
 		void removeCollidable(Collidable* collidable);
 
 		void update(const ApplicationData& appData);
+		
+		const ArrayList<Collidable*>& getCollidables() const;
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;
+		ArrayList<CollisionPair> getCollisionPairs() const;
 
 		ArrayList<Collidable*> collidables;
 		ArrayList<CollisionPair> previousCollisions;
-
-		ArrayList<CollisionPair> getCollisionPairs() const;
 	};
 }

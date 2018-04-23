@@ -21,7 +21,12 @@ namespace fgl
 			collidables.remove(index);
 		}
 	}
-
+	
+	const ArrayList<Collidable*>& CollisionManager::getCollidables() const
+	{
+		return collidables;
+	}
+	
 	CollisionSide CollisionManager::getCollisionSide(const Vector2d& shiftAmount) const
 	{
 		if(shiftAmount.x < 0)
