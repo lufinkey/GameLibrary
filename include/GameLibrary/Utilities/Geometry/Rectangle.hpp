@@ -135,13 +135,6 @@ namespace fgl
 		{
 			return width*height;
 		}
-		
-		/*! Calculates the center of the rectangle (x+width/2, y+height/2)
-			\returns a Vector2 point with the coordinates of the center of the rectangle*/
-		Vector2<T> getCenter() const
-		{
-			return Vector2<T>(x+(width/2), y+(height/2));
-		}
 
 		/*! Gets an array of the 4 edges in the rectangle
 			\returns an ArrayList of Line objects */
@@ -332,6 +325,13 @@ namespace fgl
 			y = container.y + ((container.height - height)/2);
 		}
 		
+		/*! Calculates the center of the rectangle (x+width/2, y+height/2)
+			\returns a Vector2 point with the coordinates of the center of the rectangle*/
+		Vector2<T> getCenter() const
+		{
+			return Vector2<T>(x+(width/2), y+(height/2));
+		}
+		
 		/*! Gives the top left corner of this rectangle
 			\returns a Vector2 representing the point of the top left corner of this rectangle */
 		Vector2<T> getTopLeft() const
@@ -346,6 +346,13 @@ namespace fgl
 			return Vector2<T>(x+width, y);
 		}
 		
+		/*! Gives the top center coordinate of this rectangle
+			\returns a Vector2 representing the point of the top center of this rectangle */
+		Vector2<T> getTopCenter() const
+		{
+			return Vector2<T>(x+(width/2), y);
+		}
+		
 		/*! Gives the bottom left corner of this rectangle
 			\returns a Vector2 representing the point of the bottom left corner of this rectangle */
 		Vector2<T> getBottomLeft() const
@@ -358,6 +365,27 @@ namespace fgl
 		Vector2<T> getBottomRight() const
 		{
 			return Vector2<T>(x+width, y+height);
+		}
+		
+		/*! Gives the bottom center coordinate of this rectangle
+			\returns a Vector2 representing the point of the bottom center of this rectangle */
+		Vector2<T> getBottomCenter() const
+		{
+			return Vector2<T>(x+(width/2), y+height);
+		}
+		
+		/*! Gives the center coordinate of the left side of this rectangle
+			\returns a Vector2 representing the point of the center of the left side of this rectangle */
+		Vector2<T> getLeftCenter() const
+		{
+			return Vector2<T>(x, y+(height/2));
+		}
+		
+		/*! Gives the center coordinate of the right side of this rectangle
+			\returns a Vector2 representing the point of the center of the right side of this rectangle */
+		Vector2<T> getRightCenter() const
+		{
+			return Vector2<T>(x+width, y+(height/2));
 		}
 
 		/*! Gives the left x coordinate of the rectangle */
