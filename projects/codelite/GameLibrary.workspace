@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="GameLibrary" Database="" Version="10.0.0">
-  <Project Name="test" Path="test/test.project" Active="No"/>
-  <Project Name="GameLibrary" Path="GameLibrary.project" Active="Yes"/>
+  <Project Name="test" Path="test/test.project" Active="Yes"/>
+  <Project Name="GameLibrary" Path="GameLibrary.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>

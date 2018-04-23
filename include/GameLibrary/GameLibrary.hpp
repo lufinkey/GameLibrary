@@ -61,6 +61,7 @@
 #include "Physics/CollisionRects/CollisionRect.hpp"
 #include "Physics/CollisionRects/BoxCollisionRect.hpp"
 #include "Physics/CollisionRects/PixelCollisionRect.hpp"
+#include "Physics/CollisionRects/PolygonCollisionRect.hpp"
 
 #include "Screen/AutoLayoutManager.hpp"
 #include "Screen/ScreenElement.hpp"

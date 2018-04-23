@@ -83,6 +83,7 @@ namespace fgl
 		class CollisionRect;
 			class BoxCollisionRect;
 			class PixelCollisionRect;
+			class PolygonCollisionRect;
 	
 	//Screen
 		//Transition

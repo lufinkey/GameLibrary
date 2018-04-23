@@ -144,6 +144,7 @@
           <File Name="../../src/GameLibrary/Physics/CollisionRects/BoxCollisionRect.cpp"/>
           <File Name="../../src/GameLibrary/Physics/CollisionRects/CollisionRect.cpp"/>
           <File Name="../../src/GameLibrary/Physics/CollisionRects/PixelCollisionRect.cpp"/>
+          <File Name="../../src/GameLibrary/Physics/CollisionRects/PolygonCollisionRect.cpp"/>
         </VirtualDirectory>
         <File Name="../../src/GameLibrary/Physics/Collidable.cpp"/>
         <File Name="../../src/GameLibrary/Physics/CollisionEvent.cpp"/>
@@ -314,6 +315,7 @@
           <File Name="../../include/GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp"/>
           <File Name="../../include/GameLibrary/Physics/CollisionRects/CollisionRect.hpp"/>
           <File Name="../../include/GameLibrary/Physics/CollisionRects/PixelCollisionRect.hpp"/>
+          <File Name="../../include/GameLibrary/Physics/CollisionRects/PolygonCollisionRect.hpp"/>
         </VirtualDirectory>
         <File Name="../../include/GameLibrary/Physics/CollisionEvent.hpp"/>
         <File Name="../../include/GameLibrary/Physics/CollisionManager.hpp"/>
