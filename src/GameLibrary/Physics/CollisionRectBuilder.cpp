@@ -56,7 +56,7 @@ namespace fgl
 	{
 		auto rect = polygon.getRectangle();
 		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
-		return new PolygonCollisionRect("all", polygon, lastRect, resolution);
+		return {new PolygonCollisionRect("all", polygon, lastRect, resolution)};
 	}
 	
 	size_t CollisionRectBuilder::findMatchingRectIndex(const ArrayList<CollisionRect*>& collisionRects, const String& tag)
