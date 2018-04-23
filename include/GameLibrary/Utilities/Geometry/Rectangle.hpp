@@ -454,6 +454,44 @@ namespace fgl
 	typedef Rectangle<float> RectangleF;
 	typedef Rectangle<double> RectangleD;
 	
+	
+	template<typename T>
+	Rectangle<T> Polygon<T>::getRectangle() const
+	{
+		if(points.size() == 0)
+		{
+			return Rectangle<T>();
+		}
+		
+		T top = points[0].y;
+		T bottom = top;
+		T left = points[0].x;
+		T right = left;
+		
+		for(size_t i=1; i<points.size(); i++)
+		{
+			auto& point = points[i];
+			if(point.x < left)
+			{
+				left = point.x;
+			}
+			else if(point.x > right)
+			{
+				right = point.x;
+			}
+			if(point.y < top)
+			{
+				top = point.y;
+			}
+			else if(point.y > bottom)
+			{
+				bottom = point.y;
+			}
+		}
+		return Rectangle<T>(top, left, right-left, bottom-top);
+	}
+	
+	
 	template<typename T>
 	/*! Contains data about a rectangle.
 	Similar to fgl::Rectangle, but rather than having a width and a height, it contains coordinates for top left and bottom right.*/

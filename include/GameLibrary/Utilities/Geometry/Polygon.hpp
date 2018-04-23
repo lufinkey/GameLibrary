@@ -10,6 +10,9 @@
 namespace fgl
 {
 	template<typename T>
+	class Rectangle;
+	
+	template<typename T>
 	/*! A series of points that make up a polygon.*/
 	class Polygon
 	{
@@ -476,6 +479,8 @@ namespace fgl
 			str += ")";
 			return str;
 		}
+		
+		Rectangle<T> getRectangle() const;
 		
 	private:
 		ArrayList<Vector2<T>> points;
