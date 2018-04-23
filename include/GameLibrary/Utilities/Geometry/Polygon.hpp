@@ -280,9 +280,10 @@ namespace fgl
 
 		/*! Calculates the area of this polygon
 			\returns the area of the polygon */
-		T getArea() const
+		template<typename U = T>
+		U getArea() const
 		{
-			T area = 0;
+			U area = 0;
 
 			size_t point_count = points.size();
 			size_t j = point_count-1;
@@ -291,7 +292,7 @@ namespace fgl
 			{
 				auto lastPoint = points[j];
 				auto point = points[i];
-				area += (lastPoint.x + point.x) * (lastPoint.y - point.y);
+				area += ((U)lastPoint.x + (U)point.x) * ((U)lastPoint.y - (U)point.y);
 				j = i;
 			}
 
