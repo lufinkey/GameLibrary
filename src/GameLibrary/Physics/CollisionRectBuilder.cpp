@@ -2,6 +2,7 @@
 #include <GameLibrary/Physics/CollisionRectBuilder.hpp>
 #include <GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp>
 #include <GameLibrary/Physics/CollisionRects/PixelCollisionRect.hpp>
+#include <GameLibrary/Physics/CollisionRects/PolygonCollisionRect.hpp>
 
 namespace fgl
 {
@@ -49,6 +50,13 @@ namespace fgl
 			return {new PixelCollisionRect("all", rect, lastRect, srcRect, state.rotation, origin, img, mirroredHorizontal, mirroredVertical)};
 		}
 		return {new PixelCollisionRect("all", rect, lastRect, srcRect, img, mirroredHorizontal, mirroredVertical)};
+	}
+	
+	ArrayList<CollisionRect*> CollisionRectBuilder::fromPolygon(const PolygonD& polygon, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
+	{
+		auto rect = polygon.getRectangle();
+		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		return new PolygonCollisionRect("all", polygon, lastRect, resolution);
 	}
 	
 	size_t CollisionRectBuilder::findMatchingRectIndex(const ArrayList<CollisionRect*>& collisionRects, const String& tag)
