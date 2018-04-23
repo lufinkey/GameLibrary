@@ -488,7 +488,7 @@ namespace fgl
 				bottom = point.y;
 			}
 		}
-		return Rectangle<T>(top, left, right-left, bottom-top);
+		return Rectangle<T>(left, top, right-left, bottom-top);
 	}
 	
 	
