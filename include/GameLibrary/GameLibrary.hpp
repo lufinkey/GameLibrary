@@ -3,6 +3,7 @@
 
 #include "Actor/Actor.hpp"
 #include "Actor/Animation.hpp"
+#include "Actor/AnimationPlayer.hpp"
 #include "Actor/SpriteActor.hpp"
 #include "Actor/TextActor.hpp"
 #include "Actor/WireframeActor.hpp"
