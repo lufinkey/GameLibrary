@@ -17,6 +17,11 @@ namespace fgl
 	class Polygon
 	{
 	public:
+		typedef typename ArrayList<Vector2<T>>::iterator iterator;
+		typedef typename ArrayList<Vector2<T>>::const_iterator const_iterator;
+		typedef typename ArrayList<Vector2<T>>::reverse_iterator reverse_iterator;
+		typedef typename ArrayList<Vector2<T>>::const_reverse_iterator const_reverse_iterator;
+	
 		/*! default constructor*/
 		Polygon()
 		{
@@ -61,6 +66,76 @@ namespace fgl
 			{
 				Polygon::points.add(points[i]);
 			}
+		}
+		
+		iterator begin()
+		{
+			return points.begin();
+		}
+		
+		const_iterator begin() const
+		{
+			return points.begin();
+		}
+		
+		const_iterator cbegin() const
+		{
+			return points.cbegin();
+		}
+		
+		iterator end()
+		{
+			return points.end();
+		}
+		
+		const_iterator end() const
+		{
+			return points.end();
+		}
+		
+		const_iterator cend() const
+		{
+			return points.cend();
+		}
+		
+		reverse_iterator rbegin()
+		{
+			return points.rbegin();
+		}
+		
+		const_reverse_iterator rbegin() const
+		{
+			return points.rbegin();
+		}
+		
+		const_reverse_iterator crbegin() const
+		{
+			return points.crbegin();
+		}
+		
+		reverse_iterator rend()
+		{
+			return points.rend();
+		}
+		
+		const_reverse_iterator rend() const
+		{
+			return points.rend();
+		}
+		
+		const_reverse_iterator crend() const
+		{
+			return points.crend();
+		}
+		
+		Vector2<T>& operator[](size_t index)
+		{
+			return points[index];
+		}
+		
+		const Vector2<T>& operator[](size_t index) const
+		{
+			return points[index];
 		}
 		
 		/*! Adds a point to the array of points in the polygon.
