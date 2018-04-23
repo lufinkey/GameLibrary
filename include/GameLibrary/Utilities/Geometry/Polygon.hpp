@@ -138,6 +138,33 @@ namespace fgl
 			return points[index];
 		}
 		
+		bool equals(const Polygon<T>& polygon) const
+		{
+			size_t points_size = points.size();
+			if(points_size != polygon.points.size())
+			{
+				return false;
+			}
+			for(size_t i=0; i<points_size; i++)
+			{
+				if(points[i] != polygon.points[i])
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		bool operator==(const Polygon<T>& polygon) const
+		{
+			return equals(polygon);
+		}
+		
+		bool operator!=(const Polygon<T>& polygon) const
+		{
+			return !equals(polygon);
+		}
+		
 		/*! Adds a point to the array of points in the polygon.
 			\param x the x coordinate of the point
 			\param y the y coordinate of the point*/
