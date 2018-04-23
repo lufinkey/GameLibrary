@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Physics/CollisionRects/PolygonCollisionRect.hpp>
+#include <GameLibrary/Graphics/Graphics.hpp>
 
 namespace fgl
 {
@@ -57,5 +58,11 @@ namespace fgl
 		}
 		rect.x += shiftAmount.x;
 		rect.y += shiftAmount.y;
+	}
+	
+	void PolygonCollisionRect::draw(Graphics graphics) const
+	{
+		graphics.drawRect(rect);
+		graphics.drawPolygon(polygon);
 	}
 }

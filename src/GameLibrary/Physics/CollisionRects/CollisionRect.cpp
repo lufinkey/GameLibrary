@@ -1,6 +1,7 @@
 
 #include <GameLibrary/Physics/CollisionRects/CollisionRect.hpp>
 #include <GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp>
+#include <GameLibrary/Graphics/Graphics.hpp>
 
 namespace fgl
 {
@@ -35,6 +36,11 @@ namespace fgl
 		double velocityBottom = (rect.y+rect.height) - (prevRect.y+prevRect.height);
 		return Vector2d(velocityTop+velocityBottom, velocityLeft+velocityRight);*/
 		return getRect().getCenter() - getPreviousRect().getCenter();
+	}
+	
+	void CollisionRect::draw(Graphics graphics) const
+	{
+		graphics.drawRect(getRect());
 	}
 
 	Vector2d CollisionRect::getCollisionOffset(CollisionRect* collisionRect1, CollisionRect* collisionRect2)

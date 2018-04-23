@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Physics/CollisionRects/BoxCollisionRect.hpp>
+#include <GameLibrary/Graphics/Graphics.hpp>
 
 namespace fgl
 {
@@ -8,6 +9,8 @@ namespace fgl
 		rect(rect),
 		lastRect(lastRect),
 		boundingRect(rect),
+		rotation(0),
+		origin(0,0),
 		resolution(resolution),
 		usesTransform(false)
 	{
@@ -18,6 +21,8 @@ namespace fgl
 		: CollisionRect(tag),
 		rect(rect),
 		lastRect(lastRect),
+		rotation(rotation),
+		origin(origin),
 		resolution(resolution),
 		usesTransform(true)
 	{
@@ -73,5 +78,15 @@ namespace fgl
 		rect.y += shiftAmount.y;
 		boundingRect.x += shiftAmount.x;
 		boundingRect.y += shiftAmount.y;
+	}
+	
+	void BoxCollisionRect::draw(Graphics graphics) const
+	{
+		graphics.drawRect(boundingRect);
+		if(usesTransform)
+		{
+			graphics.rotate(rotation, rect.getTopLeft()+origin);
+			graphics.drawRect(rect);
+		}
 	}
 }

@@ -8,6 +8,8 @@
 
 namespace fgl
 {
+	class Graphics;
+	
 	class CollisionRect
 	{
 	public:
@@ -27,6 +29,8 @@ namespace fgl
 		virtual Vector2d getPreferredIncrement() const = 0;
 
 		virtual void shift(const Vector2d& shiftAmount) = 0;
+		
+		virtual void draw(Graphics graphics) const;
 
 		//offset is rect2's offset to avoid rect1
 		static Vector2d getCollisionOffset(CollisionRect* collisionRect1, CollisionRect* collisionRect2);

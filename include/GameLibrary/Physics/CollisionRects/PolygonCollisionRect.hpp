@@ -23,6 +23,8 @@ namespace fgl
 
 		virtual void shift(const Vector2d& shiftAmount) override;
 		
+		virtual void draw(Graphics graphics) const override;
+		
 	private:
 		PolygonD polygon;
 		RectangleD rect;
