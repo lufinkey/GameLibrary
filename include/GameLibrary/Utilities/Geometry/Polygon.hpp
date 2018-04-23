@@ -519,7 +519,7 @@ namespace fgl
 		/*! Tells if a given polygon overlaps with this polygon
 			\param polygon the polygon to compare points and edges with
 			\returns true if the given polygon overlaps this polygon, or false if they do not overlap */
-		bool intersects(const Polygon<T>& polygon)
+		bool intersects(const Polygon<T>& polygon) const
 		{
 			if(points.size()<=1)
 			{
