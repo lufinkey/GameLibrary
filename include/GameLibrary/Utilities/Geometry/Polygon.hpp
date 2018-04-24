@@ -255,7 +255,6 @@ namespace fgl
 			return total / (T)points.size();
 		}
 
-
 		/*! Checks if the edges progress clockwise, meaning the right side of each edge is the interior of the polygon
 			\returns true if the edges progress clockwise, or false if the edges progress counter-clockwise */
 		bool isClockwise() const
@@ -357,6 +356,29 @@ namespace fgl
 				last = current;
 			}
 			return convex;
+		}
+		
+		/*! Translates the polygon by the given vector
+			\param offset the amount to translate each point in the polygon */
+		void translate(const Vector2<T>& offset)
+		{
+			for(auto& point : points)
+			{
+				point += offset;
+			}
+		}
+		
+		/*! Creates a new polygon from this polygon, translated by the given vector
+			\param offset the amount to translate each point in the new polygon
+			\returns the translated polygon */
+		Polygon<T> translated(const Vector2<T>& offset) const
+		{
+			auto newPoly = *this;
+			for(auto& point : newPoly.points)
+			{
+				point += offset;
+			}
+			return newPoly;
 		}
 
 		/*! Simplifies the polygon to the given number of points
