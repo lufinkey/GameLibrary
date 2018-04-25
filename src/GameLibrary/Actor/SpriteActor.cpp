@@ -180,7 +180,7 @@ namespace fgl
 	{
 		Animation* animation = animationPlayer.getAnimation();
 		size_t frameIndex = animationPlayer.getFrameIndex();
-		if(animation == nullptr || animation->getTotalFrames()==0)
+		if(animation == nullptr || animation->getFrameCount()==0)
 		{
 			framesize.x = 0;
 			framesize.y = 0;
@@ -230,7 +230,7 @@ namespace fgl
 		
 		if(prevSize == 0)
 		{
-			changeAnimation(name, Animation::FORWARD);
+			changeAnimation(name, Animation::Direction::FORWARD);
 		}
 	}
 	
@@ -304,18 +304,10 @@ namespace fgl
 		updateSize();
 	}
 	
-	void SpriteActor::reloadAnimations(AssetManager*assetManager)
-	{
-		for(auto& animData : animations)
-		{
-			animData.animation->reloadFrames(assetManager);
-		}
-	}
-	
 	bool SpriteActor::checkPointCollision(const Vector2d&point)
 	{
 		Animation* animation = animationPlayer.getAnimation();
-		if(animation==nullptr || animation->getTotalFrames()==0)
+		if(animation==nullptr || animation->getFrameCount()==0)
 		{
 			return false;
 		}
@@ -348,8 +340,9 @@ namespace fgl
 			}
 			
 			size_t frameIndex = animationPlayer.getFrameIndex();
-			TextureImage* img = animation->getImage(frameIndex);
-			RectangleU srcRect = animation->getImageSourceRect(frameIndex);
+			auto& frame = animation->getFrame(frameIndex);
+			TextureImage* img = frame.getImage();
+			RectangleU srcRect = frame.getSourceRect();
 			unsigned int pxlX = (unsigned int)(ratX*((double)srcRect.width));
 			unsigned int pxlY = (unsigned int)(ratY*((double)srcRect.height));
 
@@ -388,20 +381,14 @@ namespace fgl
 			}
 			
 			size_t frameIndex = animationPlayer.getFrameIndex();
-			TextureImage* img = animation->getImage(frameIndex);
-			if(img == nullptr)
-			{
-				throw IllegalStateException("The animation images within SpriteActor have not been loaded through an AssetManager");
-			}
-			RectangleU srcRect = animation->getImageSourceRect(frameIndex);
+			auto& animFrame = animation->getFrame(frameIndex);
+			auto img = animFrame.getImage();
+			auto srcRect = animFrame.getSourceRect();
 			
 			size_t actor_frameIndex = actor->animationPlayer.getFrameIndex();
-			TextureImage* actor_img = actor_animation->getImage(actor_frameIndex);
-			if(actor_img == nullptr)
-			{
-				throw IllegalStateException("The animation images within SpriteActor have not been loaded through an AssetManager");
-			}
-			RectangleU actor_srcRect = actor_animation->getImageSourceRect(actor_frameIndex);
+			auto& actor_animFrame = actor_animation->getFrame(actor_frameIndex);
+			auto actor_img = actor_animFrame.getImage();
+			auto actor_srcRect = actor_animFrame.getSourceRect();
 			
 			bool mirrorHorizontal = false;
 			if(mirroredHorizontal != animation->isMirroredHorizontal())

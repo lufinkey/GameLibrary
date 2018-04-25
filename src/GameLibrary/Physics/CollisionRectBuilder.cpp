@@ -41,8 +41,9 @@ namespace fgl
 			return {};
 		}
 		auto displacement = state.position - prevState.position;
-		auto img = animation->getImage(frameIndex);
-		auto srcRect = animation->getImageSourceRect(frameIndex);
+		auto& frame = animation->getFrame(frameIndex);
+		auto img = frame.getImage();
+		auto srcRect = frame.getSourceRect();
 		auto rect = RectangleD(state.position.x-origin.x, state.position.y-origin.y, size.x, size.y);
 		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
 		if(state.rotation!=0.0)

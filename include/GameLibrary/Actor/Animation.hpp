@@ -5,7 +5,6 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
-#include <GameLibrary/Window/AssetManager.hpp>
 
 namespace fgl
 {
@@ -15,7 +14,7 @@ namespace fgl
 	public:
 		/*! The direction the Animation should move in when animating.
 			\see fgl::SpriteActor::changeAnimation(const fgl::String&,const fgl::Animation::Direction&)*/
-		typedef enum
+		enum class Direction
 		{
 			/*! Animation direction stays the same as its previous value, which may be Direction::FORWARD, Direction::BACKWARD, or Direction::STOPPED*/
 			NO_CHANGE,
@@ -25,26 +24,27 @@ namespace fgl
 			BACKWARD,
 			/*! frames do not iterate as time progresses*/
 			STOPPED
-		} Direction;
+		};
 
 		//! Represents a single frame of animation
 		class Frame
 		{
 		public:
-			String file;
-			unsigned int rows;
-			unsigned int cols;
-			unsigned int x;
-			unsigned int y;
-			TextureImage* img;
-
-			Frame(const String& file, TextureImage* img=nullptr);
-			Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img=nullptr);
+			Frame(TextureImage* image);
+			Frame(TextureImage* image, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col);
 
 			bool operator==(const Frame& frame) const;
 			bool operator!=(const Frame& frame) const;
 
+			TextureImage* getImage() const;
 			RectangleU getSourceRect() const;
+			
+		private:
+			TextureImage* image;
+			unsigned int rows;
+			unsigned int cols;
+			unsigned int x;
+			unsigned int y;
 		};
 
 		/*! Constructs an Animation with a frame rate of 1 fps. */
@@ -53,32 +53,34 @@ namespace fgl
 			\param fps the frame rate in frames per second
 			\throws fgl::IllegalArgumentException if fps is a negative value*/
 		explicit Animation(float fps);
+		/*! Constructs an animation with a frame rate and an array of frames
+			\param fps the frame rate in frames per second
+			\param frames the frames to be added
+			\throws fgl::IllegalArgumentException if fps is a negative value */
+		Animation(float fps, const ArrayList<Animation::Frame>& frames);
 		/*! Constructs an Animation with a frame rate and a first frame.
 			\param fps the frame rate in frames per second
-			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
-			\param file the path to the image file of the first frame
-			\throws fgl::IllegalArgumentException if fps is a negative value*/
-		Animation(float fps, AssetManager* assetManager, const String& file);
+			\param image the image to use for the first frame
+			\throws fgl::IllegalArgumentException if fps is a negative value or image is null */
+		Animation(float fps, TextureImage* image);
 		/*! Constructs an Animation with a frame rate and frames
 			\param fps the frame rate in frames per second
+			\param image the image to use for the added frames
 			\param rows divides the image into rows of frames. If 0, no frames are added.
 			\param cols divides the image into columns of frames. If 0, no frames are added.
-			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
-			\param file the path to the image file to use for the frames
 			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.
-			\throws fgl::IllegalArgumentException if fps is a negative value*/
-		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file);
+			\throws fgl::IllegalArgumentException if fps is a negative value or image is null */
+		Animation(float fps, TextureImage* image, unsigned int rows, unsigned int cols);
 		/*! Constructs an Animation with a frame rate and frames
 			\param fps the frame rate in frames per second
+			\param image the image to use for the added frames
 			\param rows divides the image into rows of frames. If 0, no frames are added.
 			\param cols divides the image into columns of frames. If 0, no frames are added.
-			\param assetManager the assetManager to load and get the TextureImage. If null, or fails to load the image, the first frame's image is set to null, until Animation::reloadFrames is called to attempt to reload the images.
-			\param file the path to the image file to use for the frames
 			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row; rows and columns start from 0
-			\throws fgl::IllegalArgumentException if fps is a negative value*/
-		Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file, const ArrayList<Vector2u>& sequence);
+			\throws fgl::IllegalArgumentException if fps is a negative value or image is null */
+		Animation(float fps, TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
 		/*! destructor
-			\note this does not unload the images loaded during construction or when adding frames. You must manually unload the contents of the assetManager used.*/
+			\note No images are unloaded when deleting. You must do that yourself.*/
 		~Animation();
 		
 		
@@ -92,27 +94,56 @@ namespace fgl
 		bool operator!=(const Animation& animation) const;
 		
 		
-		/*! Called by fgl::SpriteActor::draw if Animation is the current Animation. Draws the animation to the screen using the specified Graphics object
-			\param graphics the graphics object used to draw the Animation
-			\param frameNum the frame number to draw */
-		void drawFrame(Graphics& graphics, size_t frameNum) const;
+		/*! Adds a single frame of animation.
+			\param image the image to use for the new frame
+			\throws fgl::IllegalArgumentException if the image is null */
+		void addFrame(TextureImage* image);
+		/*! Adds a single frame of animation.
+			\param frame the animation frame to add */
+		void addFrame(const Animation::Frame& frame);
+		/*! Adds frames of animation.
+			\param image the image to use for the added frames
+			\param rows the number of rows to divide the image into
+			\param cols the number of columns to divide the image into
+			\throws fgl::IllegalArgumentException if the image is null, rows is 0, or cols is 0
+			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.*/
+		void addFrames(TextureImage* image, unsigned int rows, unsigned int cols);
+		/*! Adds frames of animation.
+			\param image the image to use for the added frames
+			\param rows the number of rows to divide the image into
+			\param cols the number of columns to divide the image into
+			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row
+			\throws fgl::IllegalArgumentException if the image is null, rows is 0, or cols is 0 */
+		void addFrames(TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
+		/*! Adds frames of animation */
+		void addFrames(const ArrayList<Animation::Frame>& frames);
 		
+		/*! Gets the frame of animation at a given index
+			\param index the index of the frame to get
+			\returns an Animation::Frame object */
+		const Animation::Frame& getFrame(size_t index) const;
 		
-		/*! Draws the specified frame
-			\param graphics the graphics object used to draw the Animation
-			\param frameNum the frame number to draw
-			\param dstRect the rectangle that the animation will be drawn within */
-		void drawFrame(Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const;
+		/*! Removes the frame at a given index
+			\param index the index of the frame to remove */
+		void removeFrame(size_t index);
+		/*! Removes all frames. */
+		void removeAllFrames();
 		
+		/*! Gets the total number of frames stored in the Animation.
+			\returns the total number of frames*/
+		size_t getFrameCount() const;
 		
-		/*! Loads and re-stores the images for each frame of the Animation.
-			\param assetManager the AssetManager to load the images from. If null, the images for each frame are set to null.*/
-		void reloadFrames(AssetManager* assetManager);
+		/*! Gives all the frames of the animation.
+			\returns an ArrayList of AnimationFrame objects */
+		const ArrayList<Animation::Frame>& getFrames() const;
 		
-		
-		/*! Removes all frames stored for the Animation.*/
-		void clear();
-		
+		/*! Sets the frame rate.
+			\param fps the frame rate in frames per second
+			\throws fgl::IllegalArgumentException if fps is a negative value*/
+		void setFPS(float fps);
+		/*! Gets the frame rate.
+			\returns a float representing the frame rate in frames per second*/
+		float getFPS() const;
 		
 		/*! Sets the Animation to draw horizontally inverted.
 			\param mirror true to make the Animation draw horizontally mirrored, and false to make the Animation draw normal horizontally*/
@@ -128,74 +159,24 @@ namespace fgl
 			\see fgl::Animation::setMirroredVertical(bool)
 			\returns true if the Animation is mirrored vertically, false if otherwise*/
 		bool isMirroredVertical() const;
-		
-		
-		/*! Gets the size of the specified frame
-			\param frameNum the index of the frame
-			\returns the size of the specified frame*/
-		Vector2u getFrameSize(size_t frameNum) const;
-		
-		
-		/*! Adds a single frame of animation.
-			\param assetManager the AssetManager to load the TextureImage for the frame
-			\param file the path to the image file to use*/
-		bool addFrame(AssetManager* assetManager, const String& file, String* error=nullptr);
-		/*! Adds frames of animation.
-			\param assetManager the AssetManager to load the TextureImage for the frames
-			\param file the path to the image file to use
-			\param rows the number of rows to divide the image into
-			\param cols the number of columns to divide the image into
-			\note through this function, frames are added by looping through each row and adding the columns in each row. If you want a specific order, use the sequence parameter.*/
-		bool addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, String* error=nullptr);
-		/*! Adds frames of animation.
-			\param assetManager the AssetManager to load the TextureImage for the frames
-			\param file the path to the image file to use
-			\param rows the number of rows to divide the image into
-			\param cols the number of columns to divide the image into
-			\param sequence the specific sequence to order the frames. the x value of the Vector2d represents the column, and the y value represents the row*/
-		bool addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence, String* error=nullptr);
-		/*! Adds frames of animation */
-		void addFrames(const ArrayList<Frame>& frames);
-		/*! Removes all frames. */
-		void removeAllFrames();
-		
-		
-		/*! Gets the total amount of frames stored in the Animation.
-			\returns the total amount of frames*/
-		size_t getTotalFrames() const;
-		/*! Tells whether the animation has loaded all of it's images, or if it failed to load images.
-			\returns true if all images were loaded, or false if one or more images failed to load */
-		bool didLoadAllImages() const;
-		
-		/*! Sets the frame rate.
-			\param fps the frame rate in frames per second
-			\throws fgl::IllegalArgumentException if fps is a negative value*/
-		void setFPS(float fps);
-		/*! Gets the frame rate.
-			\returns an unsigned int representing the frame rate in frames per second*/
-		float getFPS() const;
-		
-		
-		/*! Gets the image being used in the specified frame.
-			\param frameNum the frame index
-			\returns the TextureImage for the specified frame*/
-		TextureImage* getImage(size_t frameNum) const;
-		/*! Gets the source Rectangle for the TextureImage at the specified frame.
-			\param frameNum the frame index
-			\returns the source Rectangle for the specified frame*/
-		RectangleU getImageSourceRect(size_t frameNum) const;
 
-		/*! Gets the frame (bounding box) of the Animation at the specified frame (animation frame).
-			\param frameNum the frame index
+		/*! Gets the frame (bounding box) of the Animation at the specified frame (animation frame), centered on (0,0)
+			\param frameIndex the frame index
 			\returns the bounding box of the Animation*/
-		RectangleD getRect(size_t frameNum) const;
-
-		/*! Gives all the frames of the animation.
-			\returns an ArrayList of AnimationFrame objects */
-		const ArrayList<Frame>& getFrames() const;
+		RectangleD getRect(size_t frameIndex) const;
+		
+		/*! Draws the specified frame centered at (0,0)
+			\param graphics the graphics object used to draw the Animation
+			\param frameIndex the frame number to draw */
+		void drawFrame(Graphics& graphics, size_t frameIndex) const;
+		/*! Draws the specified frame on the given rectangle
+			\param graphics the graphics object used to draw the Animation
+			\param frameIndex the frame number to draw
+			\param dstRect the rectangle that the animation will be drawn within */
+		void drawFrame(Graphics& graphics, size_t frameIndex, const RectangleD& dstRect) const;
 
 	private:
-		ArrayList<Frame> frames;
+		ArrayList<Animation::Frame> frames;
 
 		float fps;
 

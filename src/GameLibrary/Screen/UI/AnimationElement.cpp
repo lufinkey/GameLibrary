@@ -91,10 +91,11 @@ namespace fgl
 		size_t frameIndex = animationPlayer.getFrameIndex();
 		if(animation!=nullptr)
 		{
-			if(animation->getTotalFrames()>0)
+			if(animation->getFrameCount()>0)
 			{
-				imageElement->setImage(animation->getImage(frameIndex));
-				imageElement->setImageSourceRect(animation->getImageSourceRect(frameIndex));
+				auto& frame = animation->getFrame(frameIndex);
+				imageElement->setImage(frame.getImage());
+				imageElement->setImageSourceRect(frame.getSourceRect());
 			}
 			else
 			{

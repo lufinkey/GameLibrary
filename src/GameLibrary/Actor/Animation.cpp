@@ -4,31 +4,29 @@
 
 namespace fgl
 {
-	Animation::Frame::Frame(const String& file, TextureImage* img)
-		: file(file),
+	Animation::Frame::Frame(TextureImage* image)
+		: image(image),
 		rows(1),
 		cols(1),
 		x(0),
-		y(0),
-		img(img)
+		y(0)
 	{
 		//
 	}
 
-	Animation::Frame::Frame(const String& file, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col, TextureImage* img)
-		: file(file),
+	Animation::Frame::Frame(TextureImage* image, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col)
+		: image(image),
 		rows(rows),
 		cols(cols),
 		x(col),
-		y(row),
-		img(img)
+		y(row)
 	{
 		//
 	}
 
 	bool Animation::Frame::operator==(const fgl::Animation::Frame& frame) const
 	{
-		if(file==frame.file && rows==frame.rows && cols==frame.cols && x==frame.x && y==frame.y && img==frame.img)
+		if(image==frame.image && rows==frame.rows && cols==frame.cols && x==frame.x && y==frame.y)
 		{
 			return true;
 		}
@@ -39,33 +37,35 @@ namespace fgl
 	{
 		return !operator==(frame);
 	}
+	
+	TextureImage* Animation::Frame::getImage() const
+	{
+		return image;
+	}
 
 	RectangleU Animation::Frame::getSourceRect() const
 	{
-		if(img == nullptr)
+		if(image == nullptr)
 		{
 			return RectangleU(0, 0, 0, 0);
 		}
 		else
 		{
-			unsigned int width = ((unsigned int)img->getWidth()/cols);
-			unsigned int height = ((unsigned int)img->getHeight()/rows);
+			unsigned int width = ((unsigned int)image->getWidth()/cols);
+			unsigned int height = ((unsigned int)image->getHeight()/rows);
 			return RectangleU((x*width), (y*height), width, height);
 		}
 	}
 
-	Animation::Animation() : Animation(1.0f)
+	Animation::Animation()
+		: Animation(1.0f)
 	{
 		//
 	}
 
 	Animation::Animation(float fps_arg)
 	{
-		if(fps_arg == 0.0f)
-		{
-			throw IllegalArgumentException("fps", "cannot be 0");
-		}
-		else if(fps_arg < 0.0f)
+		if(fps_arg < 0.0f)
 		{
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
@@ -73,20 +73,29 @@ namespace fgl
 		mirroredHorizontal = false;
 		mirroredVertical = false;
 	}
-
-	Animation::Animation(float fps, AssetManager* assetManager, const String& file) : Animation(fps)
+	
+	Animation::Animation(float fps, const ArrayList<Animation::Frame>& frames_arg)
+		: Animation(fps)
 	{
-		addFrame(assetManager, file);
+		frames = frames_arg;
 	}
 
-	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file) : Animation(fps)
+	Animation::Animation(float fps, TextureImage* image)
+		: Animation(fps)
 	{
-		addFrames(assetManager, file, rows, cols);
+		addFrame(image);
 	}
 
-	Animation::Animation(float fps, unsigned int rows, unsigned int cols, AssetManager* assetManager, const String& file, const ArrayList<Vector2u>& sequence) : Animation(fps)
+	Animation::Animation(float fps, TextureImage* image, unsigned int rows, unsigned int cols)
+		: Animation(fps)
 	{
-		addFrames(assetManager, file, rows, cols, sequence);
+		addFrames(image, rows, cols);
+	}
+
+	Animation::Animation(float fps, TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence)
+		: Animation(fps)
+	{
+		addFrames(image, rows, cols, sequence);
 	}
 
 	Animation::~Animation()
@@ -119,92 +128,25 @@ namespace fgl
 		return !operator==(animation);
 	}
 
-	void Animation::reloadFrames(AssetManager* assetManager)
+	void Animation::addFrame(TextureImage* image)
 	{
-		for(size_t i=0; i<frames.size(); i++)
+		if(image==nullptr)
 		{
-			Frame& frame = frames.get(i);
-			if(assetManager == nullptr)
-			{
-				frame.img = nullptr;
-			}
-			else
-			{
-				frame.img = assetManager->loadTexture(frame.file);
-			}
+			throw IllegalArgumentException("image", "cannot be null");
 		}
+		frames.add(Frame(image));
+	}
+	
+	void Animation::addFrame(const Animation::Frame& frame)
+	{
+		frames.add(frame);
 	}
 
-	void Animation::clear()
+	void Animation::addFrames(TextureImage* image, unsigned int rows, unsigned int cols)
 	{
-		frames.clear();
-	}
-
-	void Animation::setMirroredHorizontal(bool toggle)
-	{
-		mirroredHorizontal = toggle;
-	}
-
-	void Animation::setMirroredVertical(bool toggle)
-	{
-		mirroredVertical = toggle;
-	}
-
-	bool Animation::isMirroredHorizontal() const
-	{
-		return mirroredHorizontal;
-	}
-
-	bool Animation::isMirroredVertical() const
-	{
-		return mirroredVertical;
-	}
-
-	Vector2u Animation::getFrameSize(size_t frameNum) const
-	{
-		const Frame& animFrame = frames.get(frameNum);
-		TextureImage* img = animFrame.img;
-		if(img == nullptr)
+		if(image==nullptr)
 		{
-			return Vector2u(0, 0);
-		}
-		else
-		{
-			unsigned int imgwidth = (unsigned int)img->getWidth();
-			unsigned int imgheight = (unsigned int)img->getHeight();
-			return Vector2u(imgwidth/animFrame.cols, imgheight/animFrame.rows);
-		}
-	}
-
-	bool Animation::addFrame(AssetManager* assetManager, const String& file, String* error)
-	{
-		if(assetManager==nullptr)
-		{
-			throw IllegalArgumentException("assetManager", "cannot be null");
-		}
-		else if(file.length()==0)
-		{
-			throw IllegalArgumentException("file", "cannot be an empty string");
-		}
-
-		auto img = assetManager->loadTexture(file);
-		if(img == nullptr)
-		{
-			return false;
-		}
-		frames.add(Frame(file, img));
-		return true;
-	}
-
-	bool Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, String* error)
-	{
-		if(assetManager==nullptr)
-		{
-			throw IllegalArgumentException("assetManager", "cannot be null");
-		}
-		else if(file.length()==0)
-		{
-			throw IllegalArgumentException("file", "cannot be an empty string");
+			throw IllegalArgumentException("image", "cannot be null");
 		}
 		else if(rows==0)
 		{
@@ -215,31 +157,20 @@ namespace fgl
 			throw IllegalArgumentException("cols", "must be greater than 0");
 		}
 
-		auto img = assetManager->loadTexture(file, error);
-		if(img == nullptr)
-		{
-			return false;
-		}
-
 		for(unsigned int y=0; y<rows; y++)
 		{
 			for(unsigned int x=0; x<cols; x++)
 			{
-				frames.add(Frame(file, rows, cols, y, x, img));
+				frames.add(Frame(image, rows, cols, y, x));
 			}
 		}
-		return true;
 	}
 
-	bool Animation::addFrames(AssetManager* assetManager, const String& file, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence, String* error)
+	void Animation::addFrames(TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence)
 	{
-		if(assetManager==nullptr)
+		if(image==nullptr)
 		{
-			throw IllegalArgumentException("assetManager", "cannot be null");
-		}
-		else if(file.length()==0)
-		{
-			throw IllegalArgumentException("file", "cannot be an empty string");
+			throw IllegalArgumentException("image", "cannot be null");
 		}
 		else if(rows==0)
 		{
@@ -251,9 +182,10 @@ namespace fgl
 		}
 		else if(sequence.size()==0)
 		{
-			return true;
+			return;
 		}
 
+		// validate sequence
 		for(size_t i=0; i<sequence.size(); i++)
 		{
 			auto& point = sequence[i];
@@ -264,22 +196,26 @@ namespace fgl
 			}
 		}
 
-		auto img = assetManager->loadTexture(file, error);
-		if(img == nullptr)
-		{
-			return false;
-		}
-
+		// add frames
 		for(auto& point : sequence)
 		{
-			frames.add(Frame(file, rows, cols, point.y, point.x, img));
+			frames.add(Frame(image, rows, cols, point.y, point.x));
 		}
-		return true;
 	}
 
-	void Animation::addFrames(const ArrayList<Frame>& frames_arg)
+	void Animation::addFrames(const ArrayList<Animation::Frame>& frames_arg)
 	{
 		frames.addAll(frames_arg);
+	}
+	
+	const Animation::Frame& Animation::getFrame(size_t index) const
+	{
+		return frames.get(index);
+	}
+	
+	void Animation::removeFrame(size_t index)
+	{
+		frames.remove(index);
 	}
 
 	void Animation::removeAllFrames()
@@ -287,30 +223,19 @@ namespace fgl
 		frames.clear();
 	}
 	
-	size_t Animation::getTotalFrames() const
+	size_t Animation::getFrameCount() const
 	{
 		return frames.size();
 	}
-
-	bool Animation::didLoadAllImages() const
+	
+	const ArrayList<Animation::Frame>& Animation::getFrames() const
 	{
-		for(size_t frames_size=frames.size(), i=0; i<frames_size; i++)
-		{
-			if(frames[i].img==nullptr)
-			{
-				return false;
-			}
-		}
-		return true;
+		return frames;
 	}
 	
 	void Animation::setFPS(float fps_arg)
 	{
-		if(fps_arg == 0.0f)
-		{
-			throw IllegalArgumentException("fps", "cannot be 0");
-		}
-		else if(fps_arg < 0.0f)
+		if(fps_arg < 0.0f)
 		{
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
@@ -322,96 +247,62 @@ namespace fgl
 		return fps;
 	}
 	
-	TextureImage* Animation::getImage(size_t fNum) const
+	void Animation::setMirroredHorizontal(bool mirror)
 	{
-		size_t frameNum = fNum;
-		size_t totalFrames = frames.size();
-		if(frameNum > totalFrames)
-		{
-			if(totalFrames>0)
-			{
-				frameNum = (totalFrames-1);
-			}
-			else
-			{
-				frameNum = 0;
-			}
-		}
-		return frames.get(frameNum).img;
+		mirroredHorizontal = mirror;
 	}
 
-	RectangleU Animation::getImageSourceRect(size_t fNum) const
+	void Animation::setMirroredVertical(bool mirror)
 	{
-		size_t frameNum = fNum;
-		size_t totalFrames = frames.size();
-		if(frameNum > totalFrames)
-		{
-			if(totalFrames>0)
-			{
-				frameNum = (totalFrames-1);
-			}
-			else
-			{
-				frameNum = 0;
-			}
-		}
-		return frames.get(frameNum).getSourceRect();
+		mirroredVertical = mirror;
+	}
+
+	bool Animation::isMirroredHorizontal() const
+	{
+		return mirroredHorizontal;
+	}
+
+	bool Animation::isMirroredVertical() const
+	{
+		return mirroredVertical;
 	}
 	
-	RectangleD Animation::getRect(size_t frameNum) const
+	RectangleD Animation::getRect(size_t frameIndex) const
 	{
-		const Frame& animFrame = frames.get(frameNum);
-		TextureImage* img = animFrame.img;
+		const Frame& animFrame = frames.get(frameIndex);
+		auto img = animFrame.getImage();
 		if(img == nullptr)
 		{
 			return RectangleD(0,0,0,0);
 		}
 		else
 		{
-			unsigned int imgwidth = (unsigned int)img->getWidth();
-			unsigned int imgheight = (unsigned int)img->getHeight();
-			double width = ((double)imgwidth/(double)animFrame.cols);
-			double height = ((double)imgheight/(double)animFrame.rows);
-			double left = -(width/2);
-			double top = -(height/2);
+			auto sourceRect = animFrame.getSourceRect();
+			auto width = (double)sourceRect.width;
+			auto height = (double)sourceRect.height;
+			auto left = -(width/2);
+			auto top = -(height/2);
 			return RectangleD(left, top, width, height);
 		}
 	}
 
-	const ArrayList<Animation::Frame>& Animation::getFrames() const
+	void Animation::drawFrame(Graphics& graphics, size_t frameIndex) const
 	{
-		return frames;
-	}
-
-	void Animation::drawFrame(Graphics& graphics, size_t frameNum) const
-	{
-		size_t totalFrames = frames.size();
-		if(totalFrames == 0)
+		if(frameIndex >= frames.size())
 		{
 			return;
 		}
-		if(frameNum > totalFrames)
-		{
-			if(totalFrames>0)
-			{
-				frameNum = (totalFrames-1);
-			}
-			else
-			{
-				frameNum = 0;
-			}
-		}
-
-		RectangleD dstRect = getRect(frameNum);
-		
-		drawFrame(graphics, frameNum, dstRect);
+		drawFrame(graphics, frameIndex, getRect(frameIndex));
 	}
 	
-	void Animation::drawFrame(Graphics& graphics, size_t frameNum, const RectangleD& dstRect) const
+	void Animation::drawFrame(Graphics& graphics, size_t frameIndex, const RectangleD& dstRect) const
 	{
-		const Frame& animFrame = frames.get(frameNum);
-		
-		RectangleU srcRect = animFrame.getSourceRect();
+		if(frameIndex >= frames.size())
+		{
+			return;
+		}
+		auto& animFrame = frames.get(frameIndex);
+		auto srcRect = animFrame.getSourceRect();
 		
 		double dst_left = dstRect.x;
 		double dst_top = dstRect.y;
@@ -423,26 +314,27 @@ namespace fgl
 		unsigned int src_right = (unsigned int)(src_left + srcRect.width);
 		unsigned int src_bottom = (unsigned int)(src_top + srcRect.height);
 
+		auto image = animFrame.getImage();
 		if(mirroredHorizontal)
 		{
 			if(mirroredVertical)
 			{
-				graphics.drawImage(animFrame.img, dst_right, dst_bottom, dst_left, dst_top, src_left, src_top, src_right, src_bottom);
+				graphics.drawImage(image, dst_right, dst_bottom, dst_left, dst_top, src_left, src_top, src_right, src_bottom);
 			}
 			else
 			{
-				graphics.drawImage(animFrame.img, dst_right, dst_top, dst_left, dst_bottom, src_left, src_top, src_right, src_bottom);
+				graphics.drawImage(image, dst_right, dst_top, dst_left, dst_bottom, src_left, src_top, src_right, src_bottom);
 			}
 		}
 		else
 		{
 			if(mirroredVertical)
 			{
-				graphics.drawImage(animFrame.img, dst_left, dst_bottom, dst_right, dst_top, src_left, src_top, src_right, src_bottom);
+				graphics.drawImage(image, dst_left, dst_bottom, dst_right, dst_top, src_left, src_top, src_right, src_bottom);
 			}
 			else
 			{
-				graphics.drawImage(animFrame.img, dst_left, dst_top, dst_right, dst_bottom, src_left, src_top, src_right, src_bottom);
+				graphics.drawImage(image, dst_left, dst_top, dst_right, dst_bottom, src_left, src_top, src_right, src_bottom);
 			}
 		}
 	}

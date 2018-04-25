@@ -19,10 +19,10 @@ namespace fgl
 			\param frame the frame (bounding box) of the element
 			\param animation the animation to display inside the element
 			\param direction the direction that frames should iterate for the Animation when animating */
-		AnimationElement(const RectangleD& frame, Animation* animation, const Animation::Direction& direction = Animation::FORWARD);
+		AnimationElement(const RectangleD& frame, Animation* animation, const Animation::Direction& direction = Animation::Direction::FORWARD);
 		/*! Constructs a screen element with an animation to display with a given display mode. The default frame is (0,0,0,0)
 			\param animation the animation to display inside the element */
-		AnimationElement(Animation* animation, const Animation::Direction& direction = Animation::FORWARD);
+		AnimationElement(Animation* animation, const Animation::Direction& direction = Animation::Direction::FORWARD);
 		/*! virtual destructor*/
 		virtual ~AnimationElement();
 		
@@ -36,7 +36,7 @@ namespace fgl
 		/*! Sets the Animation for the element to display.
 			\param animation the Animation to display, or null to not display an animation
 			\param direction the direction that frames should iterate for the Animation when animating. If NO_CHANGE is used, the current frame index and direction are preserved through the change*/
-		void setAnimation(Animation* animation, const Animation::Direction& direction = Animation::FORWARD);
+		void setAnimation(Animation* animation, const Animation::Direction& direction = Animation::Direction::FORWARD);
 		/*! Sets the direction that frames should iterate for the Animation when animating
 			\param direction a constant representing the animation direction*/
 		void setAnimationDirection(const Animation::Direction& direction);

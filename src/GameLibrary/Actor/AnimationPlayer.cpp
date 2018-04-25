@@ -15,16 +15,16 @@ namespace fgl
 		lastFrameTime(0),
 		animationChanged(false)
 	{
-		if(direction == Animation::NO_CHANGE)
+		if(direction == Animation::Direction::NO_CHANGE)
 		{
-			direction = Animation::FORWARD;
+			direction = Animation::Direction::FORWARD;
 		}
 		if(animation!=nullptr)
 		{
 			animationChanged = true;
-			if(direction==Animation::BACKWARD)
+			if(direction==Animation::Direction::BACKWARD)
 			{
-				frameIndex = animation->getTotalFrames() - 1;
+				frameIndex = animation->getFrameCount() - 1;
 			}
 		}
 	}
@@ -43,7 +43,7 @@ namespace fgl
 				lastFrameTime = currentTimeMillis;
 				animationChanged = false;
 			}
-			if(animation!=nullptr && animation->getTotalFrames() > 0)
+			if(animation!=nullptr && animation->getFrameCount() > 0)
 			{
 				long double fps = (long double)animation->getFPS();
 				long long frameTime = (long long)(1000.0L/fps);
@@ -55,13 +55,13 @@ namespace fgl
 				if(nextFrameTime<=currentTimeMillis)
 				{
 					lastFrameTime = nextFrameTime;
-					if(direction!=Animation::STOPPED)
+					if(direction!=Animation::Direction::STOPPED)
 					{
 						frameChanged = true;
-						if(direction==Animation::FORWARD)
+						if(direction==Animation::Direction::FORWARD)
 						{
 							frameIndex++;
-							if(frameIndex >= animation->getTotalFrames())
+							if(frameIndex >= animation->getFrameCount())
 							{
 								frameIndex = 0;
 								if(eventHandler)
@@ -81,12 +81,12 @@ namespace fgl
 								}
 							}
 						}
-						else if(direction==Animation::BACKWARD)
+						else if(direction==Animation::Direction::BACKWARD)
 						{
 							frameIndex--;
 							if(frameIndex == -1)
 							{
-								frameIndex = animation->getTotalFrames()-1;
+								frameIndex = animation->getFrameCount()-1;
 								if(eventHandler)
 								{
 									eventHandler(ANIMATIONEVENT_FINISHED);
@@ -112,7 +112,7 @@ namespace fgl
 	
 	void AnimationPlayer::draw(Graphics& graphics) const
 	{
-		if(animation!=nullptr && animation->getTotalFrames()>0)
+		if(animation!=nullptr && animation->getFrameCount() > 0)
 		{
 			animation->drawFrame(graphics, frameIndex);
 		}
@@ -120,7 +120,7 @@ namespace fgl
 	
 	void AnimationPlayer::draw(Graphics& graphics, const RectangleD& dstRect) const
 	{
-		if(animation!=nullptr && animation->getTotalFrames()>0)
+		if(animation!=nullptr && animation->getFrameCount() > 0)
 		{
 			animation->drawFrame(graphics, frameIndex, dstRect);
 		}
@@ -140,8 +140,8 @@ namespace fgl
 		{
 			switch(direction_arg)
 			{
-				case Animation::FORWARD:
-				case Animation::STOPPED:
+				case Animation::Direction::FORWARD:
+				case Animation::Direction::STOPPED:
 				{
 					frameIndex = 0;
 					lastFrameTime = 0;
@@ -150,9 +150,9 @@ namespace fgl
 				}
 				break;
 					
-				case Animation::BACKWARD:
+				case Animation::Direction::BACKWARD:
 				{
-					size_t totalFrames = animation->getTotalFrames();
+					size_t totalFrames = animation->getFrameCount();
 					if(totalFrames>0)
 					{
 						frameIndex = (totalFrames-1);
@@ -167,25 +167,25 @@ namespace fgl
 				}
 				break;
 					
-				case Animation::NO_CHANGE:
+				case Animation::Direction::NO_CHANGE:
 				{
 					switch(direction)
 					{
 						default:
-						case Animation::NO_CHANGE:
-						case Animation::FORWARD:
-						case Animation::STOPPED:
+						case Animation::Direction::NO_CHANGE:
+						case Animation::Direction::FORWARD:
+						case Animation::Direction::STOPPED:
 						{
-							if(frameIndex >= animation->getTotalFrames())
+							if(frameIndex >= animation->getFrameCount())
 							{
 								frameIndex = 0;
 							}
 						}
 						break;
 							
-						case Animation::BACKWARD:
+						case Animation::Direction::BACKWARD:
 						{
-							size_t totalFrames = animation->getTotalFrames();
+							size_t totalFrames = animation->getFrameCount();
 							if(frameIndex >= totalFrames)
 							{
 								if(totalFrames>0)
@@ -207,7 +207,7 @@ namespace fgl
 	
 	void AnimationPlayer::setDirection(const Animation::Direction& direction_arg)
 	{
-		if(direction_arg != Animation::NO_CHANGE)
+		if(direction_arg != Animation::Direction::NO_CHANGE)
 		{
 			direction = direction_arg;
 		}

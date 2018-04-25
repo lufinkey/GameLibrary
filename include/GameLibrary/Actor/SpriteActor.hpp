@@ -92,9 +92,6 @@ namespace fgl
 			\param animation a pointer to an Animation
 			\param direction the direction to iterate through the Animation frames*/
 		void changeAnimation(Animation*animation, const Animation::Direction&direction = Animation::Direction::FORWARD);
-		/*! Loads and re-stores the images for each frame of each Animation. Calls Animation::reloadFrames for each Animation.
-			\param assetManager the AssetManager to load the images from. If null, the images for each frame are set to null.*/
-		void reloadAnimations(AssetManager*assetManager);
 		
 		
 		/*! Calculates whether this SpriteActor's pixels are overlapping with another SpriteActor's pixels. Transparent pixels are ignored.

@@ -104,9 +104,10 @@ namespace fgl
 		{
 			throw IllegalArgumentException("animation", "null");
 		}
-		else if(!(direction==Animation::FORWARD || direction==Animation::BACKWARD || direction==Animation::STOPPED || direction==Animation::NO_CHANGE))
+		else if(!(direction==Animation::Direction::FORWARD || direction==Animation::Direction::BACKWARD
+			|| direction==Animation::Direction::STOPPED || direction==Animation::Direction::NO_CHANGE))
 		{
-			throw IllegalArgumentException("direction", (String)"" + direction);
+			throw IllegalArgumentException("direction", (String)"" + (unsigned int)direction);
 		}
 		SpriteActor* actor = new SpriteActor(position.x, position.y);
 		actor->addAnimation("default", animation, destructAnimation);
@@ -120,9 +121,10 @@ namespace fgl
 		{
 			throw IllegalArgumentException("animation", "null");
 		}
-		else if(!(direction==Animation::FORWARD || direction==Animation::BACKWARD || direction==Animation::STOPPED || direction==Animation::NO_CHANGE))
+		else if(!(direction==Animation::Direction::FORWARD || direction==Animation::Direction::BACKWARD
+			|| direction==Animation::Direction::STOPPED || direction==Animation::Direction::NO_CHANGE))
 		{
-			throw IllegalArgumentException("direction", (String)"" + direction);
+			throw IllegalArgumentException("direction", (String)"" + (unsigned int)direction);
 		}
 		SpriteActor* actor = new SpriteActor();
 		actor->addAnimation("default", animation, destructAnimation);

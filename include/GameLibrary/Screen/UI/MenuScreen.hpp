@@ -52,7 +52,7 @@ namespace fgl
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
-		size_t addItem(const Vector2d& position, Animation* animation, const Animation::Direction& direction=Animation::FORWARD, bool destructAnimation=true);
+		size_t addItem(const Vector2d& position, Animation* animation, const Animation::Direction& direction=Animation::Direction::FORWARD, bool destructAnimation=true);
 		/*! Creates and adds a SpriteActor that will be automatically resized by the AutoLayout.
 			\param bounds the ratio in the frame where the Actor will be laid out
 			\param animation the default Animation of the Actor
@@ -60,7 +60,7 @@ namespace fgl
 			\param destructAnimation true to have the Actor handle deallocation of the Animation, or false to manually handle deallocation of the Animation
 		 	\returns the index of the added item
 			\throws fgl::IllegalArgumentException if the animation argument is null, or if direction is not a valid Animation::Direction*/
-		size_t addItem(const RectD& bounds, Animation* animation, const Animation::Direction& direction=Animation::FORWARD, bool destructAnimation=true);
+		size_t addItem(const RectD& bounds, Animation* animation, const Animation::Direction& direction=Animation::Direction::FORWARD, bool destructAnimation=true);
 		/*! Adds a TextActor. This Actor's deallocation will be automatically handled when this Screen is deallocated.
 			\param actor a TextActor pointer
 		 	\returns the index of the added item
