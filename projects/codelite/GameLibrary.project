@@ -157,6 +157,7 @@
       <VirtualDirectory Name="Animation">
         <File Name="../../src/GameLibrary/Animation/Animation.cpp"/>
         <File Name="../../src/GameLibrary/Animation/AnimationPlayer.cpp"/>
+        <File Name="../../src/GameLibrary/Animation/AnimationProvider.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
@@ -330,6 +331,7 @@
       <VirtualDirectory Name="Animation">
         <File Name="../../include/GameLibrary/Animation/Animation.hpp"/>
         <File Name="../../include/GameLibrary/Animation/AnimationPlayer.hpp"/>
+        <File Name="../../include/GameLibrary/Animation/AnimationProvider.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
