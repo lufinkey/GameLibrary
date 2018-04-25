@@ -3,9 +3,9 @@
 
 #include <climits>
 #include <GameLibrary/Actor/Actor.hpp>
-#include <GameLibrary/Actor/Animation.hpp>
 #include <GameLibrary/Actor/SpriteActor.hpp>
 #include <GameLibrary/Actor/TextActor.hpp>
+#include <GameLibrary/Animation/Animation.hpp>
 #include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Input/Keyboard.hpp>
 #include <GameLibrary/Screen/Screen.hpp>

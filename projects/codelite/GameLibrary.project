@@ -97,10 +97,8 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Actor">
         <File Name="../../src/GameLibrary/Actor/WireframeActor.cpp"/>
-        <File Name="../../src/GameLibrary/Actor/AnimationPlayer.cpp"/>
         <File Name="../../src/GameLibrary/Actor/TextActor.cpp"/>
         <File Name="../../src/GameLibrary/Actor/Actor.cpp"/>
-        <File Name="../../src/GameLibrary/Actor/Animation.cpp"/>
         <File Name="../../src/GameLibrary/Actor/SpriteActor.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="IO">
@@ -155,6 +153,10 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../src/GameLibrary/Event/Event.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Animation">
+        <File Name="../../src/GameLibrary/Animation/Animation.cpp"/>
+        <File Name="../../src/GameLibrary/Animation/AnimationPlayer.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
@@ -272,10 +274,8 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Actor">
         <File Name="../../include/GameLibrary/Actor/WireframeActor.hpp"/>
-        <File Name="../../include/GameLibrary/Actor/AnimationPlayer.hpp"/>
         <File Name="../../include/GameLibrary/Actor/Actor.hpp"/>
         <File Name="../../include/GameLibrary/Actor/TextActor.hpp"/>
-        <File Name="../../include/GameLibrary/Actor/Animation.hpp"/>
         <File Name="../../include/GameLibrary/Actor/SpriteActor.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Window">
@@ -326,6 +326,10 @@
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../include/GameLibrary/Event/Event.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Animation">
+        <File Name="../../include/GameLibrary/Animation/Animation.hpp"/>
+        <File Name="../../include/GameLibrary/Animation/AnimationPlayer.hpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>

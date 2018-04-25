@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Actor/Animation.hpp>
+#include <GameLibrary/Animation/Animation.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl

@@ -1,5 +1,5 @@
 
-#include <GameLibrary/Actor/AnimationPlayer.hpp>
+#include <GameLibrary/Animation/AnimationPlayer.hpp>
 
 namespace fgl
 {

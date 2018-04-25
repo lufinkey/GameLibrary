@@ -3,7 +3,7 @@
 
 #include "ImageElement.hpp"
 #include <GameLibrary/Screen/ScreenElement.hpp>
-#include <GameLibrary/Actor/AnimationPlayer.hpp>
+#include <GameLibrary/Animation/AnimationPlayer.hpp>
 
 namespace fgl
 {

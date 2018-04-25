@@ -2,11 +2,12 @@
 #pragma once
 
 #include "Actor/Actor.hpp"
-#include "Actor/Animation.hpp"
-#include "Actor/AnimationPlayer.hpp"
 #include "Actor/SpriteActor.hpp"
 #include "Actor/TextActor.hpp"
 #include "Actor/WireframeActor.hpp"
+
+#include "Animation/Animation.hpp"
+#include "Animation/AnimationPlayer.hpp"
 
 #include "Application/Application.hpp"
 #include "Application/ApplicationData.hpp"

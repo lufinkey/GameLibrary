@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Actor.hpp"
-#include "AnimationPlayer.hpp"
+#include <GameLibrary/Animation/AnimationPlayer.hpp>
 
 namespace fgl
 {

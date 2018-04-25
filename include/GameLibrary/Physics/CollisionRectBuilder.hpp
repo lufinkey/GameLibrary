@@ -3,7 +3,7 @@
 
 #include <functional>
 #include "Collidable.hpp"
-#include <GameLibrary/Actor/Animation.hpp>
+#include <GameLibrary/Animation/Animation.hpp>
 
 namespace fgl
 {
