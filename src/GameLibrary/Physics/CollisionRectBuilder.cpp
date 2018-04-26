@@ -57,6 +57,11 @@ namespace fgl
 	{
 		auto rect = polygon.getRectangle();
 		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		if(rect.toPolygon() == polygon)
+		{
+			// polygon is a rectangle, just make a box collidable
+			return {new BoxCollisionRect("all", rect, lastRect, resolution)};
+		}
 		return {new PolygonCollisionRect("all", polygon, lastRect, resolution)};
 	}
 	
