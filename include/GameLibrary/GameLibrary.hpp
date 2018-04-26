@@ -8,6 +8,7 @@
 
 #include "Animation/Animation.hpp"
 #include "Animation/AnimationPlayer.hpp"
+#include "Animation/AnimationProvider.hpp"
 
 #include "Application/Application.hpp"
 #include "Application/ApplicationData.hpp"

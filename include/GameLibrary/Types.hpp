@@ -12,9 +12,13 @@ namespace fgl
 	//Actor
 	class Actor;
 		class SpriteActor;
-		class Animation;
 		class TextActor;
 		class WireframeActor;
+	
+	//Animation
+	class Animation;
+	class AnimationPlayer;
+	class AnimationProvider;
 	
 	//Application
 	class Application;
