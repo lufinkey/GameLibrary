@@ -6,35 +6,35 @@
 
 namespace fgl
 {
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
+	CollisionRect* CollisionRectBuilder::fromFrame(const String& tag, Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
 	{
-		return fromFrame(collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, resolution);
+		return fromFrame(tag, collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, resolution);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
+	CollisionRect* CollisionRectBuilder::fromFrame(const String& tag, const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution)
 	{
 		auto displacement = state.position - prevState.position;
 		auto rect = RectangleD(state.position.x-origin.x, state.position.y-origin.y, size.x, size.y);
-		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		auto lastRect = getMatchingRect(prevRects, tag, rect, displacement);
 		if(state.rotation!=0.0)
 		{
-			return {new BoxCollisionRect("all", rect, lastRect, state.rotation, origin, resolution)};
+			return new BoxCollisionRect(tag, rect, lastRect, state.rotation, origin, resolution);
 		}
-		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
+		return new BoxCollisionRect(tag, rect, lastRect, resolution);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromFrame(const RectangleD& rect, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
+	CollisionRect* CollisionRectBuilder::fromFrame(const String& tag, const RectangleD& rect, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
 	{
-		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
-		return {new BoxCollisionRect("all", rect, lastRect, resolution)};
+		auto lastRect = getMatchingRect(prevRects, tag, rect, displacement);
+		return new BoxCollisionRect(tag, rect, lastRect, resolution);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
+	CollisionRect* CollisionRectBuilder::fromAnimation(const String& tag, Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
-		return fromAnimation(collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, animation, frameIndex, mirroredHorizontal, mirroredVertical);
+		return fromAnimation(tag, collidable->getTransformState(), collidable->getPreviousTransformState(), prevRects, size, origin, animation, frameIndex, mirroredHorizontal, mirroredVertical);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromAnimation(const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
+	CollisionRect* CollisionRectBuilder::fromAnimation(const String& tag, const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, Animation* animation, size_t frameIndex, bool mirroredHorizontal, bool mirroredVertical)
 	{
 		if(animation == nullptr)
 		{
@@ -45,24 +45,24 @@ namespace fgl
 		auto img = frame.getImage();
 		auto srcRect = frame.getSourceRect();
 		auto rect = RectangleD(state.position.x-origin.x, state.position.y-origin.y, size.x, size.y);
-		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		auto lastRect = getMatchingRect(prevRects, tag, rect, displacement);
 		if(state.rotation!=0.0)
 		{
-			return {new PixelCollisionRect("all", rect, lastRect, srcRect, state.rotation, origin, img, mirroredHorizontal, mirroredVertical)};
+			return new PixelCollisionRect(tag, rect, lastRect, srcRect, state.rotation, origin, img, mirroredHorizontal, mirroredVertical);
 		}
-		return {new PixelCollisionRect("all", rect, lastRect, srcRect, img, mirroredHorizontal, mirroredVertical)};
+		return new PixelCollisionRect(tag, rect, lastRect, srcRect, img, mirroredHorizontal, mirroredVertical);
 	}
 	
-	ArrayList<CollisionRect*> CollisionRectBuilder::fromPolygon(const PolygonD& polygon, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
+	CollisionRect* CollisionRectBuilder::fromPolygon(const String& tag, const PolygonD& polygon, const Vector2d& displacement, const ArrayList<CollisionRect*>& prevRects, const Vector2d& resolution)
 	{
 		auto rect = polygon.getRectangle();
-		auto lastRect = getMatchingRect(prevRects, "all", rect, displacement);
+		auto lastRect = getMatchingRect(prevRects, tag, rect, displacement);
 		if(rect.toPolygon() == polygon)
 		{
 			// polygon is a rectangle, just make a box collidable
-			return {new BoxCollisionRect("all", rect, lastRect, resolution)};
+			return new BoxCollisionRect(tag, rect, lastRect, resolution);
 		}
-		return {new PolygonCollisionRect("all", polygon, lastRect, resolution)};
+		return new PolygonCollisionRect(tag, polygon, lastRect, resolution);
 	}
 	
 	size_t CollisionRectBuilder::findMatchingRectIndex(const ArrayList<CollisionRect*>& collisionRects, const String& tag)
