@@ -327,15 +327,19 @@ namespace fgl
 			objects.insert(objects.begin()+index, obj);
 		}
 		
-		template<size_t _PREALLOC_COUNT>
-		void addAll(const ArrayList<T, _PREALLOC_COUNT>& array)
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
+		void addAll(const ArrayList<U, _PREALLOC_COUNT>& array)
 		{
 			updatePreallocation(objects.size()+array.size());
 			objects.insert(objects.end(), array.begin(), array.end());
 		}
 		
-		template<size_t _PREALLOC_COUNT>
-		void addAll(ArrayList<T, _PREALLOC_COUNT>&& array)
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
+		void addAll(ArrayList<U, _PREALLOC_COUNT>&& array)
 		{
 			updatePreallocation(objects.size()+array.size());
 			for(size_t array_size=array.size(), i=0; i<array_size; i++)
@@ -344,8 +348,10 @@ namespace fgl
 			}
 		}
 		
-		template<size_t _PREALLOC_COUNT>
-		void addAll(size_t index, const ArrayList<T, _PREALLOC_COUNT>& array)
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
+		void addAll(size_t index, const ArrayList<U, _PREALLOC_COUNT>& array)
 		{
 			if(index > objects.size())
 			{
@@ -359,8 +365,10 @@ namespace fgl
 			objects.insert(objects.begin()+index, array.begin(), array.end());
 		}
 		
-		template<size_t _PREALLOC_COUNT>
-		void addAll(size_t index, ArrayList<T, _PREALLOC_COUNT>&& array)
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
+		void addAll(size_t index, ArrayList<U, _PREALLOC_COUNT>&& array)
 		{
 			size_t size = objects.size();
 			if(index > size)
@@ -614,9 +622,12 @@ namespace fgl
 			objects.shrink_to_fit();
 		}
 		
-		ArrayList<T> mergedWith(const ArrayList<T>& arr) const
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
+		ArrayList<T, PREALLOC_COUNT> mergedWith(const ArrayList<U, _PREALLOC_COUNT>& arr) const
 		{
-			ArrayList<T> newArr;
+			ArrayList<T, PREALLOC_COUNT> newArr;
 			newArr.resize(objects.size() + arr.size());
 			newArr.addAll(*this);
 			newArr.addAll(arr);
