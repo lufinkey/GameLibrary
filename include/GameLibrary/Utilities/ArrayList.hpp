@@ -68,6 +68,9 @@ namespace fgl
 		typedef typename std::vector<T>::reverse_iterator reverse_iterator;
 		typedef typename std::vector<T>::const_reverse_iterator const_reverse_iterator;
 		
+		template<typename _T, size_t _PREALLOC_COUNT>
+		friend class ArrayList;
+		
 		ArrayList()
 		{
 			//
@@ -76,6 +79,15 @@ namespace fgl
 		template<size_t _PREALLOC_COUNT>
 		ArrayList(const ArrayList<T, _PREALLOC_COUNT>& array)
 			: objects(array.objects)
+		{
+			//
+		}
+		
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<(!std::is_same<U,_T>::value && std::is_convertible<U,_T>::value), std::nullptr_t>::type = nullptr>
+		explicit ArrayList(const ArrayList<U, _PREALLOC_COUNT>& array)
+			: objects(array.objects.begin(), array.objects.end())
 		{
 			//
 		}
