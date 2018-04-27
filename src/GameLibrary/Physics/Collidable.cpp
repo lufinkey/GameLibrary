@@ -5,7 +5,6 @@ namespace fgl
 {
 	Collidable::Collidable(const TransformState& initialState)
 		: previousTransformState(initialState),
-		velocity(0, 0),
 		displacement(0, 0)
 	{
 		//
@@ -20,12 +19,6 @@ namespace fgl
 		return false;
 	}
 
-	void Collidable::updateVelocity(double frameSpeedMultiplier)
-	{
-		//offset for velocity
-		shift(velocity*frameSpeedMultiplier);
-	}
-
 	double Collidable::getMass() const
 	{
 		return 1.0;
@@ -36,25 +29,9 @@ namespace fgl
 		return previousTransformState;
 	}
 
-	void Collidable::setVelocity(const Vector2d& velocity_arg)
-	{
-		velocity = velocity_arg;
-	}
-
-	Vector2d Collidable::getVelocity() const
-	{
-		return velocity;
-	}
-
 	Vector2d Collidable::getDisplacement() const
 	{
 		return displacement;
-	}
-
-	void Collidable::applyForce(const Vector2d& force)
-	{
-		auto acceleration = force/getMass();
-		velocity += acceleration;
 	}
 
 	void Collidable::onContact(const ContactEvent& contactEvent)

@@ -37,13 +37,7 @@ namespace fgl
 		virtual ArrayList<CollisionRect*> getCollisionRects() const = 0;
 
 		TransformState getPreviousTransformState() const;
-
-		void setVelocity(const Vector2d& velocity);
-		Vector2d getVelocity() const;
-
 		Vector2d getDisplacement() const;
-
-		void applyForce(const Vector2d& force);
 
 		bool checkCollision(Collidable* collidable) const;
 
