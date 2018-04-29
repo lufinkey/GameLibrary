@@ -324,6 +324,7 @@
         <File Name="../../include/GameLibrary/Physics/ContactEvent.hpp"/>
         <File Name="../../include/GameLibrary/Physics/Collidable.hpp"/>
         <File Name="../../include/GameLibrary/Physics/CollisionRectBuilder.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/CollisionRectPair.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../include/GameLibrary/Event/Event.hpp"/>

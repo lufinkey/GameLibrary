@@ -8,9 +8,6 @@ namespace fgl
 {
 	class Collidable;
 
-	typedef std::pair<CollisionRect*, CollisionRect*> CollisionRectPair;
-	typedef std::pair<String, String> CollisionRectTagPair;
-
 	class CollisionPair
 	{
 	public:
@@ -31,6 +28,7 @@ namespace fgl
 		bool shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const;
 
 		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const;
+		ArrayList<CollisionRectTagPair> getReversePriorityRects() const;
 
 		bool isContacting() const;
 	};

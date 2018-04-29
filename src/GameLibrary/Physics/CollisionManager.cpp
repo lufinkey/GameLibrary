@@ -365,8 +365,8 @@ namespace fgl
 						if(pair.isContacting())
 						{
 							//updated contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_UPDATED);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_UPDATED);
+							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_UPDATED, newPair.priorityRects, pair.priorityRects);
+							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onContactCalls.add([=] {
@@ -403,8 +403,8 @@ namespace fgl
 						else
 						{
 							//new contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_NEW);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_NEW);
+							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_NEW, newPair.priorityRects, pair.priorityRects);
+							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onContactCalls.add([=] {
@@ -442,8 +442,8 @@ namespace fgl
 					else if(pair.isContacting())
 					{
 						//finished contact
-						auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_FINISHED);
-						auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_FINISHED);
+						auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_FINISHED, newPair.priorityRects, pair.priorityRects);
+						auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 						if(collidable1->isStaticCollisionBody())
 						{
 							onContactFinishCalls.add([=] {
@@ -484,8 +484,8 @@ namespace fgl
 						if(!pair.sides.contains(collisionSide))
 						{
 							//the previous collision pair doesn't have this collision side, so it is a new collision
-							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_NEW);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_NEW);
+							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_NEW, newPair.priorityRects, pair.priorityRects);
+							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onCollisionCalls.add([=] {
@@ -522,8 +522,8 @@ namespace fgl
 						else
 						{
 							//the previous collision pair has this collision side, so it's an updated collision
-							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_UPDATED);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_UPDATED);
+							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_UPDATED, newPair.priorityRects, pair.priorityRects);
+							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onCollisionCalls.add([=] {
@@ -564,8 +564,8 @@ namespace fgl
 					{
 						if(!newPair.sides.contains(prevCollisionSide))
 						{
-							auto collisionEvent1 = CollisionEvent(collidable2, prevCollisionSide, COLLISIONSTATE_FINISHED);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(prevCollisionSide), COLLISIONSTATE_FINISHED);
+							auto collisionEvent1 = CollisionEvent(collidable2, prevCollisionSide, COLLISIONSTATE_FINISHED, newPair.priorityRects, pair.priorityRects);
+							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(prevCollisionSide), COLLISIONSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onCollisionFinishCalls.add([=]{

@@ -75,7 +75,18 @@ namespace fgl
 		}
 		return pairs;
 	}
-
+	
+	ArrayList<CollisionRectTagPair> CollisionPair::getReversePriorityRects() const
+	{
+		ArrayList<CollisionRectTagPair> reversePriorityRects;
+		reversePriorityRects.reserve(priorityRects.size());
+		for(auto& rectPair : priorityRects)
+		{
+			reversePriorityRects.add(std::pair<fgl::String,fgl::String>(rectPair.second, rectPair.first));
+		}
+		return reversePriorityRects;
+	}
+	
 	bool CollisionPair::isContacting() const
 	{
 		if(sides.size() > 0 || ignoredCollisions.size() > 0)
