@@ -28,6 +28,7 @@ namespace fgl
 		bool shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const;
 
 		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const;
+		// returns priorityRects where first is collidable2 and second is collidable1
 		ArrayList<CollisionRectTagPair> getReversePriorityRects() const;
 
 		bool isContacting() const;

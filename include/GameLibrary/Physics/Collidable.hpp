@@ -57,10 +57,7 @@ namespace fgl
 		virtual void onFinishCollisionUpdates();
 
 	private:
-		void updateVelocity(double frameSpeedMultiplier);
-		
 		TransformState previousTransformState;
-		Vector2d velocity;
 		Vector2d displacement;
 	};
 }
