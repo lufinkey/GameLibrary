@@ -118,11 +118,11 @@ namespace fgl
 							{
 								//check if we should ignore this collision
 								bool ignore = false;
-								if(!collidable1->respondsToCollision(collidable2, collisionSide1))
+								if(!collidable1->respondsToCollision(collidable2, collisionSide1, rectPair))
 								{
 									ignore = true;
 								}
-								else if(!collidable2->respondsToCollision(collidable1, collisionSide2))
+								else if(!collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first)))
 								{
 									ignore = true;
 								}

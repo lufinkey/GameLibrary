@@ -49,7 +49,7 @@ namespace fgl
 		//
 	}
 
-	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side) const
+	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const
 	{
 		return true;
 	}
