@@ -53,11 +53,10 @@ namespace fgl
 		virtual void onCollision(const CollisionEvent& collisionEvent);
 		virtual void onCollisionUpdate(const CollisionEvent& collisionEvent);
 		virtual void onCollisionFinish(const CollisionEvent& collisionEvent);
-
-		virtual void onFinishCollisionUpdates();
-
-	private:
+		
 		virtual void updateTransformState();
+		
+		virtual void onFinishCollisionUpdates();
 		
 		TransformState previousTransformState;
 		Vector2d displacement;

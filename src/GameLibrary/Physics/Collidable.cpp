@@ -90,11 +90,6 @@ namespace fgl
 	{
 		//
 	}
-
-	void Collidable::onFinishCollisionUpdates()
-	{
-		//
-	}
 	
 	void Collidable::updateTransformState()
 	{
@@ -102,5 +97,10 @@ namespace fgl
 		auto prevTransformState = getPreviousTransformState();
 		displacement = (transformState.position - prevTransformState.position);
 		previousTransformState = transformState;
+	}
+
+	void Collidable::onFinishCollisionUpdates()
+	{
+		//
 	}
 }
