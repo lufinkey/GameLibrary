@@ -95,4 +95,12 @@ namespace fgl
 	{
 		//
 	}
+	
+	void Collidable::updateTransformState()
+	{
+		auto transformState = getTransformState();
+		auto prevTransformState = getPreviousTransformState();
+		displacement = (transformState.position - prevTransformState.position);
+		previousTransformState = transformState;
+	}
 }

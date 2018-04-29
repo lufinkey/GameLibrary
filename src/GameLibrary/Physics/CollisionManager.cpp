@@ -633,10 +633,7 @@ namespace fgl
 		//set the previous positions of the collidables
 		for(auto& collidable : collidables)
 		{
-			auto transformState = collidable->getTransformState();
-			auto prevTransformState = collidable->getPreviousTransformState();
-			collidable->displacement = (transformState.position - prevTransformState.position);
-			collidable->previousTransformState = transformState;
+			collidable->updateTransformState();
 		}
 
 		//tell updated collidables that their collision updates have finished

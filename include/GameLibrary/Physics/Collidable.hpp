@@ -57,6 +57,8 @@ namespace fgl
 		virtual void onFinishCollisionUpdates();
 
 	private:
+		virtual void updateTransformState();
+		
 		TransformState previousTransformState;
 		Vector2d displacement;
 	};
