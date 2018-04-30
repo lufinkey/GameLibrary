@@ -24,6 +24,15 @@ namespace fgl
 		{
 			return location+length;
 		}
+		
+		bool overlaps(const Range<T>& cmp) const
+		{
+			if(endLocation() <= cmp.location || cmp.endLocation() <= location)
+			{
+				return false;
+			}
+			return true;
+		}
 	};
 	
 	typedef Range<int> RangeI;
