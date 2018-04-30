@@ -25,4 +25,9 @@ namespace fgl
 			return location+length;
 		}
 	};
+	
+	typedef Range<int> RangeI;
+	typedef Range<float> RangeF;
+	typedef Range<double> RangeD;
+	typedef Range<unsigned int> RangeU;
 }
