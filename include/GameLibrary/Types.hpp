@@ -129,8 +129,10 @@ namespace fgl
 	class BasicString;
 	class Data;
 	class Math;
-	class Plist;
 	class Number;
+	class Plist;
+	template<typename T>
+	class Range;
 	class Thread;
 	
 	//Window
