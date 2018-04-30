@@ -207,6 +207,7 @@
         <File Name="../../include/GameLibrary/Utilities/BasicString.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Dictionary.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Number.impl"/>
+        <File Name="../../include/GameLibrary/Utilities/Range.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
