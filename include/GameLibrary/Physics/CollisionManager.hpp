@@ -10,11 +10,12 @@ namespace fgl
 	{
 	public:
 		CollisionManager();
+		virtual ~CollisionManager() = default;
 
 		void addCollidable(Collidable* collidable);
 		void removeCollidable(Collidable* collidable);
 
-		void update(const ApplicationData& appData);
+		virtual void update(const ApplicationData& appData);
 		
 		const ArrayList<Collidable*>& getCollidables() const;
 
