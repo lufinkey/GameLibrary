@@ -3,19 +3,10 @@
 
 #include <GameLibrary/Event/Event.hpp>
 #include "CollisionRectPair.hpp"
+#include "CollisionSide.hpp"
 
 namespace fgl
 {
-	typedef enum
-	{
-		COLLISIONSIDE_TOP,
-		COLLISIONSIDE_BOTTOM,
-		COLLISIONSIDE_LEFT,
-		COLLISIONSIDE_RIGHT
-	} CollisionSide;
-	
-	CollisionSide CollisionSide_getOpposite(CollisionSide side);
-	
 	typedef enum
 	{
 		COLLISIONSTATE_NEW,

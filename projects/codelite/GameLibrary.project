@@ -150,6 +150,7 @@
         <File Name="../../src/GameLibrary/Physics/CollisionPair.cpp"/>
         <File Name="../../src/GameLibrary/Physics/ContactEvent.cpp"/>
         <File Name="../../src/GameLibrary/Physics/CollisionRectBuilder.cpp"/>
+        <File Name="../../src/GameLibrary/Physics/CollisionSide.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../src/GameLibrary/Event/Event.cpp"/>
@@ -326,6 +327,7 @@
         <File Name="../../include/GameLibrary/Physics/Collidable.hpp"/>
         <File Name="../../include/GameLibrary/Physics/CollisionRectBuilder.hpp"/>
         <File Name="../../include/GameLibrary/Physics/CollisionRectPair.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/CollisionSide.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../include/GameLibrary/Event/Event.hpp"/>

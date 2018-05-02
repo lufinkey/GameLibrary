@@ -87,6 +87,17 @@ namespace fgl
 		return reversePriorityRects;
 	}
 	
+	ArrayList<CollisionSide> CollisionPair::getOppositeSides() const
+	{
+		ArrayList<CollisionSide> oppositeSides;
+		oppositeSides.reserve(sides.size());
+		for(auto& side : sides)
+		{
+			oppositeSides.add(CollisionSide_getOpposite(side));
+		}
+		return oppositeSides;
+	}
+	
 	bool CollisionPair::isContacting() const
 	{
 		if(sides.size() > 0 || ignoredCollisions.size() > 0)

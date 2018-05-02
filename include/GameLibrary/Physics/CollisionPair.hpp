@@ -30,6 +30,8 @@ namespace fgl
 		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const;
 		// returns priorityRects where first is collidable2 and second is collidable1
 		ArrayList<CollisionRectTagPair> getReversePriorityRects() const;
+		// returns the collision sides with respect to collidable2
+		ArrayList<CollisionSide> getOppositeSides() const;
 
 		bool isContacting() const;
 	};
