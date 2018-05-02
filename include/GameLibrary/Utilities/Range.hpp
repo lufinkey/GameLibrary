@@ -33,6 +33,11 @@ namespace fgl
 			}
 			return true;
 		}
+		
+		static Range<T> fromEdges(const T& start, const T& end)
+		{
+			return Range<T>(start, end-start);
+		}
 	};
 	
 	typedef Range<int> RangeI;
