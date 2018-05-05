@@ -117,17 +117,9 @@ namespace fgl
 							else
 							{
 								//check if we should ignore this collision
-								bool ignore = false;
-								if(!collidable1->respondsToCollision(collidable2, collisionSide1, rectPair))
-								{
-									ignore = true;
-								}
-								else if(!collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first)))
-								{
-									ignore = true;
-								}
-
-								if(ignore)
+								if(!respondsToCollision(collidable1, collidable2, rectPair, collisionSide1)
+									|| !collidable1->respondsToCollision(collidable2, collisionSide1, rectPair)
+									|| !collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first)))
 								{
 									//ignore collision
 									if(!newPair.ignoredCollisions.contains(rectTagPair))
@@ -365,117 +357,24 @@ namespace fgl
 						if(pair.isContacting())
 						{
 							//updated contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_UPDATED, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
-							if(collidable1->isStaticCollisionBody())
-							{
-								onContactCalls.add([=] {
-									collidable2->onContactUpdate(contactEvent2);
-									collidable1->onContactUpdate(contactEvent1);
-								});
-							}
-							else if(collidable2->isStaticCollisionBody())
-							{
-								onContactCalls.add([=] {
-									collidable1->onContactUpdate(contactEvent1);
-									collidable2->onContactUpdate(contactEvent2);
-								});
-							}
-							else
-							{
-								double randomFirst = Math::random();
-								if(randomFirst < 0.5)
-								{
-									onContactCalls.add([=] {
-										collidable1->onContactUpdate(contactEvent1);
-										collidable2->onContactUpdate(contactEvent2);
-									});
-								}
-								else
-								{
-									onContactCalls.add([=] {
-										collidable2->onContactUpdate(contactEvent2);
-										collidable1->onContactUpdate(contactEvent1);
-									});
-								}
-							}
+							onContactCalls.add([=] {
+								dispatchContactEvents(CONTACTSTATE_UPDATED, newPair, pair);
+							});
 						}
 						else
 						{
 							//new contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_NEW, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
-							if(collidable1->isStaticCollisionBody())
-							{
-								onContactCalls.add([=] {
-									collidable2->onContact(contactEvent2);
-									collidable1->onContact(contactEvent1);
-								});
-							}
-							else if(collidable2->isStaticCollisionBody())
-							{
-								onContactCalls.add([=] {
-									collidable1->onContact(contactEvent1);
-									collidable2->onContact(contactEvent2);
-								});
-							}
-							else
-							{
-								double randomFirst = Math::random();
-								if(randomFirst < 0.5)
-								{
-									onContactCalls.add([=] {
-										collidable1->onContact(contactEvent1);
-										collidable2->onContact(contactEvent2);
-									});
-								}
-								else
-								{
-									onContactCalls.add([=] {
-										collidable2->onContact(contactEvent2);
-										collidable1->onContact(contactEvent1);
-									});
-								}
-							}
+							onContactCalls.add([=] {
+								dispatchContactEvents(CONTACTSTATE_NEW, newPair, pair);
+							});
 						}
 					}
 					else if(pair.isContacting())
 					{
 						//finished contact
-						auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_FINISHED, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
-						auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
-						if(collidable1->isStaticCollisionBody())
-						{
-							onContactFinishCalls.add([=] {
-								collidable2->onContactFinish(contactEvent2);
-								collidable1->onContactFinish(contactEvent1);
-							});
-						}
-						else if(collidable2->isStaticCollisionBody())
-						{
-							onContactFinishCalls.add([=] {
-								collidable1->onContactFinish(contactEvent1);
-								collidable2->onContactFinish(contactEvent2);
-							});
-						}
-						else
-						{
-							double randomFirst = Math::random();
-							if(randomFirst < 0.5)
-							{
-								onContactFinishCalls.add([=] {
-									collidable1->onContactFinish(contactEvent1);
-									collidable2->onContactFinish(contactEvent2);
-								});
-							}
-							else
-							{
-								onContactFinishCalls.add([=] {
-									collidable2->onContactFinish(contactEvent2);
-									collidable1->onContactFinish(contactEvent1);
-								});
-							}
-						}
+						onContactFinishCalls.add([=] {
+							dispatchContactEvents(CONTACTSTATE_FINISHED, newPair, pair);
+						});
 					}
 
 					//check for new/updated collision calls
@@ -484,78 +383,16 @@ namespace fgl
 						if(!pair.sides.contains(collisionSide))
 						{
 							//the previous collision pair doesn't have this collision side, so it is a new collision
-							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_NEW, newPair.priorityRects, pair.priorityRects);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
-							if(collidable1->isStaticCollisionBody())
-							{
-								onCollisionCalls.add([=] {
-									collidable2->onCollision(collisionEvent2);
-									collidable1->onCollision(collisionEvent1);
-								});
-							}
-							else if(collidable2->isStaticCollisionBody())
-							{
-								onCollisionCalls.add([=] {
-									collidable1->onCollision(collisionEvent1);
-									collidable2->onCollision(collisionEvent2);
-								});
-							}
-							else
-							{
-								double randomFirst = Math::random();
-								if(randomFirst < 0.5)
-								{
-									onCollisionCalls.add([=] {
-										collidable1->onCollision(collisionEvent1);
-										collidable2->onCollision(collisionEvent2);
-									});
-								}
-								else
-								{
-									onCollisionCalls.add([=] {
-										collidable2->onCollision(collisionEvent2);
-										collidable1->onCollision(collisionEvent1);
-									});
-								}
-							}
+							onCollisionCalls.add([=] {
+								dispatchCollisionEvents(COLLISIONSTATE_NEW, collisionSide, newPair, pair);
+							});
 						}
 						else
 						{
 							//the previous collision pair has this collision side, so it's an updated collision
-							auto collisionEvent1 = CollisionEvent(collidable2, collisionSide, COLLISIONSTATE_UPDATED, newPair.priorityRects, pair.priorityRects);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(collisionSide), COLLISIONSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
-							if(collidable1->isStaticCollisionBody())
-							{
-								onCollisionCalls.add([=] {
-									collidable2->onCollisionUpdate(collisionEvent2);
-									collidable1->onCollisionUpdate(collisionEvent1);
-								});
-							}
-							else if(collidable2->isStaticCollisionBody())
-							{
-								onCollisionCalls.add([=] {
-									collidable1->onCollisionUpdate(collisionEvent1);
-									collidable2->onCollisionUpdate(collisionEvent2);
-								});
-							}
-							else
-							{
-								double randomFirst = Math::random();
-								if(randomFirst < 0.5)
-								{
-									onCollisionCalls.add([=] {
-										collidable1->onCollisionUpdate(collisionEvent1);
-										collidable2->onCollisionUpdate(collisionEvent2);
-									});
-								}
-								else
-								{
-									onCollisionCalls.add([=] {
-										collidable2->onCollisionUpdate(collisionEvent2);
-										collidable1->onCollisionUpdate(collisionEvent1);
-									});
-								}
-							}
+							onCollisionCalls.add([=] {
+								dispatchCollisionEvents(COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
+							});
 						}
 					}
 
@@ -564,40 +401,9 @@ namespace fgl
 					{
 						if(!newPair.sides.contains(prevCollisionSide))
 						{
-							auto collisionEvent1 = CollisionEvent(collidable2, prevCollisionSide, COLLISIONSTATE_FINISHED, newPair.priorityRects, pair.priorityRects);
-							auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(prevCollisionSide), COLLISIONSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects());
-							if(collidable1->isStaticCollisionBody())
-							{
-								onCollisionFinishCalls.add([=]{
-									collidable2->onCollisionFinish(collisionEvent2);
-									collidable1->onCollisionFinish(collisionEvent1);
-								});
-							}
-							else if(collidable2->isStaticCollisionBody())
-							{
-								onCollisionFinishCalls.add([=]{
-									collidable1->onCollisionFinish(collisionEvent1);
-									collidable2->onCollisionFinish(collisionEvent2);
-								});
-							}
-							else
-							{
-								double randomFirst = Math::random();
-								if(randomFirst < 0.5)
-								{
-									onCollisionCalls.add([=] {
-										collidable1->onCollisionFinish(collisionEvent1);
-										collidable2->onCollisionFinish(collisionEvent2);
-									});
-								}
-								else
-								{
-									onCollisionCalls.add([=] {
-										collidable2->onCollisionFinish(collisionEvent2);
-										collidable1->onCollisionFinish(collisionEvent1);
-									});
-								}
-							}
+							onCollisionFinishCalls.add([=] {
+								dispatchCollisionEvents(COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
+							});
 						}
 					}
 				}
@@ -696,5 +502,107 @@ namespace fgl
 		pairs.addAll(prevNonstaticCollisions);
 		pairs.addAll(nonstaticCollisions);
 		return pairs;
+	}
+	
+	bool CollisionManager::respondsToCollision(Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const
+	{
+		return true;
+	}
+	
+	void CollisionManager::dispatchContactEvents(ContactState state, const CollisionPair& pair, const CollisionPair& prevPair)
+	{
+		auto collidable1 = pair.collidable1;
+		auto collidable2 = pair.collidable2;
+		auto contactEvent1 = ContactEvent(collidable2, state, pair.priorityRects, prevPair.priorityRects, pair.ignoredCollisions, pair.sides);
+		auto contactEvent2 = ContactEvent(collidable1, state, pair.getReversePriorityRects(), prevPair.getReversePriorityRects(), pair.getReverseIgnoredCollisions(), pair.getOppositeSides());
+		
+		if(collidable1->isStaticCollisionBody())
+		{
+			switch(state)
+			{
+				case CONTACTSTATE_NEW:
+					collidable2->onContact(contactEvent2);
+					collidable1->onContact(contactEvent1);
+					break;
+					
+				case CONTACTSTATE_UPDATED:
+					collidable2->onContactUpdate(contactEvent2);
+					collidable1->onContactUpdate(contactEvent1);
+					break;
+					
+				case CONTACTSTATE_FINISHED:
+					collidable2->onContactFinish(contactEvent2);
+					collidable1->onContactFinish(contactEvent1);
+					break;
+			}
+		}
+		else
+		{
+			switch(state)
+			{
+				case CONTACTSTATE_NEW:
+					collidable1->onContact(contactEvent1);
+					collidable2->onContact(contactEvent2);
+					break;
+					
+				case CONTACTSTATE_UPDATED:
+					collidable1->onContactUpdate(contactEvent1);
+					collidable2->onContactUpdate(contactEvent2);
+					break;
+					
+				case CONTACTSTATE_FINISHED:
+					collidable1->onContactFinish(contactEvent1);
+					collidable2->onContactFinish(contactEvent2);
+					break;
+			}
+		}
+	}
+	
+	void CollisionManager::dispatchCollisionEvents(CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair)
+	{
+		auto collidable1 = pair.collidable1;
+		auto collidable2 = pair.collidable2;
+		auto collisionEvent1 = CollisionEvent(collidable2, side, state, pair.priorityRects, prevPair.priorityRects);
+		auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(side), state, pair.getReversePriorityRects(), prevPair.getReversePriorityRects());
+		if(collidable1->isStaticCollisionBody())
+		{
+			switch(state)
+			{
+				case COLLISIONSTATE_NEW:
+					collidable2->onCollision(collisionEvent2);
+					collidable1->onCollision(collisionEvent1);
+					break;
+					
+				case COLLISIONSTATE_UPDATED:
+					collidable2->onCollisionUpdate(collisionEvent2);
+					collidable1->onCollisionUpdate(collisionEvent1);
+					break;
+					
+				case COLLISIONSTATE_FINISHED:
+					collidable2->onCollisionFinish(collisionEvent2);
+					collidable1->onCollisionFinish(collisionEvent1);
+					break;
+			}
+		}
+		else
+		{
+			switch(state)
+			{
+				case COLLISIONSTATE_NEW:
+					collidable1->onCollision(collisionEvent1);
+					collidable2->onCollision(collisionEvent2);
+					break;
+					
+				case COLLISIONSTATE_UPDATED:
+					collidable1->onCollisionUpdate(collisionEvent1);
+					collidable2->onCollisionUpdate(collisionEvent2);
+					break;
+					
+				case COLLISIONSTATE_FINISHED:
+					collidable1->onCollisionFinish(collisionEvent1);
+					collidable2->onCollisionFinish(collisionEvent2);
+					break;
+			}
+		}
 	}
 }
