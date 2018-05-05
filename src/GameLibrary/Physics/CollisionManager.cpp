@@ -365,8 +365,8 @@ namespace fgl
 						if(pair.isContacting())
 						{
 							//updated contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_UPDATED, newPair.priorityRects, pair.priorityRects, newPair.sides);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getOppositeSides());
+							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_UPDATED, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
+							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_UPDATED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onContactCalls.add([=] {
@@ -403,8 +403,8 @@ namespace fgl
 						else
 						{
 							//new contact
-							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_NEW, newPair.priorityRects, pair.priorityRects, newPair.sides);
-							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getOppositeSides());
+							auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_NEW, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
+							auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_NEW, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
 							if(collidable1->isStaticCollisionBody())
 							{
 								onContactCalls.add([=] {
@@ -442,8 +442,8 @@ namespace fgl
 					else if(pair.isContacting())
 					{
 						//finished contact
-						auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_FINISHED, newPair.priorityRects, pair.priorityRects, newPair.sides);
-						auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getOppositeSides());
+						auto contactEvent1 = ContactEvent(collidable2, CONTACTSTATE_FINISHED, newPair.priorityRects, pair.priorityRects, newPair.ignoredCollisions, newPair.sides);
+						auto contactEvent2 = ContactEvent(collidable1, CONTACTSTATE_FINISHED, newPair.getReversePriorityRects(), pair.getReversePriorityRects(), newPair.getReverseIgnoredCollisions(), newPair.getOppositeSides());
 						if(collidable1->isStaticCollisionBody())
 						{
 							onContactFinishCalls.add([=] {

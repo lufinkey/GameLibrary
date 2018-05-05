@@ -7,7 +7,7 @@
 namespace fgl
 {
 	class Collidable;
-
+	
 	class CollisionPair
 	{
 	public:
@@ -32,6 +32,8 @@ namespace fgl
 		ArrayList<CollisionRectTagPair> getReversePriorityRects() const;
 		// returns the collision sides with respect to collidable2
 		ArrayList<CollisionSide> getOppositeSides() const;
+		// returns ignoredCollisions where first is collidable2 and second is collidable1
+		ArrayList<CollisionRectTagPair> getReverseIgnoredCollisions() const;
 
 		bool isContacting() const;
 	};

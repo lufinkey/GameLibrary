@@ -98,6 +98,17 @@ namespace fgl
 		return oppositeSides;
 	}
 	
+	ArrayList<CollisionRectTagPair> CollisionPair::getReverseIgnoredCollisions() const
+	{
+		ArrayList<CollisionRectTagPair> reverseIgnoredCollisions;
+		reverseIgnoredCollisions.reserve(ignoredCollisions.size());
+		for(auto& rectPair : ignoredCollisions)
+		{
+			reverseIgnoredCollisions.add(CollisionRectTagPair(rectPair.second, rectPair.first));
+		}
+		return reverseIgnoredCollisions;
+	}
+	
 	bool CollisionPair::isContacting() const
 	{
 		if(sides.size() > 0 || ignoredCollisions.size() > 0)
