@@ -25,9 +25,11 @@ namespace fgl
 
 	bool CollisionPair::shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const
 	{
+		auto tag1 = rect1->getTag();
+		auto tag2 = rect2->getTag();
 		for(auto& tagPair : ignoredRectPairs)
 		{
-			if(tagPair.first==rect1->getTag() && tagPair.second==rect2->getTag())
+			if(tagPair.first==tag1 && tagPair.second==tag2)
 			{
 				return true;
 			}
