@@ -360,6 +360,7 @@ namespace fgl
 				if(i==1)
 				#endif
 				{
+					performFinalCollisionUpdates(newPair, pair);
 					//check if is/was contacting
 					if(newPair.isContacting())
 					{
@@ -418,7 +419,7 @@ namespace fgl
 				}
 			}
 		}
-
+		
 		previousCollisions = collisions;
 
 		//call finished collisions
@@ -617,5 +618,10 @@ namespace fgl
 					break;
 			}
 		}
+	}
+	
+	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair)
+	{
+		//
 	}
 }
