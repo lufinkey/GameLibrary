@@ -801,6 +801,29 @@ namespace fgl
 		}
 		#endif
 		
+		template<typename U, size_t _PREALLOC_COUNT=PREALLOC_COUNT>
+		ArrayList<U, _PREALLOC_COUNT> map(const std::function<U(const T& value, size_t index)>& func)
+		{
+			ArrayList<U, _PREALLOC_COUNT> mappedArray;
+			size_t objects_size = objects.size();
+			mappedArray.reserve(objects_size);
+			for(size_t i=0; i<objects_size; i++)
+			{
+				mappedArray.add(func(objects[i], i));
+			}
+			return mappedArray;
+		}
+		
+		#ifdef __OBJC__
+		template<typename U, size_t _PREALLOC_COUNT=PREALLOC_COUNT>
+		ArrayList<U, _PREALLOC_COUNT> map(U(^func)(const T& value, size_t index))
+		{
+			return map([&](const T& value, size_t index) {
+				return func(value, index);
+			});
+		}
+		#endif
+		
 		ArrayList<T, PREALLOC_COUNT> unique() const
 		{
 			ArrayList<T, PREALLOC_COUNT> newList = *this;
