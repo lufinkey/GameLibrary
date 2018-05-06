@@ -25,7 +25,7 @@ namespace fgl
 
 	bool CollisionPair::shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const
 	{
-		for(auto& tagPair : ignoredCollisions)
+		for(auto& tagPair : ignoredRectPairs)
 		{
 			if(tagPair.first==rect1->getTag() && tagPair.second==rect2->getTag())
 			{
@@ -34,13 +34,31 @@ namespace fgl
 		}
 		return false;
 	}
+	
+	ArrayList<CollisionRectTagPair> CollisionPair::getContactingRectPairs() const
+	{
+		return collidedRectPairs.mergedWith(ignoredRectPairs);
+	}
+	
+	ArrayList<CollisionRectTagPair> CollisionPair::getReverseContactingRectPairs() const
+	{
+		auto contactingRectPairs = getContactingRectPairs();
+		auto reverseContactingRectPairs = fgl::ArrayList<CollisionRectTagPair>();
+		reverseContactingRectPairs.reserve(contactingRectPairs.size());
+		for(auto& pair : contactingRectPairs)
+		{
+			reverseContactingRectPairs.add(CollisionRectTagPair(pair.second, pair.first));
+		}
+		return reverseContactingRectPairs;
+	}
 
 	ArrayList<CollisionRectPair> CollisionPair::getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const
 	{
+		auto priorityRectPairs = getContactingRectPairs();
 		size_t pair_count = rects1.size()*rects2.size();
 		ArrayList<CollisionRectPair> pairs;
 		pairs.reserve(pair_count);
-		for(auto& priorityRect : priorityRects)
+		for(auto& priorityRect : priorityRectPairs)
 		{
 			size_t rectIndex1 = rects1.indexWhere([&priorityRect](CollisionRect* const & rect) -> bool {
 				if(rect->getTag()==priorityRect.first)
@@ -61,7 +79,7 @@ namespace fgl
 				pairs.add(CollisionRectPair(rects1[rectIndex1], rects2[rectIndex2]));
 			}
 		}
-		ArrayList<CollisionRectPair> priorityPairs = pairs;
+		auto priorityPairs = pairs;
 		for(auto& rect1 : rects1)
 		{
 			for(auto& rect2 : rects2)
@@ -76,15 +94,15 @@ namespace fgl
 		return pairs;
 	}
 	
-	ArrayList<CollisionRectTagPair> CollisionPair::getReversePriorityRects() const
+	ArrayList<CollisionRectTagPair> CollisionPair::getReverseCollidedRectPairs() const
 	{
-		ArrayList<CollisionRectTagPair> reversePriorityRects;
-		reversePriorityRects.reserve(priorityRects.size());
-		for(auto& rectPair : priorityRects)
+		ArrayList<CollisionRectTagPair> reverseCollidedRectPairs;
+		reverseCollidedRectPairs.reserve(collidedRectPairs.size());
+		for(auto& rectPair : collidedRectPairs)
 		{
-			reversePriorityRects.add(std::pair<fgl::String,fgl::String>(rectPair.second, rectPair.first));
+			reverseCollidedRectPairs.add(CollisionRectTagPair(rectPair.second, rectPair.first));
 		}
-		return reversePriorityRects;
+		return reverseCollidedRectPairs;
 	}
 	
 	ArrayList<CollisionSide> CollisionPair::getOppositeSides() const
@@ -98,20 +116,20 @@ namespace fgl
 		return oppositeSides;
 	}
 	
-	ArrayList<CollisionRectTagPair> CollisionPair::getReverseIgnoredCollisions() const
+	ArrayList<CollisionRectTagPair> CollisionPair::getReverseIgnoredRectPairs() const
 	{
-		ArrayList<CollisionRectTagPair> reverseIgnoredCollisions;
-		reverseIgnoredCollisions.reserve(ignoredCollisions.size());
-		for(auto& rectPair : ignoredCollisions)
+		ArrayList<CollisionRectTagPair> reverseIgnoredRectPairs;
+		reverseIgnoredRectPairs.reserve(ignoredRectPairs.size());
+		for(auto& rectPair : ignoredRectPairs)
 		{
-			reverseIgnoredCollisions.add(CollisionRectTagPair(rectPair.second, rectPair.first));
+			reverseIgnoredRectPairs.add(CollisionRectTagPair(rectPair.second, rectPair.first));
 		}
-		return reverseIgnoredCollisions;
+		return reverseIgnoredRectPairs;
 	}
 	
 	bool CollisionPair::isContacting() const
 	{
-		if(sides.size() > 0 || ignoredCollisions.size() > 0)
+		if(collidedRectPairs.size() > 0 || ignoredRectPairs.size() > 0)
 		{
 			return true;
 		}
