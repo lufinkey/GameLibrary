@@ -249,8 +249,6 @@ namespace fgl
 											}
 											double netForce = force1 + force2;
 
-											Vector2d moveAmount1;
-											Vector2d moveAmount2;
 											if(netForce < 0)
 											{
 												double portion = 0;
