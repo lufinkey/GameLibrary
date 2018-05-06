@@ -21,12 +21,19 @@ namespace fgl
 		const std::list<Collidable*>& getCollidables() const;
 		
 	protected:
+		struct UpdateData
+		{
+			std::list<std::function<void()>> onCollisionCalls;
+			std::list<std::function<void()>> onCollisionFinishCalls;
+			std::list<std::function<void()>> onContactCalls;
+			std::list<std::function<void()>> onContactFinishCalls;
+		};
+		
 		virtual bool respondsToCollision(Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const;
 		virtual void dispatchContactEvents(ContactState state, const CollisionPair& pair, const CollisionPair& prevPair);
 		virtual void dispatchCollisionEvents(CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair);
 		
-		virtual void performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair);
-		virtual void dispatchFinalUpdateEvents();
+		virtual void performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData);
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;

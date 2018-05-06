@@ -65,11 +65,7 @@ namespace fgl
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
 
-		std::list<std::function<void()>> onContactCalls;
-		std::list<std::function<void()>> onContactFinishCalls;
-
-		std::list<std::function<void()>> onCollisionCalls;
-		std::list<std::function<void()>> onCollisionFinishCalls;
+		UpdateData updateData;
 
 		//handle collisions
 		#ifdef DOUBLECHECK_COLLISIONS
@@ -346,21 +342,21 @@ namespace fgl
 				if(i==1)
 				#endif
 				{
-					performFinalCollisionUpdates(newPair, pair);
+					performFinalCollisionUpdates(newPair, pair, updateData);
 					//check if is/was contacting
 					if(newPair.isContacting())
 					{
 						if(pair.isContacting())
 						{
 							//updated contact
-							onContactCalls.push_back([=] {
+							updateData.onContactCalls.push_back([=] {
 								dispatchContactEvents(CONTACTSTATE_UPDATED, newPair, pair);
 							});
 						}
 						else
 						{
 							//new contact
-							onContactCalls.push_back([=] {
+							updateData.onContactCalls.push_back([=] {
 								dispatchContactEvents(CONTACTSTATE_NEW, newPair, pair);
 							});
 						}
@@ -368,7 +364,7 @@ namespace fgl
 					else if(pair.isContacting())
 					{
 						//finished contact
-						onContactFinishCalls.push_back([=] {
+						updateData.onContactFinishCalls.push_back([=] {
 							dispatchContactEvents(CONTACTSTATE_FINISHED, newPair, pair);
 						});
 					}
@@ -379,14 +375,14 @@ namespace fgl
 						if(!pair.sides.contains(collisionSide))
 						{
 							//the previous collision pair doesn't have this collision side, so it is a new collision
-							onCollisionCalls.push_back([=] {
+							updateData.onCollisionCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_NEW, collisionSide, newPair, pair);
 							});
 						}
 						else
 						{
 							//the previous collision pair has this collision side, so it's an updated collision
-							onCollisionCalls.push_back([=] {
+							updateData.onCollisionCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
 							});
 						}
@@ -397,7 +393,7 @@ namespace fgl
 					{
 						if(!newPair.sides.contains(prevCollisionSide))
 						{
-							onCollisionFinishCalls.push_back([=] {
+							updateData.onCollisionFinishCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
 							});
 						}
@@ -409,31 +405,28 @@ namespace fgl
 		previousCollisions = collisions;
 
 		//call finished collisions
-		for(auto& onCollisionFinish : onCollisionFinishCalls)
+		for(auto& onCollisionFinish : updateData.onCollisionFinishCalls)
 		{
 			onCollisionFinish();
 		}
 
 		//call finished contacts
-		for(auto& onContactFinish : onContactFinishCalls)
+		for(auto& onContactFinish : updateData.onContactFinishCalls)
 		{
 			onContactFinish();
 		}
 
 		//call current contacts
-		for(auto& onContact : onContactCalls)
+		for(auto& onContact : updateData.onContactCalls)
 		{
 			onContact();
 		}
 
 		//call current collisions
-		for(auto& onCollision : onCollisionCalls)
+		for(auto& onCollision : updateData.onCollisionCalls)
 		{
 			onCollision();
 		}
-		
-		//dispatch final collision events
-		dispatchFinalUpdateEvents();
 
 		//set the previous positions of the collidables
 		for(auto& collidable : collidables)
@@ -609,12 +602,7 @@ namespace fgl
 		}
 	}
 	
-	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair)
-	{
-		//
-	}
-	
-	void CollisionManager::dispatchFinalUpdateEvents()
+	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData)
 	{
 		//
 	}
