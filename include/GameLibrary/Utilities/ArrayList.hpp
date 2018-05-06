@@ -802,7 +802,7 @@ namespace fgl
 		#endif
 		
 		template<typename U, size_t _PREALLOC_COUNT=PREALLOC_COUNT>
-		ArrayList<U, _PREALLOC_COUNT> map(const std::function<U(const T& value, size_t index)>& func)
+		ArrayList<U, _PREALLOC_COUNT> map(const std::function<U(const T& value, size_t index)>& func) const
 		{
 			ArrayList<U, _PREALLOC_COUNT> mappedArray;
 			size_t objects_size = objects.size();
@@ -816,7 +816,7 @@ namespace fgl
 		
 		#ifdef __OBJC__
 		template<typename U, size_t _PREALLOC_COUNT=PREALLOC_COUNT>
-		ArrayList<U, _PREALLOC_COUNT> map(U(^func)(const T& value, size_t index))
+		ArrayList<U, _PREALLOC_COUNT> map(U(^func)(const T& value, size_t index)) const
 		{
 			return map([&](const T& value, size_t index) {
 				return func(value, index);
