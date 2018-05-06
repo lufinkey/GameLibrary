@@ -445,6 +445,9 @@ namespace fgl
 		{
 			onCollision();
 		}
+		
+		//dispatch final collision events
+		dispatchFinalUpdateEvents();
 
 		//set the previous positions of the collidables
 		for(auto& collidable : collidables)
@@ -621,6 +624,11 @@ namespace fgl
 	}
 	
 	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair)
+	{
+		//
+	}
+	
+	void CollisionManager::dispatchFinalUpdateEvents()
 	{
 		//
 	}

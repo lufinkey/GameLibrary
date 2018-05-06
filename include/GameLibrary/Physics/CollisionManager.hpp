@@ -26,6 +26,7 @@ namespace fgl
 		virtual void dispatchCollisionEvents(CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair);
 		
 		virtual void performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair);
+		virtual void dispatchFinalUpdateEvents();
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;
