@@ -10,19 +10,23 @@ namespace fgl
 
 	void CollisionManager::addCollidable(Collidable* collidable)
 	{
-		collidables.add(collidable);
+		collidables.push_back(collidable);
 	}
 
 	void CollisionManager::removeCollidable(Collidable* collidable)
 	{
-		size_t index = collidables.indexOf(collidable);
-		if(index!=(size_t)-1)
+		for(auto it=collidables.begin(); it!=collidables.end(); it++)
 		{
-			collidables.remove(index);
+			auto cmp = *it;
+			if(collidable == cmp)
+			{
+				collidables.erase(it);
+				break;
+			}
 		}
 	}
 	
-	const ArrayList<Collidable*>& CollisionManager::getCollidables() const
+	const std::list<Collidable*>& CollisionManager::getCollidables() const
 	{
 		return collidables;
 	}
@@ -58,14 +62,14 @@ namespace fgl
 			collidable->onBeginCollisionUpdates();
 		}
 
-		ArrayList<CollisionPair> pairs = getCollisionPairs();
-		ArrayList<CollisionPair> collisions;
+		std::list<CollisionPair> pairs = getCollisionPairs();
+		std::list<CollisionPair> collisions;
 
-		ArrayList<std::function<void()>> onContactCalls;
-		ArrayList<std::function<void()>> onContactFinishCalls;
+		std::list<std::function<void()>> onContactCalls;
+		std::list<std::function<void()>> onContactFinishCalls;
 
-		ArrayList<std::function<void()>> onCollisionCalls;
-		ArrayList<std::function<void()>> onCollisionFinishCalls;
+		std::list<std::function<void()>> onCollisionCalls;
+		std::list<std::function<void()>> onCollisionFinishCalls;
 
 		//handle collisions
 		#ifdef DOUBLECHECK_COLLISIONS
@@ -73,19 +77,25 @@ namespace fgl
 		for(size_t i=0; i<2; i++)
 		#endif
 		{
-			for(auto& pair : pairs)
+			for(auto it=pairs.begin(); it!=pairs.end(); it++)
 			{
+				auto& pair = *it;
 				Collidable* collidable1 = pair.collidable1;
 				Collidable* collidable2 = pair.collidable2;
 				CollisionPair newPair(collidable1, collidable2);
 				#ifdef DOUBLECHECK_COLLISIONS
-					size_t pairReplaceIndex = -1;
+					auto pairReplaceIter = collisions.end();
 					if(i==1)
 					{
-						pairReplaceIndex = collisions.indexOf(newPair);
-						if(pairReplaceIndex!=-1)
+						for(auto it2=collisions.begin(); it2!=collisions.end(); it2++)
 						{
-							newPair = collisions[pairReplaceIndex];
+							auto& cmpPair = *it2;
+							if(newPair == cmpPair)
+							{
+								pairReplaceIter = it2;
+								newPair = cmpPair;
+								break;
+							}
 						}
 					}
 				#endif
@@ -149,10 +159,9 @@ namespace fgl
 									else
 									{
 										//find out if rect1 has collided with a static collision body
-										ArrayList<CollisionPair> collisionsSoFar;
-										collisionsSoFar.reserve(previousCollisions.size()+collisions.size());
-										collisionsSoFar.addAll(previousCollisions);
-										collisionsSoFar.addAll(collisions);
+										std::list<CollisionPair> collisionsSoFar;
+										collisionsSoFar.insert(collisionsSoFar.end(), previousCollisions.begin(), previousCollisions.end());
+										collisionsSoFar.insert(collisionsSoFar.end(), collisions.begin(), collisions.end());
 										bool staticOpposite1 = false;
 										for(auto& collision : collisionsSoFar)
 										{
@@ -331,18 +340,18 @@ namespace fgl
 
 					//add new collision pair to previous collisions
 					#ifdef DOUBLECHECK_COLLISIONS
-					if(pairReplaceIndex==-1)
+					if(pairReplaceIter == collisions.end())
 					{
 					#endif
 						if(newPair.priorityRects.size() > 0)
 						{
-							collisions.add(newPair);
+							collisions.push_back(newPair);
 						}
 					#ifdef DOUBLECHECK_COLLISIONS
 					}
 					else
 					{
-						collisions[pairReplaceIndex] = newPair;
+						*pairReplaceIter = newPair;
 					}
 					#endif
 				}
@@ -357,14 +366,14 @@ namespace fgl
 						if(pair.isContacting())
 						{
 							//updated contact
-							onContactCalls.add([=] {
+							onContactCalls.push_back([=] {
 								dispatchContactEvents(CONTACTSTATE_UPDATED, newPair, pair);
 							});
 						}
 						else
 						{
 							//new contact
-							onContactCalls.add([=] {
+							onContactCalls.push_back([=] {
 								dispatchContactEvents(CONTACTSTATE_NEW, newPair, pair);
 							});
 						}
@@ -372,7 +381,7 @@ namespace fgl
 					else if(pair.isContacting())
 					{
 						//finished contact
-						onContactFinishCalls.add([=] {
+						onContactFinishCalls.push_back([=] {
 							dispatchContactEvents(CONTACTSTATE_FINISHED, newPair, pair);
 						});
 					}
@@ -383,14 +392,14 @@ namespace fgl
 						if(!pair.sides.contains(collisionSide))
 						{
 							//the previous collision pair doesn't have this collision side, so it is a new collision
-							onCollisionCalls.add([=] {
+							onCollisionCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_NEW, collisionSide, newPair, pair);
 							});
 						}
 						else
 						{
 							//the previous collision pair has this collision side, so it's an updated collision
-							onCollisionCalls.add([=] {
+							onCollisionCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
 							});
 						}
@@ -401,7 +410,7 @@ namespace fgl
 					{
 						if(!newPair.sides.contains(prevCollisionSide))
 						{
-							onCollisionFinishCalls.add([=] {
+							onCollisionFinishCalls.push_back([=] {
 								dispatchCollisionEvents(COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
 							});
 						}
@@ -449,58 +458,62 @@ namespace fgl
 		}
 	}
 
-	ArrayList<CollisionPair> CollisionManager::getCollisionPairs() const
+	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
 	{
-		ArrayList<CollisionPair> pairs;
-		ArrayList<CollisionPair> prevStaticCollisions;
-		prevStaticCollisions.reserve(previousCollisions.size());
-		ArrayList<CollisionPair> prevNonstaticCollisions;
-		prevNonstaticCollisions.reserve(previousCollisions.size());
+		std::list<CollisionPair> pairs;
+		
+		std::list<CollisionPair> prevStaticCollisions;
+		std::list<CollisionPair> prevNonstaticCollisions;
 		for(auto& collisionPair : previousCollisions)
 		{
 			if(collisionPair.collidable1->isStaticCollisionBody() || collisionPair.collidable2->isStaticCollisionBody())
 			{
-				prevStaticCollisions.add(collisionPair);
+				prevStaticCollisions.push_back(collisionPair);
 			}
 			else
 			{
-				prevNonstaticCollisions.add(collisionPair);
+				prevNonstaticCollisions.push_back(collisionPair);
 			}
 		}
 		
-		size_t collidables_size = collidables.size();
-		size_t nSquared = collidables_size*collidables_size;
-		
-		ArrayList<CollisionPair> staticCollisions;
-		staticCollisions.reserve(nSquared);
-		ArrayList<CollisionPair> nonstaticCollisions;
-		nonstaticCollisions.reserve(nSquared);
-		for(size_t i=0; i<collidables_size; i++)
+		std::list<CollisionPair> staticCollisions;
+		std::list<CollisionPair> nonstaticCollisions;
+		for(auto it=collidables.begin(); it!=collidables.end(); it++)
 		{
-			for(size_t j=(i+1); j<collidables_size; j++)
+			for(auto it2=std::next(it, 1); it2!=collidables.end(); it2++)
 			{
-				CollisionPair pair(collidables[i], collidables[j]);
-				if(previousCollisions.indexOf(pair)==(size_t)-1)
+				auto collidable1 = *it;
+				auto collidable2 = *it2;
+				CollisionPair pair(collidable1, collidable2);
+				bool prevCollisionExists = false;
+				for(auto& cmpPair : previousCollisions)
+				{
+					if(pair == cmpPair)
+					{
+						prevCollisionExists = true;
+						break;
+					}
+				}
+				if(!prevCollisionExists)
 				{
 					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody()))
 					{
 						if(pair.collidable1->isStaticCollisionBody() || pair.collidable2->isStaticCollisionBody())
 						{
-							staticCollisions.add(pair);
+							staticCollisions.push_back(pair);
 						}
 						else
 						{
-							nonstaticCollisions.add(pair);
+							nonstaticCollisions.push_back(pair);
 						}
 					}
 				}
 			}
 		}
-		pairs.reserve(prevStaticCollisions.size()+staticCollisions.size()+prevNonstaticCollisions.size()+nonstaticCollisions.size());
-		pairs.addAll(prevStaticCollisions);
-		pairs.addAll(staticCollisions);
-		pairs.addAll(prevNonstaticCollisions);
-		pairs.addAll(nonstaticCollisions);
+		pairs.splice(pairs.end(), prevStaticCollisions);
+		pairs.splice(pairs.end(), staticCollisions);
+		pairs.splice(pairs.end(), prevNonstaticCollisions);
+		pairs.splice(pairs.end(), nonstaticCollisions);
 		return pairs;
 	}
 	

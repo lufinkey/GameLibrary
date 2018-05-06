@@ -3,6 +3,7 @@
 
 #include "Collidable.hpp"
 #include "CollisionPair.hpp"
+#include <list>
 
 namespace fgl
 {
@@ -17,7 +18,7 @@ namespace fgl
 
 		virtual void update(const ApplicationData& appData);
 		
-		const ArrayList<Collidable*>& getCollidables() const;
+		const std::list<Collidable*>& getCollidables() const;
 		
 	protected:
 		virtual bool respondsToCollision(Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const;
@@ -26,9 +27,9 @@ namespace fgl
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;
-		ArrayList<CollisionPair> getCollisionPairs() const;
+		std::list<CollisionPair> getCollisionPairs() const;
 
-		ArrayList<Collidable*> collidables;
-		ArrayList<CollisionPair> previousCollisions;
+		std::list<Collidable*> collidables;
+		std::list<CollisionPair> previousCollisions;
 	};
 }
