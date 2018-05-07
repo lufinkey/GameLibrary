@@ -402,6 +402,8 @@ namespace fgl
 			}
 		}
 		
+		onWillFinishCollisionUpdates(updateData);
+		
 		previousCollisions = collisions;
 
 		//call finished collisions
@@ -439,6 +441,8 @@ namespace fgl
 		{
 			collidable->onFinishCollisionUpdates();
 		}
+		
+		onFinishCollisionUpdates();
 	}
 
 	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
@@ -603,6 +607,16 @@ namespace fgl
 	}
 	
 	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData)
+	{
+		//
+	}
+	
+	void CollisionManager::onWillFinishCollisionUpdates(UpdateData& updateData)
+	{
+		//
+	}
+	
+	void CollisionManager::onFinishCollisionUpdates()
 	{
 		//
 	}
