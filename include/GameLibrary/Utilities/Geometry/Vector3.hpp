@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
+#include "Vector2.hpp"
 
 namespace fgl
 {
@@ -20,6 +21,11 @@ namespace fgl
 		}
 		
 		constexpr Vector3(const T& x, const T& y, const T& z) : x(x), y(y), z(z)
+		{
+			//
+		}
+		
+		constexpr Vector3(const Vector2<T>& vect2, T z) : x(vect2.x), y(vect2.y), z(vect2.z)
 		{
 			//
 		}
@@ -109,6 +115,11 @@ namespace fgl
 				return true;
 			}
 			return false;
+		}
+		
+		Vector2<T> getVector2() const
+		{
+			return Vector2<T>(x, y);
 		}
 		
 		String toString() const
