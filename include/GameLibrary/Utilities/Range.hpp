@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <GameLibrary/Types.hpp>
+#include <GameLibrary/Utilities/Stringifier.hpp>
+
 namespace fgl
 {
 	template<typename T>
@@ -37,6 +40,11 @@ namespace fgl
 		static Range<T> fromEdges(const T& start, const T& end)
 		{
 			return Range<T>(start, end-start);
+		}
+		
+		String toString() const
+		{
+			return "Range(location: " + fgl::stringify<T>(location) + ", length: " + fgl::stringify<T>(length) + ")";
 		}
 	};
 	
