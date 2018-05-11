@@ -271,6 +271,13 @@ namespace fgl
 			height = bottom-top;
 		}
 		
+		Rectangle<T> combined(const Rectangle<T>& rect) const
+		{
+			auto newRect = *this;
+			newRect.combine(rect);
+			return newRect;
+		}
+		
 		/*! Resizes and moves this rectangle, maintaining its aspect ratio, to fit within a given containing rectangle.
 			\param container a containing rectangle*/
 		void scaleToFit(const Rectangle<T>&container)
