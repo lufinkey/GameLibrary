@@ -209,6 +209,8 @@
         <File Name="../../include/GameLibrary/Utilities/Dictionary.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Number.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Range.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Promise.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/FunctionTraits.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
@@ -270,6 +272,7 @@
         <File Name="../../include/GameLibrary/Exception/IllegalStateException.hpp"/>
         <File Name="../../include/GameLibrary/Exception/NotImplementedException.hpp"/>
         <File Name="../../include/GameLibrary/Exception/IllegalReturnValueException.hpp"/>
+        <File Name="../../include/GameLibrary/Exception/ExceptionPtr.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="IO">
         <File Name="../../include/GameLibrary/IO/Console.hpp"/>
