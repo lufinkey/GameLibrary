@@ -336,7 +336,7 @@ namespace fgl
 		// fail<>(onReject -> void)
 		template<
 			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
+			typename ERROR_TYPE=Exception,
 			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
 			typename REJECTER_TRAITS = function_traits<REJECTER>,
 			typename std::enable_if<(
@@ -346,6 +346,10 @@ namespace fgl
 		Promise<NEXT_RESULT_TYPE> fail(const REJECTER& onReject)
 		{
 			return then<void, ERROR_TYPE>(Resolver(nullptr), onReject);
+		}
+		
+		RESULT_TYPE await() {
+			return continuer->await();
 		}
 		
 	private:
@@ -418,7 +422,7 @@ namespace fgl
 		
 		template<
 			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
+			typename ERROR_TYPE=Exception,
 			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
 			typename NEXT_RESOLVER = typename Promise<NEXT_RESULT_TYPE>::Resolver,
 			typename NEXT_REJECTER = typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>,
@@ -446,7 +450,8 @@ namespace fgl
 		public:
 			Continuer()
 				: resolved(false),
-				rejected(false)
+				rejected(false),
+				awaited(false)
 			{
 				//
 			}
@@ -465,19 +470,16 @@ namespace fgl
 				typename std::enable_if<!std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
 			void resolve(const _RESULT_TYPE& result)
 			{
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(resolved || rejected) {
-					mut.unlock();
 					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
 				}
 				resolved = true;
 				promise.set_value(result);
 				if(resolver) {
-					mut.unlock();
-					resolver(promise.get_future().get());
-				}
-				else {
-					mut.unlock();
+					auto&& result = promise.get_future().get();
+					lock.unlock();
+					resolver(result);
 				}
 			}
 			
@@ -486,43 +488,35 @@ namespace fgl
 				typename std::enable_if<std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
 			void resolve()
 			{
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(resolved || rejected) {
-					mut.unlock();
 					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
 				}
 				resolved = true;
 				promise.set_value();
 				if(resolver) {
-					mut.unlock();
 					promise.get_future().get();
+					lock.unlock();
 					resolver();
-				}
-				else {
-					mut.unlock();
 				}
 			}
 			
 			void reject(std::exception_ptr error)
 			{
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(resolved || rejected) {
-					mut.unlock();
 					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
 				}
 				rejected = true;
 				promise.set_exception(error);
 				if(rejecter) {
-					mut.unlock();
 					try {
 						promise.get_future().get();
 					}
 					catch(...) {
+						lock.unlock();
 						rejecter(std::current_exception());
 					}
-				}
-				else {
-					mut.unlock();
 				}
 			}
 			
@@ -540,16 +534,16 @@ namespace fgl
 				if(!onResolve) {
 					throw fgl::IllegalArgumentException("onResolve", "cannot be null");
 				}
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(resolver) {
-					mut.unlock();
 					throw fgl::IllegalStateException("resolver has already been set");
 				}
 				resolver = onResolve;
 				bool callNow = resolved;
-				mut.unlock();
 				if(callNow) {
-					resolver(promise.get_future().get());
+					auto&& result = promise.get_future().get();
+					lock.unlock();
+					resolver(result);
 				}
 			}
 			
@@ -561,16 +555,15 @@ namespace fgl
 				if(!onResolve) {
 					throw fgl::IllegalArgumentException("onResolve", "cannot be null");
 				}
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(resolver) {
-					mut.unlock();
 					throw fgl::IllegalStateException("resolver has already been set");
 				}
 				resolver = onResolve;
 				bool callNow = resolved;
-				mut.unlock();
 				if(callNow) {
 					promise.get_future().get();
+					lock.unlock();
 					resolver();
 				}
 			}
@@ -580,19 +573,18 @@ namespace fgl
 				if(!onReject) {
 					throw fgl::IllegalArgumentException("onReject", "cannot be null");
 				}
-				mut.lock();
+				std::unique_lock<std::mutex> lock(mut);
 				if(rejecter) {
-					mut.unlock();
 					throw fgl::IllegalStateException("rejecter has already been set");
 				}
 				rejecter = onReject;
 				bool callNow = rejected;
-				mut.unlock();
 				if(callNow) {
 					try {
 						promise.get_future().get();
 					}
 					catch(...) {
+						lock.unlock();
 						rejecter(std::current_exception());
 					}
 				}
@@ -606,6 +598,15 @@ namespace fgl
 				return rejecter;
 			}
 			
+			RESULT_TYPE await() {
+				std::unique_lock<std::mutex> lock(mut);
+				if((resolved && resolver) || (rejected && rejecter) || awaited) {
+					throw fgl::IllegalStateException("promise result has already been retrieved");
+				}
+				awaited = true;
+				return promise.get_future().get();
+			}
+			
 		private:
 			std::mutex mut;
 			std::promise<RESULT_TYPE> promise;
@@ -613,6 +614,7 @@ namespace fgl
 			std::function<void(std::exception_ptr)> rejecter;
 			bool resolved;
 			bool rejected;
+			bool awaited;
 		};
 		
 		std::shared_ptr<Continuer> continuer;
