@@ -8,7 +8,7 @@ namespace fgl
 	class ExceptionPtr
 	{
 	public:
-		template<typename E>
+		template<typename E, typename std::enable_if<!std::is_same<std::remove_reference<E>, std::exception_ptr>::value, std::nullptr_t> = nullptr>
 		ExceptionPtr(E e) : except_ptr(std::make_exception_ptr(e))
 		{
 			//

@@ -210,7 +210,7 @@
         <File Name="../../include/GameLibrary/Utilities/Number.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Range.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Promise.hpp"/>
-        <File Name="../../include/GameLibrary/Utilities/FunctionTraits.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Traits.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">

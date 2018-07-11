@@ -132,6 +132,8 @@ namespace fgl
 	class Number;
 	class Plist;
 	template<typename T>
+	class Promise;
+	template<typename T>
 	class Range;
 	class Thread;
 	

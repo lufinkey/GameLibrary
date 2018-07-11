@@ -4,7 +4,7 @@
 #include <GameLibrary/Exception/Exception.hpp>
 #include <GameLibrary/Exception/ExceptionPtr.hpp>
 #include "ArrayList.hpp"
-#include "FunctionTraits.hpp"
+#include "Traits.hpp"
 #include <functional>
 #include <future>
 #include <memory>

@@ -97,6 +97,7 @@
 #include "Utilities/Number.hpp"
 #include "Utilities/PlatformChecks.hpp"
 #include "Utilities/Plist.hpp"
+#include "Utilities/Promise.hpp"
 #include "Utilities/Range.hpp"
 #include "Utilities/String.hpp"
 #include "Utilities/Thread.hpp"
