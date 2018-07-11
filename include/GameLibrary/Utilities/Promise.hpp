@@ -590,14 +590,6 @@ namespace fgl
 				}
 			}
 			
-			bool hasResolver() const {
-				return resolver;
-			}
-			
-			bool hasRejecter() const {
-				return rejecter;
-			}
-			
 			RESULT_TYPE await() {
 				std::unique_lock<std::mutex> lock(mut);
 				if((resolved && resolver) || (rejected && rejecter) || awaited) {
