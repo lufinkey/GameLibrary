@@ -247,14 +247,16 @@ namespace fgl
 		return fps;
 	}
 	
-	void Animation::setMirroredHorizontal(bool mirror)
+	Animation* Animation::setMirroredHorizontal(bool mirror)
 	{
 		mirroredHorizontal = mirror;
+		return this;
 	}
 
-	void Animation::setMirroredVertical(bool mirror)
+	Animation* Animation::setMirroredVertical(bool mirror)
 	{
 		mirroredVertical = mirror;
+		return this;
 	}
 
 	bool Animation::isMirroredHorizontal() const

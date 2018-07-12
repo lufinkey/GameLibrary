@@ -146,11 +146,13 @@ namespace fgl
 		float getFPS() const;
 		
 		/*! Sets the Animation to draw horizontally inverted.
-			\param mirror true to make the Animation draw horizontally mirrored, and false to make the Animation draw normal horizontally*/
-		void setMirroredHorizontal(bool mirror);
+			\param mirror true to make the Animation draw horizontally mirrored, and false to make the Animation draw normal horizontally
+			\returns a pointer to this Animation object*/
+		Animation* setMirroredHorizontal(bool mirror);
 		/*! Sets the Animation to draw vertically inverted.
-			\param mirror true to make the Animation draw vertically mirrored, and false to make the Animation draw normal vertically*/
-		void setMirroredVertical(bool mirror);
+			\param mirror true to make the Animation draw vertically mirrored, and false to make the Animation draw normal vertically
+			\returns a pointer to this Animation object*/
+		Animation* setMirroredVertical(bool mirror);
 		/*! Tells whether the Animation is mirrored horizontally.
 			\see fgl::Animation::setMirroredHorizontal(bool)
 			\returns true if the Animation is mirrored horizontally, false if otherwise*/
