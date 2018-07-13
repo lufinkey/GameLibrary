@@ -141,12 +141,10 @@ namespace fgl
 		bool equals(const Polygon<T>& polygon) const
 		{
 			size_t points_size = points.size();
-			if(points_size != polygon.points.size())
-			{
+			if(points_size != polygon.points.size()) {
 				return false;
 			}
-			for(size_t i=0; i<points_size; i++)
-			{
+			for(size_t i=0; i<points_size; i++) {
 				if(points[i] != polygon.points[i])
 				{
 					return false;
@@ -163,6 +161,54 @@ namespace fgl
 		bool operator!=(const Polygon<T>& polygon) const
 		{
 			return !equals(polygon);
+		}
+		
+		Polygon<T>& operator+=(const Vector2<T>& vector)
+		{
+			for(auto& point : points) {
+				point += vector;
+			}
+			return *this;
+		}
+		
+		Polygon<T>& operator-=(const Vector2<T>& vector)
+		{
+			for(auto& point : points) {
+				point -= vector;
+			}
+			return *this;
+		}
+		
+		Polygon<T>& operator*=(const Vector2<T>& vector)
+		{
+			for(auto& point : points) {
+				point *= vector;
+			}
+			return *this;
+		}
+		
+		Polygon<T>& operator/=(const Vector2<T>& vector)
+		{
+			for(auto& point : points) {
+				point /= vector;
+			}
+			return *this;
+		}
+		
+		Polygon<T>& operator*=(const T& scalar)
+		{
+			for(auto& point : points) {
+				point *= scalar;
+			}
+			return *this;
+		}
+		
+		Polygon<T>& operator/=(const T& scalar)
+		{
+			for(auto& point : points) {
+				point /= scalar;
+			}
+			return *this;
 		}
 		
 		/*! Adds a point to the array of points in the polygon.
@@ -610,6 +656,66 @@ namespace fgl
 	private:
 		ArrayList<Vector2<T>> points;
 	};
+	
+	template<typename T>
+	Polygon<T> operator+(const Polygon<T>& left, const Vector2<T>& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point += right;
+		}
+		return polygon;
+	}
+	
+	template<typename T>
+	Polygon<T> operator-(const Polygon<T>& left, const Vector2<T>& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point -= right;
+		}
+		return polygon;
+	}
+	
+	template<typename T>
+	Polygon<T> operator*(const Polygon<T>& left, const Vector2<T>& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point *= right;
+		}
+		return polygon;
+	}
+	
+	template<typename T>
+	Polygon<T> operator/(const Polygon<T>& left, const Vector2<T>& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point /= right;
+		}
+		return polygon;
+	}
+	
+	template<typename T>
+	Polygon<T> operator*(const Polygon<T>& left, const T& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point *= right;
+		}
+		return polygon;
+	}
+	
+	template<typename T>
+	Polygon<T> operator/(const Polygon<T>& left, const T& right)
+	{
+		auto polygon = left;
+		for(auto& point : polygon) {
+			point /= right;
+		}
+		return polygon;
+	}
 	
 	typedef Polygon<int> PolygonI;
 	typedef Polygon<float> PolygonF;
