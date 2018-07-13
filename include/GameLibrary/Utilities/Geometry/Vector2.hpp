@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
+#include <tuple>
 
 namespace fgl
 {
@@ -19,6 +20,11 @@ namespace fgl
 		}
 
 		constexpr Vector2(const T& x, const T& y) : x(x), y(y)
+		{
+			//
+		}
+		
+		constexpr Vector2(const std::tuple<T,T>& tuple) : x(std::get<0>(tuple)), y(std::get<1>(tuple))
 		{
 			//
 		}
