@@ -28,7 +28,13 @@ namespace fgl
 	class TypeRegistry
 	{
 	public:
-		static TypeRegistry* global();
+		#ifdef DISABLE_GLOBAL_TYPE_REGISTRY
+			static inline TypeRegistry* global() {
+				static_assert(false, "Cannot use global type registry with DISABLE_GLOBAL_TYPE_REGISTRY");
+			}
+		#else
+			static TypeRegistry* global();
+		#endif
 		
 		TypeRegistryId registerType(const std::type_info& typeInfo, const std::vector<TypeRegistryId>& parentTypeRegistryIds);
 		template<typename CLASS, typename... PARENT_CLASS>
@@ -115,6 +121,11 @@ namespace fgl
 		std::map<TypeRegistryId, std::list<TypeRegistryId>> parentTypes;
 	};
 	
-	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::global()->registerType<CLASS, ##__VA_ARGS__ >(); }
-	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) namespace NAMESPACE { REGISTER_TYPE(__VA_ARGS__) }
+	#ifdef DISABLE_GLOBAL_TYPE_REGISTRY
+		#define REGISTER_TYPE(...)
+		#define REGISTER_NAMESPACED_TYPE(...)
+	#else
+		#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::global()->registerType<CLASS, ##__VA_ARGS__ >(); }
+		#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) namespace NAMESPACE { REGISTER_TYPE(__VA_ARGS__) }
+	#endif
 }

@@ -3,7 +3,7 @@
 
 namespace fgl
 {
-	bool Aspect::getFlag(const String& flag)
+	bool Aspect::getFlag(const String& flag) const
 	{
 		return false;
 	}
@@ -12,8 +12,13 @@ namespace fgl
 	{
 		for(auto& aspectPair : aspects) {
 			for(auto aspect : aspectPair.second) {
-				aspect->release();
+				delete aspect;
 			}
 		}
+	}
+	
+	void Aspectable::onAddAspect(TypeRegistryId aspectType, Aspect* aspect)
+	{
+		// open for implementation
 	}
 }
