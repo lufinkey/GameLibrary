@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ArrayList.hpp"
+#include "Traits.hpp"
 #include <typeinfo>
 #include <list>
 #include <map>
@@ -28,6 +29,8 @@ namespace fgl
 		TypeRegistryId registerType(const std::type_info& typeInfo, const ArrayList<TypeRegistryId>& parentTypeRegistryIds);
 		template<typename CLASS, typename... PARENT_CLASS>
 		inline TypeRegistryId registerType() {
+			static_assert(all_true<(std::is_base_of<PARENT_CLASS, CLASS>::value)...>::value,
+				"CLASS template argument must be derived from PARENT_CLASS");
 			return registerType(typeid(CLASS), ArrayList<TypeRegistryId>(getTypeRegistryId<PARENT_CLASS>()...));
 		}
 		
