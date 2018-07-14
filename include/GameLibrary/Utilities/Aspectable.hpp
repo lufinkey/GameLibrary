@@ -22,10 +22,11 @@ namespace fgl
 	class Aspectable
 	{
 	public:
-		virtual ~Aspectable() = default;
+		virtual ~Aspectable();
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECTS(CLASS)>
 		void addAspect(CLASS* aspect) {
+			aspect->retain();
 			auto typeRegistryId = getTypeRegistryId<CLASS>();
 			auto iter = aspects.find(typeRegistryId);
 			if(iter == aspects.end()) {

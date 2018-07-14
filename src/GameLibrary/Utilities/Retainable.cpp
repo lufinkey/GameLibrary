@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Utilities/Retainable.hpp>
+#include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Exception/IllegalStateException.hpp>
 
 namespace fgl

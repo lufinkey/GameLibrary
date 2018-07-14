@@ -63,6 +63,7 @@
         <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Retainable.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/TypeRegistry.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Aspectable.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
