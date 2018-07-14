@@ -20,5 +20,5 @@ namespace fgl
 		size_t retainCount;
 	};
 	
-	REGISTER_TYPE(Retainable, void)
+	REGISTER_TYPE(Retainable)
 }

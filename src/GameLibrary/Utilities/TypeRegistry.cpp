@@ -11,26 +11,24 @@ namespace fgl
 		else {
 			iter->second.push_back(derivedTypeRegistryId);
 		}
-		TypeRegistryId parentTypeRegistryId;
+		std::list<TypeRegistryId> parentTypeRegistryIds;
 		try {
-			parentTypeRegistryId = parentTypes.at(typeRegistryId);
+			parentTypeRegistryIds = parentTypes.at(typeRegistryId);
 		}
 		catch(const std::out_of_range&) {
 			return;
 		}
-		if(parentTypeRegistryId != getTypeRegistryId<void>()) {
+		for(auto parentTypeRegistryId : parentTypeRegistryIds) {
 			updateDerivedTypes(parentTypeRegistryId, derivedTypeRegistryId);
 		}
 	}
 	
-	TypeRegistryId TypeRegistry::registerType(const std::type_info& typeInfo, const std::type_info& parentTypeInfo) {
+	TypeRegistryId TypeRegistry::registerType(const std::type_info& typeInfo, const ArrayList<TypeRegistryId>& parentTypeRegistryIds) {
 		auto typeRegistryId = getTypeRegistryId(typeInfo);
-		auto parentTypeRegistryId = getTypeRegistryId(parentTypeInfo);
 		if(parentTypes.find(typeRegistryId) != parentTypes.end()) {
 			throw IllegalStateException((String)typeInfo.name() + " already registered");
 		}
-		parentTypes[typeRegistryId] = parentTypeRegistryId;
-		if(parentTypeRegistryId != getTypeRegistryId<void>()) {
+		for(auto parentTypeRegistryId : parentTypeRegistryIds) {
 			updateDerivedTypes(parentTypeRegistryId, typeRegistryId);
 		}
 		return typeRegistryId;
@@ -45,12 +43,12 @@ namespace fgl
 		}
 	}
 	
-	TypeRegistryId TypeRegistry::getParentType(TypeRegistryId typeRegistryId) {
+	std::list<TypeRegistryId> TypeRegistry::getParentTypes(TypeRegistryId typeRegistryId) {
 		try {
 			return parentTypes.at(typeRegistryId);
 		}
 		catch(const std::out_of_range&) {
-			return getTypeRegistryId<void>();
+			return std::list<TypeRegistryId>();
 		}
 	}
 }

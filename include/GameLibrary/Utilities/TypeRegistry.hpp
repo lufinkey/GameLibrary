@@ -25,10 +25,10 @@ namespace fgl
 	class TypeRegistry
 	{
 	public:
-		TypeRegistryId registerType(const std::type_info& typeInfo, const std::type_info& parentTypeInfo);
-		template<typename CLASS, typename PARENT_CLASS=void>
+		TypeRegistryId registerType(const std::type_info& typeInfo, const ArrayList<TypeRegistryId>& parentTypeRegistryIds);
+		template<typename CLASS, typename... PARENT_CLASS>
 		inline TypeRegistryId registerType() {
-			return registerType(typeid(CLASS), typeid(PARENT_CLASS));
+			return registerType(typeid(CLASS), ArrayList<TypeRegistryId>(getTypeRegistryId<PARENT_CLASS>()...));
 		}
 		
 		std::list<TypeRegistryId> getDerivedTypes(TypeRegistryId typeRegistryId);
@@ -38,11 +38,11 @@ namespace fgl
 			return getDerivedTypes(getTypeRegistryId<BASE_CLASS>());
 		}
 		
-		TypeRegistryId getParentType(TypeRegistryId typeRegistryId);
+		std::list<TypeRegistryId> getParentTypes(TypeRegistryId typeRegistryId);
 		
 		template<typename BASE_CLASS>
-		inline TypeRegistryId getParentType() {
-			return getParentType(getTypeRegistryId<BASE_CLASS>());
+		inline std::list<TypeRegistryId> getParentTypes() {
+			return getParentTypes(getTypeRegistryId<BASE_CLASS>());
 		}
 		
 		template<typename BASE_CLASS>
@@ -97,16 +97,13 @@ namespace fgl
 		void updateDerivedTypes(TypeRegistryId typeRegistryId, TypeRegistryId derivedTypeRegistryId);
 		
 		std::map<TypeRegistryId, std::list<TypeRegistryId>> derivedTypes;
-		std::map<TypeRegistryId, TypeRegistryId> parentTypes;
+		std::map<TypeRegistryId, std::list<TypeRegistryId>> parentTypes;
 	};
 	
 	
 	
 	TypeRegistry globalTypeRegistry = TypeRegistry();
 	
-	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = globalTypeRegistry.registerType<CLASS, __VA_ARGS__>(); }
-	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, CLASS, ...) namespace NAMESPACE { REGISTER_TYPE(CLASS, __VA_ARGS__) }
-	
-	#define REGISTER_BASE_TYPE(CLASS) REGISTER_TYPE(CLASS, void)
-	#define REGISTER_NAMESPACED_BASE_TYPE(NAMESPACE, CLASS) REGISTER_NAMESPACED_TYPE(NAMESPACE, CLASS, void)
+	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = globalTypeRegistry.registerType<CLASS, ##__VA_ARGS__ >(); }
+	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) namespace NAMESPACE { REGISTER_TYPE(__VA_ARGS__) }
 }
