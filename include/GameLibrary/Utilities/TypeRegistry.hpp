@@ -117,6 +117,6 @@ namespace fgl
 	
 	TypeRegistry globalTypeRegistry = TypeRegistry();
 	
-	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = globalTypeRegistry.registerType<CLASS, ##__VA_ARGS__ >(); }
+	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = ::fgl::globalTypeRegistry.registerType<CLASS, ##__VA_ARGS__ >(); }
 	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) namespace NAMESPACE { REGISTER_TYPE(__VA_ARGS__) }
 }
