@@ -1,15 +1,17 @@
 
 #pragma once
 
-#include "ArrayList.hpp"
-#include "Traits.hpp"
 #include <typeinfo>
 #include <list>
 #include <map>
+#include <vector>
 
 namespace fgl
 {
 	typedef size_t TypeRegistryId;
+	
+	template<typename BASE_CLASS>
+	using ObjectRegistry = std::map<TypeRegistryId, std::list<BASE_CLASS*>>;
 	
 	
 	
@@ -26,12 +28,14 @@ namespace fgl
 	class TypeRegistry
 	{
 	public:
-		TypeRegistryId registerType(const std::type_info& typeInfo, const ArrayList<TypeRegistryId>& parentTypeRegistryIds);
+		TypeRegistryId registerType(const std::type_info& typeInfo, const std::vector<TypeRegistryId>& parentTypeRegistryIds);
 		template<typename CLASS, typename... PARENT_CLASS>
 		inline TypeRegistryId registerType() {
+			// validate parent classes
 			static_assert(all_true<(std::is_base_of<PARENT_CLASS, CLASS>::value)...>::value,
 				"CLASS template argument must be derived from PARENT_CLASS");
-			return registerType(typeid(CLASS), ArrayList<TypeRegistryId>(getTypeRegistryId<PARENT_CLASS>()...));
+			// register type
+			return registerType(typeid(CLASS), std::vector<TypeRegistryId>(getTypeRegistryId<PARENT_CLASS>()...));
 		}
 		
 		std::list<TypeRegistryId> getDerivedTypes(TypeRegistryId typeRegistryId);
@@ -49,14 +53,14 @@ namespace fgl
 		}
 		
 		template<typename BASE_CLASS>
-		ArrayList<BASE_CLASS*> findTypes(const std::map<TypeRegistryId,std::list<BASE_CLASS*>>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
-			fgl::ArrayList<BASE_CLASS*> types;
+		std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS*>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
+			std::vector<BASE_CLASS*> types;
 			try {
 				auto&& objects = objectRegistry.at(typeRegistryId);
 				if(firstOnly && objects.size() > 0) {
-					return fgl::ArrayList<BASE_CLASS*>({*objects.begin()});
+					return std::vector<BASE_CLASS*>({*objects.begin()});
 				}
-				types.addAll(objects);
+				types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
 			}
 			catch(const std::out_of_range&) {
 				//
@@ -66,9 +70,9 @@ namespace fgl
 				try {
 					auto&& objects = objectRegistry.at(typeRegistryId);
 					if(firstOnly && objects.size() > 0) {
-						return fgl::ArrayList<BASE_CLASS*>({*objects.begin()});
+						return std::vector<BASE_CLASS*>({*objects.begin()});
 					}
-					types.addAll(objects);
+					types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
 				}
 				catch(const std::out_of_range&) {
 					//
@@ -78,12 +82,12 @@ namespace fgl
 		}
 		
 		template<typename CLASS, typename BASE_CLASS>
-		inline ArrayList<CLASS*> findTypes(const std::map<TypeRegistryId,std::list<BASE_CLASS*>>& objectRegistry, bool firstOnly=false) {
-			return ArrayList<CLASS*>(findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), firstOnly));
+		inline std::vector<CLASS*> findTypes(const ObjectRegistry<BASE_CLASS*>& objectRegistry, bool firstOnly=false) {
+			return std::vector<CLASS*>(findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), firstOnly));
 		}
 		
 		template<typename BASE_CLASS>
-		inline BASE_CLASS* findType(const std::map<TypeRegistryId,std::list<BASE_CLASS*>>& objectRegistry, TypeRegistryId typeRegistryId) {
+		inline BASE_CLASS* findType(const ObjectRegistry<BASE_CLASS*>& objectRegistry, TypeRegistryId typeRegistryId) {
 			auto&& types = findTypes<BASE_CLASS>(objectRegistry, typeRegistryId, true);
 			if(types.size() == 0) {
 				return nullptr;
@@ -92,12 +96,18 @@ namespace fgl
 		}
 		
 		template<typename CLASS, typename BASE_CLASS>
-		inline CLASS* findType(const std::map<TypeRegistryId,std::list<BASE_CLASS*>>& objectRegistry) {
+		inline CLASS* findType(const ObjectRegistry<BASE_CLASS*>& objectRegistry) {
 			return static_cast<CLASS*>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>()));
 		}
 		
 	private:
 		void updateDerivedTypes(TypeRegistryId typeRegistryId, TypeRegistryId derivedTypeRegistryId);
+		
+		// variadic true/false values
+		template<bool...>
+		struct bool_pack;
+		template<bool... bs>
+		using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...>>;
 		
 		std::map<TypeRegistryId, std::list<TypeRegistryId>> derivedTypes;
 		std::map<TypeRegistryId, std::list<TypeRegistryId>> parentTypes;

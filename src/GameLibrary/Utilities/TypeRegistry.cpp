@@ -23,11 +23,12 @@ namespace fgl
 		}
 	}
 	
-	TypeRegistryId TypeRegistry::registerType(const std::type_info& typeInfo, const ArrayList<TypeRegistryId>& parentTypeRegistryIds) {
+	TypeRegistryId TypeRegistry::registerType(const std::type_info& typeInfo, const std::vector<TypeRegistryId>& parentTypeRegistryIds) {
 		auto typeRegistryId = getTypeRegistryId(typeInfo);
 		if(parentTypes.find(typeRegistryId) != parentTypes.end()) {
-			throw IllegalStateException((String)typeInfo.name() + " already registered");
+			throw std::logic_error("type cannot be registered multiple times");
 		}
+		parentTypes[typeRegistryId] = std::list<TypeRegistryId>(parentTypeRegistryIds.begin(), parentTypeRegistryIds.end());
 		for(auto parentTypeRegistryId : parentTypeRegistryIds) {
 			updateDerivedTypes(parentTypeRegistryId, typeRegistryId);
 		}
