@@ -11,6 +11,8 @@ namespace fgl
 	{
 	public:
 		virtual ~Aspect() = default;
+		
+		virtual bool getFlag(const String& flag) const;
 	};
 	
 	REGISTER_TYPE(Aspect, Retainable)

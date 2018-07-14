@@ -3,6 +3,11 @@
 
 namespace fgl
 {
+	bool Aspect::getFlag(const String& flag)
+	{
+		return false;
+	}
+	
 	Aspectable::~Aspectable()
 	{
 		for(auto& aspectPair : aspects) {
