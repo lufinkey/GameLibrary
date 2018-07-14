@@ -28,6 +28,8 @@ namespace fgl
 	class TypeRegistry
 	{
 	public:
+		static TypeRegistry* global();
+		
 		TypeRegistryId registerType(const std::type_info& typeInfo, const std::vector<TypeRegistryId>& parentTypeRegistryIds);
 		template<typename CLASS, typename... PARENT_CLASS>
 		inline TypeRegistryId registerType() {
@@ -113,10 +115,6 @@ namespace fgl
 		std::map<TypeRegistryId, std::list<TypeRegistryId>> parentTypes;
 	};
 	
-	
-	
-	TypeRegistry globalTypeRegistry = TypeRegistry();
-	
-	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = ::fgl::globalTypeRegistry.registerType<CLASS, ##__VA_ARGS__ >(); }
+	#define REGISTER_TYPE(CLASS, ...) namespace __typeregistry { const TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::global()->registerType<CLASS, ##__VA_ARGS__ >(); }
 	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) namespace NAMESPACE { REGISTER_TYPE(__VA_ARGS__) }
 }

@@ -3,6 +3,15 @@
 
 namespace fgl
 {
+	TypeRegistry* globalTypeRegistry = nullptr;
+	
+	TypeRegistry* TypeRegistry::global() {
+		if(globalTypeRegistry == nullptr) {
+			globalTypeRegistry = new TypeRegistry();
+		}
+		return globalTypeRegistry;
+	}
+	
 	void TypeRegistry::updateDerivedTypes(TypeRegistryId typeRegistryId, TypeRegistryId derivedTypeRegistryId) {
 		auto iter = derivedTypes.find(typeRegistryId);
 		if(iter == derivedTypes.end()) {

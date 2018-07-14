@@ -123,6 +123,8 @@ namespace fgl
 	class Any;
 	template<typename T, size_t PREALLOC_COUNT=ARRAYLIST_DEFAULT_PREALLOC_COUNT>
 	class ArrayList;
+	class Aspect;
+	class Aspectable;
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	class BasicDictionary;
 	template<typename CHAR_TYPE>
@@ -135,7 +137,9 @@ namespace fgl
 	class Promise;
 	template<typename T>
 	class Range;
+	class Retainable;
 	class Thread;
+	class TypeRegistry;
 	
 	//Window
 	class AssetManager;
