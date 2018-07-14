@@ -7,6 +7,7 @@
 #include <initializer_list>
 #include <type_traits>
 #include <vector>
+#include <list>
 #include <functional>
 
 #ifdef __OBJC__
@@ -92,6 +93,15 @@ namespace fgl
 			//
 		}
 		
+		template<typename U, size_t _PREALLOC_COUNT,
+			typename _T=T,
+			typename std::enable_if<(!std::is_same<U,_T>::value && std::is_convertible<U,_T>::value), std::nullptr_t>::type = nullptr>
+		explicit ArrayList(ArrayList<U, _PREALLOC_COUNT>&& array)
+			: objects(std::make_move_iterator(array.objects.begin()), std::make_move_iterator(array.objects.end()))
+		{
+			//
+		}
+		
 		template<size_t _PREALLOC_COUNT>
 		ArrayList(ArrayList<T, _PREALLOC_COUNT>&& array)
 			: objects(array.objects)
@@ -106,6 +116,13 @@ namespace fgl
 			//
 		}
 		
+		template<size_t SIZE>
+		ArrayList(std::array<T, SIZE>&& arr)
+			: objects(std::make_move_iterator(arr.begin()), std::make_move_iterator(arr.end()))
+		{
+			//
+		}
+		
 		ArrayList(const std::vector<T>& vect)
 			: objects(vect)
 		{
@@ -114,6 +131,18 @@ namespace fgl
 		
 		ArrayList(std::vector<T>&& vect)
 			: objects(vect)
+		{
+			//
+		}
+		
+		ArrayList(const std::list<T>& list)
+			: objects(list.begin(), list.end())
+		{
+			//
+		}
+		
+		ArrayList(std::list<T>&& list)
+			: objects(std::make_move_iterator(list.begin()), std::make_move_iterator(list.end()))
 		{
 			//
 		}
@@ -354,10 +383,7 @@ namespace fgl
 		void addAll(ArrayList<U, _PREALLOC_COUNT>&& array)
 		{
 			updatePreallocation(objects.size()+array.size());
-			for(size_t array_size=array.size(), i=0; i<array_size; i++)
-			{
-				objects.push_back(std::move(array[i]));
-			}
+			objects.insert(objects.end(), std::make_move_iterator(array.begin()), std::make_move_iterator(array.end()));
 		}
 		
 		template<typename U, size_t _PREALLOC_COUNT,
@@ -382,8 +408,7 @@ namespace fgl
 			typename std::enable_if<std::is_convertible<U, _T>::value, std::nullptr_t>::type = nullptr>
 		void addAll(size_t index, ArrayList<U, _PREALLOC_COUNT>&& array)
 		{
-			size_t size = objects.size();
-			if(index > size)
+			if(index > objects.size())
 			{
 				#ifndef ARRAYLIST_STANDALONE
 					throw ArrayListOutOfBoundsException(index, objects.size());
@@ -391,37 +416,8 @@ namespace fgl
 					throw std::out_of_range("index " + std::to_string(index) + " is out of bounds in ArrayList with a size of " + std::to_string(objects.size()));
 				#endif
 			}
-			size_t array_size = array.size();
-			updatePreallocation(size+array_size);
-			if(array_size > 0)
-			{
-				size_t fromIndex = index;
-				if(fromIndex == size)
-				{
-					objects.reserve(size+array_size);
-					for(size_t i=0; i<array_size; i++)
-					{
-						objects.push_back(std::move(array[i]));
-					}
-				}
-				else
-				{
-					size_t toIndex = index + array_size;
-					objects.resize(size+array_size);
-					while (toIndex < size)
-					{
-						objects[toIndex] = objects[fromIndex];
-						fromIndex++;
-						toIndex++;
-					}
-					size_t counter = index;
-					for(size_t i=0; i<array_size; i++)
-					{
-						objects[counter] = std::move(array[i]);
-						counter++;
-					}
-				}
-			}
+			updatePreallocation(objects.size()+array.size());
+			objects.insert(objects.begin()+index, std::make_move_iterator(array.begin()), std::make_move_iterator(array.end()));
 		}
 		
 		void remove(size_t index)
@@ -640,7 +636,7 @@ namespace fgl
 		ArrayList<T, PREALLOC_COUNT> mergedWith(const ArrayList<U, _PREALLOC_COUNT>& arr) const
 		{
 			ArrayList<T, PREALLOC_COUNT> newArr;
-			newArr.resize(objects.size() + arr.size());
+			newArr.reserve(objects.size() + arr.size());
 			newArr.addAll(*this);
 			newArr.addAll(arr);
 			return newArr;
