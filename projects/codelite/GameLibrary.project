@@ -61,6 +61,8 @@
         <File Name="../../src/GameLibrary/Utilities/Number.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Thread.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/Retainable.cpp"/>
+        <File Name="../../src/GameLibrary/Utilities/TypeRegistry.cpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
@@ -211,6 +213,9 @@
         <File Name="../../include/GameLibrary/Utilities/Range.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Promise.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Traits.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Retainable.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/Aspectable.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/TypeRegistry.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
