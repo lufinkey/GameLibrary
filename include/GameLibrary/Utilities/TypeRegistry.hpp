@@ -9,6 +9,7 @@
 #include <vector>
 
 //#define DISABLE_TYPE_REGISTRY
+//#define TYPE_REGISTRY_STATIC_CAST
 
 namespace fgl
 {
@@ -80,7 +81,11 @@ namespace fgl
 		
 		template<typename CLASS, typename BASE_CLASS>
 		inline static CLASS* cast(BASE_CLASS* object) {
-			return static_cast<CLASS*>(object);
+			#ifdef TYPE_REGISTRY_STATIC_CAST
+				return static_cast<CLASS*>(object);
+			#else
+				return dynamic_cast<CLASS*>(object);
+			#endif
 		}
 		
 		template<typename CLASS, typename BASE_CLASS>
