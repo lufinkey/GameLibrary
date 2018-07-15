@@ -37,6 +37,26 @@ namespace fgl
 			return true;
 		}
 		
+		void combine(const Range<T>& range)
+		{
+			auto end = endLocation();
+			auto cmpEnd = range.endLocation();
+			if(range.location < location) {
+				location = range.location;
+				length = end - location;
+			}
+			if(cmpEnd > end) {
+				length = cmpEnd - location;
+			}
+		}
+		
+		Range<T> combined(const Range<T>& range) const
+		{
+			auto newRange = *this;
+			newRange.combine(range);
+			return newRange;
+		}
+		
 		static Range<T> fromEdges(const T& start, const T& end)
 		{
 			return Range<T>(start, end-start);
