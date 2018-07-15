@@ -76,10 +76,20 @@ namespace fgl
 			return true;
 		}
 		
+		template<typename CLASS, typename BASE_CLASS>
+		static std::vector<CLASS*> castVector(const std::vector<BASE_CLASS*>& vect) {
+			std::vector<CLASS*> newVect;
+			newVect.reserve(vect.size());
+			for(auto obj : vect) {
+				newVect.push_back(static_cast<CLASS*>(obj));
+			}
+			return newVect;
+		}
+		
 	public:
 		// find registered types
 		template<typename BASE_CLASS>
-		static std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS*>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
+		static std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
 			std::vector<BASE_CLASS*> types;
 			try {
 				auto&& objects = objectRegistry.at(typeRegistryId);
@@ -109,13 +119,15 @@ namespace fgl
 		
 		// find registered types
 		template<typename CLASS, typename BASE_CLASS>
-		static inline std::vector<CLASS*> findTypes(const ObjectRegistry<BASE_CLASS*>& objectRegistry, bool firstOnly=false) {
-			return std::vector<CLASS*>(findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), firstOnly));
+		static inline std::vector<CLASS*> findTypes(const ObjectRegistry<BASE_CLASS>& objectRegistry, bool firstOnly=false) {
+			return castVector<CLASS, BASE_CLASS>(
+				findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), firstOnly)
+			);
 		}
 		
 		// find a registered type
 		template<typename BASE_CLASS>
-		static inline BASE_CLASS* findType(const ObjectRegistry<BASE_CLASS*>& objectRegistry, TypeRegistryId typeRegistryId) {
+		static inline BASE_CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId) {
 			auto&& types = findTypes<BASE_CLASS>(objectRegistry, typeRegistryId, true);
 			if(types.size() == 0) {
 				return nullptr;
@@ -125,7 +137,7 @@ namespace fgl
 		
 		// find a registered type
 		template<typename CLASS, typename BASE_CLASS>
-		static inline CLASS* findType(const ObjectRegistry<BASE_CLASS*>& objectRegistry) {
+		static inline CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry) {
 			return static_cast<CLASS*>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>()));
 		}
 	};
