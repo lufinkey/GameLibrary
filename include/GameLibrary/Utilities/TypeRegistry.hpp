@@ -141,16 +141,18 @@ namespace fgl
 			return true;
 		}
 	};
-	
-	
-	
-	#define REGISTER_TYPE(CLASS, ...) \
+}
+
+
+
+#define REGISTER_TYPE(NAMESPACE, CLASS, ...) \
+	namespace fgl { \
 		template<> \
-		struct ::fgl::TypeRegistration<CLASS> { \
+		struct TypeRegistration<NAMESPACE::CLASS> { \
 			friend class TypeRegistry; \
 			using parentRegistrations = ClassList<__VA_ARGS__>; \
 			static TypeRegistryId id() { \
-				return typeid(CLASS).hash_code(); \
+				return getTypeRegistryId<NAMESPACE::CLASS>(); \
 			} \
 			static std::vector<TypeRegistryId> parents() { \
 				return getTypeRegistryIds<__VA_ARGS__>(); \
@@ -178,11 +180,9 @@ namespace fgl
 				return _derived; \
 			} \
 		}; \
+	} \
+	namespace NAMESPACE { \
 		namespace __typeregistry { \
-			const TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::registerType<CLASS, ##__VA_ARGS__ >(); \
-		}
-	#define REGISTER_NAMESPACED_TYPE(NAMESPACE, ...) \
-		namespace NAMESPACE { \
-			REGISTER_TYPE(__VA_ARGS__) \
-		}
-}
+			const ::fgl::TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::registerType<NAMESPACE::CLASS, ##__VA_ARGS__ >(); \
+		} \
+	}

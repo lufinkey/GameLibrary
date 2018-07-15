@@ -19,6 +19,6 @@ namespace fgl
 	private:
 		size_t retainCount;
 	};
-	
-	REGISTER_TYPE(Retainable)
 }
+
+REGISTER_TYPE(fgl, Retainable)

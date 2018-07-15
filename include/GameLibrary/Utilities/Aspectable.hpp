@@ -14,8 +14,6 @@ namespace fgl
 		virtual bool getFlag(const String& flag) const;
 	};
 	
-	REGISTER_TYPE(Aspect)
-	
 	
 	
 	#define ENABLE_IF_EXTENDS_ASPECT(CLASS) typename std::enable_if<std::is_base_of<Aspect, CLASS>::value, std::nullptr_t>::type = nullptr
@@ -68,6 +66,7 @@ namespace fgl
 	private:
 		std::map<TypeRegistryId, std::list<Aspect*>> aspects;
 	};
-	
-	REGISTER_TYPE(Aspectable)
 }
+
+REGISTER_TYPE(fgl, Aspect)
+REGISTER_TYPE(fgl, Aspectable)
