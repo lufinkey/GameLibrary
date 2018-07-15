@@ -73,4 +73,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, DateTime)
+REGISTER_TYPE(fgl::DateTime)

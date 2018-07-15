@@ -73,4 +73,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AutoLayoutCalculator)
+REGISTER_TYPE(fgl::AutoLayoutCalculator)

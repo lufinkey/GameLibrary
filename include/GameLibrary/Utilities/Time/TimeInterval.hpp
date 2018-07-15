@@ -48,4 +48,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TimeInterval)
+REGISTER_TYPE(fgl::TimeInterval)

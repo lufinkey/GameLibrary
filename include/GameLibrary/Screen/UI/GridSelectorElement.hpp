@@ -40,4 +40,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, GridSelectorElement, fgl::ZoomPanElement)
+REGISTER_TYPE(fgl::GridSelectorElement, fgl::ZoomPanElement)

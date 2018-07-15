@@ -37,4 +37,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, SlideTransition, fgl::Transition)
+REGISTER_TYPE(fgl::SlideTransition, fgl::Transition)

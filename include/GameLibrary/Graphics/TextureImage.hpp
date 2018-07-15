@@ -109,4 +109,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TextureImage)
+REGISTER_TYPE(fgl::TextureImage)

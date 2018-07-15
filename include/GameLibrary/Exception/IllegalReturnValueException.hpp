@@ -16,4 +16,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, IllegalReturnValueException, fgl::Exception)
+REGISTER_TYPE(fgl::IllegalReturnValueException, fgl::Exception)

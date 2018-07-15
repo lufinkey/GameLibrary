@@ -162,5 +162,5 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Application)
-REGISTER_TYPE(fgl, ApplicationEventListener)
+REGISTER_TYPE(fgl::Application)
+REGISTER_TYPE(fgl::ApplicationEventListener)

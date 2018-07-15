@@ -24,4 +24,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ArrayListOutOfBoundsException, fgl::OutOfBoundsException)
+REGISTER_TYPE(fgl::ArrayListOutOfBoundsException, fgl::OutOfBoundsException)

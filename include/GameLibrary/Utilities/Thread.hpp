@@ -54,4 +54,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Thread)
+REGISTER_TYPE(fgl::Thread)

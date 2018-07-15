@@ -314,4 +314,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Screen)
+REGISTER_TYPE(fgl::Screen)

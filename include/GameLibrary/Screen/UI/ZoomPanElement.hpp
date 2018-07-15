@@ -62,4 +62,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ZoomPanElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::ZoomPanElement, fgl::ScreenElement)

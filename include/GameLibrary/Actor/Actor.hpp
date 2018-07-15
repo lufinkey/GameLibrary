@@ -307,4 +307,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Actor)
+REGISTER_TYPE(fgl::Actor)

@@ -24,4 +24,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, PopupScreen, fgl::Screen)
+REGISTER_TYPE(fgl::PopupScreen, fgl::Screen)

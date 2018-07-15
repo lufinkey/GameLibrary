@@ -75,4 +75,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TextElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::TextElement, fgl::ScreenElement)

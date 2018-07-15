@@ -21,4 +21,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, DictionaryKeyNotFoundException, fgl::OutOfBoundsException)
+REGISTER_TYPE(fgl::DictionaryKeyNotFoundException, fgl::OutOfBoundsException)

@@ -27,4 +27,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, FadeZoomTransition, fgl::Transition)
+REGISTER_TYPE(fgl::FadeZoomTransition, fgl::Transition)

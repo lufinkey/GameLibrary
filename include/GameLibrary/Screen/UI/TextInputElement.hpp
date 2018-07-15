@@ -71,4 +71,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TextInputElement, fgl::TouchElement)
+REGISTER_TYPE(fgl::TextInputElement, fgl::TouchElement)

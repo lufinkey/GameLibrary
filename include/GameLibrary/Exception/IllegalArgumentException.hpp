@@ -22,4 +22,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, IllegalArgumentException, fgl::Exception)
+REGISTER_TYPE(fgl::IllegalArgumentException, fgl::Exception)

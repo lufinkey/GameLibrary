@@ -66,4 +66,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AnimationElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::AnimationElement, fgl::ScreenElement)

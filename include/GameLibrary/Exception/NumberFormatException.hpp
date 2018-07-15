@@ -24,4 +24,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, NumberFormatException, fgl::Exception)
+REGISTER_TYPE(fgl::NumberFormatException, fgl::Exception)

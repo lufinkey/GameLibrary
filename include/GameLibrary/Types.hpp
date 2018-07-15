@@ -124,6 +124,7 @@ namespace fgl
 	template<typename T, size_t PREALLOC_COUNT=ARRAYLIST_DEFAULT_PREALLOC_COUNT>
 	class ArrayList;
 	class Aspect;
+	template<typename ASPECT>
 	class Aspectable;
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	class BasicDictionary;

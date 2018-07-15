@@ -262,4 +262,4 @@ namespace fgl
 
 #include "Number.impl"
 
-REGISTER_TYPE(fgl, Number)
+REGISTER_TYPE(fgl::Number)

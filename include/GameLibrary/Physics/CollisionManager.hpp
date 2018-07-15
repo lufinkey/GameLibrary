@@ -47,4 +47,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, CollisionManager)
+REGISTER_TYPE(fgl::CollisionManager)

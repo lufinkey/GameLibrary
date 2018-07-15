@@ -112,4 +112,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Image)
+REGISTER_TYPE(fgl::Image)

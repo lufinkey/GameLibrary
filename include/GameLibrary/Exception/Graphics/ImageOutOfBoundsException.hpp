@@ -40,4 +40,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ImageOutOfBoundsException, fgl::OutOfBoundsException)
+REGISTER_TYPE(fgl::ImageOutOfBoundsException, fgl::OutOfBoundsException)

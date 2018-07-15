@@ -28,4 +28,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AnimationProvider)
+REGISTER_TYPE(fgl::AnimationProvider)

@@ -24,4 +24,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, BadCastException, fgl::Exception)
+REGISTER_TYPE(fgl::BadCastException, fgl::Exception)

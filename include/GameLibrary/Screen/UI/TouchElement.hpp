@@ -55,4 +55,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TouchElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::TouchElement, fgl::ScreenElement)

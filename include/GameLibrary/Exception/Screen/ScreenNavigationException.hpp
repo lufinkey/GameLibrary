@@ -17,4 +17,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ScreenNavigationException, fgl::Exception)
+REGISTER_TYPE(fgl::ScreenNavigationException, fgl::Exception)

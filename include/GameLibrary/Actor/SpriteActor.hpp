@@ -134,4 +134,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, SpriteActor, fgl::Actor)
+REGISTER_TYPE(fgl::SpriteActor, fgl::Actor)

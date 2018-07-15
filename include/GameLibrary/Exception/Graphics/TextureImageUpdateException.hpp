@@ -17,4 +17,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, TextureImageUpdateException, fgl::Exception)
+REGISTER_TYPE(fgl::TextureImageUpdateException, fgl::Exception)

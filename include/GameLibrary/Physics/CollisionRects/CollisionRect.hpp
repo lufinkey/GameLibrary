@@ -51,4 +51,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, CollisionRect)
+REGISTER_TYPE(fgl::CollisionRect)

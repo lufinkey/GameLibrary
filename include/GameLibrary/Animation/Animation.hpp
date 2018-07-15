@@ -188,4 +188,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Animation)
+REGISTER_TYPE(fgl::Animation)

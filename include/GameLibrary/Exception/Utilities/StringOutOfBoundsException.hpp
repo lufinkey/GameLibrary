@@ -24,4 +24,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, StringOutOfBoundsException, fgl::OutOfBoundsException)
+REGISTER_TYPE(fgl::StringOutOfBoundsException, fgl::OutOfBoundsException)

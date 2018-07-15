@@ -63,4 +63,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AnimationPlayer)
+REGISTER_TYPE(fgl::AnimationPlayer)

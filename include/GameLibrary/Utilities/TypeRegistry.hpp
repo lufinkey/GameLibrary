@@ -151,44 +151,42 @@ namespace fgl
 #ifdef DISABLE_TYPE_REGISTRY
 	#define REGISTER_TYPE(...)
 #else
-	#define REGISTER_TYPE(NAMESPACE, CLASS, ...) \
+	#define REGISTER_TYPE(CLASS, ...) \
 		namespace fgl { \
 			template<> \
-			struct TypeInfo<NAMESPACE::CLASS> { \
+			struct TypeInfo<CLASS> { \
 				friend class TypeRegistry; \
 				friend class InnerRegister; \
 				using parentRegistrations = ClassList<__VA_ARGS__>; \
 				static TypeRegistryId id() { \
-					return getTypeRegistryId<NAMESPACE::CLASS>(); \
-				} \
-				static std::string fullName() { \
-					return #NAMESPACE "::" #CLASS; \
+					return getTypeRegistryId<CLASS>(); \
 				} \
 				static std::string name() { \
 					return #CLASS; \
 				} \
 				static std::string mangledName() { \
-					return typeid(NAMESPACE::CLASS).name(); \
+					return typeid(CLASS).name(); \
 				} \
 				static std::vector<TypeRegistryId> parents() { \
 					return getTypeRegistryIds<__VA_ARGS__>(); \
 				} \
 				static std::vector<TypeRegistryId> derived() { \
+					registerType(); \
 					auto& _derived = derivedList(); \
 					return std::vector<TypeRegistryId>(_derived.begin(), _derived.end()); \
 				} \
 				\
+			private: \
 				static fgl::TypeRegistryId registerType() { \
 					static bool registered = false; \
-					auto typeId = getTypeRegistryId<NAMESPACE::CLASS>(); \
+					auto typeId = getTypeRegistryId<CLASS>(); \
 					if(registered) { \
 						return typeId; \
 					} \
 					registered = true; \
-					TypeRegistry::template deriveTypes<NAMESPACE::CLASS, ##__VA_ARGS__>(); \
+					TypeRegistry::template deriveTypes<CLASS, ##__VA_ARGS__>(); \
 					return typeId; \
 				} \
-			private: \
 				template<typename DERIVED_CLASS> \
 				static bool derive() { \
 					auto typeRegistryId = getTypeRegistryId<DERIVED_CLASS>(); \
@@ -206,10 +204,5 @@ namespace fgl
 					return _derived; \
 				} \
 			}; \
-		} \
-		namespace NAMESPACE { \
-			namespace __typeregistry { \
-				const ::fgl::TypeRegistryId type_##CLASS = ::fgl::TypeInfo<NAMESPACE::CLASS>::registerType(); \
-			} \
 		}
 #endif

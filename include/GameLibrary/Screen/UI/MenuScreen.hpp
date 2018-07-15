@@ -215,4 +215,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, MenuScreen, fgl::Screen)
+REGISTER_TYPE(fgl::MenuScreen, fgl::Screen)

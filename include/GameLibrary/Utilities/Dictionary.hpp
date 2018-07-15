@@ -196,4 +196,4 @@ namespace fgl
 
 #include "Dictionary.impl"
 
-REGISTER_TYPE(fgl, Dictionary)
+REGISTER_TYPE(fgl::Dictionary)

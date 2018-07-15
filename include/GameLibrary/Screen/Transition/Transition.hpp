@@ -31,4 +31,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Transition)
+REGISTER_TYPE(fgl::Transition)

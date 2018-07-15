@@ -28,4 +28,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, FadeColorTransition, fgl::Transition)
+REGISTER_TYPE(fgl::FadeColorTransition, fgl::Transition)

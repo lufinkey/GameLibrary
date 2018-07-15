@@ -47,4 +47,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ContactEvent, fgl::Event)
+REGISTER_TYPE(fgl::ContactEvent, fgl::Event)

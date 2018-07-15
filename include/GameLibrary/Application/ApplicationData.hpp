@@ -81,4 +81,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ApplicationData)
+REGISTER_TYPE(fgl::ApplicationData)

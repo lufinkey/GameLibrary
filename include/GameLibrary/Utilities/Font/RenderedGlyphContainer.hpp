@@ -64,4 +64,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, RenderedGlyphContainer)
+REGISTER_TYPE(fgl::RenderedGlyphContainer)

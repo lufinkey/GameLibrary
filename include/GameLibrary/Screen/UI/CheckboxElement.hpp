@@ -29,4 +29,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, CheckboxElement, fgl::TouchElement)
+REGISTER_TYPE(fgl::CheckboxElement, fgl::TouchElement)

@@ -158,5 +158,5 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, BatchLoader)
-REGISTER_TYPE(fgl, BatchLoaderEventListener)
+REGISTER_TYPE(fgl::BatchLoader)
+REGISTER_TYPE(fgl::BatchLoaderEventListener)

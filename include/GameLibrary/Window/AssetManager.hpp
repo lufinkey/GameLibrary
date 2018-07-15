@@ -173,4 +173,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AssetManager)
+REGISTER_TYPE(fgl::AssetManager)

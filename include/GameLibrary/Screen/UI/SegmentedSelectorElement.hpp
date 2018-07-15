@@ -46,4 +46,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, SegmentedSelectorElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::SegmentedSelectorElement, fgl::ScreenElement)

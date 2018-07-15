@@ -5,4 +5,4 @@
 #include "BasicString.impl"
 #include "TypeRegistry.hpp"
 
-REGISTER_TYPE(fgl, String)
+REGISTER_TYPE(fgl::String)

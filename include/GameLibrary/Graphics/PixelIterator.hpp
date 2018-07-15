@@ -81,4 +81,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, PixelIterator)
+REGISTER_TYPE(fgl::PixelIterator)

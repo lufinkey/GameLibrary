@@ -97,4 +97,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ImageElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::ImageElement, fgl::ScreenElement)

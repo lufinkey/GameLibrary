@@ -17,4 +17,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, RenderGlyphException, fgl::Exception)
+REGISTER_TYPE(fgl::RenderGlyphException, fgl::Exception)

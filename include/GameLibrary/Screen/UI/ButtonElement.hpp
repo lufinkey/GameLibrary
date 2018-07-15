@@ -137,4 +137,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ButtonElement, fgl::TouchElement)
+REGISTER_TYPE(fgl::ButtonElement, fgl::TouchElement)

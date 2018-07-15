@@ -39,4 +39,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Viewport)
+REGISTER_TYPE(fgl::Viewport)

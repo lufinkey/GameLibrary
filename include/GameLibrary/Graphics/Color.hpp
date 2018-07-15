@@ -291,4 +291,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Color)
+REGISTER_TYPE(fgl::Color)

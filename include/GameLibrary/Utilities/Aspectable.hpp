@@ -11,13 +11,14 @@ namespace fgl
 	public:
 		virtual ~Aspect() = default;
 		
-		virtual bool getFlag(const String& flag) const;
+		virtual bool getFlag(const String& flag) const { return false; }
 	};
 	
 	
 	
 	#define ENABLE_IF_EXTENDS_ASPECT(CLASS) typename std::enable_if<std::is_base_of<Aspect, CLASS>::value, std::nullptr_t>::type = nullptr
 	
+	template<typename ASPECT=Aspect>
 	class Aspectable
 	{
 	public:
@@ -25,9 +26,15 @@ namespace fgl
 			//
 		}
 		
-		virtual ~Aspectable();
+		virtual ~Aspectable() {
+			for(auto& pair : aspects) {
+				for(auto aspect : pair.second) {
+					delete aspect;
+				}
+			}
+		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
 		void addAspect(CLASS* aspect) {
 			auto typeRegistryId = getTypeRegistryId<CLASS>();
 			auto iter = aspects.find(typeRegistryId);
@@ -40,33 +47,34 @@ namespace fgl
 			onAddAspect(typeRegistryId, aspect);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
 		inline CLASS* getAspect() {
-			return TypeRegistry::findType<CLASS, Aspect>(aspects);
+			return TypeRegistry::findType<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
 		inline const CLASS* getAspect() const {
-			return TypeRegistry::findType<CLASS, Aspect>(aspects);
+			return TypeRegistry::findType<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
 		inline ArrayList<CLASS*> getAspects() {
-			return TypeRegistry::findTypes<CLASS, Aspect>(aspects);
+			return TypeRegistry::findTypes<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
 		inline ArrayList<const CLASS*> getAspects() const {
-			return TypeRegistry::findTypes<CLASS, Aspect>(aspects);
+			return TypeRegistry::findTypes<CLASS, _ASPECT>(aspects);
 		}
 		
 	protected:
-		virtual void onAddAspect(TypeRegistryId aspectType, Aspect* aspect);
+		virtual void onAddAspect(TypeRegistryId aspectType, ASPECT* aspect) {
+			//
+		}
 		
 	private:
-		std::map<TypeRegistryId, std::list<Aspect*>> aspects;
+		std::map<TypeRegistryId, std::list<ASPECT*>> aspects;
 	};
 }
 
-REGISTER_TYPE(fgl, Aspect)
-REGISTER_TYPE(fgl, Aspectable)
+REGISTER_TYPE(fgl::Aspect)

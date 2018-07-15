@@ -21,4 +21,4 @@ namespace fgl
 	typedef std::shared_ptr<Event> EventPtr;
 }
 
-REGISTER_TYPE(fgl, Event)
+REGISTER_TYPE(fgl::Event)

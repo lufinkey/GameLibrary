@@ -274,4 +274,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ScreenElement)
+REGISTER_TYPE(fgl::ScreenElement)

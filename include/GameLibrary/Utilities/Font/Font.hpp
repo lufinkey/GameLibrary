@@ -129,4 +129,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Font)
+REGISTER_TYPE(fgl::Font)

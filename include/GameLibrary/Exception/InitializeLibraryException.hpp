@@ -22,4 +22,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, InitializeLibraryException, fgl::Exception)
+REGISTER_TYPE(fgl::InitializeLibraryException, fgl::Exception)

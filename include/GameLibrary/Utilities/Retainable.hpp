@@ -21,4 +21,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Retainable)
+REGISTER_TYPE(fgl::Retainable)

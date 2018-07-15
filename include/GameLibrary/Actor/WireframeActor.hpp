@@ -82,4 +82,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, WireframeActor, fgl::Actor)
+REGISTER_TYPE(fgl::WireframeActor, fgl::Actor)

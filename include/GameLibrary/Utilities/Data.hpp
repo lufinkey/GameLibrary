@@ -54,4 +54,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Data)
+REGISTER_TYPE(fgl::Data)

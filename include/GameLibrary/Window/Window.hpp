@@ -207,5 +207,5 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Window)
-REGISTER_TYPE(fgl, WindowEventListener)
+REGISTER_TYPE(fgl::Window)
+REGISTER_TYPE(fgl::WindowEventListener)

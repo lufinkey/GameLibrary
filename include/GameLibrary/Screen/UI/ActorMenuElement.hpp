@@ -180,4 +180,4 @@ namespace fgl
 	// if there are no items there, it will look for the furthest most item within the opposite range
 }
 
-REGISTER_TYPE(fgl, ActorMenuElement, fgl::ScreenElement)
+REGISTER_TYPE(fgl::ActorMenuElement, fgl::ScreenElement)

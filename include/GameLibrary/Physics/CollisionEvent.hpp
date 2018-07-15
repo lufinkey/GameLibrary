@@ -42,4 +42,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, CollisionEvent, fgl::Event)
+REGISTER_TYPE(fgl::CollisionEvent, fgl::Event)

@@ -117,4 +117,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, ScreenManager, fgl::Screen)
+REGISTER_TYPE(fgl::ScreenManager, fgl::Screen)

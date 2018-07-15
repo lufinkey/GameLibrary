@@ -67,4 +67,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, AutoLayoutManager)
+REGISTER_TYPE(fgl::AutoLayoutManager)

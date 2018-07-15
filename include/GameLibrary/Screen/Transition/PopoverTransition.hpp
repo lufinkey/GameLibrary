@@ -40,4 +40,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, PopoverTransition, fgl::Transition)
+REGISTER_TYPE(fgl::PopoverTransition, fgl::Transition)

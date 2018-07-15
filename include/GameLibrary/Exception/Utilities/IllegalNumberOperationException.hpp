@@ -23,4 +23,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, IllegalNumberOperationException, fgl::Exception)
+REGISTER_TYPE(fgl::IllegalNumberOperationException, fgl::Exception)

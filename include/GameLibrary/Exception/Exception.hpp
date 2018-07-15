@@ -36,4 +36,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Exception)
+REGISTER_TYPE(fgl::Exception)

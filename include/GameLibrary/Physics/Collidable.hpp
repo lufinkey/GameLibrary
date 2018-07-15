@@ -64,4 +64,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Collidable)
+REGISTER_TYPE(fgl::Collidable)

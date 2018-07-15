@@ -298,4 +298,4 @@ namespace fgl
 	};
 }
 
-REGISTER_TYPE(fgl, Graphics)
+REGISTER_TYPE(fgl::Graphics)
