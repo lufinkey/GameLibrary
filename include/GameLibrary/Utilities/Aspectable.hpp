@@ -24,9 +24,7 @@ namespace fgl
 	{
 	public:
 		Aspectable() {
-			#ifdef DISABLE_GLOBAL_TYPE_REGISTRY
-				static_assert(false, "Cannot use Aspectable with macro DISABLE_GLOBAL_TYPE_REGISTRY");
-			#endif
+			//
 		}
 		
 		virtual ~Aspectable();
@@ -46,22 +44,22 @@ namespace fgl
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline CLASS* getAspect() {
-			return TypeRegistry::global()->findType<CLASS, Aspect>(aspects);
+			return TypeRegistry::findType<CLASS, Aspect>(aspects);
 		}
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline const CLASS* getAspect() const {
-			return TypeRegistry::global()->findType<CLASS, Aspect>(aspects);
+			return TypeRegistry::findType<CLASS, Aspect>(aspects);
 		}
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline ArrayList<CLASS*> getAspects() {
-			return TypeRegistry::global()->findTypes<CLASS, Aspect>(aspects);
+			return TypeRegistry::findTypes<CLASS, Aspect>(aspects);
 		}
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline ArrayList<const CLASS*> getAspects() const {
-			return TypeRegistry::global()->findTypes<CLASS, Aspect>(aspects);
+			return TypeRegistry::findTypes<CLASS, Aspect>(aspects);
 		}
 		
 	protected:
