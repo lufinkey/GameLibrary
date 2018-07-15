@@ -21,13 +21,14 @@ namespace fgl
 	class ContactEvent : public Event
 	{
 	public:
-		ContactEvent(Collidable* contacted, ContactState state,
+		ContactEvent(Collidable* target, Collidable* contacted, ContactState state,
 			const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs,
 			const ArrayList<CollisionRectTagPair>& ignoredRectPairs,
 			const ArrayList<CollisionSide>& collidingSides);
 
 		virtual EventType getEventType() const override;
 
+		Collidable* getTarget() const;
 		Collidable* getContacted() const;
 		ContactState getContactState() const;
 		const ArrayList<CollisionRectTagPair>& getRectTagPairs() const;
@@ -36,6 +37,7 @@ namespace fgl
 		const ArrayList<CollisionSide>& getCollidingSides() const;
 
 	private:
+		Collidable* target;
 		Collidable* contacted;
 		ContactState state;
 		ArrayList<CollisionRectTagPair> rectTagPairs;

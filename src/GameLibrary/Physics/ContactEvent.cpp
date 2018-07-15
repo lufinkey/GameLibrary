@@ -5,11 +5,12 @@ namespace fgl
 {
 	const EventType EVENT_CONTACT = registerEventType();
 
-	ContactEvent::ContactEvent(Collidable* contacted, ContactState state,
+	ContactEvent::ContactEvent(Collidable* target, Collidable* contacted, ContactState state,
 		const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs,
 		const ArrayList<CollisionRectTagPair>& ignoredRectPairs,
 		const ArrayList<CollisionSide>& collidingSides)
-		: contacted(contacted),
+		: target(target),
+		contacted(contacted),
 		state(state),
 		rectTagPairs(rectTagPairs),
 		prevRectTagPairs(prevRectTagPairs),
@@ -22,6 +23,11 @@ namespace fgl
 	EventType ContactEvent::getEventType() const
 	{
 		return EVENT_CONTACT;
+	}
+	
+	Collidable* ContactEvent::getTarget() const
+	{
+		return target;
 	}
 
 	Collidable* ContactEvent::getContacted() const

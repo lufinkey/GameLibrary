@@ -6,8 +6,9 @@ namespace fgl
 {
 	const EventType EVENT_COLLISION = registerEventType();
 
-	CollisionEvent::CollisionEvent(Collidable* collided, CollisionSide side, CollisionState state, const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs)
-		: collided(collided),
+	CollisionEvent::CollisionEvent(Collidable* target, Collidable* collided, CollisionSide side, CollisionState state, const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs)
+		: target(target),
+		collided(collided),
 		side(side),
 		state(state),
 		rectTagPairs(rectTagPairs),
@@ -19,6 +20,11 @@ namespace fgl
 	EventType CollisionEvent::getEventType() const
 	{
 		return EVENT_COLLISION;
+	}
+	
+	Collidable* CollisionEvent::getTarget() const
+	{
+		return target;
 	}
 	
 	Collidable* CollisionEvent::getCollided() const

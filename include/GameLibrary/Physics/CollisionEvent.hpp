@@ -21,10 +21,11 @@ namespace fgl
 	class CollisionEvent : public Event
 	{
 	public:
-		CollisionEvent(Collidable* collided, CollisionSide side, CollisionState state, const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs);
+		CollisionEvent(Collidable* target, Collidable* collided, CollisionSide side, CollisionState state, const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs);
 		
 		virtual EventType getEventType() const override;
 		
+		Collidable* getTarget() const;
 		Collidable* getCollided() const;
 		CollisionSide getCollisionSide() const;
 		CollisionState getCollisionState() const;
@@ -32,6 +33,7 @@ namespace fgl
 		const ArrayList<CollisionRectTagPair>& getPreviousRectTagPairs() const;
 		
 	private:
+		Collidable* target;
 		Collidable* collided;
 		CollisionSide side;
 		CollisionState state;

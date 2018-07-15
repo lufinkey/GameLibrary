@@ -513,8 +513,8 @@ namespace fgl
 	{
 		auto collidable1 = pair.collidable1;
 		auto collidable2 = pair.collidable2;
-		auto contactEvent1 = ContactEvent(collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides);
-		auto contactEvent2 = ContactEvent(collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides());
+		auto contactEvent1 = ContactEvent(collidable1, collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides);
+		auto contactEvent2 = ContactEvent(collidable2, collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides());
 		
 		if(collidable1->isStaticCollisionBody())
 		{
@@ -562,8 +562,8 @@ namespace fgl
 	{
 		auto collidable1 = pair.collidable1;
 		auto collidable2 = pair.collidable2;
-		auto collisionEvent1 = CollisionEvent(collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs());
-		auto collisionEvent2 = CollisionEvent(collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs());
+		auto collisionEvent1 = CollisionEvent(collidable1, collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs());
+		auto collisionEvent2 = CollisionEvent(collidable2, collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs());
 		if(collidable1->isStaticCollisionBody())
 		{
 			switch(state)
