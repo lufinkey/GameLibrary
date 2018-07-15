@@ -79,11 +79,16 @@ namespace fgl
 		}
 		
 		template<typename CLASS, typename BASE_CLASS>
+		inline static CLASS* cast(BASE_CLASS* object) {
+			return static_cast<CLASS*>(object);
+		}
+		
+		template<typename CLASS, typename BASE_CLASS>
 		static std::vector<CLASS*> castVector(const std::vector<BASE_CLASS*>& vect) {
 			std::vector<CLASS*> newVect;
 			newVect.reserve(vect.size());
 			for(auto obj : vect) {
-				newVect.push_back(static_cast<CLASS*>(obj));
+				newVect.push_back(cast<CLASS, BASE_CLASS>(obj));
 			}
 			return newVect;
 		}
@@ -142,7 +147,7 @@ namespace fgl
 		// find a registered type
 		template<typename CLASS, typename BASE_CLASS>
 		static inline CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry) {
-			return static_cast<CLASS*>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>()));
+			return cast<CLASS, BASE_CLASS>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>()));
 		}
 	};
 }
