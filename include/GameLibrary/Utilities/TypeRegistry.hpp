@@ -5,6 +5,7 @@
 #include <typeindex>
 #include <list>
 #include <map>
+#include <string>
 #include <vector>
 
 namespace fgl
@@ -155,6 +156,15 @@ namespace fgl
 			using parentRegistrations = ClassList<__VA_ARGS__>; \
 			static TypeRegistryId id() { \
 				return getTypeRegistryId<NAMESPACE::CLASS>(); \
+			} \
+			static std::string fullName() { \
+				return #NAMESPACE "::" #CLASS; \
+			} \
+			static std::string name() { \
+				return #CLASS; \
+			} \
+			static std::string mangledName() { \
+				return typeid(NAMESPACE::CLASS).name(); \
 			} \
 			static std::vector<TypeRegistryId> parents() { \
 				return getTypeRegistryIds<__VA_ARGS__>(); \
