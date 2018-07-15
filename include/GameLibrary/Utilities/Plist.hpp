@@ -14,6 +14,9 @@ namespace fgl
 {
 	class Plist
 	{
+	private:
+		Plist() = delete;
+		
 	public:
 		typedef String key;
 		typedef BasicDictionary<Plist::key, Any> dict;

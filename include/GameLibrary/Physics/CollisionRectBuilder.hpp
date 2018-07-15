@@ -9,6 +9,8 @@ namespace fgl
 {
 	class CollisionRectBuilder
 	{
+	private:
+		CollisionRectBuilder() = delete;
 	public:
 		static CollisionRect* fromFrame(const String& tag, Collidable* collidable, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution=Vector2d(1.0,1.0));
 		static CollisionRect* fromFrame(const String& tag, const TransformState& state, const TransformState& prevState, const ArrayList<CollisionRect*>& prevRects, const Vector2d& size, const Vector2d& origin, const Vector2d& resolution=Vector2d(1.0,1.0));

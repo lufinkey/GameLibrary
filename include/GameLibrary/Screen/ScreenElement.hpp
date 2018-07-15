@@ -7,6 +7,7 @@
 #include <GameLibrary/Input/Mouse.hpp>
 #include <GameLibrary/Input/Multitouch.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "AutoLayoutManager.hpp"
 
 namespace fgl
@@ -272,3 +273,5 @@ namespace fgl
 		bool clipsToFrame;
 	};
 }
+
+REGISTER_TYPE(fgl, ScreenElement)

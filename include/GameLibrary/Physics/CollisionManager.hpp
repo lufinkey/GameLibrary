@@ -46,3 +46,5 @@ namespace fgl
 		std::list<CollisionPair> previousCollisions;
 	};
 }
+
+REGISTER_TYPE(fgl, CollisionManager)

@@ -23,3 +23,5 @@ namespace fgl
 		virtual String getClassName() const override;
 	};
 }
+
+REGISTER_TYPE(fgl, NumberFormatException, fgl::Exception)

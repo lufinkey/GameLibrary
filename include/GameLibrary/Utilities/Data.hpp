@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <GameLibrary/Types.hpp>
+#include "TypeRegistry.hpp"
 #include "String.hpp"
 
 namespace fgl
@@ -52,3 +53,5 @@ namespace fgl
 		void remove(size_t byteIndex, size_t size=1);
 	};
 }
+
+REGISTER_TYPE(fgl, Data)

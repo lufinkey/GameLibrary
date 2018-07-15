@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ArrayList.hpp"
+#include "TypeRegistry.hpp"
 #include <functional>
 
 namespace fgl
@@ -52,3 +53,5 @@ namespace fgl
 		static void update();
 	};
 }
+
+REGISTER_TYPE(fgl, Thread)

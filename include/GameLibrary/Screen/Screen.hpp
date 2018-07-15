@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "ScreenElement.hpp"
 #include "Transition/Transition.hpp"
 
@@ -312,3 +313,5 @@ namespace fgl
 		void updateElementTouch(ApplicationData appData);
 	};
 }
+
+REGISTER_TYPE(fgl, Screen)

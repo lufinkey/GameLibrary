@@ -70,3 +70,5 @@ namespace fgl
 		TextInputListener textInputListener;
 	};
 }
+
+REGISTER_TYPE(fgl, TextInputElement, fgl::TouchElement)

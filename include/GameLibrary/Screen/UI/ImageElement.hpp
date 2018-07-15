@@ -96,3 +96,5 @@ namespace fgl
 		bool mirrorImageVertically;
 	};
 }
+
+REGISTER_TYPE(fgl, ImageElement, fgl::ScreenElement)

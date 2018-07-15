@@ -5,6 +5,7 @@
 #include <GameLibrary/Graphics/TextureImage.hpp>
 #include <GameLibrary/Utilities/Font/Font.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -171,3 +172,5 @@ namespace fgl
 		ArrayList<AssetManager*> assetManagers;
 	};
 }
+
+REGISTER_TYPE(fgl, AssetManager)

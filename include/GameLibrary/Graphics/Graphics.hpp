@@ -4,6 +4,7 @@
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include <GameLibrary/Utilities/Geometry/Transform.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "Color.hpp"
 
 namespace fgl
@@ -296,3 +297,5 @@ namespace fgl
 		bool derived;
 	};
 }
+
+REGISTER_TYPE(fgl, Graphics)

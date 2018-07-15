@@ -39,3 +39,5 @@ namespace fgl
 		std::function<void()> onSelectionChange;
 	};
 }
+
+REGISTER_TYPE(fgl, GridSelectorElement, fgl::ZoomPanElement)

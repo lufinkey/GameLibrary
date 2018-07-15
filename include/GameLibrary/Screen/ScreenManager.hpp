@@ -116,3 +116,5 @@ namespace fgl
 		ArrayList<Screen*> screens;
 	};
 }
+
+REGISTER_TYPE(fgl, ScreenManager, fgl::Screen)

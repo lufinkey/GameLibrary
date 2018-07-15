@@ -5,6 +5,7 @@
 #include "Image.hpp"
 #include "Graphics.hpp"
 #include <GameLibrary/Utilities/Geometry/Polygon.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -107,3 +108,5 @@ namespace fgl
 		size_t height;
 	};
 }
+
+REGISTER_TYPE(fgl, TextureImage)

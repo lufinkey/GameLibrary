@@ -6,6 +6,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/PlatformChecks.hpp>
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include <GameLibrary/Window/Window.hpp>
 #include "ApplicationData.hpp"
 
@@ -160,3 +161,6 @@ namespace fgl
 		virtual void onApplicationLowMemory(Application*application){}
 	};
 }
+
+REGISTER_TYPE(fgl, Application)
+REGISTER_TYPE(fgl, ApplicationEventListener)

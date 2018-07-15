@@ -5,6 +5,7 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -186,3 +187,5 @@ namespace fgl
 		bool mirroredVertical;
 	};
 }
+
+REGISTER_TYPE(fgl, Animation)

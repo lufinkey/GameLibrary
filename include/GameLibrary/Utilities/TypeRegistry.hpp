@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+//#define DISABLE_TYPE_REGISTRY
+
 namespace fgl
 {
 	typedef size_t TypeRegistryId;
@@ -101,19 +103,21 @@ namespace fgl
 			catch(const std::out_of_range&) {
 				//
 			}
-			auto& derivedTypes = TypeInfo<BASE_CLASS>::derivedList();
-			for(auto& derivedTypeRegistryId : derivedTypes) {
-				try {
-					auto&& objects = objectRegistry.at(typeRegistryId);
-					if(firstOnly && objects.size() > 0) {
-						return std::vector<BASE_CLASS*>({*objects.begin()});
+			#ifndef DISABLE_TYPE_REGISTRY
+				auto& derivedTypes = TypeInfo<BASE_CLASS>::derivedList();
+				for(auto& derivedTypeRegistryId : derivedTypes) {
+					try {
+						auto&& objects = objectRegistry.at(typeRegistryId);
+						if(firstOnly && objects.size() > 0) {
+							return std::vector<BASE_CLASS*>({*objects.begin()});
+						}
+						types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
 					}
-					types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
+					catch(const std::out_of_range&) {
+						//
+					}
 				}
-				catch(const std::out_of_range&) {
-					//
-				}
-			}
+			#endif
 			return types;
 		}
 		

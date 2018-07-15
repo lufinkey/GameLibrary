@@ -5,6 +5,7 @@
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -156,3 +157,6 @@ namespace fgl
 		virtual void onBatchLoaderFinish(BatchLoader* batchLoader){}
 	};
 }
+
+REGISTER_TYPE(fgl, BatchLoader)
+REGISTER_TYPE(fgl, BatchLoaderEventListener)

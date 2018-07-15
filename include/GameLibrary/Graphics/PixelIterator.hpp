@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include <GameLibrary/Utilities/Geometry/Transform.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -79,3 +80,5 @@ namespace fgl
 		Vector2d ratio; // ratio of srcSize/dstSize
 	};
 }
+
+REGISTER_TYPE(fgl, PixelIterator)

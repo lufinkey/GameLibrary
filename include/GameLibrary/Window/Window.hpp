@@ -7,6 +7,7 @@
 #include <GameLibrary/Graphics/Image.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "AssetManager.hpp"
 #include "Viewport.hpp"
 
@@ -205,3 +206,6 @@ namespace fgl
 		virtual bool onWindowClose(Window*window);
 	};
 }
+
+REGISTER_TYPE(fgl, Window)
+REGISTER_TYPE(fgl, WindowEventListener)

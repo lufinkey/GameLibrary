@@ -4,6 +4,7 @@
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Dictionary.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -65,3 +66,5 @@ namespace fgl
 		bool containerOffset;
 	};
 }
+
+REGISTER_TYPE(fgl, AutoLayoutManager)

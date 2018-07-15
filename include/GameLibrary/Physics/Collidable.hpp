@@ -5,6 +5,7 @@
 #include "ContactEvent.hpp"
 #include "CollisionEvent.hpp"
 #include <GameLibrary/Application/ApplicationData.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -62,3 +63,5 @@ namespace fgl
 		Vector2d displacement;
 	};
 }
+
+REGISTER_TYPE(fgl, Collidable)

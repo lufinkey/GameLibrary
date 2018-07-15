@@ -133,3 +133,5 @@ namespace fgl
 		Vector2d framesize;
 	};
 }
+
+REGISTER_TYPE(fgl, SpriteActor, fgl::Actor)

@@ -42,3 +42,5 @@ namespace fgl
 		bool isContacting() const;
 	};
 }
+
+REGISTER_TYPE(fgl, CollisionPair)

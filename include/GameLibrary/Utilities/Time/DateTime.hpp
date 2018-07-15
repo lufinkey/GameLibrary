@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Utilities/String.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -71,3 +72,5 @@ namespace fgl
 		int yday;
 	};
 }
+
+REGISTER_TYPE(fgl, DateTime)

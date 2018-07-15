@@ -62,3 +62,5 @@ namespace fgl
 		bool animationChanged;
 	};
 }
+
+REGISTER_TYPE(fgl, AnimationPlayer)

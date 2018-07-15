@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
+#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "AutoLayoutManager.hpp"
 
 namespace fgl
@@ -71,3 +72,5 @@ namespace fgl
 		LayoutValue aspectRatio;
 	};
 }
+
+REGISTER_TYPE(fgl, AutoLayoutCalculator)

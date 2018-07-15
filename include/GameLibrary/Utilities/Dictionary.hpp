@@ -7,6 +7,7 @@
 #include "ArrayList.hpp"
 #include "Data.hpp"
 #include "String.hpp"
+#include "TypeRegistry.hpp"
 #include <GameLibrary/Exception/Utilities/DictionaryKeyNotFoundException.hpp>
 
 #ifdef __OBJC__
@@ -194,3 +195,5 @@ namespace fgl
 }
 
 #include "Dictionary.impl"
+
+REGISTER_TYPE(fgl, Dictionary)

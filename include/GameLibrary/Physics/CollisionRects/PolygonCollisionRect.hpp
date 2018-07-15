@@ -32,3 +32,5 @@ namespace fgl
 		Vector2d resolution;
 	};
 }
+
+REGISTER_TYPE(fgl, PolygonCollisionRect, fgl::CollisionRect)
