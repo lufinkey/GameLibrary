@@ -13,8 +13,8 @@ namespace fgl
 		CollisionManager();
 		virtual ~CollisionManager() = default;
 
-		void addCollidable(Collidable* collidable);
-		void removeCollidable(Collidable* collidable);
+		virtual void addCollidable(Collidable* collidable);
+		virtual void removeCollidable(Collidable* collidable);
 
 		virtual void update(const ApplicationData& appData);
 		

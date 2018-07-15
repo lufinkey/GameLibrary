@@ -57,6 +57,14 @@ namespace fgl
 			return newRange;
 		}
 		
+		void translate(double offset) {
+			location += offset;
+		}
+		
+		Range<T> translated(double offset) {
+			return Range<T>(location+offset, length);
+		}
+		
 		static Range<T> fromEdges(const T& start, const T& end)
 		{
 			return Range<T>(start, end-start);

@@ -10,7 +10,14 @@ namespace fgl
 
 	void CollisionManager::addCollidable(Collidable* collidable)
 	{
+		for(auto cmpCollidable : collidables) {
+			if(cmpCollidable == collidable) {
+				throw IllegalArgumentException("collidable", "already added to CollisionManager");
+			}
+		}
 		collidables.push_back(collidable);
+		auto transformState = collidable->getTransformState();
+		collidable->previousTransformState = transformState;
 	}
 
 	void CollisionManager::removeCollidable(Collidable* collidable)

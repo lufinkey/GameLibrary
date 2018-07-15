@@ -3,8 +3,8 @@
 
 namespace fgl
 {
-	Collidable::Collidable(const TransformState& initialState)
-		: previousTransformState(initialState),
+	Collidable::Collidable()
+		: previousTransformState(fgl::Vector2d(0,0), 0),
 		displacement(0, 0)
 	{
 		//

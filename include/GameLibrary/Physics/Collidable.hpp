@@ -26,7 +26,7 @@ namespace fgl
 	{
 		friend class CollisionManager;
 	public:
-		Collidable(const TransformState& initialState);
+		Collidable();
 		
 		virtual bool getFlag(const String& flag) const;
 		
@@ -59,6 +59,7 @@ namespace fgl
 		
 		virtual void onFinishCollisionUpdates();
 		
+	private:
 		TransformState previousTransformState;
 		Vector2d displacement;
 	};
