@@ -45,12 +45,22 @@ namespace fgl
 		}
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
-		inline CLASS* getAspect() const {
+		inline CLASS* getAspect() {
 			return TypeRegistry::global()->findType<CLASS, Aspect>(aspects);
 		}
 		
 		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
-		inline ArrayList<CLASS*> getAspects() const {
+		inline const CLASS* getAspect() const {
+			return TypeRegistry::global()->findType<CLASS, Aspect>(aspects);
+		}
+		
+		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		inline ArrayList<CLASS*> getAspects() {
+			return TypeRegistry::global()->findTypes<CLASS, Aspect>(aspects);
+		}
+		
+		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
+		inline ArrayList<const CLASS*> getAspects() const {
 			return TypeRegistry::global()->findTypes<CLASS, Aspect>(aspects);
 		}
 		
