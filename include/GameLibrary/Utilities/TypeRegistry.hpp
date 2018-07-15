@@ -55,22 +55,19 @@ namespace fgl
 		template<typename... T>
 		friend struct TypeInfo;
 	private:
-		// variadic true/false values
-		template<bool...>
-		struct bool_pack;
-		template<bool... bs>
-		using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...>>;
+		TypeRegistry() = delete;
 		
 		// derive a registered type
-		template<typename DERIVED_CLASS, typename PARENT_CLASS>
+		template<typename CLASS, typename PARENT_CLASS>
 		static inline bool deriveType() {
-			return TypeInfo<PARENT_CLASS>::template derive<DERIVED_CLASS>();
+			static_assert(std::is_base_of<PARENT_CLASS, CLASS>::value, "CLASS template argument must be derived from PARENT_CLASS"); \
+			return TypeInfo<PARENT_CLASS>::template derive<CLASS>();
 		}
 		
 		// derive registered types
-		template<typename DERIVED_CLASS, typename... PARENT_CLASS>
+		template<typename CLASS, typename... PARENT_CLASS>
 		static inline bool deriveTypes() {
-			auto results = std::vector<bool>(deriveType<DERIVED_CLASS, PARENT_CLASS>()...);
+			auto results = std::vector<bool>(deriveType<CLASS, PARENT_CLASS>()...);
 			for(auto result : results) {
 				if(!result) {
 					return false;
@@ -80,18 +77,6 @@ namespace fgl
 		}
 		
 	public:
-		TypeRegistry() = delete;
-		
-		// register a type
-		template<typename CLASS, typename... PARENT_CLASS>
-		static inline TypeRegistryId registerType() {
-			// validate parent classes
-			static_assert(all_true<(std::is_base_of<PARENT_CLASS, CLASS>::value)...>::value,
-				"CLASS template argument must be derived from PARENT_CLASS");
-			// register type
-			return deriveTypes<CLASS, PARENT_CLASS...>();
-		}
-		
 		// find registered types
 		template<typename BASE_CLASS>
 		static std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS*>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
@@ -147,54 +132,68 @@ namespace fgl
 }
 
 
-
-#define REGISTER_TYPE(NAMESPACE, CLASS, ...) \
-	namespace fgl { \
-		template<> \
-		struct TypeInfo<NAMESPACE::CLASS> { \
-			friend class TypeRegistry; \
-			using parentRegistrations = ClassList<__VA_ARGS__>; \
-			static TypeRegistryId id() { \
-				return getTypeRegistryId<NAMESPACE::CLASS>(); \
-			} \
-			static std::string fullName() { \
-				return #NAMESPACE "::" #CLASS; \
-			} \
-			static std::string name() { \
-				return #CLASS; \
-			} \
-			static std::string mangledName() { \
-				return typeid(NAMESPACE::CLASS).name(); \
-			} \
-			static std::vector<TypeRegistryId> parents() { \
-				return getTypeRegistryIds<__VA_ARGS__>(); \
-			} \
-			static std::vector<TypeRegistryId> derived() { \
-				auto& _derived = derivedList(); \
-				return std::vector<TypeRegistryId>(_derived.begin(), _derived.end()); \
-			} \
-			\
-		private: \
-			template<typename DERIVED_CLASS> \
-			static bool derive() { \
-				TypeRegistryId typeRegistryId = getTypeRegistryId<DERIVED_CLASS>(); \
-				auto& _derived = derivedList(); \
-				for(auto& cmpType : _derived) { \
-					if(cmpType == typeRegistryId) { \
-						return false; \
-					} \
+#ifdef DISABLE_TYPE_REGISTRY
+	#define REGISTER_TYPE(...)
+#else
+	#define REGISTER_TYPE(NAMESPACE, CLASS, ...) \
+		namespace fgl { \
+			template<> \
+			struct TypeInfo<NAMESPACE::CLASS> { \
+				friend class TypeRegistry; \
+				friend class InnerRegister; \
+				using parentRegistrations = ClassList<__VA_ARGS__>; \
+				static TypeRegistryId id() { \
+					return getTypeRegistryId<NAMESPACE::CLASS>(); \
 				} \
-				_derived.push_back(typeRegistryId); \
-				return TypeRegistry::deriveTypes<DERIVED_CLASS, ##__VA_ARGS__>(); \
-			} \
-			static std::list<TypeRegistryId>& derivedList() { \
-				static std::list<TypeRegistryId> _derived; \
-				return _derived; \
-			} \
-		}; \
-	} \
-	namespace NAMESPACE { \
-		namespace __typeregistry { \
-			const ::fgl::TypeRegistryId type_##CLASS = ::fgl::TypeRegistry::registerType<NAMESPACE::CLASS, ##__VA_ARGS__ >(); \
+				static std::string fullName() { \
+					return #NAMESPACE "::" #CLASS; \
+				} \
+				static std::string name() { \
+					return #CLASS; \
+				} \
+				static std::string mangledName() { \
+					return typeid(NAMESPACE::CLASS).name(); \
+				} \
+				static std::vector<TypeRegistryId> parents() { \
+					return getTypeRegistryIds<__VA_ARGS__>(); \
+				} \
+				static std::vector<TypeRegistryId> derived() { \
+					auto& _derived = derivedList(); \
+					return std::vector<TypeRegistryId>(_derived.begin(), _derived.end()); \
+				} \
+				\
+				static fgl::TypeRegistryId registerType() { \
+					static bool registered = false; \
+					auto typeId = getTypeRegistryId<NAMESPACE::CLASS>(); \
+					if(registered) { \
+						return typeId; \
+					} \
+					registered = true; \
+					TypeRegistry::template deriveTypes<NAMESPACE::CLASS, ##__VA_ARGS__>(); \
+					return typeId; \
+				} \
+			private: \
+				template<typename DERIVED_CLASS> \
+				static bool derive() { \
+					auto typeRegistryId = getTypeRegistryId<DERIVED_CLASS>(); \
+					auto& _derived = derivedList(); \
+					for(auto& cmpType : _derived) { \
+						if(cmpType == typeRegistryId) { \
+							return false; \
+						} \
+					} \
+					_derived.push_back(typeRegistryId); \
+					return TypeRegistry::deriveTypes<DERIVED_CLASS, ##__VA_ARGS__>(); \
+				} \
+				static std::list<TypeRegistryId>& derivedList() { \
+					static std::list<TypeRegistryId> _derived; \
+					return _derived; \
+				} \
+			}; \
 		} \
-	}
+		namespace NAMESPACE { \
+			namespace __typeregistry { \
+				const ::fgl::TypeRegistryId type_##CLASS = ::fgl::TypeInfo<NAMESPACE::CLASS>::registerType(); \
+			} \
+		}
+#endif
