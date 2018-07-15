@@ -18,7 +18,7 @@ namespace fgl
 	
 	
 	
-	#define ENABLE_IF_EXTENDS_ASPECTS(CLASS) typename std::enable_if<std::is_base_of<Aspect, CLASS>::value, std::nullptr_t>::type = nullptr
+	#define ENABLE_IF_EXTENDS_ASPECT(CLASS) typename std::enable_if<std::is_base_of<Aspect, CLASS>::value, std::nullptr_t>::type = nullptr
 	
 	class Aspectable
 	{
@@ -31,7 +31,7 @@ namespace fgl
 		
 		virtual ~Aspectable();
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECTS(CLASS)>
+		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		void addAspect(CLASS* aspect) {
 			auto typeRegistryId = getTypeRegistryId<CLASS>();
 			auto iter = aspects.find(typeRegistryId);
@@ -44,12 +44,12 @@ namespace fgl
 			onAddAspect(typeRegistryId, aspect);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECTS(CLASS)>
+		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline CLASS* getAspect() const {
 			return TypeRegistry::global()->findType<CLASS, Aspect>(aspects);
 		}
 		
-		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECTS(CLASS)>
+		template<typename CLASS, ENABLE_IF_EXTENDS_ASPECT(CLASS)>
 		inline ArrayList<CLASS*> getAspects() const {
 			return TypeRegistry::global()->findTypes<CLASS, Aspect>(aspects);
 		}
