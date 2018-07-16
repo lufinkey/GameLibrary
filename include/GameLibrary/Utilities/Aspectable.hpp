@@ -78,7 +78,7 @@ namespace fgl
 			fgl::ArrayList<ASPECT*> allAspects;
 			allAspects.reserve(aspectCount);
 			for(auto& pair : aspects) {
-				allAspects.addAll(pair.second);
+				allAspects.addAll(fgl::ArrayList<ASPECT*>(pair.second));
 			}
 			return allAspects;
 		}
@@ -91,7 +91,7 @@ namespace fgl
 			fgl::ArrayList<const ASPECT*> allAspects;
 			allAspects.reserve(aspectCount);
 			for(auto& pair : aspects) {
-				allAspects.addAll(pair.second);
+				allAspects.addAll(fgl::ArrayList<ASPECT*>(pair.second));
 			}
 			return allAspects;
 		}
