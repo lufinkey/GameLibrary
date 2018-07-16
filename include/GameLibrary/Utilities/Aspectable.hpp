@@ -16,12 +16,14 @@ namespace fgl
 	
 	
 	
-	#define ENABLE_IF_EXTENDS_ASPECT(CLASS) typename std::enable_if<std::is_base_of<Aspect, CLASS>::value, std::nullptr_t>::type = nullptr
+	#define ENABLE_IF_EXTENDS(BASE_CLASS, CLASS) typename std::enable_if<std::is_base_of<BASE_CLASS, CLASS>::value, std::nullptr_t>::type = nullptr
 	
 	template<typename ASPECT=Aspect>
 	class Aspectable
 	{
 	public:
+		using AspectType = ASPECT;
+		
 		Aspectable() {
 			//
 		}
@@ -34,8 +36,8 @@ namespace fgl
 			}
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
-		void addAspect(CLASS* aspect) {
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
+		Aspectable* addAspect(CLASS* aspect) {
 			auto typeRegistryId = getTypeRegistryId<CLASS>();
 			auto iter = aspects.find(typeRegistryId);
 			if(iter == aspects.end()) {
@@ -45,24 +47,25 @@ namespace fgl
 				iter->push_back(aspect);
 			}
 			onAddAspect(typeRegistryId, aspect);
+			return this;
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
 		inline CLASS* getAspect() {
 			return TypeRegistry::findType<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
 		inline const CLASS* getAspect() const {
 			return TypeRegistry::findType<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
 		inline ArrayList<CLASS*> getAspects() {
 			return TypeRegistry::findTypes<CLASS, _ASPECT>(aspects);
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS_ASPECT(_ASPECT)>
+		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
 		inline ArrayList<const CLASS*> getAspects() const {
 			return TypeRegistry::findTypes<CLASS, _ASPECT>(aspects);
 		}
