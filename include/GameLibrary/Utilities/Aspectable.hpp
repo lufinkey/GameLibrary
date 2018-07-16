@@ -6,16 +6,6 @@
 
 namespace fgl
 {
-	class Aspect
-	{
-	public:
-		virtual ~Aspect() = default;
-		
-		virtual bool getFlag(const String& flag) const { return false; }
-	};
-	
-	
-	
 	#define ENABLE_IF_EXTENDS(BASE_CLASS, CLASS) typename std::enable_if<std::is_base_of<BASE_CLASS, CLASS>::value, std::nullptr_t>::type = nullptr
 	
 	template<typename ASPECT=Aspect>
@@ -105,5 +95,3 @@ namespace fgl
 		std::map<TypeRegistryId, std::list<ASPECT*>> aspects;
 	};
 }
-
-REGISTER_TYPE(fgl::Aspect)
