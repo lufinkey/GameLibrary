@@ -70,6 +70,32 @@ namespace fgl
 			return TypeRegistry::findTypes<CLASS, _ASPECT>(aspects);
 		}
 		
+		inline ArrayList<ASPECT*> getAllAspects() {
+			size_t aspectCount = 0;
+			for(auto& pair : aspects) {
+				aspectCount += pair.second.size();
+			}
+			fgl::ArrayList<ASPECT*> allAspects;
+			allAspects.reserve(aspectCount);
+			for(auto& pair : aspects) {
+				allAspects.addAll(pair.second);
+			}
+			return allAspects;
+		}
+		
+		inline ArrayList<const ASPECT*> getAllAspects() const {
+			size_t aspectCount = 0;
+			for(auto& pair : aspects) {
+				aspectCount += pair.second.size();
+			}
+			fgl::ArrayList<const ASPECT*> allAspects;
+			allAspects.reserve(aspectCount);
+			for(auto& pair : aspects) {
+				allAspects.addAll(pair.second);
+			}
+			return allAspects;
+		}
+		
 	protected:
 		virtual void onAddAspect(TypeRegistryId aspectType, ASPECT* aspect) {
 			//
