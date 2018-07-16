@@ -34,7 +34,7 @@ namespace fgl
 				aspects[typeRegistryId] = { aspect };
 			}
 			else {
-				iter->push_back(aspect);
+				iter->second.push_back(aspect);
 			}
 			onAddAspect(typeRegistryId, aspect);
 			return this;
