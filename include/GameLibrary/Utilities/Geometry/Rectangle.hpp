@@ -339,6 +339,20 @@ namespace fgl
 			return Vector2<T>(x+(width/2), y+(height/2));
 		}
 		
+		/*! Calculates the center x coordinate of the rectangle (x+width/2)
+			\returns the x coordinate of the center of the rectangle*/
+		T getCenterX() const
+		{
+			return x+(width/2);
+		}
+		
+		/*! Calculates the center y coordinate of the rectangle (y+height/2)
+			\returns the y coordinate of the center of the rectangle*/
+		T getCenterY() const
+		{
+			return y+(height/2);
+		}
+		
 		/*! Gives the top left corner of this rectangle
 			\returns a Vector2 representing the point of the top left corner of this rectangle */
 		Vector2<T> getTopLeft() const
