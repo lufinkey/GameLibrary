@@ -63,7 +63,6 @@ namespace fgl
 		// derive a registered type
 		template<typename CLASS, typename PARENT_CLASS>
 		static inline bool deriveType() {
-			printf("making %s inherit from %s\n", TypeInfo<CLASS>::name().c_str(), TypeInfo<PARENT_CLASS>::name().c_str());
 			static_assert(std::is_base_of<PARENT_CLASS, CLASS>::value, "CLASS template argument must be derived from PARENT_CLASS"); \
 			TypeInfo<PARENT_CLASS>::template derive<CLASS>();
 			return true;
@@ -190,8 +189,6 @@ namespace fgl
 					if(registered) { \
 						return typeId; \
 					} \
-					printf("registering %s as %lu\n", name().c_str(), (unsigned long)typeId); \
-					printf("- should have parents %s\n", #__VA_ARGS__); \
 					registered = true; \
 					TypeRegistry::template deriveTypes<CLASS, ##__VA_ARGS__>(); \
 					printf("\n\n"); \
@@ -201,7 +198,6 @@ namespace fgl
 			private: \
 				template<typename DERIVED_CLASS> \
 				static void derive() { \
-					printf("%s inherits from %s\n", TypeInfo<DERIVED_CLASS>::name().c_str(), name().c_str()); \
 					auto typeRegistryId = getTypeRegistryId<DERIVED_CLASS>(); \
 					auto& _derived = derivedList(); \
 					for(auto& cmpType : _derived) { \
