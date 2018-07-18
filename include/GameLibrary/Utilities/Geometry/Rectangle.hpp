@@ -439,6 +439,22 @@ namespace fgl
 			return Vector2<T>(width, height);
 		}
 		
+		/*! Translates the rectangle by the given vector
+			\param offset the amount to translate the (x,y) coordinates of the rectangle */
+		void translate(const Vector2<T>& offset)
+		{
+			x += offset.x;
+			y += offset.y;
+		}
+		
+		/*! Creates a new polygon from this polygon, translated by the given vector
+			\param offset the amount to translate each point in the new polygon
+			\returns the translated polygon */
+		Rectangle<T> translated(const Vector2<T>& offset) const
+		{
+			return Rectangle<T>(x+offset.x, y+offset.y, width, height);
+		}
+		
 		/*void scale(double scaleX, double scaleY, const T&originX, const T& originY)
 		{
 			Transform<T> transform;
