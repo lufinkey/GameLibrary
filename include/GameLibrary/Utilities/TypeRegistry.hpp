@@ -63,8 +63,10 @@ namespace fgl
 		// derive a registered type
 		template<typename CLASS, typename PARENT_CLASS>
 		static inline bool deriveType() {
+			printf("making %s inherit from %s\n", TypeInfo<CLASS>::name().c_str(), TypeInfo<PARENT_CLASS>::name().c_str());
 			static_assert(std::is_base_of<PARENT_CLASS, CLASS>::value, "CLASS template argument must be derived from PARENT_CLASS"); \
-			return TypeInfo<PARENT_CLASS>::template derive<CLASS>();
+			TypeInfo<PARENT_CLASS>::template derive<CLASS>();
+			return true;
 		}
 		
 		// derive registered types
@@ -101,27 +103,26 @@ namespace fgl
 	public:
 		// find registered types
 		template<typename BASE_CLASS>
-		static std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId, bool firstOnly=false) {
+		static std::vector<BASE_CLASS*> findTypes(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId, const std::vector<TypeRegistryId>& derivedTypes, bool firstOnly=false) {
 			std::vector<BASE_CLASS*> types;
 			try {
-				auto&& objects = objectRegistry.at(typeRegistryId);
+				auto objects = objectRegistry.at(typeRegistryId);
 				if(firstOnly && objects.size() > 0) {
-					return std::vector<BASE_CLASS*>({*objects.begin()});
+					return std::vector<BASE_CLASS*>({ *objects.begin() });
 				}
-				types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
+				types.insert(types.end(), objects.begin(), objects.end());
 			}
 			catch(const std::out_of_range&) {
 				//
 			}
 			#ifndef DISABLE_TYPE_REGISTRY
-				auto& derivedTypes = TypeInfo<BASE_CLASS>::derivedList();
 				for(auto& derivedTypeRegistryId : derivedTypes) {
 					try {
-						auto&& objects = objectRegistry.at(typeRegistryId);
+						auto objects = objectRegistry.at(derivedTypeRegistryId);
 						if(firstOnly && objects.size() > 0) {
-							return std::vector<BASE_CLASS*>({*objects.begin()});
+							return std::vector<BASE_CLASS*>({ *objects.begin() });
 						}
-						types.insert(types.end(), std::make_move_iterator(objects.begin()), std::make_move_iterator(objects.end()));
+						types.insert(types.end(), objects.begin(), objects.end());
 					}
 					catch(const std::out_of_range&) {
 						//
@@ -135,14 +136,14 @@ namespace fgl
 		template<typename CLASS, typename BASE_CLASS>
 		static inline std::vector<CLASS*> findTypes(const ObjectRegistry<BASE_CLASS>& objectRegistry, bool firstOnly=false) {
 			return castVector<CLASS, BASE_CLASS>(
-				findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), firstOnly)
+				findTypes<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), TypeInfo<CLASS>::derived(), firstOnly)
 			);
 		}
 		
 		// find a registered type
 		template<typename BASE_CLASS>
-		static inline BASE_CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId) {
-			auto&& types = findTypes<BASE_CLASS>(objectRegistry, typeRegistryId, true);
+		static inline BASE_CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry, TypeRegistryId typeRegistryId, const std::vector<TypeRegistryId>& derivedTypes) {
+			auto&& types = findTypes<BASE_CLASS>(objectRegistry, typeRegistryId, derivedTypes, true);
 			if(types.size() == 0) {
 				return nullptr;
 			}
@@ -152,7 +153,7 @@ namespace fgl
 		// find a registered type
 		template<typename CLASS, typename BASE_CLASS>
 		static inline CLASS* findType(const ObjectRegistry<BASE_CLASS>& objectRegistry) {
-			return cast<CLASS, BASE_CLASS>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>()));
+			return cast<CLASS, BASE_CLASS>(findType<BASE_CLASS>(objectRegistry, getTypeRegistryId<CLASS>(), TypeInfo<CLASS>::derived()));
 		}
 	};
 }
@@ -166,7 +167,6 @@ namespace fgl
 			template<> \
 			struct TypeInfo<CLASS> { \
 				friend class TypeRegistry; \
-				friend class InnerRegister; \
 				using parentRegistrations = ClassList<__VA_ARGS__>; \
 				static TypeRegistryId id() { \
 					return getTypeRegistryId<CLASS>(); \
@@ -181,38 +181,44 @@ namespace fgl
 					return getTypeRegistryIds<__VA_ARGS__>(); \
 				} \
 				static std::vector<TypeRegistryId> derived() { \
-					registerType(); \
 					auto& _derived = derivedList(); \
 					return std::vector<TypeRegistryId>(_derived.begin(), _derived.end()); \
 				} \
-				\
-			private: \
 				static fgl::TypeRegistryId registerType() { \
 					static bool registered = false; \
 					auto typeId = getTypeRegistryId<CLASS>(); \
 					if(registered) { \
 						return typeId; \
 					} \
+					printf("registering %s as %lu\n", name().c_str(), (unsigned long)typeId); \
+					printf("- should have parents %s\n", #__VA_ARGS__); \
 					registered = true; \
 					TypeRegistry::template deriveTypes<CLASS, ##__VA_ARGS__>(); \
+					printf("\n\n"); \
 					return typeId; \
 				} \
+				\
+			private: \
 				template<typename DERIVED_CLASS> \
-				static bool derive() { \
+				static void derive() { \
+					printf("%s inherits from %s\n", TypeInfo<DERIVED_CLASS>::name().c_str(), name().c_str()); \
 					auto typeRegistryId = getTypeRegistryId<DERIVED_CLASS>(); \
 					auto& _derived = derivedList(); \
 					for(auto& cmpType : _derived) { \
 						if(cmpType == typeRegistryId) { \
-							return false; \
+							throw std::logic_error("derived "+name()+" more than once"); \
 						} \
 					} \
 					_derived.push_back(typeRegistryId); \
-					return TypeRegistry::deriveTypes<DERIVED_CLASS, ##__VA_ARGS__>(); \
+					TypeRegistry::deriveTypes<DERIVED_CLASS, ##__VA_ARGS__>(); \
 				} \
 				static std::list<TypeRegistryId>& derivedList() { \
 					static std::list<TypeRegistryId> _derived; \
 					return _derived; \
 				} \
 			}; \
+		} \
+		namespace __typeregistry::CLASS { \
+			const ::fgl::TypeRegistryId typeID = ::fgl::TypeInfo<::CLASS>::registerType(); \
 		}
 #endif

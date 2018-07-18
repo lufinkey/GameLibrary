@@ -29,14 +29,15 @@ namespace fgl
 		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
 		Aspectable* addAspect(CLASS* aspect) {
 			auto typeRegistryId = getTypeRegistryId<CLASS>();
+			auto baseAspect = static_cast<_ASPECT*>(aspect);
 			auto iter = aspects.find(typeRegistryId);
 			if(iter == aspects.end()) {
-				aspects[typeRegistryId] = { aspect };
+				aspects[typeRegistryId] = { baseAspect };
 			}
 			else {
-				iter->second.push_back(aspect);
+				iter->second.push_back(baseAspect);
 			}
-			onAddAspect(typeRegistryId, aspect);
+			onAddAspect(typeRegistryId, baseAspect);
 			return this;
 		}
 		
