@@ -3,7 +3,6 @@
 
 #include <GameLibrary/Utilities/Geometry/Transform.hpp>
 #include <GameLibrary/Utilities/Time/TimeInterval.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include <GameLibrary/Window/Window.hpp>
 
 namespace fgl
@@ -80,5 +79,3 @@ namespace fgl
 		double framespeedMult;
 	};
 }
-
-REGISTER_TYPE(fgl::ApplicationData)

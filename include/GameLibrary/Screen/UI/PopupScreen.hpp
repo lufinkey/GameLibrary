@@ -23,5 +23,3 @@ namespace fgl
 		bool autoDeletePopupElement;
 	};
 }
-
-REGISTER_TYPE(fgl::PopupScreen, fgl::Screen)

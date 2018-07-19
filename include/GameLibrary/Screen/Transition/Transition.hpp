@@ -3,7 +3,6 @@
 
 #include <GameLibrary/Application/ApplicationData.hpp>
 #include <GameLibrary/Graphics/Graphics.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -30,5 +29,3 @@ namespace fgl
 		virtual void draw(ApplicationData appData, Graphics graphics, double progress, Screen* screen1, Screen* screen2) const = 0;
 	};
 }
-
-REGISTER_TYPE(fgl::Transition)

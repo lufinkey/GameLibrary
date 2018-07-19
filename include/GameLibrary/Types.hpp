@@ -140,7 +140,6 @@ namespace fgl
 	class Range;
 	class Retainable;
 	class Thread;
-	class TypeRegistry;
 	
 	//Window
 	class AssetManager;

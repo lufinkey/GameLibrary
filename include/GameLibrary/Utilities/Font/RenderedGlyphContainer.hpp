@@ -6,7 +6,6 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Dictionary.hpp>
 #include <GameLibrary/Utilities/String.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -63,5 +62,3 @@ namespace fgl
 		RenderedGlyph findGlyph(const ArrayList<RenderedGlyph>&glyphStyles, unsigned int size, int fontstyle, bool antialiasing);
 	};
 }
-
-REGISTER_TYPE(fgl::RenderedGlyphContainer)

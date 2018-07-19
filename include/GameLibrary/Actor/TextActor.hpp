@@ -133,5 +133,3 @@ namespace fgl
 		static void getLinesList(const WideString&text, ArrayList<WideString>&lines);
 	};
 }
-
-REGISTER_TYPE(fgl::TextActor, fgl::Actor)

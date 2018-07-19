@@ -65,5 +65,3 @@ namespace fgl
 		ImageElement* imageElement;
 	};
 }
-
-REGISTER_TYPE(fgl::AnimationElement, fgl::ScreenElement)

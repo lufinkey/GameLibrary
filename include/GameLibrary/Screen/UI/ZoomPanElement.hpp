@@ -61,5 +61,3 @@ namespace fgl
 		bool verticalScrollbarDragging;
 	};
 }
-
-REGISTER_TYPE(fgl::ZoomPanElement, fgl::ScreenElement)

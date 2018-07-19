@@ -4,7 +4,6 @@
 #include <memory>
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/String.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -20,5 +19,3 @@ namespace fgl
 	
 	typedef std::shared_ptr<Event> EventPtr;
 }
-
-REGISTER_TYPE(fgl::Event)

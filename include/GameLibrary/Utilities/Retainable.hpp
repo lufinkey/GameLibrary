@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "TypeRegistry.hpp"
 #include <stddef.h>
 
 namespace fgl
@@ -20,5 +19,3 @@ namespace fgl
 		size_t retainCount;
 	};
 }
-
-REGISTER_TYPE(fgl::Retainable)

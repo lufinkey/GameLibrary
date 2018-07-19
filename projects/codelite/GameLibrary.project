@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="GameLibrary" Version="10.0.0" InternalType="Library">
   <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
   "name": "Debug",
@@ -21,9 +24,6 @@
   "arguments": [],
   "parentProject": ""
  }]]]>
-    </Plugin>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
   </Plugins>
   <VirtualDirectory Name="src">
@@ -235,7 +235,6 @@
         <File Name="../../include/GameLibrary/Utilities/Traits.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Retainable.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Aspectable.hpp"/>
-        <File Name="../../include/GameLibrary/Utilities/TypeRegistry.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">

@@ -39,5 +39,3 @@ namespace fgl
 		bool fade;
 	};
 }
-
-REGISTER_TYPE(fgl::PopoverTransition, fgl::Transition)

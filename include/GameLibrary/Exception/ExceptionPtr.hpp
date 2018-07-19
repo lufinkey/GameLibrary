@@ -2,7 +2,6 @@
 #pragma once
 
 #include <exception>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -44,5 +43,3 @@ namespace fgl
 		std::exception_ptr except_ptr;
 	};
 }
-
-REGISTER_TYPE(fgl::ExceptionPtr)

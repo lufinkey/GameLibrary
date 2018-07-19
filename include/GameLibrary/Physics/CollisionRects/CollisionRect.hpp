@@ -5,7 +5,6 @@
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -50,5 +49,3 @@ namespace fgl
 		String tag;
 	};
 }
-
-REGISTER_TYPE(fgl::CollisionRect)

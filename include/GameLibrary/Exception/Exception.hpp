@@ -3,7 +3,6 @@
 
 #include <exception>
 #include <GameLibrary/Utilities/BasicString.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -35,5 +34,3 @@ namespace fgl
 		virtual String getClassName() const;
 	};
 }
-
-REGISTER_TYPE(fgl::Exception)

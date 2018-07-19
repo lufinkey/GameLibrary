@@ -41,5 +41,3 @@ namespace fgl
 		ArrayList<CollisionRectTagPair> prevRectTagPairs;
 	};
 }
-
-REGISTER_TYPE(fgl::CollisionEvent, fgl::Event)

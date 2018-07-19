@@ -4,7 +4,6 @@
 #include <GameLibrary/Application/ApplicationData.hpp>
 #include <GameLibrary/Graphics/Graphics.hpp>
 #include <GameLibrary/Input/Mouse.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -306,5 +305,3 @@ namespace fgl
 		void callMouseEvents(ApplicationData& appData, const ArrayList<ActorMouseEvent>& eventCallData);
 	};
 }
-
-REGISTER_TYPE(fgl::Actor)

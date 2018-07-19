@@ -54,5 +54,3 @@ namespace fgl
 		bool touchEnabled;
 	};
 }
-
-REGISTER_TYPE(fgl::TouchElement, fgl::ScreenElement)

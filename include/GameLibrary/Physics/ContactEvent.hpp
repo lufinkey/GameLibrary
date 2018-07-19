@@ -46,5 +46,3 @@ namespace fgl
 		ArrayList<CollisionSide> collidingSides;
 	};
 }
-
-REGISTER_TYPE(fgl::ContactEvent, fgl::Event)

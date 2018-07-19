@@ -4,7 +4,6 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/String.hpp>
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "Color.hpp"
 
 namespace fgl
@@ -111,5 +110,3 @@ namespace fgl
 		size_t height;
 	};
 }
-
-REGISTER_TYPE(fgl::Image)

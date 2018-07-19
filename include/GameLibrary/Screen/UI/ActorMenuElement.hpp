@@ -179,5 +179,3 @@ namespace fgl
 	// if there are no items within the direction's range, it will look for all items with a center that is below it's center (or left of for left, right of for right, etc)
 	// if there are no items there, it will look for the furthest most item within the opposite range
 }
-
-REGISTER_TYPE(fgl::ActorMenuElement, fgl::ScreenElement)

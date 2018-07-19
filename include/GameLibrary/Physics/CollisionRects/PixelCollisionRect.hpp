@@ -37,5 +37,3 @@ namespace fgl
 		bool usesTransform;
 	};
 }
-
-REGISTER_TYPE(fgl::PixelCollisionRect, fgl::CollisionRect)

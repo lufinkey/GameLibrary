@@ -152,6 +152,18 @@ namespace fgl
 		{
 			//
 		}
+		
+		ArrayList(iterator begin, iterator end)
+			: objects(begin, end)
+		{
+			//
+		}
+		
+		ArrayList(const_iterator begin, const_iterator end)
+			: objects(begin, end)
+		{
+			//
+		}
 
 		explicit ArrayList(size_t size)
 		{

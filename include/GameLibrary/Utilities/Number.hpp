@@ -4,7 +4,6 @@
 #include <type_traits>
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Exception/Utilities/BadNumberCastException.hpp>
-#include "TypeRegistry.hpp"
 #include "String.hpp"
 
 #ifdef check
@@ -261,5 +260,3 @@ namespace fgl
 }
 
 #include "Number.impl"
-
-REGISTER_TYPE(fgl::Number)

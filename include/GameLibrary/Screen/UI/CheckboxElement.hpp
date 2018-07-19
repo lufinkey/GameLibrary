@@ -28,5 +28,3 @@ namespace fgl
 		bool toggle;
 	};
 }
-
-REGISTER_TYPE(fgl::CheckboxElement, fgl::TouchElement)

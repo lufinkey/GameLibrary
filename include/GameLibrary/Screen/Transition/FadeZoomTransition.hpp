@@ -26,5 +26,3 @@ namespace fgl
 		double endZoom;
 	};
 }
-
-REGISTER_TYPE(fgl::FadeZoomTransition, fgl::Transition)

@@ -27,5 +27,3 @@ namespace fgl
 		double frozenPortion;
 	};
 }
-
-REGISTER_TYPE(fgl::FadeColorTransition, fgl::Transition)

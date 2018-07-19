@@ -104,7 +104,6 @@
 #include "Utilities/String.hpp"
 #include "Utilities/Thread.hpp"
 #include "Utilities/Tools.hpp"
-#include "Utilities/TypeRegistry.hpp"
 #include "Utilities/Font/Font.hpp"
 #include "Utilities/Geometry/Circle.hpp"
 #include "Utilities/Geometry/Line.hpp"

@@ -2,7 +2,6 @@
 #pragma once
 
 #include <GameLibrary/Utilities/String.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -47,5 +46,3 @@ namespace fgl
 		void update();
 	};
 }
-
-REGISTER_TYPE(fgl::TimeInterval)

@@ -74,5 +74,3 @@ namespace fgl
 		bool fontSizeHeightAdjustmentEnabled;
 	};
 }
-
-REGISTER_TYPE(fgl::TextElement, fgl::ScreenElement)

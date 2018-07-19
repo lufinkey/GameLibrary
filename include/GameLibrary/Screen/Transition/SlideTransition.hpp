@@ -36,5 +36,3 @@ namespace fgl
 		SlideDirection direction;
 	};
 }
-
-REGISTER_TYPE(fgl::SlideTransition, fgl::Transition)

@@ -214,5 +214,3 @@ namespace fgl
 		MainElement* mainElement;
 	};
 }
-
-REGISTER_TYPE(fgl::MenuScreen, fgl::Screen)

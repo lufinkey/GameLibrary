@@ -3,7 +3,6 @@
 
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Dictionary.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -290,5 +289,3 @@ namespace fgl
 		static const Color YELLOWGREEN = Color(154, 205, 50);
 	};
 }
-
-REGISTER_TYPE(fgl::Color)

@@ -8,7 +8,6 @@
 #include <GameLibrary/Utilities/ArrayList.hpp>
 #include <GameLibrary/Utilities/Data.hpp>
 #include <GameLibrary/Utilities/String.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 #include "RenderedGlyphContainer.hpp"
 
 namespace fgl
@@ -128,5 +127,3 @@ namespace fgl
 		static int styleToTTFStyle(int fontstyle);
 	};
 }
-
-REGISTER_TYPE(fgl::Font)

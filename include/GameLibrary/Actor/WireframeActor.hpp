@@ -81,5 +81,3 @@ namespace fgl
 		RectangleD framerect;
 	};
 }
-
-REGISTER_TYPE(fgl::WireframeActor, fgl::Actor)

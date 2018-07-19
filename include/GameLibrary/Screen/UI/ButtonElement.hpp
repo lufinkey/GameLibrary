@@ -136,5 +136,3 @@ namespace fgl
 		unsigned int pressedTouchID;
 	};
 }
-
-REGISTER_TYPE(fgl::ButtonElement, fgl::TouchElement)

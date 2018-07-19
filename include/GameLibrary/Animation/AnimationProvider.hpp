@@ -27,5 +27,3 @@ namespace fgl
 		BasicDictionary<String, AnimNode> animations;
 	};
 }
-
-REGISTER_TYPE(fgl::AnimationProvider)

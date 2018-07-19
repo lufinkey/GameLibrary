@@ -2,7 +2,6 @@
 #pragma once
 
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
-#include <GameLibrary/Utilities/TypeRegistry.hpp>
 
 namespace fgl
 {
@@ -38,5 +37,3 @@ namespace fgl
 		bool maintainResolution;
 	};
 }
-
-REGISTER_TYPE(fgl::Viewport)

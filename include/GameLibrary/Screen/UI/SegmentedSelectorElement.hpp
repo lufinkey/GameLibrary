@@ -45,5 +45,3 @@ namespace fgl
 		unsigned int fontSize;
 	};
 }
-
-REGISTER_TYPE(fgl::SegmentedSelectorElement, fgl::ScreenElement)

@@ -3,8 +3,7 @@
 
 #include <typeinfo>
 #include <GameLibrary/Exception/Utilities/BadAnyCastException.hpp>
-#include "Stringifier.hpp"
-#include "TypeRegistry.hpp"
+#include "String.hpp"
 
 namespace fgl
 {
@@ -232,5 +231,3 @@ namespace fgl
 		}
 	};
 }
-
-REGISTER_TYPE(fgl::Any)
