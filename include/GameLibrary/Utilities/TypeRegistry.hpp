@@ -191,7 +191,6 @@ namespace fgl
 					} \
 					registered = true; \
 					TypeRegistry::template deriveTypes<CLASS, ##__VA_ARGS__>(); \
-					printf("\n\n"); \
 					return typeId; \
 				} \
 				\
