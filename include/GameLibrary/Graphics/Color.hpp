@@ -98,6 +98,14 @@ namespace fgl
 			\param alpha the alpha byte
 			\returns a Color object with the given alpha value */
 		Color withAlpha(Uint8 alpha) const;
+		/*! Gives the color, but with the given alpha from 0.0 (fully transparent) to 1.0 (fully visible)
+			\param alpha the alpha value from 0 to 1
+			\returns a Color object with the given alpha value */
+		Color withAlpha(double alpha) const;
+		/*! Gives the color, but with the given alpha from 0.0 (fully transparent) to 1.0 (fully visible)
+			\param alpha the alpha value from 0 to 1
+			\returns a Color object with the given alpha value */
+		Color withAlpha(float alpha) const;
 		
 		/*! Gives the color, but darkened by the given amount
 			\param amount a value between 0 (no color change) and 1 (completely black)

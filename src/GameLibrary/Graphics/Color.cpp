@@ -2,6 +2,8 @@
 #include <GameLibrary/Graphics/Color.hpp>
 #include <GameLibrary/Utilities/Math.hpp>
 #include <GameLibrary/Utilities/Plist.hpp>
+#include <GameLibrary/Utilities/String.hpp>
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {
@@ -116,6 +118,19 @@ namespace fgl
 	Color Color::withAlpha(Uint8 alpha) const
 	{
 		return Color(r, g, b, alpha);
+	}
+	
+	Color Color::withAlpha(double alpha) const
+	{
+		if(alpha > 255.0 || alpha < 0) {
+			throw fgl::IllegalArgumentException("alpha", "must be a value between 0 and 1");
+		}
+		return Color(r, g, b, (Uint8)(255.0*alpha));
+	}
+	
+	Color Color::withAlpha(float alpha) const
+	{
+		return withAlpha((double)alpha);
 	}
 	
 	Color Color::darkened(double amount) const
