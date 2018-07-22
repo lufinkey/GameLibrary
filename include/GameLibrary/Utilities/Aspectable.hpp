@@ -52,7 +52,7 @@ namespace fgl
 		}
 		
 		template<typename CLASS>
-		inline ArrayList<CLASS*> getAspects() {
+		inline std::list<CLASS*> getAspects() {
 			std::list<CLASS*> castedAspects;
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
@@ -60,11 +60,11 @@ namespace fgl
 					castedAspects.push_back(castedAspect);
 				}
 			}
-			return ArrayList<CLASS*>(castedAspects);
+			return castedAspects;
 		}
 		
 		template<typename CLASS>
-		inline ArrayList<const CLASS*> getAspects() const {
+		inline std::list<const CLASS*> getAspects() const {
 			std::list<const CLASS*> castedAspects;
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
@@ -72,7 +72,7 @@ namespace fgl
 					castedAspects.push_back(castedAspect);
 				}
 			}
-			return ArrayList<CLASS*>(castedAspects);
+			return castedAspects;
 		}
 		
 		inline const std::list<ASPECT*>& getAllAspects() {
