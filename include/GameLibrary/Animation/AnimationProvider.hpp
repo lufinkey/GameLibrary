@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Animation.hpp"
-#include <GameLibrary/Utilities/Dictionary.hpp>
+#include <map>
 
 namespace fgl
 {
@@ -16,6 +16,7 @@ namespace fgl
 		void removeAnimation(const String& name);
 		
 		virtual Animation* getAnimation(const String& name) const;
+		virtual String getAnimationName(Animation* animation) const;
 		
 	private:
 		struct AnimNode
@@ -24,6 +25,6 @@ namespace fgl
 			bool autoDelete = false;
 		};
 		
-		BasicDictionary<String, AnimNode> animations;
+		std::map<String, AnimNode> animations;
 	};
 }
