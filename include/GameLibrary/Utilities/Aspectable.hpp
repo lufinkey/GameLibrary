@@ -29,7 +29,7 @@ namespace fgl
 			return this;
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
+		template<typename CLASS>
 		inline CLASS* getAspect() {
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
@@ -40,7 +40,7 @@ namespace fgl
 			return nullptr;
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
+		template<typename CLASS>
 		inline const CLASS* getAspect() const {
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
@@ -51,7 +51,7 @@ namespace fgl
 			return nullptr;
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
+		template<typename CLASS>
 		inline ArrayList<CLASS*> getAspects() {
 			std::list<CLASS*> castedAspects;
 			for(auto aspect : aspects) {
@@ -63,7 +63,7 @@ namespace fgl
 			return ArrayList<CLASS*>(castedAspects);
 		}
 		
-		template<typename CLASS, typename _ASPECT=ASPECT, ENABLE_IF_EXTENDS(_ASPECT, CLASS)>
+		template<typename CLASS>
 		inline ArrayList<const CLASS*> getAspects() const {
 			std::list<const CLASS*> castedAspects;
 			for(auto aspect : aspects) {
@@ -75,12 +75,12 @@ namespace fgl
 			return ArrayList<CLASS*>(castedAspects);
 		}
 		
-		inline ArrayList<ASPECT*> getAllAspects() {
-			return ArrayList<ASPECT*>(aspects);
+		inline const std::list<ASPECT*>& getAllAspects() {
+			return aspects;
 		}
 		
-		inline ArrayList<const ASPECT*> getAllAspects() const {
-			return ArrayList<const ASPECT*>(reinterpret_cast<const std::list<const ASPECT*>&>(aspects));
+		inline const std::list<const ASPECT*>& getAllAspects() const {
+			return reinterpret_cast<const std::list<const ASPECT*>&>(aspects);
 		}
 		
 	protected:
