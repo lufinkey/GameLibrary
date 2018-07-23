@@ -42,12 +42,12 @@ namespace fgl
 		}
 
 		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
-		Vector3<T> operator-() const
+		inline Vector3<T> operator-() const
 		{
 			return Vector3<T>(-x, -y, -z);
 		}
 		
-		Vector3<T>& operator+=(const Vector3<T>& vect)
+		inline Vector3<T>& operator+=(const Vector3<T>& vect)
 		{
 			x+=vect.x;
 			y+=vect.y;
@@ -55,7 +55,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Vector3<T>& operator-=(const Vector3<T>& vect)
+		inline Vector3<T>& operator-=(const Vector3<T>& vect)
 		{
 			x-=vect.x;
 			y-=vect.y;
@@ -63,7 +63,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Vector3<T>& operator*=(const Vector3<T>& vect)
+		inline Vector3<T>& operator*=(const Vector3<T>& vect)
 		{
 			x*=vect.x;
 			y*=vect.y;
@@ -71,7 +71,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Vector3<T>& operator/=(const Vector3<T>& vect)
+		inline Vector3<T>& operator/=(const Vector3<T>& vect)
 		{
 			x/=vect.x;
 			y/=vect.y;
@@ -79,7 +79,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Vector3<T>& operator*=(const T& num)
+		inline Vector3<T>& operator*=(const T& num)
 		{
 			x*=num;
 			y*=num;
@@ -87,7 +87,7 @@ namespace fgl
 			return *this;
 		}
 		
-		Vector3<T>& operator/=(const T& num)
+		inline Vector3<T>& operator/=(const T& num)
 		{
 			x/=num;
 			y/=num;
@@ -95,7 +95,7 @@ namespace fgl
 			return *this;
 		}
 		
-		bool operator==(const Vector3<T>& vect) const
+		inline bool operator==(const Vector3<T>& vect) const
 		{
 			if (x == vect.x && y == vect.y && z == vect.z)
 			{
@@ -104,7 +104,7 @@ namespace fgl
 			return false;
 		}
 		
-		bool operator!=(const Vector3<T>& vect) const
+		inline bool operator!=(const Vector3<T>& vect) const
 		{
 			if (x == vect.x && y == vect.y && z == vect.z)
 			{
@@ -122,7 +122,7 @@ namespace fgl
 			return false;
 		}
 		
-		Vector2<T> getVector2() const
+		inline Vector2<T> getVector2() const
 		{
 			return Vector2<T>(x, y);
 		}
@@ -134,37 +134,37 @@ namespace fgl
 	};
 	
 	template<typename T>
-	Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
+	inline Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 	{
 		return Vector3<T>(left.x+right.x, left.y+right.y, left.z+right.z);
 	}
 	
 	template<typename T>
-	Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
+	inline Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
 	{
 		return Vector3<T>(left.x-right.x, left.y-right.y, left.z-right.z);
 	}
 	
 	template<typename T>
-	Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
+	inline Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 	{
 		return Vector3<T>(left.x*right.x, left.y*right.y, left.z*right.z);
 	}
 	
 	template<typename T>
-	Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
+	inline Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
 	{
 		return Vector3<T>(left.x/right.x, left.y/right.y, left.z/right.z);
 	}
 	
 	template<typename T>
-	Vector3<T> operator*(const Vector3<T>& left, const T& right)
+	inline Vector3<T> operator*(const Vector3<T>& left, const T& right)
 	{
 		return Vector3<T>(left.x*right, left.y*right, left.z*right);
 	}
 	
 	template<typename T>
-	Vector3<T> operator/(const Vector3<T>& left, const T& right)
+	inline Vector3<T> operator/(const Vector3<T>& left, const T& right)
 	{
 		return Vector3<T>(left.x/right, left.y/right, left.z/right);
 	}

@@ -36,54 +36,54 @@ namespace fgl
 		}
 
 		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
-		Vector2<T> operator-() const
+		inline Vector2<T> operator-() const
 		{
 			return Vector2<T>(-x, -y);
 		}
 
-		Vector2<T>& operator+=(const Vector2<T>& vect)
+		inline Vector2<T>& operator+=(const Vector2<T>& vect)
 		{
 			x+=vect.x;
 			y+=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator-=(const Vector2<T>& vect)
+		inline Vector2<T>& operator-=(const Vector2<T>& vect)
 		{
 			x-=vect.x;
 			y-=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator*=(const Vector2<T>& vect)
+		inline Vector2<T>& operator*=(const Vector2<T>& vect)
 		{
 			x*=vect.x;
 			y*=vect.y;
 			return *this;
 		}
 
-		Vector2<T>& operator/=(const Vector2<T>& vect)
+		inline Vector2<T>& operator/=(const Vector2<T>& vect)
 		{
 			x/=vect.x;
 			y/=vect.y;
 			return *this;
 		}
 		
-		Vector2<T>& operator*=(const T& num)
+		inline Vector2<T>& operator*=(const T& num)
 		{
 			x*=num;
 			y*=num;
 			return *this;
 		}
 		
-		Vector2<T>& operator/=(const T& num)
+		inline Vector2<T>& operator/=(const T& num)
 		{
 			x/=num;
 			y/=num;
 			return *this;
 		}
 		
-		bool operator==(const Vector2<T>&vect) const
+		inline bool operator==(const Vector2<T>&vect) const
 		{
 			if (x == vect.x && y == vect.y)
 			{
@@ -92,7 +92,7 @@ namespace fgl
 			return false;
 		}
 
-		bool operator!=(const Vector2<T>&vect) const
+		inline bool operator!=(const Vector2<T>&vect) const
 		{
 			if (x == vect.x && y == vect.y)
 			{
@@ -127,37 +127,37 @@ namespace fgl
 	};
 	
 	template<typename T>
-	Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
+	inline Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2<T>(left.x+right.x, left.y+right.y);
 	}
 	
 	template<typename T>
-	Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
+	inline Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2<T>(left.x-right.x, left.y-right.y);
 	}
 	
 	template<typename T>
-	Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
+	inline Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2<T>(left.x*right.x, left.y*right.y);
 	}
 	
 	template<typename T>
-	Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
+	inline Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2<T>(left.x/right.x, left.y/right.y);
 	}
 	
 	template<typename T>
-	Vector2<T> operator*(const Vector2<T>& left, const T& right)
+	inline Vector2<T> operator*(const Vector2<T>& left, const T& right)
 	{
 		return Vector2<T>(left.x*right, left.y*right);
 	}
 	
 	template<typename T>
-	Vector2<T> operator/(const Vector2<T>& left, const T& right)
+	inline Vector2<T> operator/(const Vector2<T>& left, const T& right)
 	{
 		return Vector2<T>(left.x/right, left.y/right);
 	}
