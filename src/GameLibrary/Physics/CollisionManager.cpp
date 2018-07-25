@@ -220,8 +220,8 @@ namespace fgl
 											break;
 										}
 
-										double force1 = velocity2*mass2;
-										double force2 = velocity1*mass1;
+										double force1 = velocity1*mass1;
+										double force2 = velocity2*mass2;
 										double negativeForce = 0;
 										double positiveForce = 0;
 										if(force1 < 0)
