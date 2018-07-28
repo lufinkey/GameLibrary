@@ -29,6 +29,55 @@ namespace fgl
 			return this;
 		}
 		
+		template<typename CLASS, size_t INDEX = 0>
+		Aspectable* addAspectBefore(ASPECT* aspect, bool appendIfIndexMissing = false) {
+			auto begin = aspects.begin();
+			auto end = aspects.end();
+			size_t count = 0;
+			for(auto it=begin; it!=end; it++) {
+				auto castedAspect = dynamic_cast<CLASS*>(*it);
+				if(castedAspect != nullptr) {
+					if(count == INDEX) {
+						aspects.insert(it, aspect);
+						onAddAspect(aspect);
+						return this;
+					}
+					count++;
+				}
+			}
+			if(!appendIfIndexMissing) {
+				throw fgl::IllegalArgumentException("INDEX", "number of aspects not in Aspectable");
+			}
+			aspects.push_back(aspect);
+			onAddAspect(aspect);
+			return this;
+		}
+		
+		template<typename CLASS, size_t INDEX = 0>
+		Aspectable* addAspectAfter(ASPECT* aspect, bool appendIfIndexMissing = false) {
+			auto begin = aspects.begin();
+			auto end = aspects.end();
+			size_t count = 0;
+			for(auto it=begin; it!=end; it++) {
+				auto castedAspect = dynamic_cast<CLASS*>(*it);
+				if(castedAspect != nullptr) {
+					if(count == INDEX) {
+						it++;
+						aspects.insert(it, aspect);
+						onAddAspect(aspect);
+						return this;
+					}
+					count++;
+				}
+			}
+			if(!appendIfIndexMissing) {
+				throw fgl::IllegalArgumentException("INDEX", "number of aspects not in Aspectable");
+			}
+			aspects.push_back(aspect);
+			onAddAspect(aspect);
+			return this;
+		}
+		
 		template<typename CLASS>
 		inline CLASS* getAspect() {
 			for(auto aspect : aspects) {
