@@ -69,6 +69,34 @@ namespace fgl
 			return *this;
 		}
 		
+		constexpr Vector3<T>& operator+=(const std::tuple<T,T,T>& tuple) {
+			x += std::get<0>(tuple);
+			y += std::get<1>(tuple);
+			z += std::get<2>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector3<T>& operator-=(const std::tuple<T,T,T>& tuple) {
+			x -= std::get<0>(tuple);
+			y -= std::get<1>(tuple);
+			z -= std::get<2>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector3<T>& operator*=(const std::tuple<T,T,T>& tuple) {
+			x *= std::get<0>(tuple);
+			y *= std::get<1>(tuple);
+			z *= std::get<2>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector3<T>& operator/=(const std::tuple<T,T,T>& tuple) {
+			x /= std::get<0>(tuple);
+			y /= std::get<1>(tuple);
+			z /= std::get<2>(tuple);
+			return *this;
+		}
+		
 		constexpr Vector3<T>& operator*=(const T& num) {
 			x *= num;
 			y *= num;
@@ -77,9 +105,9 @@ namespace fgl
 		}
 		
 		constexpr Vector3<T>& operator/=(const T& num) {
-			x/=num;
-			y/=num;
-			z/=num;
+			x /= num;
+			y /= num;
+			z /= num;
 			return *this;
 		}
 		
@@ -133,6 +161,26 @@ namespace fgl
 	template<typename T>
 	constexpr Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right) {
 		return Vector3<T>(left.x/right.x, left.y/right.y, left.z/right.z);
+	}
+	
+	template<typename T>
+	constexpr Vector3<T> operator+(const Vector3<T>& left, const std::tuple<T,T,T>& right) {
+		return Vector3<T>(left.x+std::get<0>(right), left.y+std::get<1>(right), left.z+std::get<2>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector3<T> operator-(const Vector3<T>& left, const std::tuple<T,T,T>& right) {
+		return Vector3<T>(left.x-std::get<0>(right), left.y-std::get<1>(right), left.z-std::get<2>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector3<T> operator*(const Vector3<T>& left, const std::tuple<T,T,T>& right) {
+		return Vector3<T>(left.x*std::get<0>(right), left.y*std::get<1>(right), left.z*std::get<2>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector3<T> operator/(const Vector3<T>& left, const std::tuple<T,T,T>& right) {
+		return Vector3<T>(left.x/std::get<0>(right), left.y/std::get<1>(right), left.z/std::get<2>(right));
 	}
 	
 	template<typename T>

@@ -60,6 +60,30 @@ namespace fgl
 			return *this;
 		}
 		
+		constexpr Vector2<T>& operator+=(const std::tuple<T,T>& tuple) {
+			x += std::get<0>(tuple);
+			y += std::get<1>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector2<T>& operator-=(const std::tuple<T,T>& tuple) {
+			x -= std::get<0>(tuple);
+			y -= std::get<1>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector2<T>& operator*=(const std::tuple<T,T>& tuple) {
+			x *= std::get<0>(tuple);
+			y *= std::get<1>(tuple);
+			return *this;
+		}
+		
+		constexpr Vector2<T>& operator/=(const std::tuple<T,T>& tuple) {
+			x /= std::get<0>(tuple);
+			y /= std::get<1>(tuple);
+			return *this;
+		}
+		
 		constexpr Vector2<T>& operator*=(const T& num) {
 			x *= num;
 			y *= num;
@@ -126,6 +150,26 @@ namespace fgl
 	template<typename T>
 	constexpr Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right) {
 		return Vector2<T>(left.x/right.x, left.y/right.y);
+	}
+	
+	template<typename T>
+	constexpr Vector2<T> operator+(const Vector2<T>& left, const std::tuple<T,T>& right) {
+		return Vector2<T>(left.x+std::get<0>(right), left.y+std::get<1>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector2<T> operator-(const Vector2<T>& left, const std::tuple<T,T>& right) {
+		return Vector2<T>(left.x-std::get<0>(right), left.y-std::get<1>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector2<T> operator*(const Vector2<T>& left, const std::tuple<T,T>& right) {
+		return Vector2<T>(left.x*std::get<0>(right), left.y*std::get<1>(right));
+	}
+	
+	template<typename T>
+	constexpr Vector2<T> operator/(const Vector2<T>& left, const std::tuple<T,T>& right) {
+		return Vector2<T>(left.x/std::get<0>(right), left.y/std::get<1>(right));
 	}
 	
 	template<typename T>
