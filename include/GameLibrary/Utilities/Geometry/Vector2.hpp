@@ -97,17 +97,11 @@ namespace fgl
 		}
 		
 		constexpr bool operator==(const Vector2<T>& vect) const {
-			if (x == vect.x && y == vect.y) {
-				return true;
-			}
-			return false;
+			return equals(vect);
 		}
 
 		constexpr bool operator!=(const Vector2<T>& vect) const {
-			if (x == vect.x && y == vect.y) {
-				return false;
-			}
-			return true;
+			return !equals(vect);
 		}
 
 		constexpr bool equals(const Vector2<T>& vect) const {
@@ -123,6 +117,22 @@ namespace fgl
 
 		constexpr T dot(const Vector2<T>& vect) const {
 			return (x*vect.x) + (y*vect.y);
+		}
+		
+		constexpr Vector2<T> plus(const Vector2<T>& vect) const {
+			return Vector2<T>(x+vect.x, y+vect.y);
+		}
+		
+		constexpr Vector2<T> minus(const Vector2<T>& vect) const {
+			return Vector2<T>(x-vect.x, y-vect.y);
+		}
+		
+		constexpr Vector2<T> multiplied(const Vector2<T>& vect) const {
+			return Vector2<T>(x*vect.x, y*vect.y);
+		}
+		
+		constexpr Vector2<T> divided(const Vector2<T>& vect) const {
+			return Vector2<T>(x/vect.x, y/vect.y);
 		}
 		
 		String toString() const {

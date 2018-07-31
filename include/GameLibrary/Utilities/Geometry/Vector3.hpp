@@ -112,17 +112,11 @@ namespace fgl
 		}
 		
 		constexpr bool operator==(const Vector3<T>& vect) const {
-			if (x == vect.x && y == vect.y && z == vect.z) {
-				return true;
-			}
-			return false;
+			return equals(vect);
 		}
 		
 		constexpr bool operator!=(const Vector3<T>& vect) const {
-			if (x == vect.x && y == vect.y && z == vect.z) {
-				return false;
-			}
-			return true;
+			return !equals(vect);
 		}
 		
 		constexpr bool equals(const Vector3<T>& vect) const {
@@ -130,6 +124,22 @@ namespace fgl
 				return true;
 			}
 			return false;
+		}
+		
+		constexpr Vector3<T> plus(const Vector3<T>& vect) const {
+			return Vector3<T>(x+vect.x, y+vect.y, z+vect.z);
+		}
+		
+		constexpr Vector3<T> minus(const Vector3<T>& vect) const {
+			return Vector3<T>(x-vect.x, y-vect.y, z-vect.z);
+		}
+		
+		constexpr Vector3<T> multiplied(const Vector3<T>& vect) const {
+			return Vector3<T>(x*vect.x, y*vect.y, z*vect.z);
+		}
+		
+		constexpr Vector3<T> divided(const Vector3<T>& vect) const {
+			return Vector3<T>(x/vect.x, y/vect.y, z/vect.z);
 		}
 		
 		constexpr Vector2<T> getVector2() const {
