@@ -8,14 +8,16 @@ namespace fgl
 	ContactEvent::ContactEvent(Collidable* target, Collidable* contacted, ContactState state,
 		const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs,
 		const ArrayList<CollisionRectTagPair>& ignoredRectPairs,
-		const ArrayList<CollisionSide>& collidingSides)
+		const ArrayList<CollisionSide>& collidingSides,
+		const ApplicationData* appData)
 		: target(target),
 		contacted(contacted),
 		state(state),
 		rectTagPairs(rectTagPairs),
 		prevRectTagPairs(prevRectTagPairs),
 		ignoredRectPairs(ignoredRectPairs),
-		collidingSides(collidingSides)
+		collidingSides(collidingSides),
+		appData(appData)
 	{
 		//
 	}
@@ -58,5 +60,9 @@ namespace fgl
 	const ArrayList<CollisionSide>& ContactEvent::getCollidingSides() const
 	{
 		return collidingSides;
+	}
+	
+	const ApplicationData* ContactEvent::getAppData() const {
+		return appData;
 	}
 }

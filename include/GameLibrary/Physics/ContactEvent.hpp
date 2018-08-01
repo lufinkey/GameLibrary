@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Event/Event.hpp>
+#include <GameLibrary/Application/ApplicationData.hpp>
 #include "CollisionRectPair.hpp"
 #include "CollisionSide.hpp"
 
@@ -24,7 +25,8 @@ namespace fgl
 		ContactEvent(Collidable* target, Collidable* contacted, ContactState state,
 			const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs,
 			const ArrayList<CollisionRectTagPair>& ignoredRectPairs,
-			const ArrayList<CollisionSide>& collidingSides);
+			const ArrayList<CollisionSide>& collidingSides,
+			const ApplicationData* appData);
 
 		virtual EventType getEventType() const override;
 
@@ -35,6 +37,8 @@ namespace fgl
 		const ArrayList<CollisionRectTagPair>& getPreviousRectTagPairs() const;
 		const ArrayList<CollisionRectTagPair>& getIgnoredRectPairs() const;
 		const ArrayList<CollisionSide>& getCollidingSides() const;
+		
+		const ApplicationData* getAppData() const;
 
 	private:
 		Collidable* target;
@@ -44,5 +48,7 @@ namespace fgl
 		ArrayList<CollisionRectTagPair> prevRectTagPairs;
 		ArrayList<CollisionRectTagPair> ignoredRectPairs;
 		ArrayList<CollisionSide> collidingSides;
+		
+		const ApplicationData* appData;
 	};
 }

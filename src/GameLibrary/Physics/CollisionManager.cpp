@@ -73,6 +73,7 @@ namespace fgl
 		std::list<CollisionPair> collisions;
 
 		UpdateData updateData;
+		auto appDataPtr = &appData;
 
 		//handle collisions
 		#ifdef DOUBLECHECK_COLLISIONS
@@ -120,7 +121,7 @@ namespace fgl
 							CollisionRectTagPair rectTagPair = CollisionRectTagPair(rectPair.first->getTag(), rectPair.second->getTag());
 							//check if we should ignore this collision
 							if(pair.shouldIgnoreCollision(rectPair.first, rectPair.second)
-								|| !respondsToCollision(collidable1, collidable2, rectPair, collisionSide1)
+								|| !respondsToCollision(appData, collidable1, collidable2, rectPair, collisionSide1)
 								|| !collidable1->respondsToCollision(collidable2, collisionSide1, rectPair)
 								|| !collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first)))
 							{
@@ -349,7 +350,7 @@ namespace fgl
 				if(i==1)
 				#endif
 				{
-					performFinalCollisionUpdates(newPair, pair, updateData);
+					performFinalCollisionUpdates(appData, newPair, pair, updateData);
 					//check if is/was contacting
 					if(newPair.isContacting())
 					{
@@ -357,14 +358,14 @@ namespace fgl
 						{
 							//updated contact
 							updateData.onContactCalls.push_back([=] {
-								dispatchContactEvents(CONTACTSTATE_UPDATED, newPair, pair);
+								dispatchContactEvents(*appDataPtr, CONTACTSTATE_UPDATED, newPair, pair);
 							});
 						}
 						else
 						{
 							//new contact
 							updateData.onContactCalls.push_back([=] {
-								dispatchContactEvents(CONTACTSTATE_NEW, newPair, pair);
+								dispatchContactEvents(*appDataPtr, CONTACTSTATE_NEW, newPair, pair);
 							});
 						}
 					}
@@ -372,7 +373,7 @@ namespace fgl
 					{
 						//finished contact
 						updateData.onContactFinishCalls.push_back([=] {
-							dispatchContactEvents(CONTACTSTATE_FINISHED, newPair, pair);
+							dispatchContactEvents(*appDataPtr, CONTACTSTATE_FINISHED, newPair, pair);
 						});
 					}
 
@@ -383,14 +384,14 @@ namespace fgl
 						{
 							//the previous collision pair doesn't have this collision side, so it is a new collision
 							updateData.onCollisionCalls.push_back([=] {
-								dispatchCollisionEvents(COLLISIONSTATE_NEW, collisionSide, newPair, pair);
+								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_NEW, collisionSide, newPair, pair);
 							});
 						}
 						else
 						{
 							//the previous collision pair has this collision side, so it's an updated collision
 							updateData.onCollisionCalls.push_back([=] {
-								dispatchCollisionEvents(COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
+								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
 							});
 						}
 					}
@@ -401,7 +402,7 @@ namespace fgl
 						if(!newPair.sides.contains(prevCollisionSide))
 						{
 							updateData.onCollisionFinishCalls.push_back([=] {
-								dispatchCollisionEvents(COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
+								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
 							});
 						}
 					}
@@ -409,7 +410,7 @@ namespace fgl
 			}
 		}
 		
-		onWillFinishCollisionUpdates(updateData);
+		onWillFinishCollisionUpdates(appData, updateData);
 		
 		previousCollisions = collisions;
 
@@ -449,7 +450,7 @@ namespace fgl
 			collidable->onFinishCollisionUpdates();
 		}
 		
-		onFinishCollisionUpdates();
+		onFinishCollisionUpdates(appData);
 	}
 
 	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
@@ -511,17 +512,17 @@ namespace fgl
 		return pairs;
 	}
 	
-	bool CollisionManager::respondsToCollision(Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const
+	bool CollisionManager::respondsToCollision(const ApplicationData& appData, Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const
 	{
 		return true;
 	}
 	
-	void CollisionManager::dispatchContactEvents(ContactState state, const CollisionPair& pair, const CollisionPair& prevPair)
+	void CollisionManager::dispatchContactEvents(const ApplicationData& appData, ContactState state, const CollisionPair& pair, const CollisionPair& prevPair)
 	{
 		auto collidable1 = pair.collidable1;
 		auto collidable2 = pair.collidable2;
-		auto contactEvent1 = ContactEvent(collidable1, collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides);
-		auto contactEvent2 = ContactEvent(collidable2, collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides());
+		auto contactEvent1 = ContactEvent(collidable1, collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides, &appData);
+		auto contactEvent2 = ContactEvent(collidable2, collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides(), &appData);
 		
 		if(collidable1->isStaticCollisionBody())
 		{
@@ -565,12 +566,12 @@ namespace fgl
 		}
 	}
 	
-	void CollisionManager::dispatchCollisionEvents(CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair)
+	void CollisionManager::dispatchCollisionEvents(const ApplicationData& appData, CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair)
 	{
 		auto collidable1 = pair.collidable1;
 		auto collidable2 = pair.collidable2;
-		auto collisionEvent1 = CollisionEvent(collidable1, collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs());
-		auto collisionEvent2 = CollisionEvent(collidable2, collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs());
+		auto collisionEvent1 = CollisionEvent(collidable1, collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), &appData);
+		auto collisionEvent2 = CollisionEvent(collidable2, collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), &appData);
 		if(collidable1->isStaticCollisionBody())
 		{
 			switch(state)
@@ -613,17 +614,17 @@ namespace fgl
 		}
 	}
 	
-	void CollisionManager::performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData)
+	void CollisionManager::performFinalCollisionUpdates(const ApplicationData& appData, const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData)
 	{
 		//
 	}
 	
-	void CollisionManager::onWillFinishCollisionUpdates(UpdateData& updateData)
+	void CollisionManager::onWillFinishCollisionUpdates(const ApplicationData& appData, UpdateData& updateData)
 	{
 		//
 	}
 	
-	void CollisionManager::onFinishCollisionUpdates()
+	void CollisionManager::onFinishCollisionUpdates(const ApplicationData& appData)
 	{
 		//
 	}

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <GameLibrary/Event/Event.hpp>
+#include <GameLibrary/Application/ApplicationData.hpp>
 #include "CollisionRectPair.hpp"
 #include "CollisionSide.hpp"
 
@@ -21,7 +22,9 @@ namespace fgl
 	class CollisionEvent : public Event
 	{
 	public:
-		CollisionEvent(Collidable* target, Collidable* collided, CollisionSide side, CollisionState state, const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs);
+		CollisionEvent(Collidable* target, Collidable* collided, CollisionSide side, CollisionState state,
+			const ArrayList<CollisionRectTagPair>& rectTagPairs, const ArrayList<CollisionRectTagPair>& prevRectTagPairs,
+			const ApplicationData* appData);
 		
 		virtual EventType getEventType() const override;
 		
@@ -32,6 +35,8 @@ namespace fgl
 		const ArrayList<CollisionRectTagPair>& getRectTagPairs() const;
 		const ArrayList<CollisionRectTagPair>& getPreviousRectTagPairs() const;
 		
+		const ApplicationData* getAppData() const;
+		
 	private:
 		Collidable* target;
 		Collidable* collided;
@@ -39,5 +44,6 @@ namespace fgl
 		CollisionState state;
 		ArrayList<CollisionRectTagPair> rectTagPairs;
 		ArrayList<CollisionRectTagPair> prevRectTagPairs;
+		const ApplicationData* appData;
 	};
 }

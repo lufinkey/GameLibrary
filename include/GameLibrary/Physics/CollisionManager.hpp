@@ -29,14 +29,14 @@ namespace fgl
 			std::list<std::function<void()>> onContactFinishCalls;
 		};
 		
-		virtual bool respondsToCollision(Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const;
-		virtual void dispatchContactEvents(ContactState state, const CollisionPair& pair, const CollisionPair& prevPair);
-		virtual void dispatchCollisionEvents(CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair);
+		virtual bool respondsToCollision(const ApplicationData& appData, Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const;
+		virtual void dispatchContactEvents(const ApplicationData& appData, ContactState state, const CollisionPair& pair, const CollisionPair& prevPair);
+		virtual void dispatchCollisionEvents(const ApplicationData& appData, CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair);
 		
-		virtual void performFinalCollisionUpdates(const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData);
+		virtual void performFinalCollisionUpdates(const ApplicationData& appData, const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData);
 		
-		virtual void onWillFinishCollisionUpdates(UpdateData& updateData);
-		virtual void onFinishCollisionUpdates();
+		virtual void onWillFinishCollisionUpdates(const ApplicationData& appData, UpdateData& updateData);
+		virtual void onFinishCollisionUpdates(const ApplicationData& appData);
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;
