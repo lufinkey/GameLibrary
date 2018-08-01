@@ -40,6 +40,10 @@ namespace fgl
 			return location + length;
 		}
 		
+		constexpr T getCenter() const {
+			return location + (length/2);
+		}
+		
 		constexpr bool overlaps(const Range<T>& cmp) const {
 			if(endLocation() <= cmp.location || cmp.endLocation() <= location) {
 				return false;
