@@ -13,32 +13,41 @@ namespace fgl
 		T location;
 		T length;
 		
-		Range() : location(0), length(0)
-		{
+		constexpr Range() : location(0), length(0) {
 			//
 		}
 		
-		Range(const T& location, const T& length) : location(location), length(length)
-		{
+		constexpr Range(const T& location, const T& length) : location(location), length(length) {
 			//
 		}
 		
-		T endLocation() const
-		{
-			return location+length;
+		constexpr bool equals(const Range<T>& range) const {
+			if(location == range.location && length == range.length) {
+				return true;
+			}
+			return false;
 		}
 		
-		bool overlaps(const Range<T>& cmp) const
-		{
-			if(endLocation() <= cmp.location || cmp.endLocation() <= location)
-			{
+		constexpr bool operator==(const Range<T>& range) const {
+			return equals(range);
+		}
+		
+		constexpr bool operator!=(const Range<T>& range) const {
+			return !equals(range);
+		}
+		
+		constexpr T endLocation() const {
+			return location + length;
+		}
+		
+		constexpr bool overlaps(const Range<T>& cmp) const {
+			if(endLocation() <= cmp.location || cmp.endLocation() <= location) {
 				return false;
 			}
 			return true;
 		}
 		
-		void combine(const Range<T>& range)
-		{
+		constexpr void combine(const Range<T>& range) {
 			auto end = endLocation();
 			auto cmpEnd = range.endLocation();
 			if(range.location < location) {
@@ -50,28 +59,25 @@ namespace fgl
 			}
 		}
 		
-		Range<T> combined(const Range<T>& range) const
-		{
+		constexpr Range<T> combined(const Range<T>& range) const {
 			auto newRange = *this;
 			newRange.combine(range);
 			return newRange;
 		}
 		
-		void translate(double offset) {
+		constexpr void translate(double offset) {
 			location += offset;
 		}
 		
-		Range<T> translated(double offset) {
+		constexpr Range<T> translated(double offset) {
 			return Range<T>(location+offset, length);
 		}
 		
-		static Range<T> fromEdges(const T& start, const T& end)
-		{
+		static constexpr Range<T> fromEdges(const T& start, const T& end) {
 			return Range<T>(start, end-start);
 		}
 		
-		String toString() const
-		{
+		String toString() const {
 			return "Range(location: " + fgl::stringify<T>(location) + ", length: " + fgl::stringify<T>(length) + ")";
 		}
 	};
