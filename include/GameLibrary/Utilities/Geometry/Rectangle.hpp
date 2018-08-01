@@ -23,8 +23,7 @@ namespace fgl
 		T height;
 		
 		/*! default constructor*/
-		constexpr Rectangle() : x(0), y(0), width(0), height(0)
-		{
+		constexpr Rectangle() : x(0), y(0), width(0), height(0) {
 			//
 		}
 		
@@ -33,45 +32,37 @@ namespace fgl
 			\param y the y coordinate of the top left of the rectangle
 			\param width the width of the rectangle
 			\param height the height of the rectangle*/
-		constexpr Rectangle(const T& x, const T& y, const T& width, const T& height) : x(x), y(y), width(width), height(height)
-		{
+		constexpr Rectangle(const T& x, const T& y, const T& width, const T& height) : x(x), y(y), width(width), height(height) {
 			//
 		}
 
 		/*! Explicit conversion between Rectangle template types. 
 			\param rectangle the rectangle being converted from*/
 		template<typename U>
-		explicit Rectangle(const Rectangle<U>& rectangle) : x((U)rectangle.x), y((U)rectangle.y), width((U)rectangle.width), height((U)rectangle.height)
-		{
+		explicit Rectangle(const Rectangle<U>& rectangle) : x((U)rectangle.x), y((U)rectangle.y), width((U)rectangle.width), height((U)rectangle.height) {
 			//
 		}
 		
-		bool equals(const Rectangle<T>& rectangle) const
-		{
-			if(x==rectangle.x && y==rectangle.y && width==rectangle.width && height==rectangle.height)
-			{
+		constexpr bool equals(const Rectangle<T>& rectangle) const {
+			if(x==rectangle.x && y==rectangle.y && width==rectangle.width && height==rectangle.height) {
 				return true;
 			}
 			return false;
 		}
 		
-		bool operator==(const Rectangle<T>& rectangle) const
-		{
+		constexpr bool operator==(const Rectangle<T>& rectangle) const {
 			return equals(rectangle);
 		}
 		
-		bool operator!=(const Rectangle<T>& rectangle) const
-		{
+		constexpr bool operator!=(const Rectangle<T>& rectangle) const {
 			return !equals(rectangle);
 		}
 		
 		/*! Calculates whether a given point is inside the bounds of the rectangle.
 			\param point the point to check
 			\returns true if the given point is inside the rectangle's bounds, or false if otherwise*/
-		bool contains(const Vector2<T>&point) const
-		{
-			if(point.x>=x && point.y>=y && point.x<=(x+width) && point.y<=(y+height))
-			{
+		constexpr bool contains(const Vector2<T>& point) const {
+			if(point.x >= x && point.y >= y && point.x <= (x + width) && point.y <= (y + height)) {
 				return true;
 			}
 			return false;
@@ -80,10 +71,8 @@ namespace fgl
 		/*! Calculates whether a given rectangle is inside the bounds of this rectangle.
 			\param rect the rectangle to check
 			\returns true if the given rectangle is inside this rectangle's bounds, or false if otherwise*/
-		bool contains(const Rectangle<T>&rect) const
-		{
-			if(x <= rect.x &&y <= rect.y && (x+width) >= (rect.x+rect.width) && (y+height) >= (rect.y+rect.height))
-			{
+		constexpr bool contains(const Rectangle<T>& rect) const  {
+			if(x <= rect.x && y <= rect.y && (x + width) >= (rect.x + rect.width) && (y + height) >= (rect.y + rect.height)) {
 				return true;
 			}
 			return false;
@@ -92,140 +81,98 @@ namespace fgl
 		/*! Calculates whether a given rectangle is intersecting the bounds of this rectangle.
 			\param rect the rectangle to check
 			\returns true if the given rectangle is intersecting this rectangle's bounds, or false if otherwise*/
-		bool intersects(const Rectangle<T>&rect) const
-		{
-			T left1, left2;
-			T right1, right2;
-			T top1, top2;
-			T bottom1, bottom2;
-			
-			left1 = x;
-			left2 = rect.x;
-			right1 = x+width;
-			right2 = rect.x+rect.width;
-			top1 = y;
-			top2 = rect.y;
-			bottom1 = y+height;
-			bottom2 = rect.y+rect.height;
-			
-			if (bottom1 <= top2)
-			{
+		constexpr bool intersects(const Rectangle<T>& rect) const {
+			if (getBottom() <= rect.getTop()) {
 				return false;
 			}
-			if (top1 >= bottom2)
-			{
+			if (getTop() >= rect.getBottom()) {
 				return false;
 			}
-			
-			if (right1 <= left2)
-			{
+			if (getRight() <= rect.getLeft()) {
 				return false;
 			}
-			if (left1 >= right2)
-			{
+			if (getLeft() >= rect.getRight()) {
 				return false;
 			}
-			
 			return true;
 		}
 		
 		/*! Calculates the area of the rectangle (width*height).
 			\returns a value representing the width multiplied by the height*/
-		T getArea() const
-		{
-			return width*height;
+		constexpr T getArea() const {
+			return width * height;
 		}
 
 		/*! Gets an array of the 4 edges in the rectangle
 			\returns an ArrayList of Line objects */
-		ArrayList<Line<T>> getEdges() const
-		{
-			ArrayList<Line<T>> edges;
-			edges.reserve(4);
-
-			T right = x+width;
-			T bottom = y+height;
-
-			edges.add(Line<T>(x, y, right, y));
-			edges.add(Line<T>(right, y, right, bottom));
-			edges.add(Line<T>(x, bottom, right, bottom));
-			edges.add(Line<T>(x, y, x, bottom));
-			return edges;
+		inline ArrayList<Line<T>> getEdges() const {
+			return {
+				getTopEdge(),
+				getRightEdge(),
+				getBottomEdge(),
+				getLeftEdge()
+			};
 		}
 		
 		/*! Gets a rectangle of the overlap between this rectangle and a given rectangle
 			\param rect the rectangle to check the intersect with
 			\returns a rectangle representing the intersect, or a Rectangle containing an x, y, width, and height of 0 if the rectangle is not intersecting*/
-		Rectangle getIntersect(const Rectangle<T>& rect) const
-		{
+		constexpr Rectangle getIntersect(const Rectangle<T>& rect) const {
 			T overlapLeft = 0;
 			T overlapTop = 0;
 			T overlapRight = 0;
 			T overlapBottom = 0;
 		
-			if(intersects(rect))
-			{
-				if(x <= rect.x)
-				{
-					if((x + width) <= (rect.x + rect.width))
-					{
+			if(intersects(rect)) {
+				if(x <= rect.x) {
+					if((x + width) <= (rect.x + rect.width)) {
 						overlapLeft = rect.x - x;
 						overlapRight = width;
 					}
-					else
-					{
+					else {
 						overlapLeft = rect.x - x;
 						overlapRight = overlapLeft + rect.width;
 					}
 				}
-				else
-				{
-					if((x + width) <= (rect.x + rect.width))
-					{
+				else {
+					if((x + width) <= (rect.x + rect.width)) {
 						overlapLeft = 0;
 						overlapRight = width;
 					}
-					else
-					{
+					else {
 						overlapLeft = 0;
 						overlapRight = (rect.x + rect.width) - x;
 					}
 				}
 				
-				if(y <= rect.y)
-				{
-					if((y + height) <= (rect.y + rect.height))
-					{
+				if(y <= rect.y) {
+					if((y + height) <= (rect.y + rect.height)) {
 						overlapTop = rect.y - y;
 						overlapBottom = height;
 					}
-					else
-					{
+					else {
 						overlapTop = rect.y - y;
 						overlapBottom = overlapTop + rect.height;
 					}
 				}
-				else
-				{
-					if((y + height)<= (rect.y + rect.height))
-					{
+				else {
+					if((y + height)<= (rect.y + rect.height)) {
 						overlapTop = 0;
 						overlapBottom = height;
 					}
-					else
-					{
+					else {
 						overlapTop = 0;
 						overlapBottom = (rect.y + rect.height) - y;
 					}
 				}
 			}
-			else
-			{
+			else {
 				overlapLeft = 0;
 				overlapTop = 0;
 				overlapRight = 0;
 				overlapBottom = 0;
 			}
+			
 			Rectangle<T> overlapRect;
 			overlapRect.x = x + overlapLeft;
 			overlapRect.y = y + overlapTop;
@@ -236,8 +183,7 @@ namespace fgl
 	
 		/*! expands this rectangle to contain the given rectangle, as well as itself
 			\param rect the rectangle to combine with */
-		void combine(const Rectangle<T>& rect)
-		{
+		constexpr void combine(const Rectangle<T>& rect) {
 			T rect_left = rect.x;
 			T rect_top = rect.y;
 			T rect_right = rect.x + rect.width;
@@ -248,20 +194,16 @@ namespace fgl
 			T right = x + width;
 			T bottom = y + height;
 		
-			if(rect_left < left)
-			{
+			if(rect_left < left) {
 				left = rect_left;
 			}
-			if(rect_top < top)
-			{
+			if(rect_top < top) {
 				top = rect_top;
 			}
-			if(rect_right > right)
-			{
+			if(rect_right > right) {
 				right = rect_right;
 			}
-			if(rect_bottom > bottom)
-			{
+			if(rect_bottom > bottom) {
 				bottom = rect_bottom;
 			}
 		
@@ -271,8 +213,7 @@ namespace fgl
 			height = bottom-top;
 		}
 		
-		Rectangle<T> combined(const Rectangle<T>& rect) const
-		{
+		constexpr Rectangle<T> combined(const Rectangle<T>& rect) const {
 			auto newRect = *this;
 			newRect.combine(rect);
 			return newRect;
@@ -280,14 +221,12 @@ namespace fgl
 		
 		/*! Resizes and moves this rectangle, maintaining its aspect ratio, to fit within a given containing rectangle.
 			\param container a containing rectangle*/
-		void scaleToFit(const Rectangle<T>&container)
-		{
+		constexpr void scaleToFit(const Rectangle<T>&container) {
 			T fixedHeight = height;
 			long double ratX = ((long double)container.width)/((long double)width);
 			fixedHeight = (T)(((long double)height)*ratX);
 			
-			if(fixedHeight<=container.height)
-			{
+			if(fixedHeight<=container.height) {
 				width = container.width;
 				height = fixedHeight;
 				x = container.x + ((container.width - width)/2);
@@ -307,14 +246,12 @@ namespace fgl
 		
 		/*! Resizes and moves this rectangle, maintaining its aspect ratio, to exactly fill a given containing rectangle.
 			\param container a containing rectangle*/
-		void scaleToFill(const Rectangle<T>&container)
-		{
+		constexpr void scaleToFill(const Rectangle<T>&container) {
 			T fixedHeight = height;
 			long double ratX = ((long double)container.width)/((long double)width);
 			fixedHeight = (T)(((long double)height)*ratX);
 			
-			if(fixedHeight>=container.height)
-			{
+			if(fixedHeight>=container.height) {
 				width = container.width;
 				height = fixedHeight;
 				x = container.x + ((container.width - width)/2);
@@ -334,115 +271,118 @@ namespace fgl
 		
 		/*! Calculates the center of the rectangle (x+width/2, y+height/2)
 			\returns a Vector2 point with the coordinates of the center of the rectangle*/
-		Vector2<T> getCenter() const
-		{
+		constexpr Vector2<T> getCenter() const {
 			return Vector2<T>(x+(width/2), y+(height/2));
 		}
 		
 		/*! Calculates the center x coordinate of the rectangle (x+width/2)
 			\returns the x coordinate of the center of the rectangle*/
-		T getCenterX() const
-		{
+		constexpr T getCenterX() const {
 			return x+(width/2);
 		}
 		
 		/*! Calculates the center y coordinate of the rectangle (y+height/2)
 			\returns the y coordinate of the center of the rectangle*/
-		T getCenterY() const
-		{
+		constexpr T getCenterY() const {
 			return y+(height/2);
 		}
 		
 		/*! Gives the top left corner of this rectangle
 			\returns a Vector2 representing the point of the top left corner of this rectangle */
-		Vector2<T> getTopLeft() const
-		{
+		constexpr Vector2<T> getTopLeft() const {
 			return Vector2<T>(x, y);
 		}
 		
 		/*! Gives the top right corner of this rectangle
 			\returns a Vector2 representing the point of the top right corner of this rectangle */
-		Vector2<T> getTopRight() const
-		{
+		constexpr Vector2<T> getTopRight() const {
 			return Vector2<T>(x+width, y);
 		}
 		
 		/*! Gives the top center coordinate of this rectangle
 			\returns a Vector2 representing the point of the top center of this rectangle */
-		Vector2<T> getTopCenter() const
-		{
+		constexpr Vector2<T> getTopCenter() const {
 			return Vector2<T>(x+(width/2), y);
 		}
 		
 		/*! Gives the bottom left corner of this rectangle
 			\returns a Vector2 representing the point of the bottom left corner of this rectangle */
-		Vector2<T> getBottomLeft() const
-		{
+		constexpr Vector2<T> getBottomLeft() const {
 			return Vector2<T>(x, y+height);
 		}
 		
 		/*! Gives the bottom right corner of this rectangle
 			\returns a Vector2 representing the point of the bottom right corner of this rectangle */
-		Vector2<T> getBottomRight() const
-		{
+		constexpr Vector2<T> getBottomRight() const {
 			return Vector2<T>(x+width, y+height);
 		}
 		
 		/*! Gives the bottom center coordinate of this rectangle
 			\returns a Vector2 representing the point of the bottom center of this rectangle */
-		Vector2<T> getBottomCenter() const
-		{
+		constexpr Vector2<T> getBottomCenter() const {
 			return Vector2<T>(x+(width/2), y+height);
 		}
 		
 		/*! Gives the center coordinate of the left side of this rectangle
 			\returns a Vector2 representing the point of the center of the left side of this rectangle */
-		Vector2<T> getLeftCenter() const
-		{
+		constexpr Vector2<T> getLeftCenter() const {
 			return Vector2<T>(x, y+(height/2));
 		}
 		
 		/*! Gives the center coordinate of the right side of this rectangle
 			\returns a Vector2 representing the point of the center of the right side of this rectangle */
-		Vector2<T> getRightCenter() const
-		{
+		constexpr Vector2<T> getRightCenter() const {
 			return Vector2<T>(x+width, y+(height/2));
 		}
 
 		/*! Gives the left x coordinate of the rectangle */
-		T getLeft() const
-		{
+		constexpr T getLeft() const {
 			return x;
 		}
 
 		/*! Gives the top y coordinate of the rectangle */
-		T getTop() const
-		{
+		constexpr T getTop() const {
 			return y;
 		}
 
 		/*! Gives the right x coordinate of the rectangle */
-		T getRight() const
-		{
+		constexpr T getRight() const {
 			return x+width;
 		}
 
 		/*! Gives the bottom y coordinate of the rectangle */
-		T getBottom() const
-		{
-			return y+height;
+		constexpr T getBottom() const {
+			return y + height;
+		}
+		
+		/*! Gives the lefy edge line of the rectangle */
+		constexpr Line<T> getLeftEdge() const {
+			return Line<T>(getBottomLeft(), getTopLeft());
+		}
+		
+		/*! Gives the top edge line of the rectangle */
+		constexpr Line<T> getTopEdge() const {
+			return Line<T>(getTopLeft(), getTopRight());
+		}
+		
+		/*! Gives the right edge line of the rectangle */
+		constexpr Line<T> getRightEdge() const {
+			return Line<T>(getTopRight(), getBottomRight());
+		}
+		
+		/*! Gives the bottom edge line of the rectangle */
+		constexpr Line<T> getBottomEdge() const {
+			return Line<T>(getBottomRight(), getBottomLeft());
 		}
 		
 		/*! Gives the size (width and height) of the Rectangle */
-		Vector2<T> getSize() const
-		{
+		constexpr Vector2<T> getSize() const {
 			return Vector2<T>(width, height);
 		}
 		
 		/*! Translates the rectangle by the given vector
 			\param offset the amount to translate the (x,y) coordinates of the rectangle */
-		void translate(const Vector2<T>& offset)
-		{
+		constexpr void translate(const Vector2<T>& offset) {
 			x += offset.x;
 			y += offset.y;
 		}
@@ -450,8 +390,7 @@ namespace fgl
 		/*! Creates a new polygon from this polygon, translated by the given vector
 			\param offset the amount to translate each point in the new polygon
 			\returns the translated polygon */
-		Rectangle<T> translated(const Vector2<T>& offset) const
-		{
+		constexpr Rectangle<T> translated(const Vector2<T>& offset) const {
 			return Rectangle<T>(x+offset.x, y+offset.y, width, height);
 		}
 		
@@ -469,8 +408,7 @@ namespace fgl
 		
 		/*! Creates a polygon with the coordinates of the 4 corners of this rectangle.
 			\returns a Polygon object*/
-		Polygon<T> toPolygon() const
-		{
+		Polygon<T> toPolygon() const {
 			Polygon<T> polygon;
 			polygon.addPoint((T)x, (T)y);
 			polygon.addPoint((T)(x+width), (T)y);
@@ -479,8 +417,7 @@ namespace fgl
 			return polygon;
 		}
 		
-		String toString() const
-		{
+		String toString() const {
 			return "Rectangle(x:"+fgl::stringify<T>(x)+", y:"+fgl::stringify<T>(y)+
 				", width:"+fgl::stringify<T>(width)+", height:"+fgl::stringify<T>(height)+")";
 		}

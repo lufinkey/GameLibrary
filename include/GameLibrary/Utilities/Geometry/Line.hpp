@@ -18,8 +18,7 @@ namespace fgl
 		fgl::Vector2d point2;
 
 		/*! default constructor*/
-		constexpr Line()
-		{
+		constexpr Line() {
 			//
 		}
 
@@ -28,31 +27,50 @@ namespace fgl
 			\param y1 the y coordinate for the first point
 			\param x2 the x coordinate for the second point
 			\param y2 the y coordinate for the second point*/
-		constexpr Line(const T& x1, const T& y1, const T& x2, const T& y2) : point1(x1,y1), point2(x2, y2)
-		{
+		constexpr Line(const T& x1, const T& y1, const T& x2, const T& y2) : point1(x1,y1), point2(x2, y2) {
 			//
 		}
 
 		/*! Constructs a line with two points.
 			\param point1 the first point
 			\param point2 the second point*/
-		Line(const Vector2<T>& point1, const Vector2<T>& point2) : point1(point1), point2(point2)
-		{
+		Line(const Vector2<T>& point1, const Vector2<T>& point2) : point1(point1), point2(point2) {
 			//
+		}
+		
+		constexpr bool equals(const Line<T>& line) const {
+			if(point1 == line.point1 && point2 == line.point2) {
+				return true;
+			}
+			return false;
+		}
+		
+		constexpr bool operator==(const Line<T>& line) const {
+			return equals(line);
+		}
+		
+		constexpr bool operator!=(const Line<T>& line) const {
+			return !equals(line);
+		}
+		
+		constexpr bool equivalent(const Line<T>& line) const {
+			if((point1 == line.point1 && point2 == line.point2)
+				|| (point1 == line.point2 && point2 == line.point1)) {
+				return true;
+			}
+			return false;
 		}
 		
 		/*! Calculates the center of the line.
 			\returns the point in the center of the line endpoints*/
-		Vector2<T> getCenter() const
-		{
+		constexpr Vector2<T> getCenter() const {
 			return Vector2<T>((point1.x+point2.x)/2, (point1.y+point2.y)/2);
 		}
 
 		/*! Calculates the slope of the line.
 			\returns the value of the slope of the line*/
 		template<typename U = T>
-		U getSlope() const
-		{
+		constexpr U getSlope() const {
 			return ((U)point2.y-(U)point1.y)/((U)point2.x - (U)point1.x);
 		}
 
@@ -60,8 +78,7 @@ namespace fgl
 			\param line the line segment to check intersection against
 			\param intersection outputs the point of intersection between the two line segments, if any
 			\returns true if the line segments intersect, false if they do not*/
-		bool segmentsIntersect(const Line<T>& line, Vector2<T>* intersection = nullptr) const
-		{
+		bool segmentsIntersect(const Line<T>& line, Vector2<T>* intersection = nullptr) const {
 			//line intersection code by Kristian Lindberg Vinther
 			//https://www.codeproject.com/Tips/862988/Find-the-Intersection-Point-of-Two-Line-Segments
 
@@ -71,8 +88,7 @@ namespace fgl
 			auto qpxr = (line.point1 - point1).cross(r);
 
 			// If r x s = 0 and (q - p) x r = 0, then the two lines are collinear.
-			if(rxs==0 && qpxr==0)
-			{
+			if(rxs==0 && qpxr==0) {
 				// 1. If either  0 <= (q - p) * r <= r * r or 0 <= (p - q) * s <= * s
 				// then the two lines are overlapping,
 				/*if(considerOverlapAsIntersect)
@@ -86,8 +102,7 @@ namespace fgl
 			}
 
 			// 3. If r x s = 0 and (q - p) x r != 0, then the two lines are parallel and non-intersecting.
-			if(rxs==0 && qpxr!=0)
-			{
+			if(rxs==0 && qpxr!=0) {
 				return false;
 			}
 
@@ -100,11 +115,9 @@ namespace fgl
 
 			// 4. If r x s != 0 and 0 <= t <= 1 and 0 <= u <= 1
 			// the two line segments meet at the point p + t r = q + u s.
-			if(rxs!=0 && (0 <= t && t <= 1) && (0 <= u && u <= 1))
-			{
+			if(rxs!=0 && (0 <= t && t <= 1) && (0 <= u && u <= 1)) {
 				// We can calculate the intersection point using either t or u.
-				if(intersection!=nullptr)
-				{
+				if(intersection!=nullptr) {
 					*intersection = point1 + (r * t);
 				}
 
@@ -116,8 +129,7 @@ namespace fgl
 			return false;
 		}
 
-		String toString() const
-		{
+		String toString() const {
 			return "Line(("+fgl::stringify<T>(point1.x)+", "+fgl::stringify<T>(point1.y)+"), ("+fgl::stringify<T>(point2.x)+", "+fgl::stringify<T>(point2.y)+"))";
 		}
 	};
