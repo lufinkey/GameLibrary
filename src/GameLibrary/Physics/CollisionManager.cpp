@@ -185,7 +185,7 @@ namespace fgl
 										}
 									}
 
-									double portion2 = 1.0;
+									double portion1 = 0.0;
 									
 									if((staticOpposite1 && staticOpposite2) || (!staticOpposite1 && !staticOpposite2))
 									{
@@ -226,23 +226,23 @@ namespace fgl
 										double force2 = velocity2*mass2;
 										double finalVelocity = (force1 + force2) / (mass1 + mass2);
 										if(finalVelocity == 0) {
-											portion2 = 1.0;
+											portion1 = 1.0;
 										}
 										else {
-											portion2 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+											portion1 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
 										}
 									}
 									else if(staticOpposite1)
 									{
-										portion2 = 1.0;
+										portion1 = 0.0;
 									}
 									else if(staticOpposite2)
 									{
-										portion2 = 0.0;
+										portion1 = 1.0;
 									}
 
-									auto moveAmount2 = shiftAmount * portion2;
-									auto moveAmount1 = -(shiftAmount - moveAmount2);
+									auto moveAmount1 = -shiftAmount * portion1;
+									auto moveAmount2 = shiftAmount + moveAmount1;
 
 									if(moveAmount1.x!=0 || moveAmount1.y!=0)
 									{
