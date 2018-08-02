@@ -431,7 +431,11 @@ namespace fgl
 	
 	Vector2d CollisionRect::getFilledCollisionOffset(CollisionRect* collisionRect1, CollisionRect* collisionRect2)
 	{
-		return CollisionRect_getRectCollisionOffset(collisionRect1->getRect(), collisionRect1->getPreviousRect(), collisionRect2->getRect(), collisionRect2->getPreviousRect());
+		auto rect1 = collisionRect1->getRect();
+		auto prevRect1 = collisionRect1->getPreviousRect();
+		auto rect2 = collisionRect2->getRect();
+		auto prevRect2 = collisionRect2->getPreviousRect();
+		return CollisionRect_getRectCollisionOffset(rect1, prevRect1, rect2, prevRect2);
 	}
 	
 	CollisionRectDirection CollisionRect_getPointDirection(const Vector2d& point1, const Vector2d& point2)

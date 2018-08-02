@@ -225,7 +225,12 @@ namespace fgl
 										double force1 = velocity1*mass1;
 										double force2 = velocity2*mass2;
 										double finalVelocity = (force1 + force2) / (mass1 + mass2);
-										portion2 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+										if(finalVelocity == 0) {
+											portion2 = 1.0;
+										}
+										else {
+											portion2 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+										}
 									}
 									else if(staticOpposite1)
 									{
