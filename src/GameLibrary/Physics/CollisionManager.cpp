@@ -185,7 +185,8 @@ namespace fgl
 										}
 									}
 
-									double portion1 = 0;
+									double portion2 = 1.0;
+									
 									if((staticOpposite1 && staticOpposite2) || (!staticOpposite1 && !staticOpposite2))
 									{
 										//TODO make a BETTER case here for two non-static bodies colliding
@@ -223,78 +224,20 @@ namespace fgl
 
 										double force1 = velocity1*mass1;
 										double force2 = velocity2*mass2;
-										double negativeForce = 0;
-										double positiveForce = 0;
-										if(force1 < 0)
-										{
-											negativeForce += force1;
-										}
-										else
-										{
-											positiveForce += force1;
-										}
-										if(force2 < 0)
-										{
-											negativeForce += force2;
-										}
-										else
-										{
-											positiveForce += force2;
-										}
-										double netForce = force1 + force2;
-
-										if(netForce < 0)
-										{
-											double portion = 0;
-											if(negativeForce!=0)
-											{
-												portion = netForce/negativeForce;
-											}
-											switch(collisionSide1)
-											{
-												case COLLISIONSIDE_LEFT:
-												case COLLISIONSIDE_TOP:
-												portion1 = 1.0-portion;
-												break;
-
-												case COLLISIONSIDE_RIGHT:
-												case COLLISIONSIDE_BOTTOM:
-												portion1 = portion;
-												break;
-											}
-										}
-										else if(netForce!=0)
-										{
-											double portion = 0;
-											if(positiveForce!=0)
-											{
-												portion = netForce/positiveForce;
-											}
-											switch(collisionSide1)
-											{
-												case COLLISIONSIDE_LEFT:
-												case COLLISIONSIDE_TOP:
-												portion1 = portion;
-												break;
-
-												case COLLISIONSIDE_RIGHT:
-												case COLLISIONSIDE_BOTTOM:
-												portion1 = 1.0-portion;
-												break;
-											}
-										}
+										double finalVelocity = (force1 + force2) / (mass1 + mass2);
+										portion2 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
 									}
 									else if(staticOpposite1)
 									{
-										portion1 = 0;
+										portion2 = 1.0;
 									}
 									else if(staticOpposite2)
 									{
-										portion1 = 1.0;
+										portion2 = 0.0;
 									}
 
-									auto moveAmount1 = -shiftAmount*portion1;
-									auto moveAmount2 = shiftAmount+moveAmount1;
+									auto moveAmount2 = shiftAmount * portion2;
+									auto moveAmount1 = -(shiftAmount - moveAmount2);
 
 									if(moveAmount1.x!=0 || moveAmount1.y!=0)
 									{
