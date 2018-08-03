@@ -203,4 +203,5 @@ namespace fgl
 	typedef Vector2<long long> Vector2ll;
 	typedef Vector2<unsigned long long> Vector2ull;
 	typedef Vector2<long double> Vector2ld;
+	typedef Vector2<size_t> Vector2s;
 }

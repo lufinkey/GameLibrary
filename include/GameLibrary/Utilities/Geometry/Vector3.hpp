@@ -214,4 +214,5 @@ namespace fgl
 	typedef Vector3<long long> Vector3ll;
 	typedef Vector3<unsigned long long> Vector3ull;
 	typedef Vector3<long double> Vector3ld;
+	typedef Vector3<size_t> Vector3s;
 }
