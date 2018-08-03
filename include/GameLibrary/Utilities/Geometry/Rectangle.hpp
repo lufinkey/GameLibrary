@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <GameLibrary/Utilities/Range.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
 #include "Vector2.hpp"
 #include "Line.hpp"
@@ -373,6 +374,16 @@ namespace fgl
 		/*! Gives the bottom edge line of the rectangle */
 		constexpr Line<T> getBottomEdge() const {
 			return Line<T>(getBottomRight(), getBottomLeft());
+		}
+		
+		/*! Gives the range of x coordinates covered by the rectangle */
+		constexpr Range<T> getXRange() const {
+			return Range<T>(x, width);
+		}
+		
+		/*! Gives the range of y coordinates covered by the rectangle */
+		constexpr Range<T> getYRange() const {
+			return Range<T>(y, height);
 		}
 		
 		/*! Gives the size (width and height) of the Rectangle */
