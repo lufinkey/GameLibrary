@@ -632,6 +632,11 @@ namespace fgl
 			objects.resize(size);
 		}
 		
+		void resize(size_t size, const T& value)
+		{
+			objects.resize(size, value);
+		}
+		
 		void reserve(size_t size)
 		{
 			objects.reserve(size);
