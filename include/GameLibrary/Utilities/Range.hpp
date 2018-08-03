@@ -51,6 +51,13 @@ namespace fgl
 			return true;
 		}
 		
+		constexpr bool contains(const Range<T>& cmp) const {
+			if(cmp.location >= location && cmp.endLocation() <= endLocation()) {
+				return true;
+			}
+			return false;
+		}
+		
 		constexpr void combine(const Range<T>& range) {
 			auto end = endLocation();
 			auto cmpEnd = range.endLocation();
