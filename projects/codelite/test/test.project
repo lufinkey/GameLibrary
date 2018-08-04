@@ -141,4 +141,10 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug">
+    <Project Name="GameLibrary"/>
+  </Dependencies>
+  <Dependencies Name="Release">
+    <Project Name="GameLibrary"/>
+  </Dependencies>
 </CodeLite_Project>

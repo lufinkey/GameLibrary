@@ -348,7 +348,7 @@ namespace fgl
 
 		/*! Gives the right x coordinate of the rectangle */
 		constexpr T getRight() const {
-			return x+width;
+			return x + width;
 		}
 
 		/*! Gives the bottom y coordinate of the rectangle */

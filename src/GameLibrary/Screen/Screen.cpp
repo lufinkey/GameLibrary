@@ -12,35 +12,28 @@ namespace fgl
 	
 	void Screen::updateFrame(Window* window)
 	{
-		if(window != nullptr)
-		{
+		if(window != nullptr) {
 			Viewport* viewport = window->getViewport();
 			Vector2d size;
-			if(viewport != nullptr)
-			{
-				if(viewport->matchesWindow())
-				{
+			if(viewport != nullptr) {
+				if(viewport->matchesWindow()) {
 					size = (Vector2d)window->getSize();
 				}
-				else
-				{
+				else {
 					size = viewport->getSize();
 				}
 			}
-			else
-			{
+			else {
 				size = (Vector2d)window->getSize();
 			}
-			if(framesize.x!=size.x || framesize.y!=size.y)
-			{
-				Vector2d oldSize = framesize;
-				framesize = size;
+			auto elementFrame = element->getFrame();
+			if(elementFrame.x != 0 || elementFrame.y != 0 || elementFrame.width != size.x || elementFrame.height != size.y) {
+				Vector2d oldSize = elementFrame.getSize();
 				element->setFrame(RectangleD(0,0,size.x,size.y));
 				onSizeChange(oldSize, size);
 			}
 		}
-		for(auto& container : childScreens)
-		{
+		for(auto& container : childScreens) {
 			container.screen->updateFrame(window);
 		}
 	}
@@ -254,7 +247,7 @@ namespace fgl
 	
 	Screen::Screen(Window* window_arg)
 	{
-		element = new ScreenElement(RectangleD(0,0, framesize.x, framesize.y));
+		element = new ScreenElement();
 		screenManager = nullptr;
 		parentScreen = nullptr;
 		presentedScreen = nullptr;
@@ -265,17 +258,11 @@ namespace fgl
 		updatesParent = false;
 
 		window = window_arg;
-		if(window != nullptr)
-		{
-			Viewport*view = window->getViewport();
-			if(view != nullptr)
-			{
-				const Vector2d& size = view->getSize();
-				if(framesize.x!=size.x || framesize.y!=size.y)
-				{
-					framesize = size; //frame = RectangleD(frame.x, frame.y, size.x, size.y);
-					element->setFrame(RectangleD(0,0,size.x,size.y));
-				}
+		if(window != nullptr) {
+			Viewport* viewport = window->getViewport();
+			if(viewport != nullptr) {
+				const Vector2d& size = viewport->getSize();
+				element->setFrame(RectangleD(0,0,size.x,size.y));
 			}
 		}
 	}
@@ -578,26 +565,21 @@ namespace fgl
 	
 	Vector2d Screen::getSize() const
 	{
-		if(window!=nullptr)
-		{
+		if(window!=nullptr) {
 			auto viewport = window->getViewport();
-			if(viewport!=nullptr)
-			{
-				if(viewport->matchesWindow())
-				{
+			if(viewport!=nullptr) {
+				if(viewport->matchesWindow()) {
 					return (fgl::Vector2d)window->getSize();
 				}
-				else
-				{
+				else {
 					return viewport->getSize();
 				}
 			}
-			else
-			{
+			else {
 				return (fgl::Vector2d)window->getSize();
 			}
 		}
-		return framesize;
+		return element->getFrame().getSize();
 	}
 	
 	const Transition* Screen::getDefaultPresentationTransition() const

@@ -267,7 +267,6 @@ namespace fgl
 		void handleFirstShowing();
 		
 		Window* window;
-		Vector2d framesize;
 		
 		fgl::ArrayList<TransitionData> transitions;
 		

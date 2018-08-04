@@ -99,6 +99,7 @@
           <File Name="../../src/GameLibrary/Screen/UI/AnimationElement.cpp"/>
           <File Name="../../src/GameLibrary/Screen/UI/TouchElement.cpp"/>
           <File Name="../../src/GameLibrary/Screen/UI/GridSelectorElement.cpp"/>
+          <File Name="../../src/GameLibrary/Screen/UI/DraggableElement.cpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="Transition">
           <File Name="../../src/GameLibrary/Screen/Transition/FadeZoomTransition.cpp"/>
@@ -251,6 +252,7 @@
           <File Name="../../include/GameLibrary/Screen/UI/TextInputElement.hpp"/>
           <File Name="../../include/GameLibrary/Screen/UI/CheckboxElement.hpp"/>
           <File Name="../../include/GameLibrary/Screen/UI/GridSelectorElement.hpp"/>
+          <File Name="../../include/GameLibrary/Screen/UI/DraggableElement.hpp"/>
         </VirtualDirectory>
         <VirtualDirectory Name="Transition">
           <File Name="../../include/GameLibrary/Screen/Transition/PopoverTransition.hpp"/>
