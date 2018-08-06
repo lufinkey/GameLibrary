@@ -145,12 +145,10 @@ namespace fgl
 	
 	void AutoLayoutManager::setRule(const LayoutRuleType& ruleType, double value, const LayoutValueType& valueType)
 	{
-		for(size_t rules_size=rules.size(), i=0; i<rules_size; i++)
-		{
-			if(rules[i].ruleType==ruleType)
-			{
+		for(size_t rules_size=rules.size(), i=0; i<rules_size; i++) {
+			if(rules[i].ruleType==ruleType) {
 				rules.remove(i);
-				i = rules_size;
+				break;
 			}
 		}
 		LayoutRule rule;

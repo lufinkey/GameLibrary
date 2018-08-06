@@ -301,13 +301,17 @@ namespace fgl
 	void ScreenElement::setLayoutRule(const LayoutRuleType& ruleType, double value, const LayoutValueType& valueType)
 	{
 		autoLayoutMgr.setRule(ruleType, value, valueType);
-		autoLayoutFrame();
+		if(parentElement != nullptr) {
+			parentElement->setNeedsLayout();
+		}
 	}
 	
 	void ScreenElement::setLayoutRules(const Dictionary& rules)
 	{
 		autoLayoutMgr.setRules(rules);
-		autoLayoutFrame();
+		if(parentElement != nullptr) {
+			parentElement->setNeedsLayout();
+		}
 	}
 	
 	bool ScreenElement::hasLayoutRules() const
@@ -318,6 +322,9 @@ namespace fgl
 	void ScreenElement::removeAllLayoutRules()
 	{
 		autoLayoutMgr.removeAllRules();
+		if(parentElement != nullptr) {
+			parentElement->setNeedsLayout();
+		}
 	}
 	
 	const AutoLayoutManager& ScreenElement::getAutoLayoutManager() const
