@@ -29,8 +29,6 @@ namespace fgl
 		
 		/*! \copydoc fgl::ScreenElement::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc fgl::ScreenElement::setFrame(const fgl::RectangleD&)*/
-		virtual void layoutChildElements() override;
 		
 		
 		/*! Sets the Animation for the element to display.

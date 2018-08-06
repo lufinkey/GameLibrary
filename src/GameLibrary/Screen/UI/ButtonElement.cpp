@@ -54,9 +54,9 @@ namespace fgl
 		delete titleElement;
 	}
 	
-	void ButtonElement::layoutChildElements()
+	void ButtonElement::onLayoutChildElements()
 	{
-		TouchElement::layoutChildElements();
+		TouchElement::onLayoutChildElements();
 		RectangleD frame = getFrame();
 		if(imageElement->getImage()!=nullptr)
 		{

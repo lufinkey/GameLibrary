@@ -238,9 +238,9 @@ namespace fgl
 		}
 	}
 	
-	void ActorMenuElement::layoutChildElements()
+	void ActorMenuElement::onLayoutChildElements()
 	{
-		ScreenElement::layoutChildElements();
+		ScreenElement::onLayoutChildElements();
 		ScreenElement* parentElement = getParentElement();
 		if(parentElement!=nullptr)
 		{

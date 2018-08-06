@@ -333,6 +333,7 @@ namespace fgl
 	void Screen::update(ApplicationData appData)
 	{
 		handleFirstShowing();
+		element->layoutChildElementsIfNeeded();
 
 		ArrayList<std::function<void()>> transitionCompletions;
 		for(size_t i=(transitions.size()-1); i!=-1; i--)

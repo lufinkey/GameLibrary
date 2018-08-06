@@ -9,7 +9,7 @@ namespace fgl
 	class AutoLayoutCalculator
 	{
 	public:
-		AutoLayoutCalculator(const RectangleD& currentFrame, const RectangleD& containerFrame);
+		AutoLayoutCalculator(const RectangleD& currentFrame, const Vector2d& containerSize);
 		
 		RectangleD getCalculatedFrame() const;
 		
@@ -55,7 +55,7 @@ namespace fgl
 		void layoutAspectRatioFromWidth();
 		void layoutAspectRatioFromHeight();
 		
-		RectangleD containerFrame;
+		fgl::Vector2d containerSize;
 		
 		LayoutValue beginX;
 		LayoutValue beginY;

@@ -15,7 +15,6 @@ namespace fgl
 		explicit GridSelectorElement(const fgl::RectangleD& frame);
 		virtual ~GridSelectorElement();
 		
-		virtual void layoutChildElements() override;
 		virtual void update(fgl::ApplicationData appData) override;
 		
 		void setItems(const fgl::ArrayList<fgl::ButtonElement*>& items);
@@ -29,6 +28,9 @@ namespace fgl
 		
 		void setSelectionChangeHandler(const std::function<void()>& func);
 		const std::function<void()>& getSelectionChangeHandler() const;
+		
+	protected:
+		virtual void onLayoutChildElements() override;
 		
 	private:
 		fgl::ArrayList<fgl::ButtonElement*> items;

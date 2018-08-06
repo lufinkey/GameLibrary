@@ -25,8 +25,6 @@ namespace fgl
 		
 		/*! \copydoc fgl::ScreenElement::update(ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
-		/*! \copydoc fgl::ScreenElement::setFrame(const fgl::RectangleD&)*/
-		virtual void layoutChildElements() override;
 		
 		
 		/*! Adds an actor to the menu.
@@ -136,6 +134,9 @@ namespace fgl
 		AutoLayoutManager* getActorAutoLayoutManager(size_t index) const;
 		
 	protected:
+		/*! \copydoc fgl::ScreenElement::onLayoutChildElements(const fgl::RectangleD&)*/
+		virtual void onLayoutChildElements() override;
+		
 		/*! \copydoc fgl::ScreenElement::drawMain(ApplicationData)const*/
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 		/*! Called to draw an Actor in the menu. This function can be overridden to add custom drawing behavior.

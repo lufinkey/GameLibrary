@@ -42,7 +42,11 @@ namespace fgl
 		
 		
 		/*! Called to layout child elements inside this element. */
-		virtual void layoutChildElements();
+		void layoutChildElements();
+		/*! Called to layout child elements inside this element if needed */
+		void layoutChildElementsIfNeeded();
+		/*! Called to flag that this element needs its children's layout */
+		void setNeedsLayout();
 		/*! Sets the actual frame (bounding box) of the element inside of its parent.
 			\param frame a RectangleD object representing the element's bounding box within its parent*/
 		void setFrame(const RectangleD& frame);
@@ -204,6 +208,8 @@ namespace fgl
 		};
 		
 	protected:
+		/*! Lays out child elements in parent frame */
+		virtual void onLayoutChildElements();
 		/*! Updates all the child elements of this element. This function is automatically called from ScreenElement::update.
 			\param appData specifies information about the Application drawing the element, such as the Window object, the Viewport transform, etc. \see fgl::ApplicationData*/
 		virtual void updateElements(ApplicationData appData);
@@ -270,5 +276,6 @@ namespace fgl
 
 		bool visible;
 		bool clipsToFrame;
+		bool needsLayout;
 	};
 }

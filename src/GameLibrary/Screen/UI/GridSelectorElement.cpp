@@ -73,9 +73,9 @@ namespace fgl
 		}
 	}
 	
-	void GridSelectorElement::layoutChildElements()
+	void GridSelectorElement::onLayoutChildElements()
 	{
-		ZoomPanElement::layoutChildElements();
+		ZoomPanElement::onLayoutChildElements();
 		
 		if(items.size() > 0)
 		{

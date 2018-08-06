@@ -26,7 +26,6 @@ namespace fgl
 		ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler);
 		virtual ~ButtonElement();
 		
-		virtual void layoutChildElements() override;
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		
 		void setTapHandler(const std::function<void()>& tapHandler);
@@ -70,6 +69,8 @@ namespace fgl
 		ImageElement* getImageElement() const;
 		
 	protected:
+		virtual void onLayoutChildElements() override;
+		
 		virtual void onMouseEnter(unsigned int mouseIndex) override;
 		virtual void onMouseLeave(unsigned int mouseIndex) override;
 		

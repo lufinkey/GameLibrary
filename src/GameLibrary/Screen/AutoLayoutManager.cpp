@@ -230,12 +230,9 @@ namespace fgl
 	
 	RectangleD AutoLayoutManager::calculateFrame(const RectangleD& currentFrame, const RectangleD& containerFrame) const
 	{
-		AutoLayoutCalculator layoutCalc(currentFrame, containerFrame);
-		for(size_t rules_size=rules.size(), i=0; i<rules_size; i++)
-		{
-			const LayoutRule& rule = rules[i];
-			switch(rule.ruleType)
-			{
+		AutoLayoutCalculator layoutCalc(currentFrame, containerFrame.getSize());
+		for(auto& rule : rules) {
+			switch(rule.ruleType) {
 				case LAYOUTRULE_LEFT:
 				layoutCalc.setLeft(rule.value, rule.valueType);
 				break;
@@ -273,8 +270,7 @@ namespace fgl
 				break;
 			}
 		}
-		if(containerOffset)
-		{
+		if(containerOffset) {
 			RectangleD calculatedFrame = layoutCalc.getCalculatedFrame();
 			calculatedFrame.x += containerFrame.x;
 			calculatedFrame.y += containerFrame.y;

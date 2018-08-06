@@ -19,6 +19,10 @@ namespace fgl
 		imageElement(nullptr)
 	{
 		imageElement = new ImageElement(RectangleD(0, 0, frame.width, frame.height));
+		imageElement->setLayoutRule(LAYOUTRULE_TOP, 0);
+		imageElement->setLayoutRule(LAYOUTRULE_RIGHT, 0);
+		imageElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0);
+		imageElement->setLayoutRule(LAYOUTRULE_LEFT, 0);
 		updateAnimationImage();
 		addChildElement(imageElement);
 	}
@@ -39,13 +43,6 @@ namespace fgl
 		animationPlayer.update(appData);
 		updateAnimationImage();
 		ScreenElement::update(appData);
-	}
-
-	void AnimationElement::layoutChildElements()
-	{
-		ScreenElement::layoutChildElements();
-		RectangleD frame = getFrame();
-		imageElement->setFrame(RectangleD(0, 0, frame.width, frame.height));
 	}
 	
 	void AnimationElement::setAnimation(Animation* anim, const Animation::Direction& direction)

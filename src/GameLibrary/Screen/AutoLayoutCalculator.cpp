@@ -3,8 +3,8 @@
 
 namespace fgl
 {
-	AutoLayoutCalculator::AutoLayoutCalculator(const RectangleD& currentFrame, const RectangleD& containerFrame)
-		: containerFrame(containerFrame),
+	AutoLayoutCalculator::AutoLayoutCalculator(const RectangleD& currentFrame, const Vector2d& containerSize)
+		: containerSize(containerSize),
 		beginX(currentFrame.x),
 		beginY(currentFrame.y),
 		endX(currentFrame.x+currentFrame.width),
@@ -25,48 +25,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setLeft(double value, const LayoutValueType& valueType)
 	{
-		if(beginX.isSet())
-		{
+		if(beginX.isSet()) {
 			return;
 		}
 		
 		beginX = resolveValueX(value, valueType);
 		beginX.set();
 		
-		if(endX.isSet())
-		{
+		if(endX.isSet()) {
 			width = endX - beginX;
 			width.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(width.isSet())
-		{
+		else if(width.isSet()) {
 			endX = beginX + width;
 			endX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(centerX.isSet())
-		{
+		else if(centerX.isSet()) {
 			width = 2*(centerX-beginX);
 			width.set();
 			endX = beginX + width;
 			endX.set();
 		}
-		else
-		{
+		else {
 			endX = beginX + width;
 			centerX = beginX + (width/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(width.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
-			else if(height.isSet())
-			{
+			else if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
 		}
@@ -74,48 +66,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setTop(double value, const LayoutValueType& valueType)
 	{
-		if(beginY.isSet())
-		{
+		if(beginY.isSet()) {
 			return;
 		}
 
 		beginY = resolveValueY(value, valueType);
 		beginY.set();
 
-		if(endY.isSet())
-		{
+		if(endY.isSet()) {
 			height = endY - beginY;
 			height.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(height.isSet())
-		{
+		else if(height.isSet()) {
 			endY = beginY + height;
 			endY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(centerY.isSet())
-		{
+		else if(centerY.isSet()) {
 			height = 2*(centerY-beginY);
 			height.set();
 			endY = beginY + height;
 			endY.set();
 		}
-		else
-		{
+		else {
 			endY = beginY + height;
 			centerY = beginY + (height/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(height.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
-			else if(width.isSet())
-			{
+			else if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
 		}
@@ -123,48 +107,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setRight(double value, const LayoutValueType& valueType)
 	{
-		if(endX.isSet())
-		{
+		if(endX.isSet()) {
 			return;
 		}
 
-		endX = containerFrame.width-resolveValueX(value, valueType);
+		endX = containerSize.x-resolveValueX(value, valueType);
 		endX.set();
 
-		if(beginX.isSet())
-		{
+		if(beginX.isSet()) {
 			width = endX - beginX;
 			width.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(width.isSet())
-		{
+		else if(width.isSet()) {
 			beginX = endX - width;
 			beginX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(centerX.isSet())
-		{
+		else if(centerX.isSet()) {
 			width = 2*(endX-centerX);
 			width.set();
 			beginX = endX - width;
 			beginX.set();
 		}
-		else
-		{
+		else {
 			beginX = endX - width;
 			centerX = beginX + (width/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(width.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
-			else if(height.isSet())
-			{
+			else if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
 		}
@@ -172,48 +148,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setBottom(double value, const LayoutValueType& valueType)
 	{
-		if(endY.isSet())
-		{
+		if(endY.isSet()) {
 			return;
 		}
 
-		endY = containerFrame.height-resolveValueY(value, valueType);
+		endY = containerSize.y-resolveValueY(value, valueType);
 		endY.set();
 
-		if(beginY.isSet())
-		{
+		if(beginY.isSet()) {
 			height = endY - beginY;
 			height.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(height.isSet())
-		{
+		else if(height.isSet()) {
 			beginY = endY - height;
 			beginY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(centerY.isSet())
-		{
+		else if(centerY.isSet()) {
 			height = 2*(endY-centerY);
 			height.set();
 			beginY = endY - height;
 			beginY.set();
 		}
-		else
-		{
+		else {
 			beginY = endY - height;
 			centerY = beginY + (height/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(height.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
-			else if(width.isSet())
-			{
+			else if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
 		}
@@ -221,48 +189,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setCenterX(double value, const LayoutValueType& valueType)
 	{
-		if(centerX.isSet())
-		{
+		if(centerX.isSet()) {
 			return;
 		}
 		
 		centerX = resolveValueX(value, valueType);
 		centerX.set();
 
-		if(beginX.isSet())
-		{
+		if(beginX.isSet()) {
 			endX = centerX + (centerX-beginX);
 			endX.set();
 			width = endX - beginX;
 			width.set();
 		}
-		else if(endX.isSet())
-		{
+		else if(endX.isSet()) {
 			beginX = centerX - (endX-centerX);
 			beginX.set();
 			width = endX - beginX;
 			width.set();
 		}
-		else if(width.isSet())
-		{
+		else if(width.isSet()) {
 			beginX = centerX - (width/2);
 			beginX.set();
 			endX = beginX + width;
 			endX.set();
 		}
-		else
-		{
+		else {
 			beginX = centerX - (width/2);
 			endX = beginX + width;
 		}
-		if(aspectRatio.isSet())
-		{
-			if(width.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
-			else if(height.isSet())
-			{
+			else if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
 		}
@@ -270,48 +230,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setCenterY(double value, const LayoutValueType& valueType)
 	{
-		if(centerY.isSet())
-		{
+		if(centerY.isSet()) {
 			return;
 		}
 
 		centerY = resolveValueY(value, valueType);
 		centerY.set();
 
-		if(beginY.isSet())
-		{
+		if(beginY.isSet()) {
 			endY = centerY + (centerY-beginY);
 			endY.set();
 			height = endY - beginY;
 			height.set();
 		}
-		else if(endY.isSet())
-		{
+		else if(endY.isSet()) {
 			beginY = centerY - (endY-centerY);
 			beginY.set();
 			height = endY - beginY;
 			height.set();
 		}
-		else if(height.isSet())
-		{
+		else if(height.isSet()) {
 			beginY = centerY - (height/2);
 			beginY.set();
 			endY = beginY + height;
 			endY.set();
 		}
-		else
-		{
+		else {
 			beginY = centerY - (height/2);
 			endY = beginY + height;
 		}
-		if(aspectRatio.isSet())
-		{
-			if(height.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
-			else if(width.isSet())
-			{
+			else if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
 		}
@@ -319,48 +271,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setWidth(double value, const LayoutValueType& valueType)
 	{
-		if(width.isSet())
-		{
+		if(width.isSet()) {
 			return;
 		}
 		
 		width = resolveValueX(value, valueType);
 		width.set();
 		
-		if(beginX.isSet())
-		{
+		if(beginX.isSet()) {
 			endX = beginX + width;
 			endX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(endX.isSet())
-		{
+		else if(endX.isSet()) {
 			beginX = endX - width;
 			beginX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(centerX.isSet())
-		{
+		else if(centerX.isSet()) {
 			beginX = centerX - (width/2);
 			beginX.set();
 			endX = beginX + width;
 			endX.set();
 		}
-		else
-		{
+		else {
 			endX = beginX + width;
 			centerX = beginX + (width/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(width.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
-			else if(height.isSet())
-			{
+			else if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
 		}
@@ -368,48 +312,40 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setHeight(double value, const LayoutValueType& valueType)
 	{
-		if(height.isSet())
-		{
+		if(height.isSet()) {
 			return;
 		}
 
 		height = resolveValueY(value, valueType);
 		height.set();
 
-		if(beginY.isSet())
-		{
+		if(beginY.isSet()) {
 			endY = beginY + height;
 			endY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(endY.isSet())
-		{
+		else if(endY.isSet()) {
 			beginY = endY - height;
 			beginY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(centerY.isSet())
-		{
+		else if(centerY.isSet()) {
 			beginY = centerY - (height/2);
 			beginY.set();
 			endY = beginY + height;
 			endY.set();
 		}
-		else
-		{
+		else {
 			endY = beginY + height;
 			centerY = beginY + (height/2);
 		}
-		if(aspectRatio.isSet())
-		{
-			if(height.isSet())
-			{
+		if(aspectRatio.isSet()) {
+			if(height.isSet()) {
 				layoutAspectRatioFromHeight();
 			}
-			else if(width.isSet())
-			{
+			else if(width.isSet()) {
 				layoutAspectRatioFromWidth();
 			}
 		}
@@ -417,18 +353,14 @@ namespace fgl
 	
 	void AutoLayoutCalculator::setAspectRatio(double value)
 	{
-		if(aspectRatio.isSet())
-		{
+		if(aspectRatio.isSet()) {
 			return;
 		}
-		else if(width.isSet() && height.isSet())
-		{
-			if(height==0)
-			{
+		else if(width.isSet() && height.isSet()) {
+			if(height==0) {
 				aspectRatio = 0;
 			}
-			else
-			{
+			else {
 				aspectRatio = width/height;
 			}
 			aspectRatio.set();
@@ -438,69 +370,66 @@ namespace fgl
 		aspectRatio = value;
 		aspectRatio.set();
 		
-		if(width.isSet())
-		{
+		if(width.isSet()) {
 			layoutAspectRatioFromWidth();
 		}
-		else if(height.isSet())
-		{
+		else if(height.isSet()) {
 			layoutAspectRatioFromHeight();
 		}
 	}
 	
 	double AutoLayoutCalculator::resolveValueX(double value, const LayoutValueType& valueType) const
 	{
-		switch(valueType)
-		{
+		switch(valueType) {
 			case LAYOUTVALUE_PIXEL:
 			return value;
 			
 			case LAYOUTVALUE_RATIO:
-			return containerFrame.width*value;
+			return containerSize.x*value;
 		}
 		return value;
 	}
 	
 	double AutoLayoutCalculator::resolveValueY(double value, const LayoutValueType& valueType) const
 	{
-		switch(valueType)
-		{
+		switch(valueType) {
 			case LAYOUTVALUE_PIXEL:
 			return value;
 
 			case LAYOUTVALUE_RATIO:
-			return containerFrame.height*value;
+			return containerSize.y*value;
 		}
 		return value;
 	}
 	
 	void AutoLayoutCalculator::layoutAspectRatioFromWidth()
 	{
-		if(aspectRatio==0)
-		{
+		if(aspectRatio==0) {
 			height = 0;
 		}
-		else
-		{
+		else {
 			height = width/aspectRatio;
 		}
 		height.set();
-		if(beginY.isSet())
-		{
+		if(beginY.isSet()) {
 			endY = beginY + height;
 			endY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else if(endY.isSet())
-		{
+		else if(endY.isSet()) {
 			beginY = endY - height;
 			beginY.set();
 			centerY = beginY + (height/2);
 			centerY.set();
 		}
-		else
-		{
+		else if(centerY.isSet()) {
+			beginY = centerY - (height/2.0);
+			beginY.set();
+			endY = beginY + height;
+			endY.set();
+		}
+		else {
 			endY = beginY + height;
 			centerY = beginY + (height/2);
 		}
@@ -508,31 +437,32 @@ namespace fgl
 	
 	void AutoLayoutCalculator::layoutAspectRatioFromHeight()
 	{
-		if(aspectRatio==0)
-		{
+		if(aspectRatio==0) {
 			width = 0;
 		}
-		else
-		{
+		else {
 			width = height*aspectRatio;
 		}
 		width.set();
-		if(beginX.isSet())
-		{
+		if(beginX.isSet()) {
 			endX = beginX + width;
 			endX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else if(endX.isSet())
-		{
+		else if(endX.isSet()) {
 			beginX = endX - width;
 			beginX.set();
 			centerX = beginX + (width/2);
 			centerX.set();
 		}
-		else
-		{
+		else if(centerX.isSet()) {
+			beginX = centerX - (width/2.0);
+			beginX.set();
+			endX = beginX + width;
+			endX.set();
+		}
+		else {
 			endX = beginX + width;
 			centerX = beginX + (width/2);
 		}

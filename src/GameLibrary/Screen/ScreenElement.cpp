@@ -17,8 +17,7 @@ namespace fgl
 	
 	void ScreenElement::autoLayoutFrame()
 	{
-		if(parentElement!=nullptr)
-		{
+		if(parentElement!=nullptr) {
 			setFrame(autoLayoutMgr.calculateFrame(frame, parentElement->getFrame()));
 		}
 	}
@@ -36,7 +35,8 @@ namespace fgl
 		borderColor(Colors::BLACK),
 		alpha(1.0),
 		visible(true),
-		clipsToFrame(false)
+		clipsToFrame(false),
+		needsLayout(true)
 	{
 		//
 	}
@@ -46,9 +46,13 @@ namespace fgl
 		//
 	}
 	
-	void ScreenElement::update(ApplicationData appData)
-	{
+	void ScreenElement::update(ApplicationData appData) {
+		layoutChildElementsIfNeeded();
 		updateElements(appData);
+	}
+	
+	void ScreenElement::onLayoutChildElements() {
+		// open for implementation
 	}
 	
 	void ScreenElement::updateElements(ApplicationData appData)
@@ -145,24 +149,31 @@ namespace fgl
 	void ScreenElement::setFrame(const RectangleD& frame_arg)
 	{
 		frame = frame_arg;
-		layoutChildElements();
+		setNeedsLayout();
 	}
 	
-	void ScreenElement::layoutChildElements()
-	{
-		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++)
-		{
+	void ScreenElement::layoutChildElements() {
+		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++) {
 			ScreenElement* childElement = childElements[i];
-			if(childElement->hasLayoutRules())
-			{
+			if(childElement->hasLayoutRules()) {
 				childElement->autoLayoutFrame();
 			}
-			childElement->layoutChildElements();
+		}
+		onLayoutChildElements();
+		needsLayout = false;
+	}
+	
+	void ScreenElement::layoutChildElementsIfNeeded() {
+		if(needsLayout) {
+			layoutChildElements();
 		}
 	}
 	
-	RectangleD ScreenElement::getFrame() const
-	{
+	void ScreenElement::setNeedsLayout() {
+		needsLayout = true;
+	}
+	
+	RectangleD ScreenElement::getFrame() const {
 		return frame;
 	}
 	
@@ -208,10 +219,7 @@ namespace fgl
 		}
 		childElements.add(element);
 		element->parentElement = this;
-		if(element->hasLayoutRules())
-		{
-			element->autoLayoutFrame();
-		}
+		setNeedsLayout();
 	}
 	
 	void ScreenElement::addChildElement(size_t index, fgl::ScreenElement* element)
@@ -226,10 +234,7 @@ namespace fgl
 		}
 		childElements.add(index, element);
 		element->parentElement = this;
-		if(element->hasLayoutRules())
-		{
-			element->autoLayoutFrame();
-		}
+		setNeedsLayout();
 	}
 	
 	void ScreenElement::removeFromParentElement()
