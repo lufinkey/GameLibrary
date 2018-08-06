@@ -172,8 +172,19 @@ namespace fgl
 		
 		
 		
-		//Random
+		//Misc
 		static double random();
+		
+		template<typename T, typename std::enable_if<std::is_arithmetic<T>::value && std::is_signed<T>::value, std::nullptr_t>::type = nullptr>
+		static constexpr T sign(T value) {
+			if(value > 0) {
+				return T(1);
+			}
+			else if(value < 0) {
+				return T(-1);
+			}
+			return T(0);
+		}
 	};
 }
 
