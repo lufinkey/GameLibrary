@@ -13,7 +13,6 @@ namespace fgl
 		
 		SegmentedSelectorElement();
 		SegmentedSelectorElement(const RectangleD& frame);
-		virtual ~SegmentedSelectorElement();
 		
 		void setItems(const ArrayList<String>& items);
 		const ArrayList<String>& getItems() const;

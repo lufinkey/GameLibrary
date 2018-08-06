@@ -54,15 +54,6 @@ namespace fgl
 		addChildElement(textElement);
 	}
 	
-	TextInputElement::~TextInputElement()
-	{
-		if(TextInputElement_input_responder==this)
-		{
-			resignTextInputResponder();
-		}
-		delete textElement;
-	}
-	
 	void TextInputElement::update(ApplicationData appData)
 	{
 		TouchElement::update(appData);
@@ -238,6 +229,12 @@ namespace fgl
 		TouchElement::otherElementHandledTouchEvent(touchEvent);
 		if(resignsOnOutsideTouch && touchEvent.getEventType()==TouchEvent::EVENTTYPE_TOUCHDOWN && isTextInputResponder())
 		{
+			resignTextInputResponder();
+		}
+	}
+	
+	void TextInputElement::onRemoveFromScreenElement(ScreenElement* parent) {
+		if(isTextInputResponder()) {
 			resignTextInputResponder();
 		}
 	}

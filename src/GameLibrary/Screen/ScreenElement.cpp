@@ -5,16 +5,6 @@
 
 namespace fgl
 {
-	void ScreenElement::onRemoveFromWindow(Window* window)
-	{
-		//
-	}
-	
-	void ScreenElement::onAddToWindow(Window* window)
-	{
-		//
-	}
-	
 	void ScreenElement::autoLayoutFrame()
 	{
 		if(parentElement!=nullptr) {
@@ -43,7 +33,9 @@ namespace fgl
 	
 	ScreenElement::~ScreenElement()
 	{
-		//
+		for(auto element : childElements) {
+			delete element;
+		}
 	}
 	
 	void ScreenElement::update(ApplicationData appData) {
@@ -207,34 +199,30 @@ namespace fgl
 		return Vector2d(frame.x+(frame.width/2), frame.y+(frame.height/2));
 	}
 	
-	void ScreenElement::addChildElement(ScreenElement*element)
-	{
-		if(element == nullptr)
-		{
+	void ScreenElement::addChildElement(ScreenElement*element) {
+		if(element == nullptr) {
 			throw IllegalArgumentException("element", "cannot be null");
 		}
-		else if(element->parentElement != nullptr)
-		{
+		else if(element->parentElement != nullptr) {
 			throw IllegalArgumentException("element", "already added to another ScreenElement");
 		}
 		childElements.add(element);
 		element->parentElement = this;
 		setNeedsLayout();
+		element->onAddToScreenElement(this);
 	}
 	
-	void ScreenElement::addChildElement(size_t index, fgl::ScreenElement* element)
-	{
-		if(element == nullptr)
-		{
+	void ScreenElement::addChildElement(size_t index, fgl::ScreenElement* element) {
+		if(element == nullptr) {
 			throw IllegalArgumentException("element", "cannot be null");
 		}
-		else if(element->parentElement != nullptr)
-		{
+		else if(element->parentElement != nullptr) {
 			throw IllegalArgumentException("element", "already added to another ScreenElement");
 		}
 		childElements.add(index, element);
 		element->parentElement = this;
 		setNeedsLayout();
+		element->onRemoveFromScreenElement(this);
 	}
 	
 	void ScreenElement::removeFromParentElement()
@@ -534,5 +522,35 @@ namespace fgl
 	fgl::String ScreenElement::TouchEvent::toString() const
 	{
 		return "ScreenElement::TouchEvent(eventType: "+EventType_toString(eventType)+", touchID: "+touchID+", position: "+getPosition().toString()+", mouse: "+mouse+")";
+	}
+	
+	void ScreenElement::handleAddToWindow(Window* window) {
+		onAddToWindow(window);
+		for(auto element : childElements) {
+			element->handleAddToWindow(window);
+		}
+	}
+	
+	void ScreenElement::handleRemoveFromWindow(Window* window) {
+		onRemoveFromWindow(window);
+		for(auto element : childElements) {
+			element->handleRemoveFromWindow(window);
+		}
+	}
+	
+	void ScreenElement::onAddToWindow(Window* window) {
+		// open for implementation
+	}
+	
+	void ScreenElement::onRemoveFromWindow(Window* window) {
+		// open for implementation
+	}
+	
+	void ScreenElement::onAddToScreenElement(ScreenElement* parent) {
+		// open for implementation
+	}
+	
+	void ScreenElement::onRemoveFromScreenElement(ScreenElement* parent) {
+		// open for implementation
 	}
 }

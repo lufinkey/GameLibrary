@@ -13,9 +13,11 @@ namespace fgl
 	
 	ActorMenuElement::~ActorMenuElement()
 	{
-		for(size_t actorLayoutMgrs_size=actorLayoutMgrs.size(), i=0; i<actorLayoutMgrs_size; i++)
-		{
-			delete actorLayoutMgrs[i];
+		for(auto actorLayoutMgr : actorLayoutMgrs) {
+			delete actorLayoutMgr;
+		}
+		for(auto actor : actors) {
+			delete actor;
 		}
 	}
 	

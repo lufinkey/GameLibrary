@@ -12,11 +12,6 @@ namespace fgl
 		menuScreen = screen;
 	}
 	
-	MenuScreen::MainElement::~MainElement()
-	{
-		//
-	}
-	
 	void MenuScreen::MainElement::drawActor(ApplicationData appData, Graphics graphics, Actor*actor) const
 	{
 		menuScreen->drawItem(appData, graphics, actor);
@@ -69,18 +64,6 @@ namespace fgl
 		mainElement->setLayoutRule(LAYOUTRULE_RIGHT,  0, LAYOUTVALUE_RATIO);
 		mainElement->setLayoutRule(LAYOUTRULE_BOTTOM, 0, LAYOUTVALUE_RATIO);
 		element->addChildElement(mainElement);
-	}
-	
-	MenuScreen::~MenuScreen()
-	{
-		ArrayList<Actor*> items = mainElement->getActors();
-		mainElement->removeFromParentElement();
-		delete mainElement;
-		mainElement = nullptr;
-		for(size_t i=0; i<items.size(); i++)
-		{
-			delete items.get(i);
-		}
 	}
 	
 	void MenuScreen::drawItem(ApplicationData appData, Graphics graphics, Actor*item) const

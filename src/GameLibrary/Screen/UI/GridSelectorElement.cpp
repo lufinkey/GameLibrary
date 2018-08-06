@@ -18,14 +18,6 @@ namespace fgl
 		//
 	}
 	
-	GridSelectorElement::~GridSelectorElement()
-	{
-		for(auto& item : items)
-		{
-			delete item;
-		}
-	}
-	
 	void GridSelectorElement::update(fgl::ApplicationData appData)
 	{
 		ZoomPanElement::update(appData);
@@ -108,13 +100,11 @@ namespace fgl
 	
 	void GridSelectorElement::setItems(const fgl::ArrayList<fgl::ButtonElement*>& items_args)
 	{
-		for(auto& item : items)
-		{
+		for(auto& item : items) {
 			item->removeFromParentElement();
 		}
 		items = items_args;
-		for(auto& item : items)
-		{
+		for(auto& item : items) {
 			addChildElement(item);
 		}
 		layoutChildElements();

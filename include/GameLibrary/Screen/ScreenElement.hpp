@@ -241,12 +241,20 @@ namespace fgl
 		virtual Graphics getChildrenGraphics(Graphics graphics) const;
 		
 		
-		/*! Called when this element is removed from an element that is stored in a Screen, which is presented on, or is itself, a root screen.
-			\param window the Window pointer*/
-		virtual void onRemoveFromWindow(Window* window);
 		/*! Called when this element is added to an element that is stored in a Screen, which is presented on, or is itself, a root screen.
 			\param window the Window pointer*/
 		virtual void onAddToWindow(Window* window);
+		/*! Called when this element is removed from an element that is stored in a Screen, which is presented on, or is itself, a root screen.
+			\param window the Window pointer*/
+		virtual void onRemoveFromWindow(Window* window);
+		
+		
+		/*! Called when this element is added to a parent element.
+			\param parent the parent element*/
+		virtual void onAddToScreenElement(ScreenElement* parent);
+		/*! Called when this element is removed from a parent element.
+			\param parent the parent element*/
+		virtual void onRemoveFromScreenElement(ScreenElement* parent);
 
 
 		/*! Handles or ignores a given touch event. Override this method to provide custom touch behavior.
@@ -260,6 +268,9 @@ namespace fgl
 	private:
 		bool sendTouchEvent(const TouchEvent& touchEvent);
 		void sendHandledTouchEvent(const TouchEvent& touchEvent);
+		
+		void handleAddToWindow(Window* window);
+		void handleRemoveFromWindow(Window* window);
 
 		void autoLayoutFrame();
 

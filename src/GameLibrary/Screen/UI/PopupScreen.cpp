@@ -6,8 +6,8 @@ namespace fgl
 {
 	const Transition* const PopupScreen::defaultPresentationTransition = new FadeZoomTransition(1.4, 1.0);
 
-	PopupScreen::PopupScreen(ScreenElement* popupElement, bool autoDeleteElement)
-		: popupElement(popupElement), autoDeletePopupElement(autoDeleteElement)
+	PopupScreen::PopupScreen(ScreenElement* popupElement)
+		: popupElement(popupElement)
 	{
 		setParentScreenUpdatingEnabled(true);
 		setParentScreenDrawingEnabled(true);
@@ -18,14 +18,6 @@ namespace fgl
 		popupElement->setLayoutRule(fgl::LAYOUTRULE_CENTER_Y, 0.5, fgl::LAYOUTVALUE_RATIO);
 
 		getElement()->addChildElement(popupElement);
-	}
-
-	PopupScreen::~PopupScreen()
-	{
-		if(autoDeletePopupElement)
-		{
-			delete popupElement;
-		}
 	}
 
 	const Transition* PopupScreen::getDefaultPresentationTransition() const

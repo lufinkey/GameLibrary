@@ -24,7 +24,6 @@ namespace fgl
 		ButtonElement();
 		ButtonElement(const RectangleD& frame);
 		ButtonElement(const RectangleD& frame, const String& title, const std::function<void()>& tapHandler);
-		virtual ~ButtonElement();
 		
 		virtual void draw(ApplicationData appData, Graphics graphics) const override;
 		

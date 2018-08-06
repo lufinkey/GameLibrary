@@ -14,8 +14,6 @@ namespace fgl
 		TextInputElement();
 		/*! \copydoc fgl::ScreenElement::ScreenElement(const RectangleD&frame)*/
 		explicit TextInputElement(const RectangleD&frame);
-		/*! virtual destructor*/
-		virtual ~TextInputElement();
 		
 		/*! \copydoc fgl::TouchElement::update(fgl::ApplicationData)*/
 		virtual void update(ApplicationData appData) override;
@@ -47,6 +45,8 @@ namespace fgl
 
 		virtual bool handleTouchEvent(const TouchEvent& touchEvent) override;
 		virtual void otherElementHandledTouchEvent(const TouchEvent& touchEvent) override;
+		
+		virtual void onRemoveFromScreenElement(ScreenElement* parent) override;
 		
 	private:
 		class TextInputListener : public KeyboardEventListener

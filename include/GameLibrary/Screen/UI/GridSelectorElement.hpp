@@ -13,7 +13,6 @@ namespace fgl
 		
 		GridSelectorElement();
 		explicit GridSelectorElement(const fgl::RectangleD& frame);
-		virtual ~GridSelectorElement();
 		
 		virtual void update(fgl::ApplicationData appData) override;
 		

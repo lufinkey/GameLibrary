@@ -20,14 +20,6 @@ namespace fgl
 		//
 	}
 	
-	SegmentedSelectorElement::~SegmentedSelectorElement()
-	{
-		for(auto itemElement : itemElements)
-		{
-			delete itemElement;
-		}
-	}
-	
 	void SegmentedSelectorElement::setItems(const ArrayList<String>& items_arg)
 	{
 		items = items_arg;

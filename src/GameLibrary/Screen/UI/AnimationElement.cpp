@@ -33,11 +33,6 @@ namespace fgl
 		//
 	}
 	
-	AnimationElement::~AnimationElement()
-	{
-		delete imageElement;
-	}
-	
 	void AnimationElement::update(ApplicationData appData)
 	{
 		animationPlayer.update(appData);

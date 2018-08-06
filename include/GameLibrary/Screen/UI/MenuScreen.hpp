@@ -26,8 +26,6 @@ namespace fgl
 		/*! Constructs a MenuScreen to be the root Screen of a Window. Only one screen in any Screen stack should be delegated as the root Screen.
 			\param window the Window that the Screen will be contained within*/
 		explicit MenuScreen(Window* window);
-		/*! virtual destructor*/
-		virtual ~MenuScreen();
 		
 		
 		MenuScreen(const MenuScreen&) = delete;
@@ -201,7 +199,6 @@ namespace fgl
 			
 		public:
 			MainElement(MenuScreen* menuScreen, const RectangleD& frame);
-			virtual ~MainElement();
 			
 			virtual void onActorHover(size_t index) override;
 			virtual void onActorHoverFinish(size_t index) override;

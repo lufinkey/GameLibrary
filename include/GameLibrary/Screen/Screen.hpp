@@ -292,7 +292,7 @@ namespace fgl
 		mutable bool drawingOverlayTransition;
 		
 		void updateFrame(Window*window);
-		virtual void setWindow(Window*window);
+		void setWindow(Window*window);
 
 		//---TouchData---
 		

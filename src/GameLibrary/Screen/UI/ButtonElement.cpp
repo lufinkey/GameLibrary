@@ -47,13 +47,6 @@ namespace fgl
 		addChildElement(imageElement);
 	}
 	
-	ButtonElement::~ButtonElement()
-	{
-		delete backgroundElement;
-		delete imageElement;
-		delete titleElement;
-	}
-	
 	void ButtonElement::onLayoutChildElements()
 	{
 		TouchElement::onLayoutChildElements();

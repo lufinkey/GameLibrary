@@ -10,8 +10,7 @@ namespace fgl
 {
 	const Transition* const Screen::defaultPresentationTransition = new PopoverTransition(PopoverTransition::POPOVER_UP);
 	
-	void Screen::updateFrame(Window* window)
-	{
+	void Screen::updateFrame(Window* window) {
 		if(window != nullptr) {
 			Viewport* viewport = window->getViewport();
 			Vector2d size;
@@ -38,15 +37,20 @@ namespace fgl
 		}
 	}
 	
-	void Screen::setWindow(Window* win)
-	{
-		if(window!=win)
-		{
-			window = win;
-			updateFrame(win);
-			for(auto& container : childScreens)
-			{
-				container.screen->setWindow(win);
+	void Screen::setWindow(Window* window_arg) {
+		auto oldWindow = window;
+		if(window != window_arg) {
+			if(oldWindow != nullptr) {
+				element->handleRemoveFromWindow(oldWindow);
+			}
+			
+			window = window_arg;
+			updateFrame(window);
+			
+			element->handleAddToWindow(window);
+			
+			for(auto& container : childScreens) {
+				container.screen->setWindow(window);
 			}
 		}
 	}

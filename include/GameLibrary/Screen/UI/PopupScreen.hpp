@@ -10,7 +10,7 @@ namespace fgl
 	public:
 		static const Transition* const defaultPresentationTransition;
 
-		PopupScreen(ScreenElement* popupElement, bool autoDeleteElement=true);
+		PopupScreen(ScreenElement* popupElement);
 		virtual ~PopupScreen();
 
 		virtual const Transition* getDefaultPresentationTransition() const override;
@@ -20,6 +20,5 @@ namespace fgl
 
 	private:
 		ScreenElement* popupElement;
-		bool autoDeletePopupElement;
 	};
 }

@@ -23,8 +23,6 @@ namespace fgl
 		/*! Constructs a screen element with an animation to display with a given display mode. The default frame is (0,0,0,0)
 			\param animation the animation to display inside the element */
 		AnimationElement(Animation* animation, const Animation::Direction& direction = Animation::Direction::FORWARD);
-		/*! virtual destructor*/
-		virtual ~AnimationElement();
 		
 		
 		/*! \copydoc fgl::ScreenElement::update(fgl::ApplicationData)*/
