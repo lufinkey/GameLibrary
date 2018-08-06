@@ -442,8 +442,7 @@ namespace fgl
 		{
 			auto childEvent = touchEvent.withAppData(getChildrenApplicationData(touchEvent.getApplicationData()));
 			ArrayList<ScreenElement*> elements = childElements;
-			for(size_t i=(elements.size()-1); i!=-1; i--)
-			{
+			for(size_t i=(elements.size()-1); i!=-1; i--) {
 				ScreenElement* element = elements[i];
 				element->sendHandledTouchEvent(childEvent);
 			}
