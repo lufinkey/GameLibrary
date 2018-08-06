@@ -145,6 +145,7 @@ namespace fgl
 	}
 	
 	void ScreenElement::layoutChildElements() {
+		needsLayout = false;
 		for(size_t childElements_size=childElements.size(), i=0; i<childElements_size; i++) {
 			ScreenElement* childElement = childElements[i];
 			if(childElement->hasLayoutRules()) {
@@ -152,7 +153,6 @@ namespace fgl
 			}
 		}
 		onLayoutChildElements();
-		needsLayout = false;
 	}
 	
 	void ScreenElement::layoutChildElementsIfNeeded() {
@@ -222,24 +222,22 @@ namespace fgl
 		childElements.add(index, element);
 		element->parentElement = this;
 		setNeedsLayout();
-		element->onRemoveFromScreenElement(this);
+		element->onAddToScreenElement(this);
 	}
 	
 	void ScreenElement::removeFromParentElement()
 	{
-		if(parentElement != nullptr)
-		{
-			size_t index = parentElement->childElements.indexOf(this);
-			if(index == ArrayList<ScreenElement*>::NOT_FOUND)
-			{
-				throw IllegalStateException("Child ScreenElement not found in parent ScreenElement");
-			}
-			else
-			{
-				parentElement->childElements.remove(index);
-				parentElement = nullptr;
-			}
+		if(parentElement == nullptr) {
+			return;
 		}
+		size_t index = parentElement->childElements.indexOf(this);
+		if(index == ArrayList<ScreenElement*>::NOT_FOUND) {
+			throw IllegalStateException("Child ScreenElement not found in parent ScreenElement");
+		}
+		auto oldParentElement = parentElement;
+		parentElement->childElements.remove(index);
+		parentElement = nullptr;
+		onRemoveFromScreenElement(oldParentElement);
 	}
 	
 	void ScreenElement::bringChildElementToFront(ScreenElement* element)
