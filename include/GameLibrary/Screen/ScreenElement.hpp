@@ -56,6 +56,8 @@ namespace fgl
 		/*! Gets the frame of the element reduced on all sides by the border width.
 			\returns a RectangleD object representing the frame the element inside of its border*/
 		RectangleD getBorderPaddedFrame() const;
+		/*! Gets the frame of the element inside the given parent element */
+		RectangleD getFrameInsideParent(ScreenElement* parent) const;
 		/*! Moves the frame to have it's center coordinates at the given point.
 			\param center the center coordinates to set */
 		void setCenter(const Vector2d& center);

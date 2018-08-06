@@ -169,6 +169,26 @@ namespace fgl
 		return frame;
 	}
 	
+	RectangleD ScreenElement::getFrameInsideParent(ScreenElement* parent) const {
+		if(parentElement == nullptr) {
+			throw fgl::IllegalArgumentException("parent", "not a parent of this element");
+		}
+		auto fullFrame = frame;
+		ScreenElement* cmpParent = parentElement;
+		while(cmpParent != parent)
+		{
+			auto appData = fgl::ApplicationData(nullptr, nullptr, nullptr, fgl::TimeInterval(0), fgl::TransformD(), 1.0/60.0);
+			appData = cmpParent->getChildrenApplicationData(appData);
+			auto transform = appData.getTransform();
+			fullFrame = transform.transform(fullFrame);
+			cmpParent = cmpParent->getParentElement();
+			if(cmpParent == nullptr) {
+				throw fgl::IllegalArgumentException("parent", "not a parent of this element");
+			}
+		}
+		return fullFrame;
+	}
+	
 	RectangleD ScreenElement::getBorderPaddedFrame() const
 	{
 		Vector2d center = getCenter();
