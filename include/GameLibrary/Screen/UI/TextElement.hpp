@@ -23,8 +23,14 @@ namespace fgl
 	class TextElement : public ScreenElement
 	{
 	public:
-		TextElement();
 		TextElement(const RectangleD& frame);
+		TextElement(
+			const String& text = "",
+			TextAlignment alignment = TEXTALIGN_LEFT,
+			VerticalAlignment verticalAlignment = VERTICALALIGN_TOP,
+			unsigned int size = 18,
+			Color color = Colors::BLACK,
+			const RectangleD& frame = fgl::RectangleD(0,0,0,0));
 
 		virtual void drawMain(ApplicationData appData, Graphics graphics) const override;
 

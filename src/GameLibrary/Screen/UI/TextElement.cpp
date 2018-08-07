@@ -4,18 +4,25 @@
 
 namespace fgl
 {
-	TextElement::TextElement() : TextElement(RectangleD(0,0,0,0))
-	{
+	TextElement::TextElement(const RectangleD& frame)
+		: TextElement("", TEXTALIGN_LEFT, VERTICALALIGN_TOP, 18, Colors::BLACK, frame) {
 		//
 	}
-
-	TextElement::TextElement(const RectangleD& frame)
+	
+	TextElement::TextElement(
+		const String& text,
+		TextAlignment alignment,
+		VerticalAlignment verticalAlignment,
+		unsigned int size,
+		Color color,
+		const RectangleD& frame)
 		: ScreenElement(frame),
-		textAlignment(TEXTALIGN_LEFT),
-		verticalTextAlignment(VERTICALALIGN_TOP),
-		textColor(Colors::BLACK),
+		text(text),
+		textAlignment(alignment),
+		verticalTextAlignment(verticalAlignment),
+		textColor(color),
 		font(Graphics::getDefaultFont()),
-		fontSize(18),
+		fontSize(size),
 		fontSizeWidthAdjustmentEnabled(false),
 		fontSizeHeightAdjustmentEnabled(false)
 	{
