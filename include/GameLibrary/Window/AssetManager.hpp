@@ -76,6 +76,11 @@ namespace fgl
 			\param path a path to identify the TextureImage
 			\param texture the TextureImage pointer to add*/
 		void addTexture(const String& path, TextureImage* texture);
+		/*! Finds the file path of a loaded texture
+			\param texture the texture to find the file path of
+			\returns the file path of the texture
+			\throws fgl::IllegalArgumentException if the texture is null or isn't in the AssetManager */
+		fgl::String getTexturePath(TextureImage* texture) const;
 
 
 		/*! Loads and stores a TextureImage from the given path and masks it with a specified Image.

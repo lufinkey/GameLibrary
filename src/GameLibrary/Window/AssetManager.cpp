@@ -261,6 +261,19 @@ namespace fgl
 		}
 		return texture;
 	}
+	
+	fgl::String AssetManager::getTexturePath(TextureImage* texture) const
+	{
+		if(texture == nullptr) {
+			throw fgl::IllegalArgumentException("texture", "cannot be null");
+		}
+		for(auto& pair : textures) {
+			if(pair.second == texture) {
+				return pair.first;
+			}
+		}
+		throw fgl::IllegalArgumentException("texture", "not stored in this AssetManager");
+	}
 
 	Image* AssetManager::loadImage(const fgl::String& path, fgl::String* error)
 	{
