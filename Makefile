@@ -1,9 +1,9 @@
 
 COMPILER = clang
 
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++14
 CFLAGS = 
-OBJCFLAGS = -fobjc-arc -std=c++11
+OBJCFLAGS = -fobjc-arc -std=c++14
 
 TARGET = GameLibrary
 
@@ -13,17 +13,19 @@ BIN_DIR = bin
 SRC_FILES =\
 	src/GameLibrary/GameLibrary.cpp\
 	src/GameLibrary/Actor/Actor.cpp\
-	src/GameLibrary/Actor/Animation.cpp\
-	src/GameLibrary/Actor/AnimationPlayer.cpp\
 	src/GameLibrary/Actor/SpriteActor.cpp\
 	src/GameLibrary/Actor/TextActor.cpp\
 	src/GameLibrary/Actor/WireframeActor.cpp\
+	src/GameLibrary/Animation/Animation.cpp\
+	src/GameLibrary/Animation/AnimationPlayer.cpp\
+	src/GameLibrary/Animation/AnimationProvider.cpp\
 	src/GameLibrary/Application/Application.cpp\
 	src/GameLibrary/Application/ApplicationData.cpp\
 	src/GameLibrary/Application/BatchLoader.cpp\
 	src/GameLibrary/Application/EventManager.cpp\
 	src/GameLibrary/Audio/Music.cpp\
 	src/GameLibrary/Audio/Sound.cpp\
+	src/GameLibrary/Event/Event.cpp\
 	src/GameLibrary/Exception/Exception.cpp\
 	src/GameLibrary/Exception/BadCastException.cpp\
 	src/GameLibrary/Exception/IllegalArgumentException.cpp\
@@ -58,6 +60,17 @@ SRC_FILES =\
 	src/GameLibrary/IO/FileTools.cpp\
 	src/GameLibrary/IO/FileTools.mm\
 	src/GameLibrary/Network/NetworkProtocol.cpp\
+	src/GameLibrary/Physics/Collidable.cpp\
+	src/GameLibrary/Physics/CollisionEvent.cpp\
+	src/GameLibrary/Physics/CollisionManager.cpp\
+	src/GameLibrary/Physics/CollisionPair.cpp\
+	src/GameLibrary/Physics/CollisionRectBuilder.cpp\
+	src/GameLibrary/Physics/CollisionSide.cpp\
+	src/GameLibrary/Physics/ContactEvent.cpp\
+	src/GameLibrary/Physics/CollisionRects/BoxCollisionRect.cpp\
+	src/GameLibrary/Physics/CollisionRects/CollisionRect.cpp\
+	src/GameLibrary/Physics/CollisionRects/PixelCollisionRect.cpp\
+	src/GameLibrary/Physics/CollisionRects/PolygonCollisionRect.cpp\
 	src/GameLibrary/PlatformSpecific/iOS/iOSUtils.mm\
 	src/GameLibrary/Screen/AutoLayoutCalculator.cpp\
 	src/GameLibrary/Screen/AutoLayoutManager.cpp\
@@ -72,8 +85,9 @@ SRC_FILES =\
 	src/GameLibrary/Screen/UI/AnimationElement.cpp\
 	src/GameLibrary/Screen/UI/ButtonElement.cpp\
 	src/GameLibrary/Screen/UI/CheckboxElement.cpp\
-	src/GameLibrary/Screen/UI/ImageElement.cpp\
+	src/GameLibrary/Screen/UI/DraggableElement.cpp\
 	src/GameLibrary/Screen/UI/GridSelectorElement.cpp\
+	src/GameLibrary/Screen/UI/ImageElement.cpp\
 	src/GameLibrary/Screen/UI/MenuScreen.cpp\
 	src/GameLibrary/Screen/UI/PopupScreen.cpp\
 	src/GameLibrary/Screen/UI/SegmentedSelectorElement.cpp\
@@ -119,6 +133,8 @@ MM_OBJ_FILES = $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MM_SRC_FILES)))
 OBJ_FILES = $(CPP_OBJ_FILES) $(C_OBJ_FILES) $(MM_OBJ_FILES)
 DEP_FILES = $(addprefix $(BUILD_DIR)/, $(addsuffix .d, $(SRC_FILES)))
 OUTPUT_DIRS = $(addprefix $(BUILD_DIR)/, $(dir $(SRC_FILES)))
+
+export CLANG_ENABLE_OBJC_ARC = 1
 
 
 
