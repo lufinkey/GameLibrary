@@ -7,12 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A049BB28211961FD00857893 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB25211961FD00857893 /* Animation.cpp */; };
+		A049BB29211961FD00857893 /* AnimationPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB26211961FD00857893 /* AnimationPlayer.cpp */; };
+		A049BB2A211961FD00857893 /* AnimationProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB27211961FD00857893 /* AnimationProvider.cpp */; };
+		A049BB2D2119621C00857893 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB2C2119621C00857893 /* Event.cpp */; };
+		A049BB49211962AA00857893 /* Collidable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB3D211962AA00857893 /* Collidable.cpp */; };
+		A049BB4A211962AA00857893 /* CollisionEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB3E211962AA00857893 /* CollisionEvent.cpp */; };
+		A049BB4B211962AA00857893 /* CollisionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB3F211962AA00857893 /* CollisionManager.cpp */; };
+		A049BB4C211962AA00857893 /* CollisionPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB40211962AA00857893 /* CollisionPair.cpp */; };
+		A049BB4D211962AA00857893 /* CollisionRectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB41211962AA00857893 /* CollisionRectBuilder.cpp */; };
+		A049BB4E211962AA00857893 /* BoxCollisionRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB43211962AA00857893 /* BoxCollisionRect.cpp */; };
+		A049BB4F211962AA00857893 /* CollisionRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB44211962AA00857893 /* CollisionRect.cpp */; };
+		A049BB50211962AA00857893 /* PixelCollisionRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB45211962AA00857893 /* PixelCollisionRect.cpp */; };
+		A049BB51211962AA00857893 /* PolygonCollisionRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB46211962AA00857893 /* PolygonCollisionRect.cpp */; };
+		A049BB52211962AA00857893 /* CollisionSide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB47211962AA00857893 /* CollisionSide.cpp */; };
+		A049BB53211962AA00857893 /* ContactEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB48211962AA00857893 /* ContactEvent.cpp */; };
+		A049BB55211962E000857893 /* DraggableElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB54211962E000857893 /* DraggableElement.cpp */; };
+		A049BB57211962FC00857893 /* Retainable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB56211962FC00857893 /* Retainable.cpp */; };
 		A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */; };
 		A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD221F896A3C001771AE /* GameLibrary.cpp */; };
 		A0D7FD691F896A49001771AE /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD231F896A3C001771AE /* GameLibrary.mm */; };
 		A0D7FD6A1F896A4F001771AE /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCF71F896A3C001771AE /* Actor.cpp */; };
-		A0D7FD6B1F896A4F001771AE /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCF81F896A3C001771AE /* Animation.cpp */; };
-		A0D7FD6C1F896A4F001771AE /* AnimationPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCF91F896A3C001771AE /* AnimationPlayer.cpp */; };
 		A0D7FD6D1F896A4F001771AE /* SpriteActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCFA1F896A3C001771AE /* SpriteActor.cpp */; };
 		A0D7FD6E1F896A4F001771AE /* TextActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCFB1F896A3C001771AE /* TextActor.cpp */; };
 		A0D7FD6F1F896A4F001771AE /* WireframeActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCFC1F896A3C001771AE /* WireframeActor.cpp */; };
@@ -107,7 +122,6 @@
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
 		F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */; };
 		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
-		F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */; };
 		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
 		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 /* End PBXBuildFile section */
@@ -235,11 +249,50 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A049BB12211960BE00857893 /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
+		A049BB13211960BE00857893 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
+		A049BB14211960BE00857893 /* AnimationProvider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationProvider.hpp; sourceTree = "<group>"; };
+		A049BB1A211960FE00857893 /* ExceptionPtr.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ExceptionPtr.hpp; sourceTree = "<group>"; };
+		A049BB1B2119610A00857893 /* IllegalReturnValueException.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IllegalReturnValueException.hpp; sourceTree = "<group>"; };
+		A049BB1D2119613F00857893 /* Event.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
+		A049BB1E2119616600857893 /* DraggableElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DraggableElement.hpp; sourceTree = "<group>"; };
+		A049BB1F2119618F00857893 /* Aspectable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Aspectable.hpp; sourceTree = "<group>"; };
+		A049BB20211961A600857893 /* Promise.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Promise.hpp; sourceTree = "<group>"; };
+		A049BB21211961B300857893 /* Range.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Range.hpp; sourceTree = "<group>"; };
+		A049BB22211961C200857893 /* Retainable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Retainable.hpp; sourceTree = "<group>"; };
+		A049BB23211961CE00857893 /* Traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Traits.hpp; sourceTree = "<group>"; };
+		A049BB25211961FD00857893 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		A049BB26211961FD00857893 /* AnimationPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationPlayer.cpp; sourceTree = "<group>"; };
+		A049BB27211961FD00857893 /* AnimationProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationProvider.cpp; sourceTree = "<group>"; };
+		A049BB2C2119621C00857893 /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
+		A049BB2F2119629000857893 /* Collidable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Collidable.hpp; sourceTree = "<group>"; };
+		A049BB302119629000857893 /* CollisionEvent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionEvent.hpp; sourceTree = "<group>"; };
+		A049BB312119629000857893 /* CollisionManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionManager.hpp; sourceTree = "<group>"; };
+		A049BB322119629000857893 /* CollisionPair.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionPair.hpp; sourceTree = "<group>"; };
+		A049BB332119629000857893 /* CollisionRectBuilder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionRectBuilder.hpp; sourceTree = "<group>"; };
+		A049BB342119629000857893 /* CollisionRectPair.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionRectPair.hpp; sourceTree = "<group>"; };
+		A049BB362119629000857893 /* BoxCollisionRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoxCollisionRect.hpp; sourceTree = "<group>"; };
+		A049BB372119629000857893 /* CollisionRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionRect.hpp; sourceTree = "<group>"; };
+		A049BB382119629000857893 /* PixelCollisionRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelCollisionRect.hpp; sourceTree = "<group>"; };
+		A049BB392119629000857893 /* PolygonCollisionRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolygonCollisionRect.hpp; sourceTree = "<group>"; };
+		A049BB3A2119629000857893 /* CollisionSide.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CollisionSide.hpp; sourceTree = "<group>"; };
+		A049BB3B2119629000857893 /* ContactEvent.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContactEvent.hpp; sourceTree = "<group>"; };
+		A049BB3D211962AA00857893 /* Collidable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Collidable.cpp; sourceTree = "<group>"; };
+		A049BB3E211962AA00857893 /* CollisionEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionEvent.cpp; sourceTree = "<group>"; };
+		A049BB3F211962AA00857893 /* CollisionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionManager.cpp; sourceTree = "<group>"; };
+		A049BB40211962AA00857893 /* CollisionPair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionPair.cpp; sourceTree = "<group>"; };
+		A049BB41211962AA00857893 /* CollisionRectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionRectBuilder.cpp; sourceTree = "<group>"; };
+		A049BB43211962AA00857893 /* BoxCollisionRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoxCollisionRect.cpp; sourceTree = "<group>"; };
+		A049BB44211962AA00857893 /* CollisionRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionRect.cpp; sourceTree = "<group>"; };
+		A049BB45211962AA00857893 /* PixelCollisionRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelCollisionRect.cpp; sourceTree = "<group>"; };
+		A049BB46211962AA00857893 /* PolygonCollisionRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonCollisionRect.cpp; sourceTree = "<group>"; };
+		A049BB47211962AA00857893 /* CollisionSide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionSide.cpp; sourceTree = "<group>"; };
+		A049BB48211962AA00857893 /* ContactEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContactEvent.cpp; sourceTree = "<group>"; };
+		A049BB54211962E000857893 /* DraggableElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DraggableElement.cpp; sourceTree = "<group>"; };
+		A049BB56211962FC00857893 /* Retainable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Retainable.cpp; sourceTree = "<group>"; };
 		A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GridSelectorElement.hpp; sourceTree = "<group>"; };
 		A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
 		A0D7FCF71F896A3C001771AE /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
-		A0D7FCF81F896A3C001771AE /* Animation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
-		A0D7FCF91F896A3C001771AE /* AnimationPlayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationPlayer.cpp; sourceTree = "<group>"; };
 		A0D7FCFA1F896A3C001771AE /* SpriteActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteActor.cpp; sourceTree = "<group>"; };
 		A0D7FCFB1F896A3C001771AE /* TextActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextActor.cpp; sourceTree = "<group>"; };
 		A0D7FCFC1F896A3C001771AE /* WireframeActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WireframeActor.cpp; sourceTree = "<group>"; };
@@ -330,7 +383,6 @@
 		F14464EE1E6730160088EAA3 /* webp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = webp.framework; sourceTree = "<group>"; };
 		F15A1E1D1E549860008D83E5 /* libGameLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGameLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F15A1E2D1E5498C7008D83E5 /* Actor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Actor.hpp; sourceTree = "<group>"; };
-		F15A1E2E1E5498C7008D83E5 /* Animation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		F15A1E2F1E5498C7008D83E5 /* SpriteActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpriteActor.hpp; sourceTree = "<group>"; };
 		F15A1E301E5498C7008D83E5 /* TextActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TextActor.hpp; sourceTree = "<group>"; };
 		F15A1E311E5498C7008D83E5 /* WireframeActor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WireframeActor.hpp; sourceTree = "<group>"; };
@@ -439,7 +491,6 @@
 		F15A1FFB1E54A3C3008D83E5 /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../../external/SDL/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
 		F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PopupScreen.hpp; sourceTree = "<group>"; };
 		F15F59D61E719BFF00FAFD86 /* TextElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextElement.hpp; sourceTree = "<group>"; };
-		F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
 		F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ButtonElement.hpp; sourceTree = "<group>"; };
 		F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Viewport.hpp; sourceTree = "<group>"; };
 		F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
@@ -464,17 +515,109 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A049BB11211960BE00857893 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB12211960BE00857893 /* Animation.hpp */,
+				A049BB13211960BE00857893 /* AnimationPlayer.hpp */,
+				A049BB14211960BE00857893 /* AnimationProvider.hpp */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		A049BB1C2119613F00857893 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB1D2119613F00857893 /* Event.hpp */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		A049BB24211961FD00857893 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB25211961FD00857893 /* Animation.cpp */,
+				A049BB26211961FD00857893 /* AnimationPlayer.cpp */,
+				A049BB27211961FD00857893 /* AnimationProvider.cpp */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		A049BB2B2119621C00857893 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB2C2119621C00857893 /* Event.cpp */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		A049BB2E2119629000857893 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB352119629000857893 /* CollisionRects */,
+				A049BB2F2119629000857893 /* Collidable.hpp */,
+				A049BB302119629000857893 /* CollisionEvent.hpp */,
+				A049BB312119629000857893 /* CollisionManager.hpp */,
+				A049BB322119629000857893 /* CollisionPair.hpp */,
+				A049BB332119629000857893 /* CollisionRectBuilder.hpp */,
+				A049BB342119629000857893 /* CollisionRectPair.hpp */,
+				A049BB3A2119629000857893 /* CollisionSide.hpp */,
+				A049BB3B2119629000857893 /* ContactEvent.hpp */,
+			);
+			path = Physics;
+			sourceTree = "<group>";
+		};
+		A049BB352119629000857893 /* CollisionRects */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB362119629000857893 /* BoxCollisionRect.hpp */,
+				A049BB372119629000857893 /* CollisionRect.hpp */,
+				A049BB382119629000857893 /* PixelCollisionRect.hpp */,
+				A049BB392119629000857893 /* PolygonCollisionRect.hpp */,
+			);
+			path = CollisionRects;
+			sourceTree = "<group>";
+		};
+		A049BB3C211962AA00857893 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB42211962AA00857893 /* CollisionRects */,
+				A049BB3D211962AA00857893 /* Collidable.cpp */,
+				A049BB3E211962AA00857893 /* CollisionEvent.cpp */,
+				A049BB3F211962AA00857893 /* CollisionManager.cpp */,
+				A049BB40211962AA00857893 /* CollisionPair.cpp */,
+				A049BB41211962AA00857893 /* CollisionRectBuilder.cpp */,
+				A049BB47211962AA00857893 /* CollisionSide.cpp */,
+				A049BB48211962AA00857893 /* ContactEvent.cpp */,
+			);
+			path = Physics;
+			sourceTree = "<group>";
+		};
+		A049BB42211962AA00857893 /* CollisionRects */ = {
+			isa = PBXGroup;
+			children = (
+				A049BB43211962AA00857893 /* BoxCollisionRect.cpp */,
+				A049BB44211962AA00857893 /* CollisionRect.cpp */,
+				A049BB45211962AA00857893 /* PixelCollisionRect.cpp */,
+				A049BB46211962AA00857893 /* PolygonCollisionRect.cpp */,
+			);
+			path = CollisionRects;
+			sourceTree = "<group>";
+		};
 		A0D7FCF51F896A3C001771AE /* GameLibrary */ = {
 			isa = PBXGroup;
 			children = (
 				A0D7FCF61F896A3C001771AE /* Actor */,
+				A049BB24211961FD00857893 /* Animation */,
 				A0D7FCFD1F896A3C001771AE /* Application */,
 				A0D7FD031F896A3C001771AE /* Audio */,
+				A049BB2B2119621C00857893 /* Event */,
 				A0D7FD061F896A3C001771AE /* Exception */,
 				A0D7FD241F896A3C001771AE /* Graphics */,
 				A0D7FD2A1F896A3C001771AE /* Input */,
 				A0D7FD2E1F896A3C001771AE /* IO */,
 				A0D7FD321F896A3C001771AE /* Network */,
+				A049BB3C211962AA00857893 /* Physics */,
 				A0D7FD981F896AE9001771AE /* PlatformSpecific */,
 				A0D7FD391F896A3C001771AE /* Screen */,
 				A0D7FD511F896A3C001771AE /* SDL_ext */,
@@ -490,8 +633,6 @@
 			isa = PBXGroup;
 			children = (
 				A0D7FCF71F896A3C001771AE /* Actor.cpp */,
-				A0D7FCF81F896A3C001771AE /* Animation.cpp */,
-				A0D7FCF91F896A3C001771AE /* AnimationPlayer.cpp */,
 				A0D7FCFA1F896A3C001771AE /* SpriteActor.cpp */,
 				A0D7FCFB1F896A3C001771AE /* TextActor.cpp */,
 				A0D7FCFC1F896A3C001771AE /* WireframeActor.cpp */,
@@ -654,6 +795,7 @@
 				A0D7FD461F896A3C001771AE /* AnimationElement.cpp */,
 				A0D7FD471F896A3C001771AE /* ButtonElement.cpp */,
 				A0D7FD481F896A3C001771AE /* CheckboxElement.cpp */,
+				A049BB54211962E000857893 /* DraggableElement.cpp */,
 				A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */,
 				A0D7FD491F896A3C001771AE /* ImageElement.cpp */,
 				A0D7FD4A1F896A3C001771AE /* MenuScreen.cpp */,
@@ -685,6 +827,7 @@
 				A0D7FD591F896A3C001771AE /* Math.cpp */,
 				A0D7FD5A1F896A3C001771AE /* Number.cpp */,
 				A0D7FD5B1F896A3C001771AE /* Plist.cpp */,
+				A049BB56211962FC00857893 /* Retainable.cpp */,
 				A0D7FD5C1F896A3C001771AE /* Thread.cpp */,
 				A0D7FD5D1F896A3C001771AE /* Thread.mm */,
 				A0D7FD611F896A3C001771AE /* Tools.cpp */,
@@ -790,13 +933,16 @@
 			isa = PBXGroup;
 			children = (
 				F15A1E2C1E5498C7008D83E5 /* Actor */,
+				A049BB11211960BE00857893 /* Animation */,
 				F15A1E321E5498C7008D83E5 /* Application */,
 				F15A1E371E5498C7008D83E5 /* Audio */,
+				A049BB1C2119613F00857893 /* Event */,
 				F15A1E3A1E5498C7008D83E5 /* Exception */,
 				F15A1E551E5498C7008D83E5 /* Graphics */,
 				F15A1E5B1E5498C7008D83E5 /* Input */,
 				F15A1E5F1E5498C7008D83E5 /* IO */,
 				F15A1E621E5498C7008D83E5 /* Network */,
+				A049BB2E2119629000857893 /* Physics */,
 				F15A1E641E5498C7008D83E5 /* Screen */,
 				F15A1E7C1E5498C7008D83E5 /* Utilities */,
 				F15A1E9C1E5498C7008D83E5 /* Window */,
@@ -810,8 +956,6 @@
 			isa = PBXGroup;
 			children = (
 				F15A1E2D1E5498C7008D83E5 /* Actor.hpp */,
-				F15A1E2E1E5498C7008D83E5 /* Animation.hpp */,
-				F15F5A6E1E71E2AA00FAFD86 /* AnimationPlayer.hpp */,
 				F15A1E2F1E5498C7008D83E5 /* SpriteActor.hpp */,
 				F15A1E301E5498C7008D83E5 /* TextActor.hpp */,
 				F15A1E311E5498C7008D83E5 /* WireframeActor.hpp */,
@@ -846,7 +990,9 @@
 				F15A1E4A1E5498C7008D83E5 /* Utilities */,
 				F15A1E3B1E5498C7008D83E5 /* BadCastException.hpp */,
 				F15A1E3C1E5498C7008D83E5 /* Exception.hpp */,
+				A049BB1A211960FE00857893 /* ExceptionPtr.hpp */,
 				F15A1E421E5498C7008D83E5 /* IllegalArgumentException.hpp */,
+				A049BB1B2119610A00857893 /* IllegalReturnValueException.hpp */,
 				F15A1E431E5498C7008D83E5 /* IllegalStateException.hpp */,
 				F15A1E441E5498C7008D83E5 /* InitializeLibraryException.hpp */,
 				F15A1E451E5498C7008D83E5 /* NotImplementedException.hpp */,
@@ -970,6 +1116,7 @@
 				F15A1E731E5498C7008D83E5 /* AnimationElement.hpp */,
 				F15F5A791E71E2BD00FAFD86 /* ButtonElement.hpp */,
 				F199D4A11E76F3FB008627BE /* CheckboxElement.hpp */,
+				A049BB1E2119616600857893 /* DraggableElement.hpp */,
 				A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */,
 				F15A1E741E5498C7008D83E5 /* ImageElement.hpp */,
 				F15A1E751E5498C7008D83E5 /* MenuScreen.hpp */,
@@ -991,6 +1138,7 @@
 				F15A1E981E5498C7008D83E5 /* Time */,
 				F15A1E7D1E5498C7008D83E5 /* Any.hpp */,
 				F15A1E7E1E5498C7008D83E5 /* ArrayList.hpp */,
+				A049BB1F2119618F00857893 /* Aspectable.hpp */,
 				F15A1E7F1E5498C7008D83E5 /* BasicString.hpp */,
 				F15A1E801E5498C7008D83E5 /* BasicString.impl */,
 				F15A1E811E5498C7008D83E5 /* Data.hpp */,
@@ -1001,10 +1149,14 @@
 				F15A1E921E5498C7008D83E5 /* Number.impl */,
 				F15A1E931E5498C7008D83E5 /* PlatformChecks.hpp */,
 				F15A1E941E5498C7008D83E5 /* Plist.hpp */,
+				A049BB20211961A600857893 /* Promise.hpp */,
+				A049BB21211961B300857893 /* Range.hpp */,
+				A049BB22211961C200857893 /* Retainable.hpp */,
 				F15A1E951E5498C7008D83E5 /* String.hpp */,
 				F15A1E961E5498C7008D83E5 /* Stringifier.hpp */,
 				F15A1E971E5498C7008D83E5 /* Thread.hpp */,
 				F15A1E9B1E5498C7008D83E5 /* Tools.hpp */,
+				A049BB23211961CE00857893 /* Traits.hpp */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1180,7 +1332,6 @@
 				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
 				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
 				F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */,
-				F15F5A6F1E71E2AA00FAFD86 /* AnimationPlayer.hpp in Headers */,
 				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1366,14 +1517,16 @@
 				A0D7FD971F896ACD001771AE /* NetworkProtocol.cpp in Sources */,
 				A0D7FD8A1F896AA9001771AE /* NumberFormatException.cpp in Sources */,
 				A0D7FD6E1F896A4F001771AE /* TextActor.cpp in Sources */,
+				A049BB4E211962AA00857893 /* BoxCollisionRect.cpp in Sources */,
 				F15A1F791E549ADD008D83E5 /* SDL2_gfxPrimitives.c in Sources */,
 				A0D7FDCA1F896BBC001771AE /* Tools.cpp in Sources */,
+				A049BB4D211962AA00857893 /* CollisionRectBuilder.cpp in Sources */,
 				F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */,
 				A0D7FD8C1F896AB5001771AE /* Color.cpp in Sources */,
+				A049BB2D2119621C00857893 /* Event.cpp in Sources */,
 				A0D7FD711F896A54001771AE /* ApplicationData.cpp in Sources */,
 				A0D7FDCC1F896BD3001771AE /* MessageBox.cpp in Sources */,
 				A0D7FDB21F896B31001771AE /* SDL_RWops_ext.cpp in Sources */,
-				A0D7FD6B1F896A4F001771AE /* Animation.cpp in Sources */,
 				A0D7FDCB1F896BD3001771AE /* AssetManager.cpp in Sources */,
 				A0D7FDA51F896B1B001771AE /* ImageElement.cpp in Sources */,
 				A0D7FD9F1F896B0D001771AE /* PopoverTransition.cpp in Sources */,
@@ -1393,9 +1546,12 @@
 				F15A1F761E549ADD008D83E5 /* SDL2_framerate.c in Sources */,
 				A0D7FDA21F896B1B001771AE /* AnimationElement.cpp in Sources */,
 				A0D7FDAD1F896B24001771AE /* AutoLayoutCalculator.cpp in Sources */,
+				A049BB2A211961FD00857893 /* AnimationProvider.cpp in Sources */,
 				A0D7FD841F896AA9001771AE /* Exception.cpp in Sources */,
 				A0D7FDC31F896BB1001771AE /* TimeInterval.cpp in Sources */,
 				A0D7FD7E1F896A9A001771AE /* BadNumberCastException.cpp in Sources */,
+				A049BB50211962AA00857893 /* PixelCollisionRect.cpp in Sources */,
+				A049BB29211961FD00857893 /* AnimationPlayer.cpp in Sources */,
 				A0D7FD961F896AC7001771AE /* FileTools.mm in Sources */,
 				A0D7FD741F896A5A001771AE /* Music.cpp in Sources */,
 				A0D7FDB01F896B24001771AE /* ScreenElement.cpp in Sources */,
@@ -1405,6 +1561,7 @@
 				A0D7FD731F896A54001771AE /* EventManager.cpp in Sources */,
 				A0D7FD901F896AB5001771AE /* TextureImage.cpp in Sources */,
 				A0D7FDAF1F896B24001771AE /* Screen.cpp in Sources */,
+				A049BB4A211962AA00857893 /* CollisionEvent.cpp in Sources */,
 				A0D7FDA41F896B1B001771AE /* CheckboxElement.cpp in Sources */,
 				A0D7FD881F896AA9001771AE /* InitializeLibraryException.cpp in Sources */,
 				A0D7FDAE1F896B24001771AE /* AutoLayoutManager.cpp in Sources */,
@@ -1413,6 +1570,7 @@
 				A0D7FD831F896AA9001771AE /* BadCastException.cpp in Sources */,
 				A0D7FDA61F896B1B001771AE /* MenuScreen.cpp in Sources */,
 				A0D7FDC61F896BBC001771AE /* Number.cpp in Sources */,
+				A049BB49211962AA00857893 /* Collidable.cpp in Sources */,
 				A0D7FD7C1F896A9A001771AE /* ArrayListOutOfBoundsException.cpp in Sources */,
 				A0D7FDA31F896B1B001771AE /* ButtonElement.cpp in Sources */,
 				A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */,
@@ -1431,22 +1589,30 @@
 				A0D7FDC21F896BB1001771AE /* DateTime.cpp in Sources */,
 				A0D7FDCF1F896BD3001771AE /* Window.cpp in Sources */,
 				A0D7FDC91F896BBC001771AE /* Thread.mm in Sources */,
+				A049BB4F211962AA00857893 /* CollisionRect.cpp in Sources */,
+				A049BB4B211962AA00857893 /* CollisionManager.cpp in Sources */,
 				A0D7FD751F896A5A001771AE /* Sound.cpp in Sources */,
 				A0D7FD931F896AC0001771AE /* Multitouch.cpp in Sources */,
+				A049BB4C211962AA00857893 /* CollisionPair.cpp in Sources */,
 				A0D7FDA71F896B1B001771AE /* PopupScreen.cpp in Sources */,
 				A0D7FDA11F896B1B001771AE /* ActorMenuElement.cpp in Sources */,
 				A0D7FD911F896AC0001771AE /* Keyboard.cpp in Sources */,
+				A049BB51211962AA00857893 /* PolygonCollisionRect.cpp in Sources */,
+				A049BB53211962AA00857893 /* ContactEvent.cpp in Sources */,
 				F15A1F6A1E549A9A008D83E5 /* pugixml.cpp in Sources */,
 				A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */,
+				A049BB55211962E000857893 /* DraggableElement.cpp in Sources */,
+				A049BB57211962FC00857893 /* Retainable.cpp in Sources */,
+				A049BB52211962AA00857893 /* CollisionSide.cpp in Sources */,
 				A0D7FDAC1F896B1B001771AE /* ZoomPanElement.cpp in Sources */,
 				A0D7FD8D1F896AB5001771AE /* Graphics.cpp in Sources */,
 				A0D7FD7A1F896A77001771AE /* ScreenNavigationException.cpp in Sources */,
-				A0D7FD6C1F896A4F001771AE /* AnimationPlayer.cpp in Sources */,
 				A0D7FDC01F896B9F001771AE /* Font.cpp in Sources */,
 				A0D7FDB11F896B24001771AE /* ScreenManager.cpp in Sources */,
 				A0D7FDAB1F896B1B001771AE /* TouchElement.cpp in Sources */,
 				A0D7FD8E1F896AB5001771AE /* Image.cpp in Sources */,
 				A0D7FD6F1F896A4F001771AE /* WireframeActor.cpp in Sources */,
+				A049BB28211961FD00857893 /* Animation.cpp in Sources */,
 				A0D7FDAA1F896B1B001771AE /* TextInputElement.cpp in Sources */,
 				A0D7FD811F896A9A001771AE /* IllegalNumberOperationException.cpp in Sources */,
 				A0D7FDA01F896B0D001771AE /* SlideTransition.cpp in Sources */,
@@ -1569,6 +1735,7 @@
 		F15A1E221E549860008D83E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1592,6 +1759,7 @@
 		F15A1E231E549860008D83E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
