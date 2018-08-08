@@ -27,6 +27,95 @@ namespace fgl
 	Vector2d Collidable::getDisplacement() const {
 		return displacement;
 	}
+	
+	ArrayList<Collidable*> Collidable::getCollidedOnSide(CollisionSide side) {
+		try {
+			return collided.at(side);
+		}
+		catch(const std::out_of_range& e) {
+			return {};
+		}
+	}
+	
+	ArrayList<const Collidable*> Collidable::getCollidedOnSide(CollisionSide side) const {
+		try {
+			return reinterpret_cast<const std::list<const Collidable*>&>(collided.at(side));
+		}
+		catch(const std::out_of_range& e) {
+			return {};
+		}
+	}
+	
+	double Collidable::getCollidedMassOnSide(CollisionSide side) const {
+		try {
+			auto& collidables = collided.at(side);
+			double mass = 0.0;
+			for(auto collidable : collidables) {
+				mass += collidable->getMass();
+				mass += collidable->getCollidedMassOnSide(side);
+			}
+			return mass;
+		}
+		catch(const std::out_of_range& e) {
+			return 0.0;
+		}
+	}
+	
+	bool Collidable::hasStaticCollisionOnSide(CollisionSide side) const {
+		try {
+			auto& collidables = collided.at(side);
+			for(auto collidable : collidables) {
+				if(collidable->isStaticCollisionBody() || collidable->hasStaticCollisionOnSide(side)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		catch(const std::out_of_range& e) {
+			return false;
+		}
+	}
+	
+	void Collidable::shiftCollisionsOnSide(CollisionSide side, const Vector2d& offset) {
+		try {
+			auto& collidables = collided.at(side);
+			for(auto collidable : collidables) {
+				if(!collidable->isStaticCollisionBody()) {
+					collidable->shift(offset);
+					collidable->shiftCollisionsOnSide(side, offset);
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			// do nothing
+		}
+	}
+	
+	bool Collidable::hasCollision(const Collidable* collidable) const {
+		for(auto& pair : collided) {
+			for(auto cmpCollidable : pair.second) {
+				if(cmpCollidable == collidable) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	bool Collidable::hasCollision(const Collidable* collidable, CollisionSide side) const {
+		try {
+			auto& collidables = collided.at(side);
+			for(auto cmpCollidable : collidables) {
+				if(cmpCollidable == collidable) {
+					return true;
+				}
+			}
+			return false;
+		}
+		catch(const std::out_of_range& e) {
+			return false;
+		}
+	}
 
 	void Collidable::onContact(const ContactEvent& contactEvent) {
 		//

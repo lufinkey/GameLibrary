@@ -17,12 +17,10 @@ namespace fgl
 	template<typename T>
 	std::optional<T> attempt(std::function<std::optional<T>()> block)
 	{
-		try
-		{
+		try {
 			return block();
 		}
-		catch(...)
-		{
+		catch(...) {
 			return {};
 		}
 	}
@@ -30,27 +28,25 @@ namespace fgl
 	template<typename T>
 	std::optional<T> attempt(std::function<T()> block)
 	{
-		try
-		{
+		try {
 			return std::optional<T>(block());
 		}
-		catch(...)
-		{
+		catch(...) {
 			return {};
 		}
 	}
 #endif
-
-	template<typename T>
-	inline std::shared_ptr<T> share(T* value) {
-		return std::shared_ptr<T>(value);
-	}
 
 #define define_shared(TYPENAME) \
 	typedef std::shared_ptr<TYPENAME> $##TYPENAME; \
 	template<typename...Args> \
 	$##TYPENAME new_$##TYPENAME(Args&&... args) { \
 		return std::make_shared<TYPENAME>(std::forward<Args>(args)...); \
+	}
+	
+	template<typename T>
+	inline std::shared_ptr<T> share(T* value) {
+		return std::shared_ptr<T>(value);
 	}
 	
 	#define $new(...) fgl::share(new __VA_ARGS__)

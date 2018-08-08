@@ -13,6 +13,7 @@ namespace fgl
 				throw IllegalArgumentException("collidable", "already added to CollisionManager");
 			}
 		}
+		collidable->collided.clear();
 		collidables.push_back(collidable);
 		auto transformState = collidable->getTransformState();
 		collidable->previousTransformState = transformState;
@@ -23,6 +24,7 @@ namespace fgl
 			auto cmp = *it;
 			if(collidable == cmp) {
 				collidables.erase(it);
+				collidable->collided.clear();
 				break;
 			}
 		}
@@ -55,6 +57,11 @@ namespace fgl
 		for(auto& collidable : collidables) {
 			collidable->onBeginCollisionUpdates();
 		}
+		
+		// clear collided lists
+		for(auto& collidable : collidables) {
+			collidable->collided.clear();
+		}
 
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
@@ -75,7 +82,7 @@ namespace fgl
 				CollisionPair newPair(collidable1, collidable2);
 				#ifdef DOUBLECHECK_COLLISIONS
 					auto pairReplaceIter = collisions.end();
-					if(i==1) {
+					if(i!=0) {
 						for(auto it2=collisions.begin(); it2!=collisions.end(); it2++) {
 							auto& cmpPair = *it2;
 							if(newPair == cmpPair) {
@@ -114,37 +121,16 @@ namespace fgl
 								//decide how to shift the collidables
 								if(collidable1->isStaticCollisionBody()) {
 									collidable2->shift(shiftAmount);
+									collidable2->shiftCollisionsOnSide(collisionSide1, shiftAmount);
 								}
 								else if(collidable2->isStaticCollisionBody()) {
 									collidable1->shift(-shiftAmount);
+									collidable1->shiftCollisionsOnSide(collisionSide2, -shiftAmount);
 								}
 								else {
 									//find out if rect1 has collided with a static collision body
-									std::list<CollisionPair> collisionsSoFar;
-									collisionsSoFar.insert(collisionsSoFar.end(), previousCollisions.begin(), previousCollisions.end());
-									collisionsSoFar.insert(collisionsSoFar.end(), collisions.begin(), collisions.end());
-									bool staticOpposite1 = false;
-									for(auto& collision : collisionsSoFar) {
-										if(collision.collidable1==collidable1 && collision.collidable2->isStaticCollisionBody() && collision.sides.contains(collisionSide2)) {
-											staticOpposite1 = true;
-											break;
-										}
-										else if(collision.collidable2==collidable1 && collision.collidable1->isStaticCollisionBody() && collision.sides.contains(collisionSide1)) {
-											staticOpposite1 = true;
-											break;
-										}
-									}
-									bool staticOpposite2 = false;
-									for(auto& collision : collisionsSoFar) {
-										if(collision.collidable1==collidable2 && collision.collidable2->isStaticCollisionBody() && collision.sides.contains(collisionSide1)) {
-											staticOpposite2 = true;
-											break;
-										}
-										else if(collision.collidable2==collidable2 && collision.collidable1->isStaticCollisionBody() && collision.sides.contains(collisionSide2)) {
-											staticOpposite2 = true;
-											break;
-										}
-									}
+									bool staticOpposite1 = collidable1->hasStaticCollisionOnSide(collisionSide2);
+									bool staticOpposite2 = collidable2->hasStaticCollisionOnSide(collisionSide1);
 
 									double portion1 = 0.0;
 									
@@ -154,8 +140,8 @@ namespace fgl
 										auto prevTransformState1 = collidable1->getPreviousTransformState();
 										auto transformState2 = collidable2->getTransformState();
 										auto prevTransformState2 = collidable2->getPreviousTransformState();
-										double mass1 = collidable1->getMass();
-										double mass2 = collidable2->getMass();
+										double mass1 = collidable1->getMass() + collidable1->getCollidedMassOnSide(collisionSide2);
+										double mass2 = collidable2->getMass() + collidable2->getCollidedMassOnSide(collisionSide1);
 										auto rect1 = rectPair.first->getRect();
 										auto prevRect1 = rectPair.first->getPreviousRect();
 										auto rect2 = rectPair.second->getRect();
@@ -229,9 +215,38 @@ namespace fgl
 
 									if(moveAmount1.x!=0 || moveAmount1.y!=0) {
 										collidable1->shift(moveAmount1);
+										collidable1->shiftCollisionsOnSide(collisionSide2, moveAmount1);
 									}
 									if(moveAmount2.x!=0 || moveAmount2.y!=0) {
 										collidable2->shift(moveAmount2);
+										collidable2->shiftCollisionsOnSide(collisionSide1, moveAmount2);
+									}
+								}
+								
+								// add collidables to collided lists
+								auto& collided1 = collidable1->collided;
+								auto collidedListIt1 = collided1.find(collisionSide1);
+								if(collidedListIt1 == collided1.end()) {
+									collided1[collisionSide1] = { collidable2 };
+								}
+								else {
+									auto& collidedList1 = collidedListIt1->second;
+									auto collidedIt = std::find(collidedList1.begin(), collidedList1.end(), collidable2);
+									if(collidedIt == collidedList1.end()) {
+										collidedList1.push_back(collidable2);
+									}
+								}
+								
+								auto& collided2 = collidable2->collided;
+								auto collidedListIt2 = collided2.find(collisionSide2);
+								if(collidedListIt2 == collided2.end()) {
+									collided2[collisionSide2] = { collidable1 };
+								}
+								else {
+									auto& collidedList2 = collidedListIt2->second;
+									auto collidedIt = std::find(collidedList2.begin(), collidedList2.end(), collidable1);
+									if(collidedIt == collidedList2.end()) {
+										collidedList2.push_back(collidable1);
 									}
 								}
 

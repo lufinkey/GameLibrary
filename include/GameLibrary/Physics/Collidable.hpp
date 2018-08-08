@@ -12,14 +12,15 @@ namespace fgl
 	{
 		TransformState(Vector2d position, double rotation)
 			: position(position),
-			rotation(rotation)
-		{
+			rotation(rotation) {
 			//
 		}
 		
 		Vector2d position;
 		double rotation;
 	};
+	
+	
 	
 	class Collidable
 	{
@@ -42,6 +43,13 @@ namespace fgl
 		bool checkCollision(Collidable* collidable) const;
 
 		virtual bool respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const;
+		
+		ArrayList<Collidable*> getCollidedOnSide(CollisionSide side);
+		ArrayList<const Collidable*> getCollidedOnSide(CollisionSide side) const;
+		double getCollidedMassOnSide(CollisionSide side) const;
+		bool hasStaticCollisionOnSide(CollisionSide side) const;
+		bool hasCollision(const Collidable* collidable) const;
+		bool hasCollision(const Collidable* collidable, CollisionSide side) const;
 
 	protected:
 		virtual void onBeginCollisionUpdates();
@@ -59,7 +67,10 @@ namespace fgl
 		virtual void onFinishCollisionUpdates();
 		
 	private:
+		void shiftCollisionsOnSide(CollisionSide side, const Vector2d& offset);
+		
 		TransformState previousTransformState;
 		Vector2d displacement;
+		std::map<CollisionSide, std::list<Collidable*>> collided;
 	};
 }
