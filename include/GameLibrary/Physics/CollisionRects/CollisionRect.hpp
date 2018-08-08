@@ -18,15 +18,12 @@ namespace fgl
 		virtual ~CollisionRect();
 
 		const String& getTag() const;
-		Vector2d getCenter() const;
 		virtual RectangleD getRect() const = 0;
 		virtual RectangleD getPreviousRect() const = 0;
 		virtual bool isFilled() const = 0;
 		virtual PixelIterator createPixelIterator(const RectangleD& loopRect, const Vector2d& increment) const = 0;
 		virtual bool check(const PixelIterator& iterator) const = 0;
 		
-		Vector2d getTotalVelocity() const;
-
 		virtual Vector2d getPreferredIncrement() const = 0;
 		
 		virtual void draw(Graphics graphics) const;

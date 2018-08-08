@@ -18,21 +18,6 @@ namespace fgl
 		return tag;
 	}
 
-	Vector2d CollisionRect::getCenter() const {
-		return getRect().getCenter();
-	}
-	
-	Vector2d CollisionRect::getTotalVelocity() const {
-		/*auto rect = getRect();
-		auto prevRect = getPreviousRect();
-		double velocityLeft = rect.x - prevRect.x;
-		double velocityTop = rect.y - prevRect.y;
-		double velocityRight = (rect.x+rect.width) - (prevRect.x+prevRect.width);
-		double velocityBottom = (rect.y+rect.height) - (prevRect.y+prevRect.height);
-		return Vector2d(velocityTop+velocityBottom, velocityLeft+velocityRight);*/
-		return getRect().getCenter() - getPreviousRect().getCenter();
-	}
-	
 	void CollisionRect::draw(Graphics graphics) const {
 		graphics.drawRect(getRect());
 	}
