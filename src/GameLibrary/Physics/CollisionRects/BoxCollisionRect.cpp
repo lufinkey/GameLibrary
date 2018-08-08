@@ -8,85 +8,35 @@ namespace fgl
 		: CollisionRect(tag),
 		rect(rect),
 		lastRect(lastRect),
-		boundingRect(rect),
-		rotation(0),
-		origin(0,0),
-		resolution(resolution),
-		usesTransform(false)
-	{
+		resolution(resolution) {
 		//
 	}
 
-	BoxCollisionRect::BoxCollisionRect(const String& tag, const RectangleD& rect, const RectangleD& lastRect, double rotation, const Vector2d& origin, const Vector2d& resolution)
-		: CollisionRect(tag),
-		rect(rect),
-		lastRect(lastRect),
-		rotation(rotation),
-		origin(origin),
-		resolution(resolution),
-		usesTransform(true)
-	{
-		srcTransform.rotate(rotation, origin);
-		RectangleD relBoundingRect = srcTransform.transform(RectangleD(0,0,rect.width,rect.height));
-		boundingRect = RectangleD(rect.x+relBoundingRect.x, rect.y+relBoundingRect.y, relBoundingRect.width, relBoundingRect.height);
-	}
-
-	RectangleD BoxCollisionRect::getRect() const
-	{
-		return boundingRect;
+	RectangleD BoxCollisionRect::getRect() const {
+		return rect;
 	}
 	
-	RectangleD BoxCollisionRect::getPreviousRect() const
-	{
+	RectangleD BoxCollisionRect::getPreviousRect() const {
 		return lastRect;
 	}
 
-	bool BoxCollisionRect::isFilled() const
-	{
-		if(usesTransform)
-		{
-			return false;
-		}
+	bool BoxCollisionRect::isFilled() const {
 		return true;
 	}
 
-	PixelIterator BoxCollisionRect::createPixelIterator(const RectangleD& loopRect, const Vector2d& increment) const
-	{
-		if(usesTransform)
-		{
-			return PixelIterator(Vector2u(1, 1), RectangleU(0, 0, 1, 1), boundingRect, loopRect, increment.x, increment.y, srcTransform, Vector2d((rect.width==0 ? 0 : 1/rect.width), (rect.height==0 ? 0 : 1/rect.height)));
-		}
-		else
-		{
-			return PixelIterator(Vector2u(1, 1), RectangleU(0, 0, 1, 1), boundingRect, loopRect, increment.x, increment.y);
-		}
+	PixelIterator BoxCollisionRect::createPixelIterator(const RectangleD& loopRect, const Vector2d& increment) const {
+		return PixelIterator(Vector2u(1, 1), RectangleU(0, 0, 1, 1), rect, loopRect, increment.x, increment.y);
 	}
 
-	bool BoxCollisionRect::check(const PixelIterator& iterator) const
-	{
+	bool BoxCollisionRect::check(const PixelIterator& iterator) const {
 		return (iterator.getCurrentPixelIndex()>=0);
 	}
 
-	Vector2d BoxCollisionRect::getPreferredIncrement() const
-	{
+	Vector2d BoxCollisionRect::getPreferredIncrement() const {
 		return resolution;
 	}
 
-	void BoxCollisionRect::shift(const Vector2d& shiftAmount)
-	{
-		rect.x += shiftAmount.x;
-		rect.y += shiftAmount.y;
-		boundingRect.x += shiftAmount.x;
-		boundingRect.y += shiftAmount.y;
-	}
-	
-	void BoxCollisionRect::draw(Graphics graphics) const
-	{
-		graphics.drawRect(boundingRect);
-		if(usesTransform)
-		{
-			graphics.rotate(rotation, rect.getTopLeft()+origin);
-			graphics.drawRect(rect);
-		}
+	void BoxCollisionRect::draw(Graphics graphics) const {
+		graphics.drawRect(rect);
 	}
 }

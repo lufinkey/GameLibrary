@@ -23,14 +23,12 @@ namespace fgl
 		return !operator==(pair);
 	}
 
-	bool CollisionPair::shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const
+	bool CollisionPair::shouldIgnoreCollision(const CollisionRect* rect1, const CollisionRect* rect2) const
 	{
 		auto tag1 = rect1->getTag();
 		auto tag2 = rect2->getTag();
-		for(auto& tagPair : ignoredRectPairs)
-		{
-			if(tagPair.first==tag1 && tagPair.second==tag2)
-			{
+		for(auto& tagPair : ignoredRectPairs) {
+			if(tagPair.first==tag1 && tagPair.second==tag2) {
 				return true;
 			}
 		}
@@ -54,7 +52,7 @@ namespace fgl
 		return reverseContactingRectPairs;
 	}
 
-	ArrayList<CollisionRectPair> CollisionPair::getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const
+	ArrayList<CollisionRectPair> CollisionPair::getCollisionRectPairs(const ArrayList<const CollisionRect*>& rects1, const ArrayList<const CollisionRect*>& rects2) const
 	{
 		auto priorityRectPairs = getContactingRectPairs();
 		size_t pair_count = rects1.size()*rects2.size();
@@ -62,14 +60,14 @@ namespace fgl
 		pairs.reserve(pair_count);
 		for(auto& priorityRect : priorityRectPairs)
 		{
-			size_t rectIndex1 = rects1.indexWhere([&priorityRect](CollisionRect* const & rect) -> bool {
+			size_t rectIndex1 = rects1.indexWhere([&priorityRect](auto& rect) -> bool {
 				if(rect->getTag()==priorityRect.first)
 				{
 					return true;
 				}
 				return false;
 			});
-			size_t rectIndex2 = rects2.indexWhere([&priorityRect](CollisionRect* const & rect) -> bool {
+			size_t rectIndex2 = rects2.indexWhere([&priorityRect](auto& rect) -> bool {
 				if(rect->getTag()==priorityRect.second)
 				{
 					return true;

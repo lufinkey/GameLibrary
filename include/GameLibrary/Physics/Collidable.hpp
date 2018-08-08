@@ -34,7 +34,7 @@ namespace fgl
 
 		virtual double getMass() const;
 		virtual bool isStaticCollisionBody() const = 0;
-		virtual ArrayList<CollisionRect*> getCollisionRects() const = 0;
+		virtual ArrayList<const CollisionRect*> getCollisionRects() const = 0;
 
 		TransformState getPreviousTransformState() const;
 		Vector2d getDisplacement() const;

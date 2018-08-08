@@ -50,16 +50,6 @@ namespace fgl
 		return resolution;
 	}
 
-	void PolygonCollisionRect::shift(const Vector2d& shiftAmount)
-	{
-		for(auto& point : polygon)
-		{
-			point += shiftAmount;
-		}
-		rect.x += shiftAmount.x;
-		rect.y += shiftAmount.y;
-	}
-	
 	void PolygonCollisionRect::draw(Graphics graphics) const
 	{
 		graphics.drawRect(rect);

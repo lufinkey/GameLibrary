@@ -25,13 +25,13 @@ namespace fgl
 		bool operator==(const CollisionPair& pair) const;
 		bool operator!=(const CollisionPair& pair) const;
 
-		bool shouldIgnoreCollision(CollisionRect* rect1, CollisionRect* rect2) const;
+		bool shouldIgnoreCollision(const CollisionRect* rect1, const CollisionRect* rect2) const;
 		
 		// get the rect tag pairs that are contacting each other
 		ArrayList<CollisionRectTagPair> getContactingRectPairs() const;
 		ArrayList<CollisionRectTagPair> getReverseContactingRectPairs() const;
 
-		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<CollisionRect*>& rects1, const ArrayList<CollisionRect*>& rects2) const;
+		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<const CollisionRect*>& rects1, const ArrayList<const CollisionRect*>& rects2) const;
 		// returns collidedRectPairs where first is collidable2 and second is collidable1
 		ArrayList<CollisionRectTagPair> getReverseCollidedRectPairs() const;
 		// returns the collision sides with respect to collidable2

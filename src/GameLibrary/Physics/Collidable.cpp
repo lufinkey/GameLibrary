@@ -5,65 +5,51 @@ namespace fgl
 {
 	Collidable::Collidable()
 		: previousTransformState(fgl::Vector2d(0,0), 0),
-		displacement(0, 0)
-	{
+		displacement(0, 0) {
 		//
 	}
 	
-	bool Collidable::getFlag(const String& flag) const
-	{
-		if(flag == "Collidable")
-		{
+	bool Collidable::getFlag(const String& flag) const {
+		if(flag == "Collidable") {
 			return true;
 		}
 		return false;
 	}
 
-	double Collidable::getMass() const
-	{
+	double Collidable::getMass() const {
 		return 1.0;
 	}
 
-	TransformState Collidable::getPreviousTransformState() const
-	{
+	TransformState Collidable::getPreviousTransformState() const {
 		return previousTransformState;
 	}
-
-	Vector2d Collidable::getDisplacement() const
-	{
+	
+	Vector2d Collidable::getDisplacement() const {
 		return displacement;
 	}
 
-	void Collidable::onContact(const ContactEvent& contactEvent)
-	{
+	void Collidable::onContact(const ContactEvent& contactEvent) {
 		//
 	}
 
-	void Collidable::onContactUpdate(const ContactEvent& contactEvent)
-	{
+	void Collidable::onContactUpdate(const ContactEvent& contactEvent) {
 		//
 	}
 
-	void Collidable::onContactFinish(const ContactEvent& contactEvent)
-	{
+	void Collidable::onContactFinish(const ContactEvent& contactEvent) {
 		//
 	}
 
-	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const
-	{
+	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const {
 		return true;
 	}
 
-	bool Collidable::checkCollision(Collidable* collidable) const
-	{
+	bool Collidable::checkCollision(Collidable* collidable) const {
 		auto collisionRects1 = getCollisionRects();
 		auto collisionRects2 = collidable->getCollisionRects();
-		for(size_t i=0; i<collisionRects1.size(); i++)
-		{
-			for(size_t j=0; j<collisionRects2.size(); j++)
-			{
-				if(CollisionRect::checkCollision(collisionRects1[i], collisionRects2[j]))
-				{
+		for(size_t i=0; i<collisionRects1.size(); i++) {
+			for(size_t j=0; j<collisionRects2.size(); j++) {
+				if(CollisionRect::checkCollision(this, collisionRects1[i], collidable, collisionRects2[j])) {
 					return true;
 				}
 			}
@@ -71,36 +57,30 @@ namespace fgl
 		return false;
 	}
 
-	void Collidable::onCollision(const CollisionEvent& collisionEvent)
-	{
+	void Collidable::onCollision(const CollisionEvent& collisionEvent) {
 		//
 	}
 
-	void Collidable::onCollisionUpdate(const CollisionEvent& collisionEvent)
-	{
+	void Collidable::onCollisionUpdate(const CollisionEvent& collisionEvent) {
 		//
 	}
 
-	void Collidable::onCollisionFinish(const CollisionEvent& collisionEvent)
-	{
+	void Collidable::onCollisionFinish(const CollisionEvent& collisionEvent) {
 		//
 	}
 
-	void Collidable::onBeginCollisionUpdates()
-	{
+	void Collidable::onBeginCollisionUpdates() {
 		//
 	}
 	
-	void Collidable::updateTransformState()
-	{
+	void Collidable::updateTransformState() {
 		auto transformState = getTransformState();
 		auto prevTransformState = getPreviousTransformState();
 		displacement = (transformState.position - prevTransformState.position);
 		previousTransformState = transformState;
 	}
 
-	void Collidable::onFinishCollisionUpdates()
-	{
+	void Collidable::onFinishCollisionUpdates() {
 		//
 	}
 }

@@ -21,8 +21,6 @@ namespace fgl
 
 		virtual Vector2d getPreferredIncrement() const override;
 
-		virtual void shift(const Vector2d& shiftAmount) override;
-
 	private:
 		RectangleD dstRect;
 		RectangleD lastRect;

@@ -20,8 +20,6 @@ namespace fgl
 		virtual bool check(const PixelIterator& iterator) const override;
 
 		virtual Vector2d getPreferredIncrement() const override;
-
-		virtual void shift(const Vector2d& shiftAmount) override;
 		
 		virtual void draw(Graphics graphics) const override;
 		
