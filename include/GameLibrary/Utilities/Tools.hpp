@@ -42,8 +42,7 @@ namespace fgl
 #endif
 
 	template<typename T>
-	std::shared_ptr<T> share(T* value)
-	{
+	inline std::shared_ptr<T> share(T* value) {
 		return std::shared_ptr<T>(value);
 	}
 
@@ -53,4 +52,6 @@ namespace fgl
 	$##TYPENAME new_$##TYPENAME(Args&&... args) { \
 		return std::make_shared<TYPENAME>(std::forward<Args>(args)...); \
 	}
+	
+	#define $new(...) fgl::share(new __VA_ARGS__)
 }
