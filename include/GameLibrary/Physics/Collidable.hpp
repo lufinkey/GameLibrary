@@ -72,5 +72,6 @@ namespace fgl
 		TransformState previousTransformState;
 		Vector2d displacement;
 		std::map<CollisionSide, std::list<Collidable*>> collided;
+		std::map<CollisionSide, std::list<Collidable*>> newCollided;
 	};
 }

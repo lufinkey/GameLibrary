@@ -47,18 +47,42 @@ namespace fgl
 	}
 	
 	double Collidable::getCollidedMassOnSide(CollisionSide side) const {
+		double mass = 0.0;
+		const std::list<Collidable*>* collidablesPtr = nullptr;
 		try {
 			auto& collidables = collided.at(side);
-			double mass = 0.0;
+			collidablesPtr = &collidables;
 			for(auto collidable : collidables) {
 				mass += collidable->getMass();
 				mass += collidable->getCollidedMassOnSide(side);
 			}
-			return mass;
 		}
 		catch(const std::out_of_range& e) {
-			return 0.0;
+			//
 		}
+		try {
+			auto& newCollidables = newCollided.at(side);
+			for(auto collidable : newCollidables) {
+				if(collidablesPtr != nullptr) {
+					bool foundMatch = false;
+					for(auto cmpCollidable : *collidablesPtr) {
+						if(collidable == cmpCollidable) {
+							foundMatch = true;
+							break;
+						}
+					}
+					if(foundMatch) {
+						continue;
+					}
+				}
+				mass += collidable->getMass();
+				mass += collidable->getCollidedMassOnSide(side);
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return mass;
 	}
 	
 	bool Collidable::hasStaticCollisionOnSide(CollisionSide side) const {
@@ -69,17 +93,56 @@ namespace fgl
 					return true;
 				}
 			}
-			return false;
 		}
 		catch(const std::out_of_range& e) {
-			return false;
+			//
 		}
+		try {
+			auto& collidables = newCollided.at(side);
+			for(auto collidable : collidables) {
+				if(collidable->isStaticCollisionBody() || collidable->hasStaticCollisionOnSide(side)) {
+					return true;
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return false;
 	}
 	
 	void Collidable::shiftCollisionsOnSide(CollisionSide side, const Vector2d& offset) {
+		std::list<Collidable*>* collidablesPtr = nullptr;
 		try {
 			auto& collidables = collided.at(side);
+			collidablesPtr = &collidables;
 			for(auto collidable : collidables) {
+				if(!collidable->isStaticCollisionBody()) {
+					collidable->shift(offset);
+					collidable->shiftCollisionsOnSide(side, offset);
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			// do nothing
+		}
+		try {
+			auto& newCollidables = newCollided.at(side);
+			for(auto collidable : newCollidables) {
+				if(collidablesPtr != nullptr) {
+					bool foundMatch = false;
+					if(collidablesPtr != nullptr) {
+						for(auto cmpCollidable : *collidablesPtr) {
+							if(collidable == cmpCollidable) {
+								foundMatch = true;
+								break;
+							}
+						}
+					}
+					if(foundMatch) {
+						continue;
+					}
+				}
 				if(!collidable->isStaticCollisionBody()) {
 					collidable->shift(offset);
 					collidable->shiftCollisionsOnSide(side, offset);
@@ -99,6 +162,13 @@ namespace fgl
 				}
 			}
 		}
+		for(auto& pair : newCollided) {
+			for(auto cmpCollidable : pair.second) {
+				if(cmpCollidable == collidable) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
@@ -110,11 +180,22 @@ namespace fgl
 					return true;
 				}
 			}
-			return false;
 		}
 		catch(const std::out_of_range& e) {
-			return false;
+			//
 		}
+		try {
+			auto& collidables = newCollided.at(side);
+			for(auto cmpCollidable : collidables) {
+				if(cmpCollidable == collidable) {
+					return true;
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return false;
 	}
 
 	void Collidable::onContact(const ContactEvent& contactEvent) {

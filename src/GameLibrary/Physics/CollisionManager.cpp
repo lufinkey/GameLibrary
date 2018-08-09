@@ -25,6 +25,7 @@ namespace fgl
 			if(collidable == cmp) {
 				collidables.erase(it);
 				collidable->collided.clear();
+				collidable->newCollided.clear();
 				break;
 			}
 		}
@@ -50,18 +51,17 @@ namespace fgl
 		throw IllegalArgumentException("shiftAmount", "cannot be 0,0");
 	}
 
-#define DOUBLECHECK_COLLISIONS
+//#define DOUBLECHECK_COLLISIONS
 
 	void CollisionManager::update(const ApplicationData& appData) {
+		onWillBeginCollisionUpdates(appData);
+		
 		// start collision calculations
 		for(auto& collidable : collidables) {
 			collidable->onBeginCollisionUpdates();
 		}
 		
-		// clear collided lists
-		for(auto& collidable : collidables) {
-			collidable->collided.clear();
-		}
+		onBeginCollisionUpdates(appData);
 
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
@@ -140,6 +140,8 @@ namespace fgl
 										auto prevTransformState1 = collidable1->getPreviousTransformState();
 										auto transformState2 = collidable2->getTransformState();
 										auto prevTransformState2 = collidable2->getPreviousTransformState();
+										auto collided1 = collidable1->getCollidedOnSide(collisionSide2);
+										auto collided2 = collidable2->getCollidedOnSide(collisionSide1);
 										double mass1 = collidable1->getMass() + collidable1->getCollidedMassOnSide(collisionSide2);
 										double mass2 = collidable2->getMass() + collidable2->getCollidedMassOnSide(collisionSide1);
 										auto rect1 = rectPair.first->getRect();
@@ -224,7 +226,7 @@ namespace fgl
 								}
 								
 								// add collidables to collided lists
-								auto& collided1 = collidable1->collided;
+								auto& collided1 = collidable1->newCollided;
 								auto collidedListIt1 = collided1.find(collisionSide1);
 								if(collidedListIt1 == collided1.end()) {
 									collided1[collisionSide1] = { collidable2 };
@@ -237,7 +239,7 @@ namespace fgl
 									}
 								}
 								
-								auto& collided2 = collidable2->collided;
+								auto& collided2 = collidable2->newCollided;
 								auto collidedListIt2 = collided2.find(collisionSide2);
 								if(collidedListIt2 == collided2.end()) {
 									collided2[collisionSide2] = { collidable1 };
@@ -332,6 +334,12 @@ namespace fgl
 			}
 		}
 		
+		// transfer collided lists
+		for(auto& collidable : collidables) {
+			collidable->collided = collidable->newCollided;
+			collidable->newCollided.clear();
+		}
+		
 		onWillFinishCollisionUpdates(appData, updateData);
 		
 		previousCollisions = collisions;
@@ -415,6 +423,14 @@ namespace fgl
 		pairs.splice(pairs.end(), prevNonstaticCollisions);
 		pairs.splice(pairs.end(), nonstaticCollisions);
 		return pairs;
+	}
+	
+	void CollisionManager::onWillBeginCollisionUpdates(const ApplicationData& appData) {
+		// open for implementation
+	}
+	
+	void CollisionManager::onBeginCollisionUpdates(const ApplicationData& appData) {
+		// open for implementation
 	}
 	
 	bool CollisionManager::respondsToCollision(const ApplicationData& appData, Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const {
@@ -509,14 +525,14 @@ namespace fgl
 	}
 	
 	void CollisionManager::performFinalCollisionUpdates(const ApplicationData& appData, const CollisionPair& pair, const CollisionPair& prevPair, UpdateData& updateData) {
-		//
+		// open for implementation
 	}
 	
 	void CollisionManager::onWillFinishCollisionUpdates(const ApplicationData& appData, UpdateData& updateData) {
-		//
+		// open for implementation
 	}
 	
 	void CollisionManager::onFinishCollisionUpdates(const ApplicationData& appData) {
-		//
+		// open for implementation
 	}
 }

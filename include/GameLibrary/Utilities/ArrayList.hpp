@@ -659,6 +659,80 @@ namespace fgl
 			return newArr;
 		}
 		
+		T& firstWhere(const std::function<bool(const T&)>& func) {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+		}
+		
+		const T& firstWhere(const std::function<bool(const T&)>& func) const {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+		}
+		
+		T& firstWhere(const std::function<bool(const T&)>& func, T& defaultValue) {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			return defaultValue;
+		}
+		
+		const T& firstWhere(const std::function<bool(const T&)>& func, const T& defaultValue) const {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			return defaultValue;
+		}
+		
+		#ifdef __OBJC__
+		T& firstWhere(BOOL(^func)(const T&)) {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+		}
+		
+		const T& firstWhere(BOOL(^func)(const T&)) const {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+		}
+		
+		T& firstWhere(BOOL(^func)(const T&), T& defaultValue) {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			return defaultValue;
+		}
+		
+		const T& firstWhere(BOOL(^func)(const T&), const T& defaultValue) const {
+			for(auto& object : objects) {
+				if(func(object)) {
+					return object;
+				}
+			}
+			return defaultValue;
+		}
+		#endif
+		
 		size_t indexOf(const T& obj) const
 		{
 			for(size_t objects_size=objects.size(), i=0; i<objects_size; i++)

@@ -29,6 +29,9 @@ namespace fgl
 			std::list<std::function<void()>> onContactFinishCalls;
 		};
 		
+		virtual void onWillBeginCollisionUpdates(const ApplicationData& appData);
+		virtual void onBeginCollisionUpdates(const ApplicationData& appData);
+		
 		virtual bool respondsToCollision(const ApplicationData& appData, Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const;
 		virtual void dispatchContactEvents(const ApplicationData& appData, ContactState state, const CollisionPair& pair, const CollisionPair& prevPair);
 		virtual void dispatchCollisionEvents(const ApplicationData& appData, CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair);
