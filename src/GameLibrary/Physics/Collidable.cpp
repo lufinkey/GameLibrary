@@ -29,21 +29,51 @@ namespace fgl
 	}
 	
 	ArrayList<Collidable*> Collidable::getCollidedOnSide(CollisionSide side) {
+		fgl::ArrayList<Collidable*> collidables;
 		try {
-			return collided.at(side);
+			auto& collidedList = collided.at(side);
+			collidables.getVector().insert(collidables.end(), collidedList.begin(), collidedList.end());
 		}
 		catch(const std::out_of_range& e) {
-			return {};
+			//
 		}
+		try {
+			auto& collidedList = newCollided.at(side);
+			collidables.reserve(collidedList.size());
+			for(auto collidable : collidedList) {
+				if(!collidables.contains(collidable)) {
+					collidables.add(collidable);
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return collidables;
 	}
 	
 	ArrayList<const Collidable*> Collidable::getCollidedOnSide(CollisionSide side) const {
+		fgl::ArrayList<const Collidable*> collidables;
 		try {
-			return reinterpret_cast<const std::list<const Collidable*>&>(collided.at(side));
+			auto& collidedList = reinterpret_cast<const std::list<const Collidable*>&>(collided.at(side));
+			collidables.getVector().insert(collidables.end(), collidedList.begin(), collidedList.end());
 		}
 		catch(const std::out_of_range& e) {
-			return {};
+			//
 		}
+		try {
+			auto& collidedList = newCollided.at(side);
+			collidables.reserve(collidedList.size());
+			for(auto collidable : collidedList) {
+				if(!collidables.contains(collidable)) {
+					collidables.add(collidable);
+				}
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return collidables;
 	}
 	
 	double Collidable::getCollidedMassOnSide(CollisionSide side) const {
