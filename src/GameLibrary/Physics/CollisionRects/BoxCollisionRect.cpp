@@ -31,6 +31,13 @@ namespace fgl
 	bool BoxCollisionRect::check(const PixelIterator& iterator) const {
 		return (iterator.getCurrentPixelIndex()>=0);
 	}
+	
+	bool BoxCollisionRect::check(const Vector2d& point) const {
+		if(rect.contains(point)) {
+			return true;
+		}
+		return false;
+	}
 
 	Vector2d BoxCollisionRect::getPreferredIncrement() const {
 		return resolution;

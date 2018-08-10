@@ -23,6 +23,7 @@ namespace fgl
 		virtual bool isFilled() const = 0;
 		virtual PixelIterator createPixelIterator(const RectangleD& loopRect, const Vector2d& increment) const = 0;
 		virtual bool check(const PixelIterator& iterator) const = 0;
+		virtual bool check(const Vector2d& point) const = 0;
 		
 		virtual Vector2d getPreferredIncrement() const = 0;
 		

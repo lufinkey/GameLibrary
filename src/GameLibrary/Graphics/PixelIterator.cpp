@@ -38,7 +38,7 @@ namespace fgl
 		currentPoint.y = loopRect.y - dstRect.y;
 		row = 0;
 		lastRowStartIndex = 0;
-		currentPixelPoint = calculatePixelPoint();
+		currentPixelPoint = calculatePixelPoint(currentPoint);
 		currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 		lastRowStartIndex = currentPixelIndex;
 	}
@@ -76,16 +76,16 @@ namespace fgl
 		currentPoint.y = loopRect.y - dstRect.y;
 		row = 0;
 		lastRowStartIndex = 0;
-		currentPixelPoint = calculatePixelPoint();
+		currentPixelPoint = calculatePixelPoint(currentPoint);
 		currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 		lastRowStartIndex = currentPixelIndex;
 	}
 
-	Vector2d PixelIterator::calculatePixelPoint()
+	Vector2d PixelIterator::calculatePixelPoint(const Vector2d& point)
 	{
 		if(usesTransform)
 		{
-			Vector2d pixelPoint = inverseTransform.transform(currentPoint);
+			Vector2d pixelPoint = inverseTransform.transform(point);
 			pixelPoint.x *= ratio.x;
 			pixelPoint.y *= ratio.y;
 			if(mirrorHorizontal)
@@ -108,7 +108,7 @@ namespace fgl
 		}
 		else
 		{
-			Vector2d pixelPoint(currentPoint.x*ratio.x, currentPoint.y*ratio.y);
+			Vector2d pixelPoint(point.x*ratio.x, point.y*ratio.y);
 			if(mirrorHorizontal)
 			{
 				pixelPoint.x = srcRectD.x + (srcRectD.width - (pixelPoint.x-srcRectD.x));
@@ -161,7 +161,7 @@ namespace fgl
 						running = false;
 					}
 				}
-				currentPixelPoint = calculatePixelPoint();
+				currentPixelPoint = calculatePixelPoint(currentPoint);
 				currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 			}
 			else
@@ -207,7 +207,7 @@ namespace fgl
 					{
 						currentPoint.y = loopRectRel.top;
 						row = 0;
-						currentPixelPoint = calculatePixelPoint();
+						currentPixelPoint = calculatePixelPoint(currentPoint);
 						currentPixelIndex = calculatePixelIndex(currentPixelPoint);
 						running = false;
 					}

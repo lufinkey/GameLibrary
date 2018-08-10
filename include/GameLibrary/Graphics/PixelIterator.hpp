@@ -49,8 +49,8 @@ namespace fgl
 			\returns a Vector2d representing the current coordinates of the iterator*/
 		Vector2d getCurrentPoint() const;
 		
+		Vector2d calculatePixelPoint(const Vector2d& point);
 	private:
-		Vector2d calculatePixelPoint();
 		double calculatePixelIndex(const Vector2d& pixelPoint);
 		
 		Vector2d dimensions;

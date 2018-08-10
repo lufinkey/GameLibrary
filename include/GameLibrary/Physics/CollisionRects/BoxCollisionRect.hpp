@@ -16,6 +16,7 @@ namespace fgl
 		virtual bool isFilled() const override;
 		virtual PixelIterator createPixelIterator(const fgl::RectangleD& loopRect, const Vector2d& increment) const override;
 		virtual bool check(const PixelIterator& iterator) const override;
+		virtual bool check(const Vector2d& point) const override;
 
 		virtual Vector2d getPreferredIncrement() const override;
 		
