@@ -50,7 +50,7 @@ namespace fgl
 					pixelRect = collisionRect1;
 					pixelCollidable = collidable1;
 				}
-				Vector2d offset = getPixelOnFilledCollisionOffset(filledCollidable, pixelRect, pixelCollidable, filledRect);
+				Vector2d offset = getPixelOnFilledCollisionOffset(pixelCollidable, pixelRect, filledCollidable, filledRect);
 				if(filled1) {
 					offset = -offset;
 				}
@@ -82,15 +82,15 @@ namespace fgl
 			return DIR_NONE;
 		}
 		
-		double velocityLeft1 = rect1.x - prevRect1.x;
-		double velocityTop1 = rect1.y - prevRect1.y;
-		double velocityRight1 = (rect1.x+rect1.width) - (prevRect1.x+prevRect1.width);
-		double velocityBottom1 = (rect1.y+rect1.height) - (prevRect1.y+prevRect1.height);
+		double velocityLeft1 = rect1.getLeft() - prevRect1.getLeft();
+		double velocityTop1 = rect1.getTop() - prevRect1.getTop();
+		double velocityRight1 = rect1.getRight() - prevRect1.getRight();
+		double velocityBottom1 = rect1.getBottom() - prevRect1.getBottom();
 		
-		double velocityLeft2 = rect2.x - prevRect2.x;
-		double velocityTop2 = rect2.y - prevRect2.y;
-		double velocityRight2 = (rect2.x+rect2.width) - (prevRect2.x+prevRect2.width);
-		double velocityBottom2 = (rect2.y+rect2.height) - (prevRect2.y+prevRect2.height);
+		double velocityLeft2 = rect2.getLeft() - prevRect2.getLeft();
+		double velocityTop2 = rect2.getTop() - prevRect2.getTop();
+		double velocityRight2 = rect2.getRight() - prevRect2.getRight();
+		double velocityBottom2 = rect2.getBottom() - prevRect2.getBottom();
 
 		unsigned long multiplyNum = 1;
 		do {
