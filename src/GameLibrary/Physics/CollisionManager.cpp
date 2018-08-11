@@ -51,7 +51,7 @@ namespace fgl
 		throw IllegalArgumentException("shiftAmount", "cannot be 0,0");
 	}
 
-//#define DOUBLECHECK_COLLISIONS
+#define DOUBLECHECK_COLLISIONS
 
 	void CollisionManager::update(const ApplicationData& appData) {
 		onWillBeginCollisionUpdates(appData);
