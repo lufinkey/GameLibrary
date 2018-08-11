@@ -28,6 +28,7 @@ namespace fgl
 	public:
 		Collidable();
 		
+		virtual String getDebugDescription() const;
 		virtual bool getFlag(const String& flag) const;
 		
 		virtual TransformState getTransformState() const = 0;

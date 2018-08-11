@@ -9,6 +9,10 @@ namespace fgl
 		//
 	}
 	
+	String Collidable::getDebugDescription() const {
+		return (String)"Collidable @ "+getTransformState().position.toString();
+	}
+	
 	bool Collidable::getFlag(const String& flag) const {
 		if(flag == "Collidable") {
 			return true;
