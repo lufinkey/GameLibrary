@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
 #include "Vector2.hpp"
 
 namespace fgl
@@ -140,6 +141,16 @@ namespace fgl
 		
 		constexpr Vector3<T> divided(const Vector3<T>& vect) const {
 			return Vector3<T>(x/vect.x, y/vect.y, z/vect.z);
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		constexpr Vector3<T> mod(const Vector3<T>& vect) const {
+			return Vector3<T>(Math::fmod(x, vect.x), Math::fmod(y, vect.y), Math::fmod(z, vect.z));
+		}
+		
+		template<typename _T=T, typename std::enable_if<!std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		constexpr Vector3<T> mod(const Vector3<T>& vect) const {
+			return Vector3<T>(x % vect.x, y % vect.y, z % vect.z);
 		}
 		
 		constexpr Vector2<T> getVector2() const {
