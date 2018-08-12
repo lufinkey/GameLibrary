@@ -3,6 +3,7 @@
 
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/Stringifier.hpp>
+#include <GameLibrary/Utilities/Math.hpp>
 #include <tuple>
 
 namespace fgl
@@ -133,6 +134,16 @@ namespace fgl
 		
 		constexpr Vector2<T> divided(const Vector2<T>& vect) const {
 			return Vector2<T>(x/vect.x, y/vect.y);
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		constexpr Vector2<T> mod(const Vector2<T>& vect) const {
+			return Vector2<T>(Math::fmod(x, vect.x), Math::fmod(y, vect.y));
+		}
+		
+		template<typename _T=T, typename std::enable_if<!std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		constexpr Vector2<T> mod(const Vector2<T>& vect) const {
+			return Vector2<T>(x % vect.x, y % vect.y);
 		}
 		
 		String toString() const {
