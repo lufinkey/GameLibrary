@@ -127,6 +127,26 @@ namespace fgl
 			return false;
 		}
 		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline T magnitude() const {
+			return Math::sqrt((x*x) + (y*y) + (z*z));
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline void normalize() {
+			T mag = magnitude();
+			x = x / mag;
+			y = y / mag;
+			z = z / mag;
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline Vector3<_T> normalized() const {
+			Vector3<_T> normal = *this;
+			normal.normalize();
+			return normal;
+		}
+		
 		constexpr Vector3<T> plus(const Vector3<T>& vect) const {
 			return Vector3<T>(x+vect.x, y+vect.y, z+vect.z);
 		}

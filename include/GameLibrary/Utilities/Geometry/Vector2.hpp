@@ -120,6 +120,25 @@ namespace fgl
 			return (x*vect.x) + (y*vect.y);
 		}
 		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline T magnitude() const {
+			return Math::sqrt((x*x) + (y*y));
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline void normalize() {
+			T mag = magnitude();
+			x = x / mag;
+			y = y / mag;
+		}
+		
+		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
+		inline Vector2<_T> normalized() const {
+			Vector2<_T> normal = *this;
+			normal.normalize();
+			return normal;
+		}
+		
 		constexpr Vector2<T> plus(const Vector2<T>& vect) const {
 			return Vector2<T>(x+vect.x, y+vect.y);
 		}
@@ -137,13 +156,13 @@ namespace fgl
 		}
 		
 		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
-		constexpr Vector2<T> mod(const Vector2<T>& vect) const {
-			return Vector2<T>(Math::fmod(x, vect.x), Math::fmod(y, vect.y));
+		constexpr Vector2<_T> mod(const Vector2<_T>& vect) const {
+			return Vector2<_T>(Math::fmod(x, vect.x), Math::fmod(y, vect.y));
 		}
 		
 		template<typename _T=T, typename std::enable_if<!std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
-		constexpr Vector2<T> mod(const Vector2<T>& vect) const {
-			return Vector2<T>(x % vect.x, y % vect.y);
+		constexpr Vector2<_T> mod(const Vector2<_T>& vect) const {
+			return Vector2<_T>(x % vect.x, y % vect.y);
 		}
 		
 		String toString() const {
