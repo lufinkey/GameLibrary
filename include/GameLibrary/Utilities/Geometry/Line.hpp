@@ -61,6 +61,18 @@ namespace fgl
 			return false;
 		}
 		
+		T distanceFromPoint(const Vector2<T>& point) const {
+			auto pointDiff = point2 - point1;
+			auto lineLen = pointDiff.magnitude();
+			if (lineLen == 0.0) { // Replace with appropriate epsilon
+				return (point - point1).magnitude();
+			}
+			auto normal = pointDiff.normalized();
+			auto perp = Vector2<T>(-normal.y, normal.x);
+			auto dot = (point - point1).dot(perp);
+			return Math::abs(dot);
+		}
+		
 		/*! Calculates the center of the line.
 			\returns the point in the center of the line endpoints*/
 		constexpr Vector2<T> getCenter() const {
