@@ -102,7 +102,7 @@ namespace fgl
 			velocityRight *= (double)multiplyNum;
 			velocityTop *= (double)multiplyNum;
 			velocityBottom *= (double)multiplyNum;
-			if(multiplyNum > 20 || (velocityLeft==0 && velocityRight==0 && velocityTop==0 && velocityBottom==0)) {
+			if(multiplyNum > 4 || (velocityLeft==0 && velocityRight==0 && velocityTop==0 && velocityBottom==0)) {
 				RectangleD intersect1 = rect1.getIntersect(rect2);
 				double intersect1_right = intersect1.x + intersect1.width;
 				double intersect1_bottom = intersect1.y + intersect1.height;
