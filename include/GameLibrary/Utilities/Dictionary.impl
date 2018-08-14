@@ -165,12 +165,24 @@ namespace fgl
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE& value) {
-		return contents.insert(std::make_pair( key, value )).first;
+		auto it = contents.find(key);
+		if(it == contents.end()) {
+			return contents.insert(std::make_pair( key, value )).first;
+		}
+		else {
+			return it;
+		}
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE&& value) {
-		return contents.insert(std::make_pair( key, value )).first;
+		auto it = contents.find(key);
+		if(it == contents.end()) {
+			return contents.insert(std::make_pair( key, value )).first;
+		}
+		else {
+			return it;
+		}
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
