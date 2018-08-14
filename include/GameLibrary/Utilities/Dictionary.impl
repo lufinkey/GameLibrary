@@ -10,463 +10,328 @@ namespace fgl
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::ValueProxy(ValueProxy&& valueProxy)
 		: key(valueProxy.key),
-		dictionary(valueProxy.dictionary)
-	{
+		dictionary(valueProxy.dictionary) {
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::ValueProxy(const KEY_TYPE& key, BasicDictionary<KEY_TYPE, VALUE_TYPE>& dictionary)
 		: key(key),
-		dictionary(dictionary)
-	{
+		dictionary(dictionary) {
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE& value)
-	{
-		return dictionary.set(key, value);
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE& value) {
+		return dictionary.set(key, value)->second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE&& value)
-	{
-		return dictionary.set(key, value);
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(VALUE_TYPE&& value) {
+		return dictionary.set(key, value)->second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE& value)
-	{
-		return dictionary.set(key, value);
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE& value) {
+		return dictionary.set(key, value)->second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE&& value)
-	{
-		return dictionary.set(key, value);
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator=(const VALUE_TYPE&& value) {
+		return dictionary.set(key, value)->second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator VALUE_TYPE&()
-	{
-		try
-		{
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy::operator VALUE_TYPE&() {
+		try {
 			return dictionary.get(key);
 		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
+		catch(const DictionaryKeyNotFoundException&) {
 			return dictionary.set(key, VALUE_TYPE());
 		}
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary()
-	{
-		//
-	}
-
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& map)
-		: contents(std::vector<std::pair<KEY_TYPE, VALUE_TYPE>>(map.begin(), map.end()))
-	{
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary() {
 		//
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(std::initializer_list<std::pair<KEY_TYPE, VALUE_TYPE>> list)
-		: contents(list)
-	{
+		: contents(list) {
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values)
-	{
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values) {
 		size_t keys_size = keys.size();
 		size_t values_size = values.size();
-		if(keys_size != values_size)
-		{
+		if(keys_size != values_size) {
 			throw IllegalArgumentException("values", "size of values does not match size of keys");
 		}
 		contents.reserve(keys_size);
-		for(size_t i=0; i<keys_size; i++)
-		{
+		for(size_t i=0; i<keys_size; i++) {
 			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(keys[i], values[i]));
 		}
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents)
-		: contents(contents)
-	{
+		: contents(contents.begin(), contents.end()) {
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
 	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents)
-		: contents(contents)
-	{
+		: contents(std::make_move_iterator(contents.begin()), std::make_move_iterator(contents.end())) {
 		//
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE>::~BasicDictionary()
-	{
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& contents)
+		: contents(contents) {
+		//
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	BasicDictionary<KEY_TYPE, VALUE_TYPE>::~BasicDictionary() {
 		//
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin()
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin() {
 		return contents.begin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::begin() const {
 		return contents.begin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cbegin() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cbegin() const {
 		return contents.cbegin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end()
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end() {
 		return contents.end();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::end() const {
 		return contents.end();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cend() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::cend() const {
 		return contents.cend();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin()
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin() {
 		return contents.rbegin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rbegin() const {
 		return contents.rbegin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crbegin() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crbegin() const {
 		return contents.crbegin();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend()
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend() {
 		return contents.rend();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::rend() const {
 		return contents.rend();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crend() const
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::crend() const {
 		return contents.crend();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::has(const KEY_TYPE& key) const
-	{
-		return indexOfKey(key) != (size_t)-1;
+	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::has(const KEY_TYPE& key) const {
+		return contents.find(key) != contents.end();
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::indexOfKey(const KEY_TYPE& key) const
-	{
-		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
-		{
-			if(contents[i].first == key)
-			{
-				return i;
-			}
-		}
-		return (size_t)-1;
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE& value) {
+		return contents.insert(std::make_pair( key, value )).first;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE& value)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
-			index = contents.size();
-			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
-		}
-		else
-		{
-			contents[index].second = value;
-		}
-		return contents[index].second;
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::iterator BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE&& value) {
+		return contents.insert(std::make_pair( key, value )).first;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, VALUE_TYPE&& value)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
-			index = contents.size();
-			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key) {
+		try {
+			return contents.at(key);
 		}
-		else
-		{
-			contents[index].second = value;
-		}
-		return contents[index].second;
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE& value)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
-			index = contents.size();
-			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
-		}
-		else
-		{
-			contents[index].second = value;
-		}
-		return contents[index].second;
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::set(const KEY_TYPE& key, const VALUE_TYPE&& value)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
-			index = contents.size();
-			contents.add(std::pair<KEY_TYPE, VALUE_TYPE>(key, value));
-		}
-		else
-		{
-			contents[index].second = value;
-		}
-		return contents[index].second;
-	}
-	
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
+		catch(const std::out_of_range& e) {
 			throw DictionaryKeyNotFoundException(fgl::stringify<KEY_TYPE>(key));
 		}
-		return contents[index].second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key) const
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key) const {
+		try {
+			return contents.at(key);
+		}
+		catch(const std::out_of_range& e) {
 			throw DictionaryKeyNotFoundException(fgl::stringify<KEY_TYPE>(key));
 		}
-		return contents[index].second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, VALUE_TYPE& defaultValue)
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
+	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, VALUE_TYPE& defaultValue) {
+		try {
+			return contents.at(key);
+		}
+		catch(const std::out_of_range& e) {
 			return defaultValue;
 		}
-		return contents[index].second;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const
-	{
-		size_t index = indexOfKey(key);
-		if(index==(size_t)-1)
-		{
+	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const {
+		try {
+			return contents.at(key);
+		}
+		catch(const std::out_of_range& e) {
 			return defaultValue;
 		}
-		return contents[index].second;
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::valueAt(size_t index)
-	{
-		return contents[index].second;
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::remove(const KEY_TYPE& key) {
+		contents.erase(key);
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	const VALUE_TYPE& BasicDictionary<KEY_TYPE, VALUE_TYPE>::valueAt(size_t index) const
-	{
-		return contents[index].second;
-	}
-
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::remove(const KEY_TYPE& key)
-	{
-		size_t index = indexOfKey(key);
-		if(index!=(size_t)-1)
-		{
-			contents.remove(index);
-		}
-	}
-
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy BasicDictionary<KEY_TYPE, VALUE_TYPE>::operator[](const KEY_TYPE& key)
-	{
+	typename BasicDictionary<KEY_TYPE, VALUE_TYPE>::ValueProxy BasicDictionary<KEY_TYPE, VALUE_TYPE>::operator[](const KEY_TYPE& key) {
 		return ValueProxy(key, *this);
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	ArrayList<KEY_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getKeys() const
-	{
+	ArrayList<KEY_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getKeys() const {
 		ArrayList<KEY_TYPE> keys;
-		size_t contents_size = contents.size();
-		keys.resize(contents_size);
-		for(size_t i=0; i<contents_size; i++)
-		{
-			keys[i] = contents[i].first;
+		keys.reserve(contents.size());
+		for(auto& pair : contents) {
+			keys.add(pair.first);
 		}
 		return keys;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	ArrayList<VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getValues() const
-	{
+	ArrayList<VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::getValues() const {
 		ArrayList<KEY_TYPE> values;
-		size_t contents_size = contents.size();
-		values.resize(contents_size);
-		for(size_t i=0; i<contents_size; i++)
-		{
-			values[i] = contents[i].first;
+		values.reserve(contents.size());
+		for(auto& pair : contents) {
+			values.add(pair.second);
 		}
 		return values;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getContents() const
-	{
+	std::map<KEY_TYPE, VALUE_TYPE>& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getMap() {
 		return contents;
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::size() const
-	{
+	const std::map<KEY_TYPE, VALUE_TYPE>& BasicDictionary<KEY_TYPE, VALUE_TYPE>::getMap() const {
+		return contents;
+	}
+	
+	template<typename KEY_TYPE, typename VALUE_TYPE>
+	size_t BasicDictionary<KEY_TYPE, VALUE_TYPE>::size() const {
 		return contents.size();
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::clear()
-	{
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::clear() {
 		contents.clear();
 	}
 	
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::reserve(size_t size)
-	{
-		contents.reserve(size);
-	}
-
-	template<typename KEY_TYPE, typename VALUE_TYPE>
-	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::isEmpty() const
-	{
+	bool BasicDictionary<KEY_TYPE, VALUE_TYPE>::isEmpty() const {
 		return contents.size()==0;
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(const std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const
-	{
-		return BasicDictionary<KEY_TYPE, VALUE_TYPE>(contents.filter([&func](const Entry& entry) -> bool {
-			return func(entry.first, entry.second);
-		}));
+	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(const std::function<bool(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const {
+		BasicDictionary<KEY_TYPE, VALUE_TYPE> newDict;
+		auto& newMap = newDict.getMap();
+		for(auto& pair : contents) {
+			if(func(pair.first, pair.second)) {
+				newMap.insert(std::make_pair(pair.first, pair.second));
+			}
+		}
+		return newDict;
 	}
 
 	#ifdef __OBJC__
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(BOOL(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const
-	{
-		return BasicDictionary<KEY_TYPE, VALUE_TYPE>(contents.filter(^bool(const Entry& entry){
-			return func(entry.first, entry.second);
-		}));
+	BasicDictionary<KEY_TYPE, VALUE_TYPE> BasicDictionary<KEY_TYPE, VALUE_TYPE>::filter(BOOL(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const {
+		BasicDictionary<KEY_TYPE, VALUE_TYPE> newDict;
+		auto& newMap = newDict.getMap();
+		for(auto& pair : contents) {
+			if(func(pair.first, pair.second)) {
+				newMap.insert(std::make_pair(pair.first, pair.second));
+			}
+		}
+		return newDict;
 	}
 	#endif
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, VALUE_TYPE& value)>& func)
-	{
-		for(auto& pair : contents)
-		{
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, VALUE_TYPE& value)>& func) {
+		for(auto& pair : contents) {
 			func(pair.first, pair.second);
 		}
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const
-	{
-		for(auto& pair : contents)
-		{
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(const std::function<void(const KEY_TYPE& key, const VALUE_TYPE& value)>& func) const {
+		for(auto& pair : contents) {
 			func(pair.first, pair.second);
 		}
 	}
 
 	#ifdef __OBJC__
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, VALUE_TYPE& value))
-	{
-		for(auto& pair : contents)
-		{
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, VALUE_TYPE& value)) {
+		for(auto& pair : contents) {
 			func(pair.first, pair.second);
 		}
 	}
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const
-	{
-		for(auto& pair : contents)
-		{
+	void BasicDictionary<KEY_TYPE, VALUE_TYPE>::forEach(void(^func)(const KEY_TYPE& key, const VALUE_TYPE& value)) const {
+		for(auto& pair : contents) {
 			func(pair.first, pair.second);
 		}
 	}
 	#endif
 
 	template<typename KEY_TYPE, typename VALUE_TYPE>
-	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const
-	{
+	String BasicDictionary<KEY_TYPE, VALUE_TYPE>::toString() const {
 		String str = (String)"BasicDictionary<" + typeid(KEY_TYPE).name() + "," + typeid(VALUE_TYPE).name() + ">( ";
-		size_t lastIndex = contents.size()-1;
-		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
-		{
-			const std::pair<KEY_TYPE, VALUE_TYPE>& pair = contents[i];
+		for(auto it=begin(); it!=end(); it++) {
+			auto& pair = *it;
 			str += "(" + fgl::stringify<KEY_TYPE>(pair.first) + ") => ";
 			str += "(" + fgl::stringify<VALUE_TYPE>(pair.second) + ")";
-			if(i!=lastIndex)
-			{
+			if(it != std::prev(end())) {
 				str += ", ";
 			}
 		}

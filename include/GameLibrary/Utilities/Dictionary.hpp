@@ -23,10 +23,10 @@ namespace fgl
 		typedef VALUE_TYPE Value;
 		typedef std::pair<KEY_TYPE, VALUE_TYPE> Entry;
 		
-		typedef typename ArrayList<Entry>::iterator iterator;
-		typedef typename ArrayList<Entry>::const_iterator const_iterator;
-		typedef typename ArrayList<Entry>::reverse_iterator reverse_iterator;
-		typedef typename ArrayList<Entry>::const_reverse_iterator const_reverse_iterator;
+		typedef typename std::map<KEY_TYPE, VALUE_TYPE>::iterator iterator;
+		typedef typename std::map<KEY_TYPE, VALUE_TYPE>::const_iterator const_iterator;
+		typedef typename std::map<KEY_TYPE, VALUE_TYPE>::reverse_iterator reverse_iterator;
+		typedef typename std::map<KEY_TYPE, VALUE_TYPE>::const_reverse_iterator const_reverse_iterator;
 		
 		class ValueProxy
 		{
@@ -45,6 +45,7 @@ namespace fgl
 			
 		private:
 			KEY_TYPE key;
+			iterator it;
 			BasicDictionary<KEY_TYPE, VALUE_TYPE>& dictionary;
 			
 			ValueProxy(ValueProxy&&);
@@ -53,10 +54,11 @@ namespace fgl
 		
 		BasicDictionary();
 		BasicDictionary(std::initializer_list<std::pair<KEY_TYPE, VALUE_TYPE>> list);
-		BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& map);
 		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
 		BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents);
+		BasicDictionary(const std::map<KEY_TYPE, VALUE_TYPE>& contents);
+		BasicDictionary(std::map<KEY_TYPE, VALUE_TYPE>&& contents);
 		~BasicDictionary();
 		
 		iterator begin();
@@ -73,32 +75,26 @@ namespace fgl
 		const_reverse_iterator crend() const;
 
 		bool has(const KEY_TYPE& key) const;
-		size_t indexOfKey(const KEY_TYPE& key) const;
 		
-		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE& value);
-		VALUE_TYPE& set(const KEY_TYPE& key, VALUE_TYPE&& value);
-		VALUE_TYPE& set(const KEY_TYPE& key, const VALUE_TYPE& value);
-		VALUE_TYPE& set(const KEY_TYPE& key, const VALUE_TYPE&& value);
+		iterator set(const KEY_TYPE& key, const VALUE_TYPE& value);
+		iterator set(const KEY_TYPE& key, VALUE_TYPE&& value);
 		
 		VALUE_TYPE& get(const KEY_TYPE& key);
 		const VALUE_TYPE& get(const KEY_TYPE& key) const;
 		VALUE_TYPE& get(const KEY_TYPE& key, VALUE_TYPE& defaultValue);
 		const VALUE_TYPE& get(const KEY_TYPE& key, const VALUE_TYPE& defaultValue) const;
 
-		VALUE_TYPE& valueAt(size_t index);
-		const VALUE_TYPE& valueAt(size_t index) const;
-		
 		void remove(const KEY_TYPE& key);
 		
 		ValueProxy operator[](const KEY_TYPE& key);
 		
 		ArrayList<KEY_TYPE> getKeys() const;
 		ArrayList<VALUE_TYPE> getValues() const;
-		const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE>>& getContents() const;
+		std::map<KEY_TYPE, VALUE_TYPE>& getMap();
+		const std::map<KEY_TYPE, VALUE_TYPE>& getMap() const;
 		
 		size_t size() const;
 		void clear();
-		void reserve(size_t size);
 
 		bool isEmpty() const;
 		
@@ -117,7 +113,7 @@ namespace fgl
 		String toString() const;
 		
 	private:
-		ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> > contents;
+		std::map<KEY_TYPE, VALUE_TYPE> contents;
 	};
 	
 	typedef BasicDictionary<String, Any> Dictionary;

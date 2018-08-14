@@ -526,8 +526,6 @@ namespace fgl
 	bool Plist_parseDictionary(Plist::dict* dst, const void* ptr, pugi::xml_node&node, String* error)
 	{
 		char empty_key[1] = {'\0'};
-		size_t size = std::distance(node.begin(), node.end())/2;
-		dst->reserve(size);
 		for(pugi::xml_node_iterator it=node.begin(); it!=node.end(); it++)
 		{
 			if(!String::streq(it->name(), "key"))
@@ -789,10 +787,8 @@ namespace fgl
 	bool Plist_writeDictionary(const Plist::dict& src, pugi::xml_node& node, String* error)
 	{
 		pugi::xml_node dict_node = node.append_child("dict");
-		const ArrayList<std::pair<Plist::key, Any> >& contents = src.getContents();
-		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
+		for(auto& pair : src)
 		{
-			const std::pair<Plist::key, Any>& pair = contents.get(i);
 			pugi::xml_node key_node = dict_node.append_child("key");
 			key_node.append_child(pugi::node_pcdata).set_value(pair.first);
 			bool result = Plist_write(pair.second, dict_node, error);

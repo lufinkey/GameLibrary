@@ -161,24 +161,17 @@ namespace fgl
 	void AutoLayoutManager::setRules(const Dictionary& rulesDict)
 	{
 		removeAllRules();
-		const ArrayList<std::pair<String, Any> >& contents = rulesDict.getContents();
-		for(size_t contents_size=contents.size(), i=0; i<contents_size; i++)
-		{
-			const std::pair<String, Any> pair = contents.get(i);
+		for(auto& pair : rulesDict) {
 			LayoutRuleType ruleType;
-			if(LayoutRuleType_fromString(pair.first, &ruleType))
-			{
-				if(pair.second.is<Dictionary>())
-				{
+			if(LayoutRuleType_fromString(pair.first, &ruleType)) {
+				if(pair.second.is<Dictionary>()) {
 					const Dictionary& ruleData = pair.second.as<const Dictionary&>();
 					Any value_any = ruleData.get("value", Any());
-					if(!value_any.isEmpty() && value_any.is<Number>())
-					{
+					if(!value_any.isEmpty() && value_any.is<Number>()) {
 						double value = value_any.as<Number>().toArithmeticValue<double>();
 						LayoutValueType valueType = LAYOUTVALUE_PIXEL;
 						Any valueType_any = ruleData.get("valueType", Any());
-						if(!valueType_any.isEmpty() && valueType_any.is<String>())
-						{
+						if(!valueType_any.isEmpty() && valueType_any.is<String>()) {
 							String valueType_str = valueType_any.as<String>();
 							LayoutValueType_fromString(valueType_str, &valueType);
 						}
