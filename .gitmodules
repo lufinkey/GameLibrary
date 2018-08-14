@@ -22,3 +22,6 @@
 	path = external/pugixml
 	url = https://github.com/zeux/pugixml
 	ignore = dirty
+[submodule "external/json11"]
+	path = external/json11
+	url = https://github.com/dropbox/json11
