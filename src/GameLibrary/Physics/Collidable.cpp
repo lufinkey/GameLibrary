@@ -32,6 +32,19 @@ namespace fgl
 		return displacement;
 	}
 	
+	RectangleD Collidable::getBoundingRect() const {
+		auto transformState = getTransformState();
+		auto collisionRects = getCollisionRects();
+		if(collisionRects.size() == 0) {
+			return RectangleD(transformState.position.x, transformState.position.y, 0, 0);
+		}
+		auto rect = collisionRects[0]->getRect();
+		for(size_t i=1; i<collisionRects.size(); i++) {
+			rect.combine(collisionRects[i]->getRect());
+		}
+		return rect.translated(transformState.position);
+	}
+	
 	ArrayList<Collidable*> Collidable::getCollidedOnSide(CollisionSide side) {
 		fgl::ArrayList<Collidable*> collidables;
 		try {

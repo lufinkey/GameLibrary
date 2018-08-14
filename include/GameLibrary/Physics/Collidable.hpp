@@ -40,6 +40,8 @@ namespace fgl
 
 		TransformState getPreviousTransformState() const;
 		Vector2d getDisplacement() const;
+		
+		RectangleD getBoundingRect() const;
 
 		bool checkCollision(Collidable* collidable) const;
 
