@@ -193,6 +193,10 @@
         <File Name="../../external/pugixml/src/pugixml.cpp"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <VirtualDirectory Name="json11">
+      <File Name="../../external/json11/json11.cpp"/>
+      <File Name="../../external/json11/json11.hpp"/>
+    </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <VirtualDirectory Name="GameLibrary">
@@ -387,6 +391,7 @@
         <IncludePath Value="../../include"/>
         <IncludePath Value="../../external/pugixml/src"/>
         <IncludePath Value="../../external/base64/include"/>
+        <IncludePath Value="../../external/json11"/>
         <IncludePath Value="../../external/SDL/SDL/include"/>
         <IncludePath Value="../../external/SDL/SDL_image"/>
         <IncludePath Value="../../external/SDL/SDL_mixer"/>
@@ -432,6 +437,7 @@
         <IncludePath Value="../../include"/>
         <IncludePath Value="../../external/pugixml/src"/>
         <IncludePath Value="../../external/base64/include"/>
+        <IncludePath Value="../../external/json11"/>
         <IncludePath Value="../../external/SDL/SDL/include"/>
         <IncludePath Value="../../external/SDL/SDL_image"/>
         <IncludePath Value="../../external/SDL/SDL_mixer"/>
