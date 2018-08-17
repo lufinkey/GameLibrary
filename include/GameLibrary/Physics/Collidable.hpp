@@ -4,24 +4,11 @@
 #include "CollisionRects/CollisionRect.hpp"
 #include "ContactEvent.hpp"
 #include "CollisionEvent.hpp"
+#include "TransformState.hpp"
 #include <GameLibrary/Application/ApplicationData.hpp>
 
 namespace fgl
 {
-	struct TransformState
-	{
-		TransformState(Vector2d position, double rotation)
-			: position(position),
-			rotation(rotation) {
-			//
-		}
-		
-		Vector2d position;
-		double rotation;
-	};
-	
-	
-	
 	class Collidable
 	{
 		friend class CollisionManager;
