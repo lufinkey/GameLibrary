@@ -407,7 +407,7 @@ namespace fgl
 					}
 				}
 				if(!prevCollisionExists) {
-					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody())) {
+					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody()) && (pair.collidable1->isAwake() || pair.collidable2->isAwake())) {
 						if(pair.collidable1->isStaticCollisionBody() || pair.collidable2->isStaticCollisionBody()) {
 							staticCollisions.push_back(pair);
 						}

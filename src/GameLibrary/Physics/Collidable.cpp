@@ -5,7 +5,8 @@ namespace fgl
 {
 	Collidable::Collidable()
 		: previousTransformState(fgl::Vector2d(0,0), 0),
-		displacement(0, 0) {
+		displacement(0, 0),
+		awake(true) {
 		//
 	}
 	
@@ -243,6 +244,18 @@ namespace fgl
 			//
 		}
 		return false;
+	}
+	
+	bool Collidable::isAwake() const {
+		return awake;
+	}
+	
+	void Collidable::wake() {
+		awake = true;
+	}
+	
+	void Collidable::sleep() {
+		awake = false;
 	}
 
 	void Collidable::onContact(const ContactEvent& contactEvent) {

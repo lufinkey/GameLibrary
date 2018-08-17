@@ -53,6 +53,10 @@ namespace fgl
 		bool hasStaticCollisionOnSide(CollisionSide side) const;
 		bool hasCollision(const Collidable* collidable) const;
 		bool hasCollision(const Collidable* collidable, CollisionSide side) const;
+		
+		bool isAwake() const;
+		void wake();
+		void sleep();
 
 	protected:
 		virtual void onBeginCollisionUpdates();
@@ -76,5 +80,6 @@ namespace fgl
 		Vector2d displacement;
 		std::map<CollisionSide, std::list<Collidable*>> collided;
 		std::map<CollisionSide, std::list<Collidable*>> newCollided;
+		bool awake;
 	};
 }
