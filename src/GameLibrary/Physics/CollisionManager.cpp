@@ -51,7 +51,7 @@ namespace fgl
 		throw IllegalArgumentException("shiftAmount", "cannot be 0,0");
 	}
 
-#define DOUBLECHECK_COLLISIONS
+//#define DOUBLECHECK_COLLISIONS
 
 	void CollisionManager::update(const ApplicationData& appData) {
 		onWillBeginCollisionUpdates(appData);
@@ -65,6 +65,7 @@ namespace fgl
 
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
+		//printf("evaluating %i collision pairs\n", (int)pairs.size());
 
 		UpdateData updateData;
 		auto appDataPtr = &appData;
@@ -93,8 +94,41 @@ namespace fgl
 						}
 					}
 				#endif
-
-				if(!(collidable1->isStaticCollisionBody() && collidable2->isStaticCollisionBody())) {
+				
+				if(!collidable1->isAwake() && !collidable2->isAwake()) {
+					newPair = pair;
+					
+					auto& collided1 = collidable1->newCollided;
+					for(auto side : newPair.sides) {
+						auto collidedListIt1 = collided1.find(side);
+						if(collidedListIt1 == collided1.end()) {
+							collided1[side] = { collidable2 };
+						}
+						else {
+							auto& collidedList1 = collidedListIt1->second;
+							auto collidedIt = std::find(collidedList1.begin(), collidedList1.end(), collidable2);
+							if(collidedIt == collidedList1.end()) {
+								collidedList1.push_back(collidable2);
+							}
+						}
+					}
+					
+					auto& collided2 = collidable2->newCollided;
+					for(auto side : newPair.getOppositeSides()) {
+						auto collidedListIt2 = collided2.find(side);
+						if(collidedListIt2 == collided2.end()) {
+							collided2[side] = { collidable1 };
+						}
+						else {
+							auto& collidedList2 = collidedListIt2->second;
+							auto collidedIt = std::find(collidedList2.begin(), collidedList2.end(), collidable1);
+							if(collidedIt == collidedList2.end()) {
+								collidedList2.push_back(collidable1);
+							}
+						}
+					}
+				}
+				else if(!(collidable1->isStaticCollisionBody() && collidable2->isStaticCollisionBody())) {
 					ArrayList<const CollisionRect*> rects1 = collidable1->getCollisionRects();
 					ArrayList<const CollisionRect*> rects2 = collidable2->getCollisionRects();
 
@@ -263,21 +297,21 @@ namespace fgl
 							}
 						}
 					}
-
-					//add new collision pair to previous collisions
-					#ifdef DOUBLECHECK_COLLISIONS
-					if(pairReplaceIter == collisions.end()) {
-					#endif
-						if(newPair.collidedRectPairs.size() > 0 || newPair.ignoredRectPairs.size() > 0) {
-							collisions.push_back(newPair);
-						}
-					#ifdef DOUBLECHECK_COLLISIONS
-					}
-					else {
-						*pairReplaceIter = newPair;
-					}
-					#endif
 				}
+				
+				//add new collision pair to previous collisions
+				#ifdef DOUBLECHECK_COLLISIONS
+				if(pairReplaceIter == collisions.end()) {
+				#endif
+					if(newPair.collidedRectPairs.size() > 0 || newPair.ignoredRectPairs.size() > 0) {
+						collisions.push_back(newPair);
+					}
+				#ifdef DOUBLECHECK_COLLISIONS
+				}
+				else {
+					*pairReplaceIter = newPair;
+				}
+				#endif
 
 				#ifdef DOUBLECHECK_COLLISIONS
 				if(i==1)
@@ -400,14 +434,12 @@ namespace fgl
 				auto collidable2 = *it2;
 				CollisionPair pair(collidable1, collidable2);
 				bool prevCollisionExists = false;
-				for(auto& cmpPair : previousCollisions) {
-					if(pair == cmpPair) {
-						prevCollisionExists = true;
-						break;
-					}
+				auto prevIt = std::find(previousCollisions.begin(), previousCollisions.end(), pair);
+				if(prevIt != previousCollisions.end()) {
+					continue;
 				}
-				if(!prevCollisionExists) {
-					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody()) && (pair.collidable1->isAwake() || pair.collidable2->isAwake())) {
+				if(pair.collidable1->isAwake() || pair.collidable2->isAwake()) {
+					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody())) {
 						if(pair.collidable1->isStaticCollisionBody() || pair.collidable2->isStaticCollisionBody()) {
 							staticCollisions.push_back(pair);
 						}
