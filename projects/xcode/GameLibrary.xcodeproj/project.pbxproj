@@ -25,6 +25,7 @@
 		A049BB55211962E000857893 /* DraggableElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB54211962E000857893 /* DraggableElement.cpp */; };
 		A049BB57211962FC00857893 /* Retainable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB56211962FC00857893 /* Retainable.cpp */; };
 		A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */; };
+		A08CB6042128E3A000864A20 /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A08CB6022128E3A000864A20 /* json11.cpp */; };
 		A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD221F896A3C001771AE /* GameLibrary.cpp */; };
 		A0D7FD691F896A49001771AE /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD231F896A3C001771AE /* GameLibrary.mm */; };
 		A0D7FD6A1F896A4F001771AE /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FCF71F896A3C001771AE /* Actor.cpp */; };
@@ -120,10 +121,6 @@
 		F15A1F791E549ADD008D83E5 /* SDL2_gfxPrimitives.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F701E549ADD008D83E5 /* SDL2_gfxPrimitives.c */; };
 		F15A1F7B1E549ADD008D83E5 /* SDL2_imageFilter.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F721E549ADD008D83E5 /* SDL2_imageFilter.c */; };
 		F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */ = {isa = PBXBuildFile; fileRef = F15A1F741E549ADD008D83E5 /* SDL2_rotozoom.c */; };
-		F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F11E61E8553DA007CA0D2 /* PopupScreen.hpp */; };
-		F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F15F59D61E719BFF00FAFD86 /* TextElement.hpp */; };
-		F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C31E6DB4A1003F4D85 /* Viewport.hpp */; };
-		F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = F17D96C51E6DB4A5003F4D85 /* AssetManager.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -292,6 +289,8 @@
 		A049BB56211962FC00857893 /* Retainable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Retainable.cpp; sourceTree = "<group>"; };
 		A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GridSelectorElement.hpp; sourceTree = "<group>"; };
 		A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
+		A08CB6012128E3A000864A20 /* json11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json11.hpp; sourceTree = "<group>"; };
+		A08CB6022128E3A000864A20 /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json11.cpp; sourceTree = "<group>"; };
 		A0D7FCF71F896A3C001771AE /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		A0D7FCFA1F896A3C001771AE /* SpriteActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteActor.cpp; sourceTree = "<group>"; };
 		A0D7FCFB1F896A3C001771AE /* TextActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextActor.cpp; sourceTree = "<group>"; };
@@ -602,6 +601,15 @@
 				A049BB46211962AA00857893 /* PolygonCollisionRect.cpp */,
 			);
 			path = CollisionRects;
+			sourceTree = "<group>";
+		};
+		A08CB6002128E38800864A20 /* json11 */ = {
+			isa = PBXGroup;
+			children = (
+				A08CB6022128E3A000864A20 /* json11.cpp */,
+				A08CB6012128E3A000864A20 /* json11.hpp */,
+			);
+			path = json11;
 			sourceTree = "<group>";
 		};
 		A0D7FCF51F896A3C001771AE /* GameLibrary */ = {
@@ -1216,6 +1224,7 @@
 		F15A1F5D1E5499CC008D83E5 /* external */ = {
 			isa = PBXGroup;
 			children = (
+				A08CB6002128E38800864A20 /* json11 */,
 				F15A1F5E1E5499E1008D83E5 /* base64 */,
 				F15A1F651E549A7D008D83E5 /* pugixml */,
 				F15A1F6B1E549AB0008D83E5 /* SDL */,
@@ -1329,10 +1338,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F17D96C41E6DB4A1003F4D85 /* Viewport.hpp in Headers */,
-				F15F59D71E719BFF00FAFD86 /* TextElement.hpp in Headers */,
-				F15F11E71E8553DA007CA0D2 /* PopupScreen.hpp in Headers */,
-				F17D96C61E6DB4A5003F4D85 /* AssetManager.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1584,6 +1589,7 @@
 				A0D7FDC71F896BBC001771AE /* Plist.cpp in Sources */,
 				A0D7FD951F896AC7001771AE /* FileTools.cpp in Sources */,
 				A0D7FD8B1F896AA9001771AE /* OutOfBoundsException.cpp in Sources */,
+				A08CB6042128E3A000864A20 /* json11.cpp in Sources */,
 				A0D7FD8F1F896AB5001771AE /* PixelIterator.cpp in Sources */,
 				A0D7FD791F896A70001771AE /* UnsupportedImageFormatException.cpp in Sources */,
 				A0D7FDC21F896BB1001771AE /* DateTime.cpp in Sources */,
@@ -1751,6 +1757,7 @@
 					../../external/SDL/SDL_ttf,
 					../../external/SDL/SDL_gfx,
 					../../external/SDL/SDL_ttf/Xcode/Frameworks/FreeType.framework/Headers,
+					../../external/json11,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1775,6 +1782,7 @@
 					../../external/SDL/SDL_ttf,
 					../../external/SDL/SDL_gfx,
 					../../external/SDL/SDL_ttf/Xcode/Frameworks/FreeType.framework/Headers,
+					../../external/json11,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
