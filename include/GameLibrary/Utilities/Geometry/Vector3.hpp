@@ -28,18 +28,15 @@ namespace fgl
 			//
 		}
 		
+		constexpr Vector3(const std::tuple<T,T,T>& tuple) : x(std::get<0>(tuple)), y(std::get<1>(tuple)), z(std::get<2>(tuple)) {
+			//
+		}
+		
 		template<typename U>
 		constexpr explicit Vector3(const Vector3<U>& vect) : x(static_cast<T>(vect.x)), y(static_cast<T>(vect.y)), z(static_cast<T>(vect.z)) {
 			//
 		}
 		
-		constexpr Vector3<T>& operator=(const std::tuple<T,T,T>& tuple) {
-			x = std::get<0>(tuple);
-			y = std::get<1>(tuple);
-			z = std::get<2>(tuple);
-			return *this;
-		}
-
 		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
 		constexpr Vector3<T> operator-() const {
 			return Vector3<T>(-x, -y, -z);
