@@ -1,5 +1,6 @@
 
 #include <GameLibrary/Physics/CollisionManager.hpp>
+#include <GameLibrary/Utilities/Time/TimeInterval.hpp>
 
 namespace fgl
 {
@@ -57,11 +58,18 @@ namespace fgl
 		onWillBeginCollisionUpdates(appData);
 		
 		// start collision calculations
-		for(auto& collidable : collidables) {
+		for(auto collidable : collidables) {
 			collidable->onBeginCollisionUpdates();
 		}
 		
 		onBeginCollisionUpdates(appData);
+		
+		// update awareness rects
+		for(auto collidable : collidables) {
+			auto rect = collidable->getBoundingRect();
+			double expandSize = 20;
+			collidable->awarenessRect = RectangleD(rect.x-expandSize, rect.y-expandSize, rect.width+(expandSize*2.0), rect.height+(expandSize*2.0));
+		}
 
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
@@ -426,6 +434,8 @@ namespace fgl
 			}
 		}
 		
+		auto unmatchedPrevCollisions = previousCollisions;
+		
 		std::list<CollisionPair> staticCollisions;
 		std::list<CollisionPair> nonstaticCollisions;
 		for(auto it=collidables.begin(); it!=collidables.end(); it++) {
@@ -434,19 +444,21 @@ namespace fgl
 				auto collidable2 = *it2;
 				CollisionPair pair(collidable1, collidable2);
 				bool prevCollisionExists = false;
-				auto prevIt = std::find(previousCollisions.begin(), previousCollisions.end(), pair);
-				if(prevIt != previousCollisions.end()) {
+				auto prevIt = std::find(unmatchedPrevCollisions.begin(), unmatchedPrevCollisions.end(), pair);
+				if(prevIt != unmatchedPrevCollisions.end()) {
+					unmatchedPrevCollisions.erase(prevIt);
 					continue;
 				}
-				if(pair.collidable1->isAwake() || pair.collidable2->isAwake()) {
-					if(!(pair.collidable1->isStaticCollisionBody() && pair.collidable2->isStaticCollisionBody())) {
-						if(pair.collidable1->isStaticCollisionBody() || pair.collidable2->isStaticCollisionBody()) {
-							staticCollisions.push_back(pair);
-						}
-						else {
-							nonstaticCollisions.push_back(pair);
-						}
-					}
+				if((!collidable1->isAwake() && !collidable2->isAwake())
+				|| (collidable1->isStaticCollisionBody() && collidable2->isStaticCollisionBody())
+				|| (!collidable1->awarenessRect.intersects(collidable2->awarenessRect))) {
+					continue;
+				}
+				if(collidable1->isStaticCollisionBody() || collidable2->isStaticCollisionBody()) {
+					staticCollisions.push_back(pair);
+				}
+				else {
+					nonstaticCollisions.push_back(pair);
 				}
 			}
 		}

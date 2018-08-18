@@ -67,6 +67,7 @@ namespace fgl
 		Vector2d displacement;
 		std::map<CollisionSide, std::list<Collidable*>> collided;
 		std::map<CollisionSide, std::list<Collidable*>> newCollided;
+		RectangleD awarenessRect;
 		bool awake;
 	};
 }
