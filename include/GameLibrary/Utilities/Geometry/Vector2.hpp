@@ -31,12 +31,6 @@ namespace fgl
 		constexpr explicit Vector2(const Vector2<U>& vect) : x(static_cast<T>(vect.x)), y(static_cast<T>(vect.y)) {
 			//
 		}
-		
-		constexpr Vector2<T>& operator=(const std::tuple<T,T>& tuple) {
-			x = std::get<0>(tuple);
-			y = std::get<1>(tuple);
-			return *this;
-		}
 
 		template<typename _T=T, typename std::enable_if<std::is_signed<_T>::value, std::nullptr_t>::type = nullptr>
 		constexpr Vector2<T> operator-() const {

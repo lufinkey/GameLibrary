@@ -28,10 +28,6 @@ namespace fgl
 			//
 		}
 		
-		constexpr Vector3(const std::tuple<T,T,T>& tuple) : x(std::get<0>(tuple)), y(std::get<1>(tuple)), z(std::get<2>(tuple)) {
-			//
-		}
-		
 		template<typename U>
 		constexpr explicit Vector3(const Vector3<U>& vect) : x(static_cast<T>(vect.x)), y(static_cast<T>(vect.y)), z(static_cast<T>(vect.z)) {
 			//
