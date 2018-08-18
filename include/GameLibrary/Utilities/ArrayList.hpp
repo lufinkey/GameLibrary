@@ -9,6 +9,7 @@
 #include <vector>
 #include <list>
 #include <functional>
+#include <iterator>
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
@@ -39,6 +40,9 @@ namespace fgl
 	#endif
 	class ArrayList
 	{
+		template<typename InputIterator>
+		using RequireInputIterator = typename std::enable_if<std::is_convertible<typename std::iterator_traits<InputIterator>::iterator_category, std::input_iterator_tag>::value>::type;
+		
 	private:
 		std::vector<T> objects;
 		
@@ -153,13 +157,8 @@ namespace fgl
 			//
 		}
 		
-		ArrayList(iterator begin, iterator end)
-			: objects(begin, end)
-		{
-			//
-		}
-		
-		ArrayList(const_iterator begin, const_iterator end)
+		template<typename InputIterator, typename = RequireInputIterator<InputIterator>>
+		ArrayList(InputIterator begin, InputIterator end)
 			: objects(begin, end)
 		{
 			//
