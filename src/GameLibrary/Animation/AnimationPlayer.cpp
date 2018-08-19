@@ -35,71 +35,65 @@ namespace fgl
 		
 		//handle animation
 		bool frameChanged = false;
-		do
-		{
+		do {
 			frameChanged = false;
-			if(animationChanged)
-			{
+			if(animationChanged) {
 				lastFrameTime = currentTimeMillis;
 				animationChanged = false;
 			}
-			if(animation!=nullptr && animation->getFrameCount() > 0)
-			{
+			if(animation!=nullptr && animation->getFrameCount() > 0) {
 				long double fps = (long double)animation->getFPS();
 				long long frameTime = (long long)(1000.0L/fps);
-				if(frameTime==0)
-				{
+				if(frameTime==0) {
 					frameTime = 1;
 				}
 				long long nextFrameTime = lastFrameTime + frameTime;
 				if(nextFrameTime<=currentTimeMillis)
 				{
 					lastFrameTime = nextFrameTime;
-					if(direction!=Animation::Direction::STOPPED)
-					{
-						frameChanged = true;
-						if(direction==Animation::Direction::FORWARD)
-						{
-							frameIndex++;
-							if(frameIndex >= animation->getFrameCount())
-							{
-								frameIndex = 0;
-								if(eventHandler)
-								{
+					if(direction != Animation::Direction::STOPPED && animation->getFrameCount() > 0) {
+						if(direction==Animation::Direction::FORWARD) {
+							if(frameIndex == (animation->getFrameCount() - 1)) {
+								if(eventHandler) {
 									eventHandler(ANIMATIONEVENT_FINISHED);
-									if(!animationChanged)
-									{
+									if(!animationChanged && direction == Animation::Direction::FORWARD) {
+										frameIndex = 0;
+										frameChanged = true;
 										eventHandler(ANIMATIONEVENT_FRAMECHANGED);
 									}
 								}
+								else {
+									frameIndex = 0;
+									frameChanged = true;
+								}
 							}
-							else
-							{
-								if(eventHandler)
-								{
+							else {
+								frameIndex++;
+								frameChanged = true;
+								if(eventHandler) {
 									eventHandler(ANIMATIONEVENT_FRAMECHANGED);
 								}
 							}
 						}
-						else if(direction==Animation::Direction::BACKWARD)
-						{
-							frameIndex--;
-							if(frameIndex == -1)
-							{
-								frameIndex = animation->getFrameCount()-1;
-								if(eventHandler)
-								{
+						else if(direction == Animation::Direction::BACKWARD) {
+							if(frameIndex == 0) {
+								if(eventHandler) {
 									eventHandler(ANIMATIONEVENT_FINISHED);
-									if(!animationChanged)
-									{
+									if(!animationChanged && direction == Animation::Direction::BACKWARD) {
+										frameIndex = animation->getFrameCount() - 1;
+										frameChanged = true;
 										eventHandler(ANIMATIONEVENT_FRAMECHANGED);
 									}
 								}
+								else {
+									frameIndex = animation->getFrameCount() - 1;
+									frameChanged = true;
+								}
 							}
-							else
-							{
-								if(eventHandler)
-								{
+							else {
+								frameIndex--;
+								frameChanged = true;
+								if(eventHandler) {
 									eventHandler(ANIMATIONEVENT_FRAMECHANGED);
 								}
 							}
