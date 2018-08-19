@@ -46,7 +46,7 @@ namespace fgl
 		void sleep();
 
 	protected:
-		virtual void onBeginCollisionUpdates();
+		virtual void onBeginCollisionUpdates(const ApplicationData& appData);
 
 		virtual void onContact(const ContactEvent& contactEvent);
 		virtual void onContactUpdate(const ContactEvent& contactEvent);
@@ -58,7 +58,7 @@ namespace fgl
 		
 		virtual void updateTransformState();
 		
-		virtual void onFinishCollisionUpdates();
+		virtual void onFinishCollisionUpdates(const ApplicationData& appData);
 		
 	private:
 		void shiftCollisionsOnSide(CollisionSide side, const Vector2d& offset);

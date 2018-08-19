@@ -7,6 +7,10 @@
 
 namespace fgl
 {
+	class CollisionManagerEventListener;
+	
+	
+	
 	class CollisionManager
 	{
 	public:
@@ -15,6 +19,9 @@ namespace fgl
 
 		virtual void addCollidable(Collidable* collidable);
 		virtual void removeCollidable(Collidable* collidable);
+		
+		void addEventListener(CollisionManagerEventListener* eventListener);
+		void removeEventListener(CollisionManagerEventListener* eventListener);
 
 		virtual void update(const ApplicationData& appData);
 		
@@ -47,5 +54,20 @@ namespace fgl
 
 		std::list<Collidable*> collidables;
 		std::list<CollisionPair> previousCollisions;
+		
+		std::list<CollisionManagerEventListener*> listeners;
+	};
+	
+	
+	
+	class CollisionManagerEventListener
+	{
+		friend class CollisionManager;
+	public:
+		virtual ~CollisionManagerEventListener() = default;
+		
+	protected:
+		virtual void onBeginCollisionUpdates(CollisionManager* collisionManager, const ApplicationData& appData);
+		virtual void onFinishCollisionUpdates(CollisionManager* collisionManager, const ApplicationData& appData);
 	};
 }

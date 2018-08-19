@@ -257,6 +257,10 @@ namespace fgl
 	void Collidable::sleep() {
 		awake = false;
 	}
+	
+	void Collidable::onBeginCollisionUpdates(const ApplicationData& appData) {
+		//
+	}
 
 	void Collidable::onContact(const ContactEvent& contactEvent) {
 		//
@@ -298,10 +302,6 @@ namespace fgl
 	void Collidable::onCollisionFinish(const CollisionEvent& collisionEvent) {
 		//
 	}
-
-	void Collidable::onBeginCollisionUpdates() {
-		//
-	}
 	
 	void Collidable::updateTransformState() {
 		auto transformState = getTransformState();
@@ -310,7 +310,7 @@ namespace fgl
 		previousTransformState = transformState;
 	}
 
-	void Collidable::onFinishCollisionUpdates() {
+	void Collidable::onFinishCollisionUpdates(const ApplicationData& appData) {
 		//
 	}
 }

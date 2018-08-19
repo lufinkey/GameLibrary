@@ -32,6 +32,17 @@ namespace fgl
 		}
 	}
 	
+	void CollisionManager::addEventListener(CollisionManagerEventListener* eventListener) {
+		listeners.push_back(eventListener);
+	}
+	
+	void CollisionManager::removeEventListener(CollisionManagerEventListener* eventListener) {
+		auto listenerIt = std::find(listeners.begin(), listeners.end(), eventListener);
+		if(listenerIt != listeners.end()) {
+			listeners.erase(listenerIt);
+		}
+	}
+	
 	const std::list<Collidable*>& CollisionManager::getCollidables() const {
 		return collidables;
 	}
@@ -57,9 +68,14 @@ namespace fgl
 	void CollisionManager::update(const ApplicationData& appData) {
 		onWillBeginCollisionUpdates(appData);
 		
+		// call "begin" listener events
+		for(auto listener : listeners) {
+			listener->onBeginCollisionUpdates(this, appData);
+		}
+		
 		// start collision calculations
 		for(auto collidable : collidables) {
-			collidable->onBeginCollisionUpdates();
+			collidable->onBeginCollisionUpdates(appData);
 		}
 		
 		onBeginCollisionUpdates(appData);
@@ -413,10 +429,14 @@ namespace fgl
 
 		//tell updated collidables that their collision updates have finished
 		for(auto& collidable : collidables) {
-			collidable->onFinishCollisionUpdates();
+			collidable->onFinishCollisionUpdates(appData);
 		}
 		
 		onFinishCollisionUpdates(appData);
+		
+		for(auto listener : listeners) {
+			listener->onFinishCollisionUpdates(this, appData);
+		}
 	}
 
 	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
@@ -577,6 +597,16 @@ namespace fgl
 	}
 	
 	void CollisionManager::onFinishCollisionUpdates(const ApplicationData& appData) {
+		// open for implementation
+	}
+	
+	
+	
+	void CollisionManagerEventListener::onBeginCollisionUpdates(CollisionManager* collisionManager, const ApplicationData& appData) {
+		// open for implementation
+	}
+	
+	void CollisionManagerEventListener::onFinishCollisionUpdates(CollisionManager* collisionManager, const ApplicationData& appData) {
 		// open for implementation
 	}
 }
