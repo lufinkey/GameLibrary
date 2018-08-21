@@ -53,7 +53,7 @@ namespace fgl
 		};
 		
 		BasicDictionary();
-		BasicDictionary(std::initializer_list<std::pair<KEY_TYPE, VALUE_TYPE>> list);
+		BasicDictionary(std::initializer_list<typename std::map<KEY_TYPE, VALUE_TYPE>::value_type> list);
 		BasicDictionary(const ArrayList<KEY_TYPE>& keys, const ArrayList<VALUE_TYPE>& values);
 		BasicDictionary(const ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >& contents);
 		BasicDictionary(ArrayList<std::pair<KEY_TYPE, VALUE_TYPE> >&& contents);
