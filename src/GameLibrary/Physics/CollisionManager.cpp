@@ -83,7 +83,7 @@ namespace fgl
 		// update awareness rects
 		for(auto collidable : collidables) {
 			auto rect = collidable->getBoundingRect();
-			double expandSize = 1;
+			double expandSize = 10;
 			collidable->awarenessRect = RectangleD(rect.x-expandSize, rect.y-expandSize, rect.width+(expandSize*2.0), rect.height+(expandSize*2.0));
 		}
 
