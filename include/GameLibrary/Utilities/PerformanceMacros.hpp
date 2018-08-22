@@ -2,6 +2,7 @@
 #pragma once
 
 #include "String.hpp"
+#include "Math.hpp"
 #include <GameLibrary/IO/Console.hpp>
 
 namespace fgl
@@ -17,6 +18,12 @@ namespace fgl
 		double timerName##_duration_ms = (double)timerName##_duration_ns / 1000000.0; \
 		Console::writeLine((String)sectionName + " took " + timerName##_duration_ms + " ms"); \
 	}
+		
+	#define PRINT_PERFORMANCE_MS_ROUNDED(timerName, sectionName) { \
+		auto timerName##_duration_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(timerName##_timer_finish - timerName##_timer_start).count(); \
+		double timerName##_duration_ms = Math::round((double)timerName##_duration_ns / 1000000.0); \
+		Console::writeLine((String)sectionName + " took " + timerName##_duration_ms + " ms"); \
+	}
 	
 	#define LOG_PERFORMANCE(timerName, sectionName, ...) \
 		START_PERFORMANCE_TIMING(timerName) \
@@ -30,4 +37,8 @@ namespace fgl
 	#define FINISH_PERFORMANCE_LOG(timerName, sectionName) \
 		FINISH_PERFORMANCE_TIMING(timerName) \
 		PRINT_PERFORMANCE_MS(timerName, sectionName)
+		
+	#define FINISH_PERFORMANCE_LOG_ROUNDED(timerName, sectionName) \
+		FINISH_PERFORMANCE_TIMING(timerName) \
+		PRINT_PERFORMANCE_MS_ROUNDED(timerName, sectionName)
 }
