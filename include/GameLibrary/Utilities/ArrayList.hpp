@@ -158,8 +158,8 @@ namespace fgl
 		}
 		
 		template<typename InputIterator, typename = RequireInputIterator<InputIterator>>
-		ArrayList(InputIterator begin, InputIterator end)
-			: objects(begin, end)
+		ArrayList(InputIterator beginIt, InputIterator endIt)
+			: objects(beginIt, endIt)
 		{
 			//
 		}
@@ -429,6 +429,16 @@ namespace fgl
 			}
 			updatePreallocation(objects.size()+array.size());
 			objects.insert(objects.begin()+index, std::make_move_iterator(array.begin()), std::make_move_iterator(array.end()));
+		}
+		
+		template<typename InputIterator, typename = RequireInputIterator<InputIterator>>
+		void add(InputIterator beginIt, InputIterator endIt) {
+			objects.insert(objects.end(), beginIt, endIt);
+		}
+		
+		template<typename InputIterator, typename = RequireInputIterator<InputIterator>>
+		void add(size_t index, InputIterator beginIt, InputIterator endIt) {
+			objects.insert(objects.begin()+index, beginIt, endIt);
 		}
 		
 		void remove(size_t index)

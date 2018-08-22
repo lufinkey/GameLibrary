@@ -90,16 +90,15 @@ namespace fgl
 		std::list<CollisionPair> pairs = getCollisionPairs();
 		std::list<CollisionPair> collisions;
 		//printf("evaluating %i collision pairs\n", (int)pairs.size());
-
+		
 		UpdateData updateData;
 		auto appDataPtr = &appData;
 
 		//handle collisions
 		#ifdef DOUBLECHECK_COLLISIONS
 		//checking all of the collisions twice fixes collision jerking
-		for(size_t i=0; i<2; i++)
+		for(size_t i=0; i<2; i++) {
 		#endif
-		{
 			for(auto it=pairs.begin(); it!=pairs.end(); it++) {
 				auto& pair = *it;
 				Collidable* collidable1 = pair.collidable1;
@@ -157,166 +156,178 @@ namespace fgl
 					ArrayList<const CollisionRect*> rects2 = collidable2->getCollisionRects();
 
 					ArrayList<CollisionRectPair> rectPairs = pair.getCollisionRectPairs(rects1, rects2);
-					//check each CollisionRect for a collision
-					for(auto& rectPair : rectPairs)
-					{
-						Vector2d shiftAmount = CollisionRect::getCollisionOffset(collidable1, rectPair.first, collidable2, rectPair.second);
-						if(!(shiftAmount.x==0 && shiftAmount.y==0)) {
-							CollisionSide collisionSide1 = getCollisionSide(shiftAmount);
-							CollisionSide collisionSide2 = CollisionSide_getOpposite(collisionSide1);
-							CollisionRectTagPair rectTagPair = CollisionRectTagPair(rectPair.first->getTag(), rectPair.second->getTag());
-							//check if we should ignore this collision
-							if(pair.shouldIgnoreCollision(rectPair.first, rectPair.second)
-								|| !respondsToCollision(appData, collidable1, collidable2, rectPair, collisionSide1)
-								|| !collidable1->respondsToCollision(collidable2, collisionSide1, rectPair)
-								|| !collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first))) {
-								//ignore collision
-								if(!newPair.ignoredRectPairs.contains(rectTagPair)) {
-									newPair.ignoredRectPairs.add(rectTagPair);
+					if(collidable1->isSensor() || collidable2->isSensor()) {
+						// check each CollisionRect for contact
+						for(auto& rectPair : rectPairs) {
+							if(CollisionRect::checkCollision(collidable1, rectPair.first, collidable2, rectPair.second)) {
+								auto rectTagPair = CollisionRectTagPair(rectPair.first->getTag(), rectPair.second->getTag());
+								if(std::find(newPair.ignoredRectPairs.begin(), newPair.ignoredRectPairs.end(), rectTagPair) == newPair.ignoredRectPairs.end()) {
+									newPair.ignoredRectPairs.push_back(rectTagPair);
 								}
 							}
-							else {
-								//decide how to shift the collidables
-								if(collidable1->isStaticCollisionBody()) {
-									collidable2->shift(shiftAmount);
-									collidable2->shiftCollisionsOnSide(collisionSide1, shiftAmount);
-								}
-								else if(collidable2->isStaticCollisionBody()) {
-									collidable1->shift(-shiftAmount);
-									collidable1->shiftCollisionsOnSide(collisionSide2, -shiftAmount);
+						}
+					}
+					else {
+						//check each CollisionRect for a collision
+						for(auto& rectPair : rectPairs) {
+							Vector2d shiftAmount = CollisionRect::getCollisionOffset(collidable1, rectPair.first, collidable2, rectPair.second);
+							if(!(shiftAmount.x==0 && shiftAmount.y==0)) {
+								CollisionSide collisionSide1 = getCollisionSide(shiftAmount);
+								CollisionSide collisionSide2 = CollisionSide_getOpposite(collisionSide1);
+								auto rectTagPair = CollisionRectTagPair(rectPair.first->getTag(), rectPair.second->getTag());
+								//check if we should ignore this collision
+								if(pair.shouldIgnoreCollision(rectPair.first, rectPair.second)
+									|| !respondsToCollision(appData, collidable1, collidable2, rectPair, collisionSide1)
+									|| !collidable1->respondsToCollision(collidable2, collisionSide1, rectPair)
+									|| !collidable2->respondsToCollision(collidable1, collisionSide2, CollisionRectPair(rectPair.second, rectPair.first))) {
+									//ignore collision
+									if(std::find(newPair.ignoredRectPairs.begin(), newPair.ignoredRectPairs.end(), rectTagPair) == newPair.ignoredRectPairs.end()) {
+										newPair.ignoredRectPairs.push_back(rectTagPair);
+									}
 								}
 								else {
-									//find out if rect1 has collided with a static collision body
-									bool staticOpposite1 = collidable1->hasStaticCollisionOnSide(collisionSide2);
-									bool staticOpposite2 = collidable2->hasStaticCollisionOnSide(collisionSide1);
+									//decide how to shift the collidables
+									if(collidable1->isStaticCollisionBody()) {
+										collidable2->shift(shiftAmount);
+										collidable2->shiftCollisionsOnSide(collisionSide1, shiftAmount);
+									}
+									else if(collidable2->isStaticCollisionBody()) {
+										collidable1->shift(-shiftAmount);
+										collidable1->shiftCollisionsOnSide(collisionSide2, -shiftAmount);
+									}
+									else {
+										//find out if rect1 has collided with a static collision body
+										bool staticOpposite1 = collidable1->hasStaticCollisionOnSide(collisionSide2);
+										bool staticOpposite2 = collidable2->hasStaticCollisionOnSide(collisionSide1);
 
-									double portion1 = 0.0;
-									
-									if((staticOpposite1 && staticOpposite2) || (!staticOpposite1 && !staticOpposite2)) {
-										//TODO make a BETTER case here for two non-static bodies colliding
-										auto transformState1 = collidable1->getTransformState();
-										auto prevTransformState1 = collidable1->getPreviousTransformState();
-										auto transformState2 = collidable2->getTransformState();
-										auto prevTransformState2 = collidable2->getPreviousTransformState();
-										auto collided1 = collidable1->getCollidedOnSide(collisionSide2);
-										auto collided2 = collidable2->getCollidedOnSide(collisionSide1);
-										double mass1 = collidable1->getMass() + collidable1->getCollidedMassOnSide(collisionSide2);
-										double mass2 = collidable2->getMass() + collidable2->getCollidedMassOnSide(collisionSide1);
-										auto rect1 = rectPair.first->getRect();
-										auto prevRect1 = rectPair.first->getPreviousRect();
-										auto rect2 = rectPair.second->getRect();
-										auto prevRect2 = rectPair.second->getPreviousRect();
+										double portion1 = 0.0;
+										
+										if((staticOpposite1 && staticOpposite2) || (!staticOpposite1 && !staticOpposite2)) {
+											//TODO make a BETTER case here for two non-static bodies colliding
+											auto transformState1 = collidable1->getTransformState();
+											auto prevTransformState1 = collidable1->getPreviousTransformState();
+											auto transformState2 = collidable2->getTransformState();
+											auto prevTransformState2 = collidable2->getPreviousTransformState();
+											auto collided1 = collidable1->getCollidedOnSide(collisionSide2);
+											auto collided2 = collidable2->getCollidedOnSide(collisionSide1);
+											double mass1 = collidable1->getMass() + collidable1->getCollidedMassOnSide(collisionSide2);
+											double mass2 = collidable2->getMass() + collidable2->getCollidedMassOnSide(collisionSide1);
+											auto rect1 = rectPair.first->getRect();
+											auto prevRect1 = rectPair.first->getPreviousRect();
+											auto rect2 = rectPair.second->getRect();
+											auto prevRect2 = rectPair.second->getPreviousRect();
 
-										double velocity1 = 0;
-										double velocity2 = 0;
-										switch(collisionSide1) {
-											case COLLISIONSIDE_LEFT:
-											velocity1 = 
-												(transformState1.position.x - prevTransformState1.position.x) +
-												(rect1.getLeft() - prevRect1.getLeft());
-											velocity2 =
-												(transformState2.position.x - prevTransformState2.position.x) +
-												(rect2.getRight() - prevRect2.getRight());
-											break;
+											double velocity1 = 0;
+											double velocity2 = 0;
+											switch(collisionSide1) {
+												case COLLISIONSIDE_LEFT:
+												velocity1 = 
+													(transformState1.position.x - prevTransformState1.position.x) +
+													(rect1.getLeft() - prevRect1.getLeft());
+												velocity2 =
+													(transformState2.position.x - prevTransformState2.position.x) +
+													(rect2.getRight() - prevRect2.getRight());
+												break;
 
-											case COLLISIONSIDE_RIGHT:
-											velocity1 =
-												(transformState1.position.x - prevTransformState1.position.x) +
-												(rect1.getRight() - prevRect1.getRight());
-											velocity2 = 
-												(transformState2.position.x - prevTransformState2.position.x) +
-												(rect2.getLeft() - prevRect2.getLeft());
-											break;
+												case COLLISIONSIDE_RIGHT:
+												velocity1 =
+													(transformState1.position.x - prevTransformState1.position.x) +
+													(rect1.getRight() - prevRect1.getRight());
+												velocity2 = 
+													(transformState2.position.x - prevTransformState2.position.x) +
+													(rect2.getLeft() - prevRect2.getLeft());
+												break;
 
-											case COLLISIONSIDE_TOP:
-											velocity1 =
-												(transformState1.position.y - prevTransformState1.position.y) +
-												(rect1.getTop() - prevRect1.getTop());
-											velocity2 =
-												(transformState2.position.y - prevTransformState2.position.y) +
-												(rect2.getBottom() - prevRect2.getBottom());
-											break;
+												case COLLISIONSIDE_TOP:
+												velocity1 =
+													(transformState1.position.y - prevTransformState1.position.y) +
+													(rect1.getTop() - prevRect1.getTop());
+												velocity2 =
+													(transformState2.position.y - prevTransformState2.position.y) +
+													(rect2.getBottom() - prevRect2.getBottom());
+												break;
 
-											case COLLISIONSIDE_BOTTOM:
-											velocity1 =
-												(transformState1.position.y - prevTransformState1.position.y) +
-												(rect1.getBottom() - prevRect1.getBottom());
-											velocity2 =
-												(transformState2.position.y - prevTransformState2.position.y) +
-												(rect2.getTop() - prevRect2.getTop());
-											break;
-										}
+												case COLLISIONSIDE_BOTTOM:
+												velocity1 =
+													(transformState1.position.y - prevTransformState1.position.y) +
+													(rect1.getBottom() - prevRect1.getBottom());
+												velocity2 =
+													(transformState2.position.y - prevTransformState2.position.y) +
+													(rect2.getTop() - prevRect2.getTop());
+												break;
+											}
 
-										double force1 = velocity1*mass1;
-										double force2 = velocity2*mass2;
-										double totalMass = mass1 + mass2;
-										if(totalMass == 0) {
-											portion1 = 1.0;
-										}
-										else {
-											double finalVelocity = (force1 + force2) / totalMass;
-											if(finalVelocity == 0) {
+											double force1 = velocity1*mass1;
+											double force2 = velocity2*mass2;
+											double totalMass = mass1 + mass2;
+											if(totalMass == 0) {
 												portion1 = 1.0;
 											}
 											else {
-												portion1 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+												double finalVelocity = (force1 + force2) / totalMass;
+												if(finalVelocity == 0) {
+													portion1 = 1.0;
+												}
+												else {
+													portion1 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+												}
 											}
 										}
+										else if(staticOpposite1) {
+											portion1 = 0.0;
+										}
+										else if(staticOpposite2) {
+											portion1 = 1.0;
+										}
+
+										auto moveAmount1 = -shiftAmount * portion1;
+										auto moveAmount2 = shiftAmount + moveAmount1;
+
+										if(moveAmount1.x!=0 || moveAmount1.y!=0) {
+											collidable1->shift(moveAmount1);
+											collidable1->shiftCollisionsOnSide(collisionSide2, moveAmount1);
+										}
+										if(moveAmount2.x!=0 || moveAmount2.y!=0) {
+											collidable2->shift(moveAmount2);
+											collidable2->shiftCollisionsOnSide(collisionSide1, moveAmount2);
+										}
 									}
-									else if(staticOpposite1) {
-										portion1 = 0.0;
+									
+									// add collidables to collided lists
+									auto& collided1 = collidable1->newCollided;
+									auto collidedListIt1 = collided1.find(collisionSide1);
+									if(collidedListIt1 == collided1.end()) {
+										collided1[collisionSide1] = { collidable2 };
 									}
-									else if(staticOpposite2) {
-										portion1 = 1.0;
+									else {
+										auto& collidedList1 = collidedListIt1->second;
+										auto collidedIt = std::find(collidedList1.begin(), collidedList1.end(), collidable2);
+										if(collidedIt == collidedList1.end()) {
+											collidedList1.push_back(collidable2);
+										}
+									}
+									
+									auto& collided2 = collidable2->newCollided;
+									auto collidedListIt2 = collided2.find(collisionSide2);
+									if(collidedListIt2 == collided2.end()) {
+										collided2[collisionSide2] = { collidable1 };
+									}
+									else {
+										auto& collidedList2 = collidedListIt2->second;
+										auto collidedIt = std::find(collidedList2.begin(), collidedList2.end(), collidable1);
+										if(collidedIt == collidedList2.end()) {
+											collidedList2.push_back(collidable1);
+										}
 									}
 
-									auto moveAmount1 = -shiftAmount * portion1;
-									auto moveAmount2 = shiftAmount + moveAmount1;
-
-									if(moveAmount1.x!=0 || moveAmount1.y!=0) {
-										collidable1->shift(moveAmount1);
-										collidable1->shiftCollisionsOnSide(collisionSide2, moveAmount1);
+									//add collision side to previous collision sides if not already added
+									if(std::find(newPair.sides.begin(), newPair.sides.end(), collisionSide1) == newPair.sides.end()) {
+										newPair.sides.push_back(collisionSide1);
 									}
-									if(moveAmount2.x!=0 || moveAmount2.y!=0) {
-										collidable2->shift(moveAmount2);
-										collidable2->shiftCollisionsOnSide(collisionSide1, moveAmount2);
+									//add the rect pair to the list of collided rect pairs
+									if(std::find(newPair.collidedRectPairs.begin(), newPair.collidedRectPairs.end(), rectTagPair) == newPair.collidedRectPairs.end()) {
+										newPair.collidedRectPairs.push_back(rectTagPair);
 									}
-								}
-								
-								// add collidables to collided lists
-								auto& collided1 = collidable1->newCollided;
-								auto collidedListIt1 = collided1.find(collisionSide1);
-								if(collidedListIt1 == collided1.end()) {
-									collided1[collisionSide1] = { collidable2 };
-								}
-								else {
-									auto& collidedList1 = collidedListIt1->second;
-									auto collidedIt = std::find(collidedList1.begin(), collidedList1.end(), collidable2);
-									if(collidedIt == collidedList1.end()) {
-										collidedList1.push_back(collidable2);
-									}
-								}
-								
-								auto& collided2 = collidable2->newCollided;
-								auto collidedListIt2 = collided2.find(collisionSide2);
-								if(collidedListIt2 == collided2.end()) {
-									collided2[collisionSide2] = { collidable1 };
-								}
-								else {
-									auto& collidedList2 = collidedListIt2->second;
-									auto collidedIt = std::find(collidedList2.begin(), collidedList2.end(), collidable1);
-									if(collidedIt == collidedList2.end()) {
-										collidedList2.push_back(collidable1);
-									}
-								}
-
-								//add collision side to previous collision sides if not already added
-								if(!newPair.sides.contains(collisionSide1)) {
-									newPair.sides.add(collisionSide1);
-								}
-								//add the rect pair to the list of collided rect pairs
-								if(!newPair.collidedRectPairs.contains(rectTagPair)) {
-									newPair.collidedRectPairs.add(rectTagPair);
 								}
 							}
 						}
@@ -366,7 +377,7 @@ namespace fgl
 
 					//check for new/updated collision calls
 					for(auto collisionSide : newPair.sides) {
-						if(!pair.sides.contains(collisionSide)) {
+						if(std::find(pair.sides.begin(), pair.sides.end(), collisionSide) == pair.sides.end()) {
 							//the previous collision pair doesn't have this collision side, so it is a new collision
 							updateData.onCollisionCalls.push_back([=] {
 								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_NEW, collisionSide, newPair, pair);
@@ -382,7 +393,7 @@ namespace fgl
 
 					//check for finished collision calls
 					for(auto prevCollisionSide : pair.sides) {
-						if(!newPair.sides.contains(prevCollisionSide)) {
+						if(std::find(newPair.sides.begin(), newPair.sides.end(), prevCollisionSide) == newPair.sides.end()) {
 							updateData.onCollisionFinishCalls.push_back([=] {
 								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
 							});
@@ -390,7 +401,9 @@ namespace fgl
 					}
 				}
 			}
+		#ifdef DOUBLECHECK_COLLISIONS
 		}
+		#endif
 		
 		// transfer collided lists
 		for(auto& collidable : collidables) {
@@ -400,7 +413,8 @@ namespace fgl
 		
 		onWillFinishCollisionUpdates(appData, updateData);
 		
-		previousCollisions = collisions;
+		previousCollisions.swap(collisions);
+		collisions.clear();
 
 		//call finished collisions
 		for(auto& onCollisionFinish : updateData.onCollisionFinishCalls) {

@@ -14,11 +14,11 @@ namespace fgl
 		Collidable* collidable1;
 		Collidable* collidable2;
 		//! the rect pairs that had a collision in the previous frame
-		ArrayList<CollisionRectTagPair> collidedRectPairs;
+		std::list<CollisionRectTagPair> collidedRectPairs;
 		//! the sides of collidable1 that were collided on
-		ArrayList<CollisionSide> sides;
+		std::list<CollisionSide> sides;
 		//! the rect pairs that should be ignored in the next frame if they have a collision
-		ArrayList<CollisionRectTagPair> ignoredRectPairs;
+		std::list<CollisionRectTagPair> ignoredRectPairs;
 
 		CollisionPair(Collidable* collidable1, Collidable* collidable2);
 
@@ -28,16 +28,16 @@ namespace fgl
 		bool shouldIgnoreCollision(const CollisionRect* rect1, const CollisionRect* rect2) const;
 		
 		// get the rect tag pairs that are contacting each other
-		ArrayList<CollisionRectTagPair> getContactingRectPairs() const;
-		ArrayList<CollisionRectTagPair> getReverseContactingRectPairs() const;
+		std::list<CollisionRectTagPair> getContactingRectPairs() const;
+		std::list<CollisionRectTagPair> getReverseContactingRectPairs() const;
 
-		ArrayList<CollisionRectPair> getCollisionRectPairs(const ArrayList<const CollisionRect*>& rects1, const ArrayList<const CollisionRect*>& rects2) const;
+		std::list<CollisionRectPair> getCollisionRectPairs(const ArrayList<const CollisionRect*>& rects1, const ArrayList<const CollisionRect*>& rects2) const;
 		// returns collidedRectPairs where first is collidable2 and second is collidable1
-		ArrayList<CollisionRectTagPair> getReverseCollidedRectPairs() const;
+		std::list<CollisionRectTagPair> getReverseCollidedRectPairs() const;
 		// returns the collision sides with respect to collidable2
-		ArrayList<CollisionSide> getOppositeSides() const;
+		std::list<CollisionSide> getOppositeSides() const;
 		// returns ignoredRectPairs where first is collidable2 and second is collidable1
-		ArrayList<CollisionRectTagPair> getReverseIgnoredRectPairs() const;
+		std::list<CollisionRectTagPair> getReverseIgnoredRectPairs() const;
 
 		bool isContacting() const;
 	};

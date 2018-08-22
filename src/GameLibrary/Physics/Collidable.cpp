@@ -24,6 +24,10 @@ namespace fgl
 	double Collidable::getMass() const {
 		return 1.0;
 	}
+	
+	bool Collidable::isSensor() const {
+		return false;
+	}
 
 	TransformState Collidable::getPreviousTransformState() const {
 		return previousTransformState;
@@ -275,6 +279,9 @@ namespace fgl
 	}
 
 	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const {
+		if(isSensor()) {
+			return false;
+		}
 		return true;
 	}
 
