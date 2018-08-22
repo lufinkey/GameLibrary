@@ -240,6 +240,7 @@
         <File Name="../../include/GameLibrary/Utilities/Traits.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Retainable.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Aspectable.hpp"/>
+        <File Name="../../include/GameLibrary/Utilities/PerformanceMacros.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">

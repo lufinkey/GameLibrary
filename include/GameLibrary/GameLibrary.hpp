@@ -97,6 +97,7 @@
 #include "Utilities/Dictionary.hpp"
 #include "Utilities/Math.hpp"
 #include "Utilities/Number.hpp"
+#include "Utilities/PerformanceMacros.hpp"
 #include "Utilities/PlatformChecks.hpp"
 #include "Utilities/Plist.hpp"
 #include "Utilities/Promise.hpp"
