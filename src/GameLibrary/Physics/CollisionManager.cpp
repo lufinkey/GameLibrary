@@ -4,6 +4,8 @@
 
 namespace fgl
 {
+	//#define PRINT_COLLISION_TIME
+	
 	CollisionManager::CollisionManager() {
 		//
 	}
@@ -66,6 +68,11 @@ namespace fgl
 #define DOUBLECHECK_COLLISIONS
 
 	void CollisionManager::update(const ApplicationData& appData) {
+		#ifdef PRINT_COLLISION_TIME
+			auto interval = TimeInterval();
+			interval.start();
+		#endif
+		
 		onWillBeginCollisionUpdates(appData);
 		
 		// call "begin" listener events
@@ -451,6 +458,11 @@ namespace fgl
 		for(auto listener : listeners) {
 			listener->onFinishCollisionUpdates(this, appData);
 		}
+		
+		#ifdef PRINT_COLLISION_TIME
+			interval.stop();
+			printf("collisions took %ims\n", (int)interval.getMilliseconds());
+		#endif
 	}
 
 	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
