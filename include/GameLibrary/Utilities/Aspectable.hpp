@@ -101,6 +101,28 @@ namespace fgl
 		}
 		
 		template<typename CLASS>
+		inline const CLASS* getAspectWhere(const std::function<bool(const CLASS*)>& func) {
+			for(auto aspect : aspects) {
+				auto castedAspect = dynamic_cast<CLASS*>(aspect);
+				if(func(castedAspect)) {
+					return castedAspect;
+				}
+			}
+			return nullptr;
+		}
+		
+		template<typename CLASS>
+		inline const CLASS* getAspectWhere(const std::function<bool(const CLASS*)>& func) const {
+			for(auto aspect : aspects) {
+				auto castedAspect = dynamic_cast<CLASS*>(aspect);
+				if(func(castedAspect)) {
+					return castedAspect;
+				}
+			}
+			return nullptr;
+		}
+		
+		template<typename CLASS>
 		inline std::list<CLASS*> getAspects() {
 			std::list<CLASS*> castedAspects;
 			for(auto aspect : aspects) {
