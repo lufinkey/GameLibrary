@@ -291,6 +291,7 @@
 		A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
 		A08CB6012128E3A000864A20 /* json11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json11.hpp; sourceTree = "<group>"; };
 		A08CB6022128E3A000864A20 /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json11.cpp; sourceTree = "<group>"; };
+		A08CB619212EAF9100864A20 /* PerformanceMacros.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PerformanceMacros.hpp; sourceTree = "<group>"; };
 		A0D7FCF71F896A3C001771AE /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		A0D7FCFA1F896A3C001771AE /* SpriteActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteActor.cpp; sourceTree = "<group>"; };
 		A0D7FCFB1F896A3C001771AE /* TextActor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextActor.cpp; sourceTree = "<group>"; };
@@ -1155,6 +1156,7 @@
 				F15A1E901E5498C7008D83E5 /* Math.hpp */,
 				F15A1E911E5498C7008D83E5 /* Number.hpp */,
 				F15A1E921E5498C7008D83E5 /* Number.impl */,
+				A08CB619212EAF9100864A20 /* PerformanceMacros.hpp */,
 				F15A1E931E5498C7008D83E5 /* PlatformChecks.hpp */,
 				F15A1E941E5498C7008D83E5 /* Plist.hpp */,
 				A049BB20211961A600857893 /* Promise.hpp */,
