@@ -54,6 +54,9 @@ namespace fgl
 			\returns an unsigned integer representing the current frame index*/
 		size_t getFrameIndex() const;
 		
+		/*! Adjusts the last frame time to match the given player's last frame time */
+		void synchronizeFrameTime(const AnimationPlayer& cmpPlayer);
+		
 	private:
 		Animation* animation;
 		Animation::Direction direction;

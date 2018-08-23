@@ -226,4 +226,8 @@ namespace fgl
 	{
 		return frameIndex;
 	}
+	
+	void AnimationPlayer::synchronizeFrameTime(const AnimationPlayer& cmpPlayer) {
+		lastFrameTime = cmpPlayer.lastFrameTime;
+	}
 }
