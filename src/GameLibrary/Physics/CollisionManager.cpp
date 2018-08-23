@@ -32,6 +32,13 @@ namespace fgl
 				break;
 			}
 		}
+		
+		for(auto it=previousCollisions.begin(); it!=previousCollisions.end(); it++) {
+			if(it->collidable1 == collidable || it->collidable2 == collidable) {
+				removedCollisions.push_back(*it);
+				it = std::prev(previousCollisions.erase(it));
+			}
+		}
 	}
 	
 	void CollisionManager::addEventListener(CollisionManagerEventListener* eventListener) {
@@ -49,6 +56,10 @@ namespace fgl
 		return collidables;
 	}
 	
+	const std::list<CollisionPair>& CollisionManager::getRemovedCollisions() const {
+		return removedCollisions;
+	}
+	
 	CollisionSide CollisionManager::getCollisionSide(const Vector2d& shiftAmount) const {
 		if(shiftAmount.x < 0) {
 			return COLLISIONSIDE_LEFT;
@@ -64,6 +75,10 @@ namespace fgl
 		}
 		throw IllegalArgumentException("shiftAmount", "cannot be 0,0");
 	}
+	
+	
+	
+	
 
 #define DOUBLECHECK_COLLISIONS
 
@@ -414,12 +429,30 @@ namespace fgl
 		
 		// transfer collided lists
 		for(auto& collidable : collidables) {
-			collidable->collided = collidable->newCollided;
+			collidable->collided.swap(collidable->newCollided);
 			collidable->newCollided.clear();
 		}
 		
 		onWillFinishCollisionUpdates(appData, updateData);
 		
+		// finish removed collisions
+		for(auto& pair : removedCollisions) {
+			if(pair.sides.size() > 0) {
+				for(auto side : pair.sides) {
+					updateData.onCollisionFinishCalls.push_back([=]() {
+						dispatchCollisionEvents(appData, COLLISIONSTATE_FINISHED, side, CollisionPair(pair.collidable1, pair.collidable2), pair);
+					});
+				}
+			}
+			if(pair.isContacting()) {
+				updateData.onContactFinishCalls.push_back([=]() {
+					dispatchContactEvents(appData, CONTACTSTATE_FINISHED, CollisionPair(pair.collidable1, pair.collidable2), pair);
+				});
+			}
+		}
+		removedCollisions.clear();
+		
+		// update collision list
 		previousCollisions.swap(collisions);
 		collisions.clear();
 
@@ -464,6 +497,10 @@ namespace fgl
 			printf("collisions took %ims\n", (int)interval.getMilliseconds());
 		#endif
 	}
+
+
+
+
 
 	std::list<CollisionPair> CollisionManager::getCollisionPairs() const
 	{
@@ -514,6 +551,10 @@ namespace fgl
 		pairs.splice(pairs.end(), nonstaticCollisions);
 		return pairs;
 	}
+	
+	
+	
+	
 	
 	void CollisionManager::onWillBeginCollisionUpdates(const ApplicationData& appData) {
 		// open for implementation

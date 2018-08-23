@@ -47,6 +47,8 @@ namespace fgl
 		
 		virtual void onWillFinishCollisionUpdates(const ApplicationData& appData, UpdateData& updateData);
 		virtual void onFinishCollisionUpdates(const ApplicationData& appData);
+		
+		const std::list<CollisionPair>& getRemovedCollisions() const;
 
 	private:
 		CollisionSide getCollisionSide(const Vector2d& shiftAmount) const;
@@ -54,6 +56,8 @@ namespace fgl
 
 		std::list<Collidable*> collidables;
 		std::list<CollisionPair> previousCollisions;
+		
+		std::list<CollisionPair> removedCollisions;
 		
 		std::list<CollisionManagerEventListener*> listeners;
 	};
