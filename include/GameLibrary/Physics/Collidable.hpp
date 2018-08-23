@@ -33,7 +33,7 @@ namespace fgl
 
 		bool checkCollision(Collidable* collidable) const;
 
-		virtual bool respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const;
+		virtual bool respondsToCollision(const Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const;
 		
 		ArrayList<Collidable*> getCollidedOnSide(CollisionSide side);
 		ArrayList<const Collidable*> getCollidedOnSide(CollisionSide side) const;

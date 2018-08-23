@@ -278,7 +278,7 @@ namespace fgl
 		//
 	}
 
-	bool Collidable::respondsToCollision(Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const {
+	bool Collidable::respondsToCollision(const Collidable* collided, CollisionSide side, CollisionRectPair rectPair) const {
 		if(isSensor()) {
 			return false;
 		}

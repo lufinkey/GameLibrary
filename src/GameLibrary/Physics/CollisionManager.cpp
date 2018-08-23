@@ -564,7 +564,7 @@ namespace fgl
 		// open for implementation
 	}
 	
-	bool CollisionManager::respondsToCollision(const ApplicationData& appData, Collidable* collidable1, Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const {
+	bool CollisionManager::respondsToCollision(const ApplicationData& appData, const Collidable* collidable1, const Collidable* collidable2, CollisionRectPair rectPair, CollisionSide side) const {
 		return true;
 	}
 	
