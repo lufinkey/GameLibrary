@@ -43,6 +43,9 @@ namespace fgl
 		/*! Sets the current frame of animation.
 			\param frameIndex the index of the frame*/
 		void setFrameIndex(size_t frameIndex);
+		/*! Sets the last frame tie of animation.
+			\param frameTimeMillis the time of the last frame, in milliseconds*/
+		void setLastFrameTime(long long frameTimeMillis);
 		
 		/*! Gets the current Animation being played.
 			\returns an Animation pointer, or null if no animation is being played*/
@@ -53,6 +56,9 @@ namespace fgl
 		/*! Returns the index of the current frame of animation.
 			\returns an unsigned integer representing the current frame index*/
 		size_t getFrameIndex() const;
+		/*! Return the time that the last frame played
+			\returns tbe time of the last frame, in milliseconds*/
+		long long getLastFrameTime() const;
 		
 		/*! Adjusts the last frame time to match the given player's last frame time */
 		void synchronizeFrameTime(const AnimationPlayer& cmpPlayer);

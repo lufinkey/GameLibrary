@@ -3,8 +3,7 @@
 
 namespace fgl
 {
-	AnimationPlayer::AnimationPlayer() : AnimationPlayer(nullptr)
-	{
+	AnimationPlayer::AnimationPlayer() : AnimationPlayer(nullptr) {
 		//
 	}
 	
@@ -13,24 +12,19 @@ namespace fgl
 		direction(direction_arg),
 		frameIndex(0),
 		lastFrameTime(0),
-		animationChanged(false)
-	{
-		if(direction == Animation::Direction::NO_CHANGE)
-		{
+		animationChanged(false) {
+		if(direction == Animation::Direction::NO_CHANGE) {
 			direction = Animation::Direction::FORWARD;
 		}
-		if(animation!=nullptr)
-		{
+		if(animation!=nullptr) {
 			animationChanged = true;
-			if(direction==Animation::Direction::BACKWARD)
-			{
+			if(direction==Animation::Direction::BACKWARD) {
 				frameIndex = animation->getFrameCount() - 1;
 			}
 		}
 	}
 	
-	void AnimationPlayer::update(const ApplicationData& appData, const std::function<void(AnimationEvent)>& eventHandler)
-	{
+	void AnimationPlayer::update(const ApplicationData& appData, const std::function<void(AnimationEvent)>& eventHandler) {
 		long long currentTimeMillis = appData.getTime().getMilliseconds();
 		
 		//handle animation
@@ -104,39 +98,30 @@ namespace fgl
 		} while(animationChanged || frameChanged);
 	}
 	
-	void AnimationPlayer::draw(Graphics& graphics) const
-	{
-		if(animation!=nullptr && animation->getFrameCount() > 0)
-		{
+	void AnimationPlayer::draw(Graphics& graphics) const {
+		if(animation!=nullptr && animation->getFrameCount() > 0) {
 			animation->drawFrame(graphics, frameIndex);
 		}
 	}
 	
-	void AnimationPlayer::draw(Graphics& graphics, const RectangleD& dstRect) const
-	{
-		if(animation!=nullptr && animation->getFrameCount() > 0)
-		{
+	void AnimationPlayer::draw(Graphics& graphics, const RectangleD& dstRect) const {
+		if(animation!=nullptr && animation->getFrameCount() > 0) {
 			animation->drawFrame(graphics, frameIndex, dstRect);
 		}
 	}
 	
-	void AnimationPlayer::setAnimation(Animation* animation_arg, const Animation::Direction& direction_arg)
-	{
+	void AnimationPlayer::setAnimation(Animation* animation_arg, const Animation::Direction& direction_arg) {
 		animation = animation_arg;
-		if(animation==nullptr)
-		{
+		if(animation==nullptr) {
 			frameIndex = 0;
 			lastFrameTime = 0;
 			animationChanged = true;
 			direction = direction_arg;
 		}
-		else
-		{
-			switch(direction_arg)
-			{
+		else {
+			switch(direction_arg) {
 				case Animation::Direction::FORWARD:
-				case Animation::Direction::STOPPED:
-				{
+				case Animation::Direction::STOPPED: {
 					frameIndex = 0;
 					lastFrameTime = 0;
 					animationChanged = true;
@@ -144,15 +129,12 @@ namespace fgl
 				}
 				break;
 					
-				case Animation::Direction::BACKWARD:
-				{
+				case Animation::Direction::BACKWARD: {
 					size_t totalFrames = animation->getFrameCount();
-					if(totalFrames>0)
-					{
+					if(totalFrames>0) {
 						frameIndex = (totalFrames-1);
 					}
-					else
-					{
+					else {
 						frameIndex = 0;
 					}
 					lastFrameTime = 0;
@@ -161,33 +143,25 @@ namespace fgl
 				}
 				break;
 					
-				case Animation::Direction::NO_CHANGE:
-				{
-					switch(direction)
-					{
+				case Animation::Direction::NO_CHANGE: {
+					switch(direction) {
 						default:
 						case Animation::Direction::NO_CHANGE:
 						case Animation::Direction::FORWARD:
-						case Animation::Direction::STOPPED:
-						{
-							if(frameIndex >= animation->getFrameCount())
-							{
+						case Animation::Direction::STOPPED: {
+							if(frameIndex >= animation->getFrameCount()) {
 								frameIndex = 0;
 							}
 						}
 						break;
 							
-						case Animation::Direction::BACKWARD:
-						{
+						case Animation::Direction::BACKWARD: {
 							size_t totalFrames = animation->getFrameCount();
-							if(frameIndex >= totalFrames)
-							{
-								if(totalFrames>0)
-								{
+							if(frameIndex >= totalFrames) {
+								if(totalFrames>0) {
 									frameIndex = (totalFrames-1);
 								}
-								else
-								{
+								else {
 									frameIndex = 0;
 								}
 							}
@@ -199,10 +173,8 @@ namespace fgl
 		}
 	}
 	
-	void AnimationPlayer::setDirection(const Animation::Direction& direction_arg)
-	{
-		if(direction_arg != Animation::Direction::NO_CHANGE)
-		{
+	void AnimationPlayer::setDirection(const Animation::Direction& direction_arg) {
+		if(direction_arg != Animation::Direction::NO_CHANGE) {
 			direction = direction_arg;
 		}
 	}
@@ -212,19 +184,24 @@ namespace fgl
 		frameIndex = frameIndex_arg;
 	}
 	
-	Animation* AnimationPlayer::getAnimation() const
-	{
+	void AnimationPlayer::setLastFrameTime(long long frameTimeMillis) {
+		lastFrameTime = frameTimeMillis;
+	}
+	
+	Animation* AnimationPlayer::getAnimation() const {
 		return animation;
 	}
 	
-	const Animation::Direction& AnimationPlayer::getDirection() const
-	{
+	const Animation::Direction& AnimationPlayer::getDirection() const {
 		return direction;
 	}
 	
-	size_t AnimationPlayer::getFrameIndex() const
-	{
+	size_t AnimationPlayer::getFrameIndex() const {
 		return frameIndex;
+	}
+	
+	long long AnimationPlayer::getLastFrameTime() const {
+		return lastFrameTime;
 	}
 	
 	void AnimationPlayer::synchronizeFrameTime(const AnimationPlayer& cmpPlayer) {
