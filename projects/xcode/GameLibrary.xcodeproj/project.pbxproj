@@ -246,6 +246,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A014E22621328C1C00D3C96D /* CollisionEventListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollisionEventListener.hpp; sourceTree = "<group>"; };
+		A014E23121328C2B00D3C96D /* ContactEventListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ContactEventListener.hpp; sourceTree = "<group>"; };
+		A014E23321328C3300D3C96D /* TransformState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TransformState.hpp; sourceTree = "<group>"; };
 		A049BB12211960BE00857893 /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		A049BB13211960BE00857893 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
 		A049BB14211960BE00857893 /* AnimationProvider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationProvider.hpp; sourceTree = "<group>"; };
@@ -557,12 +560,15 @@
 				A049BB352119629000857893 /* CollisionRects */,
 				A049BB2F2119629000857893 /* Collidable.hpp */,
 				A049BB302119629000857893 /* CollisionEvent.hpp */,
+				A014E22621328C1C00D3C96D /* CollisionEventListener.hpp */,
 				A049BB312119629000857893 /* CollisionManager.hpp */,
 				A049BB322119629000857893 /* CollisionPair.hpp */,
 				A049BB332119629000857893 /* CollisionRectBuilder.hpp */,
 				A049BB342119629000857893 /* CollisionRectPair.hpp */,
 				A049BB3A2119629000857893 /* CollisionSide.hpp */,
 				A049BB3B2119629000857893 /* ContactEvent.hpp */,
+				A014E23121328C2B00D3C96D /* ContactEventListener.hpp */,
+				A014E23321328C3300D3C96D /* TransformState.hpp */,
 			);
 			path = Physics;
 			sourceTree = "<group>";
