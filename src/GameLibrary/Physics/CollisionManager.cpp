@@ -375,50 +375,57 @@ namespace fgl
 				#endif
 				{
 					performFinalCollisionUpdates(appData, newPair, pair, updateData);
-					//check if is/was contacting
-					if(newPair.isContacting()) {
-						if(pair.isContacting()) {
-							//updated contact
-							updateData.onContactCalls.push_back([=] {
-								dispatchContactEvents(*appDataPtr, CONTACTSTATE_UPDATED, newPair, pair);
-							});
+					
+					// queue contact events if necessary
+					if(newPair.collidable1->contactEventListeners.size() > 0 || newPair.collidable2->contactEventListeners.size() > 0) {
+						//check if is/was contacting
+						if(newPair.isContacting()) {
+							if(pair.isContacting()) {
+								//updated contact
+								updateData.onContactCalls.push_back([=] {
+									dispatchContactEvents(*appDataPtr, CONTACTSTATE_UPDATED, newPair, pair);
+								});
+							}
+							else {
+								//new contact
+								updateData.onContactCalls.push_back([=] {
+									dispatchContactEvents(*appDataPtr, CONTACTSTATE_NEW, newPair, pair);
+								});
+							}
 						}
-						else {
-							//new contact
-							updateData.onContactCalls.push_back([=] {
-								dispatchContactEvents(*appDataPtr, CONTACTSTATE_NEW, newPair, pair);
-							});
-						}
-					}
-					else if(pair.isContacting()) {
-						//finished contact
-						updateData.onContactFinishCalls.push_back([=] {
-							dispatchContactEvents(*appDataPtr, CONTACTSTATE_FINISHED, newPair, pair);
-						});
-					}
-
-					//check for new/updated collision calls
-					for(auto collisionSide : newPair.sides) {
-						if(std::find(pair.sides.begin(), pair.sides.end(), collisionSide) == pair.sides.end()) {
-							//the previous collision pair doesn't have this collision side, so it is a new collision
-							updateData.onCollisionCalls.push_back([=] {
-								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_NEW, collisionSide, newPair, pair);
-							});
-						}
-						else {
-							//the previous collision pair has this collision side, so it's an updated collision
-							updateData.onCollisionCalls.push_back([=] {
-								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
+						else if(pair.isContacting()) {
+							//finished contact
+							updateData.onContactFinishCalls.push_back([=] {
+								dispatchContactEvents(*appDataPtr, CONTACTSTATE_FINISHED, newPair, pair);
 							});
 						}
 					}
 
-					//check for finished collision calls
-					for(auto prevCollisionSide : pair.sides) {
-						if(std::find(newPair.sides.begin(), newPair.sides.end(), prevCollisionSide) == newPair.sides.end()) {
-							updateData.onCollisionFinishCalls.push_back([=] {
-								dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
-							});
+					// queue collision events if necessary
+					if(newPair.collidable1->collisionEventListeners.size() > 0 || newPair.collidable2->collisionEventListeners.size() > 0) {
+						//check for new/updated collision calls
+						for(auto collisionSide : newPair.sides) {
+							if(std::find(pair.sides.begin(), pair.sides.end(), collisionSide) == pair.sides.end()) {
+								//the previous collision pair doesn't have this collision side, so it is a new collision
+								updateData.onCollisionCalls.push_back([=] {
+									dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_NEW, collisionSide, newPair, pair);
+								});
+							}
+							else {
+								//the previous collision pair has this collision side, so it's an updated collision
+								updateData.onCollisionCalls.push_back([=] {
+									dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_UPDATED, collisionSide, newPair, pair);
+								});
+							}
+						}
+
+						//check for finished collision calls
+						for(auto prevCollisionSide : pair.sides) {
+							if(std::find(newPair.sides.begin(), newPair.sides.end(), prevCollisionSide) == newPair.sides.end()) {
+								updateData.onCollisionFinishCalls.push_back([=] {
+									dispatchCollisionEvents(*appDataPtr, COLLISIONSTATE_FINISHED, prevCollisionSide, newPair, pair);
+								});
+							}
 						}
 					}
 				}
@@ -437,17 +444,19 @@ namespace fgl
 		
 		// finish removed collisions
 		for(auto& pair : removedCollisions) {
-			if(pair.sides.size() > 0) {
+			if(pair.collidable1->collisionEventListeners.size() > 0 || pair.collidable2->collisionEventListeners.size() > 0) {
 				for(auto side : pair.sides) {
 					updateData.onCollisionFinishCalls.push_back([=]() {
 						dispatchCollisionEvents(appData, COLLISIONSTATE_FINISHED, side, CollisionPair(pair.collidable1, pair.collidable2), pair);
 					});
 				}
 			}
-			if(pair.isContacting()) {
-				updateData.onContactFinishCalls.push_back([=]() {
-					dispatchContactEvents(appData, CONTACTSTATE_FINISHED, CollisionPair(pair.collidable1, pair.collidable2), pair);
-				});
+			if(pair.collidable1->contactEventListeners.size() > 0 || pair.collidable2->contactEventListeners.size() > 0) {
+				if(pair.isContacting()) {
+					updateData.onContactFinishCalls.push_back([=]() {
+						dispatchContactEvents(appData, CONTACTSTATE_FINISHED, CollisionPair(pair.collidable1, pair.collidable2), pair);
+					});
+				}
 			}
 		}
 		removedCollisions.clear();
@@ -569,89 +578,134 @@ namespace fgl
 	}
 	
 	void CollisionManager::dispatchContactEvents(const ApplicationData& appData, ContactState state, const CollisionPair& pair, const CollisionPair& prevPair) {
-		auto collidable1 = pair.collidable1;
-		auto collidable2 = pair.collidable2;
-		auto contactEvent1 = ContactEvent(collidable1, collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides, &appData);
-		auto contactEvent2 = ContactEvent(collidable2, collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides(), &appData);
 		
-		if(collidable1->isStaticCollisionBody()) {
-			switch(state) {
-				case CONTACTSTATE_NEW:
-					collidable2->onContact(contactEvent2);
-					collidable1->onContact(contactEvent1);
-					break;
-					
-				case CONTACTSTATE_UPDATED:
-					collidable2->onContactUpdate(contactEvent2);
-					collidable1->onContactUpdate(contactEvent1);
-					break;
-					
-				case CONTACTSTATE_FINISHED:
-					collidable2->onContactFinish(contactEvent2);
-					collidable1->onContactFinish(contactEvent1);
-					break;
+		auto contactCall1 = [&]() {
+			auto collidable1 = pair.collidable1;
+			auto collidable2 = pair.collidable2;
+			if(collidable1->contactEventListeners.size() > 0) {
+				auto contactEvent1 = ContactEvent(collidable1, collidable2, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), pair.ignoredRectPairs, pair.sides, &appData);
+				switch(state) {
+					case CONTACTSTATE_NEW:
+						for(auto listener : collidable1->contactEventListeners) {
+							listener->onContact(contactEvent1);
+						}
+						break;
+						
+					case CONTACTSTATE_UPDATED:
+						for(auto listener : collidable1->contactEventListeners) {
+							listener->onContactUpdate(contactEvent1);
+						}
+						break;
+						
+					case CONTACTSTATE_FINISHED:
+						for(auto listener : collidable1->contactEventListeners) {
+							listener->onContactFinish(contactEvent1);
+						}
+						break;
+				}
 			}
+		};
+		
+		auto contactCall2 = [&]() {
+			auto collidable1 = pair.collidable1;
+			auto collidable2 = pair.collidable2;
+			if(collidable2->contactEventListeners.size() > 0) {
+				auto contactEvent2 = ContactEvent(collidable2, collidable1, state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), pair.getReverseIgnoredRectPairs(), pair.getOppositeSides(), &appData);
+				switch(state) {
+					case CONTACTSTATE_NEW:
+						for(auto listener : collidable2->contactEventListeners) {
+							listener->onContact(contactEvent2);
+						}
+						break;
+						
+					case CONTACTSTATE_UPDATED:
+						for(auto listener : collidable2->contactEventListeners) {
+							listener->onContactUpdate(contactEvent2);
+						}
+						break;
+						
+					case CONTACTSTATE_FINISHED:
+						for(auto listener : collidable2->contactEventListeners) {
+							listener->onContactFinish(contactEvent2);
+						}
+						break;
+				}
+			}
+		};
+		
+		if(pair.collidable1->isStaticCollisionBody()) {
+			contactCall2();
+			contactCall1();
 		}
 		else {
-			switch(state) {
-				case CONTACTSTATE_NEW:
-					collidable1->onContact(contactEvent1);
-					collidable2->onContact(contactEvent2);
-					break;
-					
-				case CONTACTSTATE_UPDATED:
-					collidable1->onContactUpdate(contactEvent1);
-					collidable2->onContactUpdate(contactEvent2);
-					break;
-					
-				case CONTACTSTATE_FINISHED:
-					collidable1->onContactFinish(contactEvent1);
-					collidable2->onContactFinish(contactEvent2);
-					break;
-			}
+			contactCall1();
+			contactCall2();
 		}
 	}
 	
 	void CollisionManager::dispatchCollisionEvents(const ApplicationData& appData, CollisionState state, CollisionSide side, const CollisionPair& pair, const CollisionPair& prevPair) {
-		auto collidable1 = pair.collidable1;
-		auto collidable2 = pair.collidable2;
-		auto collisionEvent1 = CollisionEvent(collidable1, collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), &appData);
-		auto collisionEvent2 = CollisionEvent(collidable2, collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), &appData);
-		if(collidable1->isStaticCollisionBody()) {
-			switch(state) {
-				case COLLISIONSTATE_NEW:
-					collidable2->onCollision(collisionEvent2);
-					collidable1->onCollision(collisionEvent1);
-					break;
-					
-				case COLLISIONSTATE_UPDATED:
-					collidable2->onCollisionUpdate(collisionEvent2);
-					collidable1->onCollisionUpdate(collisionEvent1);
-					break;
-					
-				case COLLISIONSTATE_FINISHED:
-					collidable2->onCollisionFinish(collisionEvent2);
-					collidable1->onCollisionFinish(collisionEvent1);
-					break;
+		
+		auto collisionCall1 = [&]() {
+			auto collidable1 = pair.collidable1;
+			auto collidable2 = pair.collidable2;
+			if(collidable1->collisionEventListeners.size() > 0) {
+				auto collisionEvent1 = CollisionEvent(collidable1, collidable2, side, state, pair.getContactingRectPairs(), prevPair.getContactingRectPairs(), &appData);
+				switch(state) {
+					case COLLISIONSTATE_NEW:
+						for(auto listener : collidable1->collisionEventListeners) {
+							listener->onCollision(collisionEvent1);
+						}
+						break;
+						
+					case COLLISIONSTATE_UPDATED:
+						for(auto listener : collidable1->collisionEventListeners) {
+							listener->onCollisionUpdate(collisionEvent1);
+						}
+						break;
+						
+					case COLLISIONSTATE_FINISHED:
+						for(auto listener : collidable1->collisionEventListeners) {
+							listener->onCollisionFinish(collisionEvent1);
+						}
+						break;
+				}
 			}
+		};
+		
+		auto collisionCall2 = [&]() {
+			auto collidable1 = pair.collidable1;
+			auto collidable2 = pair.collidable2;
+			if(collidable2->collisionEventListeners.size() > 0) {
+				auto collisionEvent2 = CollisionEvent(collidable2, collidable1, CollisionSide_getOpposite(side), state, pair.getReverseContactingRectPairs(), prevPair.getReverseContactingRectPairs(), &appData);
+				switch(state) {
+					case COLLISIONSTATE_NEW:
+						for(auto listener : collidable2->collisionEventListeners) {
+							listener->onCollision(collisionEvent2);
+						}
+						break;
+						
+					case COLLISIONSTATE_UPDATED:
+						for(auto listener : collidable2->collisionEventListeners) {
+							listener->onCollisionUpdate(collisionEvent2);
+						}
+						break;
+						
+					case COLLISIONSTATE_FINISHED:
+						for(auto listener : collidable2->collisionEventListeners) {
+							listener->onCollisionFinish(collisionEvent2);
+						}
+						break;
+				}
+			}
+		};
+		
+		if(pair.collidable1->isStaticCollisionBody()) {
+			collisionCall2();
+			collisionCall1();
 		}
 		else {
-			switch(state) {
-				case COLLISIONSTATE_NEW:
-					collidable1->onCollision(collisionEvent1);
-					collidable2->onCollision(collisionEvent2);
-					break;
-					
-				case COLLISIONSTATE_UPDATED:
-					collidable1->onCollisionUpdate(collisionEvent1);
-					collidable2->onCollisionUpdate(collisionEvent2);
-					break;
-					
-				case COLLISIONSTATE_FINISHED:
-					collidable1->onCollisionFinish(collisionEvent1);
-					collidable2->onCollisionFinish(collisionEvent2);
-					break;
-			}
+			collisionCall1();
+			collisionCall2();
 		}
 	}
 	

@@ -262,19 +262,29 @@ namespace fgl
 		awake = false;
 	}
 	
+	void Collidable::addCollisionEventListener(CollisionEventListener* listener) {
+		collisionEventListeners.push_back(listener);
+	}
+	
+	void Collidable::removeCollisionEventListener(CollisionEventListener* listener) {
+		auto listenerIt = std::find(collisionEventListeners.begin(), collisionEventListeners.end(), listener);
+		if(listenerIt != collisionEventListeners.end()) {
+			collisionEventListeners.erase(listenerIt);
+		}
+	}
+	
+	void Collidable::addContactEventListener(ContactEventListener* listener) {
+		contactEventListeners.push_back(listener);
+	}
+	
+	void Collidable::removeContactEventListener(ContactEventListener* listener) {
+		auto listenerIt = std::find(contactEventListeners.begin(), contactEventListeners.end(), listener);
+		if(listenerIt != contactEventListeners.end()) {
+			contactEventListeners.erase(listenerIt);
+		}
+	}
+	
 	void Collidable::onBeginCollisionUpdates(const ApplicationData& appData) {
-		//
-	}
-
-	void Collidable::onContact(const ContactEvent& contactEvent) {
-		//
-	}
-
-	void Collidable::onContactUpdate(const ContactEvent& contactEvent) {
-		//
-	}
-
-	void Collidable::onContactFinish(const ContactEvent& contactEvent) {
 		//
 	}
 
@@ -298,18 +308,6 @@ namespace fgl
 		return false;
 	}
 
-	void Collidable::onCollision(const CollisionEvent& collisionEvent) {
-		//
-	}
-
-	void Collidable::onCollisionUpdate(const CollisionEvent& collisionEvent) {
-		//
-	}
-
-	void Collidable::onCollisionFinish(const CollisionEvent& collisionEvent) {
-		//
-	}
-	
 	void Collidable::updateTransformState() {
 		auto transformState = getTransformState();
 		auto prevTransformState = getPreviousTransformState();

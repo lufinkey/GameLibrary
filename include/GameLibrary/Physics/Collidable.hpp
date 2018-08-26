@@ -2,8 +2,8 @@
 #pragma once
 
 #include "CollisionRects/CollisionRect.hpp"
-#include "ContactEvent.hpp"
-#include "CollisionEvent.hpp"
+#include "ContactEventListener.hpp"
+#include "CollisionEventListener.hpp"
 #include "TransformState.hpp"
 #include <GameLibrary/Application/ApplicationData.hpp>
 
@@ -45,20 +45,16 @@ namespace fgl
 		bool isAwake() const;
 		void wake();
 		void sleep();
+		
+		void addCollisionEventListener(CollisionEventListener* listener);
+		void removeCollisionEventListener(CollisionEventListener* listener);
+		
+		void addContactEventListener(ContactEventListener* listener);
+		void removeContactEventListener(ContactEventListener* listener);
 
 	protected:
 		virtual void onBeginCollisionUpdates(const ApplicationData& appData);
-
-		virtual void onContact(const ContactEvent& contactEvent);
-		virtual void onContactUpdate(const ContactEvent& contactEvent);
-		virtual void onContactFinish(const ContactEvent& contactEvent);
-
-		virtual void onCollision(const CollisionEvent& collisionEvent);
-		virtual void onCollisionUpdate(const CollisionEvent& collisionEvent);
-		virtual void onCollisionFinish(const CollisionEvent& collisionEvent);
-		
 		virtual void updateTransformState();
-		
 		virtual void onFinishCollisionUpdates(const ApplicationData& appData);
 		
 	private:
@@ -69,6 +65,10 @@ namespace fgl
 		std::map<CollisionSide, std::list<Collidable*>> collided;
 		std::map<CollisionSide, std::list<Collidable*>> newCollided;
 		RectangleD awarenessRect;
+		
+		std::list<CollisionEventListener*> collisionEventListeners;
+		std::list<ContactEventListener*> contactEventListeners;
+		
 		bool awake;
 	};
 }

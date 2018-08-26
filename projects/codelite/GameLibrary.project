@@ -363,6 +363,8 @@
         <File Name="../../include/GameLibrary/Physics/CollisionRectPair.hpp"/>
         <File Name="../../include/GameLibrary/Physics/CollisionSide.hpp"/>
         <File Name="../../include/GameLibrary/Physics/TransformState.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/CollisionEventListener.hpp"/>
+        <File Name="../../include/GameLibrary/Physics/ContactEventListener.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Event">
         <File Name="../../include/GameLibrary/Event/Event.hpp"/>
