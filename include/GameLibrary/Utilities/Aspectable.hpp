@@ -104,7 +104,7 @@ namespace fgl
 		inline CLASS* getAspectWhere(const std::function<bool(const CLASS*)>& func) {
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
-				if(func(castedAspect)) {
+				if(castedAspect != nullptr && func(castedAspect)) {
 					return castedAspect;
 				}
 			}
@@ -115,7 +115,7 @@ namespace fgl
 		inline const CLASS* getAspectWhere(const std::function<bool(const CLASS*)>& func) const {
 			for(auto aspect : aspects) {
 				auto castedAspect = dynamic_cast<CLASS*>(aspect);
-				if(func(castedAspect)) {
+				if(castedAspect != nullptr && func(castedAspect)) {
 					return castedAspect;
 				}
 			}
