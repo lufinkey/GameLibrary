@@ -122,14 +122,23 @@ namespace fgl
 		
 		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
 		inline T magnitude() const {
+			if(x == 0 && y == 0) {
+				return 0;
+			}
 			return Math::sqrt((x*x) + (y*y));
 		}
 		
 		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
 		inline void normalize() {
 			T mag = magnitude();
-			x = x / mag;
-			y = y / mag;
+			if(mag == 0) {
+				x = 0;
+				y = 0;
+			}
+			else {
+				x = x / mag;
+				y = y / mag;
+			}
 		}
 		
 		template<typename _T=T, typename std::enable_if<std::is_floating_point<_T>::value, std::nullptr_t>::type = nullptr>
