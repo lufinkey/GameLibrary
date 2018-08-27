@@ -438,44 +438,18 @@ namespace fgl
 	
 	bool Mouse::didButtonPress(Window*window, unsigned int mouseIndex, Mouse::Button button)
 	{
-		if(window == nullptr)
-		{
-			SDL_Window*sdlwin = SDL_GetMouseFocus();
-			if(sdlwin != nullptr)
-			{
-				window = EventManager::getWindowFromID(SDL_GetWindowID(sdlwin));
-			}
+		if(Mouse::isButtonPressed(window, mouseIndex, button) && !Mouse::wasButtonPressed(window, mouseIndex, button)) {
+			return true;
 		}
-		
-		Mouse_state_mutex.lock();
-		bool pressed = false;
-		if(Mouse::isButtonPressed(window, mouseIndex, button) && !Mouse::wasButtonPressed(window, mouseIndex, button))
-		{
-			pressed = true;
-		}
-		Mouse_state_mutex.unlock();
-		return pressed;
+		return false;
 	}
 	
 	bool Mouse::didButtonRelease(Window*window, unsigned int mouseIndex, Mouse::Button button)
 	{
-		if(window == nullptr)
-		{
-			SDL_Window*sdlwin = SDL_GetMouseFocus();
-			if(sdlwin != nullptr)
-			{
-				window = EventManager::getWindowFromID(SDL_GetWindowID(sdlwin));
-			}
+		if(Mouse::wasButtonPressed(window, mouseIndex, button) && !Mouse::isButtonPressed(window, mouseIndex, button)) {
+			return true;
 		}
-		
-		Mouse_state_mutex.lock();
-		bool released = false;
-		if(Mouse::wasButtonPressed(window, mouseIndex, button) && !Mouse::isButtonPressed(window, mouseIndex, button))
-		{
-			released = true;
-		}
-		Mouse_state_mutex.unlock();
-		return released;
+		return false;
 	}
 	
 	void Mouse::addEventListener(MouseEventListener*eventListener)
