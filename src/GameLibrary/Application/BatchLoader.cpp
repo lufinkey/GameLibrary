@@ -90,54 +90,48 @@ namespace fgl
 
 	void BatchLoader::loadAll()
 	{
-		if(!loading)
-		{
-			if(eventListeners.size()>0)
-			{
-				ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-				for(unsigned int i = 0; i < listeners.size(); i++)
-				{
-					BatchLoaderEventListener*listener = listeners.get(i);
+		if(!loading) {
+			if(eventListeners.size()>0) {
+				auto listeners = eventListeners;
+				for(auto listener : listeners) {
 					listener->onBatchLoaderStart(this);
 				}
 			}
 			loading = true;
-			while(loadindex<loadlist.size() && loading)
-			{
+			while(loadindex<loadlist.size() && loading) {
 				loadNext();
 				loadindex++;
 			}
 			loading = false;
-			if(loadindex == (loadlist.size()-1))
-			{
-				ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-				for(unsigned int i = 0; i < listeners.size(); i++)
-				{
-					BatchLoaderEventListener*listener = listeners.get(i);
+			if(loadindex == (loadlist.size()-1)) {
+				auto listeners = eventListeners;
+				for(auto listener : listeners) {
 					listener->onBatchLoaderFinish(this);
 				}
 			}
 		}
 	}
 
-	void BatchLoader::loadNext()
-	{
-		if(loadindex < loadlist.size())
-		{
+	void BatchLoader::loadNext() {
+		if(loadindex < loadlist.size()) {
 			LoadInfo info = loadlist.get(loadindex);
-			switch(info.type)
-			{
-				case LOADTYPE_TEXTURE:
-				{
-					if(assetManager == nullptr)
-					{
+			switch(info.type) {
+				case LOADTYPE_TEXTURE: {
+					if(assetManager == nullptr) {
 						throw IllegalStateException("AssetManager cannot be null while loading a texture");
 					}
+					bool success;
 					String error;
-					bool success = assetManager->loadTexture(info.path, &error) != nullptr;
+					try {
+						assetManager->loadTexture(info.path);
+						success = true;
+					}
+					catch(Exception ex) {
+						success = false;
+						error = ex.what();
+					}
 					loadcurrent += info.value;
-					if(success)
-					{
+					if(success) {
 						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
 						for(unsigned int i=0; i<listeners.size(); i++)
 						{
@@ -145,11 +139,9 @@ namespace fgl
 							listener->onBatchLoaderLoadTexture(this, info.path, info.value);
 						}
 					}
-					else
-					{
+					else {
 						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-						for(unsigned int i=0; i<listeners.size(); i++)
-						{
+						for(unsigned int i=0; i<listeners.size(); i++) {
 							BatchLoaderEventListener*listener = listeners.get(i);
 							listener->onBatchLoaderErrorTexture(this, info.path, info.value, error);
 						}
@@ -157,56 +149,49 @@ namespace fgl
 				}
 				break;
 				
-				case LOADTYPE_FONT:
-				{
-					if(assetManager == nullptr)
-					{
+				case LOADTYPE_FONT: {
+					if(assetManager == nullptr) {
 						throw IllegalStateException("AssetManager cannot be null while loading a font");
 					}
+					bool success;
 					String error;
-					bool success = assetManager->loadFont(info.path, &error);
+					try {
+						assetManager->loadFont(info.path);
+						success = true;
+					}
+					catch(Exception ex) {
+						success = false;
+						error = ex.what();
+					}
 					loadcurrent += info.value;
-					if(success)
-					{
-						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-						for(unsigned int i=0; i<listeners.size(); i++)
-						{
-							BatchLoaderEventListener*listener = listeners.get(i);
+					if(success) {
+						auto listeners = eventListeners;
+						for(auto listener : listeners) {
 							listener->onBatchLoaderLoadFont(this, info.path, info.value);
 						}
 					}
-					else
-					{
-						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-						for(unsigned int i=0; i<listeners.size(); i++)
-						{
-							BatchLoaderEventListener*listener = listeners.get(i);
+					else {
+						auto listeners = eventListeners;
+						for(auto listener : listeners) {
 							listener->onBatchLoaderErrorFont(this, info.path, info.value, error);
 						}
 					}
 				}
 				break;
 
-				case LOADTYPE_FUNCTION:
-				{
+				case LOADTYPE_FUNCTION: {
 					String error;
 					bool success = info.func(assetManager, &error);
 					loadcurrent += info.value;
-					if(success)
-					{
-						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-						for(unsigned int i=0; i<listeners.size(); i++)
-						{
-							BatchLoaderEventListener*listener = listeners.get(i);
+					if(success) {
+						auto listeners = eventListeners;
+						for(auto listener : listeners) {
 							listener->onBatchLoaderLoadFunction(this, info.func, info.value);
 						}
 					}
-					else
-					{
-						ArrayList<BatchLoaderEventListener*> listeners = eventListeners;
-						for(unsigned int i=0; i<listeners.size(); i++)
-						{
-							BatchLoaderEventListener*listener = listeners.get(i);
+					else {
+						auto listeners = eventListeners;
+						for(auto listener : listeners) {
 							listener->onBatchLoaderErrorFunction(this, info.func, info.value, error);
 						}
 					}
@@ -216,13 +201,11 @@ namespace fgl
 		}
 	}
 
-	void BatchLoader::stopLoad()
-	{
+	void BatchLoader::stopLoad() {
 		loading = false;
 	}
 
-	void BatchLoader::clear()
-	{
+	void BatchLoader::clear() {
 		loading = false;
 		loadlist.clear();
 		loadindex = 0;
