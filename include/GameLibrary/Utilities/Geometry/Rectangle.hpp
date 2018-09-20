@@ -24,7 +24,8 @@ namespace fgl
 		T height;
 		
 		/*! default constructor*/
-		constexpr Rectangle() : x(0), y(0), width(0), height(0) {
+		constexpr Rectangle()
+			: x(0), y(0), width(0), height(0) {
 			//
 		}
 		
@@ -33,7 +34,16 @@ namespace fgl
 			\param y the y coordinate of the top left of the rectangle
 			\param width the width of the rectangle
 			\param height the height of the rectangle*/
-		constexpr Rectangle(const T& x, const T& y, const T& width, const T& height) : x(x), y(y), width(width), height(height) {
+		constexpr Rectangle(const T& x, const T& y, const T& width, const T& height)
+			: x(x), y(y), width(width), height(height) {
+			//
+		}
+		
+		/*! Constructs a rectangle with a given top left coordinate and size.
+			\param position the top left coordinate of the rectangle
+			\param size the size of the rectangle*/
+		constexpr Rectangle(const Vector2d& position, const Vector2d& size)
+			: x(position.x), y(position.y), width(size.x), height(size.y) {
 			//
 		}
 
