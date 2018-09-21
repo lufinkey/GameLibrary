@@ -30,6 +30,13 @@ namespace fgl
 			return this;
 		}
 		
+		Aspectable* addAspects(const ArrayList<ASPECT*>& aspects) {
+			for(auto aspect : aspects) {
+				addAspect(aspect);
+			}
+			return this;
+		}
+		
 		template<typename CLASS, size_t INDEX = 0>
 		Aspectable* addAspectBefore(ASPECT* aspect, bool appendIfIndexMissing = false) {
 			auto begin = aspects.begin();
