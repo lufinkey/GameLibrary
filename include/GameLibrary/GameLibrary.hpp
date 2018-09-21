@@ -132,6 +132,7 @@
 #include "World/WorldObject.hpp"
 
 #include "World/Aspects/Drawing/AnimationControllerAspect.hpp"
+#include "World/Aspects/Drawing/ColorBoxAspect.hpp"
 #include "World/Aspects/Drawing/Drawable2DAspect.hpp"
 #include "World/Aspects/Drawing/SpriteAspect.hpp"
 
