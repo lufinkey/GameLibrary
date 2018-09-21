@@ -14,7 +14,7 @@ namespace fgl
 		friend class WorldElement;
 	public:
 		WorldCamera(const RectangleD& frame = RectangleD(0, 0, 360, 240), const Vector2d& center = { 0,0 }, const Vector2d& resolution = { 360, 240 });
-		~WorldCamera();
+		virtual ~WorldCamera();
 		
 		RectangleD getFrame() const;
 		void setFrame(const RectangleD& frame);

@@ -67,16 +67,14 @@ namespace fgl
 	}
 	
 	void WorldCamera::drawWorld(const World* world, ApplicationData appData, Graphics graphics) const {
-		auto drawManager = camera->world->getDrawManager();
-		auto resolution = camera->resolution;
-		auto center = camera->center;
+		auto drawManager = world->getDrawManager();
 		
 		auto frame = getFrame();
 		graphics.translate(frame.getCenter());
 		graphics.scale(frame.getSize() / resolution);
 		graphics.translate({ -center.x, -center.y });
 		
-		drawManager->draw(DrawContext(&appData, camera, drawManager), graphics);
+		drawManager->draw(DrawContext(&appData, this, drawManager), graphics);
 		
 		// debug draw collision rects
 		#ifdef DEBUG_DRAW_COLLISION_RECTS

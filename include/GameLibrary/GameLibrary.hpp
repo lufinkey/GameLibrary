@@ -17,6 +17,10 @@
 #include "Audio/Music.hpp"
 #include "Audio/Sound.hpp"
 
+#include "Draw/DrawContext.hpp"
+#include "Draw/DrawManager.hpp"
+#include "Draw/Drawable.hpp"
+
 #include "Event/Event.hpp"
 
 #include "Exception/Exception.hpp"
