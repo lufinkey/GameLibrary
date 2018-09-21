@@ -60,22 +60,22 @@ namespace fgl
 	
 	
 	
-	static auto SPRITEORIGIN_CENTER = [](const SpriteAspect* sprite) -> Vector2d {
+	const auto SPRITEORIGIN_CENTER = [](const SpriteAspect* sprite) -> Vector2d {
 		auto size = sprite->getAnimator()->getSize();
 		return size / 2.0;
 	};
-	static auto SPRITEORIGIN_TOPLEFT = [](const SpriteAspect* sprite) -> Vector2d {
+	const auto SPRITEORIGIN_TOPLEFT = [](const SpriteAspect* sprite) -> Vector2d {
 		return { 0.0, 0.0 };
 	};
-	static auto SPRITEORIGIN_TOPRIGHT = [](const SpriteAspect* sprite) -> Vector2d {
+	const auto SPRITEORIGIN_TOPRIGHT = [](const SpriteAspect* sprite) -> Vector2d {
 		auto size = sprite->getAnimator()->getSize();
 		return { size.x, 0.0 };
 	};
-	static auto SPRITEORIGIN_BOTTOMLEFT = [](const SpriteAspect* sprite) -> Vector2d {
+	const auto SPRITEORIGIN_BOTTOMLEFT = [](const SpriteAspect* sprite) -> Vector2d {
 		auto size = sprite->getAnimator()->getSize();
 		return { 0.0, size.y };
 	};
-	static auto SPRITEORIGIN_BOTTOMRIGHT = [](const SpriteAspect* sprite) -> Vector2d {
+	const auto SPRITEORIGIN_BOTTOMRIGHT = [](const SpriteAspect* sprite) -> Vector2d {
 		auto size = sprite->getAnimator()->getSize();
 		return { size.x, size.y };
 	};
