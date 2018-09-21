@@ -28,7 +28,7 @@ namespace fgl
 		screenElement->setFrame(frame);
 	}
 	
-	const Vector2d& WorldCamera::getResolution() const {
+	Vector2d WorldCamera::getResolution() const {
 		return resolution;
 	}
 	
@@ -36,7 +36,7 @@ namespace fgl
 		resolution = resolution_arg;
 	}
 	
-	const Vector2d& WorldCamera::getCenter() const {
+	Vector2d WorldCamera::getCenter() const {
 		return center;
 	}
 	
@@ -63,6 +63,10 @@ namespace fgl
 	}
 	
 	void WorldCamera::WorldElement::drawMain(ApplicationData appData, Graphics graphics) const {
+		camera->drawWorld(camera->world, appData, graphics);
+	}
+	
+	void WorldCamera::drawWorld(const World* world, ApplicationData appData, Graphics graphics) const {
 		auto drawManager = camera->world->getDrawManager();
 		auto resolution = camera->resolution;
 		auto center = camera->center;

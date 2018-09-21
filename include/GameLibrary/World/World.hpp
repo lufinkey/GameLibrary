@@ -15,7 +15,6 @@ namespace fgl
 		friend class WorldCamera;
 	public:
 		World(AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras = {});
-		World(DrawManager* drawManager, CollisionManager* collisionManager, AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras = {});
 		virtual ~World();
 		
 		virtual void update(ApplicationData appData);
@@ -51,13 +50,16 @@ namespace fgl
 		const WorldObject* getObjectWhere(const std::function<bool(const WorldObject*)>& func) const;
 		
 		void setGravity(const Vector2d& velocity);
-		const Vector2d& getGravity() const;
+		Vector2d getGravity() const;
 		
 		const ArrayList<WorldCamera*>& getCameras();
 		const ArrayList<const WorldCamera*>& getCameras() const;
 		
 		void runBeforeUpdate(std::function<void()> func);
 		void runAfterUpdate(std::function<void()> func);
+		
+	protected:
+		World(DrawManager* drawManager, CollisionManager* collisionManager, AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras = {});
 		
 	private:
 		void addObjectAspects(WorldObject* object);

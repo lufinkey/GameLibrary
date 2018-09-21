@@ -16,11 +16,11 @@ namespace fgl
 	public:
 		DrawManager();
 		
-		void update(ApplicationData appData);
-		void draw(DrawContext context, Graphics graphics) const;
+		virtual void update(ApplicationData appData);
+		virtual void draw(DrawContext context, Graphics graphics) const;
 		
-		void addDrawable(Drawable* drawable, const std::function<void(Graphics&)>& filter=nullptr);
-		void removeDrawable(Drawable* drawable);
+		virtual void addDrawable(Drawable* drawable, const std::function<void(Graphics&)>& filter=nullptr);
+		virtual void removeDrawable(Drawable* drawable);
 		
 		void addDelegate(DrawManagerDelegate* delegate);
 		void removeDelegate(DrawManagerDelegate* delegate);

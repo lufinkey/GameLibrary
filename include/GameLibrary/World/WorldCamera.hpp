@@ -11,6 +11,7 @@ namespace fgl
 	class WorldCamera
 	{
 		friend class World;
+		friend class WorldCamera::WorldElement;
 	public:
 		WorldCamera(const RectangleD& frame = RectangleD(0, 0, 360, 240), const Vector2d& center = { 0,0 }, const Vector2d& resolution = { 360, 240 });
 		~WorldCamera();
@@ -18,16 +19,19 @@ namespace fgl
 		RectangleD getFrame() const;
 		void setFrame(const RectangleD& frame);
 		
-		const Vector2d& getResolution() const;
+		Vector2d getResolution() const;
 		void setResolution(const Vector2d& resolution);
 		
-		const Vector2d& getCenter() const;
+		Vector2d getCenter() const;
 		void setCenter(const Vector2d& center);
 		
 		ScreenElement* getScreenElement();
 		const ScreenElement* getScreenElement() const;
 		
 		RectangleD getVisibleRect() const;
+		
+	protected:
+		virtual void drawWorld(const World* world, ApplicationData appData, Graphics graphics) const;
 		
 	private:
 		class WorldElement : public ScreenElement {

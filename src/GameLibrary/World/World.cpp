@@ -283,7 +283,7 @@ namespace fgl
 		gravity = gravity_arg;
 	}
 	
-	const Vector2d& World::getGravity() const {
+	Vector2d World::getGravity() const {
 		return gravity;
 	}
 	
