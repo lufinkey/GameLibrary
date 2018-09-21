@@ -6,7 +6,8 @@ namespace fgl
 {
 	ColorBoxAspect::ColorBoxAspect(const RectangleD& rect, Color color)
 		: rect(rect),
-		color(color) {
+		color(color),
+		filled(true) {
 		//
 	}
 	
