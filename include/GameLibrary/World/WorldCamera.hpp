@@ -30,6 +30,9 @@ namespace fgl
 		
 		RectangleD getVisibleRect() const;
 		
+		World* getWorld();
+		const World* getWorld() const;
+		
 	protected:
 		virtual void drawWorld(const World* world, ApplicationData appData, Graphics graphics) const;
 		

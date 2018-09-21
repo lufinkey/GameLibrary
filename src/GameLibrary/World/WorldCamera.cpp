@@ -56,6 +56,14 @@ namespace fgl
 		return RectangleD(center.x - (resolution.x/2.0), center.y - (resolution.y/2.0), resolution.x, resolution.y);
 	}
 	
+	World* WorldCamera::getWorld() {
+		return world;
+	}
+	
+	const World* WorldCamera::getWorld() const {
+		return world;
+	}
+	
 	WorldCamera::WorldElement::WorldElement(const RectangleD& frame, WorldCamera* camera)
 		: ScreenElement(frame),
 		camera(camera) {
