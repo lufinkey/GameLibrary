@@ -207,6 +207,8 @@
           <VirtualDirectory Name="Movement">
             <File Name="../../src/GameLibrary/World/Aspects/Movement/Transform2DAspect.cpp"/>
             <File Name="../../src/GameLibrary/World/Aspects/Movement/Velocity2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Movement/Direction2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Movement/Transform3DAspect.cpp"/>
           </VirtualDirectory>
         </VirtualDirectory>
       </VirtualDirectory>
@@ -425,6 +427,8 @@
           <VirtualDirectory Name="Movement">
             <File Name="../../include/GameLibrary/World/Aspects/Movement/Transform2DAspect.hpp"/>
             <File Name="../../include/GameLibrary/World/Aspects/Movement/Velocity2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Movement/Direction2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Movement/Transform3DAspect.hpp"/>
           </VirtualDirectory>
         </VirtualDirectory>
       </VirtualDirectory>

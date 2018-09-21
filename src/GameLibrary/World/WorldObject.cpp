@@ -1,6 +1,7 @@
 
 #include <GameLibrary/World/WorldObject.hpp>
 #include <GameLibrary/World/Aspects/Movement/Transform2DAspect.hpp>
+#include <GameLibrary/World/Aspects/Movement/Transform3DAspect.hpp>
 
 namespace fgl
 {
@@ -17,6 +18,10 @@ namespace fgl
 	}
 	
 	String WorldObject::getDebugDescription() const {
+		auto transform3d = getAspect<Transform3DAspect>();
+		if(transform3d != nullptr) {
+			return "WorldObject @ "+transform3d->getPosition().toString();
+		}
 		auto transform2d = getAspect<Transform2DAspect>();
 		if(transform2d != nullptr) {
 			return "WorldObject @ "+transform2d->getPosition().toString();
