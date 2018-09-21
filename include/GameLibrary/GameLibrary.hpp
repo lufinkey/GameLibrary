@@ -123,6 +123,23 @@
 #include "Window/Viewport.hpp"
 #include "Window/MessageBox.hpp"
 
+#include "World/World.hpp"
+#include "World/WorldCamera.hpp"
+#include "World/WorldObject.hpp"
+
+#include "World/Aspects/Drawing/AnimationControllerAspect.hpp"
+#include "World/Aspects/Drawing/Drawable2DAspect.hpp"
+#include "World/Aspects/Drawing/SpriteAspect.hpp"
+
+#include "World/Aspects/Movement/Direction2DAspect.hpp"
+#include "World/Aspects/Movement/Transform2DAspect.hpp"
+#include "World/Aspects/Movement/Transform3DAspect.hpp"
+#include "World/Aspects/Movement/Velocity2DAspect.hpp"
+
+#include "World/Aspects/Physics/Collidable2DAspect.hpp"
+#include "World/Aspects/Physics/BoxCollidable2DAspect.hpp"
+#include "World/Aspects/Physics/PolygonCollidable2DAspect.hpp"
+
 #ifndef TARGETPLATFORM_WINDOWS
 	#ifndef main
 		#define main GameLibrary_main
