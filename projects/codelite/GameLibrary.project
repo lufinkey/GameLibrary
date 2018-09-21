@@ -182,6 +182,33 @@
         <File Name="../../src/GameLibrary/Animation/Animation.cpp"/>
         <File Name="../../src/GameLibrary/Animation/AnimationPlayer.cpp"/>
         <File Name="../../src/GameLibrary/Animation/AnimationProvider.cpp"/>
+        <File Name="../../src/GameLibrary/Animation/Animator.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Draw">
+        <File Name="../../src/GameLibrary/Draw/Drawable.cpp"/>
+        <File Name="../../src/GameLibrary/Draw/DrawContext.cpp"/>
+        <File Name="../../src/GameLibrary/Draw/DrawManager.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="World">
+        <File Name="../../src/GameLibrary/World/World.cpp"/>
+        <File Name="../../src/GameLibrary/World/WorldCamera.cpp"/>
+        <File Name="../../src/GameLibrary/World/WorldObject.cpp"/>
+        <VirtualDirectory Name="Aspects">
+          <VirtualDirectory Name="Physics">
+            <File Name="../../src/GameLibrary/World/Aspects/Physics/BoxCollidable2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Physics/Collidable2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Physics/PolygonCollidable2DAspect.cpp"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="Drawing">
+            <File Name="../../src/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Drawing/Drawable2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Drawing/SpriteAspect.cpp"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="Movement">
+            <File Name="../../src/GameLibrary/World/Aspects/Movement/Transform2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Movement/Velocity2DAspect.cpp"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>
@@ -373,6 +400,33 @@
         <File Name="../../include/GameLibrary/Animation/Animation.hpp"/>
         <File Name="../../include/GameLibrary/Animation/AnimationPlayer.hpp"/>
         <File Name="../../include/GameLibrary/Animation/AnimationProvider.hpp"/>
+        <File Name="../../include/GameLibrary/Animation/Animator.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Draw">
+        <File Name="../../include/GameLibrary/Draw/Drawable.hpp"/>
+        <File Name="../../include/GameLibrary/Draw/DrawContext.hpp"/>
+        <File Name="../../include/GameLibrary/Draw/DrawManager.hpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="World">
+        <File Name="../../include/GameLibrary/World/World.hpp"/>
+        <File Name="../../include/GameLibrary/World/WorldCamera.hpp"/>
+        <File Name="../../include/GameLibrary/World/WorldObject.hpp"/>
+        <VirtualDirectory Name="Aspects">
+          <VirtualDirectory Name="Physics">
+            <File Name="../../include/GameLibrary/World/Aspects/Physics/BoxCollidable2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Physics/Collidable2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Physics/PolygonCollidable2DAspect.hpp"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="Drawing">
+            <File Name="../../include/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Drawing/Drawable2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Drawing/SpriteAspect.hpp"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="Movement">
+            <File Name="../../include/GameLibrary/World/Aspects/Movement/Transform2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Movement/Velocity2DAspect.hpp"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
       </VirtualDirectory>
     </VirtualDirectory>
   </VirtualDirectory>

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ArrayList.hpp"
+#include <GameLibrary/Exception/IllegalArgumentException.hpp>
 
 namespace fgl
 {
