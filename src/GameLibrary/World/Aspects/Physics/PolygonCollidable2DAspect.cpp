@@ -4,15 +4,21 @@
 
 namespace fgl
 {
-	PolygonCollidable2DAspect::PolygonCollidable2DAspect(const ArrayList<PolygonD>& polygons, double mass)
+	PolygonCollidable2DAspect::PolygonCollidable2DAspect(PolygonD polygon, double mass)
+		: Collidable2DAspect(mass),
+		polygons({ { "0", polygon } }) {
+		//
+	}
+	
+	PolygonCollidable2DAspect::PolygonCollidable2DAspect(ArrayList<PolygonD> polygons, double mass)
 		: Collidable2DAspect(mass),
 		polygons(polygons.map<std::pair<String,PolygonD>>([](auto polygon, size_t index) -> auto {
-			return std::make_pair((String)"index:"+index, polygon);
+			return std::make_pair((String)""+index, polygon);
 		})) {
 		//
 	}
 	
-	PolygonCollidable2DAspect::PolygonCollidable2DAspect(const BasicDictionary<String,PolygonD>& polygons, double mass)
+	PolygonCollidable2DAspect::PolygonCollidable2DAspect(BasicDictionary<String,PolygonD> polygons, double mass)
 		: Collidable2DAspect(mass),
 		polygons(polygons.begin(), polygons.end()) {
 		//

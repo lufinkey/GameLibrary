@@ -4,15 +4,21 @@
 
 namespace fgl
 {
-	BoxCollidable2DAspect::BoxCollidable2DAspect(const ArrayList<RectangleD>& boxes, double mass)
+	BoxCollidable2DAspect::BoxCollidable2DAspect(RectangleD box, double mass)
+		: Collidable2DAspect(mass),
+		boxes({ {"0", box} }) {
+		//
+	}
+	
+	BoxCollidable2DAspect::BoxCollidable2DAspect(ArrayList<RectangleD> boxes, double mass)
 		: Collidable2DAspect(mass),
 		boxes(boxes.map<std::pair<String,RectangleD>>([](auto box, size_t index) -> auto {
-			return std::make_pair((String)"index:"+index, box);
+			return std::make_pair((String)""+index, box);
 		})) {
 		//
 	}
 	
-	BoxCollidable2DAspect::BoxCollidable2DAspect(const BasicDictionary<String,RectangleD>& boxes, double mass)
+	BoxCollidable2DAspect::BoxCollidable2DAspect(BasicDictionary<String,RectangleD> boxes, double mass)
 		: Collidable2DAspect(mass),
 		boxes(boxes.begin(), boxes.end()) {
 		//
