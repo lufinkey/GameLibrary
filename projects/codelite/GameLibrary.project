@@ -203,6 +203,7 @@
             <File Name="../../src/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.cpp"/>
             <File Name="../../src/GameLibrary/World/Aspects/Drawing/Drawable2DAspect.cpp"/>
             <File Name="../../src/GameLibrary/World/Aspects/Drawing/SpriteAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Drawing/ColorBoxAspect.cpp"/>
           </VirtualDirectory>
           <VirtualDirectory Name="Movement">
             <File Name="../../src/GameLibrary/World/Aspects/Movement/Transform2DAspect.cpp"/>
@@ -423,6 +424,7 @@
             <File Name="../../include/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.hpp"/>
             <File Name="../../include/GameLibrary/World/Aspects/Drawing/Drawable2DAspect.hpp"/>
             <File Name="../../include/GameLibrary/World/Aspects/Drawing/SpriteAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Drawing/ColorBoxAspect.hpp"/>
           </VirtualDirectory>
           <VirtualDirectory Name="Movement">
             <File Name="../../include/GameLibrary/World/Aspects/Movement/Transform2DAspect.hpp"/>
