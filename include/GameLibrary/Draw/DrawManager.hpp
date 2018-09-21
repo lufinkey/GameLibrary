@@ -16,10 +16,10 @@ namespace fgl
 	public:
 		DrawManager();
 		
-		virtual void update(ApplicationData appData);
-		virtual void draw(DrawContext context, Graphics graphics) const;
+		void update(ApplicationData appData);
+		void draw(DrawContext context, Graphics graphics) const;
 		
-		virtual void addDrawable(Drawable* drawable, const std::function<void(Graphics&)>& filter=nullptr);
+		virtual void addDrawable(Drawable* drawable, std::function<void(Graphics&)> filter=nullptr);
 		virtual void removeDrawable(Drawable* drawable);
 		
 		void addDelegate(DrawManagerDelegate* delegate);
@@ -28,13 +28,16 @@ namespace fgl
 		void addListener(DrawManagerListener* listener);
 		void removeListener(DrawManagerListener* listener);
 		
+	protected:
+		virtual void updateDrawables(ApplicationData appData);
+		
 	private:
 		bool shouldDraw(Drawable* drawable) const;
 		
 		class DrawableNode
 		{
 		public:
-			DrawableNode(Drawable* drawable, const std::function<void(Graphics&)>& filter=nullptr);
+			DrawableNode(Drawable* drawable, std::function<void(Graphics&)> filter=nullptr);
 			
 			bool equals(const DrawableNode&) const;
 			bool operator==(const DrawableNode&) const;

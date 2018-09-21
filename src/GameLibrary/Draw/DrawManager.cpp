@@ -9,7 +9,7 @@ namespace fgl
 	
 	
 	
-	void DrawManager::addDrawable(Drawable* drawable, const std::function<void(Graphics&)>& filter) {
+	void DrawManager::addDrawable(Drawable* drawable, std::function<void(Graphics&)> filter) {
 		if(drawable == nullptr) {
 			throw IllegalArgumentException("drawable", "cannot be null");
 		}
@@ -55,12 +55,16 @@ namespace fgl
 			listener->onBeginDrawManagerUpdates(this);
 		}
 		
-		// TODO update draw order
+		updateDrawables(appData);
 		
 		// call listener "end" events
 		for(auto listener : tmpListeners) {
 			listener->onFinishDrawManagerUpdates(this);
 		}
+	}
+	
+	void DrawManager::updateDrawables(ApplicationData appData) {
+		// open for implementation
 	}
 	
 	
@@ -99,7 +103,7 @@ namespace fgl
 	
 	
 	
-	DrawManager::DrawableNode::DrawableNode(Drawable* drawable, const std::function<void(Graphics&)>& filter)
+	DrawManager::DrawableNode::DrawableNode(Drawable* drawable, std::function<void(Graphics&)> filter)
 		: drawable(drawable),
 		filter(filter) {
 		//
