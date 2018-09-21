@@ -10,8 +10,14 @@ namespace fgl
 	//#define DEBUG_TIME
 	
 	World::World(AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras)
+		: World(nullptr, nullptr, assetManager, cameras) {
+		
+	}
+	
+	World::World(DrawManager* drawManager, CollisionManager* collisionManager, AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras)
 		: screen(nullptr),
-		drawManager(),
+		drawManager(drawManager ? drawManager : new DrawManager()),
+		collisionManager(collisionManager ? collisionManager : new CollisionManager()),
 		cameras(cameras),
 		assetManager(assetManager) {
 		for(auto camera : cameras) {
@@ -76,7 +82,7 @@ namespace fgl
 		START_PERFORMANCE_LOG(collisions)
 		#endif
 		
-		collisionManager.update(appData);
+		collisionManager->update(appData);
 		
 		#ifdef DEBUG_TIME
 		FINISH_PERFORMANCE_LOG_ROUNDED(collisions, "collision updates")
@@ -88,7 +94,7 @@ namespace fgl
 		START_PERFORMANCE_LOG(drawOrdering)
 		#endif
 		
-		drawManager.update(appData);
+		drawManager->update(appData);
 		
 		#ifdef DEBUG_TIME
 		FINISH_PERFORMANCE_LOG_ROUNDED(drawOrdering, "draw ordering")
@@ -116,7 +122,7 @@ namespace fgl
 		if(cameras.size() == 0) {
 			auto viewSize = appData.getWindow()->getViewport()->getSize();
 			graphics.translate(viewSize / 2.0);
-			drawManager.draw(DrawContext(&appData, nullptr, &drawManager), graphics);
+			drawManager->draw(DrawContext(&appData, nullptr, drawManager), graphics);
 		}
 		else if(screen != nullptr) {
 			screen->draw(appData, graphics);
@@ -128,19 +134,19 @@ namespace fgl
 	}
 	
 	DrawManager* World::getDrawManager() {
-		return &drawManager;
+		return drawManager;
 	}
 	
 	const DrawManager* World::getDrawManager() const {
-		return &drawManager;
+		return drawManager;
 	}
 	
 	CollisionManager* World::getCollisionManager() {
-		return &collisionManager;
+		return collisionManager;
 	}
 	
 	const CollisionManager* World::getCollisionManager() const {
-		return &collisionManager;
+		return collisionManager;
 	}
 	
 	AssetManager* World::getAssetManager() {
@@ -152,42 +158,42 @@ namespace fgl
 	}
 	
 	void World::addDrawable(Drawable* drawable, const std::function<void(Graphics&)>& filter) {
-		drawManager.addDrawable(drawable, filter);
+		drawManager->addDrawable(drawable, filter);
 	}
 	
 	void World::addDrawables(const ArrayList<Drawable*>& drawables, const std::function<void(Graphics&)>& filter) {
 		for(auto& drawable : drawables) {
-			drawManager.addDrawable(drawable, filter);
+			drawManager->addDrawable(drawable, filter);
 		}
 	}
 	
 	void World::removeDrawable(Drawable* drawable) {
-		drawManager.removeDrawable(drawable);
+		drawManager->removeDrawable(drawable);
 	}
 	
 	void World::removeDrawables(const ArrayList<Drawable*>& drawables) {
 		for(auto& drawable : drawables) {
-			drawManager.removeDrawable(drawable);
+			drawManager->removeDrawable(drawable);
 		}
 	}
 	
 	void World::addCollidable(Collidable* collidable) {
-		collisionManager.addCollidable(collidable);
+		collisionManager->addCollidable(collidable);
 	}
 	
 	void World::addCollidables(const ArrayList<Collidable*>& collidables) {
 		for(auto& collidable : collidables) {
-			collisionManager.addCollidable(collidable);
+			collisionManager->addCollidable(collidable);
 		}
 	}
 	
 	void World::removeCollidable(Collidable* collidable) {
-		collisionManager.removeCollidable(collidable);
+		collisionManager->removeCollidable(collidable);
 	}
 	
 	void World::removeCollidables(const ArrayList<Collidable*>& collidables) {
 		for(auto& collidable : collidables) {
-			collisionManager.removeCollidable(collidable);
+			collisionManager->removeCollidable(collidable);
 		}
 	}
 	

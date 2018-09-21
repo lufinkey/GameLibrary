@@ -15,6 +15,7 @@ namespace fgl
 		friend class WorldCamera;
 	public:
 		World(AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras = {});
+		World(DrawManager* drawManager, CollisionManager* collisionManager, AssetManager* assetManager, const ArrayList<WorldCamera*>& cameras = {});
 		virtual ~World();
 		
 		virtual void update(ApplicationData appData);
@@ -63,8 +64,8 @@ namespace fgl
 		void removeObjectAspects(WorldObject* object);
 		
 		Screen* screen;
-		DrawManager drawManager;
-		CollisionManager collisionManager;
+		DrawManager* drawManager;
+		CollisionManager* collisionManager;
 		std::list<WorldObject*> objects;
 		Vector2d gravity;
 		ArrayList<WorldCamera*> cameras;
