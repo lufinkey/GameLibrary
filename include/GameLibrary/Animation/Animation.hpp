@@ -109,6 +109,10 @@ namespace fgl
 		/*! Gets the frame of animation at a given index
 			\param index the index of the frame to get
 			\returns an Animation::Frame object */
+		Animation::Frame& getFrame(size_t index);
+		/*! Gets the frame of animation at a given index
+			\param index the index of the frame to get
+			\returns an Animation::Frame object */
 		const Animation::Frame& getFrame(size_t index) const;
 		
 		/*! Removes the frame at a given index

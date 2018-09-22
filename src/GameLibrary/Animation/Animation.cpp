@@ -162,6 +162,11 @@ namespace fgl
 		}
 	}
 	
+	Animation::Frame& Animation::getFrame(size_t index)
+	{
+		return frames.get(index);
+	}
+	
 	const Animation::Frame& Animation::getFrame(size_t index) const
 	{
 		return frames.get(index);
