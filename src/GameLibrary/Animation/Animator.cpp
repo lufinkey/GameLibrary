@@ -63,11 +63,20 @@ namespace fgl
 	}
 	
 	void Animator::changeAnimation(Animation* animation, Animation::Direction direction, const std::function<void(AnimatorEvent)>& onEvent) {
+		auto prevAnimation = animPlayer.getAnimation();
 		auto prevEventHandler = animEventHandler;
 		animPlayer.setAnimation(animation, direction);
 		animEventHandler = onEvent;
 		if(prevEventHandler) {
 			prevEventHandler(AnimatorEvent::CHANGED);
+		}
+		if(animation != prevAnimation || direction != Animation::Direction::NO_CHANGE) {
+			if(listeners.size() > 0) {
+				auto tmpListeners = listeners;
+				for(auto listener : tmpListeners) {
+					listener->onChangeAnimation(this);
+				}
+			}
 		}
 	}
 	
@@ -110,6 +119,17 @@ namespace fgl
 	
 	AnimationProvider* Animator::getAnimationProvider() const {
 		return animProvider;
+	}
+	
+	void Animator::addListener(AnimatorListener* listener) {
+		listeners.push_back(listener);
+	}
+	
+	void Animator::removeListener(AnimatorListener* listener) {
+		auto listenerIt = std::find(listeners.begin(), listeners.end(), listener);
+		if(listenerIt != listeners.end()) {
+			listeners.erase(listenerIt);
+		}
 	}
 	
 	AnimationPlayer* Animator::getPlayer() {

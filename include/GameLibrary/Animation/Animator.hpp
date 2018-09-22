@@ -8,12 +8,16 @@
 
 namespace fgl
 {
+	class AnimatorListener;
+	
 	enum class AnimatorEvent
 	{
 		FRAME_CHANGED,
 		FINISHED,
 		CHANGED
 	};
+	
+	
 	
 	class Animator
 	{
@@ -43,6 +47,9 @@ namespace fgl
 		void setAnimationProvider(AnimationProvider* animationProvider);
 		AnimationProvider* getAnimationProvider() const;
 		
+		void addListener(AnimatorListener* listener);
+		void removeListener(AnimatorListener* listener);
+		
 		void synchronizeFrames(Animator* cmpAnimator);
 		
 		const std::function<void(AnimatorEvent)>& getAnimationEventHandler() const;
@@ -53,5 +60,17 @@ namespace fgl
 		AnimationPlayer animPlayer;
 		std::function<void(AnimatorEvent)> animEventHandler;
 		AnimationProvider* animProvider;
+		std::list<AnimatorListener*> listeners;
+	};
+	
+	
+	
+	class AnimatorListener {
+		friend class Animator;
+	public:
+		virtual ~AnimatorListener() = default;
+		
+	protected:
+		virtual void onChangeAnimation(Animator* animator) {}
 	};
 }
