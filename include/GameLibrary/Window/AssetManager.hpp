@@ -15,7 +15,7 @@ namespace fgl
 	{
 	public:
 		struct LoadInfo {
-			const AssetManager* assetManager;
+			AssetManager* assetManager;
 			
 			String root;
 			String path;
