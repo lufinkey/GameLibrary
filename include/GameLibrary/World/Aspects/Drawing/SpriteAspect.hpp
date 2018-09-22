@@ -8,10 +8,11 @@
 namespace fgl
 {
 	class SpriteDelegate;
+	class SpriteListener;
 	
 	
 	
-	class SpriteAspect : public Drawable2DAspect
+	class SpriteAspect : public Drawable2DAspect, protected AnimatorListener
 	{
 	public:
 		SpriteAspect(Animation* animation = nullptr);
@@ -37,6 +38,13 @@ namespace fgl
 		void addDelegate(SpriteDelegate* delegate);
 		void removeDelegate(SpriteDelegate* delegate);
 		
+		void addListener(SpriteListener* listener);
+		void removeListener(SpriteListener* listener);
+		
+	protected:
+		virtual void onAnimationChange(Animator* animator) override;
+		virtual void onAnimationFrameChange(Animator* animator) override;
+		
 	private:
 		Animator animator;
 		Color tintColor;
@@ -44,6 +52,7 @@ namespace fgl
 		std::function<Vector2d(const SpriteAspect*)> originProvider;
 		
 		std::list<SpriteDelegate*> delegates;
+		std::list<SpriteListener*> listeners;
 	};
 	
 	
@@ -55,6 +64,19 @@ namespace fgl
 		virtual ~SpriteDelegate() = default;
 		
 		virtual bool shouldDrawSprite(const SpriteAspect* sprite, DrawContext context) const { return true; }
+	};
+	
+	
+	
+	class SpriteListener
+	{
+		friend class SpriteAspect;
+	public:
+		virtual ~SpriteListener() = default;
+		
+	protected:
+		virtual void onAnimationChange(SpriteAspect* sprite) {}
+		virtual void onAnimationFrameChange(SpriteAspect* sprite) {}
 	};
 	
 	

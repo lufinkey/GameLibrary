@@ -99,4 +99,43 @@ namespace fgl
 			delegates.erase(delegateIt);
 		}
 	}
+	
+	void SpriteAspect::addListener(SpriteListener* listener) {
+		listeners.push_back(listener);
+		if(listeners.size() == 1) {
+			animator.addListener(this);
+		}
+	}
+	
+	void SpriteAspect::removeListener(SpriteListener* listener) {
+		auto listenerIt = std::find(listeners.begin(), listeners.end(), listener);
+		if(listenerIt != listeners.end()) {
+			listeners.erase(listenerIt);
+			if(listeners.size() == 0) {
+				animator.removeListener(this);
+			}
+		}
+	}
+	
+	
+	
+	void SpriteAspect::onAnimationChange(Animator* animator) {
+		if(listeners.size() > 0) {
+			auto tmpListeners = listeners;
+			for(auto listener : tmpListeners) {
+				listener->onAnimationChange(this);
+			}
+		}
+	}
+	
+	
+	
+	void SpriteAspect::onAnimationFrameChange(Animator* animator) {
+		if(listeners.size() > 0) {
+			auto tmpListeners = listeners;
+			for(auto listener : tmpListeners) {
+				listener->onAnimationFrameChange(this);
+			}
+		}
+	}
 }
