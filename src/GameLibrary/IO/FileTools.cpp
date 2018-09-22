@@ -23,79 +23,59 @@
 
 namespace fgl
 {
-	String FileTools::getUserHomeDirectory()
-	{
+	String FileTools::getUserHomeDirectory() {
 		#if defined(TARGETPLATFORM_WINDOWS)
 			const char* homedir = getenv("HOMEPATH");
 		#else
 			const char* homedir = getenv("HOME");
 		#endif
-		if(homedir == nullptr)
-		{
+		if(homedir == nullptr) {
 			return "";
 		}
 		return homedir;
 	}
 	
-	String FileTools::getCurrentWorkingDirectory()
-	{
+	String FileTools::getCurrentWorkingDirectory() {
 		char buffer[FILENAME_MAX];
 		buffer[0] = '\0';
 		#if defined(TARGETPLATFORM_WINDOWS)
-			if(_getcwd(buffer, FILENAME_MAX) == nullptr)
-			{
+			if(_getcwd(buffer, FILENAME_MAX) == nullptr) {
 				return "";
 			}
 		#else
-			if(getcwd(buffer, FILENAME_MAX) == nullptr)
-			{
+			if(getcwd(buffer, FILENAME_MAX) == nullptr) {
 				return "";
 			}
 		#endif
 		return buffer;
 	}
 	
-	bool FileTools::setCurrentWorkingDirectory(const String& directory)
-	{
+	bool FileTools::setCurrentWorkingDirectory(const String& directory) {
 		#if defined(TARGETPLATFORM_WINDOWS)
-			if(_chdir((const char*)directory)==0)
-			{
+			if(_chdir((const char*)directory)==0) {
 				return true;
 			}
 			return false;
 		#else
-			if(chdir((const char*)directory)==0)
-			{
+			if(chdir((const char*)directory)==0) {
 				return true;
 			}
 			return false;
 		#endif
 	}
 	
-	bool FileTools::readEntriesFromDirectory(const String&directory, ArrayList<DirectoryEntry>*entries, String*error)
-	{
-		if(entries == nullptr)
-		{
-			throw IllegalArgumentException("entries", "null");
-		}
+	ArrayList<FileTools::DirectoryEntry> FileTools::readEntriesFromDirectory(const String& directory) {
 		DIR*dir = opendir(directory);
-		if(dir==NULL)
-		{
+		if(dir==NULL) {
 			//TODO add checking of errno
-			if(error!=nullptr)
-			{
-				*error = "Unable to open directory";
-			}
-			return false;
+			throw Exception("Unable to open directory");
 		}
-		entries->clear();
+		auto entries = ArrayList<DirectoryEntry>();
 		struct dirent *entry = readdir(dir);
-		while (entry != NULL)
-		{
+		while (entry != NULL) {
 			DirectoryEntry item;
 			item.name = entry->d_name;
-			switch(entry->d_type)
-			{
+			switch(entry->d_type) {
 				case DT_REG:
 				item.type = ENTRYTYPE_FILE;
 				break;
@@ -104,27 +84,21 @@ namespace fgl
 				item.type = ENTRYTYPE_FOLDER;
 				break;
 					
-				case DT_LNK:
-				{
+				case DT_LNK: {
 					struct stat s;
 					String path = directory + '/' + item.name;
-					if(stat(path, &s)==0)
-					{
-						if((s.st_mode&S_IFMT) == S_IFDIR)
-						{
+					if(stat(path, &s)==0) {
+						if((s.st_mode&S_IFMT) == S_IFDIR) {
 							item.type = ENTRYTYPE_LINK_FOLDER;
 						}
-						else if((s.st_mode&S_IFMT) == S_IFREG)
-						{
+						else if((s.st_mode&S_IFMT) == S_IFREG) {
 							item.type = ENTRYTYPE_LINK_FILE;
 						}
-						else
-						{
+						else {
 							item.type = ENTRYTYPE_LINK;
 						}
 					}
-					else
-					{
+					else {
 						item.type = ENTRYTYPE_LINK;
 					}
 				}
@@ -134,31 +108,25 @@ namespace fgl
 				item.type = ENTRYTYPE_UNKNOWN;
 				break;
 			}
-			if(!(item.name.equals(".") || item.name.equals("..")))
-			{
-				entries->add(item);
+			if(item.name != "." && item.name != "..") {
+				entries.add(item);
 			}
 			entry = readdir(dir);
 		}
 		closedir(dir);
-		return true;
+		return entries;
 	}
 	
-	bool FileTools::isDirectoryEmpty(const String&directory)
-	{
+	bool FileTools::isDirectoryEmpty(const String&directory) {
 		DIR*dir = opendir(directory);
-		if(dir==NULL)
-		{
+		if(dir==NULL) {
 			return false;
 		}
 		struct dirent *entry = readdir(dir);
-		while (entry != NULL)
-		{
-			if(entry->d_type==DT_REG || entry->d_type==DT_DIR || entry->d_type==DT_LNK)
-			{
+		while (entry != NULL) {
+			if(entry->d_type==DT_REG || entry->d_type==DT_DIR || entry->d_type==DT_LNK) {
 				String itemName = entry->d_name;
-				if(!itemName.equals(".") && !itemName.equals(".."))
-				{
+				if(!itemName.equals(".") && !itemName.equals("..")) {
 					closedir(dir);
 					return false;
 				}
@@ -168,14 +136,12 @@ namespace fgl
 		return true;
 	}
 	
-	bool FileTools::isPathAbsolute(const String& path)
-	{
+	bool FileTools::isPathAbsolute(const String& path) {
 		#if defined(TARGETPLATFORM_WINDOWS)
 			char driveNameStr[_MAX_DRIVE];
 			driveNameStr[0]='\0';
 			_splitpath(path.getData(), driveNameStr, nullptr, nullptr, nullptr);
-			if(BasicString<char>::strlen(driveNameStr)>0)
-			{
+			if(BasicString<char>::strlen(driveNameStr)>0) {
 				return true;
 			}
 			return false;
@@ -184,35 +150,29 @@ namespace fgl
 		#endif
 	}
 
-	String FileTools::getAbsolutePath(const String& path)
-	{
+	String FileTools::getAbsolutePath(const String& path) {
 		#if defined(TARGETPLATFORM_WINDOWS)
 			char fullPath[MAX_PATH];
-			if(GetFullPathNameA((const char*)path, MAX_PATH, fullPath, nullptr) != 0)
-			{
+			if(GetFullPathNameA((const char*)path, MAX_PATH, fullPath, nullptr) != 0) {
 				return fullPath;
 			}
 			return "";
 		#else
 			char fullPath[PATH_MAX];
-			if(realpath((const char*)path, fullPath) != nullptr)
-			{
+			if(realpath((const char*)path, fullPath) != nullptr) {
 				return fullPath;
 			}
 			return "";
 		#endif
 	}
 
-	String FileTools::getRelativePath(const String& directory, const String& path)
-	{
+	String FileTools::getRelativePath(const String& directory, const String& path) {
 		String fullDirectory = getAbsolutePath(directory);
-		if(fullDirectory.length()==0)
-		{
+		if(fullDirectory.length() == 0) {
 			return "";
 		}
 		String fullPath = getAbsolutePath(path);
-		if(fullPath.length()==0)
-		{
+		if(fullPath.length() == 0) {
 			return "";
 		}
 		
@@ -224,8 +184,7 @@ namespace fgl
 			char pathDriveNameStr[_MAX_DRIVE];
 			pathDriveNameStr[0]='\0';
 			_splitpath(fullPath.getData(), pathDriveNameStr, nullptr, nullptr, nullptr);
-			if(!String::streq(dirDriveNameStr, pathDriveNameStr))
-			{
+			if(!String::streq(dirDriveNameStr, pathDriveNameStr)) {
 				//If the drive letters are not the same, no relative path can be made
 				return "";
 			}
@@ -233,38 +192,31 @@ namespace fgl
 		#endif
 
 		size_t lastComponentStart = 0;
-		for(size_t i=0; i<fullDirectory.length(); i++)
-		{
-			if(i < fullPath.length())
-			{
+		for(size_t i=0; i<fullDirectory.length(); i++) {
+			if(i < fullPath.length()) {
 				char cD = fullDirectory[i];
 				char cP = fullPath[i];
-				if(cD == cP)
-				{
+				if(cD == cP) {
 					#ifdef TARGETPLATFORM_WINDOWS
-					if(cD=='/' || cD=='\\')
+					if(cD == '/' || cD == '\\') {
 					#else
-					if(cD=='/')
+					if(cD == '/') {
 					#endif
-					{
 						lastComponentStart = i+1;
 					}
 				}
-				else
-				{
+				else {
 					//paths differ at some point in the directory path
 					size_t upDirCount = 1;
-					while(i < fullDirectory.length())
-					{
+					while(i < fullDirectory.length()) {
 						char c = fullDirectory[i];
 						#ifdef TARGETPLATFORM_WINDOWS
-						if(c=='/' || c=='\\')
+						if(c == '/' || c == '\\')
 						#else
-						if(c=='/')
+						if(c == '/')
 						#endif
 						{
-							if(i!=(fullDirectory.length()-1))
-							{
+							if(i != (fullDirectory.length()-1)) {
 								upDirCount++;
 							}
 						}
@@ -279,29 +231,24 @@ namespace fgl
 					return upDirStr;
 				}
 			}
-			else
-			{
+			else {
 				//paths differ at some point in the directory path
 				size_t upDirCount = 1;
-				while(i < fullDirectory.length())
-				{
+				while(i < fullDirectory.length()) {
 					char c = fullDirectory[i];
 					#ifdef TARGETPLATFORM_WINDOWS
-					if(c=='/' || c=='\\')
+					if(c=='/' || c=='\\') {
 					#else
-					if(c=='/')
+					if(c=='/') {
 					#endif
-					{
-						if(i!=(fullDirectory.length()-1))
-						{
+						if(i!=(fullDirectory.length()-1)) {
 							upDirCount++;
 						}
 					}
 					i++;
 				}
 				String upDirStr;
-				for(size_t i=0; i<upDirCount; i++)
-				{
+				for(size_t i=0; i<upDirCount; i++) {
 					upDirStr += "../";
 				}
 				upDirStr += fullPath.substring(lastComponentStart, fullPath.length());
@@ -309,34 +256,27 @@ namespace fgl
 			}
 		}
 
-		if(fullPath.length()==fullDirectory.length())
-		{
+		if(fullPath.length()==fullDirectory.length()) {
 			return ".";
 		}
-		else if(lastComponentStart==fullDirectory.length())
-		{
+		else if(lastComponentStart==fullDirectory.length()) {
 			return fullPath.substring(fullDirectory.length(), fullPath.length());
 		}
-		else
-		{
+		else {
 			char c = fullPath[fullDirectory.length()];
 			#ifdef TARGETPLATFORM_WINDOWS
-			if(c=='/' || c=='\\')
+			if(c=='/' || c=='\\') {
 			#else
-			if(c=='/')
+			if(c=='/') {
 			#endif
-			{
-				if(fullPath.length()==(fullDirectory.length()+1))
-				{
+				if(fullPath.length()==(fullDirectory.length()+1)) {
 					return ".";
 				}
-				else
-				{
+				else {
 					return fullPath.substring(fullDirectory.length()+1, fullPath.length());
 				}
 			}
-			else
-			{
+			else {
 				return "../"+fullPath.substring(lastComponentStart, fullPath.length());
 			}
 		}

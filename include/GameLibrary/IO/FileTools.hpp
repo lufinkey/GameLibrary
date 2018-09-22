@@ -57,7 +57,7 @@ namespace fgl
 			\param error an optional String pointer to store the error message if the function fails
 			\returns true if all entries were successfully read from the directory, or false if an error is encountered
 			\throws fgl::IllegalArgumentException if items is null*/
-		static bool readEntriesFromDirectory(const String& directory, ArrayList<DirectoryEntry>* entries, String* error=nullptr);
+		static ArrayList<DirectoryEntry> readEntriesFromDirectory(const String& directory);
 		
 		
 		/*! Checks whether there are files or folder inside the specified directory. This function assumes the directory exists and is accessible.
