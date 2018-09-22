@@ -81,7 +81,7 @@ namespace fgl
 		Animation(float fps, TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence);
 		/*! destructor
 			\note No images are unloaded when deleting. You must do that yourself.*/
-		~Animation();
+		virtual ~Animation();
 		
 		
 		/*! Checks equality of the Animation with another Animation
@@ -170,12 +170,16 @@ namespace fgl
 		/*! Draws the specified frame centered at (0,0)
 			\param graphics the graphics object used to draw the Animation
 			\param frameIndex the frame number to draw */
-		void drawFrame(Graphics& graphics, size_t frameIndex) const;
+		virtual void drawFrame(Graphics& graphics, size_t frameIndex) const;
 		/*! Draws the specified frame on the given rectangle
 			\param graphics the graphics object used to draw the Animation
 			\param frameIndex the frame number to draw
 			\param dstRect the rectangle that the animation will be drawn within */
-		void drawFrame(Graphics& graphics, size_t frameIndex, const RectangleD& dstRect) const;
+		virtual void drawFrame(Graphics& graphics, size_t frameIndex, const RectangleD& dstRect) const;
+		
+	protected:
+		virtual void onAddFrame(size_t index, const Frame& frame);
+		virtual void onRemoveFrame(size_t index, const Frame& frame);
 
 	private:
 		ArrayList<Animation::Frame> frames;

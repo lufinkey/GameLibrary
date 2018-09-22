@@ -130,82 +130,84 @@ namespace fgl
 
 	void Animation::addFrame(TextureImage* image)
 	{
-		if(image==nullptr)
-		{
+		if(image==nullptr) {
 			throw IllegalArgumentException("image", "cannot be null");
 		}
+		size_t index = frames.size();
 		frames.add(Frame(image));
+		onAddFrame(index, frames[index]);
 	}
 	
 	void Animation::addFrame(const Animation::Frame& frame)
 	{
+		size_t index = frames.size();
 		frames.add(frame);
+		onAddFrame(index, frames[index]);
 	}
 
 	void Animation::addFrames(TextureImage* image, unsigned int rows, unsigned int cols)
 	{
-		if(image==nullptr)
-		{
+		if(image==nullptr) {
 			throw IllegalArgumentException("image", "cannot be null");
 		}
-		else if(rows==0)
-		{
+		else if(rows==0) {
 			throw IllegalArgumentException("rows", "must be greater than 0");
 		}
-		else if(cols==0)
-		{
+		else if(cols==0) {
 			throw IllegalArgumentException("cols", "must be greater than 0");
 		}
 
-		for(unsigned int y=0; y<rows; y++)
-		{
-			for(unsigned int x=0; x<cols; x++)
-			{
+		frames.reserve(frames.size() + (size_t)(rows*cols));
+		for(unsigned int y=0; y<rows; y++) {
+			for(unsigned int x=0; x<cols; x++) {
+				size_t index = frames.size();
 				frames.add(Frame(image, rows, cols, y, x));
+				onAddFrame(index, frames[index]);
 			}
 		}
 	}
 
 	void Animation::addFrames(TextureImage* image, unsigned int rows, unsigned int cols, const ArrayList<Vector2u>& sequence)
 	{
-		if(image==nullptr)
-		{
+		if(image==nullptr) {
 			throw IllegalArgumentException("image", "cannot be null");
 		}
-		else if(rows==0)
-		{
+		else if(rows==0) {
 			throw IllegalArgumentException("rows", "must be greater than 0");
 		}
-		else if(cols==0)
-		{
+		else if(cols==0) {
 			throw IllegalArgumentException("cols", "must be greater than 0");
 		}
-		else if(sequence.size()==0)
-		{
+		else if(sequence.size()==0) {
 			return;
 		}
 
 		// validate sequence
-		for(size_t i=0; i<sequence.size(); i++)
-		{
+		for(size_t i=0; i<sequence.size(); i++) {
 			auto& point = sequence[i];
-			if(point.x >= cols || point.y >= rows)
-			{
+			if(point.x >= cols || point.y >= rows) {
 				//TODO replace with more specific exception type
 				throw IllegalArgumentException("sequence", (String)"frame at index "+i+" is outside the bounds of the given rows/cols");
 			}
 		}
 
 		// add frames
-		for(auto& point : sequence)
-		{
+		frames.reserve(frames.size() + sequence.size());
+		for(auto& point : sequence) {
+			size_t index = frames.size();
 			frames.add(Frame(image, rows, cols, point.y, point.x));
+			onAddFrame(index, frames[index]);
 		}
 	}
 
 	void Animation::addFrames(const ArrayList<Animation::Frame>& frames_arg)
 	{
-		frames.addAll(frames_arg);
+		frames.reserve(frames.size() + frames_arg.size());
+		for(auto frame : frames_arg) {
+			size_t index = frames.size();
+			frames.add(frame);
+			onAddFrame(index, frames[index]);
+		}
 	}
 	
 	const Animation::Frame& Animation::getFrame(size_t index) const
@@ -215,12 +217,19 @@ namespace fgl
 	
 	void Animation::removeFrame(size_t index)
 	{
+		auto frame = frames[index];
 		frames.remove(index);
+		onRemoveFrame(index, frame);
 	}
 
 	void Animation::removeAllFrames()
 	{
-		frames.clear();
+		while(frames.size() > 0) {
+			size_t index = frames.size() - 1;
+			auto frame = frames[index];
+			frames.remove(index);
+			onRemoveFrame(index, frame);
+		}
 	}
 	
 	size_t Animation::getFrameCount() const
@@ -235,8 +244,7 @@ namespace fgl
 	
 	void Animation::setFPS(float fps_arg)
 	{
-		if(fps_arg < 0.0f)
-		{
+		if(fps_arg < 0.0f) {
 			throw IllegalArgumentException("fps", "cannot be negative");
 		}
 		fps = fps_arg;
@@ -339,5 +347,14 @@ namespace fgl
 				graphics.drawImage(image, dst_left, dst_top, dst_right, dst_bottom, src_left, src_top, src_right, src_bottom);
 			}
 		}
+	}
+	
+	
+	void Animation::onAddFrame(size_t index, const Frame& frame) {
+		// open for implementation
+	}
+	
+	void Animation::onRemoveFrame(size_t index, const Frame& frame) {
+		// open for implementation
 	}
 }
