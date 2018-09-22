@@ -11,18 +11,49 @@ namespace fgl
 	}
 	
 	BoxCollidable2DAspect::BoxCollidable2DAspect(ArrayList<RectangleD> boxes, double mass)
-		: Collidable2DAspect(mass),
-		boxes(boxes.map<std::pair<String,RectangleD>>([](auto box, size_t index) -> auto {
-			return std::make_pair((String)""+index, box);
-		})) {
-		//
+		: Collidable2DAspect(mass) {
+		for(size_t i=0; i<boxes.size(); i++) {
+			this->boxes[(String)""+i] = boxes[i];
+		}
 	}
 	
 	BoxCollidable2DAspect::BoxCollidable2DAspect(BasicDictionary<String,RectangleD> boxes, double mass)
 		: Collidable2DAspect(mass),
-		boxes(boxes.begin(), boxes.end()) {
+		boxes(boxes) {
 		//
 	}
+	
+	
+	
+	void BoxCollidable2DAspect::setBoxes(const BasicDictionary<String,RectangleD>& boxes_arg) {
+		boxes = boxes_arg;
+		setNeedsNewCollisionRects();
+	}
+	
+	void BoxCollidable2DAspect::setBoxes(const ArrayList<RectangleD>& boxes_arg) {
+		boxes.clear();
+		for(size_t i=0; i<boxes_arg.size(); i++) {
+			boxes[(String)""+i] = boxes_arg[i];
+		}
+		setNeedsNewCollisionRects();
+	}
+	
+	const BasicDictionary<String,RectangleD>& BoxCollidable2DAspect::getBoxes() const {
+		return boxes;
+	}
+	
+	
+	
+	void BoxCollidable2DAspect::setBox(String tag, const RectangleD& rect) {
+		boxes.set(tag, rect);
+		setNeedsNewCollisionRects();
+	}
+	
+	const RectangleD& BoxCollidable2DAspect::getBox(const String& tag) const {
+		return boxes.get(tag);
+	}
+	
+	
 	
 	ArrayList<const CollisionRect*> BoxCollidable2DAspect::createCollisionRects() const {
 		auto prevCollisionRects = getCollisionRects();

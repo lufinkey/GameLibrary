@@ -11,18 +11,49 @@ namespace fgl
 	}
 	
 	PolygonCollidable2DAspect::PolygonCollidable2DAspect(ArrayList<PolygonD> polygons, double mass)
-		: Collidable2DAspect(mass),
-		polygons(polygons.map<std::pair<String,PolygonD>>([](auto polygon, size_t index) -> auto {
-			return std::make_pair((String)""+index, polygon);
-		})) {
-		//
+		: Collidable2DAspect(mass) {
+		for(size_t i=0; i<polygons.size(); i++) {
+			this->polygons[(String)""+i] = polygons[i];
+		}
 	}
 	
 	PolygonCollidable2DAspect::PolygonCollidable2DAspect(BasicDictionary<String,PolygonD> polygons, double mass)
 		: Collidable2DAspect(mass),
-		polygons(polygons.begin(), polygons.end()) {
+		polygons(polygons) {
 		//
 	}
+	
+	
+	
+	void PolygonCollidable2DAspect::setPolygons(const BasicDictionary<String,PolygonD>& polygons_arg) {
+		polygons = polygons_arg;
+		setNeedsNewCollisionRects();
+	}
+	
+	void PolygonCollidable2DAspect::setPolygons(const ArrayList<PolygonD>& polygons_arg) {
+		polygons.clear();
+		for(size_t i=0; i<polygons_arg.size(); i++) {
+			polygons[(String)""+i] = polygons_arg[i];
+		}
+		setNeedsNewCollisionRects();
+	}
+	
+	const BasicDictionary<String,PolygonD>& PolygonCollidable2DAspect::getPolygons() const {
+		return polygons;
+	}
+	
+	
+	
+	void PolygonCollidable2DAspect::setPolygon(String tag, PolygonD polygon) {
+		polygons.set(tag, polygon);
+		setNeedsNewCollisionRects();
+	}
+	
+	const PolygonD& PolygonCollidable2DAspect::getPolygon(const String& tag) const {
+		return polygons.get(tag);
+	}
+	
+	
 	
 	ArrayList<const CollisionRect*> PolygonCollidable2DAspect::createCollisionRects() const {
 		auto prevCollisionRects = getCollisionRects();
