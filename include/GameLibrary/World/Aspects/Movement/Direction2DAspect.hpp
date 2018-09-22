@@ -24,6 +24,9 @@ namespace fgl
 		void setSpeed(double speed);
 		double getSpeed() const;
 		
+		void setSpeedTransformFunc(std::function<Vector2d(Vector2d)> speedTransformFunc);
+		const std::function<Vector2d(Vector2d)>& getSpeedTransformFunc() const;
+		
 		void addListener(Direction2DListener* listener);
 		void removeListener(Direction2DListener* listener);
 		
@@ -33,6 +36,7 @@ namespace fgl
 	private:
 		Vector2d direction;
 		double speed;
+		std::function<Vector2d(Vector2d)> speedTransformFunc;
 		std::list<Direction2DListener*> listeners;
 	};
 	

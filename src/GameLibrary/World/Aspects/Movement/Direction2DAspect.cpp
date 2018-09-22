@@ -15,16 +15,25 @@ namespace fgl
 		auto transform3d = getAspect<Transform3DAspect>();
 		if(transform3d != nullptr) {
 			auto position = transform3d->getPosition();
-			position.x += direction.x * speed * appData.getFrameSpeedMultiplier();
-			position.y += direction.y * speed * appData.getFrameSpeedMultiplier();
+			auto moveSpeed = direction * speed;
+			if(speedTransformFunc) {
+				moveSpeed = speedTransformFunc(moveSpeed);
+			}
+			moveSpeed *= appData.getFrameSpeedMultiplier();
+			position.x += moveSpeed.x;
+			position.y += moveSpeed.y;
 			transform3d->setPosition(position);
 		}
 		else {
 			auto transform2d = getAspect<Transform2DAspect>();
 			if(transform2d != nullptr) {
 				auto position = transform2d->getPosition();
-				position.x += direction.x * speed * appData.getFrameSpeedMultiplier();
-				position.y += direction.y * speed * appData.getFrameSpeedMultiplier();
+				auto moveSpeed = direction * speed;
+				if(speedTransformFunc) {
+					moveSpeed = speedTransformFunc(moveSpeed);
+				}
+				moveSpeed *= appData.getFrameSpeedMultiplier();
+				position += moveSpeed;
 				transform2d->setPosition(position);
 			}
 		}
@@ -47,6 +56,14 @@ namespace fgl
 	
 	double Direction2DAspect::getSpeed() const {
 		return speed;
+	}
+	
+	void Direction2DAspect::setSpeedTransformFunc(std::function<Vector2d(Vector2d)> speedTransformFunc_arg) {
+		speedTransformFunc = speedTransformFunc_arg;
+	}
+	
+	const std::function<Vector2d(Vector2d)>& Direction2DAspect::getSpeedTransformFunc() const {
+		return speedTransformFunc;
 	}
 	
 	void Direction2DAspect::addListener(Direction2DListener* listener) {
