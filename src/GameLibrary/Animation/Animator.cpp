@@ -10,7 +10,8 @@ namespace fgl
 	
 	Animator::Animator(AnimationProvider* animationProvider, Animation* animation)
 		: animPlayer(animation),
-		animProvider(animationProvider) {
+		animProvider(animationProvider),
+		animationChanged(false) {
 		//
 	}
 	
@@ -19,7 +20,16 @@ namespace fgl
 			if(animEventHandler) {
 				switch(animEvent) {
 					case AnimationPlayer::ANIMATIONEVENT_FRAMECHANGED:
-						animEventHandler(AnimatorEvent::FRAME_CHANGED);
+						animationChanged = false;
+						if(listeners.size() > 0) {
+							auto tmpListeners = listeners;
+							for(auto listener : tmpListeners) {
+								listener->onAnimationFrameChange(this);
+							}
+						}
+						if(!animationChanged) {
+							animEventHandler(AnimatorEvent::FRAME_CHANGED);
+						}
 						break;
 						
 					case AnimationPlayer::ANIMATIONEVENT_FINISHED:
@@ -67,16 +77,17 @@ namespace fgl
 		auto prevEventHandler = animEventHandler;
 		animPlayer.setAnimation(animation, direction);
 		animEventHandler = onEvent;
-		if(prevEventHandler) {
-			prevEventHandler(AnimatorEvent::CHANGED);
-		}
+		animationChanged = true;
 		if(animation != prevAnimation || direction != Animation::Direction::NO_CHANGE) {
 			if(listeners.size() > 0) {
 				auto tmpListeners = listeners;
 				for(auto listener : tmpListeners) {
-					listener->onChangeAnimation(this);
+					listener->onAnimationChange(this);
 				}
 			}
+		}
+		if(prevEventHandler) {
+			prevEventHandler(AnimatorEvent::CHANGED);
 		}
 	}
 	

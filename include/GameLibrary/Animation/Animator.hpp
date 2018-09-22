@@ -61,6 +61,7 @@ namespace fgl
 		std::function<void(AnimatorEvent)> animEventHandler;
 		AnimationProvider* animProvider;
 		std::list<AnimatorListener*> listeners;
+		bool animationChanged;
 	};
 	
 	
@@ -71,6 +72,7 @@ namespace fgl
 		virtual ~AnimatorListener() = default;
 		
 	protected:
-		virtual void onChangeAnimation(Animator* animator) {}
+		virtual void onAnimationChange(Animator* animator) {}
+		virtual void onAnimationFrameChange(Animator* animator) {}
 	};
 }
