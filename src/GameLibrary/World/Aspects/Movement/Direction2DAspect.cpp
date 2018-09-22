@@ -7,8 +7,7 @@ namespace fgl
 {
 	Direction2DAspect::Direction2DAspect(const Vector2d& direction, double speed, bool listenerEvents)
 		: direction(direction),
-		speed(speed),
-		listenerEvents(listenerEvents) {
+		speed(speed) {
 		//
 	}
 	
@@ -50,17 +49,21 @@ namespace fgl
 		return speed;
 	}
 	
-	void Direction2DAspect::setListenerEventsEnabled(bool enabled) {
-		listenerEvents = enabled;
+	void Direction2DAspect::addListener(Direction2DListener* listener) {
+		listeners.push_back(listener);
 	}
 	
-	bool Direction2DAspect::listenerEventsEnabled() const {
-		return listenerEvents;
+	void Direction2DAspect::removeListener(Direction2DListener* listener) {
+		auto listenerIt = std::find(listeners.begin(), listeners.end(), listener);
+		if(listenerIt != listeners.end()) {
+			listeners.erase(listenerIt);
+		}
 	}
 	
 	void Direction2DAspect::onChangeDirection(Vector2d direction) {
-		if(listenerEvents) {
-			for(auto listener : getAspects<Direction2DListener>()) {
+		if(listeners.size() > 0) {
+			auto tmpListeners = listeners;
+			for(auto listener : tmpListeners) {
 				listener->onChangeDirection(this, direction);
 			}
 		}

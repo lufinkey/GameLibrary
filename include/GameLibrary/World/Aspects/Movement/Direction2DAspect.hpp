@@ -7,6 +7,10 @@
 
 namespace fgl
 {
+	class Direction2DListener;
+	
+	
+	
 	class Direction2DAspect : public WorldObjectAspect
 	{
 	public:
@@ -20,8 +24,8 @@ namespace fgl
 		void setSpeed(double speed);
 		double getSpeed() const;
 		
-		void setListenerEventsEnabled(bool enabled);
-		bool listenerEventsEnabled() const;
+		void addListener(Direction2DListener* listener);
+		void removeListener(Direction2DListener* listener);
 		
 	protected:
 		virtual void onChangeDirection(Vector2d direction);
@@ -29,7 +33,7 @@ namespace fgl
 	private:
 		Vector2d direction;
 		double speed;
-		bool listenerEvents;
+		std::list<Direction2DListener*> listeners;
 	};
 	
 	
