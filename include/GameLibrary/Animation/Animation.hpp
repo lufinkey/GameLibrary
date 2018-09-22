@@ -176,10 +176,6 @@ namespace fgl
 			\param frameIndex the frame number to draw
 			\param dstRect the rectangle that the animation will be drawn within */
 		virtual void drawFrame(Graphics& graphics, size_t frameIndex, const RectangleD& dstRect) const;
-		
-	protected:
-		virtual void onAddFrame(size_t index, const Frame& frame);
-		virtual void onRemoveFrame(size_t index, const Frame& frame);
 
 	private:
 		ArrayList<Animation::Frame> frames;

@@ -133,16 +133,12 @@ namespace fgl
 		if(image==nullptr) {
 			throw IllegalArgumentException("image", "cannot be null");
 		}
-		size_t index = frames.size();
 		frames.add(Frame(image));
-		onAddFrame(index, frames[index]);
 	}
 	
 	void Animation::addFrame(const Animation::Frame& frame)
 	{
-		size_t index = frames.size();
 		frames.add(frame);
-		onAddFrame(index, frames[index]);
 	}
 
 	void Animation::addFrames(TextureImage* image, unsigned int rows, unsigned int cols)
@@ -162,7 +158,6 @@ namespace fgl
 			for(unsigned int x=0; x<cols; x++) {
 				size_t index = frames.size();
 				frames.add(Frame(image, rows, cols, y, x));
-				onAddFrame(index, frames[index]);
 			}
 		}
 	}
@@ -194,9 +189,7 @@ namespace fgl
 		// add frames
 		frames.reserve(frames.size() + sequence.size());
 		for(auto& point : sequence) {
-			size_t index = frames.size();
 			frames.add(Frame(image, rows, cols, point.y, point.x));
-			onAddFrame(index, frames[index]);
 		}
 	}
 
@@ -204,9 +197,7 @@ namespace fgl
 	{
 		frames.reserve(frames.size() + frames_arg.size());
 		for(auto frame : frames_arg) {
-			size_t index = frames.size();
 			frames.add(frame);
-			onAddFrame(index, frames[index]);
 		}
 	}
 	
@@ -217,19 +208,12 @@ namespace fgl
 	
 	void Animation::removeFrame(size_t index)
 	{
-		auto frame = frames[index];
 		frames.remove(index);
-		onRemoveFrame(index, frame);
 	}
 
 	void Animation::removeAllFrames()
 	{
-		while(frames.size() > 0) {
-			size_t index = frames.size() - 1;
-			auto frame = frames[index];
-			frames.remove(index);
-			onRemoveFrame(index, frame);
-		}
+		frames.clear();
 	}
 	
 	size_t Animation::getFrameCount() const
@@ -347,14 +331,5 @@ namespace fgl
 				graphics.drawImage(image, dst_left, dst_top, dst_right, dst_bottom, src_left, src_top, src_right, src_bottom);
 			}
 		}
-	}
-	
-	
-	void Animation::onAddFrame(size_t index, const Frame& frame) {
-		// open for implementation
-	}
-	
-	void Animation::onRemoveFrame(size_t index, const Frame& frame) {
-		// open for implementation
 	}
 }
