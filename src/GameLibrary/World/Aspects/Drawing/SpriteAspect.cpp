@@ -12,6 +12,13 @@ namespace fgl
 		//
 	}
 	
+	SpriteAspect::SpriteAspect(AnimationProvider* animProvider)
+		: animator(animProvider),
+		tintColor(Colors::WHITE),
+		alpha(1.0) {
+		//
+	}
+	
 	void SpriteAspect::update(const ApplicationData& appData) {
 		animator.update(appData);
 	}

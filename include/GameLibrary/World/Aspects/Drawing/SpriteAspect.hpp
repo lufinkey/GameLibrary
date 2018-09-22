@@ -16,6 +16,7 @@ namespace fgl
 	{
 	public:
 		SpriteAspect(Animation* animation = nullptr);
+		SpriteAspect(AnimationProvider* animProvider = nullptr);
 		
 		Animator* getAnimator();
 		const Animator* getAnimator() const;
