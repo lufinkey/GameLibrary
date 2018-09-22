@@ -10,13 +10,6 @@ namespace fgl
 		//
 	}
 	
-	BoxCollidable2DAspect::BoxCollidable2DAspect(ArrayList<RectangleD> boxes, double mass)
-		: Collidable2DAspect(mass) {
-		for(size_t i=0; i<boxes.size(); i++) {
-			this->boxes[(String)""+i] = boxes[i];
-		}
-	}
-	
 	BoxCollidable2DAspect::BoxCollidable2DAspect(BasicDictionary<String,RectangleD> boxes, double mass)
 		: Collidable2DAspect(mass),
 		boxes(boxes) {

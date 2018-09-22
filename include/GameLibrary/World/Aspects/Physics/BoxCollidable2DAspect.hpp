@@ -9,8 +9,7 @@ namespace fgl
 	{
 	public:
 		BoxCollidable2DAspect(RectangleD box, double mass=1.0);
-		BoxCollidable2DAspect(ArrayList<RectangleD> boxes, double mass=1.0);
-		BoxCollidable2DAspect(BasicDictionary<String,RectangleD> boxes, double mass=1.0);
+		BoxCollidable2DAspect(BasicDictionary<String,RectangleD> boxes={}, double mass=1.0);
 		
 		void setBoxes(const BasicDictionary<String,RectangleD>& boxes);
 		void setBoxes(const ArrayList<RectangleD>& boxes);

@@ -9,8 +9,7 @@ namespace fgl
 	{
 	public:
 		PolygonCollidable2DAspect(PolygonD polygon, double mass=1.0);
-		PolygonCollidable2DAspect(ArrayList<PolygonD> polygons, double mass=1.0);
-		PolygonCollidable2DAspect(BasicDictionary<String,PolygonD> polygons, double mass=1.0);
+		PolygonCollidable2DAspect(BasicDictionary<String,PolygonD> polygons={}, double mass=1.0);
 		
 		void setPolygons(const BasicDictionary<String,PolygonD>& boxes);
 		void setPolygons(const ArrayList<PolygonD>& boxes);

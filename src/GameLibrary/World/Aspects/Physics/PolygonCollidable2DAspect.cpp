@@ -10,13 +10,6 @@ namespace fgl
 		//
 	}
 	
-	PolygonCollidable2DAspect::PolygonCollidable2DAspect(ArrayList<PolygonD> polygons, double mass)
-		: Collidable2DAspect(mass) {
-		for(size_t i=0; i<polygons.size(); i++) {
-			this->polygons[(String)""+i] = polygons[i];
-		}
-	}
-	
 	PolygonCollidable2DAspect::PolygonCollidable2DAspect(BasicDictionary<String,PolygonD> polygons, double mass)
 		: Collidable2DAspect(mass),
 		polygons(polygons) {
