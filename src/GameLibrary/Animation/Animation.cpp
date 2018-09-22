@@ -23,7 +23,7 @@ namespace fgl
 	{
 		//
 	}
-	
+
 	TextureImage* Animation::Frame::getImage() const
 	{
 		return image;
@@ -87,31 +87,6 @@ namespace fgl
 	Animation::~Animation()
 	{
 		//
-	}
-
-	bool Animation::operator==(const fgl::Animation& animation) const
-	{
-		if(frames.size() != animation.frames.size())
-		{
-			return false;
-		}
-		for(size_t i=0; i<frames.size(); i++)
-		{
-			if(frames[i]!=animation.frames[i])
-			{
-				return false;
-			}
-		}
-		if(fps!=animation.fps || mirroredHorizontal!=animation.mirroredHorizontal || mirroredHorizontal!=animation.mirroredVertical)
-		{
-			return false;
-		}
-		return true;
-	}
-
-	bool Animation::operator!=(const fgl::Animation& animation) const
-	{
-		return !operator==(animation);
 	}
 
 	void Animation::addFrame(TextureImage* image)

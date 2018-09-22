@@ -33,19 +33,16 @@ namespace fgl
 			Frame(TextureImage* image);
 			Frame(TextureImage* image, unsigned int rows, unsigned int cols, unsigned int row, unsigned int col);
 
-			bool operator==(const Frame& frame) const;
-			bool operator!=(const Frame& frame) const;
-
 			TextureImage* getImage() const;
 			RectangleU getSourceRect() const;
 			
+			Dictionary additionalData;
 		private:
 			TextureImage* image;
 			unsigned int rows;
 			unsigned int cols;
 			unsigned int x;
 			unsigned int y;
-			Dictionary additionalData;
 		};
 
 		/*! Constructs an Animation with a frame rate of 1 fps. */
