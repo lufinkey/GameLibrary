@@ -31,6 +31,7 @@ namespace fgl
 	
 	void AnimationControllerAspect::onAddObjectToWorld(World* world) {
 		world->getDrawManager()->addListener(this);
+		updateState();
 	}
 	
 	void AnimationControllerAspect::onRemoveObjectFromWorld(World* world) {
