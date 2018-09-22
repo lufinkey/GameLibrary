@@ -23,20 +23,6 @@ namespace fgl
 	{
 		//
 	}
-
-	bool Animation::Frame::operator==(const fgl::Animation::Frame& frame) const
-	{
-		if(image==frame.image && rows==frame.rows && cols==frame.cols && x==frame.x && y==frame.y)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool Animation::Frame::operator!=(const fgl::Animation::Frame& frame) const
-	{
-		return !operator==(frame);
-	}
 	
 	TextureImage* Animation::Frame::getImage() const
 	{

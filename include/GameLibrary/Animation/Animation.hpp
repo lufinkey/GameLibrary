@@ -45,6 +45,7 @@ namespace fgl
 			unsigned int cols;
 			unsigned int x;
 			unsigned int y;
+			Dictionary additionalData;
 		};
 
 		/*! Constructs an Animation with a frame rate of 1 fps. */
@@ -82,16 +83,6 @@ namespace fgl
 		/*! destructor
 			\note No images are unloaded when deleting. You must do that yourself.*/
 		virtual ~Animation();
-		
-		
-		/*! Checks equality of the Animation with another Animation
-			\param animation the animation to compare
-			\return true if equal, false if not equal */
-		bool operator==(const Animation& animation) const;
-		/*! Checks non-equality of the Animation with another Animation
-			\param animation the animation to compare
-			\return true if not equal, false if equal */
-		bool operator!=(const Animation& animation) const;
 		
 		
 		/*! Adds a single frame of animation.
