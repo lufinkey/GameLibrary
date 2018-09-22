@@ -143,10 +143,11 @@ namespace fgl
 		
 		/*! Gets a loaded asset of a given type
 			\param path the path that the asset was loaded from
+			\param includeDependents determines whether to search the stored AssetManagers for the asset
 			\returns the loaded asset
 			\throws an error if the asset has not been loaded*/
 		template<typename ASSET_TYPE>
-		const ASSET_TYPE* get(const String& path) const {
+		const ASSET_TYPE* get(const String& path, bool includeDependents = true) const {
 			// attempt to load from self
 			auto assetList = getAssetList<ASSET_TYPE>();
 			if(assetList != nullptr) {
@@ -155,17 +156,78 @@ namespace fgl
 					return asset;
 				}
 			}
-			// attempt to load from dependent asset managers
-			auto dependentAsset = getFromDependents<ASSET_TYPE>(path);
-			if(dependentAsset != nullptr) {
-				return dependentAsset;
+			// attempt to load from dependent asset managers if specified
+			if(includeDependents) {
+				auto dependentAsset = getFromDependents<ASSET_TYPE>(path);
+				if(dependentAsset != nullptr) {
+					return dependentAsset;
+				}
 			}
 			return nullptr;
 		}
 		
+		/*! Gets all loaded assets of a given type
+			\param includeDependents determines whether to include the stored AssetManagers in the list
+			\returns the loaded assets*/
+		template<typename ASSET_TYPE>
+		ArrayList<ASSET_TYPE*> getAll(bool includeDependents = true) {
+			auto allAssets = ArrayList<ASSET_TYPE*>();
+			allAssets.reserve(count<ASSET_TYPE>(includeDependents));
+			auto assetList = getAssetList<ASSET_TYPE>();
+			if(assetList != nullptr) {
+				auto& assets = assetList->getAll();
+				allAssets.add(assets.begin(), assets.end());
+			}
+			if(includeDependents) {
+				for(auto assetManager : assetManagers) {
+					allAssets.add(assetManager->getAll<ASSET_TYPE>(true));
+				}
+			}
+			return allAssets;
+		}
+		
+		/*! Gets all loaded assets of a given type
+			\param includeDependents determines whether to include the stored AssetManagers in the list
+			\returns the loaded assets*/
+		template<typename ASSET_TYPE>
+		ArrayList<const ASSET_TYPE*> getAll(bool includeDependents = true) const {
+			auto allAssets = ArrayList<const ASSET_TYPE*>();
+			allAssets.reserve(count<ASSET_TYPE>(includeDependents));
+			auto assetList = getAssetList<ASSET_TYPE>();
+			if(assetList != nullptr) {
+				auto& assets = assetList->getAll();
+				allAssets.add(assets.begin(), assets.end());
+			}
+			if(includeDependents) {
+				for(auto assetManager : assetManagers) {
+					allAssets.add(assetManager->getAll<ASSET_TYPE>(true));
+				}
+			}
+			return allAssets;
+		}
+		
+		/*! Counts loaded assets of a given type
+			\param includeDependents determines whether to include the stored AssetManagers in the total
+			\returns the number of loaded assets*/
+		template<typename ASSET_TYPE>
+		size_t count(bool includeDependents = true) const {
+			auto assetList = getAssetList<ASSET_TYPE>();
+			size_t count = 0;
+			if(assetList != nullptr) {
+				auto& assets = assetList->getAll();
+				count += assets.size();
+			}
+			if(includeDependents) {
+				for(auto assetManager : assetManagers) {
+					count += assetManager->count<ASSET_TYPE>(true);
+				}
+			}
+			return count;
+		}
+		
 		/*! Adds an asset of a given type
 			\param path the path to use to reference the asset
-			\param asset the asset */
+			\param asset the asset*/
 		template<typename ASSET_TYPE>
 		void add(const String& path, ASSET_TYPE* asset) {
 			auto assetList = getAssetList<ASSET_TYPE>();
@@ -400,6 +462,14 @@ namespace fgl
 					return nullptr;
 				}
 				return assetIt->asset;
+			}
+			
+			const std::list<ASSET_TYPE*>& getAll() {
+				return assets;
+			}
+			
+			const std::list<const ASSET_TYPE*>& getAll() const {
+				return reinterpret_cast<const std::list<const ASSET_TYPE*>&>(assets);
 			}
 			
 			ASSET_TYPE* load(LoadInfo info) {
