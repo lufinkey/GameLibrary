@@ -5,7 +5,7 @@
 
 namespace fgl
 {
-	Direction2DAspect::Direction2DAspect(const Vector2d& direction, double speed, bool listenerEvents)
+	Direction2DAspect::Direction2DAspect(const Vector2d& direction, double speed)
 		: direction(direction),
 		speed(speed) {
 		//

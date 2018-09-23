@@ -14,7 +14,7 @@ namespace fgl
 	class Direction2DAspect : public WorldObjectAspect
 	{
 	public:
-		Direction2DAspect(const Vector2d& direction=Vector2d(0,0), double speed=50.0, bool listenerEvents=false);
+		Direction2DAspect(const Vector2d& direction=Vector2d(0,0), double speed=50.0);
 		
 		virtual void update(const ApplicationData& appData);
 		
