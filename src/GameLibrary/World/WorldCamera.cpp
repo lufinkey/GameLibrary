@@ -10,7 +10,8 @@ namespace fgl
 		: center(center),
 		resolution(resolution),
 		screenElement(nullptr),
-		world(nullptr) {
+		world(nullptr),
+		zoom(1.0) {
 		screenElement = new WorldElement(frame, this);
 	}
 	
@@ -34,6 +35,14 @@ namespace fgl
 	
 	void WorldCamera::setResolution(const Vector2d& resolution_arg) {
 		resolution = resolution_arg;
+	}
+	
+	double WorldCamera::getZoom() const {
+		return zoom;
+	}
+	
+	void WorldCamera::setZoom(double zoom_arg) {
+		zoom = zoom_arg;
 	}
 	
 	Vector2d WorldCamera::getCenter() const {
@@ -79,7 +88,7 @@ namespace fgl
 		
 		auto frame = getFrame();
 		graphics.translate(frame.getCenter());
-		graphics.scale(frame.getSize() / resolution);
+		graphics.scale((frame.getSize() / resolution) * zoom);
 		graphics.translate({ -center.x, -center.y });
 		
 		drawManager->draw(DrawContext(&appData, this, drawManager), graphics);

@@ -22,6 +22,9 @@ namespace fgl
 		Vector2d getResolution() const;
 		void setResolution(const Vector2d& resolution);
 		
+		double getZoom() const;
+		void setZoom(double zoom);
+		
 		Vector2d getCenter() const;
 		void setCenter(const Vector2d& center);
 		
@@ -51,5 +54,6 @@ namespace fgl
 		Vector2d resolution;
 		ScreenElement* screenElement;
 		World* world;
+		double zoom;
 	};
 }
