@@ -47,6 +47,12 @@ namespace fgl
 		void setAnimationProvider(AnimationProvider* animationProvider);
 		AnimationProvider* getAnimationProvider() const;
 		
+		void setMirroredHorizontal(bool mirroredHorizontal);
+		bool isMirroredHorizontal() const;
+		
+		void setMirroredVertical(bool mirroredVertical);
+		bool isMirroredVertical() const;
+		
 		void addListener(AnimatorListener* listener);
 		void removeListener(AnimatorListener* listener);
 		
@@ -62,6 +68,8 @@ namespace fgl
 		AnimationProvider* animProvider;
 		std::list<AnimatorListener*> listeners;
 		bool animationChanged;
+		bool mirroredHorizontal;
+		bool mirroredVertical;
 	};
 	
 	

@@ -11,7 +11,9 @@ namespace fgl
 	Animator::Animator(AnimationProvider* animationProvider, Animation* animation)
 		: animPlayer(animation),
 		animProvider(animationProvider),
-		animationChanged(false) {
+		animationChanged(false),
+		mirroredHorizontal(false),
+		mirroredVertical(false) {
 		//
 	}
 	
@@ -41,6 +43,12 @@ namespace fgl
 	}
 	
 	void Animator::draw(Graphics graphics, RectangleD rect) const {
+		if(mirroredHorizontal) {
+			graphics.scale({ -1.0, 1.0 }, rect.getCenter());
+		}
+		if(mirroredVertical) {
+			graphics.scale({ 1.0, -1.0 }, rect.getCenter());
+		}
 		animPlayer.draw(graphics, rect);
 	}
 	
@@ -124,6 +132,8 @@ namespace fgl
 		return animPlayer.getFrameIndex();
 	}
 	
+	
+	
 	void Animator::setAnimationProvider(AnimationProvider* animationProvider) {
 		animProvider = animationProvider;
 	}
@@ -131,6 +141,26 @@ namespace fgl
 	AnimationProvider* Animator::getAnimationProvider() const {
 		return animProvider;
 	}
+	
+	
+	
+	void Animator::setMirroredHorizontal(bool mirroredHorizontal_arg) {
+		mirroredHorizontal = mirroredHorizontal_arg;
+	}
+	
+	bool Animator::isMirroredHorizontal() const {
+		return mirroredHorizontal;
+	}
+	
+	void Animator::setMirroredVertical(bool mirroredVertical_arg) {
+		mirroredVertical = mirroredVertical_arg;
+	}
+	
+	bool Animator::isMirroredVertical() const {
+		return mirroredVertical;
+	}
+	
+	
 	
 	void Animator::addListener(AnimatorListener* listener) {
 		listeners.push_back(listener);
@@ -142,6 +172,8 @@ namespace fgl
 			listeners.erase(listenerIt);
 		}
 	}
+	
+	
 	
 	AnimationPlayer* Animator::getPlayer() {
 		return &animPlayer;
