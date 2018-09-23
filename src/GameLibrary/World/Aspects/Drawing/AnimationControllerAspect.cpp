@@ -82,6 +82,8 @@ namespace fgl
 				animator->getPlayer()->setLastFrameTime(syncState.sync.lastFrameTime);
 			}
 		}
+		
+		currentState = syncState.state;
 	}
 	
 	
