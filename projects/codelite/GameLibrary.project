@@ -198,6 +198,7 @@
             <File Name="../../src/GameLibrary/World/Aspects/Physics/BoxCollidable2DAspect.cpp"/>
             <File Name="../../src/GameLibrary/World/Aspects/Physics/Collidable2DAspect.cpp"/>
             <File Name="../../src/GameLibrary/World/Aspects/Physics/PolygonCollidable2DAspect.cpp"/>
+            <File Name="../../src/GameLibrary/World/Aspects/Physics/Physics2DResponderAspect.cpp"/>
           </VirtualDirectory>
           <VirtualDirectory Name="Drawing">
             <File Name="../../src/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.cpp"/>
@@ -419,6 +420,7 @@
             <File Name="../../include/GameLibrary/World/Aspects/Physics/BoxCollidable2DAspect.hpp"/>
             <File Name="../../include/GameLibrary/World/Aspects/Physics/Collidable2DAspect.hpp"/>
             <File Name="../../include/GameLibrary/World/Aspects/Physics/PolygonCollidable2DAspect.hpp"/>
+            <File Name="../../include/GameLibrary/World/Aspects/Physics/Physics2DResponderAspect.hpp"/>
           </VirtualDirectory>
           <VirtualDirectory Name="Drawing">
             <File Name="../../include/GameLibrary/World/Aspects/Drawing/AnimationControllerAspect.hpp"/>

@@ -9,17 +9,17 @@ namespace fgl
 	{
 		switch(side)
 		{
-			case COLLISIONSIDE_LEFT:
-				return COLLISIONSIDE_RIGHT;
+			case CollisionSide::LEFT:
+				return CollisionSide::RIGHT;
 				
-			case COLLISIONSIDE_RIGHT:
-				return COLLISIONSIDE_LEFT;
+			case CollisionSide::RIGHT:
+				return CollisionSide::LEFT;
 				
-			case COLLISIONSIDE_TOP:
-				return COLLISIONSIDE_BOTTOM;
+			case CollisionSide::TOP:
+				return CollisionSide::BOTTOM;
 				
-			case COLLISIONSIDE_BOTTOM:
-				return COLLISIONSIDE_TOP;
+			case CollisionSide::BOTTOM:
+				return CollisionSide::TOP;
 		}
 		throw IllegalArgumentException("side", "invalid CollisionSide enum value");
 	}

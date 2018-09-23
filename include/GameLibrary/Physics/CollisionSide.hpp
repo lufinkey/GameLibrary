@@ -3,13 +3,13 @@
 
 namespace fgl
 {
-	typedef enum
+	enum class CollisionSide
 	{
-		COLLISIONSIDE_TOP,
-		COLLISIONSIDE_BOTTOM,
-		COLLISIONSIDE_LEFT,
-		COLLISIONSIDE_RIGHT
-	} CollisionSide;
+		TOP,
+		BOTTOM,
+		LEFT,
+		RIGHT
+	};
 	
 	CollisionSide CollisionSide_getOpposite(CollisionSide side);
 }

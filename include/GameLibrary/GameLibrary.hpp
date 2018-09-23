@@ -144,6 +144,7 @@
 #include "World/Aspects/Physics/Collidable2DAspect.hpp"
 #include "World/Aspects/Physics/BoxCollidable2DAspect.hpp"
 #include "World/Aspects/Physics/PolygonCollidable2DAspect.hpp"
+#include "World/Aspects/Physics/Physics2DResponderAspect.hpp"
 
 #ifndef TARGETPLATFORM_WINDOWS
 	#ifndef main

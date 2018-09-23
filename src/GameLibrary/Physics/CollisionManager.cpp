@@ -62,16 +62,16 @@ namespace fgl
 	
 	CollisionSide CollisionManager::getCollisionSide(const Vector2d& shiftAmount) const {
 		if(shiftAmount.x < 0) {
-			return COLLISIONSIDE_LEFT;
+			return CollisionSide::LEFT;
 		}
 		else if(shiftAmount.x > 0) {
-			return COLLISIONSIDE_RIGHT;
+			return CollisionSide::RIGHT;
 		}
 		else if(shiftAmount.y < 0) {
-			return COLLISIONSIDE_TOP;
+			return CollisionSide::TOP;
 		}
 		else if(shiftAmount.y > 0) {
-			return COLLISIONSIDE_BOTTOM;
+			return CollisionSide::BOTTOM;
 		}
 		throw IllegalArgumentException("shiftAmount", "cannot be 0,0");
 	}
@@ -242,7 +242,7 @@ namespace fgl
 											double velocity1 = 0;
 											double velocity2 = 0;
 											switch(collisionSide1) {
-												case COLLISIONSIDE_LEFT:
+												case CollisionSide::LEFT:
 												velocity1 = 
 													(transformState1.position.x - prevTransformState1.position.x) +
 													(rect1.getLeft() - prevRect1.getLeft());
@@ -251,7 +251,7 @@ namespace fgl
 													(rect2.getRight() - prevRect2.getRight());
 												break;
 
-												case COLLISIONSIDE_RIGHT:
+												case CollisionSide::RIGHT:
 												velocity1 =
 													(transformState1.position.x - prevTransformState1.position.x) +
 													(rect1.getRight() - prevRect1.getRight());
@@ -260,7 +260,7 @@ namespace fgl
 													(rect2.getLeft() - prevRect2.getLeft());
 												break;
 
-												case COLLISIONSIDE_TOP:
+												case CollisionSide::TOP:
 												velocity1 =
 													(transformState1.position.y - prevTransformState1.position.y) +
 													(rect1.getTop() - prevRect1.getTop());
@@ -269,7 +269,7 @@ namespace fgl
 													(rect2.getBottom() - prevRect2.getBottom());
 												break;
 
-												case COLLISIONSIDE_BOTTOM:
+												case CollisionSide::BOTTOM:
 												velocity1 =
 													(transformState1.position.y - prevTransformState1.position.y) +
 													(rect1.getBottom() - prevRect1.getBottom());
