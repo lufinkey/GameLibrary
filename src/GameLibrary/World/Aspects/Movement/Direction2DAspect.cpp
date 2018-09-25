@@ -2,6 +2,8 @@
 #include <GameLibrary/World/Aspects/Movement/Direction2DAspect.hpp>
 #include <GameLibrary/World/Aspects/Movement/Transform2DAspect.hpp>
 #include <GameLibrary/World/Aspects/Movement/Transform3DAspect.hpp>
+#include <GameLibrary/World/Aspects/Movement/Velocity2DAspect.hpp>
+#include <GameLibrary/World/Aspects/Physics/Collidable2DAspect.hpp>
 
 namespace fgl
 {
@@ -12,31 +14,33 @@ namespace fgl
 	}
 	
 	void Direction2DAspect::update(const ApplicationData& appData) {
-		auto transform3d = getAspect<Transform3DAspect>();
-		if(transform3d != nullptr) {
-			auto position = transform3d->getPosition();
-			auto moveSpeed = direction * speed;
-			if(speedTransformFunc) {
-				moveSpeed = speedTransformFunc(moveSpeed);
-			}
-			moveSpeed *= appData.getFrameSpeedMultiplier();
-			position.x += moveSpeed.x;
-			position.y += moveSpeed.y;
-			transform3d->setPosition(position);
+		auto moveSpeed = direction * speed;
+		
+		if(speedApplyer) {
+			speedApplyer(appData, moveSpeed, prevSpeed);
 		}
 		else {
+			auto translation = moveSpeed * appData.getFrameSpeedMultiplier();
+			// try to use transform3d
+			auto transform3d = getAspect<Transform3DAspect>();
+			if(transform3d != nullptr) {
+				auto position = transform3d->getPosition();
+				position.x += translation.x;
+				position.y += translation.y;
+				transform3d->setPosition(position);
+				return;
+			}
+			// try to use transform2d
 			auto transform2d = getAspect<Transform2DAspect>();
 			if(transform2d != nullptr) {
 				auto position = transform2d->getPosition();
-				auto moveSpeed = direction * speed;
-				if(speedTransformFunc) {
-					moveSpeed = speedTransformFunc(moveSpeed);
-				}
-				moveSpeed *= appData.getFrameSpeedMultiplier();
-				position += moveSpeed;
+				position += translation;
 				transform2d->setPosition(position);
+				return;
 			}
 		}
+		
+		prevSpeed = moveSpeed;
 	}
 	
 	void Direction2DAspect::setDirection(const Vector2d& direction_arg) {
@@ -58,12 +62,12 @@ namespace fgl
 		return speed;
 	}
 	
-	void Direction2DAspect::setSpeedTransformFunc(std::function<Vector2d(Vector2d)> speedTransformFunc_arg) {
-		speedTransformFunc = speedTransformFunc_arg;
+	void Direction2DAspect::setSpeedApplyer(SpeedApplyerFunc speedApplyer_arg) {
+		speedApplyer = speedApplyer_arg;
 	}
 	
-	const std::function<Vector2d(Vector2d)>& Direction2DAspect::getSpeedTransformFunc() const {
-		return speedTransformFunc;
+	const SpeedApplyerFunc& Direction2DAspect::getSpeedApplyer() const {
+		return speedApplyer;
 	}
 	
 	void Direction2DAspect::addListener(Direction2DListener* listener) {
@@ -84,6 +88,40 @@ namespace fgl
 				listener->onChangeDirection(this, direction);
 			}
 		}
+	}
+	
+	
+	
+	SpeedApplyerFunc Direction2DAspect::createVelocity2DXSpeedApplyer(WorldObject* object, SpeedApplyerOptions options) {
+		return SpeedApplyerFunc([=](auto appData, auto speed, auto prevSpeed) {
+			auto direction2d = object->getAspect<Direction2DAspect>();
+			auto velocity2d = object->getAspect<Velocity2DAspect>();
+			auto collidable = object->getAspect<Collidable2DAspect>();
+			
+			auto velocity = velocity2d->getVelocity();
+			auto dirSpeed = direction2d->getSpeed();
+			bool isOnGround = collidable ? (collidable->getCollidedCountOnSide(CollisionSide::BOTTOM) > 0) : false;
+			auto possibleAccel = speed - velocity;
+			
+			double maxSpeedChange = isOnGround ? options.maxSlowDownChange : options.maxAirSlowDownChange;
+			if(Math::sign(velocity.x) == Math::sign(speed.x)) {
+				if(Math::abs(velocity.x) < Math::abs(speed.x)) {
+					maxSpeedChange = isOnGround ? options.maxSpeedUpChange : options.maxAirSpeedUpChange;
+				}
+				else if(dirSpeed < Math::abs(velocity.x)) {
+					maxSpeedChange = 0;
+				}
+			}
+			auto xMoveRatio = Math::abs(possibleAccel.x / (maxSpeedChange * appData.getFrameSpeedMultiplier()));
+			if(xMoveRatio <= 1.0) {
+				velocity.x = speed.x;
+			}
+			else {
+				auto xMove = possibleAccel.x / xMoveRatio;
+				velocity.x += xMove;
+			}
+			velocity2d->setVelocity(velocity);
+		});
 	}
 	
 	

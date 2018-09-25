@@ -51,7 +51,7 @@ namespace fgl
 	}
 	
 	ArrayList<Collidable*> Collidable::getCollidedOnSide(CollisionSide side) {
-		fgl::ArrayList<Collidable*> collidables;
+		ArrayList<Collidable*> collidables;
 		try {
 			auto& collidedList = collided.at(side);
 			collidables.getVector().insert(collidables.end(), collidedList.begin(), collidedList.end());
@@ -61,7 +61,7 @@ namespace fgl
 		}
 		try {
 			auto& collidedList = newCollided.at(side);
-			collidables.reserve(collidedList.size());
+			collidables.reserve(collidables.size() + collidedList.size());
 			for(auto collidable : collidedList) {
 				if(!collidables.contains(collidable)) {
 					collidables.add(collidable);
@@ -75,7 +75,7 @@ namespace fgl
 	}
 	
 	ArrayList<const Collidable*> Collidable::getCollidedOnSide(CollisionSide side) const {
-		fgl::ArrayList<const Collidable*> collidables;
+		ArrayList<const Collidable*> collidables;
 		try {
 			auto& collidedList = reinterpret_cast<const std::list<const Collidable*>&>(collided.at(side));
 			collidables.getVector().insert(collidables.end(), collidedList.begin(), collidedList.end());
@@ -85,7 +85,7 @@ namespace fgl
 		}
 		try {
 			auto& collidedList = newCollided.at(side);
-			collidables.reserve(collidedList.size());
+			collidables.reserve(collidables.size() + collidedList.size());
 			for(auto collidable : collidedList) {
 				if(!collidables.contains(collidable)) {
 					collidables.add(collidable);
@@ -96,6 +96,41 @@ namespace fgl
 			//
 		}
 		return collidables;
+	}
+	
+	size_t Collidable::getCollidedCountOnSide(CollisionSide side) const {
+		size_t count = 0;
+		const std::list<Collidable*>* collidablesPtr = nullptr;
+		try {
+			auto& collidables = collided.at(side);
+			collidablesPtr = &collidables;
+			count += collidables.size();
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		try {
+			auto& newCollidables = newCollided.at(side);
+			for(auto collidable : newCollidables) {
+				if(collidablesPtr != nullptr) {
+					bool foundMatch = false;
+					for(auto cmpCollidable : *collidablesPtr) {
+						if(collidable == cmpCollidable) {
+							foundMatch = true;
+							break;
+						}
+					}
+					if(foundMatch) {
+						continue;
+					}
+				}
+				count++;
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return count;
 	}
 	
 	double Collidable::getCollidedMassOnSide(CollisionSide side) const {

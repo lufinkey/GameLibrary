@@ -26,8 +26,6 @@ namespace fgl
 		const Vector2d& getBounceRetentionAmount() const;
 		
 	protected:
-		virtual void onAddToObject(WorldObject* object) override;
-		
 		virtual void onCollision(const CollisionEvent& event) override;
 		virtual void onCollisionUpdate(const CollisionEvent& event) override;
 		

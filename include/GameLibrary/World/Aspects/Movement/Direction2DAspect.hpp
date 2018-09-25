@@ -9,6 +9,19 @@ namespace fgl
 {
 	class Direction2DListener;
 	
+	typedef std::function<void(const ApplicationData& appData, Vector2d speed, Vector2d prevSpeed)> SpeedApplyerFunc;
+	
+	struct SpeedApplyerOptions
+	{
+		SpeedApplyerOptions() = default;
+		SpeedApplyerOptions(double speed) : maxSpeedUpChange(speed*6), maxSlowDownChange(speed * 4), maxAirSpeedUpChange(speed * 2), maxAirSlowDownChange(speed * 2) {}
+		
+		double maxSpeedUpChange = 480;
+		double maxSlowDownChange = 320;
+		double maxAirSpeedUpChange = 180;
+		double maxAirSlowDownChange = 180;
+	};
+	
 	
 	
 	class Direction2DAspect : public WorldObjectAspect
@@ -24,11 +37,13 @@ namespace fgl
 		void setSpeed(double speed);
 		double getSpeed() const;
 		
-		void setSpeedTransformFunc(std::function<Vector2d(Vector2d)> speedTransformFunc);
-		const std::function<Vector2d(Vector2d)>& getSpeedTransformFunc() const;
+		void setSpeedApplyer(SpeedApplyerFunc speedApplyer);
+		const SpeedApplyerFunc& getSpeedApplyer() const;
 		
 		void addListener(Direction2DListener* listener);
 		void removeListener(Direction2DListener* listener);
+		
+		static SpeedApplyerFunc createVelocity2DXSpeedApplyer(WorldObject* object, SpeedApplyerOptions options);
 		
 	protected:
 		virtual void onChangeDirection(Vector2d direction);
@@ -36,7 +51,8 @@ namespace fgl
 	private:
 		Vector2d direction;
 		double speed;
-		std::function<Vector2d(Vector2d)> speedTransformFunc;
+		Vector2d prevSpeed;
+		SpeedApplyerFunc speedApplyer;
 		std::list<Direction2DListener*> listeners;
 	};
 	

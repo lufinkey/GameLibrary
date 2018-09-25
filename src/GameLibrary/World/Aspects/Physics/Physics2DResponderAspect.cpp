@@ -69,13 +69,6 @@ namespace fgl
 		return bounceRetentionAmount;
 	}
 	
-	void Physics2DResponderAspect::onAddToObject(WorldObject* object) {
-		auto collidable = object->getAspect<Collidable2DAspect>();
-		if(collidable != nullptr) {
-			collidable->addCollisionEventListener(this);
-		}
-	}
-	
 	void Physics2DResponderAspect::onCollision(const CollisionEvent& event) {
 		auto velocity2d = getAspect<Velocity2DAspect>();
 		auto velocity = velocity2d->getVelocity();

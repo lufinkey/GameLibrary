@@ -37,6 +37,7 @@ namespace fgl
 		
 		ArrayList<Collidable*> getCollidedOnSide(CollisionSide side);
 		ArrayList<const Collidable*> getCollidedOnSide(CollisionSide side) const;
+		size_t getCollidedCountOnSide(CollisionSide side) const;
 		double getCollidedMassOnSide(CollisionSide side) const;
 		bool hasStaticCollisionOnSide(CollisionSide side) const;
 		bool hasCollision(const Collidable* collidable) const;
