@@ -170,6 +170,7 @@ namespace fgl
 			return contents.insert(std::make_pair( key, value )).first;
 		}
 		else {
+			it->second = value;
 			return it;
 		}
 	}
@@ -181,6 +182,7 @@ namespace fgl
 			return contents.insert(std::make_pair( key, value )).first;
 		}
 		else {
+			it->second = value;
 			return it;
 		}
 	}
