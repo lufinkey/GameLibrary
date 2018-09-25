@@ -116,74 +116,60 @@ namespace fgl
 		std::map<KEY_TYPE, VALUE_TYPE> contents;
 	};
 	
+	
+	
 	typedef BasicDictionary<String, Any> Dictionary;
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::Key& key)
-	{
-		try
-		{
+	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::Key& key) {
+		try {
 			const Any& value = dict.get(key);
-			try
-			{
+			try {
 				return value.as<RESULT_TYPE>();
 			}
-			catch(const BadAnyCastException&)
-			{
+			catch(const BadAnyCastException&) {
 				return RESULT_TYPE();
 			}
 		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
+		catch(const DictionaryKeyNotFoundException&) {
 			return RESULT_TYPE();
 		}
 	}
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const Dictionary& dict, const Dictionary::Key& key, const RESULT_TYPE& defaultValue)
-	{
-		try
-		{
+	const RESULT_TYPE& extract(const Dictionary& dict, const Dictionary::Key& key, const RESULT_TYPE& defaultValue) {
+		try {
 			const Any& value = dict.get(key);
-			try
-			{
+			try {
 				return value.as<RESULT_TYPE>();
 			}
-			catch(const BadAnyCastException&)
-			{
+			catch(const BadAnyCastException&) {
 				return defaultValue;
 			}
 		}
-		catch(const DictionaryKeyNotFoundException&)
-		{
+		catch(const DictionaryKeyNotFoundException&) {
 			return defaultValue;
 		}
 	}
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const ArrayList<fgl::Any>& array, size_t index)
-	{
+	RESULT_TYPE extract(const ArrayList<fgl::Any>& array, size_t index) {
 		const Any& value = array.get(index);
-		try
-		{
+		try {
 			return value.as<RESULT_TYPE>();
 		}
-		catch(const BadAnyCastException&)
-		{
+		catch(const BadAnyCastException&) {
 			return RESULT_TYPE();
 		}
 	}
 
 	template<typename RESULT_TYPE>
-	RESULT_TYPE extract(const ArrayList<fgl::Any>& array, size_t index, const RESULT_TYPE& defaultValue)
-	{
+	const RESULT_TYPE& extract(const ArrayList<fgl::Any>& array, size_t index, const RESULT_TYPE& defaultValue) {
 		const Any& value = array.get(index);
-		try
-		{
+		try {
 			return value.as<RESULT_TYPE>();
 		}
-		catch(const BadAnyCastException&)
-		{
+		catch(const BadAnyCastException&) {
 			return defaultValue;
 		}
 	}
