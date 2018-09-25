@@ -13,13 +13,13 @@ namespace fgl
 	
 	struct SpeedApplyerOptions
 	{
-		SpeedApplyerOptions() = default;
-		SpeedApplyerOptions(double speed) : maxSpeedUpChange(speed*6), maxSlowDownChange(speed * 4), maxAirSpeedUpChange(speed * 2), maxAirSlowDownChange(speed * 2) {}
+		SpeedApplyerOptions() : SpeedApplyerOptions(100) {}
+		SpeedApplyerOptions(double speed) : maxSpeedUpChange(speed * 8), maxSlowDownChange(speed * 4), maxAirSpeedUpChange(speed * 6), maxAirSlowDownChange(speed * 2) {}
 		
-		double maxSpeedUpChange = 480;
-		double maxSlowDownChange = 320;
-		double maxAirSpeedUpChange = 180;
-		double maxAirSlowDownChange = 180;
+		double maxSpeedUpChange;
+		double maxSlowDownChange;
+		double maxAirSpeedUpChange;
+		double maxAirSlowDownChange;
 	};
 	
 	
