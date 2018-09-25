@@ -61,7 +61,10 @@ namespace fgl
 		}
 		template<typename VALUE_TYPE>
 		const VALUE_TYPE& getProp(const String& key, const VALUE_TYPE& defaultValue) const {
-			return fgl::extract<VALUE_TYPE>(key, props, defaultValue);
+			return fgl::extract<VALUE_TYPE>(props, key, defaultValue);
+		}
+		void removeProp(const String& key) {
+			props.remove(key);
 		}
 		
 		void setController(AnimationControllerFunc controller);
