@@ -115,7 +115,7 @@ namespace fgl
 		
 		UpdateData updateData;
 		auto appDataPtr = &appData;
-
+		
 		//handle collisions
 		#ifdef DOUBLECHECK_COLLISIONS
 		//checking all of the collisions twice fixes collision jerking

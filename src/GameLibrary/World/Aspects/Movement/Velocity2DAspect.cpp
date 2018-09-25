@@ -13,16 +13,17 @@ namespace fgl
 	}
 	
 	void Velocity2DAspect::update(const ApplicationData& appData) {
-		// update position
+		// update gravity
 		auto transform2d = getAspect<Transform2DAspect>();
+		if(gravityEnabled && gravityAmount != 0.0 && (transform2d == nullptr || transform2d->getParent() == nullptr)) {
+			velocity += getGravityIncrement(appData.getFrameSpeedMultiplier());
+		}
+		
+		// update position
 		if(transform2d != nullptr) {
 			auto position = transform2d->getPosition();
 			position += velocity * appData.getFrameSpeedMultiplier();
 			transform2d->setPosition(position);
-		}
-		// update gravity
-		if(gravityEnabled && gravityAmount != 0.0 && (transform2d == nullptr || transform2d->getParent() == nullptr)) {
-			velocity += getGravityIncrement(appData.getFrameSpeedMultiplier());
 		}
 	}
 	
