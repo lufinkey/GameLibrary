@@ -291,7 +291,7 @@ namespace fgl
 													portion1 = 1.0;
 												}
 												else {
-													portion1 = fgl::Math::abs(finalVelocity / (fgl::Math::abs(velocity1) + fgl::Math::abs(velocity2)));
+													portion1 = Math::abs(finalVelocity / (Math::abs(velocity1) + Math::abs(velocity2)));
 												}
 											}
 										}

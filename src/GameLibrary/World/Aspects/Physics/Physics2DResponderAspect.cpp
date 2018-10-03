@@ -2,6 +2,7 @@
 #include <GameLibrary/World/Aspects/Physics/Physics2DResponderAspect.hpp>
 #include <GameLibrary/World/Aspects/Physics/Collidable2DAspect.hpp>
 #include <GameLibrary/World/Aspects/Movement/Velocity2DAspect.hpp>
+#include <GameLibrary/IO/Console.hpp>
 
 namespace fgl
 {
@@ -20,13 +21,14 @@ namespace fgl
 		auto velocity2d = getAspect<Velocity2DAspect>();
 		auto velocity = velocity2d->getVelocity();
 		
-		if(velocity.x == prevVelocity.x) {
+		auto collidable = getAspect<Collidable2DAspect>();
+		if(velocity.x == prevVelocity.x && !collidable->hasCollision(CollisionSide::LEFT) && !collidable->hasCollision(CollisionSide::RIGHT)) {
 			velocity.x -= velocity.x * diminishAmount.x * appData.getFrameSpeedMultiplier();
 			if(Math::abs(velocity.x) < diminishStopAmount.x) {
 				velocity.x = 0;
 			}
 		}
-		if(velocity.y == prevVelocity.y) {
+		if(velocity.y == prevVelocity.y && !collidable->hasCollision(CollisionSide::TOP) && !collidable->hasCollision(CollisionSide::BOTTOM)) {
 			velocity.y -= velocity.y * diminishAmount.y * appData.getFrameSpeedMultiplier();
 			if(Math::abs(velocity.y) < diminishStopAmount.y) {
 				velocity.y = 0;
@@ -70,101 +72,85 @@ namespace fgl
 	}
 	
 	void Physics2DResponderAspect::onCollision(const CollisionEvent& event) {
-		auto velocity2d = getAspect<Velocity2DAspect>();
-		auto velocity = velocity2d->getVelocity();
-		
-		auto frameSpeedMult = event.getAppData()->getFrameSpeedMultiplier();
-		auto gravityStop = velocity2d->getGravityIncrement(frameSpeedMult * 3.0);
-		
-		// handle bounce
-		switch(event.getCollisionSide()) {
-			case CollisionSide::TOP: // -y
-				if(velocity.y < 0) {
-					if(Math::abs(velocity.y) <= Math::abs(gravityStop.y)) {
-						velocity.y = 0;
-					}
-					else if(velocity.y <= -bounceThreshold.y) {
-						velocity.y = -velocity.y * bounceRetentionAmount.y;
-					}
-					else {
-						velocity.y = 0;
-					}
-				}
-				break;
-				
-			case CollisionSide::BOTTOM: // +y
-				if(velocity.y > 0) {
-					if(Math::abs(velocity.y) <= Math::abs(gravityStop.y)) {
-						velocity.y = 0;
-					}
-					else if(velocity.y >= bounceThreshold.y) {
-						velocity.y = -velocity.y * bounceRetentionAmount.y;
-					}
-					else {
-						velocity.y = 0;
-					}
-				}
-				break;
-				
-			case CollisionSide::LEFT: // -x
-				if(velocity.x < 0) {
-					if(Math::abs(velocity.x) <= Math::abs(gravityStop.x)) {
-						velocity.x = 0;
-					}
-					else if(velocity.x <= -bounceThreshold.x) {
-						velocity.x = -velocity.x * bounceRetentionAmount.x;
-					}
-					else {
-						velocity.x = 0;
-					}
-				}
-				break;
-				
-			case CollisionSide::RIGHT: // +x
-				if(velocity.x > 0) {
-					if(Math::abs(velocity.x) <= Math::abs(gravityStop.x)) {
-						velocity.x = 0;
-					}
-					else if(velocity.x >= bounceThreshold.x) {
-						velocity.x = -velocity.x * bounceRetentionAmount.x;
-					}
-					else {
-						velocity.x = 0;
-					}
-				}
-				break;
-		}
-		
-		velocity2d->setVelocity(velocity);
+		handleCollisionResponse(event);
 	}
 	
 	void Physics2DResponderAspect::onCollisionUpdate(const CollisionEvent& event) {
+		handleCollisionResponse(event);
+	}
+	
+	#define CORRECT_VELOCITY_OVERFLOW(originalVel, finalVel, lowerSide, upperSide) \
+		if((Math::sign(finalVel) == Math::sign(originalVel) || originalVel == 0 || finalVel == 0) \
+			&& Math::abs(finalVel) > Math::abs(originalVel) \
+			&& ((finalVel < 0 && side == lowerSide) || (finalVel > 0 && side == upperSide))) { \
+			finalVel = originalVel; \
+		}
+	
+	void Physics2DResponderAspect::handleCollisionResponse(const CollisionEvent& event) {
+		auto target = event.getTarget();
+		auto collided = event.getCollided();
+		
+		auto side = event.getCollisionSide();
 		auto velocity2d = getAspect<Velocity2DAspect>();
 		auto velocity = velocity2d->getVelocity();
+		auto collidedVelocity = collided->getDisplacement() / event.getAppData()->getFrameSpeedMultiplier();
+		auto mass = target->getMass();
+		auto collidedMass = collided->getMass();
 		
-		// stop velocity
+		// calculate final velocity
+		auto finalVelocity = Vector2d(0,0);
+		auto finalBounceVelocity = Vector2d(0,0);
+		if(collided->isStaticCollisionBody()) {
+			finalVelocity = collidedVelocity;
+			CORRECT_VELOCITY_OVERFLOW(velocity.x, finalVelocity.x, CollisionSide::LEFT, CollisionSide::RIGHT)
+			CORRECT_VELOCITY_OVERFLOW(velocity.y, finalVelocity.y, CollisionSide::TOP, CollisionSide::BOTTOM)
+			finalBounceVelocity = (collidedVelocity - velocity) * Vector2d(bounceRetentionAmount.x, bounceRetentionAmount.y);
+			CORRECT_VELOCITY_OVERFLOW(velocity.x, finalBounceVelocity.x, CollisionSide::LEFT, CollisionSide::RIGHT)
+			CORRECT_VELOCITY_OVERFLOW(velocity.y, finalBounceVelocity.y, CollisionSide::TOP, CollisionSide::BOTTOM)
+		}
+		else {
+			finalVelocity = ((velocity*mass) + (collidedVelocity*collidedMass))/(mass + collidedMass);
+			CORRECT_VELOCITY_OVERFLOW(velocity.x, finalVelocity.x, CollisionSide::LEFT, CollisionSide::RIGHT)
+			CORRECT_VELOCITY_OVERFLOW(velocity.y, finalVelocity.y, CollisionSide::TOP, CollisionSide::BOTTOM)
+			finalBounceVelocity = finalVelocity * Vector2d(bounceRetentionAmount.x, bounceRetentionAmount.y);
+			CORRECT_VELOCITY_OVERFLOW(velocity.x, finalBounceVelocity.x, CollisionSide::LEFT, CollisionSide::RIGHT)
+			CORRECT_VELOCITY_OVERFLOW(velocity.y, finalBounceVelocity.y, CollisionSide::TOP, CollisionSide::BOTTOM)
+		}
+		// apply final velocity
 		switch(event.getCollisionSide()) {
 			case CollisionSide::TOP: // -y
-				if(velocity.y < 0) {
-					velocity.y = 0;
+				if(velocity.y <= -bounceThreshold.y) {
+					velocity.y = finalBounceVelocity.y;
+				}
+				else {
+					velocity.y = finalVelocity.y;
 				}
 				break;
 				
 			case CollisionSide::BOTTOM: // +y
-				if(velocity.y > 0) {
-					velocity.y = 0;
+				if(velocity.y >= bounceThreshold.y) {
+					velocity.y = finalBounceVelocity.y;
+				}
+				else {
+					velocity.y = finalVelocity.y;
 				}
 				break;
 				
 			case CollisionSide::LEFT: // -x
-				if(velocity.x < 0) {
-					velocity.x = 0;
+				if(velocity.x <= -bounceThreshold.x) {
+					velocity.x = finalBounceVelocity.x;
+				}
+				else {
+					velocity.x = finalVelocity.x;
 				}
 				break;
 				
 			case CollisionSide::RIGHT: // +x
-				if(velocity.x > 0) {
-					velocity.x = 0;
+				if(velocity.x >= bounceThreshold.x) {
+					velocity.x = finalBounceVelocity.x;
+				}
+				else {
+					velocity.x = finalVelocity.x;
 				}
 				break;
 		}

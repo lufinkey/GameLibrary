@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <GameLibrary/Utilities/String.hpp>
+
 namespace fgl
 {
 	enum class CollisionSide
@@ -12,4 +14,5 @@ namespace fgl
 	};
 	
 	CollisionSide CollisionSide_getOpposite(CollisionSide side);
+	String CollisionSide_toString(CollisionSide side);
 }

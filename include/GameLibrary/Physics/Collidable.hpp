@@ -42,6 +42,7 @@ namespace fgl
 		bool hasStaticCollisionOnSide(CollisionSide side) const;
 		bool hasCollision(const Collidable* collidable) const;
 		bool hasCollision(const Collidable* collidable, CollisionSide side) const;
+		bool hasCollision(CollisionSide side) const;
 		
 		bool isAwake() const;
 		void wake();

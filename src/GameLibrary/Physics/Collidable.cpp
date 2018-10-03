@@ -285,6 +285,28 @@ namespace fgl
 		return false;
 	}
 	
+	bool Collidable::hasCollision(CollisionSide side) const {
+		try {
+			auto& collidables = collided.at(side);
+			if(collidables.size() > 0) {
+				return true;
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		try {
+			auto& collidables = newCollided.at(side);
+			if(collidables.size() > 0) {
+				return true;
+			}
+		}
+		catch(const std::out_of_range& e) {
+			//
+		}
+		return false;
+	}
+	
 	bool Collidable::isAwake() const {
 		return awake;
 	}

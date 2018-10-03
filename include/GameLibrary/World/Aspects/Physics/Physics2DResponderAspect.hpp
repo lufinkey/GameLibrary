@@ -30,6 +30,8 @@ namespace fgl
 		virtual void onCollisionUpdate(const CollisionEvent& event) override;
 		
 	private:
+		void handleCollisionResponse(const CollisionEvent& event);
+		
 		Vector2d prevVelocity;
 		Vector2d diminishAmount;
 		Vector2d diminishStopAmount;
