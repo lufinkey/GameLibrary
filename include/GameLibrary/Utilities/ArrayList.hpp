@@ -837,7 +837,7 @@ namespace fgl
 		}
 		#endif
 		
-		ArrayList<T, PREALLOC_COUNT> filter(const std::function<bool(const T&)>& func) const
+		ArrayList<T, PREALLOC_COUNT> where(const std::function<bool(const T&)>& func) const
 		{
 			ArrayList<T, PREALLOC_COUNT> newList;
 			size_t length = objects.size();
@@ -855,7 +855,7 @@ namespace fgl
 		}
 		
 		#ifdef __OBJC__
-		ArrayList<T, PREALLOC_COUNT> filter(BOOL(^func)(const T&)) const
+		ArrayList<T, PREALLOC_COUNT> where(BOOL(^func)(const T&)) const
 		{
 			ArrayList<T, PREALLOC_COUNT> newList;
 			size_t length = objects.size();
