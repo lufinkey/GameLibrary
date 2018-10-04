@@ -674,7 +674,7 @@ namespace fgl
 					return object;
 				}
 			}
-			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+			throw ArrayListOutOfBoundsException(objects.size(), objects.size());
 		}
 		
 		const T& firstWhere(const std::function<bool(const T&)>& func) const {
@@ -683,7 +683,7 @@ namespace fgl
 					return object;
 				}
 			}
-			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+			throw ArrayListOutOfBoundsException(objects.size(), objects.size());
 		}
 		
 		T& firstWhere(const std::function<bool(const T&)>& func, T& defaultValue) {
@@ -711,7 +711,7 @@ namespace fgl
 					return object;
 				}
 			}
-			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+			throw ArrayListOutOfBoundsException(objects.size(), objects.size());
 		}
 		
 		const T& firstWhere(BOOL(^func)(const T&)) const {
@@ -720,7 +720,7 @@ namespace fgl
 					return object;
 				}
 			}
-			throw fgl::ArrayListOutOfBoundsException(objects.size(), objects.size());
+			throw ArrayListOutOfBoundsException(objects.size(), objects.size());
 		}
 		
 		T& firstWhere(BOOL(^func)(const T&), T& defaultValue) {
