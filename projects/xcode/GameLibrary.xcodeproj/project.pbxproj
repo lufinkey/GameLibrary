@@ -7,6 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A027FB86216B04130095ED47 /* AnimationControllerAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB75216B04120095ED47 /* AnimationControllerAspect.cpp */; };
+		A027FB87216B04130095ED47 /* ColorBoxAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB76216B04120095ED47 /* ColorBoxAspect.cpp */; };
+		A027FB88216B04130095ED47 /* Drawable2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB77216B04120095ED47 /* Drawable2DAspect.cpp */; };
+		A027FB89216B04130095ED47 /* SpriteAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB78216B04120095ED47 /* SpriteAspect.cpp */; };
+		A027FB8A216B04130095ED47 /* Direction2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB7A216B04120095ED47 /* Direction2DAspect.cpp */; };
+		A027FB8B216B04130095ED47 /* Transform2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB7B216B04120095ED47 /* Transform2DAspect.cpp */; };
+		A027FB8C216B04130095ED47 /* Transform3DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB7C216B04120095ED47 /* Transform3DAspect.cpp */; };
+		A027FB8D216B04130095ED47 /* Velocity2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB7D216B04120095ED47 /* Velocity2DAspect.cpp */; };
+		A027FB8E216B04130095ED47 /* BoxCollidable2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB7F216B04120095ED47 /* BoxCollidable2DAspect.cpp */; };
+		A027FB8F216B04130095ED47 /* Collidable2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB80216B04120095ED47 /* Collidable2DAspect.cpp */; };
+		A027FB90216B04130095ED47 /* Physics2DResponderAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB81216B04120095ED47 /* Physics2DResponderAspect.cpp */; };
+		A027FB91216B04130095ED47 /* PolygonCollidable2DAspect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB82216B04120095ED47 /* PolygonCollidable2DAspect.cpp */; };
+		A027FB92216B04130095ED47 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB83216B04120095ED47 /* World.cpp */; };
+		A027FB93216B04130095ED47 /* WorldCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB84216B04120095ED47 /* WorldCamera.cpp */; };
+		A027FB94216B04130095ED47 /* WorldObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB85216B04120095ED47 /* WorldObject.cpp */; };
+		A027FB99216B04230095ED47 /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB96216B04220095ED47 /* Drawable.cpp */; };
+		A027FB9A216B04230095ED47 /* DrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB97216B04220095ED47 /* DrawContext.cpp */; };
+		A027FB9B216B04230095ED47 /* DrawManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB98216B04220095ED47 /* DrawManager.cpp */; };
+		A027FB9D216B04480095ED47 /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A027FB9C216B04480095ED47 /* Animator.cpp */; };
 		A049BB28211961FD00857893 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB25211961FD00857893 /* Animation.cpp */; };
 		A049BB29211961FD00857893 /* AnimationPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB26211961FD00857893 /* AnimationPlayer.cpp */; };
 		A049BB2A211961FD00857893 /* AnimationProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB27211961FD00857893 /* AnimationProvider.cpp */; };
@@ -249,6 +268,44 @@
 		A014E22621328C1C00D3C96D /* CollisionEventListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollisionEventListener.hpp; sourceTree = "<group>"; };
 		A014E23121328C2B00D3C96D /* ContactEventListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ContactEventListener.hpp; sourceTree = "<group>"; };
 		A014E23321328C3300D3C96D /* TransformState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TransformState.hpp; sourceTree = "<group>"; };
+		A027FB4F216B03DC0095ED47 /* Drawable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Drawable.hpp; sourceTree = "<group>"; };
+		A027FB50216B03DC0095ED47 /* DrawContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DrawContext.hpp; sourceTree = "<group>"; };
+		A027FB51216B03DC0095ED47 /* DrawManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DrawManager.hpp; sourceTree = "<group>"; };
+		A027FB61216B03FD0095ED47 /* AnimationControllerAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AnimationControllerAspect.hpp; sourceTree = "<group>"; };
+		A027FB62216B03FD0095ED47 /* ColorBoxAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColorBoxAspect.hpp; sourceTree = "<group>"; };
+		A027FB63216B03FD0095ED47 /* Drawable2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Drawable2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB64216B03FD0095ED47 /* SpriteAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpriteAspect.hpp; sourceTree = "<group>"; };
+		A027FB66216B03FD0095ED47 /* Direction2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Direction2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB67216B03FD0095ED47 /* Transform2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transform2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB68216B03FD0095ED47 /* Transform3DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transform3DAspect.hpp; sourceTree = "<group>"; };
+		A027FB69216B03FD0095ED47 /* Velocity2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Velocity2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB6B216B03FD0095ED47 /* BoxCollidable2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoxCollidable2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB6C216B03FD0095ED47 /* Collidable2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Collidable2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB6D216B03FD0095ED47 /* Physics2DResponderAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Physics2DResponderAspect.hpp; sourceTree = "<group>"; };
+		A027FB6E216B03FD0095ED47 /* PolygonCollidable2DAspect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolygonCollidable2DAspect.hpp; sourceTree = "<group>"; };
+		A027FB6F216B03FD0095ED47 /* World.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = World.hpp; sourceTree = "<group>"; };
+		A027FB70216B03FD0095ED47 /* WorldCamera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldCamera.hpp; sourceTree = "<group>"; };
+		A027FB71216B03FD0095ED47 /* WorldObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorldObject.hpp; sourceTree = "<group>"; };
+		A027FB75216B04120095ED47 /* AnimationControllerAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationControllerAspect.cpp; sourceTree = "<group>"; };
+		A027FB76216B04120095ED47 /* ColorBoxAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorBoxAspect.cpp; sourceTree = "<group>"; };
+		A027FB77216B04120095ED47 /* Drawable2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB78216B04120095ED47 /* SpriteAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteAspect.cpp; sourceTree = "<group>"; };
+		A027FB7A216B04120095ED47 /* Direction2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Direction2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB7B216B04120095ED47 /* Transform2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB7C216B04120095ED47 /* Transform3DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Transform3DAspect.cpp; sourceTree = "<group>"; };
+		A027FB7D216B04120095ED47 /* Velocity2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Velocity2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB7F216B04120095ED47 /* BoxCollidable2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoxCollidable2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB80216B04120095ED47 /* Collidable2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Collidable2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB81216B04120095ED47 /* Physics2DResponderAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Physics2DResponderAspect.cpp; sourceTree = "<group>"; };
+		A027FB82216B04120095ED47 /* PolygonCollidable2DAspect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonCollidable2DAspect.cpp; sourceTree = "<group>"; };
+		A027FB83216B04120095ED47 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
+		A027FB84216B04120095ED47 /* WorldCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldCamera.cpp; sourceTree = "<group>"; };
+		A027FB85216B04120095ED47 /* WorldObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldObject.cpp; sourceTree = "<group>"; };
+		A027FB96216B04220095ED47 /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawable.cpp; sourceTree = "<group>"; };
+		A027FB97216B04220095ED47 /* DrawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawContext.cpp; sourceTree = "<group>"; };
+		A027FB98216B04220095ED47 /* DrawManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawManager.cpp; sourceTree = "<group>"; };
+		A027FB9C216B04480095ED47 /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
+		A027FB9E216B04780095ED47 /* Animator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
 		A049BB12211960BE00857893 /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hpp; sourceTree = "<group>"; };
 		A049BB13211960BE00857893 /* AnimationPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlayer.hpp; sourceTree = "<group>"; };
 		A049BB14211960BE00857893 /* AnimationProvider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationProvider.hpp; sourceTree = "<group>"; };
@@ -518,12 +575,141 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A027FB4E216B03DC0095ED47 /* Draw */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB4F216B03DC0095ED47 /* Drawable.hpp */,
+				A027FB50216B03DC0095ED47 /* DrawContext.hpp */,
+				A027FB51216B03DC0095ED47 /* DrawManager.hpp */,
+			);
+			path = Draw;
+			sourceTree = "<group>";
+		};
+		A027FB5E216B03FD0095ED47 /* World */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB5F216B03FD0095ED47 /* Aspects */,
+				A027FB6F216B03FD0095ED47 /* World.hpp */,
+				A027FB70216B03FD0095ED47 /* WorldCamera.hpp */,
+				A027FB71216B03FD0095ED47 /* WorldObject.hpp */,
+			);
+			path = World;
+			sourceTree = "<group>";
+		};
+		A027FB5F216B03FD0095ED47 /* Aspects */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB60216B03FD0095ED47 /* Drawing */,
+				A027FB65216B03FD0095ED47 /* Movement */,
+				A027FB6A216B03FD0095ED47 /* Physics */,
+			);
+			path = Aspects;
+			sourceTree = "<group>";
+		};
+		A027FB60216B03FD0095ED47 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB61216B03FD0095ED47 /* AnimationControllerAspect.hpp */,
+				A027FB62216B03FD0095ED47 /* ColorBoxAspect.hpp */,
+				A027FB63216B03FD0095ED47 /* Drawable2DAspect.hpp */,
+				A027FB64216B03FD0095ED47 /* SpriteAspect.hpp */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
+		A027FB65216B03FD0095ED47 /* Movement */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB66216B03FD0095ED47 /* Direction2DAspect.hpp */,
+				A027FB67216B03FD0095ED47 /* Transform2DAspect.hpp */,
+				A027FB68216B03FD0095ED47 /* Transform3DAspect.hpp */,
+				A027FB69216B03FD0095ED47 /* Velocity2DAspect.hpp */,
+			);
+			path = Movement;
+			sourceTree = "<group>";
+		};
+		A027FB6A216B03FD0095ED47 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB6B216B03FD0095ED47 /* BoxCollidable2DAspect.hpp */,
+				A027FB6C216B03FD0095ED47 /* Collidable2DAspect.hpp */,
+				A027FB6D216B03FD0095ED47 /* Physics2DResponderAspect.hpp */,
+				A027FB6E216B03FD0095ED47 /* PolygonCollidable2DAspect.hpp */,
+			);
+			path = Physics;
+			sourceTree = "<group>";
+		};
+		A027FB72216B04120095ED47 /* World */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB73216B04120095ED47 /* Aspects */,
+				A027FB83216B04120095ED47 /* World.cpp */,
+				A027FB84216B04120095ED47 /* WorldCamera.cpp */,
+				A027FB85216B04120095ED47 /* WorldObject.cpp */,
+			);
+			path = World;
+			sourceTree = "<group>";
+		};
+		A027FB73216B04120095ED47 /* Aspects */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB74216B04120095ED47 /* Drawing */,
+				A027FB79216B04120095ED47 /* Movement */,
+				A027FB7E216B04120095ED47 /* Physics */,
+			);
+			path = Aspects;
+			sourceTree = "<group>";
+		};
+		A027FB74216B04120095ED47 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB75216B04120095ED47 /* AnimationControllerAspect.cpp */,
+				A027FB76216B04120095ED47 /* ColorBoxAspect.cpp */,
+				A027FB77216B04120095ED47 /* Drawable2DAspect.cpp */,
+				A027FB78216B04120095ED47 /* SpriteAspect.cpp */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
+		A027FB79216B04120095ED47 /* Movement */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB7A216B04120095ED47 /* Direction2DAspect.cpp */,
+				A027FB7B216B04120095ED47 /* Transform2DAspect.cpp */,
+				A027FB7C216B04120095ED47 /* Transform3DAspect.cpp */,
+				A027FB7D216B04120095ED47 /* Velocity2DAspect.cpp */,
+			);
+			path = Movement;
+			sourceTree = "<group>";
+		};
+		A027FB7E216B04120095ED47 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB7F216B04120095ED47 /* BoxCollidable2DAspect.cpp */,
+				A027FB80216B04120095ED47 /* Collidable2DAspect.cpp */,
+				A027FB81216B04120095ED47 /* Physics2DResponderAspect.cpp */,
+				A027FB82216B04120095ED47 /* PolygonCollidable2DAspect.cpp */,
+			);
+			path = Physics;
+			sourceTree = "<group>";
+		};
+		A027FB95216B04220095ED47 /* Draw */ = {
+			isa = PBXGroup;
+			children = (
+				A027FB96216B04220095ED47 /* Drawable.cpp */,
+				A027FB97216B04220095ED47 /* DrawContext.cpp */,
+				A027FB98216B04220095ED47 /* DrawManager.cpp */,
+			);
+			path = Draw;
+			sourceTree = "<group>";
+		};
 		A049BB11211960BE00857893 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
 				A049BB12211960BE00857893 /* Animation.hpp */,
 				A049BB13211960BE00857893 /* AnimationPlayer.hpp */,
 				A049BB14211960BE00857893 /* AnimationProvider.hpp */,
+				A027FB9E216B04780095ED47 /* Animator.hpp */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -542,6 +728,7 @@
 				A049BB25211961FD00857893 /* Animation.cpp */,
 				A049BB26211961FD00857893 /* AnimationPlayer.cpp */,
 				A049BB27211961FD00857893 /* AnimationProvider.cpp */,
+				A027FB9C216B04480095ED47 /* Animator.cpp */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -626,6 +813,7 @@
 				A049BB24211961FD00857893 /* Animation */,
 				A0D7FCFD1F896A3C001771AE /* Application */,
 				A0D7FD031F896A3C001771AE /* Audio */,
+				A027FB95216B04220095ED47 /* Draw */,
 				A049BB2B2119621C00857893 /* Event */,
 				A0D7FD061F896A3C001771AE /* Exception */,
 				A0D7FD241F896A3C001771AE /* Graphics */,
@@ -638,6 +826,7 @@
 				A0D7FD511F896A3C001771AE /* SDL_ext */,
 				A0D7FD541F896A3C001771AE /* Utilities */,
 				A0D7FD621F896A3C001771AE /* Window */,
+				A027FB72216B04120095ED47 /* World */,
 				A0D7FD221F896A3C001771AE /* GameLibrary.cpp */,
 				A0D7FD231F896A3C001771AE /* GameLibrary.mm */,
 			);
@@ -951,6 +1140,7 @@
 				A049BB11211960BE00857893 /* Animation */,
 				F15A1E321E5498C7008D83E5 /* Application */,
 				F15A1E371E5498C7008D83E5 /* Audio */,
+				A027FB4E216B03DC0095ED47 /* Draw */,
 				A049BB1C2119613F00857893 /* Event */,
 				F15A1E3A1E5498C7008D83E5 /* Exception */,
 				F15A1E551E5498C7008D83E5 /* Graphics */,
@@ -961,6 +1151,7 @@
 				F15A1E641E5498C7008D83E5 /* Screen */,
 				F15A1E7C1E5498C7008D83E5 /* Utilities */,
 				F15A1E9C1E5498C7008D83E5 /* Window */,
+				A027FB5E216B03FD0095ED47 /* World */,
 				F15A1E7B1E5498C7008D83E5 /* Types.hpp */,
 				F15A1E541E5498C7008D83E5 /* GameLibrary.hpp */,
 			);
@@ -1547,7 +1738,9 @@
 				A0D7FD7D1F896A9A001771AE /* BadAnyCastException.cpp in Sources */,
 				F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */,
 				A0D7FDC41F896BBC001771AE /* Data.cpp in Sources */,
+				A027FB87216B04130095ED47 /* ColorBoxAspect.cpp in Sources */,
 				A0D7FD6A1F896A4F001771AE /* Actor.cpp in Sources */,
+				A027FB9A216B04230095ED47 /* DrawContext.cpp in Sources */,
 				A0D7FD9E1F896B0D001771AE /* FadeZoomTransition.cpp in Sources */,
 				A0D7FDCE1F896BD3001771AE /* Viewport.cpp in Sources */,
 				A0D7FD701F896A54001771AE /* Application.cpp in Sources */,
@@ -1557,6 +1750,7 @@
 				A0D7FDCD1F896BD3001771AE /* MessageBox.mm in Sources */,
 				A0D7FD871F896AA9001771AE /* IllegalStateException.cpp in Sources */,
 				F15A1F761E549ADD008D83E5 /* SDL2_framerate.c in Sources */,
+				A027FB8E216B04130095ED47 /* BoxCollidable2DAspect.cpp in Sources */,
 				A0D7FDA21F896B1B001771AE /* AnimationElement.cpp in Sources */,
 				A0D7FDAD1F896B24001771AE /* AutoLayoutCalculator.cpp in Sources */,
 				A049BB2A211961FD00857893 /* AnimationProvider.cpp in Sources */,
@@ -1566,6 +1760,7 @@
 				A049BB50211962AA00857893 /* PixelCollisionRect.cpp in Sources */,
 				A049BB29211961FD00857893 /* AnimationPlayer.cpp in Sources */,
 				A0D7FD961F896AC7001771AE /* FileTools.mm in Sources */,
+				A027FB8F216B04130095ED47 /* Collidable2DAspect.cpp in Sources */,
 				A0D7FD741F896A5A001771AE /* Music.cpp in Sources */,
 				A0D7FDB01F896B24001771AE /* ScreenElement.cpp in Sources */,
 				A0D7FD861F896AA9001771AE /* IllegalReturnValueException.cpp in Sources */,
@@ -1574,28 +1769,36 @@
 				A0D7FD731F896A54001771AE /* EventManager.cpp in Sources */,
 				A0D7FD901F896AB5001771AE /* TextureImage.cpp in Sources */,
 				A0D7FDAF1F896B24001771AE /* Screen.cpp in Sources */,
+				A027FB8A216B04130095ED47 /* Direction2DAspect.cpp in Sources */,
 				A049BB4A211962AA00857893 /* CollisionEvent.cpp in Sources */,
 				A0D7FDA41F896B1B001771AE /* CheckboxElement.cpp in Sources */,
 				A0D7FD881F896AA9001771AE /* InitializeLibraryException.cpp in Sources */,
 				A0D7FDAE1F896B24001771AE /* AutoLayoutManager.cpp in Sources */,
 				A0D7FD891F896AA9001771AE /* NotImplementedException.cpp in Sources */,
+				A027FB92216B04130095ED47 /* World.cpp in Sources */,
 				A0D7FD941F896AC7001771AE /* Console.cpp in Sources */,
+				A027FB99216B04230095ED47 /* Drawable.cpp in Sources */,
 				A0D7FD831F896AA9001771AE /* BadCastException.cpp in Sources */,
 				A0D7FDA61F896B1B001771AE /* MenuScreen.cpp in Sources */,
+				A027FB94216B04130095ED47 /* WorldObject.cpp in Sources */,
 				A0D7FDC61F896BBC001771AE /* Number.cpp in Sources */,
 				A049BB49211962AA00857893 /* Collidable.cpp in Sources */,
 				A0D7FD7C1F896A9A001771AE /* ArrayListOutOfBoundsException.cpp in Sources */,
 				A0D7FDA31F896B1B001771AE /* ButtonElement.cpp in Sources */,
 				A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */,
+				A027FB90216B04130095ED47 /* Physics2DResponderAspect.cpp in Sources */,
 				A0D7FD721F896A54001771AE /* BatchLoader.cpp in Sources */,
 				A0D7FD7F1F896A9A001771AE /* DataOutOfBoundsException.cpp in Sources */,
+				A027FB93216B04130095ED47 /* WorldCamera.cpp in Sources */,
 				A0D7FD781F896A70001771AE /* TextureImageUpdateException.cpp in Sources */,
 				A0D7FD691F896A49001771AE /* GameLibrary.mm in Sources */,
 				A0D7FDC51F896BBC001771AE /* Math.cpp in Sources */,
 				A0D7FD6D1F896A4F001771AE /* SpriteActor.cpp in Sources */,
 				A0D7FD851F896AA9001771AE /* IllegalArgumentException.cpp in Sources */,
 				A0D7FDC71F896BBC001771AE /* Plist.cpp in Sources */,
+				A027FB88216B04130095ED47 /* Drawable2DAspect.cpp in Sources */,
 				A0D7FD951F896AC7001771AE /* FileTools.cpp in Sources */,
+				A027FB9B216B04230095ED47 /* DrawManager.cpp in Sources */,
 				A0D7FD8B1F896AA9001771AE /* OutOfBoundsException.cpp in Sources */,
 				A08CB6042128E3A000864A20 /* json11.cpp in Sources */,
 				A0D7FD8F1F896AB5001771AE /* PixelIterator.cpp in Sources */,
@@ -1605,11 +1808,14 @@
 				A0D7FDC91F896BBC001771AE /* Thread.mm in Sources */,
 				A049BB4F211962AA00857893 /* CollisionRect.cpp in Sources */,
 				A049BB4B211962AA00857893 /* CollisionManager.cpp in Sources */,
+				A027FB8D216B04130095ED47 /* Velocity2DAspect.cpp in Sources */,
 				A0D7FD751F896A5A001771AE /* Sound.cpp in Sources */,
 				A0D7FD931F896AC0001771AE /* Multitouch.cpp in Sources */,
 				A049BB4C211962AA00857893 /* CollisionPair.cpp in Sources */,
+				A027FB8C216B04130095ED47 /* Transform3DAspect.cpp in Sources */,
 				A0D7FDA71F896B1B001771AE /* PopupScreen.cpp in Sources */,
 				A0D7FDA11F896B1B001771AE /* ActorMenuElement.cpp in Sources */,
+				A027FB9D216B04480095ED47 /* Animator.cpp in Sources */,
 				A0D7FD911F896AC0001771AE /* Keyboard.cpp in Sources */,
 				A049BB51211962AA00857893 /* PolygonCollisionRect.cpp in Sources */,
 				A049BB53211962AA00857893 /* ContactEvent.cpp in Sources */,
@@ -1617,12 +1823,16 @@
 				A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */,
 				A049BB55211962E000857893 /* DraggableElement.cpp in Sources */,
 				A049BB57211962FC00857893 /* Retainable.cpp in Sources */,
+				A027FB91216B04130095ED47 /* PolygonCollidable2DAspect.cpp in Sources */,
 				A049BB52211962AA00857893 /* CollisionSide.cpp in Sources */,
 				A0D7FDAC1F896B1B001771AE /* ZoomPanElement.cpp in Sources */,
 				A0D7FD8D1F896AB5001771AE /* Graphics.cpp in Sources */,
+				A027FB86216B04130095ED47 /* AnimationControllerAspect.cpp in Sources */,
+				A027FB8B216B04130095ED47 /* Transform2DAspect.cpp in Sources */,
 				A0D7FD7A1F896A77001771AE /* ScreenNavigationException.cpp in Sources */,
 				A0D7FDC01F896B9F001771AE /* Font.cpp in Sources */,
 				A0D7FDB11F896B24001771AE /* ScreenManager.cpp in Sources */,
+				A027FB89216B04130095ED47 /* SpriteAspect.cpp in Sources */,
 				A0D7FDAB1F896B1B001771AE /* TouchElement.cpp in Sources */,
 				A0D7FD8E1F896AB5001771AE /* Image.cpp in Sources */,
 				A0D7FD6F1F896A4F001771AE /* WireframeActor.cpp in Sources */,
