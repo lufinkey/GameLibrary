@@ -65,7 +65,6 @@ namespace fgl
 		}
 		else {
 			auto priorityRectPairs = getContactingRectPairs();
-			size_t pair_count = rects1.size()*rects2.size();
 			std::list<CollisionRectPair> pairs;
 			for(auto& priorityRect : priorityRectPairs) {
 				size_t rectIndex1 = rects1.indexWhere([&priorityRect](auto& rect) -> bool {

@@ -535,7 +535,6 @@ namespace fgl
 				auto collidable1 = *it;
 				auto collidable2 = *it2;
 				CollisionPair pair(collidable1, collidable2);
-				bool prevCollisionExists = false;
 				auto prevIt = std::find(unmatchedPrevCollisions.begin(), unmatchedPrevCollisions.end(), pair);
 				if(prevIt != unmatchedPrevCollisions.end()) {
 					unmatchedPrevCollisions.erase(prevIt);

@@ -58,7 +58,6 @@ namespace fgl
 		bool didFirstAnimator = false;
 		for(auto& pair : animators) {
 			auto animator = pair.second;
-			auto animProvider = animator->getAnimationProvider();
 			
 			String animName = pair.first + syncState.state.name;
 			

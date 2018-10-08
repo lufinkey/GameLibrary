@@ -53,10 +53,8 @@ namespace fgl
 		static bool setCurrentWorkingDirectory(const String& directory);
 		/*! Stores a list of items in a directory inside of an ArrayList of DirectoryEntry objects.
 			\param directory the directory to read entries
-			\param entries a pointer to an ArrayList<DirectoryEntry> to store the entries; This should not be null
-			\param error an optional String pointer to store the error message if the function fails
-			\returns true if all entries were successfully read from the directory, or false if an error is encountered
-			\throws fgl::IllegalArgumentException if items is null*/
+			\returns a list of entries
+		 	\throws fgl::Exception if an error occurs */
 		static ArrayList<DirectoryEntry> readEntriesFromDirectory(const String& directory);
 		
 		

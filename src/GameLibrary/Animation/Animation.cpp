@@ -117,7 +117,6 @@ namespace fgl
 		frames.reserve(frames.size() + (size_t)(rows*cols));
 		for(unsigned int y=0; y<rows; y++) {
 			for(unsigned int x=0; x<cols; x++) {
-				size_t index = frames.size();
 				frames.add(Frame(image, rows, cols, y, x));
 			}
 		}
