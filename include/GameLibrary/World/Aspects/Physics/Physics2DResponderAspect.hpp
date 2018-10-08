@@ -9,6 +9,8 @@ namespace fgl
 	class Physics2DResponderAspect : public WorldObjectAspect, public CollisionEventListener
 	{
 	public:
+		typedef std::function<bool(CollisionSide)> BounceCriteriaFunc;
+		
 		Physics2DResponderAspect();
 		
 		virtual void update(const ApplicationData& appData) override;
@@ -19,11 +21,18 @@ namespace fgl
 		void setDiminishStopAmount(const Vector2d& diminishStopAmount);
 		const Vector2d& getDiminishStopAmount() const;
 		
-		void setBounceThreshold(const Vector2d& bounceThreshold);
-		const Vector2d& getBounceThreshold() const;
+		void setBounceThresholds(BasicDictionary<CollisionSide,double> bounceThresholds);
+		void setBounceThreshold(double threshold);
+		void setBounceThreshold(CollisionSide side, double threshold);
+		double getBounceThreshold(CollisionSide side) const;
 		
-		void setBounceRetentionAmount(const Vector2d& bounceRetentionAmount);
-		const Vector2d& getBounceRetentionAmount() const;
+		void setBounceRetentionAmounts(BasicDictionary<CollisionSide,double> bounceRetentionAmounts);
+		void setBounceRetentionAmount(double retentionAmount);
+		void setBounceRetentionAmount(CollisionSide side, double retentionAmount);
+		double getBounceRetentionAmount(CollisionSide side) const;
+		
+		void setBounceCriteria(BounceCriteriaFunc criteriaFunc);
+		const BounceCriteriaFunc& getBounceCriteria() const;
 		
 	protected:
 		virtual void onCollision(const CollisionEvent& event) override;
@@ -35,7 +44,8 @@ namespace fgl
 		Vector2d prevVelocity;
 		Vector2d diminishAmount;
 		Vector2d diminishStopAmount;
-		Vector2d bounceThreshold;
-		Vector2d bounceRetentionAmount;
+		BasicDictionary<CollisionSide,double> bounceThresholds;
+		BasicDictionary<CollisionSide,double> bounceRetentionAmounts;
+		BounceCriteriaFunc bounceCriteria;
 	};
 }
