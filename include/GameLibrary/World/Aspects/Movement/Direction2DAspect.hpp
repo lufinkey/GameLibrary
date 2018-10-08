@@ -8,6 +8,7 @@
 namespace fgl
 {
 	class Direction2DListener;
+	class Direction2DDelegate;
 	
 	typedef std::function<void(const ApplicationData& appData, Vector2d speed, Vector2d prevSpeed)> SpeedApplyerFunc;
 	
@@ -43,10 +44,14 @@ namespace fgl
 		void addListener(Direction2DListener* listener);
 		void removeListener(Direction2DListener* listener);
 		
+		void addDelegate(Direction2DDelegate* delegate);
+		void removeDelegate(Direction2DDelegate* delegate);
+		
 		static SpeedApplyerFunc createVelocity2DXSpeedApplyer(WorldObject* object, SpeedApplyerOptions options);
 		
 	protected:
 		virtual void onChangeDirection(Vector2d direction);
+		virtual Vector2d getSpeedModifier() const;
 		
 	private:
 		Vector2d direction;
@@ -54,6 +59,7 @@ namespace fgl
 		Vector2d prevSpeed;
 		SpeedApplyerFunc speedApplyer;
 		std::list<Direction2DListener*> listeners;
+		std::list<Direction2DDelegate*> delegates;
 	};
 	
 	
@@ -66,5 +72,18 @@ namespace fgl
 		
 	protected:
 		virtual void onChangeDirection(Direction2DAspect* aspect, Vector2d direction);
+	};
+	
+	
+	
+	class Direction2DDelegate
+	{
+		friend class Direction2DAspect;
+	public:
+		virtual ~Direction2DDelegate() = default;
+		
+		virtual Vector2d getSpeedModifier(const Direction2DAspect* direction2d) const {
+			return { 1.0, 1.0 };
+		}
 	};
 }

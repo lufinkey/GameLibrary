@@ -14,7 +14,7 @@ namespace fgl
 	}
 	
 	void Direction2DAspect::update(const ApplicationData& appData) {
-		auto moveSpeed = direction * speed;
+		auto moveSpeed = direction * speed * getSpeedModifier();
 		
 		if(speedApplyer) {
 			speedApplyer(appData, moveSpeed, prevSpeed);
@@ -81,6 +81,17 @@ namespace fgl
 		}
 	}
 	
+	void Direction2DAspect::addDelegate(Direction2DDelegate* delegate) {
+		delegates.push_back(delegate);
+	}
+	
+	void Direction2DAspect::removeDelegate(Direction2DDelegate* delegate) {
+		auto delegateIt = std::find(delegates.begin(), delegates.end(), delegate);
+		if(delegateIt != delegates.end()) {
+			delegates.erase(delegateIt);
+		}
+	}
+	
 	void Direction2DAspect::onChangeDirection(Vector2d direction) {
 		if(listeners.size() > 0) {
 			auto tmpListeners = listeners;
@@ -88,6 +99,14 @@ namespace fgl
 				listener->onChangeDirection(this, direction);
 			}
 		}
+	}
+	
+	Vector2d Direction2DAspect::getSpeedModifier() const {
+		auto modifier = Vector2d{ 1.0, 1.0 };
+		for(auto delegate : delegates) {
+			modifier *= delegate->getSpeedModifier(this);
+		}
+		return modifier;
 	}
 	
 	
