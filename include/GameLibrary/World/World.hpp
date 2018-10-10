@@ -55,6 +55,8 @@ namespace fgl
 		const ArrayList<WorldCamera*>& getCameras();
 		const ArrayList<const WorldCamera*>& getCameras() const;
 		
+		TimeInterval getTime() const;
+		
 		void runBeforeUpdate(std::function<void()> func);
 		void runAfterUpdate(std::function<void()> func);
 		
@@ -72,8 +74,11 @@ namespace fgl
 		Vector2d gravity;
 		ArrayList<WorldCamera*> cameras;
 		AssetManager* assetManager;
+		TimeInterval time;
 		
 		std::list<std::function<void()>> preUpdateQueue;
 		std::list<std::function<void()>> postUpdateQueue;
+		
+		bool firstUpdate;
 	};
 }

@@ -19,7 +19,8 @@ namespace fgl
 		drawManager(drawManager ? drawManager : new DrawManager()),
 		collisionManager(collisionManager ? collisionManager : new CollisionManager()),
 		cameras(cameras),
-		assetManager(assetManager) {
+		assetManager(assetManager),
+		firstUpdate(true) {
 		for(auto camera : cameras) {
 			if(camera->world != nullptr) {
 				throw IllegalArgumentException("cameras", "camera cannot be used in multiple worlds");
@@ -41,6 +42,7 @@ namespace fgl
 		for(auto camera : cameras) {
 			delete camera;
 		}
+		time.stop();
 	}
 	
 	void World::update(ApplicationData appData) {
@@ -49,6 +51,11 @@ namespace fgl
 		preUpdateQueue.clear();
 		for(auto& func : nextPreUpdateQueue) {
 			func();
+		}
+		
+		if(firstUpdate) {
+			firstUpdate = false;
+			time.start();
 		}
 		
 		auto window = appData.getWindow();
@@ -301,5 +308,11 @@ namespace fgl
 	
 	void World::runAfterUpdate(std::function<void()> func) {
 		postUpdateQueue.push_back(func);
+	}
+	
+	
+	
+	TimeInterval World::getTime() const {
+		return time;
 	}
 }

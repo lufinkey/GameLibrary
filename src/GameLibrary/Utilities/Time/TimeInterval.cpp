@@ -152,8 +152,8 @@ namespace fgl
 	{
 		if(running)
 		{
-			running = false;
 			update();
+			running = false;
 		}
 	}
 
