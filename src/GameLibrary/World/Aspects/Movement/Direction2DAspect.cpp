@@ -112,7 +112,7 @@ namespace fgl
 	
 	
 	SpeedApplyerFunc Direction2DAspect::createVelocity2DXSpeedApplyer(WorldObject* object, SpeedApplyerOptions options) {
-		return SpeedApplyerFunc([=](auto appData, auto speed, auto prevSpeed) {
+		return SpeedApplyerFunc([=](auto& appData, auto speed, auto prevSpeed) {
 			auto direction2d = object->getAspect<Direction2DAspect>();
 			auto velocity2d = object->getAspect<Velocity2DAspect>();
 			auto collidable = object->getAspect<Collidable2DAspect>();
