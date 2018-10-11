@@ -44,13 +44,13 @@ namespace fgl
 		return nullptr;
 	}
 	
-	void* EventManager::getDataFromWindow(Window*window)
+	SDL_Window* EventManager::getSDLWindow(Window*window)
 	{
 		if(window == nullptr)
 		{
 			return nullptr;
 		}
-		return window->windowdata;
+		return window->sdlWindow;
 	}
 	
 	void EventManager::addWindow(Window*window)

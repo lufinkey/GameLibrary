@@ -10,6 +10,8 @@
 #include "AssetManager.hpp"
 #include "Viewport.hpp"
 
+struct SDL_Window;
+
 namespace fgl
 {
 //WindowSettings
@@ -132,11 +134,12 @@ namespace fgl
 
 		TransformD getViewportTransform() const;
 
-		void getHandlePtr(void*ptr) const;
-		void* getWindowData() const;
+		void getHandlePtr(void* ptr) const;
+		SDL_Window* getSDLWindow();
+		const SDL_Window* getSDLWindow() const;
 		
 	private:
-		void* windowdata;
+		SDL_Window* sdlWindow;
 		unsigned int windowID;
 		void* icondata;
 		Viewport* viewport;

@@ -228,7 +228,7 @@ namespace fgl
 
 	Graphics::Graphics(Window& win)
 	{
-		if(win.windowdata == nullptr)
+		if(win.sdlWindow == nullptr)
 		{
 			//TODO replace with more specific exception type
 			throw Exception("Cannot create Graphics object for window that is not created");
@@ -237,7 +237,7 @@ namespace fgl
 		renderTarget = nullptr;
 		renderTarget_width = 0;
 		renderTarget_height = 0;
-		renderer = (void*)SDL_CreateRenderer((SDL_Window*)win.windowdata,-1,SDL_RENDERER_ACCELERATED);
+		renderer = (void*)SDL_CreateRenderer(win.sdlWindow,-1,SDL_RENDERER_ACCELERATED);
 		if(renderer==nullptr)
 		{
 			//TODO replace with more specific exception type

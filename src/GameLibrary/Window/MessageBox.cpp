@@ -5,28 +5,25 @@
 namespace fgl
 {
 	#if !defined(TARGETPLATFORM_IOS)
-	unsigned int MessageBox::show(Window*parent, const String&title, const String&message)
+	unsigned int MessageBox::show(Window* parent, const String& title, const String& message)
 	{
-		SDL_Window*window = nullptr;
-		if(parent != nullptr)
-		{
-			window = (SDL_Window*)parent->getWindowData();
+		SDL_Window* window = nullptr;
+		if(parent != nullptr) {
+			window = parent->getSDLWindow();
 		}
 		int buttonid = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, title, message, window);
 		return (unsigned int)buttonid;
 	}
 	
-	unsigned int MessageBox::show(Window*parent, const String&title, const String&message, const ArrayList<String>&options)
+	unsigned int MessageBox::show(Window* parent, const String& title, const String& message, const ArrayList<String>& options)
 	{
-		SDL_Window*window = nullptr;
-		if(parent != nullptr)
-		{
-			window = (SDL_Window*)parent->getWindowData();
+		SDL_Window* window = nullptr;
+		if(parent != nullptr) {
+			window = parent->getSDLWindow();
 		}
 		int numOptions = (int)options.size();
-		SDL_MessageBoxButtonData*buttons = new SDL_MessageBoxButtonData[options.size()];
-		for(int i=0; i<numOptions; i++)
-		{
+		SDL_MessageBoxButtonData* buttons = new SDL_MessageBoxButtonData[options.size()];
+		for(int i=0; i<numOptions; i++) {
 			SDL_MessageBoxButtonData button = {0, (int)i, (const char*)options[i]};
 			buttons[i] = button;
 		}

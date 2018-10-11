@@ -83,6 +83,7 @@
         <File Name="../../src/GameLibrary/Utilities/Thread.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Retainable.cpp"/>
+        <File Name="../../include/GameLibrary/Window/Window.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
@@ -347,7 +348,6 @@
         <File Name="../../include/GameLibrary/Actor/SpriteActor.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Window">
-        <File Name="../../include/GameLibrary/Window/Window.hpp"/>
         <File Name="../../include/GameLibrary/Window/AssetManager.hpp"/>
         <File Name="../../include/GameLibrary/Window/MessageBox.hpp"/>
         <File Name="../../include/GameLibrary/Window/Viewport.hpp"/>

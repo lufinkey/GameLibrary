@@ -113,7 +113,7 @@ namespace fgl
 	}
 	
 	Window::Window()
-		: windowdata(nullptr), 
+		: sdlWindow(nullptr), 
 		windowID(-1),
 		icondata(nullptr),
 		viewport(nullptr),
@@ -127,7 +127,7 @@ namespace fgl
 	
 	Window::~Window()
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			destroy();
 		}
@@ -145,7 +145,7 @@ namespace fgl
 	
 	void Window::create(const WindowSettings& windowSettings)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			destroy();
 		}
@@ -209,20 +209,20 @@ namespace fgl
 			flags = flags | SDL_WINDOW_SHOWN;
 		}
 		
-		windowdata = (void*)SDL_CreateWindow(windowSettings.title,positionx,positiony,windowSettings.size.x,windowSettings.size.y, flags | SDL_WINDOW_OPENGL);
-		if(windowdata == nullptr)
+		sdlWindow = SDL_CreateWindow(windowSettings.title,positionx,positiony,windowSettings.size.x,windowSettings.size.y, flags | SDL_WINDOW_OPENGL);
+		if(sdlWindow == nullptr)
 		{
 			//TODO replace with more specific exception type
 			throw Exception(SDL_GetError());
 		}
-		windowID = SDL_GetWindowID((SDL_Window*)windowdata);
+		windowID = SDL_GetWindowID(sdlWindow);
 		
 		if(windowSettings.getIcon()!=nullptr)
 		{
 			icondata = createIconData(windowSettings.getIcon());
 			if(icondata!=nullptr)
 			{
-				SDL_SetWindowIcon((SDL_Window*)windowdata, (SDL_Surface*)icondata);
+				SDL_SetWindowIcon(sdlWindow, (SDL_Surface*)icondata);
 			}
 		}
 		
@@ -240,8 +240,8 @@ namespace fgl
 		}
 		catch(const Exception& e)
 		{
-			SDL_DestroyWindow((SDL_Window*)windowdata);
-			windowdata = nullptr;
+			SDL_DestroyWindow(sdlWindow);
+			sdlWindow = nullptr;
 			windowID = 0;
 			if(createdViewport)
 			{
@@ -281,7 +281,7 @@ namespace fgl
 	
 	void Window::refresh()
 	{
-		if(windowdata!=nullptr)
+		if(sdlWindow!=nullptr)
 		{
 			if(graphics->renderTarget!=nullptr)
 			{
@@ -346,7 +346,7 @@ namespace fgl
 					SDL_RenderCopy((SDL_Renderer*)graphics->renderer, (SDL_Texture*)graphics->renderTarget, nullptr, &dstRect);
 				}
 			}
-			//SDL_GL_SwapWindow((SDL_Window*)windowdata);
+			//SDL_GL_SwapWindow(sdlWindow);
 			SDL_RenderPresent((SDL_Renderer*)graphics->renderer);
 			graphics->reset(backgroundColor);
 		}
@@ -354,9 +354,9 @@ namespace fgl
 	
 	void Window::clear(const Color&clearColor)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			SDL_Renderer* renderer = SDL_GetRenderer((SDL_Window*)windowdata);
+			SDL_Renderer* renderer = SDL_GetRenderer(sdlWindow);
 			SDL_SetRenderDrawColor(renderer, clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 			SDL_RenderClear(renderer);
 			SDL_RenderPresent(renderer);
@@ -365,14 +365,14 @@ namespace fgl
 	
 	void Window::destroy()
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			delete assetManager;
 			assetManager = nullptr;
 			delete graphics;
 			graphics = nullptr;
-			SDL_DestroyWindow((SDL_Window*)windowdata);
-			windowdata = nullptr;
+			SDL_DestroyWindow(sdlWindow);
+			sdlWindow = nullptr;
 			if(viewport != nullptr)
 			{
 				delete viewport;
@@ -385,7 +385,7 @@ namespace fgl
 	
 	Image* Window::capture()
 	{
-		if(windowdata == nullptr)
+		if(sdlWindow == nullptr)
 		{
 			return nullptr;
 		}
@@ -393,7 +393,7 @@ namespace fgl
 		auto img = new Image();
 		int winWidth = 0;
 		int winHeight = 0;
-		SDL_GetWindowSize((SDL_Window*)windowdata, &winWidth, &winHeight);
+		SDL_GetWindowSize(sdlWindow, &winWidth, &winHeight);
 		img->create((unsigned int)winWidth, (unsigned int)winHeight);
 		if(SDL_RenderReadPixels((SDL_Renderer*)graphics->renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, (void*)(img->getPixels().getData()), (unsigned int)winWidth * 4) < 0)
 		{
@@ -425,11 +425,11 @@ namespace fgl
 	
 	Vector2i Window::getPosition() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			int x = 0;
 			int y = 0;
-			SDL_GetWindowPosition((SDL_Window*)windowdata,&x,&y);
+			SDL_GetWindowPosition(sdlWindow,&x,&y);
 			return Vector2i(x, y);
 		}
 		return Vector2i(0,0);
@@ -437,21 +437,21 @@ namespace fgl
 	
 	void Window::setPosition(const Vector2i& pos)
 	{
-		if(windowdata!=nullptr)
+		if(sdlWindow!=nullptr)
 		{
 			#ifndef TARGETPLATFORMTYPE_MOBILE
-				SDL_SetWindowPosition((SDL_Window*)windowdata,pos.x,pos.y);
+				SDL_SetWindowPosition(sdlWindow,pos.x,pos.y);
 			#endif
 		}
 	}
 	
 	Vector2u Window::getSize() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			int w = 0;
 			int h = 0;
-			SDL_GetWindowSize((SDL_Window*)windowdata,&w,&h);
+			SDL_GetWindowSize(sdlWindow,&w,&h);
 			return Vector2u((unsigned int)w, (unsigned int)h);
 		}
 		return Vector2u(0, 0);
@@ -478,14 +478,14 @@ namespace fgl
 	
 	void Window::setSize(const Vector2u& size)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			if((SDL_GetWindowFlags((SDL_Window*)windowdata) & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
+			if((SDL_GetWindowFlags(sdlWindow) & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
 			{
 				//update windowed_size if window is not fullscreen
 				windowed_size = size;
 			}
-			SDL_SetWindowSize((SDL_Window*)windowdata,(int)size.x,(int)size.y);
+			SDL_SetWindowSize(sdlWindow,(int)size.x,(int)size.y);
 			if(viewport != nullptr && viewport->matchesWindow())
 			{
 				viewport->setSize((double)size.x, (double)size.y);
@@ -495,11 +495,11 @@ namespace fgl
 
 	Vector2u Window::getMinimumSize() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			int minW = 0;
 			int minH = 0;
-			SDL_GetWindowMinimumSize((SDL_Window*)windowdata, &minW, &minH);
+			SDL_GetWindowMinimumSize(sdlWindow, &minW, &minH);
 			return Vector2u((unsigned int)minW, (unsigned int)minH);
 		}
 		return Vector2u(0, 0);
@@ -507,19 +507,19 @@ namespace fgl
 
 	void Window::setMinimumSize(const Vector2u& minSize)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			SDL_SetWindowMinimumSize((SDL_Window*)windowdata, (int)minSize.x, (int)minSize.y);
+			SDL_SetWindowMinimumSize(sdlWindow, (int)minSize.x, (int)minSize.y);
 		}
 	}
 
 	Vector2u Window::getMaximumSize() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			int maxW = 0;
 			int maxH = 0;
-			SDL_GetWindowMaximumSize((SDL_Window*)windowdata, &maxW, &maxH);
+			SDL_GetWindowMaximumSize(sdlWindow, &maxW, &maxH);
 			return Vector2u((unsigned int)maxW, (unsigned int)maxH);
 		}
 		return Vector2u(0, 0);
@@ -527,26 +527,26 @@ namespace fgl
 
 	void Window::setMaximumSize(const Vector2u& minSize)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			SDL_SetWindowMaximumSize((SDL_Window*)windowdata, (int)minSize.x, (int)minSize.y);
+			SDL_SetWindowMaximumSize(sdlWindow, (int)minSize.x, (int)minSize.y);
 		}
 	}
 	
 	String Window::getTitle() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			return SDL_GetWindowTitle((SDL_Window*)windowdata);
+			return SDL_GetWindowTitle(sdlWindow);
 		}
 		return "";
 	}
 	
 	void Window::setTitle(const String&title)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			SDL_SetWindowTitle((SDL_Window*)windowdata, title);
+			SDL_SetWindowTitle(sdlWindow, title);
 		}
 	}
 	
@@ -562,7 +562,7 @@ namespace fgl
 	
 	void Window::setIcon(Image*icon)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			if(icondata != nullptr)
 			{
@@ -571,12 +571,12 @@ namespace fgl
 			}
 			if(icon == nullptr)
 			{
-				SDL_SetWindowIcon((SDL_Window*)windowdata, nullptr);
+				SDL_SetWindowIcon(sdlWindow, nullptr);
 			}
 			else
 			{
 				icondata = createIconData(icon);
-				SDL_SetWindowIcon((SDL_Window*)windowdata, (SDL_Surface*)icondata);
+				SDL_SetWindowIcon(sdlWindow, (SDL_Surface*)icondata);
 			}
 		}
 	}
@@ -588,7 +588,7 @@ namespace fgl
 	
 	bool Window::isOpen() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
 			return true;
 		}
@@ -597,9 +597,9 @@ namespace fgl
 	
 	bool Window::isFocused() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags(sdlWindow);
 			if((flags & SDL_WINDOW_INPUT_FOCUS) == SDL_WINDOW_INPUT_FOCUS)
 			{
 				return true;
@@ -610,9 +610,9 @@ namespace fgl
 	
 	bool Window::isVisible() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags(sdlWindow);
 			if((flags & SDL_WINDOW_SHOWN) == SDL_WINDOW_SHOWN)
 			{
 				return true;
@@ -623,21 +623,21 @@ namespace fgl
 	
 	void Window::setVisible(bool toggle)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags(sdlWindow);
 			if(toggle)
 			{
 				if((flags & SDL_WINDOW_HIDDEN) == SDL_WINDOW_HIDDEN)
 				{
-					SDL_ShowWindow((SDL_Window*)windowdata);
+					SDL_ShowWindow(sdlWindow);
 				}
 			}
 			else
 			{
 				if((flags & SDL_WINDOW_SHOWN) == SDL_WINDOW_SHOWN)
 				{
-					SDL_HideWindow((SDL_Window*)windowdata);
+					SDL_HideWindow(sdlWindow);
 				}
 			}
 		}
@@ -645,9 +645,9 @@ namespace fgl
 	
 	bool Window::isFullscreen() const
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags(sdlWindow);
 			if((flags & SDL_WINDOW_FULLSCREEN) == SDL_WINDOW_FULLSCREEN)
 			{
 				return true;
@@ -663,18 +663,18 @@ namespace fgl
 	
 	void Window::setFullscreen(bool toggle, unsigned int width, unsigned int height)
 	{
-		if(windowdata != nullptr)
+		if(sdlWindow != nullptr)
 		{
-			Uint32 flags = SDL_GetWindowFlags((SDL_Window*)windowdata);
+			Uint32 flags = SDL_GetWindowFlags(sdlWindow);
 			if(toggle)
 			{
 				if((flags & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN)
 				{
 					int oldWidth = 0;
 					int oldHeight = 0;
-					SDL_GetWindowSize((SDL_Window*)windowdata, &oldWidth, &oldHeight);
-					SDL_SetWindowSize((SDL_Window*)windowdata, (int)width, (int)height);
-					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, SDL_WINDOW_FULLSCREEN)==0)
+					SDL_GetWindowSize(sdlWindow, &oldWidth, &oldHeight);
+					SDL_SetWindowSize(sdlWindow, (int)width, (int)height);
+					if(SDL_SetWindowFullscreen(sdlWindow, SDL_WINDOW_FULLSCREEN)==0)
 					{
 						windowed_size = Vector2u((unsigned int)oldWidth, (unsigned int)oldHeight);
 						if(viewport != nullptr && viewport->matchesWindow())
@@ -692,9 +692,9 @@ namespace fgl
 			{
 				if((flags & SDL_WINDOW_FULLSCREEN) == SDL_WINDOW_FULLSCREEN)
 				{
-					if(SDL_SetWindowFullscreen((SDL_Window*)windowdata, 0)==0)
+					if(SDL_SetWindowFullscreen(sdlWindow, 0)==0)
 					{
-						SDL_SetWindowSize((SDL_Window*)windowdata, (int)width, (int)height);
+						SDL_SetWindowSize(sdlWindow, (int)width, (int)height);
 						if(viewport != nullptr && viewport->matchesWindow())
 						{
 							viewport->setSize((double)width, (double)height);
@@ -823,7 +823,7 @@ namespace fgl
 	{
 		TransformD transform;
 		
-		if(windowdata == nullptr)
+		if(sdlWindow == nullptr)
 		{
 			return transform;
 		}
@@ -901,10 +901,10 @@ namespace fgl
 	
 	void Window::getHandlePtr(void*ptr) const
 	{
-		if(windowdata!=nullptr)
+		if(sdlWindow!=nullptr)
 		{
 			SDL_SysWMinfo info;
-			SDL_GetWindowWMInfo((SDL_Window*)windowdata, &info);
+			SDL_GetWindowWMInfo(sdlWindow, &info);
 			#if defined(TARGETPLATFORM_WINDOWS)
 				*((HWND*)ptr) = info.info.win.window;
 			#else
@@ -913,9 +913,14 @@ namespace fgl
 		}
 	}
 	
-	void* Window::getWindowData() const
+	SDL_Window* Window::getSDLWindow()
 	{
-		return windowdata;
+		return sdlWindow;
+	}
+	
+	const SDL_Window* Window::getSDLWindow() const
+	{
+		return sdlWindow;
 	}
 
 	WindowEventListener::~WindowEventListener()

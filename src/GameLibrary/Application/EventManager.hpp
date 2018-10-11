@@ -5,6 +5,8 @@
 #include <GameLibrary/Types.hpp>
 #include <GameLibrary/Utilities/ArrayList.hpp>
 
+struct SDL_Window;
+
 namespace fgl
 {
 	class Application;
@@ -19,9 +21,9 @@ namespace fgl
 		friend class Window;
 	private:
 		static const ArrayList<Window*>& getWindows();
-		static void*getWindowMutexPtr();
-		static Window*getWindowFromID(unsigned int windowID);
-		static void*getDataFromWindow(Window*window);
+		static void* getWindowMutexPtr();
+		static Window* getWindowFromID(unsigned int windowID);
+		static SDL_Window* getSDLWindow(Window*window);
 		
 		static void addWindow(Window*window);
 		static void removeWindow(Window*window);

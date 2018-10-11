@@ -316,11 +316,11 @@ namespace fgl
 		return pressed;
 	}
 	
-	Vector2d Mouse::getPosition(Window*window, unsigned int mouseIndex)
+	Vector2d Mouse::getPosition(Window* window, unsigned int mouseIndex)
 	{
 		if(window == nullptr)
 		{
-			SDL_Window*sdlwin = SDL_GetMouseFocus();
+			SDL_Window* sdlwin = SDL_GetMouseFocus();
 			if(sdlwin != nullptr)
 			{
 				window = EventManager::getWindowFromID(SDL_GetWindowID(sdlwin));
@@ -343,22 +343,22 @@ namespace fgl
 		return vect;
 	}
 	
-	double Mouse::getX(Window*window, unsigned int mouseIndex)
+	double Mouse::getX(Window* window, unsigned int mouseIndex)
 	{
 		return Mouse::getPosition(window, mouseIndex).x;
 	}
 	
-	double Mouse::getY(Window*window, unsigned int mouseIndex)
+	double Mouse::getY(Window* window, unsigned int mouseIndex)
 	{
 		return Mouse::getPosition(window, mouseIndex).y;
 	}
 	
-	void Mouse::setPosition(Window*window, unsigned int mouseIndex, const Vector2d&pos)
+	void Mouse::setPosition(Window* window, unsigned int mouseIndex, const Vector2d&pos)
 	{
 		//TODO add support for multiple mouse indexes
 		if(mouseIndex==0)
 		{
-			SDL_WarpMouseInWindow((SDL_Window*)EventManager::getDataFromWindow(window), (int)pos.x, (int)pos.y);
+			SDL_WarpMouseInWindow(window->getSDLWindow(), (int)pos.x, (int)pos.y);
 		}
 	}
 	
