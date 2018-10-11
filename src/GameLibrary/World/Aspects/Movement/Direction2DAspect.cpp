@@ -46,7 +46,7 @@ namespace fgl
 	void Direction2DAspect::setDirection(const Vector2d& direction_arg) {
 		if(direction != direction_arg) {
 			direction = direction_arg;
-			onChangeDirection(direction);
+			onDirectionChange(direction);
 		}
 	}
 	
@@ -92,11 +92,11 @@ namespace fgl
 		}
 	}
 	
-	void Direction2DAspect::onChangeDirection(Vector2d direction) {
+	void Direction2DAspect::onDirectionChange(Vector2d direction) {
 		if(listeners.size() > 0) {
 			auto tmpListeners = listeners;
 			for(auto listener : tmpListeners) {
-				listener->onChangeDirection(this, direction);
+				listener->onDirectionChange(this, direction);
 			}
 		}
 	}
@@ -145,7 +145,7 @@ namespace fgl
 	
 	
 	
-	void Direction2DListener::onChangeDirection(Direction2DAspect* aspect, Vector2d direction) {
+	void Direction2DListener::onDirectionChange(Direction2DAspect* aspect, Vector2d direction) {
 		// open for implementation
 	}
 }

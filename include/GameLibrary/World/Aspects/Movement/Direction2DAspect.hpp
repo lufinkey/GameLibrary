@@ -50,7 +50,7 @@ namespace fgl
 		static SpeedApplyerFunc createVelocity2DXSpeedApplyer(WorldObject* object, SpeedApplyerOptions options);
 		
 	protected:
-		virtual void onChangeDirection(Vector2d direction);
+		virtual void onDirectionChange(Vector2d direction);
 		virtual Vector2d getSpeedModifier() const;
 		
 	private:
@@ -71,7 +71,7 @@ namespace fgl
 		virtual ~Direction2DListener() = default;
 		
 	protected:
-		virtual void onChangeDirection(Direction2DAspect* aspect, Vector2d direction);
+		virtual void onDirectionChange(Direction2DAspect* aspect, Vector2d direction);
 	};
 	
 	
