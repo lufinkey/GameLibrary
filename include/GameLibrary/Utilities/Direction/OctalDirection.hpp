@@ -6,6 +6,7 @@
 #include <GameLibrary/Utilities/Geometry/Rectangle.hpp>
 #include <GameLibrary/Utilities/Geometry/Vector2.hpp>
 #include <GameLibrary/Exception/IllegalArgumentException.hpp>
+#include <tuple>
 
 namespace fgl
 {
