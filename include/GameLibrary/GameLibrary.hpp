@@ -110,6 +110,8 @@
 #include "Utilities/String.hpp"
 #include "Utilities/Thread.hpp"
 #include "Utilities/Tools.hpp"
+#include "Utilities/Direction/OctalDirection.hpp"
+#include "Utilities/Direction/QuadDirection.hpp"
 #include "Utilities/Font/Font.hpp"
 #include "Utilities/Geometry/Circle.hpp"
 #include "Utilities/Geometry/Line.hpp"

@@ -84,6 +84,10 @@
         <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Retainable.cpp"/>
         <File Name="../../include/GameLibrary/Window/Window.hpp"/>
+        <VirtualDirectory Name="Direction">
+          <File Name="../../src/GameLibrary/Utilities/Direction/QuadDirection.cpp"/>
+          <File Name="../../src/GameLibrary/Utilities/Direction/OctalDirection.cpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
@@ -273,6 +277,10 @@
         <File Name="../../include/GameLibrary/Utilities/Retainable.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Aspectable.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/PerformanceMacros.hpp"/>
+        <VirtualDirectory Name="Direction">
+          <File Name="../../include/GameLibrary/Utilities/Direction/QuadDirection.hpp"/>
+          <File Name="../../include/GameLibrary/Utilities/Direction/OctalDirection.hpp"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
