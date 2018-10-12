@@ -151,7 +151,7 @@ namespace fgl
 	
 	
 	
-	OctalDirection getOctalDirection(const Vector2d& direction);
-	Vector2d getOctalDirectionVector(OctalDirection direction);
-	Vector2d getFlatOctalDirectionVector(OctalDirection direction);
+	OctalDirection OctalDirection_fromVector2(const Vector2d& direction);
+	Vector2d OctalDirection_toVector2(OctalDirection direction);
+	Vector2d OctalDirection_toFlatVector2(OctalDirection direction);
 }

@@ -3,7 +3,7 @@
 
 namespace fgl
 {
-	OctalDirection getOctalDirection(const fgl::Vector2d& direction) {
+	OctalDirection OctalDirection_fromVector2(const Vector2d& direction) {
     	if(direction.y < 0) {
     		if(direction.x == 0) {
     			return OctalDirection::UP;
@@ -77,7 +77,7 @@ namespace fgl
 	
 	
 	
-	fgl::Vector2d getOctalDirectionVector(OctalDirection direction) {
+	Vector2d OctalDirection_toVector2(OctalDirection direction) {
 		static double cosMult = fgl::Math::cos(fgl::Math::degtorad(45.0));
 		switch(direction) {
 			case OctalDirection::NONE:
@@ -108,13 +108,13 @@ namespace fgl
 				return { -cosMult, -cosMult };
 				
 			default:
-				throw fgl::IllegalArgumentException("direction", "invalid OctalDirection enum");
+				throw IllegalArgumentException("direction", "invalid OctalDirection enum");
 		}
 	}
 	
 	
 	
-	fgl::Vector2d getFlatOctalDirectionVector(OctalDirection direction) {
+	Vector2d OctalDirection_toFlatVector2(OctalDirection direction) {
 		switch(direction) {
 			case OctalDirection::NONE:
 				return { 0, 0 };
@@ -144,7 +144,7 @@ namespace fgl
 				return { -1, -1 };
 				
 			default:
-				throw fgl::IllegalArgumentException("direction", "invalid OctalDirection enum");
+				throw IllegalArgumentException("direction", "invalid OctalDirection enum");
 		}
 	}
 	
