@@ -53,7 +53,7 @@ namespace fgl
 		fps = 30;
 		sleeptime = (unsigned long long)(1000/fps);
 
-		unsigned int flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_EVENTS;
+		unsigned int flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS;
 		if(!SDL_WasInit(flags))
 		{
 			if(SDL_Init(flags) != 0)
