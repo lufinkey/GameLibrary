@@ -131,15 +131,17 @@ namespace fgl
 					maxSpeedChange = 0;
 				}
 			}
-			auto xMoveRatio = Math::abs(possibleAccel.x / (maxSpeedChange * appData.getFrameSpeedMultiplier()));
-			if(xMoveRatio <= 1.0) {
-				velocity.x = speed.x;
+			if(maxSpeedChange != 0) {
+				auto xMoveRatio = Math::abs(possibleAccel.x / (maxSpeedChange * appData.getFrameSpeedMultiplier()));
+				if(xMoveRatio <= 1.0) {
+					velocity.x = speed.x;
+				}
+				else {
+					auto xMove = possibleAccel.x / xMoveRatio;
+					velocity.x += xMove;
+				}
+				velocity2d->setVelocity(velocity);
 			}
-			else {
-				auto xMove = possibleAccel.x / xMoveRatio;
-				velocity.x += xMove;
-			}
-			velocity2d->setVelocity(velocity);
 		});
 	}
 	
