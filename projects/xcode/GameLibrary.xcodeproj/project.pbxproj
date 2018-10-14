@@ -44,6 +44,8 @@
 		A049BB55211962E000857893 /* DraggableElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB54211962E000857893 /* DraggableElement.cpp */; };
 		A049BB57211962FC00857893 /* Retainable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A049BB56211962FC00857893 /* Retainable.cpp */; };
 		A06573BA1F8B351300F5D6F7 /* GridSelectorElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */; };
+		A078E00321730BDF00B30123 /* OctalDirection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A078E00121730BDF00B30123 /* OctalDirection.cpp */; };
+		A078E00421730BDF00B30123 /* QuadDirection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A078E00221730BDF00B30123 /* QuadDirection.cpp */; };
 		A08CB6042128E3A000864A20 /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A08CB6022128E3A000864A20 /* json11.cpp */; };
 		A0D7FD681F896A49001771AE /* GameLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD221F896A3C001771AE /* GameLibrary.cpp */; };
 		A0D7FD691F896A49001771AE /* GameLibrary.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0D7FD231F896A3C001771AE /* GameLibrary.mm */; };
@@ -349,6 +351,10 @@
 		A049BB56211962FC00857893 /* Retainable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Retainable.cpp; sourceTree = "<group>"; };
 		A06573AF1F8B34D500F5D6F7 /* GridSelectorElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GridSelectorElement.hpp; sourceTree = "<group>"; };
 		A06573B91F8B351300F5D6F7 /* GridSelectorElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GridSelectorElement.cpp; sourceTree = "<group>"; };
+		A078DFF521730BC400B30123 /* OctalDirection.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OctalDirection.hpp; sourceTree = "<group>"; };
+		A078DFF621730BC400B30123 /* QuadDirection.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuadDirection.hpp; sourceTree = "<group>"; };
+		A078E00121730BDF00B30123 /* OctalDirection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OctalDirection.cpp; sourceTree = "<group>"; };
+		A078E00221730BDF00B30123 /* QuadDirection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadDirection.cpp; sourceTree = "<group>"; };
 		A08CB6012128E3A000864A20 /* json11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json11.hpp; sourceTree = "<group>"; };
 		A08CB6022128E3A000864A20 /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json11.cpp; sourceTree = "<group>"; };
 		A08CB619212EAF9100864A20 /* PerformanceMacros.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PerformanceMacros.hpp; sourceTree = "<group>"; };
@@ -797,6 +803,24 @@
 			path = CollisionRects;
 			sourceTree = "<group>";
 		};
+		A078DFF421730BC400B30123 /* Direction */ = {
+			isa = PBXGroup;
+			children = (
+				A078DFF521730BC400B30123 /* OctalDirection.hpp */,
+				A078DFF621730BC400B30123 /* QuadDirection.hpp */,
+			);
+			path = Direction;
+			sourceTree = "<group>";
+		};
+		A078E00021730BDF00B30123 /* Direction */ = {
+			isa = PBXGroup;
+			children = (
+				A078E00121730BDF00B30123 /* OctalDirection.cpp */,
+				A078E00221730BDF00B30123 /* QuadDirection.cpp */,
+			);
+			path = Direction;
+			sourceTree = "<group>";
+		};
 		A08CB6002128E38800864A20 /* json11 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1025,6 +1049,7 @@
 		A0D7FD541F896A3C001771AE /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A078E00021730BDF00B30123 /* Direction */,
 				A0D7FD561F896A3C001771AE /* Font */,
 				A0D7FD5E1F896A3C001771AE /* Time */,
 				A0D7FD551F896A3C001771AE /* Data.cpp */,
@@ -1339,6 +1364,7 @@
 		F15A1E7C1E5498C7008D83E5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A078DFF421730BC400B30123 /* Direction */,
 				F15A1E841E5498C7008D83E5 /* Font */,
 				F15A1E871E5498C7008D83E5 /* Geometry */,
 				F15A1E981E5498C7008D83E5 /* Time */,
@@ -1736,6 +1762,7 @@
 				A0D7FD9F1F896B0D001771AE /* PopoverTransition.cpp in Sources */,
 				A0D7FD9D1F896B0D001771AE /* FadeColorTransition.cpp in Sources */,
 				A0D7FD7D1F896A9A001771AE /* BadAnyCastException.cpp in Sources */,
+				A078E00321730BDF00B30123 /* OctalDirection.cpp in Sources */,
 				F15A1F7D1E549ADD008D83E5 /* SDL2_rotozoom.c in Sources */,
 				A0D7FDC41F896BBC001771AE /* Data.cpp in Sources */,
 				A027FB87216B04130095ED47 /* ColorBoxAspect.cpp in Sources */,
@@ -1835,6 +1862,7 @@
 				A027FB89216B04130095ED47 /* SpriteAspect.cpp in Sources */,
 				A0D7FDAB1F896B1B001771AE /* TouchElement.cpp in Sources */,
 				A0D7FD8E1F896AB5001771AE /* Image.cpp in Sources */,
+				A078E00421730BDF00B30123 /* QuadDirection.cpp in Sources */,
 				A0D7FD6F1F896A4F001771AE /* WireframeActor.cpp in Sources */,
 				A049BB28211961FD00857893 /* Animation.cpp in Sources */,
 				A0D7FDAA1F896B1B001771AE /* TextInputElement.cpp in Sources */,
