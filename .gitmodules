@@ -25,6 +25,3 @@
 [submodule "external/json11"]
 	path = external/json11
 	url = https://github.com/dropbox/json11
-[submodule "external/SDL/SDL_GameControllerDB"]
-	path = external/SDL/SDL_GameControllerDB
-	url = https://github.com/gabomdq/SDL_GameControllerDB
