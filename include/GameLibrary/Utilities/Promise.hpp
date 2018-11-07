@@ -4,611 +4,598 @@
 #include <GameLibrary/Exception/Exception.hpp>
 #include <GameLibrary/Exception/ExceptionPtr.hpp>
 #include "ArrayList.hpp"
-#include "Traits.hpp"
+#include "Tools.hpp"
 #include <functional>
 #include <future>
+#include <list>
 #include <memory>
+#include <mutex>
 
 namespace fgl
 {
-	template<typename RESULT_TYPE>
-	class Promise;
-	
-	template<typename RESULT_TYPE>
+	template<typename ARG, typename RETURN>
 	struct PromiseHelperTypes
 	{
-		using Callback = std::function<void(RESULT_TYPE)>;
-		template<typename NEXT_RESULT_TYPE>
-		using NextCallback = std::function<Promise<NEXT_RESULT_TYPE>(RESULT_TYPE)>;
+		using Func = std::function<RETURN(ARG)>;
 	};
 	
-	template<>
-	struct PromiseHelperTypes<void>
+	template<typename RETURN>
+	struct PromiseHelperTypes<void, RETURN>
 	{
-		using Callback = std::function<void()>;
-		template<typename NEXT_RESULT_TYPE>
-		using NextCallback = std::function<Promise<NEXT_RESULT_TYPE>()>;
+		using Func = std::function<RETURN()>;
 	};
 	
-	template<typename RESULT_TYPE, typename ERROR_TYPE>
-	using PromiseExecutor = std::function<void(typename PromiseHelperTypes<RESULT_TYPE>::Callback, typename PromiseHelperTypes<ERROR_TYPE>::Callback)>;
 	
-	template<typename RESULT_TYPE=void>
+	
+	template<typename RESULT>
 	class Promise
 	{
 	public:
-		typedef RESULT_TYPE result_type;
-		typedef Promise<RESULT_TYPE> promise_type;
+		typedef RESULT Result;
 		
-		using Resolver = typename PromiseHelperTypes<RESULT_TYPE>::Callback;
-		template<typename ERROR_TYPE>
-		using Rejecter = typename PromiseHelperTypes<ERROR_TYPE>::Callback;
-		template<typename NEXT_RESULT_TYPE>
-		using NextResolver = typename PromiseHelperTypes<RESULT_TYPE>::template NextCallback<NEXT_RESULT_TYPE>;
-		template<typename NEXT_RESULT_TYPE, typename ERROR_TYPE>
-		using NextRejecter = typename PromiseHelperTypes<ERROR_TYPE>::template NextCallback<NEXT_RESULT_TYPE>;
+		using Resolver = typename PromiseHelperTypes<RESULT,void>::Func;
+		using Rejecter = std::function<void(ExceptionPtr)>;
+		template<typename RETURN>
+		using Then = typename PromiseHelperTypes<RESULT,RETURN>::Func;
+		template<typename ERROR, typename RETURN>
+		using Catch = std::function<RETURN(ERROR)>;
 		
-		// constructor<any>
-		template<
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename std::enable_if<!std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-		explicit Promise(const PromiseExecutor<_RESULT_TYPE, ExceptionPtr>& executor)
-		{
-			if(!executor) {
-				throw IllegalArgumentException("executor", "cannot be null");
+		
+		explicit Promise(const std::function<void(Resolver, Rejecter)>& executor)
+			: continuer(std::make_shared<Continuer>()) {
+			ASSERT(executor != nullptr, "promise executor cannot be null");
+			if constexpr(std::is_same<RESULT,void>::value) {
+				executor([=]() {
+					continuer->resolve();
+				}, [=](auto error) {
+					continuer->reject(error);
+				});
 			}
-			// create continuer
-			auto _continuer = std::shared_ptr<Continuer>(new Continuer());
-			continuer = _continuer;
-			// execute
-			printf("calling executor\n");
-			executor([=](const _RESULT_TYPE& result) {
-				_continuer->resolve(result);
-			}, [=](ExceptionPtr error) {
-				_continuer->reject(error.ptr());
+			else {
+				executor([=](auto result) {
+					continuer->resolve(result);
+				}, [=](auto error) {
+					continuer->reject(error);
+				});
+			}
+		}
+		
+		
+		Promise<void> then(Then<void> onresolve, Catch<std::exception_ptr,void> onreject) {
+			return continuer->handle(onresolve, onreject);
+		}
+		
+		
+		template<typename NEXT_RESULT>
+		Promise<NEXT_RESULT> then(Then<Promise<NEXT_RESULT>> onresolve, Catch<std::exception_ptr,Promise<NEXT_RESULT>> onreject) {
+			return continuer->template handle<NEXT_RESULT>(onresolve, onreject);
+		}
+		
+		
+		Promise<void> then(Then<void> onresolve) {
+			printf("entering no return then\n");
+			return continuer->handle(onresolve, nullptr);
+		}
+		
+		
+		template<typename NEXT_RESULT>
+		Promise<NEXT_RESULT> then(Then<Promise<NEXT_RESULT>> onresolve) {
+			printf("entering promise return then\n");
+			return continuer->template handle<NEXT_RESULT>(onresolve, nullptr);
+		}
+		
+		
+		template<typename ERROR>
+		Promise<RESULT> fail(Catch<ERROR,void> onreject) {
+			Then<Promise<RESULT>> resultForwarder = nullptr;
+			if constexpr(std::is_same<RESULT,void>::value) {
+				resultForwarder = [=]() -> Promise<RESULT> {
+					return Promise<RESULT>::resolve();
+				};
+			}
+			else {
+				resultForwarder = [=](RESULT result) -> Promise<RESULT> {
+					return Promise<RESULT>::resolve(result);
+				};
+			}
+			return continuer->template handle<RESULT>(resultForwarder, [=](std::exception_ptr exceptionPtr) -> Promise<RESULT> {
+				if constexpr(std::is_same<std::exception_ptr,ERROR>::value) {
+					onreject(exceptionPtr);
+					return Promise<RESULT>::null();
+				}
+				else {
+					try {
+						std::rethrow_exception(exceptionPtr);
+					}
+					catch(const ERROR& error) {
+						onreject(error);
+						return Promise<RESULT>::null();
+					}
+					catch(...) {
+						return Promise<RESULT>::reject(exceptionPtr);
+					}
+				}
 			});
 		}
 		
-		// constructor<void>
-		template<
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename std::enable_if<std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-		explicit Promise(const PromiseExecutor<_RESULT_TYPE, ExceptionPtr>& executor)
-		{
-			if(!executor) {
-				throw IllegalArgumentException("executor", "cannot be null");
+		
+		template<typename ERROR>
+		Promise<RESULT> fail(Catch<ERROR,Promise<RESULT>> onreject) {
+			Then<Promise<RESULT>> resultForwarder = nullptr;
+			if constexpr(std::is_same<RESULT,void>::value) {
+				resultForwarder = [=]() -> Promise<RESULT> {
+					return Promise<RESULT>::resolve();
+				};
 			}
-			// create continuer
-			auto _continuer = std::shared_ptr<Continuer>(new Continuer());
-			continuer = _continuer;
-			// execute
-			executor([=]() {
-				_continuer->resolve();
-			}, [=](ExceptionPtr error) {
-				_continuer->reject(error.ptr());
+			else {
+				resultForwarder = [=](RESULT result) -> Promise<RESULT> {
+					return Promise<RESULT>::resolve(result);
+				};
+			}
+			return continuer->template handle<RESULT>(resultForwarder, [=](std::exception_ptr exceptionPtr) {
+				if constexpr(std::is_same<std::exception_ptr,ERROR>::value) {
+					return onreject(exceptionPtr);
+				}
+				else {
+					try {
+						std::rethrow_exception(exceptionPtr);
+					}
+					catch(const ERROR& error) {
+						return onreject(error);
+					}
+					catch(...) {
+						return Promise<RESULT>::reject(exceptionPtr);
+					}
+				}
 			});
 		}
 		
-		// resolve<any>
-		template<
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename std::enable_if<!std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-		static Promise<_RESULT_TYPE> resolve(const _RESULT_TYPE& result)
-		{
-			return Promise<_RESULT_TYPE>([&](const Resolver& resolve, const Rejecter<ExceptionPtr>& reject) {
+		
+		Promise<void> finally(std::function<void()> onfinish) {
+			Then<Promise<void>> thenFinally = nullptr;
+			if constexpr(std::is_same<RESULT,void>::value) {
+				thenFinally = [=]() {
+					onfinish();
+					return Promise<void>::resolve();
+				};
+			}
+			else {
+				thenFinally = [=](RESULT result) {
+					onfinish();
+					return Promise<void>::resolve();
+				};
+			}
+			return continuer->template handle<void>(thenFinally, [=](std::exception_ptr exceptionPtr) {
+				onfinish();
+				return Promise<void>::resolve();
+			});
+		}
+		
+		
+		template<typename NEXT_RESULT>
+		Promise<NEXT_RESULT> finally(std::function<Promise<NEXT_RESULT>()> onfinish) {
+			Then<Promise<NEXT_RESULT>> thenFinally = nullptr;
+			if constexpr(std::is_same<RESULT,void>::value) {
+				thenFinally = [=]() -> Promise<NEXT_RESULT> {
+					return onfinish();
+				};
+			}
+			else {
+				thenFinally = [=](RESULT result) -> Promise<NEXT_RESULT> {
+					return onfinish();
+				};
+			}
+			return continuer->template handle<void>(thenFinally, [=](std::exception_ptr exceptionPtr) {
+				return onfinish();
+			});
+		}
+		
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<!std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<_RESULT> resolve(_RESULT result) {
+			return Promise<_RESULT>([&](auto resolve, auto reject) {
 				resolve(result);
 			});
 		}
 		
-		// resolve<void>
-		template<
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename std::enable_if<std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-		static Promise<_RESULT_TYPE> resolve()
-		{
-			return Promise<_RESULT_TYPE>([&](const Resolver& resolve, const Rejecter<ExceptionPtr>& reject) {
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<_RESULT> resolve() {
+			return Promise<_RESULT>([&](auto resolve, auto reject) {
 				resolve();
 			});
 		}
 		
-		// reject
-		template<typename ERROR_TYPE>
-		static Promise<RESULT_TYPE> reject(const ERROR_TYPE& error)
-		{
-			return Promise<RESULT_TYPE>([&](const Resolver& resolve, const Rejecter<ExceptionPtr>& reject) {
+		
+		static Promise<RESULT> reject(ExceptionPtr error) {
+			return Promise<RESULT>([&](auto resolve, auto reject) {
 				reject(error);
 			});
 		}
 		
-		// then<any>(onResolve -> promise, onReject -> promise)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				!std::is_same<_RESULT_TYPE, void>::value &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename RESOLVER_TRAITS::result_type>::value &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(
-			const RESOLVER& onResolve,
-			const REJECTER& onReject)
-		{
-			if(!onResolve && !onReject) {
-				throw fgl::IllegalArgumentException("onResolve", "cannot be null if onReject is also null");
-			}
-			auto _continuer = continuer;
-			return Promise<NEXT_RESULT_TYPE>([=](const typename Promise<NEXT_RESULT_TYPE>::Resolver& resolve, const typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>& reject) {
-				if(onResolve) {
-					_continuer->setResolver([=](const _RESULT_TYPE& result) {
-						try {
-							auto nextPromise = onResolve(result);
-							nextPromise.template then<void, ExceptionPtr>(resolve, reject);
-						}
-						catch(...) {
-							reject(std::current_exception());
-						}
-					});
-				}
-				if(onReject) {
-					_continuer->template setRejecter([=](std::exception_ptr error) {
-						callRejector<NEXT_RESULT_TYPE, ERROR_TYPE>(onReject, error, resolve, reject);
-					});
-				}
+		
+		static Promise<RESULT> null() {
+			return Promise<RESULT>([](auto resolve, auto reject) {
+				// do nothing
 			});
 		}
 		
-		// then<void>(onResolve -> promise, onReject -> promise)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				std::is_same<_RESULT_TYPE, void>::value &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename RESOLVER_TRAITS::result_type>::value &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(
-			const RESOLVER& onResolve,
-			const REJECTER& onReject)
-		{
-			if(!onResolve && !onReject) {
-				throw fgl::IllegalArgumentException("onResolve", "cannot be null if onReject is also null");
-			}
-			auto _continuer = continuer;
-			return Promise<NEXT_RESULT_TYPE>([=](const typename Promise<NEXT_RESULT_TYPE>::Resolver& resolve, const typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>& reject) {
-				if(onResolve) {
-					_continuer->setResolver([=]() {
-						try {
-							auto nextPromise = onResolve();
-							nextPromise.template then<void, ExceptionPtr>(resolve, reject);
-						}
-						catch(...) {
-							reject(std::current_exception());
-						}
-					});
-				}
-				if(onReject) {
-					_continuer->template setRejecter<ERROR_TYPE>([=](std::exception_ptr error) {
-						callRejector<NEXT_RESULT_TYPE, ERROR_TYPE>(onReject, error, resolve, reject);
-					});
-				}
-			});
-		}
-		
-		// then<>(onResolve -> promise)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename std::enable_if<(
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename RESOLVER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(const RESOLVER& onResolve)
-		{
-			return then<NEXT_RESULT_TYPE, std::exception_ptr>(onResolve, std::function<Promise<NEXT_RESULT_TYPE>(std::exception_ptr)>(nullptr));
-		}
-		
-		// fail<>(onReject -> promise)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::template NextCallback<NEXT_RESULT_TYPE>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> fail(const REJECTER& onReject)
-		{
-			return then<NEXT_RESULT_TYPE, ERROR_TYPE>(std::function<Promise<NEXT_RESULT_TYPE>(std::exception_ptr)>(nullptr), onReject);
-		}
-		
-		// then<any>(onResolve -> void, onReject -> void)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::Callback,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				!std::is_same<_RESULT_TYPE, void>::value &&
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename RESOLVER_TRAITS::result_type>::value &&
-				std::is_same<void, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(
-			const RESOLVER& onResolve,
-			const REJECTER& onReject)
-		{
-			if(!onResolve && !onReject) {
-				throw fgl::IllegalArgumentException("onResolve", "cannot be null if onReject is also null");
-			}
-			auto _continuer = continuer;
-			return Promise<void>([=](const typename Promise<void>::Resolver& resolve, const typename Promise<void>::template Rejecter<ExceptionPtr>& reject) {
-				if(onResolve) {
-					_continuer->setResolver([=](const RESULT_TYPE& result) {
-						try {
-							onResolve(result);
-							resolve();
-						}
-						catch(...) {
-							reject(std::current_exception());
-						}
-					});
-				}
-				if(onReject) {
-					_continuer->template setRejecter([=](std::exception_ptr error) {
-						callRejector<NEXT_RESULT_TYPE, ERROR_TYPE>(onReject, error, resolve, reject);
-					});
-				}
-			});
-		}
-		
-		// then<void>(onResolve -> void, onReject -> void)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::Callback,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				std::is_same<_RESULT_TYPE, void>::value &&
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename RESOLVER_TRAITS::result_type>::value &&
-				std::is_same<void, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(
-			const RESOLVER& onResolve,
-			const REJECTER& onReject)
-		{
-			if(!onResolve && !onReject) {
-				throw fgl::IllegalArgumentException("onResolve", "cannot be null if onReject is also null");
-			}
-			auto _continuer = continuer;
-			return Promise<void>([=](const typename Promise<void>::Resolver& resolve, const typename Promise<void>::template Rejecter<ExceptionPtr>& reject) {
-				if(onResolve) {
-					_continuer->setResolver([=]() {
-						try {
-							onResolve();
-							resolve();
-						}
-						catch(...) {
-							reject(std::current_exception());
-						}
-					});
-				}
-				if(onReject) {
-					_continuer->template setRejecter([=](const std::exception_ptr error) {
-						callRejector<NEXT_RESULT_TYPE, ERROR_TYPE>(onReject, error, resolve, reject);
-					});
-				}
-			});
-		}
-		
-		// then<>(onResolve -> promise)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename _RESULT_TYPE=RESULT_TYPE,
-			typename RESOLVER = typename PromiseHelperTypes<_RESULT_TYPE>::Callback,
-			typename RESOLVER_TRAITS = function_traits<RESOLVER>,
-			typename std::enable_if<(
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename RESOLVER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> then(const RESOLVER& onResolve)
-		{
-			return then<void, ExceptionPtr>(onResolve, std::function<void(ExceptionPtr)>(nullptr));
-		}
-		
-		// fail<>(onReject -> void)
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE=Exception,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		Promise<NEXT_RESULT_TYPE> fail(const REJECTER& onReject)
-		{
-			return then<void, ERROR_TYPE>(Resolver(nullptr), onReject);
-		}
-		
-		RESULT_TYPE await() {
-			return continuer->await();
-		}
 		
 	private:
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename NEXT_RESOLVER = typename Promise<NEXT_RESULT_TYPE>::Resolver,
-			typename NEXT_REJECTER = typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				(std::is_same<ERROR_TYPE, ExceptionPtr>::value || std::is_same<ERROR_TYPE, std::exception_ptr>::value) &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		void callRejector(REJECTER onReject, ExceptionPtr error, NEXT_RESOLVER resolve, NEXT_REJECTER reject) {
-			try {
-				auto nextPromise = onReject(error);
-				nextPromise.template then<void, ExceptionPtr>(resolve, reject);
-			}
-			catch(...) {
-				reject(std::current_exception());
-			}
-		}
+		enum class State
+		{
+			EXECUTING = 0,
+			RESOLVED = 1,
+			REJECTED = 2
+		};
 		
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename NEXT_RESOLVER = typename Promise<NEXT_RESULT_TYPE>::Resolver,
-			typename NEXT_REJECTER = typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				(std::is_same<ERROR_TYPE, ExceptionPtr>::value || std::is_same<ERROR_TYPE, std::exception_ptr>::value) &&
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		void callRejector(REJECTER onReject, ExceptionPtr error, NEXT_RESOLVER resolve, NEXT_REJECTER reject) {
-			try {
-				onReject(error);
-				resolve();
-			}
-			catch(...) {
-				reject(std::current_exception());
-			}
-		}
-		
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename NEXT_RESOLVER = typename Promise<NEXT_RESULT_TYPE>::Resolver,
-			typename NEXT_REJECTER = typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				!(std::is_same<ERROR_TYPE, ExceptionPtr>::value || std::is_same<ERROR_TYPE, std::exception_ptr>::value) &&
-				std::is_same<Promise<NEXT_RESULT_TYPE>, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		void callRejector(REJECTER onReject, ExceptionPtr error, NEXT_RESOLVER resolve, NEXT_REJECTER reject) {
-			try {
-				std::rethrow_exception(error);
-			}
-			catch(ERROR_TYPE exception) {
-				auto nextPromise = onReject(exception);
-				nextPromise.template then<void, ExceptionPtr>(resolve, reject);
-			}
-			catch(...) {
-				reject(std::current_exception());
-			}
-		}
-		
-		template<
-			typename NEXT_RESULT_TYPE,
-			typename ERROR_TYPE=Exception,
-			typename REJECTER = typename PromiseHelperTypes<ERROR_TYPE>::Callback,
-			typename NEXT_RESOLVER = typename Promise<NEXT_RESULT_TYPE>::Resolver,
-			typename NEXT_REJECTER = typename Promise<NEXT_RESULT_TYPE>::template Rejecter<ExceptionPtr>,
-			typename REJECTER_TRAITS = function_traits<REJECTER>,
-			typename std::enable_if<(
-				!(std::is_same<ERROR_TYPE, ExceptionPtr>::value || std::is_same<ERROR_TYPE, std::exception_ptr>::value) &&
-				std::is_same<NEXT_RESULT_TYPE, void>::value &&
-				std::is_same<void, typename REJECTER_TRAITS::result_type>::value
-			), std::nullptr_t>::type = nullptr>
-		void callRejector(REJECTER onReject, ExceptionPtr error, NEXT_RESOLVER resolve, NEXT_REJECTER reject) {
-			try {
-				std::rethrow_exception(error);
-			}
-			catch(ERROR_TYPE exception) {
-				onReject(exception);
-				resolve();
-			}
-			catch(...) {
-				reject(std::current_exception());
-			}
-		}
 		
 		class Continuer
 		{
 		public:
 			Continuer()
-				: resolved(false),
-				rejected(false),
-				awaited(false)
-			{
+				: future(promise.get_future().share()),
+				state(State::EXECUTING) {
 				//
 			}
 			
-			~Continuer()
-			{
-				if(rejected && !rejecter) {
-					printf("unhandled promise rejection\n");
-				}
-			}
 			
-			Continuer(const Continuer&) = delete;
-			
-			template<
-				typename _RESULT_TYPE=RESULT_TYPE,
-				typename std::enable_if<!std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-			void resolve(const _RESULT_TYPE& result)
-			{
-				std::unique_lock<std::mutex> lock(mut);
-				if(resolved || rejected) {
-					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
-				}
-				resolved = true;
+			template<typename _RESULT=RESULT,
+				typename std::enable_if<!std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+			void resolve(_RESULT result) {
+				std::unique_lock<std::mutex> lock(sync);
+				ASSERT(state == State::EXECUTING, "Cannot resolve or reject a promise multiple times");
 				promise.set_value(result);
-				if(resolver) {
-					auto&& result = promise.get_future().get();
-					lock.unlock();
-					resolver(result);
+				state = State::RESOLVED;
+				auto callbacks = std::list<Resolver>();
+				callbacks.swap(resolvers);
+				resolvers.clear();
+				rejecters.clear();
+				lock.unlock();
+				for(auto& callback : callbacks) {
+					callback(result);
 				}
 			}
 			
-			template<
-				typename _RESULT_TYPE=RESULT_TYPE,
-				typename std::enable_if<std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-			void resolve()
-			{
-				std::unique_lock<std::mutex> lock(mut);
-				if(resolved || rejected) {
-					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
-				}
-				resolved = true;
+			
+			template<typename _RESULT=RESULT,
+				typename std::enable_if<std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+			void resolve() {
+				std::unique_lock<std::mutex> lock(sync);
+				ASSERT(state == State::EXECUTING, "Cannot resolve or reject a promise multiple times");
 				promise.set_value();
-				if(resolver) {
-					promise.get_future().get();
-					lock.unlock();
-					resolver();
+				state = State::RESOLVED;
+				auto callbacks = std::list<Resolver>();
+				callbacks.swap(resolvers);
+				resolvers.clear();
+				rejecters.clear();
+				lock.unlock();
+				for(auto& callback : callbacks) {
+					callback();
 				}
 			}
 			
-			void reject(std::exception_ptr error)
-			{
-				std::unique_lock<std::mutex> lock(mut);
-				if(resolved || rejected) {
-					throw fgl::IllegalStateException("cannot resolve or reject promise multiple times");
+			
+			void reject(ExceptionPtr error) {
+				std::unique_lock<std::mutex> lock(sync);
+				ASSERT(state == State::EXECUTING, "Cannot resolve or reject a promise multiple times");
+				promise.set_exception(error.ptr());
+				state = State::REJECTED;
+				auto callbacks = std::list<Rejecter>();
+				callbacks.swap(rejecters);
+				resolvers.clear();
+				rejecters.clear();
+				lock.unlock();
+				for(auto& callback : callbacks) {
+					callback(error);
 				}
-				rejected = true;
-				promise.set_exception(error);
-				if(rejecter) {
-					try {
-						promise.get_future().get();
+			}
+			
+			
+			Promise<void> handle(Then<void> onresolve, Catch<std::exception_ptr,void> onreject) {
+				return Promise<void>([=](auto resolve, auto reject) {
+					std::unique_lock<std::mutex> lock(sync);
+					switch(state) {
+						case State::EXECUTING: {
+							if constexpr(std::is_same<RESULT,void>::value) {
+								resolvers.push_back([=]() {
+									// TODO wrap this in a DispatchQueue call
+									if(onresolve) {
+										onresolve();
+									}
+									resolve();
+								});
+							}
+							else {
+								resolvers.push_back([=](auto result) {
+									// TODO wrap this in a DispatchQueue call
+									if(onresolve) {
+										onresolve(result);
+									}
+									resolve();
+								});
+							}
+							rejecters.push_back([=](auto exceptionPtr) {
+								// TODO wrap this in a DispatchQueue call
+								if(onreject) {
+									onreject(exceptionPtr.ptr());
+								}
+								else {
+									reject(exceptionPtr);
+								}
+							});
+						}
+						break;
+						
+						case State::RESOLVED: {
+							lock.unlock();
+							// TODO wrap this in a DispatchQueue call
+							if(onresolve) {
+								if constexpr(std::is_same<RESULT,void>::value) {
+									future.get();
+									onresolve();
+								}
+								else {
+									onresolve(future.get());
+								}
+							}
+							resolve();
+						}
+						break;
+						
+						case State::REJECTED: {
+							lock.unlock();
+							// TODO wrap this in a DispatchQueue call
+							if(onreject) {
+								try {
+									future.get();
+								}
+								catch(...) {
+									onreject(std::current_exception());
+								}
+							}
+							else {
+								try {
+									future.get();
+								}
+								catch(...) {
+									reject(std::current_exception());
+								}
+							}
+						}
+						break;
 					}
-					catch(...) {
-						lock.unlock();
-						rejecter(std::current_exception());
+				});
+			}
+			
+			
+			template<typename NEXT_RESULT>
+			Promise<NEXT_RESULT> handle(Then<Promise<NEXT_RESULT>> onresolve, Catch<std::exception_ptr,Promise<NEXT_RESULT>> onreject) {
+				ASSERT(onresolve != nullptr, "onresolve cannot be null");
+				return Promise<NEXT_RESULT>([=](auto resolve, auto reject) {
+					std::unique_lock<std::mutex> lock(sync);
+					switch(state) {
+						case State::EXECUTING: {
+							if constexpr(std::is_same<RESULT,void>::value) {
+								resolvers.push_back([=]() {
+									// TODO wrap this in a DispatchQueue call
+									auto nextPromise = onresolve();
+									if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+										nextPromise.then([=]() {
+											resolve();
+										},[=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+									else {
+										nextPromise.then([=](auto nextResult) {
+											resolve(nextResult);
+										},[=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+								});
+							}
+							else {
+								resolvers.push_back([=](auto result) {
+									// TODO wrap this in a DispatchQueue call
+									auto nextPromise = onresolve(result);
+									if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+										nextPromise.then([=]() {
+											resolve();
+										},[=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+									else {
+										nextPromise.then([=](auto nextResult) {
+											resolve(nextResult);
+										},[=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+								});
+							}
+							rejecters.push_back([=](auto exceptionPtr) {
+								// TODO wrap this in a DispatchQueue call
+								if(onreject) {
+									auto nextPromise = onreject(exceptionPtr.ptr());
+									if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+										nextPromise.then([=]() {
+											resolve();
+										}, [=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+									else {
+										nextPromise.then([=](auto nextResult) {
+											resolve(nextResult);
+										}, [=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+								}
+								else {
+									reject(exceptionPtr);
+								}
+							});
+						}
+						break;
+						
+						case State::RESOLVED: {
+							lock.unlock();
+							// TODO wrap this in a DispatchQueue call
+							if constexpr(std::is_same<RESULT,void>::value) {
+								future.get();
+								auto nextPromise = onresolve();
+								if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+									nextPromise.then([=]() {
+										resolve();
+									}, [=](std::exception_ptr error) {
+										reject(error);
+									});
+								}
+								else {
+									nextPromise.then([=](auto nextResult) {
+										resolve(nextResult);
+									}, [=](std::exception_ptr error) {
+										reject(error);
+									});
+								}
+							}
+							else {
+								auto nextPromise = onresolve(future.get());
+								if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+									nextPromise.then([=]() {
+										resolve();
+									}, [=](std::exception_ptr error) {
+										reject(error);
+									});
+								}
+								else {
+									nextPromise.then([=](auto nextResult) {
+										resolve(nextResult);
+									}, [=](std::exception_ptr error) {
+										reject(error);
+									});
+								}
+							}
+						}
+						break;
+						
+						case State::REJECTED: {
+							lock.unlock();
+							// TODO wrap this in a DispatchQueue call
+							if(onreject) {
+								try {
+									future.get();
+								}
+								catch(...) {
+									auto nextPromise = onreject(std::current_exception());
+									if constexpr(std::is_same<NEXT_RESULT,void>::value) {
+										nextPromise.then([=]() {
+											resolve();
+										}, [=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+									else {
+										nextPromise.then([=](auto nextResult) {
+											resolve(nextResult);
+										}, [=](std::exception_ptr error) {
+											reject(error);
+										});
+									}
+								}
+							}
+							else {
+								try {
+									future.get();
+								}
+								catch(...) {
+									reject(std::current_exception());
+								}
+							}
+						}
+						break;
 					}
-				}
+				});
 			}
 			
-			template<typename ERROR_TYPE>
-			void reject(const ERROR_TYPE& error) 
-			{
-				reject(std::make_exception_ptr(error));
-			}
-			
-			template<
-				typename _RESULT_TYPE=RESULT_TYPE,
-				typename std::enable_if<!std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-			void setResolver(const Resolver& onResolve)
-			{
-				if(!onResolve) {
-					throw fgl::IllegalArgumentException("onResolve", "cannot be null");
-				}
-				std::unique_lock<std::mutex> lock(mut);
-				if(resolver) {
-					throw fgl::IllegalStateException("resolver has already been set");
-				}
-				resolver = onResolve;
-				bool callNow = resolved;
-				if(callNow) {
-					auto&& result = promise.get_future().get();
-					lock.unlock();
-					resolver(result);
-				}
-			}
-			
-			template<
-				typename _RESULT_TYPE=RESULT_TYPE,
-				typename std::enable_if<std::is_same<_RESULT_TYPE, void>::value, std::nullptr_t>::type = nullptr>
-			void setResolver(const Resolver& onResolve)
-			{
-				if(!onResolve) {
-					throw fgl::IllegalArgumentException("onResolve", "cannot be null");
-				}
-				std::unique_lock<std::mutex> lock(mut);
-				if(resolver) {
-					throw fgl::IllegalStateException("resolver has already been set");
-				}
-				resolver = onResolve;
-				bool callNow = resolved;
-				if(callNow) {
-					promise.get_future().get();
-					lock.unlock();
-					resolver();
-				}
-			}
-			
-			void setRejecter(const std::function<void(std::exception_ptr)>& onReject)
-			{
-				if(!onReject) {
-					throw fgl::IllegalArgumentException("onReject", "cannot be null");
-				}
-				std::unique_lock<std::mutex> lock(mut);
-				if(rejecter) {
-					throw fgl::IllegalStateException("rejecter has already been set");
-				}
-				rejecter = onReject;
-				bool callNow = rejected;
-				if(callNow) {
-					try {
-						promise.get_future().get();
-					}
-					catch(...) {
-						lock.unlock();
-						rejecter(std::current_exception());
-					}
-				}
-			}
-			
-			RESULT_TYPE await() {
-				std::unique_lock<std::mutex> lock(mut);
-				if((resolved && resolver) || (rejected && rejecter) || awaited) {
-					throw fgl::IllegalStateException("promise result has already been retrieved");
-				}
-				awaited = true;
-				return promise.get_future().get();
-			}
 			
 		private:
-			std::mutex mut;
-			std::promise<RESULT_TYPE> promise;
-			Resolver resolver;
-			std::function<void(std::exception_ptr)> rejecter;
-			bool resolved;
-			bool rejected;
-			bool awaited;
+			std::promise<Result> promise;
+			std::shared_future<Result> future;
+			std::list<Resolver> resolvers;
+			std::list<Rejecter> rejecters;
+			std::mutex sync;
+			State state;
 		};
 		
 		std::shared_ptr<Continuer> continuer;
 	};
+	
+	
+	
+	template<typename RESULT>
+	RESULT await(Promise<RESULT> promise) {
+		std::mutex mutex;
+		std::condition_variable cv;
+		
+		bool resolved = false;
+		bool rejected = false;
+		std::unique_ptr<RESULT> result_ptr = nullptr;
+		std::exception_ptr error_ptr = nullptr;
+		promise.then([&](RESULT result) {
+			result_ptr = std::make_unique<RESULT>(result);
+			resolved = true;
+			cv.notify_one();
+		}, [&](std::exception_ptr error) {
+			error_ptr = error;
+			rejected = true;
+			cv.notify_one();
+		});
+		
+		if(resolved) {
+			return std::move(*result_ptr.get());
+		}
+		else if(rejected) {
+			std::rethrow_exception(error_ptr);
+		}
+		
+		std::unique_lock<std::mutex> lock(mutex);
+		cv.wait(lock, [&]() {
+			return rejected || resolved;
+		});
+		
+		if(rejected) {
+			std::rethrow_exception(error_ptr);
+		}
+		return std::move(*result_ptr.get());
+	}
+	
+	
+	
+	template<typename RESULT>
+	Promise<RESULT> async(std::function<RESULT()> func) {
+		return Promise<RESULT>([=](auto resolve, auto reject) {
+			std::thread([=](){
+				try {
+					if constexpr(std::is_same<RESULT,void>::value) {
+						func();
+						resolve();
+					}
+					else {
+						auto result = func();
+						resolve(result);
+					}
+				}
+				catch(...) {
+					reject(std::current_exception());
+				}
+			});
+		});
+	}
 }

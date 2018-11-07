@@ -6,6 +6,7 @@
 #ifdef _HAS_STD_OPTIONAL
 	#include <optional>
 #endif
+#include <cstdio>
 
 namespace fgl
 {
@@ -50,4 +51,11 @@ namespace fgl
 	}
 	
 	#define $new(...) fgl::share(new __VA_ARGS__)
+	
+	#define ASSERT(condition, message) { \
+		if(!(condition)) { \
+			fprintf(stderr, "Assertion `" #condition "` failed in %s line %i: %s\n", __FILE__, __LINE__, message); \
+			abort(); \
+		} \
+	}
 }

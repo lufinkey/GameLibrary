@@ -8,34 +8,55 @@ namespace fgl
 	class ExceptionPtr
 	{
 	public:
-		template<typename E, typename std::enable_if<!std::is_same<std::remove_reference<E>, std::exception_ptr>::value, std::nullptr_t> = nullptr>
-		ExceptionPtr(E e) : except_ptr(std::make_exception_ptr(e))
-		{
+		ExceptionPtr(const std::exception_ptr& eptr) : except_ptr(eptr) {
 			//
 		}
 		
-		ExceptionPtr(std::exception_ptr eptr) : except_ptr(eptr)
-		{
+		ExceptionPtr(std::exception_ptr&& eptr) : except_ptr(eptr) {
 			//
 		}
 		
-		ExceptionPtr() : except_ptr()
-		{
+		ExceptionPtr(const ExceptionPtr& eptr) : except_ptr(eptr.except_ptr) {
 			//
 		}
 		
-		operator std::exception_ptr() const
-		{
+		ExceptionPtr(ExceptionPtr&& eptr) : except_ptr(eptr.except_ptr) {
+			//
+		}
+		
+		template<
+			typename E,
+			typename E_TYPE = typename std::remove_reference<typename std::remove_cv<E>::type>::type,
+			typename std::enable_if<
+				!std::is_same<E_TYPE,std::exception_ptr>::value
+				&& !std::is_same<E_TYPE,ExceptionPtr>::value, std::nullptr_t>::type = nullptr>
+		ExceptionPtr(const E& e) : except_ptr(std::make_exception_ptr(e)) {
+			//
+		}
+		
+		template<
+			typename E,
+			typename E_TYPE = typename std::remove_reference<typename std::remove_cv<E>::type>::type,
+			typename std::enable_if<
+				!std::is_same<E_TYPE,std::exception_ptr>::value
+				&& !std::is_same<E_TYPE,ExceptionPtr>::value, std::nullptr_t>::type = nullptr>
+		ExceptionPtr(E&& e) : except_ptr(std::make_exception_ptr(e)) {
+			//
+		}
+		
+		ExceptionPtr() : except_ptr() {
+			//
+		}
+		
+		operator std::exception_ptr() const {
 			return except_ptr;
 		}
 		
-		std::exception_ptr ptr() const
-		{
+		std::exception_ptr ptr() const {
 			return except_ptr;
 		}
 		
-		void rethrow() const
-		{
+		void rethrow() const {
 			std::rethrow_exception(except_ptr);
 		}
 		

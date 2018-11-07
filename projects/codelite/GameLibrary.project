@@ -83,7 +83,6 @@
         <File Name="../../src/GameLibrary/Utilities/Thread.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Data.cpp"/>
         <File Name="../../src/GameLibrary/Utilities/Retainable.cpp"/>
-        <File Name="../../include/GameLibrary/Window/Window.hpp"/>
         <VirtualDirectory Name="Direction">
           <File Name="../../src/GameLibrary/Utilities/Direction/QuadDirection.cpp"/>
           <File Name="../../src/GameLibrary/Utilities/Direction/OctalDirection.cpp"/>
@@ -272,7 +271,6 @@
         <File Name="../../include/GameLibrary/Utilities/Dictionary.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Number.impl"/>
         <File Name="../../include/GameLibrary/Utilities/Range.hpp"/>
-        <File Name="../../include/GameLibrary/Utilities/Promise.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Traits.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Retainable.hpp"/>
         <File Name="../../include/GameLibrary/Utilities/Aspectable.hpp"/>
@@ -281,6 +279,7 @@
           <File Name="../../include/GameLibrary/Utilities/Direction/QuadDirection.hpp"/>
           <File Name="../../include/GameLibrary/Utilities/Direction/OctalDirection.hpp"/>
         </VirtualDirectory>
+        <File Name="../../include/GameLibrary/Utilities/Promise.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Screen">
         <VirtualDirectory Name="UI">
@@ -359,6 +358,7 @@
         <File Name="../../include/GameLibrary/Window/AssetManager.hpp"/>
         <File Name="../../include/GameLibrary/Window/MessageBox.hpp"/>
         <File Name="../../include/GameLibrary/Window/Viewport.hpp"/>
+        <File Name="../../include/GameLibrary/Window/Window.hpp"/>
       </VirtualDirectory>
       <VirtualDirectory Name="Graphics">
         <File Name="../../include/GameLibrary/Graphics/PixelIterator.hpp"/>

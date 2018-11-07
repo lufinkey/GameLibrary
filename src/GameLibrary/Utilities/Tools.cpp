@@ -1,5 +1,7 @@
 
 #include <GameLibrary/Utilities/Tools.hpp>
+#include <iostream>
+#include <exception>
 
 namespace fgl
 {
