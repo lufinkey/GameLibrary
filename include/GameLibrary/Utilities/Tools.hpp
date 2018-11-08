@@ -38,19 +38,12 @@ namespace fgl
 	}
 #endif
 
-#define define_shared(TYPENAME) \
-	typedef std::shared_ptr<TYPENAME> $##TYPENAME; \
-	template<typename...Args> \
-	$##TYPENAME new_$##TYPENAME(Args&&... args) { \
-		return std::make_shared<TYPENAME>(std::forward<Args>(args)...); \
-	}
+	#define define_shared(TYPENAME) typedef std::shared_ptr<TYPENAME> $##TYPENAME;
 	
-	template<typename T>
-	inline std::shared_ptr<T> share(T* value) {
-		return std::shared_ptr<T>(value);
+	template<typename T, typename...Args> \
+	std::shared_ptr<T> $new(Args&&... args) { \
+		return std::make_shared<T>(std::forward<Args>(args)...); \
 	}
-	
-	#define $new(...) fgl::share(new __VA_ARGS__)
 	
 	#define ASSERT(condition, message) { \
 		if(!(condition)) { \
