@@ -190,6 +190,23 @@ namespace fgl
 		}
 		
 		
+		template<typename T,
+			typename _RESULT=RESULT,
+			typename std::enable_if<(
+				!std::is_same<_RESULT,void>::value
+				&& !std::is_same<T,void>::value
+				&& std::is_convertible<_RESULT,T>::value), std::nullptr_t>::type = nullptr>
+		Promise<T> as() {
+			return Promise<T>([&](auto resolve, auto reject) {
+				then([=](auto result) {
+					resolve(T(result));
+				}, [=](std::exception_ptr error) {
+					reject(error);
+				});
+			});
+		}
+		
+		
 		template<typename _RESULT=RESULT,
 			typename std::enable_if<!std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
 		static Promise<_RESULT> resolve(_RESULT result) {
