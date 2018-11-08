@@ -541,7 +541,7 @@ namespace fgl
 	
 	template<typename RESULT>
 	RESULT await(Promise<RESULT> promise) {
-		std::condition_variable_any cv;
+		std::condition_variable cv;
 		std::mutex mutex;
 		std::unique_lock<std::mutex> lock(mutex);
 		
