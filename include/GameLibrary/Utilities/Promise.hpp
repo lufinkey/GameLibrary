@@ -541,13 +541,15 @@ namespace fgl
 	
 	template<typename RESULT>
 	RESULT await(Promise<RESULT> promise) {
+		std::condition_variable_any cv;
 		std::mutex mutex;
-		std::condition_variable cv;
+		std::unique_lock<std::mutex> lock(mutex);
 		
 		bool resolved = false;
 		bool rejected = false;
 		std::unique_ptr<RESULT> result_ptr = nullptr;
 		std::exception_ptr error_ptr = nullptr;
+		
 		promise.then([&](RESULT result) {
 			result_ptr = std::make_unique<RESULT>(result);
 			resolved = true;
@@ -558,14 +560,6 @@ namespace fgl
 			cv.notify_one();
 		});
 		
-		if(resolved) {
-			return std::move(*result_ptr.get());
-		}
-		else if(rejected) {
-			std::rethrow_exception(error_ptr);
-		}
-		
-		std::unique_lock<std::mutex> lock(mutex);
 		cv.wait(lock, [&]() {
 			return rejected || resolved;
 		});
