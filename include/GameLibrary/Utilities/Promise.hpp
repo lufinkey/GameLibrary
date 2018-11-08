@@ -44,18 +44,19 @@ namespace fgl
 		explicit Promise(const std::function<void(Resolver, Rejecter)>& executor)
 			: continuer(std::make_shared<Continuer>()) {
 			ASSERT(executor != nullptr, "promise executor cannot be null");
+			auto _continuer = continuer;
 			if constexpr(std::is_same<RESULT,void>::value) {
 				executor([=]() {
-					continuer->resolve();
-				}, [=](auto error) {
-					continuer->reject(error);
+					_continuer->resolve();
+				}, [=](ExceptionPtr error) {
+					_continuer->reject(error);
 				});
 			}
 			else {
-				executor([=](auto result) {
-					continuer->resolve(result);
-				}, [=](auto error) {
-					continuer->reject(error);
+				executor([=](RESULT result) {
+					_continuer->resolve(result);
+				}, [=](ExceptionPtr error) {
+					_continuer->reject(error);
 				});
 			}
 		}
@@ -73,14 +74,12 @@ namespace fgl
 		
 		
 		Promise<void> then(Then<void> onresolve) {
-			printf("entering no return then\n");
 			return continuer->handle(onresolve, nullptr);
 		}
 		
 		
 		template<typename NEXT_RESULT>
 		Promise<NEXT_RESULT> then(Then<Promise<NEXT_RESULT>> onresolve) {
-			printf("entering promise return then\n");
 			return continuer->template handle<NEXT_RESULT>(onresolve, nullptr);
 		}
 		
@@ -101,7 +100,7 @@ namespace fgl
 			return continuer->template handle<RESULT>(resultForwarder, [=](std::exception_ptr exceptionPtr) -> Promise<RESULT> {
 				if constexpr(std::is_same<std::exception_ptr,ERROR>::value) {
 					onreject(exceptionPtr);
-					return Promise<RESULT>::null();
+					return Promise<RESULT>::nothing();
 				}
 				else {
 					try {
@@ -109,7 +108,7 @@ namespace fgl
 					}
 					catch(const ERROR& error) {
 						onreject(error);
-						return Promise<RESULT>::null();
+						return Promise<RESULT>::nothing();
 					}
 					catch(...) {
 						return Promise<RESULT>::reject(exceptionPtr);
@@ -154,13 +153,13 @@ namespace fgl
 		Promise<void> finally(std::function<void()> onfinish) {
 			Then<Promise<void>> thenFinally = nullptr;
 			if constexpr(std::is_same<RESULT,void>::value) {
-				thenFinally = [=]() {
+				thenFinally = [=]() -> Promise<void> {
 					onfinish();
 					return Promise<void>::resolve();
 				};
 			}
 			else {
-				thenFinally = [=](RESULT result) {
+				thenFinally = [=](RESULT result) -> Promise<void> {
 					onfinish();
 					return Promise<void>::resolve();
 				};
@@ -216,9 +215,220 @@ namespace fgl
 		}
 		
 		
-		static Promise<RESULT> null() {
+		static Promise<RESULT> nothing() {
 			return Promise<RESULT>([](auto resolve, auto reject) {
 				// do nothing
+			});
+		}
+		
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<!std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<ArrayList<_RESULT>> all(ArrayList<Promise<_RESULT>> promises) {
+			return Promise<ArrayList<_RESULT>>([&](auto resolve, auto reject) {
+				size_t promiseCount = promises.size();
+				if(promiseCount == 0) {
+					resolve({});
+					return;
+				}
+				
+				struct SharedInfo {
+					std::mutex mutex;
+					bool rejected = false;
+					ArrayList<RESULT> results;
+					ArrayList<size_t> addIndexes;
+				};
+				
+				auto sharedInfoPtr = std::make_shared<SharedInfo>();
+				sharedInfoPtr->results.reserve(promiseCount);
+				sharedInfoPtr->addIndexes.resize(promiseCount, 0);
+				
+				auto resolveIndex = [=](size_t index, _RESULT result) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.rejected) {
+						return;
+					}
+					size_t addIndex = sharedInfo.addIndexes[index];
+					for(size_t i=(index+1); i<promiseCount; i++) {
+						sharedInfo.addIndexes[i] += 1;
+					}
+					sharedInfo.results.add(addIndex, result);
+					bool finished = (sharedInfo.results.size() == promiseCount);
+					lock.unlock();
+					if(finished) {
+						resolve(std::move(sharedInfo.results));
+					}
+				};
+				
+				auto rejectAll = [=](std::exception_ptr error) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.rejected) {
+						return;
+					}
+					sharedInfo.rejected = true;
+					lock.unlock();
+					reject(error);
+				};
+				
+				for(size_t i=0; i<promiseCount; i++) {
+					auto& promise = promises[i];
+					promise.then([=](_RESULT result) {
+						resolveIndex(i, result);
+					}, [=](std::exception_ptr error) {
+						rejectAll(error);
+					});
+				}
+			});
+		}
+		
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<void> all(ArrayList<Promise<_RESULT>> promises) {
+			return Promise<void>([&](auto resolve, auto reject) {
+				size_t promiseCount = promises.size();
+				if(promiseCount == 0) {
+					resolve();
+					return;
+				}
+				
+				struct SharedInfo {
+					std::mutex mutex;
+					bool rejected = false;
+					size_t counter = 0;
+				};
+				
+				auto sharedInfoPtr = std::make_shared<SharedInfo>();
+				
+				auto resolveIndex = [=](size_t index) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.rejected) {
+						return;
+					}
+					sharedInfo.counter += 1;
+					bool finished = (sharedInfo.counter == promiseCount);
+					lock.unlock();
+					if(finished) {
+						resolve();
+					}
+				};
+				
+				auto rejectAll = [=](std::exception_ptr error) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.rejected) {
+						return;
+					}
+					sharedInfo.rejected = true;
+					lock.unlock();
+					reject(error);
+				};
+				
+				for(size_t i=0; i<promiseCount; i++) {
+					auto& promise = promises[i];
+					promise.then([=]() {
+						resolveIndex(i);
+					}, [=](std::exception_ptr error) {
+						rejectAll(error);
+					});
+				}
+			});
+		}
+		
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<!std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<_RESULT> race(ArrayList<Promise<_RESULT>> promises) {
+			return Promise<_RESULT>([&](auto resolve, auto reject) {
+				size_t promiseCount = promises.size();
+				
+				struct SharedInfo {
+					std::mutex mutex;
+					bool finished;
+				};
+				
+				auto sharedInfoPtr = std::make_shared<SharedInfo>();
+				
+				auto resolveIndex = [=](size_t index, auto result) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.finished) {
+						return;
+					}
+					sharedInfo.finished = true;
+					lock.unlock();
+					resolve(result);
+				};
+				
+				auto rejectAll = [=](std::exception_ptr error) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.finished) {
+						return;
+					}
+					sharedInfo.finished = true;
+					lock.unlock();
+					reject(error);
+				};
+				
+				for(size_t i=0; i<promiseCount; i++) {
+					auto& promise = promises[i];
+					promise.then([=](auto result) {
+						resolveIndex(i, result);
+					}, [=](std::exception_ptr error) {
+						rejectAll(error);
+					});
+				}
+			});
+		}
+		
+		
+		template<typename _RESULT=RESULT,
+			typename std::enable_if<std::is_same<_RESULT,void>::value, std::nullptr_t>::type = nullptr>
+		static Promise<void> race(ArrayList<Promise<_RESULT>> promises) {
+			return Promise<void>([&](auto resolve, auto reject) {
+				size_t promiseCount = promises.size();
+				
+				struct SharedInfo {
+					std::mutex mutex;
+					bool finished;
+				};
+				
+				auto sharedInfoPtr = std::make_shared<SharedInfo>();
+				
+				auto resolveIndex = [=](size_t index) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.finished) {
+						return;
+					}
+					sharedInfo.finished = true;
+					lock.unlock();
+					resolve();
+				};
+				
+				auto rejectAll = [=](std::exception_ptr error) {
+					auto& sharedInfo = *sharedInfoPtr;
+					std::unique_lock<std::mutex> lock(sharedInfo.mutex);
+					if(sharedInfo.finished) {
+						return;
+					}
+					sharedInfo.finished = true;
+					lock.unlock();
+					reject(error);
+				};
+				
+				for(size_t i=0; i<promiseCount; i++) {
+					auto& promise = promises[i];
+					promise.then([=]() {
+						resolveIndex(i);
+					}, [=](std::exception_ptr error) {
+						rejectAll(error);
+					});
+				}
 			});
 		}
 		
@@ -295,7 +505,7 @@ namespace fgl
 			
 			
 			Promise<void> handle(Then<void> onresolve, Catch<std::exception_ptr,void> onreject) {
-				return Promise<void>([=](auto resolve, auto reject) {
+				return Promise<void>([&](auto resolve, auto reject) {
 					std::unique_lock<std::mutex> lock(sync);
 					switch(state) {
 						case State::EXECUTING: {
@@ -374,7 +584,7 @@ namespace fgl
 			template<typename NEXT_RESULT>
 			Promise<NEXT_RESULT> handle(Then<Promise<NEXT_RESULT>> onresolve, Catch<std::exception_ptr,Promise<NEXT_RESULT>> onreject) {
 				ASSERT(onresolve != nullptr, "onresolve cannot be null");
-				return Promise<NEXT_RESULT>([=](auto resolve, auto reject) {
+				return Promise<NEXT_RESULT>([&](auto resolve, auto reject) {
 					std::unique_lock<std::mutex> lock(sync);
 					switch(state) {
 						case State::EXECUTING: {
@@ -539,6 +749,7 @@ namespace fgl
 	
 	
 	
+	
 	template<typename RESULT>
 	RESULT await(Promise<RESULT> promise) {
 		std::condition_variable cv;
@@ -569,6 +780,7 @@ namespace fgl
 		}
 		return std::move(*result_ptr.get());
 	}
+	
 	
 	
 	
