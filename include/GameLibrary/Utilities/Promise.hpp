@@ -199,7 +199,7 @@ namespace fgl
 		Promise<T> as() {
 			return Promise<T>([&](auto resolve, auto reject) {
 				then([=](auto result) {
-					resolve(T(result));
+					resolve(static_cast<T>(result));
 				}, [=](std::exception_ptr error) {
 					reject(error);
 				});
