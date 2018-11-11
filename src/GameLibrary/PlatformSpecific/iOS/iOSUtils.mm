@@ -15,7 +15,7 @@ namespace fgl
 			return [UIApplication sharedApplication].keyWindow.rootViewController;
 		}
 		
-		SDL_Window* windowdata = (SDL_Window*)window->getWindowData();
+		SDL_Window* windowdata = window->getSDLWindow();
 		if(windowdata==nullptr)
 		{
 			return nil;
