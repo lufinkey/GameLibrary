@@ -41,7 +41,7 @@ namespace fgl
 	#define define_shared(TYPENAME) typedef std::shared_ptr<TYPENAME> $##TYPENAME;
 	
 	template<typename T, typename...Args> \
-	std::shared_ptr<T> $new(Args&&... args) { \
+	inline std::shared_ptr<T> $new(Args&&... args) { \
 		return std::make_shared<T>(std::forward<Args>(args)...); \
 	}
 	
