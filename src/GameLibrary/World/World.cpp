@@ -32,6 +32,12 @@ namespace fgl
 	}
 
 	World::~World() {
+		for(auto object : queuedDeletions) {
+			delete object;
+		}
+		for(auto object : nextQueuedDeletions) {
+			delete object;
+		}
 		for(auto object : objects) {
 			delete object;
 		}
@@ -115,6 +121,14 @@ namespace fgl
 		postUpdateQueue.clear();
 		for(auto& func : nextPostUpdateQueue) {
 			func();
+		}
+		
+		// delete scheduled deletions
+		auto deletions = std::list<WorldObject*>();
+		deletions.swap(queuedDeletions);
+		queuedDeletions.swap(nextQueuedDeletions);
+		for(auto object : deletions) {
+			delete object;
 		}
 	}
 	
@@ -233,11 +247,7 @@ namespace fgl
 		if(object->world != nullptr) {
 			throw IllegalArgumentException("object", "must be removed from its world before it is destroyed");
 		}
-		runAfterUpdate([=]() {
-			runAfterUpdate([=]() {
-				delete object;
-			});
-		});
+		nextQueuedDeletions.push_back(object);
 	}
 	
 	const std::list<WorldObject*>& World::getObjects() {

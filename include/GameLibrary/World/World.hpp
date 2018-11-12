@@ -78,6 +78,8 @@ namespace fgl
 		
 		std::list<std::function<void()>> preUpdateQueue;
 		std::list<std::function<void()>> postUpdateQueue;
+		std::list<WorldObject*> queuedDeletions;
+		std::list<WorldObject*> nextQueuedDeletions;
 		
 		bool firstUpdate;
 	};
