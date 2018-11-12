@@ -5,6 +5,11 @@
 
 namespace fgl
 {
+	SpriteAspect::SpriteAspect()
+		: SpriteAspect((Animation*)nullptr) {
+		//
+	}
+	
 	SpriteAspect::SpriteAspect(Animation* animation)
 		: animator(animation),
 		tintColor(Colors::WHITE),
@@ -12,10 +17,15 @@ namespace fgl
 		//
 	}
 	
-	SpriteAspect::SpriteAspect(AnimationProvider* animProvider)
-		: animator(animProvider),
+	SpriteAspect::SpriteAspect(AnimationProvider* animProvider, Animation* animation)
+		: animator(animProvider, animation),
 		tintColor(Colors::WHITE),
 		alpha(1.0) {
+		//
+	}
+	
+	SpriteAspect::SpriteAspect(AnimationProvider* animProvider, String animationName)
+		: SpriteAspect(animProvider, animProvider->getAnimation(animationName)) {
 		//
 	}
 	
@@ -55,6 +65,9 @@ namespace fgl
 		auto position = transform2d->getPosition();
 		auto origin = getOrigin();
 		auto size = animator.getSize();
+		if(scale.x != 1.0 || scale.y != 1.0) {
+			graphics.scale(scale, position);
+		}
 		animator.draw(graphics, RectangleD(position-origin, size));
 	}
 	
@@ -91,6 +104,14 @@ namespace fgl
 	
 	double SpriteAspect::getAlpha() const {
 		return alpha;
+	}
+	
+	void SpriteAspect::setScale(Vector2d scale_arg) {
+		scale = scale_arg;
+	}
+	
+	Vector2d SpriteAspect::getScale() const {
+		return scale;
 	}
 	
 	

@@ -912,9 +912,9 @@
 		A0C404A22197A3FF00013D81 /* World */ = {
 			isa = PBXGroup;
 			children = (
+				A0C404A52197A3FF00013D81 /* Aspects */,
 				A0C404A32197A3FF00013D81 /* World.hpp */,
 				A0C404A42197A3FF00013D81 /* WorldObject.hpp */,
-				A0C404A52197A3FF00013D81 /* Aspects */,
 				A0C404B52197A3FF00013D81 /* WorldCamera.hpp */,
 			);
 			path = World;
@@ -1022,10 +1022,10 @@
 		A0C404DF2197A42B00013D81 /* World */ = {
 			isa = PBXGroup;
 			children = (
+				A0C404E32197A42B00013D81 /* Aspects */,
 				A0C404E02197A42B00013D81 /* WorldCamera.cpp */,
 				A0C404E12197A42B00013D81 /* WorldObject.cpp */,
 				A0C404E22197A42B00013D81 /* World.cpp */,
-				A0C404E32197A42B00013D81 /* Aspects */,
 			);
 			path = World;
 			sourceTree = "<group>";

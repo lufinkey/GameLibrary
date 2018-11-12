@@ -15,8 +15,10 @@ namespace fgl
 	class SpriteAspect : public Drawable2DAspect, protected AnimatorListener
 	{
 	public:
-		SpriteAspect(Animation* animation = nullptr);
-		SpriteAspect(AnimationProvider* animProvider = nullptr);
+		SpriteAspect();
+		SpriteAspect(Animation* animation);
+		SpriteAspect(AnimationProvider* animProvider, Animation* animation = nullptr);
+		SpriteAspect(AnimationProvider* animProvider, String animationName);
 		
 		Animator* getAnimator();
 		const Animator* getAnimator() const;
@@ -36,6 +38,9 @@ namespace fgl
 		void setAlpha(double alpha);
 		double getAlpha() const;
 		
+		void setScale(Vector2d scale);
+		Vector2d getScale() const;
+		
 		void addDelegate(SpriteDelegate* delegate);
 		void removeDelegate(SpriteDelegate* delegate);
 		
@@ -50,6 +55,7 @@ namespace fgl
 		Animator animator;
 		Color tintColor;
 		double alpha;
+		Vector2d scale;
 		std::function<Vector2d(const SpriteAspect*)> originProvider;
 		
 		std::list<SpriteDelegate*> delegates;
