@@ -9,3 +9,4 @@ IOKit
 ForceFeedback
 ImageIO
 Carbon
+Metal

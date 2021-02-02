@@ -5,8 +5,7 @@
 
 namespace fgl
 {
-	enum class CollisionSide
-	{
+	enum class CollisionSide {
 		TOP,
 		BOTTOM,
 		LEFT,
